@@ -1,17 +1,18 @@
 {
-  "name": "uikit",
+  "name": "UIKit",
   "description": "pure, accessible elements for use in React projects",
   "private": true,
   "version": "0.0.1",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "dependencies": {
+    "babelify": "^6.1.2",
     "jsawk": "0.0.2",
-    "lodash": "^3.9.3"
+    "lodash": "^3.9.3",
+    "react": "~0.13.3"
   },
   "devDependencies": {
     "autoprefixer": "^5.2.0",
     "babel-eslint": "3.1.15",
-    "babelify": "^6.1.2",
     "beefy": "^2.1.5",
     "browserify": "^10.2.4",
     "eslint-plugin-react": "^2.5.0",
@@ -30,7 +31,7 @@
     "watchify": "^3.2.3"
   },
   "browser": {
-    "UIKit/UIView": "./src/classes/UIView.js"
+    "UIKit/UIView": "./UIView/index.js"
   },
   "browserify": {
     "transform": [
@@ -44,6 +45,6 @@
     "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > release/js/bundle.min.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
-    "docs": "mkdir -p docs/api && find src -type f -name '*.js' -o -name '*.jsx' | xargs jsdoc -d docs/api -c docs/jsdoc.json"
+    "docs": "mkdir -p docs/api && find . -type f -name '*.js' -o -name '*.jsx' | grep -v '\\./\\(node_modules\\|docs\\|release\\)' | xargs jsdoc -d docs/api -c docs/jsdoc.json"
   }
 }
