@@ -6,5 +6,5 @@ node_modules/
 
 # build things
 artifacts/
-release/
+build/
 docs/api
