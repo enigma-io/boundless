@@ -41,9 +41,9 @@
   },
   "scripts": {
     "postinstall": "touch ~/.jsawkrc && mkdir -p build/js",
-    "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --debug --no-bundle-external --extension=.jsx | exorcist build/js/bundle.js.map > build/js/bundle.js",
-    "start": "watchify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --debug --no-bundle-external --extension=.jsx -o 'exorcist build/js/bundle.js.map > build/js/bundle.js'",
-    "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
+    "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx | exorcist build/js/bundle.js.map > build/js/bundle.js",
+    "start": "watchify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx -o 'exorcist build/js/bundle.js.map > build/js/bundle.js'",
+    "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/api && find . -type f -name '*.js' -o -name '*.jsx' | grep -v '\\./\\(node_modules\\|docs\\|build\\)' | xargs jsdoc -d docs/api -c docs/jsdoc.json"
