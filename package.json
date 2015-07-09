@@ -12,9 +12,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^5.2.0",
-    "babel-eslint": "3.1.15",
+    "babel-eslint": "^3.1.15",
     "browserify": "^10.2.4",
     "eslint-plugin-react": "^2.5.0",
+    "eslintify": "*",
     "exorcist": "^0.4.0",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "jsdoc-jsx": "^0.1.0",
@@ -34,6 +35,7 @@
   },
   "browserify": {
     "transform": [
+      "eslintify",
       "babelify"
     ]
   },
