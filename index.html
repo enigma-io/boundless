@@ -2,16 +2,53 @@
     <head>
         <title>UIKit Kitchen Sink</title>
         <style>
+            :focus {
+                outline: 3px solid red;
+            }
+
             html {
                 font-family: sans-serif;
             }
 
             body {
-                padding: 2em;
+                padding: 2em 1em 2em 20em;
+            }
+
+            header {
+                position: fixed;
+                top: 2em;
+                left: 2em;
+                width: 16em;
+            }
+
+            nav {
+                margin-top: 1em;
+            }
+
+            nav a {
+                color: blue;
+                display: block;
+                margin-bottom: 0.5em;
+                text-decoration: none;
+            }
+
+            nav a:hover {
+                color: darkblue;
             }
 
             section {
-                margin: 0 0 2em;
+                background: #F2F2F2;
+                border-radius: 5px;
+                margin: 0 0 1em;
+                padding: 1em;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                margin: 0 0 1em;
+            }
+
+            h1 {
+                margin-bottom: 0.5em;
             }
 
             #ui-list,
@@ -37,16 +74,31 @@
         </style>
     </head>
     <body>
-        <h1>Kitchen Sink</h1>
+        <header>
+            <h1>Kitchen Sink</h1>
+            <p>Tiny demos of each available component in UIKit.</p>
+            <sub>All presentational styles are limited to this page, the React components do not come bundled with CSS.</sub>
+            <nav>
+                <a href="#ui-button">UIButton</a>
+                <a href="#ui-checkbox">UICheckbox</a>
+                <a href="#ui-list">UIList</a>
+            </nav>
+        </header>
 
-        <h3>UIButton</h3>
-        <section id="ui-button"></section>
+        <section>
+            <h3>UIButton</h3>
+            <article id="ui-button"></article>
+        </section>
 
-        <h3>UICheckbox</h3>
-        <section id="ui-checkbox"></section>
+        <section>
+            <h3>UICheckbox</h3>
+            <article id="ui-checkbox"></article>
+        </section>
 
-        <h3>UIList</h3>
-        <section id="ui-list"></section>
+        <section>
+            <h3>UIList</h3>
+            <article id="ui-list"></article>
+        </section>
 
         <script src="./build/js/bundle.js"></script>
     </body>
