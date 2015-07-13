@@ -19,12 +19,10 @@ return (
 // -> <button class="ui-button car-horn-button">Honk</button>
 ```
 
-Styling of the list will be provided via the class hook: `.ui-button`
+Styling of the element will be provided via the class hook: `.ui-button`
 
 
 #### Expected Interactions
-
-> Not all interactions require code, so long as they are known+verified x-browser behaviors and supported by unit tests.
 
 Type | Context | Expectation
 ---- | ------- | -----------

@@ -35,6 +35,7 @@
   },
   "browser": {
     "UIKit/UIButton": "./UIButton/index.jsx",
+    "UIKit/UICheckbox": "./UICheckbox/index.jsx",
     "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIView": "./UIView/index.js"
   },

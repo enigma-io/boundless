@@ -76,4 +76,12 @@ describe('UIButton', () => {
             expect(clickStub).to.not.have.been.called;
         });
     });
+
+    describe('autofocus', () => {
+        it('should appropriately set focus on first render', () => {
+            const box = React.render(<UIButton autofocus={true}>Focused</UIButton>, document.body);
+
+            expect(document.activeElement).to.equal(React.findDOMNode(box));
+        });
+    });
 });

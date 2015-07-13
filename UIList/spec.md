@@ -21,8 +21,6 @@ Styling of the list will be provided via class hooks:
 
 #### Expected Interactions
 
-> Not all interactions require code, so long as they are known+verified x-browser behaviors and supported by unit tests.
-
 Type | Context | Expectation
 ---- | ------- | -----------
 **Keyboard** |`[Tab]` | should move focus to the next child, exit `UIList` tabbing context if at the last child

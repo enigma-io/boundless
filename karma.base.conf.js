@@ -7,7 +7,6 @@ module.exports = {
     },
 
     files: [
-        './phantom.shims.js',
         './!(build|docs|artifacts)/unit.{js,jsx}'
     ],
 
