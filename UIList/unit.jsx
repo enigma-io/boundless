@@ -1,11 +1,15 @@
 import UIList from './index.jsx';
 import React from 'react';
+import _ from 'lodash';
 
 describe('UIList', () => {
+    const eventBase = {preventDefault: () => {}};
+    const listBase = <UIList items={['apple', 'orange']} />;
+
     let list;
 
     beforeEach(() => {
-        list = React.render(<UIList items={['apple', 'orange']} />, document.body);
+        list = React.render(listBase, document.body);
     });
 
     afterEach(() => {
@@ -13,6 +17,10 @@ describe('UIList', () => {
     });
 
     describe('accepts', () => {
+        beforeEach(() => {
+            list = React.render(listBase, document.body);
+        });
+
         it('items passed via props.items', () => {
             const listNode = React.findDOMNode(list);
 
@@ -26,7 +34,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'Tab'});
+            list.handleKeyDown(_.merge({key: 'Tab'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
         });
@@ -35,7 +43,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'Tab'});
+            list.handleKeyDown(_.merge({key: 'Tab'}, eventBase));
 
             expect(document.activeElement).to.not.equal(React.findDOMNode(list.refs[0]));
         });
@@ -46,7 +54,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'Tab', shiftKey: true});
+            list.handleKeyDown(_.merge({key: 'Tab', shiftKey: true}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
@@ -55,7 +63,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'Tab', shiftKey: true});
+            list.handleKeyDown(_.merge({key: 'Tab', shiftKey: true}, eventBase));
 
             expect(document.activeElement).to.not.equal(React.findDOMNode(list.refs[1]));
         });
@@ -66,7 +74,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowLeft'});
+            list.handleKeyDown(_.merge({key: 'ArrowLeft'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
@@ -75,27 +83,9 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowLeft'});
+            list.handleKeyDown(_.merge({key: 'ArrowLeft'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
-        });
-
-        it('should move focus to the next child in RTL context', () => {
-            const itemNode = React.findDOMNode(list.refs[0]);
-
-            itemNode.focus();
-            list.handleKeyDown({key: 'ArrowLeft'});
-
-            expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
-        });
-
-        it('should move focus to the beginning if on the last child in RTL context (reverse loop)', () => {
-            const itemNode = React.findDOMNode(list.refs[1]);
-
-            itemNode.focus();
-            list.handleKeyDown({key: 'ArrowLeft'});
-
-            expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
     });
 
@@ -104,7 +94,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowRight'});
+            list.handleKeyDown(_.merge({key: 'ArrowRight'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
         });
@@ -113,16 +103,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowRight'});
-
-            expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
-        });
-
-        it('should move focus to the previous child in RTL context', () => {
-            const itemNode = React.findDOMNode(list.refs[1]);
-
-            itemNode.focus();
-            list.handleKeyDown({key: 'ArrowRight'});
+            list.handleKeyDown(_.merge({key: 'ArrowRight'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
@@ -131,7 +112,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowRight'});
+            list.handleKeyDown(_.merge({key: 'ArrowRight'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
         });
@@ -148,7 +129,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowUp'});
+            list.handleKeyDown(_.merge({key: 'ArrowUp'}, eventBase));
 
             expect(document.activeElement).to.equal(itemNode);
         });
@@ -157,7 +138,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowUp'});
+            list.handleKeyDown(_.merge({key: 'ArrowUp'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
@@ -166,7 +147,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowUp'});
+            list.handleKeyDown(_.merge({key: 'ArrowUp'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[1]));
         });
@@ -183,7 +164,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[0]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowDown'});
+            list.handleKeyDown(_.merge({key: 'ArrowDown'}, eventBase));
 
             expect(document.activeElement).to.equal(itemNode);
         });
@@ -192,7 +173,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowDown'});
+            list.handleKeyDown(_.merge({key: 'ArrowDown'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });
@@ -201,7 +182,7 @@ describe('UIList', () => {
             const itemNode = React.findDOMNode(list.refs[1]);
 
             itemNode.focus();
-            list.handleKeyDown({key: 'ArrowDown'});
+            list.handleKeyDown(_.merge({key: 'ArrowDown'}, eventBase));
 
             expect(document.activeElement).to.equal(React.findDOMNode(list.refs[0]));
         });

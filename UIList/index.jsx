@@ -1,13 +1,10 @@
 import UIView from '../UIView';
 import React from 'react';
 
-// TODO: remap incoming props to have fasthash of content for unique, but consistent key
-
 class UIList extends UIView {
     initialState() {
         return {
-            activeItem: null,
-            isRTL: document.documentElement.getAttribute('dir') === 'rtl'
+            activeItem: null
         };
     }
 
@@ -47,6 +44,10 @@ class UIList extends UIView {
         });
     }
 
+    setFocus(index) {
+        React.findDOMNode(this.refs[index]).focus();
+    }
+
     getNextItemIndex(currentItem) {
         let next = this.props.items.indexOf(currentItem) + 1;
 
@@ -59,27 +60,32 @@ class UIList extends UIView {
         return previous < 0 ? this.props.items.length - 1 : previous;
     }
 
-    setFocus(index) {
-        React.findDOMNode(this.refs[index]).focus();
-    }
-
     handleKeyDown(event) {
         const key = event.key;
-        const rtl = this.state.isRTL;
         const hasType = !!this.props.type;
         const items = this.props.items;
         const activeItem = this.state.activeItem;
-        const atEnd = items.indexOf(activeItem) + 1 === items.length;
-        const atStart = items.indexOf(activeItem) === 0;
 
-        if (key === 'ArrowLeft'
-            || (key === 'ArrowUp' && hasType)
-            || (key === 'Tab' && !atEnd && !event.shiftKey)) {
-            this.setFocus(this['get' + (rtl ? 'Next' : 'Previous') + 'ItemIndex'](activeItem));
-        } else if (key === 'ArrowRight'
-            || (key === 'ArrowDown' && hasType)
-            || (key === 'Tab' && !atStart && event.shiftKey)) {
-            this.setFocus(this['get' + (rtl ? 'Previous' : 'Next') + 'ItemIndex'](activeItem));
+        if (hasType) {
+            if (key === 'ArrowUp') {
+                this.setFocus(this.getPreviousItemIndex(activeItem));
+                event.preventDefault();
+            } else if (key === 'ArrowDown') {
+                this.setFocus(this.getNextItemIndex(activeItem));
+                event.preventDefault();
+            }
+        } else {
+            let activeItemIndex = items.indexOf(activeItem);
+
+            if (key === 'ArrowLeft'
+                || (key === 'Tab' && event.shiftKey && activeItemIndex !== 0)) {
+                this.setFocus(this.getPreviousItemIndex(activeItem));
+                event.preventDefault();
+            } else if (key === 'ArrowRight'
+                       || (key === 'Tab' && !event.shiftKey && activeItemIndex !== items.length - 1)) {
+                this.setFocus(this.getNextItemIndex(activeItem));
+                event.preventDefault();
+            }
         }
     }
 

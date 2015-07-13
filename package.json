@@ -12,6 +12,7 @@
     "autoprefixer": "^5.2.0",
     "babel-eslint": "^3.1.15",
     "babelify": "^6.1.2",
+    "beefy": "^2.1.5",
     "browserify": "^10.2.4",
     "eslint-plugin-react": "^2.5.0",
     "eslintify": "*",
@@ -45,7 +46,7 @@
   "scripts": {
     "postinstall": "touch ~/.jsawkrc && mkdir -p build/js",
     "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx | exorcist build/js/bundle.js.map > build/js/bundle.js",
-    "start": "watchify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx -o 'exorcist build/js/bundle.js.map > build/js/bundle.js'",
+    "start": "beefy index.js:build/js/bundle.js 9200 --colors --live --open -- --debug --extension=.jsx",
     "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
