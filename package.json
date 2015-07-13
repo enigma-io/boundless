@@ -34,6 +34,7 @@
     "watchify": "^3.2.3"
   },
   "browser": {
+    "UIKit/UIButton": "./UIButton/index.jsx",
     "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIView": "./UIView/index.js"
   },

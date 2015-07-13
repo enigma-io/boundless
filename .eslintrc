@@ -12,7 +12,8 @@
     },
 
     "globals": {
-        "expect": true
+        "expect": true,
+        "sinon": true
     },
 
     "ecmaFeatures": {

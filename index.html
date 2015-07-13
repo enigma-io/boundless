@@ -14,14 +14,31 @@
                 margin: 0 0 2em;
             }
 
-            ul, ol {
+            #ui-list {
+                -webkit-columns: 3;
+            }
+
+            .ui-list {
+                -webkit-column-break-inside: avoid;
                 margin: 0;
                 padding: 0;
+            }
+
+            ol.ui-list,
+            ul.ui-list {
+                padding: 0 0 0 1.5em;
+            }
+
+            .ui-list + .ui-list {
+                margin-top: 1em;
             }
         </style>
     </head>
     <body>
         <h1>Kitchen Sink</h1>
+
+        <h3>UIButton</h3>
+        <section id="ui-button"></section>
 
         <h3>UIList</h3>
         <section id="ui-list"></section>

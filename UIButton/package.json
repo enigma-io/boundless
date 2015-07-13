@@ -1,0 +1,12 @@
+{
+  "name": "UIKit/UIButton",
+  "description": "A generic button that supports single and double-click event handling.",
+  "version": "1.0.0",
+  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "browserify": {
+    "transform": [
+      "eslintify",
+      "babelify"
+    ]
+  }
+}
