@@ -5,32 +5,35 @@
   "version": "0.0.1",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "dependencies": {
-    "babelify": "^6.1.2",
-    "jsawk": "0.0.2",
     "lodash": "^3.9.3",
     "react": "~0.13.3"
   },
   "devDependencies": {
     "autoprefixer": "^5.2.0",
     "babel-eslint": "^3.1.15",
+    "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "eslint-plugin-react": "^2.5.0",
     "eslintify": "*",
     "exorcist": "^0.4.0",
+    "jsawk": "0.0.2",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "jsdoc-jsx": "^0.1.0",
     "karma": "^0.12.36",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "^0.1.12",
     "karma-mocha": "^0.1.10",
+    "karma-mocha-reporter": "^1.0.2",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sinon-chai": "^1.0.0",
+    "karma-source-map-support": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
   "browser": {
+    "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIView": "./UIView/index.js"
   },
   "browserify": {
