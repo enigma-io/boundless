@@ -62,11 +62,11 @@ class UICheckboxGroup extends UIView {
     }
 
     allItemsChecked() {
-        return _.all(this.props.items, {checked: true});
+        return _.every(this.props.items, {checked: true});
     }
 
     anyItemsChecked() {
-        return _.any(this.props.items, {checked: true});
+        return _.some(this.props.items, {checked: true});
     }
 }
 
