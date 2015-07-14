@@ -1,7 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
-
-let noop = function noop() {};
+import _ from 'lodash';
 
 class UIButton extends UIView {
     componentDidMount() {
@@ -20,7 +19,7 @@ class UIButton extends UIView {
                 {...this.props}
                 className={this.getClassNames()}
                 onClick={this.handleClick.bind(this)}
-                onDoubleClick={noop}>
+                onDoubleClick={_.noop}>
                 {this.props.children}
             </button>
         );
