@@ -48,12 +48,14 @@
             }
 
             #ui-list,
-            #ui-checkbox {
+            #ui-checkbox,
+            #ui-image {
                 -webkit-columns: 3;
             }
 
             .ui-list,
-            .ui-checkbox-wrapper {
+            .ui-checkbox-wrapper,
+            .ui-image-wrapper {
                 -webkit-column-break-inside: avoid;
                 margin: 0;
                 padding: 0;
@@ -67,6 +69,42 @@
             .ui-list + .ui-list {
                 margin-top: 1em;
             }
+
+            .ui-image {
+                background-size: cover;
+                background-position: center;
+                height: 100%;
+                width: 100%;
+            }
+
+            .ui-image-wrapper {
+                display: inline-block;
+                position: relative;
+                height: 300px;
+                width: 300px;
+            }
+
+            .ui-image-loading,
+            .ui-image-loading::before,
+            .ui-image-error,
+            .ui-image-error::before {
+                background: lightGray;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+
+            .ui-image-loading::before {
+                background: url('http://i.imgur.com/hZCCuar.gif') no-repeat center bottom;
+                content: '';
+            }
+
+            .ui-image-error::before {
+                background: url('https://imgur-discourse.global.ssl.fastly.net/images/emoji/twitter/frowning.png?v=0') no-repeat center;
+                content: '';
+            }
         </style>
     </head>
     <body>
@@ -78,6 +116,7 @@
                 <a href="#ui-button">UIButton</a>
                 <a href="#ui-checkbox">UICheckbox</a>
                 <a href="#ui-checkbox-group">UICheckboxGroup</a>
+                <a href="#ui-image">UICheckbox</a>
                 <a href="#ui-list">UIList</a>
             </nav>
         </header>
@@ -95,6 +134,11 @@
         <section>
             <h3>UICheckboxGroup</h3>
             <article id="ui-checkbox-group"></article>
+        </section>
+
+        <section>
+            <h3>UIImage</h3>
+            <article id="ui-image"></article>
         </section>
 
         <section>
