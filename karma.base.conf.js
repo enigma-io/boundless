@@ -30,6 +30,7 @@ module.exports = {
     },
 
     browserify: {
-        debug: true
+        debug: true,
+        extensions: ['.jsx']
     }
 };

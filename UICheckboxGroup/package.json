@@ -1,6 +1,6 @@
 {
-  "name": "UIKit/UICheckbox",
-  "description": "A generic, accessible checkbox that supports indeterminate state.",
+  "name": "UIKit/UICheckboxGroup",
+  "description": "A controller view for managing the aggregate state of multiple, related checkboxes.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

@@ -1,6 +1,8 @@
 ## Enigma Platform Team
 ### `UIKit/UIList`
 
+A generic list view, supporting unstyled, bulleted and numbered output.
+
 #### Usage
 
 Accepts an array of renderable objects (`props.items`).

@@ -1,23 +1,21 @@
 ## Enigma Platform Team
 ### `UIKit/UICheckbox`
 
+A generic, accessible checkbox that supports indeterminate state.
+
 #### Usage
 
-Accepts a number of customizations via `props`.
+UICheckbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller view must intercept and apply against the data provider.
 
 ```jsx
-let changeFunc = (event) => {
-    alert(event.target.value);
-};
-
 return (
-    <UICheckbox label='Save' checked={true} onChange={changeFunc} />
+    <UICheckbox label='Save' checked={true} />
 );
 ```
 Renders:
 ```html
 <div>
-    <input id ='XYZ' type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />
+    <input id='XYZ' type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />
     <label for='XYZ'>Save</label>
 </div>
 ```
@@ -62,9 +60,6 @@ These core functionality `props` are handled separately and typechecked:
 
 - **autofocus** `Boolean`
   programmatically focuses the element on first render (does not require HTML5 support)
-
-- **onChange** `Function`
-  called when the element's value has changed
 
 - **onChecked** `Function`
   called when the element's value becomes truthy

@@ -1,14 +1,11 @@
 import UIView from '../UIView';
 import React from 'react';
-
-let noop = function noop() {};
+import _ from 'lodash';
 
 class UICheckbox extends UIView {
     initialState() {
         return {
-            indeterminate: this.props.indeterminate,
-            uuid: this.uuid(),
-            checked: this.props.indeterminate ? false : this.props.checked
+            uuid: this.uuid()
         };
     }
 
@@ -17,24 +14,20 @@ class UICheckbox extends UIView {
             React.findDOMNode(this.refs.checkbox).focus();
         }
 
-        if (this.state.indeterminate) {
-            this.setIndeterminate();
-        }
+        this.setIndeterminate();
     }
 
     componentDidUpdate() {
-        if (this.state.indeterminate) {
-            this.setIndeterminate();
-        }
+        this.setIndeterminate();
     }
 
     getClassNames() {
         let classes = ['ui-checkbox'];
 
-        if (this.state.checked) {
-            classes.push('ui-checkbox-checked');
-        } else if (this.props.indeterminate) {
+        if (this.props.indeterminate) {
             classes.push('ui-checkbox-mixed');
+        } else if (this.props.checked) {
+            classes.push('ui-checkbox-checked');
         } else {
             classes.push('ui-checkbox-unchecked');
         }
@@ -58,10 +51,10 @@ class UICheckbox extends UIView {
                 ref='checkbox'
                 type='checkbox'
                 label={null}
-                id={this.props.id || this.state.uuid}
+                id={this.state.uuid}
                 className={this.getClassNames()}
-                aria-checked={this.state.checked}
-                checked={this.state.checked}
+                aria-checked={this.ariaState()}
+                checked={this.props.checked}
                 onChange={this.handleChange.bind(this)} />
         );
     }
@@ -72,34 +65,37 @@ class UICheckbox extends UIView {
                 <label
                     ref='label'
                     className='ui-checkbox-label'
-                    htmlFor={this.props.id || this.state.uuid}>
+                    htmlFor={this.state.uuid}>
                     {this.props.label}
                 </label>
             );
         }
     }
 
-    setIndeterminate() {
-        React.findDOMNode(this.refs.checkbox).indeterminate = true;
+    ariaState() {
+        if (this.props.indeterminate) {
+            return 'mixed';
+        }
+
+        return this.props.checked;
     }
 
-    handleChange(event) {
-        event.persist();
+    setIndeterminate() {
+        if (typeof this.props.indeterminate !== 'undefined') {
+            React.findDOMNode(this.refs.checkbox).indeterminate = this.props.indeterminate;
+        }
+    }
 
-        this.setState({
-            checked: !this.state.checked,
-            indeterminate: false
-        }, () => {
-            this.props[this.state.checked ? 'onChecked' : 'onUnchecked'](event);
-            this.props.onChange(event);
-        });
+    handleChange() {
+        // Send the opposite signal from what was passed to toggle the data
+        this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
     }
 }
 
 UICheckbox.defaultProps = {
-    onChange: noop,
-    onChecked: noop,
-    onUnchecked: noop
+    checked: false,
+    onChecked: _.noop,
+    onUnchecked: _.noop
 };
 
 UICheckbox.propTypes = {
@@ -109,10 +105,9 @@ UICheckbox.propTypes = {
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
-    id: React.PropTypes.string,
     indeterminate: React.PropTypes.bool,
     label: React.PropTypes.node,
-    onChange: React.PropTypes.func,
+    name: React.PropTypes.string.isRequired,
     onChecked: React.PropTypes.func,
     onUnchecked: React.PropTypes.func
 };

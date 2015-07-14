@@ -1,6 +1,8 @@
 ## Enigma Platform Team
 ### `UIKit/UIButton`
 
+A generic button that supports single and double-click event handling.
+
 #### Usage
 
 Accepts a number of customizations via `props`.
