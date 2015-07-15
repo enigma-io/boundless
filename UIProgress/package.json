@@ -1,0 +1,12 @@
+{
+  "name": "UIKit/UIProgress",
+  "description": "An unopinionated progress implementation that allows for a variety of shapes and effects.",
+  "version": "1.0.0",
+  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "browserify": {
+    "transform": [
+      "eslintify",
+      "babelify"
+    ]
+  }
+}

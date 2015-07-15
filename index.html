@@ -105,6 +105,28 @@
                 background: url('https://imgur-discourse.global.ssl.fastly.net/images/emoji/twitter/frowning.png?v=0') no-repeat center;
                 content: '';
             }
+
+            .ui-progress-wrapper {
+                height: 30px;
+                position: relative;
+            }
+
+            .ui-progress {
+                background: #6600CC;
+                border-radius: 3px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+            }
+
+            .ui-progress-label {
+                color: #FFF;
+                line-height: 30px;
+                padding-left: 10px;
+                position: relative;
+                z-index: 1;
+            }
         </style>
     </head>
     <body>
@@ -116,8 +138,9 @@
                 <a href="#ui-button">UIButton</a>
                 <a href="#ui-checkbox">UICheckbox</a>
                 <a href="#ui-checkbox-group">UICheckboxGroup</a>
-                <a href="#ui-image">UICheckbox</a>
+                <a href="#ui-image">UIImage</a>
                 <a href="#ui-list">UIList</a>
+                <a href="#ui-progress">UIProgress</a>
             </nav>
         </header>
 
@@ -144,6 +167,11 @@
         <section>
             <h3>UIList</h3>
             <article id="ui-list"></article>
+        </section>
+
+        <section>
+            <h3>UIProgress</h3>
+            <article id="ui-progress"></article>
         </section>
 
         <script src="./build/js/bundle.js"></script>
