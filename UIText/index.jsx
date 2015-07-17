@@ -2,6 +2,10 @@ import UIView from '../UIView';
 import React from 'react';
 
 class UIText extends UIView {
+    getClassNames() {
+        return ['ui-text'].concat(this.props.className).join(' ');
+    }
+
     componentDidMount() {
         this.rescale();
     }
@@ -12,7 +16,7 @@ class UIText extends UIView {
 
     render() {
         return (
-            <span className='ui-text'>{this.props.text}</span>
+            <span className={this.getClassNames()}>{this.props.children}</span>
         );
     }
 
@@ -25,20 +29,24 @@ class UIText extends UIView {
         let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * container.clientWidth);
         let optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * container.clientHeight);
 
-        node.style.fontSize = Math.min(this.props.maxSize, optimizeForHeight, optimizeForWidth);
+        node.style.fontSize = Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) + 'px';
     }
 }
 
 UIText.defaultProps = {
-    maxSize: Number.MAX_VALUE
+    maxFontSize: Number.MAX_VALUE
 };
 
 UIText.propTypes = {
-    maxSize: React.PropTypes.number,
-    text: React.PropTypes.string
+    children: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
+    className: React.PropTypes.oneOfType([
+        React.PropTypes.arrayOf(React.PropTypes.string),
+        React.PropTypes.string
+    ]),
+    maxFontSize: React.PropTypes.number
 };
 
 export default UIText;
-
-// 50px
-// 20px, 10px

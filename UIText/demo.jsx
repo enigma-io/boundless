@@ -8,10 +8,10 @@ export default class UITextDemo extends UIView {
         return (
             <div>
                 <UIButton className='medium-button'>
-                    <UIText text='Blah blah blah blah blah' />
+                    <UIText>Blah blah blah blah blah</UIText>
                 </UIButton>
                 <UIButton className='medium-button'>
-                    <UIText text='Blah' maxSize={30} />
+                    <UIText maxFontSize={30}>Blah</UIText>
                 </UIButton>
             </div>
         );
