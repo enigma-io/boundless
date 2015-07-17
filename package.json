@@ -39,6 +39,7 @@
     "UIKit/UICheckboxGroup": "./UICheckboxGroup/index.jsx",
     "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIProgress": "./UIProgress/index.jsx",
+    "UIKit/UIText": "./UIText/index.jsx",
     "UIKit/UIView": "./UIView/index.js"
   },
   "browserify": {
