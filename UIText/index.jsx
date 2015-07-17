@@ -18,12 +18,12 @@ class UIText extends UIView {
 
     rescale() {
         let node = React.findDOMNode(this);
-        let nodeBox = node.getBoundingClientRect();
-        let fontSize = window.getComputedStyle(node).fontSize;
-        let parentBox = window.getBoundingClientRect(node.parentNode);
+        let container = node.parentNode;
+        let fontSize = parseInt(window.getComputedStyle(node).fontSize, 10);
 
-        let optimizeForWidth = Math.floor((parseInt(fontSize, 10) / nodeBox.right - nodeBox.left) * (parentBox.right - parentBox.left));
-        let optimizeForHeight = Math.floor((parseInt(fontSize, 10) / nodeBox.bottom - nodeBox.top) * (parentBox.bottom - parentBox.top));
+        // needs to take container inner padding into account, which is why we're using client<Dimension>
+        let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * container.clientWidth);
+        let optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * container.clientHeight);
 
         node.style.fontSize = Math.min(this.props.maxSize, optimizeForHeight, optimizeForWidth);
     }
