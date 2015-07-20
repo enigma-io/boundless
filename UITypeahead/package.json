@@ -1,0 +1,12 @@
+{
+  "name": "UIKit/UITypeahead",
+  "description": "Intelligently recommend entities via customizable, fuzzy recognition.",
+  "version": "1.0.0",
+  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "browserify": {
+    "transform": [
+      "eslintify",
+      "babelify"
+    ]
+  }
+}

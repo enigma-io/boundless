@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="utf-8" />
         <title>UIKit Kitchen Sink</title>
         <style>
             html {
@@ -45,6 +46,13 @@
 
             h1 {
                 margin-bottom: 0.5em;
+            }
+
+            .ui-offscreen {
+                position: absolute !important;
+                height: 1px; width: 1px;
+                overflow: hidden;
+                clip: rect(1px, 1px, 1px, 1px);
             }
 
             #ui-list,
@@ -137,6 +145,23 @@
                 height: 50px;
                 width: 200px;
             }
+
+            .ui-typeahead {
+                background: transparent;
+                position: relative;
+                z-index: 1;
+            }
+
+            .ui-typeahead-hint {
+                color: gray;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .ui-typeahead-wrapper {
+                position: relative;
+            }
         </style>
     </head>
     <body>
@@ -152,6 +177,7 @@
                 <a href="#ui-list">UIList</a>
                 <a href="#ui-progress">UIProgress</a>
                 <a href="#ui-text">UIText</a>
+                <a href="#ui-typeahead">UITypeahead</a>
             </nav>
         </header>
 
@@ -188,6 +214,11 @@
         <section>
             <h3>UIText</h3>
             <article id="ui-text"></article>
+        </section>
+
+        <section>
+            <h3>UITypeahead</h3>
+            <article id="ui-typeahead"></article>
         </section>
 
         <script src="./build/js/bundle.js"></script>
