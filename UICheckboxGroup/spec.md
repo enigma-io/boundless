@@ -84,7 +84,7 @@ Type | Context | Expectation
 **Mouse** | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
 
-#### Optional Customization (via `props`)
+#### Customization (via `props`)
 
 - **items** `Array<Object>`
   the data wished to be rendered, must conform to a specific shape

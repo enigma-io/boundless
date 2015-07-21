@@ -40,7 +40,7 @@ Type | Context | Expectation
 **Mouse** | `click` on cancel element | should trigger the onCancel handler
 
 
-#### Optional Customization (via `props`)
+#### Customization (via `props`)
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced

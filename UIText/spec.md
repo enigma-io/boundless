@@ -31,7 +31,7 @@ Styling of the element will be provided via the class hook: `.ui-text`
 There are no expected user interactions. The component emits normal text and merely changes the presentation, so accessibility is not obstructed.
 
 
-#### Optional Customization (via `props`)
+#### Customization (via `props`)
 
 These core functionality `props` are handled separately and typechecked:
 

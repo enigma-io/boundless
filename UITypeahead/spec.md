@@ -51,7 +51,7 @@ Type | Context | Expectation
 **Keyboard** | `[Enter]` | call `onComplete` if supplied
 **Mouse** | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
 
-#### Optional Customization (via `props`)
+#### Customization (via `props`)
 
 Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
 

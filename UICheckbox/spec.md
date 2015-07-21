@@ -38,7 +38,7 @@ Type | Context | Expectation
 **Mouse** | `click` | should toggle the `checked` state
 
 
-#### Optional Customization (via `props`)
+#### Customization (via `props`)
 
 Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
 
