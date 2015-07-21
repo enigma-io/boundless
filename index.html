@@ -3,6 +3,10 @@
         <meta charset="utf-8" />
         <title>UIKit Kitchen Sink</title>
         <style>
+            :focus {
+                outline: 1px solid gray;
+            }
+
             html {
                 font-family: sans-serif;
             }
@@ -11,29 +15,29 @@
                 padding: 2em 1em 2em 20em;
             }
 
-            header {
+            .ui-demo-header {
                 position: fixed;
                 top: 2em;
                 left: 2em;
                 width: 16em;
             }
 
-            nav {
+            .ui-demo-nav {
                 margin-top: 1em;
             }
 
-            nav a {
+            .ui-demo-nav-item {
                 color: blue;
                 display: block;
                 margin-bottom: 0.5em;
                 text-decoration: none;
             }
 
-            nav a:hover {
+            .ui-demo-nav-item:hover {
                 color: darkblue;
             }
 
-            section {
+            .ui-demo-section {
                 background: #F2F2F2;
                 border-radius: 5px;
                 margin: 0 0 1em;
@@ -162,61 +166,84 @@
             .ui-typeahead-wrapper {
                 position: relative;
             }
+
+            .ui-dialog {
+                background-color: lavender;
+                padding: 1.5em;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .ui-dialog-header {
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+
+            .ui-dialog-body {
+                line-height: 1.5;
+                padding: 1em 0;
+            }
         </style>
     </head>
     <body>
-        <header>
+        <header class="ui-demo-header">
             <h1>Kitchen Sink</h1>
             <p>Tiny demos of each available component in UIKit.</p>
             <sub>All presentational styles are limited to this page, the React components do not come bundled with CSS.</sub>
-            <nav>
-                <a href="#ui-button">UIButton</a>
-                <a href="#ui-checkbox">UICheckbox</a>
-                <a href="#ui-checkbox-group">UICheckboxGroup</a>
-                <a href="#ui-image">UIImage</a>
-                <a href="#ui-list">UIList</a>
-                <a href="#ui-progress">UIProgress</a>
-                <a href="#ui-text">UIText</a>
-                <a href="#ui-typeahead">UITypeahead</a>
+            <nav class="ui-demo-nav">
+                <a class="ui-demo-nav-item" href="#ui-button">UIButton</a>
+                <a class="ui-demo-nav-item" href="#ui-checkbox">UICheckbox</a>
+                <a class="ui-demo-nav-item" href="#ui-checkbox-group">UICheckboxGroup</a>
+                <a class="ui-demo-nav-item" href="#ui-dialog">UIDialog</a>
+                <a class="ui-demo-nav-item" href="#ui-image">UIImage</a>
+                <a class="ui-demo-nav-item" href="#ui-list">UIList</a>
+                <a class="ui-demo-nav-item" href="#ui-progress">UIProgress</a>
+                <a class="ui-demo-nav-item" href="#ui-text">UIText</a>
+                <a class="ui-demo-nav-item" href="#ui-typeahead">UITypeahead</a>
             </nav>
         </header>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UIButton</h3>
             <article id="ui-button"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UICheckbox</h3>
             <article id="ui-checkbox"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UICheckboxGroup</h3>
             <article id="ui-checkbox-group"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
+            <h3>UIDialog</h3>
+            <article id="ui-dialog"></article>
+        </section>
+
+        <section class="ui-demo-section">
             <h3>UIImage</h3>
             <article id="ui-image"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UIList</h3>
             <article id="ui-list"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UIProgress</h3>
             <article id="ui-progress"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UIText</h3>
             <article id="ui-text"></article>
         </section>
 
-        <section>
+        <section class="ui-demo-section">
             <h3>UITypeahead</h3>
             <article id="ui-typeahead"></article>
         </section>
