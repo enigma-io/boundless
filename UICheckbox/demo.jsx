@@ -5,22 +5,22 @@ import React from 'react';
 export default class UICheckboxDemo extends UIView {
     render() {
         return (
-            <div>
+            <div className='ui-spread-even'>
                 <UICheckbox
                     name='box1'
-                    label='Click Me!'
+                    label='An unchecked checkbox'
                     checked={false}
                     onChecked={this.handleChecked}
                     onUnchecked={this.handleUnchecked} />
                 <UICheckbox
                     name='box2'
-                    label='Click Me!'
+                    label='An checked checkbox'
                     checked={true}
                     onChecked={this.handleChecked}
                     onUnchecked={this.handleUnchecked} />
                 <UICheckbox
                     name='box3'
-                    label='Click Me!'
+                    label='An indeterminate (mixed) checkbox'
                     checked={false}
                     indeterminate={true}
                     onChecked={this.handleChecked}

@@ -1,6 +1,10 @@
 import UIView from '../UIView';
 import React from 'react';
 
+function toI(stringNumber) {
+    return parseInt(stringNumber, 10);
+}
+
 class UIText extends UIView {
     getClassNames() {
         return ['ui-text'].concat(this.props.className).join(' ');
@@ -23,11 +27,19 @@ class UIText extends UIView {
     rescale() {
         let node = React.findDOMNode(this);
         let container = node.parentNode;
-        let fontSize = parseInt(window.getComputedStyle(node).fontSize, 10);
+        let containerBox = window.getComputedStyle(container);
+        let containerHeight = toI(containerBox.height);
+        let containerWidth = toI(containerBox.width);
+        let fontSize = toI(window.getComputedStyle(node).fontSize);
 
-        // needs to take container inner padding into account, which is why we're using client<Dimension>
-        let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * container.clientWidth);
-        let optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * container.clientHeight);
+        if (containerBox.boxSizing === 'border-box'
+            || containerBox.boxSizing === 'padding-box') { // need to account for padding
+            containerHeight -= toI(containerBox.paddingTop) + toI(containerBox.paddingBottom);
+            containerWidth -= toI(containerBox.paddingLeft) + toI(containerBox.paddingRight);
+        }
+
+        let optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * containerHeight);
+        let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * containerWidth);
 
         node.style.fontSize = Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) + 'px';
     }

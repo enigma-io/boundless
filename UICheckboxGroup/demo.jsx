@@ -33,6 +33,7 @@ export default class UICheckboxGroupDemo extends UIView {
     render() {
         return (
             <div>
+                <p>What subjects are you interested in?</p>
                 <UICheckboxGroup
                     items={this.state.items}
                     showSelectAll={true}

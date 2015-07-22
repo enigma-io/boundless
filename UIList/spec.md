@@ -18,6 +18,9 @@ return (
 Styling of the list will be provided via class hooks:
 
 - `.ui-list`
+- `.ui-list-bulleted`
+- `.ui-list-numbered`
+- `.ui-list-plain`
 - `.ui-list-item`
 
 

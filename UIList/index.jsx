@@ -10,19 +10,26 @@ class UIList extends UIView {
 
     render() {
         let nodeType = 'div';
+        let classes = ['ui-list'];
 
         switch (this.props.type) {
         case 'bullet':
             nodeType = 'ul';
+            classes.push('ui-list-bulleted');
             break;
 
         case 'number':
             nodeType = 'ol';
+            classes.push('ui-list-numbered');
+            break;
+
+        default:
+            classes.push('ui-list-plain');
             break;
         }
 
         return React.createElement(nodeType, {
-            className: 'ui-list',
+            className: classes.join(' '),
             onKeyDown: this.handleKeyDown.bind(this),
             children: this.renderContent()
         });

@@ -26,13 +26,22 @@ class UIImage extends UIView {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.src !== this.props.src) {
+            this.setState({ status: UIImage.Constants.IMAGE_LOADING });
+        }
+    }
+
     componentDidMount() {
-        const loader = document.createElement('img');
+        this.preload();
+    }
 
-        loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
-        loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+    shouldComponentUpdate(nextProps, nextState) {
+        return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state);
+    }
 
-        loader.src = this.props.src;
+    componentDidUpdate() {
+        this.preload();
     }
 
     render() {
@@ -45,27 +54,34 @@ class UIImage extends UIView {
     }
 
     renderImage() {
-        if (this.state.status === UIImage.Constants.IMAGE_LOADED) {
-            if (this.props.displayAsBackgroundImage) {
-                return (
-                    <div
-                        {...this.props}
-                        ref='image'
-                        className='ui-image'
-                        title={this.props.alt}
-                        style={{backgroundImage: 'url(' + this.props.src + ')'}} />
-                );
-            }
-
+        if (this.props.displayAsBackgroundImage) {
             return (
-                <img
+                <div
                     {...this.props}
                     ref='image'
                     className='ui-image'
-                    onLoad={_.noop}
-                    onError={_.noop} />
+                    title={this.props.alt}
+                    style={{backgroundImage: 'url(' + this.props.src + ')'}} />
             );
         }
+
+        return (
+            <img
+                {...this.props}
+                ref='image'
+                className='ui-image'
+                onLoad={_.noop}
+                onError={_.noop} />
+        );
+    }
+
+    preload() {
+        const loader = document.createElement('img');
+
+        loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
+        loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+
+        loader.src = this.props.src;
     }
 }
 

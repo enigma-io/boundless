@@ -7,32 +7,30 @@ export default class UIButtonDemo extends UIView {
         return (
             <div>
                 <UIButton
-                    className='fast-honk-button'
                     onClick={this.handleClick}>
-                    FastHonk
+                    Click Me
                 </UIButton>
 
                 <UIButton
-                    className={['green', 'blue']}
                     onClick={this.handleClick}
                     onDoubleClick={this.handleDoubleClick}>
-                    Honk
+                    Double Click Me
                 </UIButton>
 
                 <UIButton
                     onClick={this.handleClick}
                     disabled>
-                    Whomp Whomp
+                    Disabled
                 </UIButton>
             </div>
         );
     }
 
     handleClick() {
-        alert('HONK!');
+        alert('A single-click was detected.');
     }
 
     handleDoubleClick() {
-        alert('SCREEEECH!');
+        alert('A double-click was detected.');
     }
 }

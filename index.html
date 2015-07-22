@@ -12,44 +12,87 @@
             }
 
             body {
-                padding: 2em 1em 2em 20em;
+                background-color: #F4F4F4;
+                color: #222;
+                line-height: 1.4;
+                padding: 1em 1em 1em 21em;
+            }
+
+            figure {
+                margin: 0;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                margin: 0 0 1rem;
+            }
+
+            h4 {
+                color: #CCC;
+                text-transform: uppercase;
             }
 
             .ui-demo-header {
                 position: fixed;
-                top: 2em;
-                left: 2em;
+                top: 0;
+                left: 0;
                 width: 16em;
+                padding: 2em;
+                bottom: 0;
+                background-color: #537C3B;
+                color: #FFF;
+            }
+
+            .ui-demo-header-desc {
+                color: #1C4106;
+                margin: 0;
+            }
+
+            .ui-demo-header-title,
+            .ui-demo-header-desc {
+                margin-bottom: 1rem;
             }
 
             .ui-demo-nav {
-                margin-top: 1em;
+                margin-top: 2rem;
             }
 
             .ui-demo-nav-item {
-                color: blue;
+                color: #AAD093;
                 display: block;
                 margin-bottom: 0.5em;
                 text-decoration: none;
             }
 
+            .ui-demo-nav-item::after {
+                content: ' →';
+            }
+
             .ui-demo-nav-item:hover {
-                color: darkblue;
+                color: #FFF;
+                text-decoration: underline;
             }
 
             .ui-demo-section {
-                background: #F2F2F2;
-                border-radius: 5px;
-                margin: 0 0 1em;
+                background: #FEFEFE;
+                margin: 0;
                 padding: 1em;
             }
 
-            h1, h2, h3, h4, h5, h6 {
-                margin: 0 0 1em;
+            .ui-demo-section + .ui-demo-section {
+                margin: 1rem 0 0;
             }
 
-            h1 {
-                margin-bottom: 0.5em;
+            .ui-demo-section-title {
+                display: flex;
+                align-items: center;
+            }
+
+            .ui-demo-section-description {
+                color: #AAA;
+                font-size: 0.75em;
+                font-weight: 400;
+                text-align: right;
+                flex-grow: 1;
             }
 
             .ui-offscreen {
@@ -59,136 +102,23 @@
                 clip: rect(1px, 1px, 1px, 1px);
             }
 
-            #ui-list,
-            #ui-checkbox,
-            #ui-image {
-                -webkit-columns: 3;
+            .ui-spread-even {
+                display: flex;
             }
 
-            .ui-list,
-            .ui-checkbox-wrapper,
-            .ui-image-wrapper {
-                -webkit-column-break-inside: avoid;
-                margin: 0;
-                padding: 0;
+            .ui-spread-even > * {
+                flex: 100% 1 1;
             }
 
-            ol.ui-list,
-            ul.ui-list {
-                padding: 0 0 0 1.5em;
-            }
-
-            .ui-list + .ui-list {
-                margin-top: 1em;
-            }
-
-            .ui-image {
-                background-size: cover;
-                background-position: center;
-                height: 100%;
-                width: 100%;
-            }
-
-            .ui-image-wrapper {
-                display: inline-block;
-                position: relative;
-                height: 300px;
-                width: 300px;
-            }
-
-            .ui-image-loading,
-            .ui-image-loading::before,
-            .ui-image-error,
-            .ui-image-error::before {
-                background: lightGray;
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-            }
-
-            .ui-image-loading::before {
-                background: url('http://i.imgur.com/hZCCuar.gif') no-repeat center bottom;
-                content: '';
-            }
-
-            .ui-image-error::before {
-                background: url('https://imgur-discourse.global.ssl.fastly.net/images/emoji/twitter/frowning.png?v=0') no-repeat center;
-                content: '';
-            }
-
-            .ui-progress-wrapper {
-                height: 30px;
-                position: relative;
-            }
-
-            .ui-progress {
-                background: #6600CC;
-                border-radius: 3px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-            }
-
-            .ui-progress-label {
-                color: #FFF;
-                line-height: 30px;
-                padding-left: 10px;
-                position: relative;
-                z-index: 1;
-            }
-
-            .ui-button {
-                margin-right: 15px;
-                vertical-align: middle;
-            }
-
-            .medium-button {
-                height: 50px;
-                width: 200px;
-            }
-
-            .ui-typeahead {
-                background: transparent;
-                position: relative;
-                z-index: 1;
-            }
-
-            .ui-typeahead-hint {
-                color: gray;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .ui-typeahead-wrapper {
-                position: relative;
-            }
-
-            .ui-dialog {
-                background-color: lavender;
-                padding: 1.5em;
-                position: absolute;
-                z-index: 1;
-            }
-
-            .ui-dialog-header {
-                text-transform: uppercase;
-                font-weight: 700;
-            }
-
-            .ui-dialog-body {
-                line-height: 1.5;
-                padding: 1em 0;
+            .ui-center {
+                text-align: center;
             }
         </style>
     </head>
     <body>
         <header class="ui-demo-header">
-            <h1>Kitchen Sink</h1>
-            <p>Tiny demos of each available component in UIKit.</p>
+            <h1 class="ui-demo-header-title">Kitchen Sink</h1>
+            <p class="ui-demo-header-desc">Functional demos of each available component in UIKit.</p>
             <sub>All presentational styles are limited to this page, the React components do not come bundled with CSS.</sub>
             <nav class="ui-demo-nav">
                 <a class="ui-demo-nav-item" href="#ui-button">UIButton</a>
@@ -204,48 +134,269 @@
         </header>
 
         <section class="ui-demo-section">
-            <h3>UIButton</h3>
-            <article id="ui-button"></article>
+            <style>
+                .ui-button {
+                    background: transparent;
+                    border: 1px solid #333;
+                    color: #333;
+                    cursor: pointer;
+                    font-size: 14px;
+                    padding: 0.5rem 0.75rem;
+                    vertical-align: middle;
+
+                    transition: all 200ms ease;
+                }
+
+                .ui-button[disabled] {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
+
+                .ui-button:hover,
+                .ui-button:focus {
+                    border-color: #537C3B;
+                    color: #537C3B;
+                }
+
+                .ui-button:active {
+                    background: #537C3B;
+                    color: #FFF;
+                }
+
+                .ui-button + * {
+                    margin-left: 15px;
+                }
+
+                .medium-button {
+                    height: 50px;
+                    width: 200px;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIButton</h3>
+            <article class="ui-demo-section-example" id="ui-button"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UICheckbox</h3>
-            <article id="ui-checkbox"></article>
+            <style>
+                .ui-checkbox-wrapper {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .ui-checkbox-wrapper + .ui-checkbox-wrapper {
+                    margin-top: 0.25rem;
+                }
+
+                .ui-checkbox-label {
+                    padding-left: 0.25rem;
+                }
+
+                .ui-checkbox {
+                    border: 1px solid #CCC;
+                    border-radius: 2px;
+                    box-shadow: none;
+                    cursor: pointer;
+                    height: 16px;
+                    width: 16px;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                }
+
+                .ui-checkbox-checked {
+                    background-color: #537C3B;
+                }
+
+                .ui-checkbox-mixed {
+                    background: rgba(83,124,59,1);
+                    background: -moz-linear-gradient(-45deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+                    background: -webkit-gradient(left top, right bottom, color-stop(50%, rgba(83,124,59,1)), color-stop(50%, rgba(255,255,255,1)), color-stop(100%, rgba(255,255,255,0)));
+                    background: -webkit-linear-gradient(-45deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+                    background: -o-linear-gradient(-45deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+                    background: -ms-linear-gradient(-45deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+                    background: linear-gradient(135deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#537c3b', endColorstr='#ffffff', GradientType=1 );
+                }
+
+                .ui-checkbox-checked,
+                .ui-checkbox-mixed {
+                    box-shadow: 0 0 0 1px #FFF inset;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UICheckbox</h3>
+            <article class="ui-demo-section-example" id="ui-checkbox"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UICheckboxGroup</h3>
-            <article id="ui-checkbox-group"></article>
+            <style>
+                .ui-checkbox-group {
+                    -webkit-columns: 3;
+                    -moz-columns: 3;
+                    columns: 3;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UICheckboxGroup</h3>
+            <article class="ui-demo-section-example" id="ui-checkbox-group"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UIDialog</h3>
-            <article id="ui-dialog"></article>
+            <style>
+                .ui-dialog {
+                    background-color: lavender;
+                    padding: 1.5em;
+                    position: absolute;
+                    z-index: 1;
+                }
+
+                .ui-dialog-header {
+                    text-transform: uppercase;
+                    font-weight: 700;
+                }
+
+                .ui-dialog-body {
+                    line-height: 1.5;
+                    padding: 1em 0;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIDialog</h3>
+            <article class="ui-demo-section-example" id="ui-dialog"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UIImage</h3>
-            <article id="ui-image"></article>
+            <style>
+                .ui-image-wrapper {
+                    display: inline-block;
+                    position: relative;
+                    width: 100%;
+                }
+
+                .ui-image,
+                .ui-image-loading,
+                .ui-image-error {
+                    width: 100%;
+                }
+
+                .ui-image {
+                    background-size: cover;
+                    background-position: center;
+                }
+
+                .ui-image::after,
+                .ui-image-loading::before,
+                .ui-image-error::before {
+                    content: '';
+                    display: block;
+                    padding-top: 100%;
+                    width: 100%;
+                }
+
+                .ui-image-loading,
+                .ui-image-error {
+                    background: lightGray;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                .ui-image-loading::before {
+                    background: url('./UIImage/loader.gif') no-repeat center;
+                }
+
+                .ui-image-error::before {
+                    background: url('./UIImage/error.svg') no-repeat center;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIImage</h3>
+            <article class="ui-demo-section-example" id="ui-image"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UIList</h3>
-            <article id="ui-list"></article>
+            <style>
+                .ui-list-plain .ui-list-item::after {
+                    content: ', ';
+                }
+
+                .ui-list-plain .ui-list-item:last-child::after {
+                    content: none;
+                }
+
+                .ui-list-bulleted,
+                .ui-list-numbered {
+                    padding: 0 0 0 1.5em;
+                }
+
+                .ui-list + .ui-list {
+                    margin-top: 1em;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIList</h3>
+            <article class="ui-demo-section-example" id="ui-list"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UIProgress</h3>
-            <article id="ui-progress"></article>
+            <style>
+                .ui-progress-wrapper {
+                    height: 30px;
+                    position: relative;
+                }
+
+                .ui-progress {
+                    background: #537C3B;
+                    border-radius: 2px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                }
+
+                .ui-progress-label {
+                    color: #FFF;
+                    line-height: 30px;
+                    padding-left: 10px;
+                    position: relative;
+                    z-index: 1;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIProgress</h3>
+            <article class="ui-demo-section-example" id="ui-progress"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UIText</h3>
-            <article id="ui-text"></article>
+            <style></style>
+
+            <h3 class="ui-demo-section-title">UIText</h3>
+            <article class="ui-demo-section-example" id="ui-text"></article>
         </section>
 
         <section class="ui-demo-section">
-            <h3>UITypeahead</h3>
-            <article id="ui-typeahead"></article>
+            <style>
+                .ui-typeahead {
+                    background: transparent;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .ui-typeahead-hint {
+                    color: gray;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                .ui-typeahead-wrapper {
+                    position: relative;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UITypeahead</h3>
+            <article class="ui-demo-section-example" id="ui-typeahead"></article>
         </section>
 
         <script src="./build/js/bundle.js"></script>
