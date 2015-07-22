@@ -1,9 +1,9 @@
 /* eslint no-unused-expressions:0 */
 
-import UIProgress from './index.jsx';
+import UIDialog from './index.jsx';
 import React from 'react';
 
-describe('UIProgress', () => {
+describe('UIDialog', () => {
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -12,65 +12,135 @@ describe('UIProgress', () => {
     });
 
     describe('accepts', () => {
-        it('an additional class as a string without replacing the core hook', () => {
-            const bar = React.render(<UIProgress className='smoothed' />, document.body);
-            const node = React.findDOMNode(bar);
+        it('React-supported HTML attributes as passthrough attributes', () => {
+            const dialog = React.render(<UIDialog id='diag1' data-id='xr1' />, document.body);
+            const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-progress-wrapper smoothed');
+            expect(node.getAttribute('id')).to.equal('diag1');
+            expect(node.getAttribute('data-id')).to.equal('xr1');
+        });
+
+        it('an additional class as a string without replacing the core hook', () => {
+            const dialog = React.render(<UIDialog className='abc' />, document.body);
+            const node = React.findDOMNode(dialog);
+
+            expect(node.getAttribute('class')).to.equal('ui-dialog abc');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const bar = React.render(<UIProgress className={['smoothed', 'blurred']} />, document.body);
-            const node = React.findDOMNode(bar);
+            const dialog = React.render(<UIDialog className={['abc', '123']} />, document.body);
+            const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-progress-wrapper smoothed blurred');
+            expect(node.getAttribute('class')).to.equal('ui-dialog abc 123');
         });
 
-        it('a specific style property to tween', () => {
-            const bar = React.render(<UIProgress progressProperty='height' />, document.body);
-            const node = React.findDOMNode(bar.refs.progress);
+        it('renderable header content', () => {
+            const dialog = React.render(<UIDialog headerContent='ABC123' />, document.body);
+            const node = React.findDOMNode(dialog.refs.header);
 
-            expect(node.getAttribute('style')).to.equal('height:0%;');
+            expect(node.textContent).to.equal('ABC123');
+        });
+
+        it('renderable body content', () => {
+            const dialog = React.render(<UIDialog bodyContent='ABC123' />, document.body);
+            const node = React.findDOMNode(dialog.refs.body);
+
+            expect(node.textContent).to.equal('ABC123');
+        });
+
+        it('renderable footer content', () => {
+            const dialog = React.render(<UIDialog footerContent='ABC123' />, document.body);
+            const node = React.findDOMNode(dialog.refs.footer);
+
+            expect(node.textContent).to.equal('ABC123');
         });
     });
 
-    describe('progress', () => {
-        it('should update as the prop is changed', () => {
-            const bar = React.render(<UIProgress />, document.body);
-            const node = React.findDOMNode(bar.refs.progress);
+    describe('CSS hook', () => {
+        it('ui-dialog is rendered', () => {
+            const dialog = React.render(<UIDialog />, document.body);
+            const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('style')).to.equal('width:0%;');
+            expect(node.className).to.contain('ui-dialog');
+        });
 
-            React.render(<UIProgress progress={10} />, document.body);
+        it('ui-dialog-header is rendered', () => {
+            const dialog = React.render(<UIDialog />, document.body);
+            const node = React.findDOMNode(dialog.refs.header);
 
-            expect(node.getAttribute('style')).to.equal('width: 10%;');
+            expect(node.className).to.contain('ui-dialog-header');
+        });
+
+        it('ui-dialog-body is rendered', () => {
+            const dialog = React.render(<UIDialog />, document.body);
+            const node = React.findDOMNode(dialog.refs.body);
+
+            expect(node.className).to.contain('ui-dialog-body');
+        });
+
+        it('ui-dialog-footer is rendered', () => {
+            const dialog = React.render(<UIDialog />, document.body);
+            const node = React.findDOMNode(dialog.refs.footer);
+
+            expect(node.className).to.contain('ui-dialog-footer');
         });
     });
 
-    describe('cancel button', () => {
-        it('should render if the handler is provided', () => {
-            const stub = sandbox.stub();
-            const bar = React.render(<UIProgress onCancel={stub} />, document.body);
+    describe('focus', () => {
+        it('should be applied to the dialog on render', () => {
+            const dialog = React.render(<UIDialog className='abc' />, document.body);
+            const node = React.findDOMNode(dialog);
 
-            expect(bar.refs.cancel).to.not.be.undefined;
+            expect(document.activeElement).to.equal(node);
         });
 
-        it('should call the cancel handler on click', () => {
-            const stub = sandbox.stub();
-            const bar = React.render(<UIProgress onCancel={stub} />, document.body);
-            const node = React.findDOMNode(bar.refs.cancel);
+        it('should not leave the dialog', () => {
+            const dialog = React.render(<UIDialog className='abc' />, document.body);
+            const node = React.findDOMNode(dialog);
 
-            node.click();
+            document.body.focus();
+
+            expect(document.activeElement).to.equal(node);
+        });
+    });
+
+    describe('closeOnEscKey', () => {
+        it('should trigger `props.onClose` if `true`', () => {
+            const stub = sandbox.stub();
+            const dialog = React.render(<UIDialog closeOnEscKey={true} onClose={stub} />, document.body);
+
+            dialog.handleKeydown({key: 'Escape'});
 
             expect(stub).to.have.been.calledOnce;
         });
+
+        it('should not trigger `props.onClose` if falsy or not provided', () => {
+            const stub = sandbox.stub();
+            const dialog = React.render(<UIDialog onClose={stub} />, document.body);
+
+            dialog.handleKeydown({key: 'Escape'});
+
+            expect(stub).to.not.have.been.called;
+        });
     });
 
-    describe('progress label', () => {
-        it('should render if activated', () => {
-            const bar = React.render(<UIProgress showProgressLabel={true} />, document.body);
+    describe('closeOnOutsideClick', () => {
+        it('should trigger `props.onClose` if `true`', () => {
+            const stub = sandbox.stub();
+            const dialog = React.render(<UIDialog closeOnOutsideClick={true} onClose={stub} />, document.body);
 
-            expect(bar.refs.label).to.not.be.undefined;
+            dialog.handleOutsideClick({target: document.body});
+
+            expect(stub).to.have.been.calledOnce;
+        });
+
+        it('should not trigger `props.onClose` if falsy or not provided', () => {
+            const stub = sandbox.stub();
+            const dialog = React.render(<UIDialog onClose={stub} />, document.body);
+
+            dialog.handleOutsideClick({target: document.body});
+
+            expect(stub).to.have.been.called;
         });
     });
 });
