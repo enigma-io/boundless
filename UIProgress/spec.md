@@ -45,14 +45,14 @@ Type | Context | Expectation
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
 
-- **progress** `Number`
-  updates the progress bar's current width (may be animated via CSS at the developer's discretion)
+- **label** `Boolean`
+  the value to show as a label of the progress, e.g. "50%"
 
-- **progressProperty** `String`
+- **progress** `[String|Number]`
+  the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
+
+- **tweenProperty** `String`
   the CSS property to tween (must accept percentages) - defaults to "width"
-
-- **showProgressLabel** `Boolean`
-  add an additional element with the text value of the current progress
 
 - **onCancel** `Function`
   if supplied, adds a cancel element and calls this function when that element is clicked

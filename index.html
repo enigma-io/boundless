@@ -3,10 +3,6 @@
         <meta charset="utf-8" />
         <title>UIKit Kitchen Sink</title>
         <style>
-            :focus {
-                outline: 1px solid gray;
-            }
-
             html {
                 font-family: sans-serif;
             }
@@ -15,7 +11,7 @@
                 background-color: #F4F4F4;
                 color: #222;
                 line-height: 1.4;
-                padding: 1em 1em 1em 21em;
+                padding: 1em 1em 400px 21em;
             }
 
             figure {
@@ -23,7 +19,7 @@
             }
 
             h1, h2, h3, h4, h5, h6 {
-                margin: 0 0 1rem;
+                margin: 0 0 0.5rem;
             }
 
             h4 {
@@ -110,6 +106,10 @@
                 flex: 100% 1 1;
             }
 
+            .ui-align-end {
+                align-items: flex-end;
+            }
+
             .ui-center {
                 text-align: center;
             }
@@ -143,6 +143,7 @@
                     font-size: 14px;
                     padding: 0.5rem 0.75rem;
                     vertical-align: middle;
+                    white-space: nowrap;
 
                     transition: all 200ms ease;
                 }
@@ -167,9 +168,8 @@
                     margin-left: 15px;
                 }
 
-                .medium-button {
+                .tall-button {
                     height: 50px;
-                    width: 200px;
                 }
             </style>
 
@@ -188,6 +188,11 @@
                     margin-top: 0.25rem;
                 }
 
+                .ui-checkbox,
+                .ui-checkbox-label {
+                    cursor: pointer;
+                }
+
                 .ui-checkbox-label {
                     padding-left: 0.25rem;
                 }
@@ -196,12 +201,17 @@
                     border: 1px solid #CCC;
                     border-radius: 2px;
                     box-shadow: none;
-                    cursor: pointer;
                     height: 16px;
                     width: 16px;
                     -webkit-appearance: none;
                     -moz-appearance: none;
                     appearance: none;
+                    transition: border-color 200ms ease;
+                }
+
+                .ui-checkbox:hover,
+                .ui-checkbox:focus {
+                    border-color: #537C3B;
                 }
 
                 .ui-checkbox-checked {
@@ -342,11 +352,14 @@
         <section class="ui-demo-section">
             <style>
                 .ui-progress-wrapper {
-                    height: 30px;
                     position: relative;
                 }
 
-                .ui-progress {
+                .progress-bar {
+                    height: 30px;
+                }
+
+                .progress-bar .ui-progress {
                     background: #537C3B;
                     border-radius: 2px;
                     position: absolute;
@@ -355,12 +368,78 @@
                     bottom: 0;
                 }
 
-                .ui-progress-label {
+                .progress-bar .ui-progress-label {
                     color: #FFF;
                     line-height: 30px;
                     padding-left: 10px;
                     position: relative;
+                    text-align: left;
                     z-index: 1;
+                }
+
+                .progress-meter {
+                    height: 100px;
+                    margin: 0 1em;
+                }
+
+                .progress-meter .ui-progress {
+                    background: #537C3B;
+                    border-radius: 2px;
+                    position: absolute;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                }
+
+                .progress-meter .ui-progress-label {
+                    color: #FFF;
+                    text-align: center;
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 5px;
+                    z-index: 1;
+                }
+
+                .progress-forest {
+                    margin: 0 auto;
+                    height: 100px;
+                }
+
+                .progress-forest .ui-progress {
+                    background: #FFF;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+
+                .progress-forest-tree {
+                    border-bottom-color: #537C3B;
+                    color: #53350A;
+                    font-weight: 700;
+                    line-height: 0;
+                    text-align: left;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                }
+
+                .progress-forest-tree::before,
+                .progress-forest-tree::after {
+                    content: '';
+                    position: absolute;
+                    border: 0.4em solid transparent;
+                    border-bottom-color: inherit;
+                    top: -0.9em;
+                    left: -0.25em;
+                }
+
+                .progress-forest-tree::after {
+                    top: -0.8em;
+                    border-width: 0.55em;
+                    margin-left: -0.15em;
                 }
             </style>
 
@@ -377,21 +456,76 @@
 
         <section class="ui-demo-section">
             <style>
+                .ui-typeahead-wrapper {
+                    position: relative;
+                }
+
+                .ui-typeahead,
+                .ui-typeahead-hint {
+                    border: 1px solid #333;
+                    padding: 0.5em 0.75em;
+                    width: 100%;
+                }
+
                 .ui-typeahead {
                     background: transparent;
+                    border: 1px solid #333;
                     position: relative;
                     z-index: 1;
+
+                    transition: border-color 200ms ease;
+                }
+
+                .ui-typeahead:hover,
+                .ui-typeahead:focus {
+                    border-color: #537C3B;
+                    outline: 0;
                 }
 
                 .ui-typeahead-hint {
+                    border-color: transparent;
                     color: gray;
                     position: absolute;
                     top: 0;
                     left: 0;
                 }
 
-                .ui-typeahead-wrapper {
-                    position: relative;
+                .ui-typeahead-match-wrapper {
+                    background: #FFF;
+                    box-shadow: 0 0 0 1px #CCC inset;
+                    max-height: 300px;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 100%;
+                }
+
+                .ui-typeahead-match {
+                    cursor: pointer;
+                    font-size: 13px;
+                    line-height: 1;
+                    padding: 0.25em 0.5em;
+                }
+
+                .ui-typeahead-match:hover {
+                    background-color: rgba(83, 124, 59, 0.2);
+                }
+
+                .ui-typeahead-match-selected,
+                .ui-typeahead-match-selected:hover {
+                    background-color: rgba(83, 124, 59, 0.9);
+                    color: #FFF;
+                }
+
+                .ui-typeahead-match-highlight {
+                    background-color: rgba(0, 0, 0, 0.15);
+                }
+
+                .ui-typeahead-match-selected .ui-typeahead-match-highlight {
+                    background-color: rgba(0, 0, 0, 0.3);
+                    color: #FFF;
                 }
             </style>
 

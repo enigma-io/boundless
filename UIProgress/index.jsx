@@ -13,7 +13,7 @@ class UIProgress extends UIView {
                 <div ref='progress'
                      className='ui-progress'
                      role='presentation'
-                     style={{[this.props.progressProperty]: this.props.progress + '%'}} />
+                     style={{[this.props.tweenProperty]: this.props.progress}} />
                 {this.renderLabel()}
                 {this.renderCancel()}
             </div>
@@ -31,10 +31,10 @@ class UIProgress extends UIView {
     }
 
     renderLabel() {
-        if (this.props.showProgressLabel) {
+        if (this.props.label) {
             return (
                 <div ref='label' className='ui-progress-label'>
-                    {this.props.progress}%
+                    {this.props.label}
                 </div>
             );
         }
@@ -42,8 +42,7 @@ class UIProgress extends UIView {
 }
 
 UIProgress.defaultProps = {
-    progress: 0,
-    progressProperty: 'width'
+    tweenProperty: 'width'
 };
 
 UIProgress.propTypes = {
@@ -51,10 +50,10 @@ UIProgress.propTypes = {
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
+    label: React.PropTypes.node,
     onCancel: React.PropTypes.func,
-    progress: React.PropTypes.number,
-    progressProperty: React.PropTypes.string,
-    showProgressLabel: React.PropTypes.bool
+    progress: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    tweenProperty: React.PropTypes.string
 };
 
 export default UIProgress;

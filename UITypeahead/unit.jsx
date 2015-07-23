@@ -180,7 +180,15 @@ describe('UITypeahead', () => {
     });
 
     describe('enter', () => {
-        it('should call the onComplete handler with the current value, if provided', () => {
+        it('should select the current entity match, if one exists', () => {
+            const typeahead = React.render(<UITypeahead entities={['apple', 'apricot']} defaultValue='ap' />, document.body);
+
+            typeahead.handleKeyDown({key: 'Enter', target: React.findDOMNode(typeahead.refs.input), nativeEvent: {preventDefault: _.noop}});
+
+            expect(typeahead.state.userInput).to.equal('apple');
+        });
+
+        it('should call the onComplete handler with the current value, if no entity match is displayed', () => {
             const stub = sandbox.stub();
             const typeahead = React.render(<UITypeahead onComplete={stub} defaultValue='ap' />, document.body);
 

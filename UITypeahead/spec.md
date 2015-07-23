@@ -48,7 +48,8 @@ Type | Context | Expectation
 **Keyboard** | `[Down]` | select the next available typeahead match, retain focus on input field, should not move cursor
 **Keyboard** | `[Up]` | select the previous typeahead match, retain focus on input field, should not move cursor
 **Keyboard** | `[Right, Tab]` | fill the currently-selected typeahead text into the input field, dismiss matches
-**Keyboard** | `[Enter]` | call `onComplete` if supplied
+**Keyboard** | `[Enter]` | select the current typeahead match if one exists; if no typeahead match, call `onComplete` if supplied
+**Keyboard** | `[Escape]` | clear typeahead matches if they exist
 **Mouse** | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
 
 #### Customization (via `props`)

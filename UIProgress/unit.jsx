@@ -27,7 +27,7 @@ describe('UIProgress', () => {
         });
 
         it('a specific style property to tween', () => {
-            const bar = React.render(<UIProgress progressProperty='height' />, document.body);
+            const bar = React.render(<UIProgress progress='0%' tweenProperty='height' />, document.body);
             const node = React.findDOMNode(bar.refs.progress);
 
             expect(node.getAttribute('style')).to.equal('height:0%;');
@@ -36,12 +36,12 @@ describe('UIProgress', () => {
 
     describe('progress', () => {
         it('should update as the prop is changed', () => {
-            const bar = React.render(<UIProgress />, document.body);
+            const bar = React.render(<UIProgress progress='0%' />, document.body);
             const node = React.findDOMNode(bar.refs.progress);
 
             expect(node.getAttribute('style')).to.equal('width:0%;');
 
-            React.render(<UIProgress progress={10} />, document.body);
+            React.render(<UIProgress progress='10%' />, document.body);
 
             expect(node.getAttribute('style')).to.equal('width: 10%;');
         });
@@ -67,8 +67,8 @@ describe('UIProgress', () => {
     });
 
     describe('progress label', () => {
-        it('should render if activated', () => {
-            const bar = React.render(<UIProgress showProgressLabel={true} />, document.body);
+        it('should render if provided', () => {
+            const bar = React.render(<UIProgress label='50%' />, document.body);
 
             expect(bar.refs.label).to.not.be.undefined;
         });

@@ -1,4 +1,4 @@
-import UIButton from '../UIButton'
+import UIButton from '../UIButton';
 import UIImage from './index.jsx';
 import UIView from '../UIView';
 import React from 'react';

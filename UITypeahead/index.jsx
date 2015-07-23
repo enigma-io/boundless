@@ -108,6 +108,7 @@ class UITypeahead extends UIView {
     setValue(newValue) {
         this.getInputNode().value = newValue;
 
+        this.setState({ userInput: newValue });
         this.resetMatches();
         this.focusInput();
     }
@@ -208,8 +209,20 @@ class UITypeahead extends UIView {
             this.focusInput();
             break;
 
+        case 'Escape':
+            if (this.state.selectedEntityIndex !== -1
+                && this.getInputNode() === event.target) {
+                this.resetMatches();
+            }
+
+            break;
+
         case 'Enter':
-            if (this.props.onComplete) {
+            if (this.state.selectedEntityIndex !== -1
+                && this.getInputNode() === event.target) {
+                event.nativeEvent.preventDefault();
+                this.setValue(this.getSelectedEntity());
+            } else if (this.props.onComplete) {
                 this.props.onComplete(this.state.userInput);
                 this.focusInput();
             }
