@@ -281,8 +281,10 @@ export default class UITypeaheadDemo extends UIView {
     }
 
     fuzzyMatch(userText, entities) {
+        let normalized = userText.toLowerCase();
+
         return entities.reduce(function findIndices(result, value, index) {
-            return value.indexOf(userText) !== -1 ? (result.push(index) && result) : result;
+            return value.toLowerCase().indexOf(normalized) !== -1 ? (result.push(index) && result) : result;
         }, []);
     }
 

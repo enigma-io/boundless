@@ -52,6 +52,7 @@ Type | Context | Expectation
 **Event** | window `focus` | should be cancelled if moving inside -> outside dialog (relatedTarget + explicitOriginalTarget)
 **Keyboard** | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
 **Mouse** | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
+**Mouse** | `Drag` | should move the dialog
 
 
 #### Customization (via `props`)
@@ -85,6 +86,5 @@ These core functionality `props` are handled separately and typechecked:
 
 - **onClose** `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
-
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>

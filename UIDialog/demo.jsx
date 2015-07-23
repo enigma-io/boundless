@@ -28,7 +28,7 @@ export default class UIDialogDemo extends UIView {
     render() {
         return (
             <div>
-                <UIButton ref='trigger' onClick={this.toggleDialog}>Launch Dialog</UIButton>
+                <UIButton ref='trigger' onClick={this.toggleDialog}>Launch Video</UIButton>
                 {this.renderDialog()}
             </div>
         );
@@ -36,12 +36,18 @@ export default class UIDialogDemo extends UIView {
 
     renderDialog() {
         if (this.state.showDialog) {
-            let okButton = <UIButton onClick={this.toggleDialog}>OK</UIButton>;
+            let closeButton = <UIButton onClick={this.toggleDialog}>Close</UIButton>;
 
             return (
-                <UIDialog headerContent='Test Dialog'
-                          bodyContent='Tweedle dee, TweedleDum'
-                          footerContent={okButton}
+                <UIDialog bodyContent={
+                            <iframe className='video-frame'
+                                    width='560'
+                                    height='315'
+                                    src='https://www.youtube.com/embed/jtnKv7GrOz0?autoplay=1&showinfo=0&autohide=1'
+                                    frameBorder='0'
+                                    allowFullScreen />
+                          }
+                          footerContent={closeButton}
                           closeOnEscKey={true}
                           closeOnOutsideClick={true}
                           onClose={this.toggleDialog}

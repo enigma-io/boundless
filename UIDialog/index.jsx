@@ -5,6 +5,7 @@ class UIDialog extends UIView {
     constructor(...args) {
         super(...args);
 
+        this.handleDrop = this.handleDrop.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -43,6 +44,7 @@ class UIDialog extends UIView {
         return (
             <div {...this.props}
                  className={this.getClassNames()}
+                 onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeydown}
                  role='dialog'
                  aria-labelledby={this.state.headerUUID}
