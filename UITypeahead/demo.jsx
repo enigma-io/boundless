@@ -1,6 +1,7 @@
 import UITypeahead from './index';
 import UIView from '../UIView';
 import React from 'react';
+import _ from 'lodash';
 
 export default class UITypeaheadDemo extends UIView {
     initialState() {
@@ -260,10 +261,43 @@ export default class UITypeaheadDemo extends UIView {
 
     render() {
         return (
-            <div>
-                <p>Please enter your country of origin:</p>
-                <UITypeahead entities={this.state.countries} showHint={true} />
+            <div className='ui-spread-even'>
+                <div>
+                    <h5>Starts-with matching</h5>
+                    <p>Please enter your country of origin:</p>
+                    <UITypeahead entities={this.state.countries}
+                                 showHint={true} />
+                </div>
+                <div style={{marginLeft: '1em'}}>
+                    <h5>Fuzzy matching</h5>
+                    <p>Please enter your country of origin:</p>
+                    <UITypeahead entities={this.state.countries}
+                                 showHint={true}
+                                 matchFunc={this.fuzzyMatch.bind(this)}
+                                 markFunc={this.markMultiple.bind(this)} />
+                </div>
             </div>
         );
+    }
+
+    fuzzyMatch(userText, entities) {
+        return entities.reduce(function findIndices(result, value, index) {
+            return value.indexOf(userText) !== -1 ? (result.push(index) && result) : result;
+        }, []);
+    }
+
+    markMultiple(entity, userText) {
+        let frags = entity.split(new RegExp(_.escapeRegExp(userText), 'ig'));
+        let threshold = frags.length - 1;
+        let i = -1;
+        let formed = [];
+
+        while (++i < threshold) {
+            formed.push(frags[i], <mark className='ui-typeahead-match-highlight'>{userText}</mark>);
+        }
+
+        formed.push(frags[i]); // last piece
+
+        return formed;
     }
 }

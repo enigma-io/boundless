@@ -3,6 +3,10 @@
         <meta charset="utf-8" />
         <title>UIKit Kitchen Sink</title>
         <style>
+            ::selection {
+                background-color: rgba(83,124,59,0.3);
+            }
+
             html {
                 font-family: sans-serif;
             }
@@ -157,6 +161,7 @@
                 .ui-button:focus {
                     border-color: #537C3B;
                     color: #537C3B;
+                    outline: 0;
                 }
 
                 .ui-button:active {
