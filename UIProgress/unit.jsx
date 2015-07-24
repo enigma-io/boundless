@@ -34,6 +34,37 @@ describe('UIProgress', () => {
         });
     });
 
+    describe('CSS hook', () => {
+        it('should be added to the wrapper element', () => {
+            const progress = React.render(<UIProgress />, document.body);
+            const node = React.findDOMNode(progress);
+
+            expect(node.className).to.contain('ui-progress-wrapper');
+        });
+
+        it('should be added to the core element', () => {
+            const progress = React.render(<UIProgress />, document.body);
+            const node = React.findDOMNode(progress.refs.progress);
+
+            expect(node.className).to.contain('ui-progress');
+        });
+
+        it('should be added to the cancel element', () => {
+            const stub = sandbox.stub();
+            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
+            const node = React.findDOMNode(progress.refs.cancel);
+
+            expect(node.className).to.contain('ui-progress-cancel');
+        });
+
+        it('should be added to the label element', () => {
+            const progress = React.render(<UIProgress label='xyz' />, document.body);
+            const node = React.findDOMNode(progress.refs.label);
+
+            expect(node.className).to.contain('ui-progress-label');
+        });
+    });
+
     describe('progress', () => {
         it('should update as the prop is changed', () => {
             const bar = React.render(<UIProgress progress='0%' />, document.body);

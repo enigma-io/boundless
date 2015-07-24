@@ -33,6 +33,13 @@ There are no expected user interactions. The component emits normal text and mer
 
 #### Customization (via `props`)
 
+Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
+
+- name
+- disabled
+- type
+- ...
+
 These core functionality `props` are handled separately and typechecked:
 
 - **className** `[String|Array<String>]`

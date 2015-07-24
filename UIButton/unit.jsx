@@ -14,25 +14,34 @@ describe('UIButton', () => {
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
             const button = React.render(<UIButton name='button1' id='button1' data-id='xr1' />, document.body);
-            const buttonNode = React.findDOMNode(button);
+            const node = React.findDOMNode(button);
 
-            expect(buttonNode.getAttribute('name')).to.equal('button1');
-            expect(buttonNode.getAttribute('id')).to.equal('button1');
-            expect(buttonNode.getAttribute('data-id')).to.equal('xr1');
+            expect(node.getAttribute('name')).to.equal('button1');
+            expect(node.getAttribute('id')).to.equal('button1');
+            expect(node.getAttribute('data-id')).to.equal('xr1');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
             const button = React.render(<UIButton className='big-button' />, document.body);
-            const buttonNode = React.findDOMNode(button);
+            const node = React.findDOMNode(button);
 
-            expect(buttonNode.getAttribute('class')).to.equal('ui-button big-button');
+            expect(node.className).to.equal('ui-button big-button');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
             const button = React.render(<UIButton className={['big-button', 'primary-button']} />, document.body);
-            const buttonNode = React.findDOMNode(button);
+            const node = React.findDOMNode(button);
 
-            expect(buttonNode.getAttribute('class')).to.equal('ui-button big-button primary-button');
+            expect(node.className).to.equal('ui-button big-button primary-button');
+        });
+    });
+
+    describe('CSS hook', () => {
+        it('should be rendered for the button', () => {
+            const button = React.render(<UIButton />, document.body);
+            const node = React.findDOMNode(button);
+
+            expect(node.className).to.contain('ui-button');
         });
     });
 

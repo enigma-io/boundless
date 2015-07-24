@@ -20,7 +20,10 @@ class UIText extends UIView {
 
     render() {
         return (
-            <span className={this.getClassNames()}>{this.props.children}</span>
+            <span {...this.props}
+                  className={this.getClassNames()}>
+                {this.props.children}
+            </span>
         );
     }
 

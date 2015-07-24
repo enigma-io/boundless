@@ -22,11 +22,11 @@ describe('UIImage', () => {
 
             image.setState({ status: UIImage.Constants.IMAGE_LOADED });
 
-            const imageNode = React.findDOMNode(image.refs.image);
+            const node = React.findDOMNode(image.refs.image);
 
-            expect(imageNode.getAttribute('src')).to.equal('http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9');
-            expect(imageNode.getAttribute('id')).to.equal('button1');
-            expect(imageNode.getAttribute('data-id')).to.equal('xr1');
+            expect(node.getAttribute('src')).to.equal('http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9');
+            expect(node.getAttribute('id')).to.equal('button1');
+            expect(node.getAttribute('data-id')).to.equal('xr1');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
@@ -36,9 +36,9 @@ describe('UIImage', () => {
                     src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
             );
 
-            const imageNode = React.findDOMNode(image);
+            const node = React.findDOMNode(image);
 
-            expect(imageNode.getAttribute('class')).to.equal('ui-image-wrapper hero-image');
+            expect(node.getAttribute('class')).to.equal('ui-image-wrapper hero-image');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
@@ -48,9 +48,21 @@ describe('UIImage', () => {
                     src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
             );
 
-            const imageNode = React.findDOMNode(image);
+            const node = React.findDOMNode(image);
 
-            expect(imageNode.getAttribute('class')).to.equal('ui-image-wrapper hero-image large-image');
+            expect(node.getAttribute('class')).to.equal('ui-image-wrapper hero-image large-image');
+        });
+    });
+
+    describe('CSS hook', () => {
+        it('should be added to the wrapper', () => {
+            const image = React.render(
+                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+            );
+
+            const node = React.findDOMNode(image);
+
+            expect(node.className).to.contain('ui-image-wrapper');
         });
     });
 

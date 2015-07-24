@@ -12,6 +12,14 @@ describe('UIText', () => {
     });
 
     describe('accepts', () => {
+        it('React-supported HTML attributes as passthrough attributes', () => {
+            const text = React.render(<UIText id='diag1' data-id='xr1' />, document.body);
+            const node = React.findDOMNode(text);
+
+            expect(node.getAttribute('id')).to.equal('diag1');
+            expect(node.getAttribute('data-id')).to.equal('xr1');
+        });
+
         it('an additional class as a string without replacing the core hook', () => {
             const text = React.render(<UIText className='red'>xyz</UIText>, document.body);
             const node = React.findDOMNode(text);

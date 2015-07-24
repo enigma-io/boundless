@@ -39,6 +39,7 @@ class UICheckboxGroup extends UIView {
                     ref='selectAll'
                     name='uikit-selectAll'
                     key='uikit-selectAll'
+                    className='ui-checkbox-group-selectall'
                     label={this.props.selectAllLabel}
                     checked={allChecked}
                     indeterminate={!allChecked && this.anyItemsChecked()}

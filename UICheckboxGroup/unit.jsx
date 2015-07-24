@@ -42,6 +42,22 @@ describe('UICheckboxGroup', () => {
         });
     });
 
+    describe('CSS hook', () => {
+        it('should be added to the container element', () => {
+            const group = React.render(<UICheckboxGroup items={items} />, document.body);
+            const node = React.findDOMNode(group);
+
+            expect(node.className).to.contain('ui-checkbox-group');
+        });
+
+        it('should be added to the "select all" element', () => {
+            const group = React.render(<UICheckboxGroup items={items} showSelectAll={true} />, document.body);
+            const node = React.findDOMNode(group.refs.selectAll);
+
+            expect(node.className).to.contain('ui-checkbox-group-selectall');
+        });
+    });
+
     describe('select all', () => {
         it('should not render if `showSelectAll` is falsy', () => {
             const group = React.render(<UICheckboxGroup items={items} />, document.body);

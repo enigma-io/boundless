@@ -22,6 +22,10 @@ class UICheckbox extends UIView {
     }
 
     getClassNames() {
+        return ['ui-checkbox-wrapper'].concat(this.props.className || []).join(' ');
+    }
+
+    getStatusClasses() {
         let classes = ['ui-checkbox'];
 
         if (this.props.indeterminate) {
@@ -37,7 +41,7 @@ class UICheckbox extends UIView {
 
     render() {
         return (
-            <div className='ui-checkbox-wrapper'>
+            <div className={this.getClassNames()}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -52,7 +56,7 @@ class UICheckbox extends UIView {
                 type='checkbox'
                 label={null}
                 id={this.state.uuid}
-                className={this.getClassNames()}
+                className={this.getStatusClasses()}
                 aria-checked={this.ariaState()}
                 checked={this.props.checked}
                 onChange={this.handleChange.bind(this)} />

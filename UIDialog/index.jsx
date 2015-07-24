@@ -5,7 +5,6 @@ class UIDialog extends UIView {
     constructor(...args) {
         super(...args);
 
-        this.handleDrop = this.handleDrop.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleOutsideClick = this.handleOutsideClick.bind(this);

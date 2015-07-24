@@ -58,6 +58,60 @@ describe('UITypeahead', () => {
         });
     });
 
+    describe('CSS hook', () => {
+        it('should be added for the container', () => {
+            const typeahead = React.render(<UITypeahead />, document.body);
+            const node = React.findDOMNode(typeahead);
+
+            expect(node.className).to.contain('ui-typeahead-wrapper');
+        });
+
+        it('should be added for the input', () => {
+            const typeahead = React.render(<UITypeahead />, document.body);
+            const node = React.findDOMNode(typeahead.refs.input);
+
+            expect(node.className).to.contain('ui-typeahead');
+        });
+
+        it('should be added for the input hint', () => {
+            const typeahead = React.render(<UITypeahead showHint={true} />, document.body);
+            const node = React.findDOMNode(typeahead.refs.hint);
+
+            expect(node.className).to.contain('ui-typeahead-hint');
+        });
+
+        it('should be added for the matches container', () => {
+            const typeahead = React.render(<UITypeahead defaultValue='ap' entities={['apple', 'apricot']} />, document.body);
+            const node = React.findDOMNode(typeahead.refs.matches);
+
+            expect(node.className).to.contain('ui-typeahead-match-wrapper');
+        });
+
+        it('should be added for each match', () => {
+            const typeahead = React.render(<UITypeahead defaultValue='ap' entities={['apple', 'apricot']} />, document.body);
+            const node = React.findDOMNode(typeahead.refs.matches);
+            const matches = node.querySelectorAll('.ui-typeahead-match');
+
+            expect(matches).to.have.length(2);
+        });
+
+        it('should be added for the currently selected match', () => {
+            const typeahead = React.render(<UITypeahead defaultValue='ap' entities={['apple', 'apricot']} />, document.body);
+            const node = React.findDOMNode(typeahead.refs.matches);
+            const matches = node.querySelectorAll('.ui-typeahead-match-selected');
+
+            expect(matches).to.have.length(1);
+        });
+
+        it('should be added for the marked text inside each match', () => {
+            const typeahead = React.render(<UITypeahead defaultValue='ap' entities={['apple', 'apricot']} />, document.body);
+            const node = React.findDOMNode(typeahead.refs.matches);
+            const matches = node.querySelectorAll('.ui-typeahead-match-highlight');
+
+            expect(matches).to.have.length(2);
+        });
+    });
+
     describe('input hint', () => {
         it('should render if `showHint` is truthy', () => {
             const typeahead = React.render(<UITypeahead showHint={true} />, document.body);

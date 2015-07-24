@@ -73,7 +73,7 @@ class UITypeahead extends UIView {
     renderMatches() {
         if (this.state.entityMatchIndices.length) {
             return (
-                <div className='ui-typeahead-match-wrapper'>
+                <div ref='matches' className='ui-typeahead-match-wrapper'>
                     {this.state.entityMatchIndices.map((index) => {
                         let entity = this.props.entities[index];
                         let classes = ['ui-typeahead-match'];
@@ -126,10 +126,14 @@ class UITypeahead extends UIView {
         let indexStart = entity.toLowerCase().indexOf(seekValue);
         let indexEnd = indexStart + seekValue.length;
 
+        let start = entity.slice(0, indexStart);
+        let middle = entity.slice(indexStart, indexEnd);
+        let end = entity.slice(indexEnd);
+
         return [
-            entity.slice(0, indexStart),
-            <mark className='ui-typeahead-match-highlight'>{entity.slice(indexStart, indexEnd)}</mark>,
-            entity.slice(indexEnd)
+            <span key={start}>{start}</span>,
+            <mark key={middle} className='ui-typeahead-match-highlight'>{middle}</mark>,
+            <span key={end}>{end}</span>
         ];
     }
 
