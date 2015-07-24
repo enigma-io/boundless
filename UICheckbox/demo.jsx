@@ -14,7 +14,7 @@ export default class UICheckboxDemo extends UIView {
                     onUnchecked={this.handleUnchecked} />
                 <UICheckbox
                     name='box2'
-                    label='An checked checkbox'
+                    label='A checked checkbox'
                     checked={true}
                     onChecked={this.handleChecked}
                     onUnchecked={this.handleUnchecked} />
