@@ -7,7 +7,7 @@ module.exports = {
     },
 
     files: [
-        './!(build|docs|artifacts)/unit.{js,jsx}'
+        './!(build|docs|artifacts|node_modules)/unit.{js,jsx}'
     ],
 
     frameworks: [
@@ -18,8 +18,7 @@ module.exports = {
     ],
 
     preprocessors: {
-        './!(build|docs|artifacts)/unit.{js,jsx}': ['browserify'],
-        './!(build|docs|artifacts)/index.{js,jsx}': ['browserify']
+        './!(build|docs|artifacts|node_modules)/{index,unit}.{js,jsx}': ['browserify']
     },
 
     reporters: ['mocha'],

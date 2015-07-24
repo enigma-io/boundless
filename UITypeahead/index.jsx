@@ -126,14 +126,10 @@ class UITypeahead extends UIView {
         let indexStart = entity.toLowerCase().indexOf(seekValue);
         let indexEnd = indexStart + seekValue.length;
 
-        let start = entity.slice(0, indexStart);
-        let middle = entity.slice(indexStart, indexEnd);
-        let end = entity.slice(indexEnd);
-
         return [
-            <span key={start}>{start}</span>,
-            <mark key={middle} className='ui-typeahead-match-highlight'>{middle}</mark>,
-            <span key={end}>{end}</span>
+            <span key='0'>{entity.slice(0, indexStart)}</span>,
+            <mark key='1' className='ui-typeahead-match-highlight'>{entity.slice(indexStart, indexEnd)}</mark>,
+            <span key='2'>{entity.slice(indexEnd)}</span>
         ];
     }
 
