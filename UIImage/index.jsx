@@ -1,6 +1,7 @@
 import UIView from '../UIView';
 import React from 'react';
-import _ from 'lodash';
+
+function noop() {}
 
 class UIImage extends UIView {
     initialState() {
@@ -9,21 +10,32 @@ class UIImage extends UIView {
         };
     }
 
-    getClassNames() {
-        return ['ui-image-wrapper'].concat(this.props.className).join(' ');
+    getImageClasses() {
+        return ['ui-image'].concat(this.props.className || []).join(' ');
     }
 
-    getStatusClass() {
+    getStatusClasses() {
+        let classes = ['ui-image-status'];
+
         switch (this.state.status) {
         case UIImage.Constants.IMAGE_LOADING:
-            return 'ui-image-loading';
+            classes.push('ui-image-loading');
+            break;
 
         case UIImage.Constants.IMAGE_LOADED:
-            return 'ui-image-loaded';
+            classes.push('ui-image-loaded');
+            break;
 
         case UIImage.Constants.IMAGE_ERROR:
-            return 'ui-image-error';
+            classes.push('ui-image-error');
+            break;
         }
+
+        return classes.concat(this.props.statusAttributes.className || []).join(' ');
+    }
+
+    getWrapperClasses() {
+        return ['ui-image-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -36,19 +48,16 @@ class UIImage extends UIView {
         this.preload();
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state);
-    }
-
     componentDidUpdate() {
         this.preload();
     }
 
     render() {
         return (
-            <div className={this.getClassNames()}>
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
                 {this.renderImage()}
-                <div className={this.getStatusClass()} role='presentation' />
+                {this.renderStatus()}
             </div>
         );
     }
@@ -56,22 +65,30 @@ class UIImage extends UIView {
     renderImage() {
         if (this.props.displayAsBackgroundImage) {
             return (
-                <div
-                    {...this.props}
-                    ref='image'
-                    className='ui-image'
-                    title={this.props.alt}
-                    style={{backgroundImage: 'url(' + this.props.src + ')'}} />
+                <div {...this.props}
+                     ref='image'
+                     className={this.getImageClasses()}
+                     alt={null}
+                     title={this.props.alt}
+                     style={{backgroundImage: 'url(' + this.props.src + ')'}} />
             );
         }
 
         return (
-            <img
-                {...this.props}
-                ref='image'
-                className='ui-image'
-                onLoad={_.noop}
-                onError={_.noop} />
+            <img {...this.props}
+                 ref='image'
+                 className={this.getImageClasses()}
+                 onLoad={noop}
+                 onError={noop} />
+        );
+    }
+
+    renderStatus() {
+        return (
+            <div {...this.props.statusAttributes}
+                 ref='status'
+                 className={this.getStatusClasses()}
+                 role='presentation' />
         );
     }
 
@@ -86,9 +103,9 @@ class UIImage extends UIView {
 }
 
 UIImage.Constants = {
-    IMAGE_LOADING: _.uniqueId(),
-    IMAGE_LOADED: _.uniqueId(),
-    IMAGE_ERROR: _.uniqueId()
+    IMAGE_LOADING: 'IMAGE_LOADING',
+    IMAGE_LOADED: 'IMAGE_LOADED',
+    IMAGE_ERROR: 'IMAGE_ERROR'
 };
 
 UIImage.propTypes = {
@@ -98,7 +115,14 @@ UIImage.propTypes = {
         React.PropTypes.string
     ]),
     displayAsBackgroundImage: React.PropTypes.bool,
-    src: React.PropTypes.string
+    src: React.PropTypes.string,
+    statusAttributes: React.PropTypes.object,
+    wrapperAttributes: React.PropTypes.object
+};
+
+UIImage.defaultProps = {
+    statusAttributes: {},
+    wrapperAttributes: {}
 };
 
 export default UIImage;
