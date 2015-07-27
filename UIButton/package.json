@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UIButton",
-  "description": "A generic button that supports single and double-click event handling.",
+  "description": "A clickable control with \"pressed\" state support.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

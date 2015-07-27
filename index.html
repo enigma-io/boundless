@@ -167,13 +167,18 @@
                     outline: 0;
                 }
 
-                .ui-button:active {
+                .ui-button:active,
+                .ui-button-pressed {
                     background: #537C3B;
-                    color: #FFF;
+                    color: #FFF !important;
                 }
 
                 .ui-button + .ui-button {
                     margin-left: 15px;
+                }
+
+                .ui-button-pressable {
+                    width: 100px;
                 }
 
                 .tall-button {

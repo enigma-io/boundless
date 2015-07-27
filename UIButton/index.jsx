@@ -1,16 +1,21 @@
 import UIView from '../UIView';
 import React from 'react';
-import _ from 'lodash';
+
+function noop() {}
 
 class UIButton extends UIView {
-    componentDidMount() {
-        if (this.props.autofocus) {
-            React.findDOMNode(this).focus();
-        }
-    }
-
     getClassNames() {
-        return ['ui-button'].concat(this.props.className).join(' ');
+        let classes = ['ui-button'];
+
+        if (typeof this.props.pressed !== 'undefined') {
+            classes.push('ui-button-pressable');
+        }
+
+        if (this.props.pressed) {
+            classes.push('ui-button-pressed');
+        }
+
+        return classes.concat(this.props.className || []).join(' ');
     }
 
     render() {
@@ -18,43 +23,51 @@ class UIButton extends UIView {
             <button
                 {...this.props}
                 className={this.getClassNames()}
-                onClick={this.handleClick.bind(this)}
-                onDoubleClick={_.noop}>
+                aria-pressed={this.props.pressed}
+                onKeyDown={this.handleKeyDown.bind(this)}
+                onClick={this.handleClick.bind(this)}>
                 {this.props.children}
             </button>
         );
     }
 
-    handleClick(event) {
-        event.persist();
+    toggleState() {
+        if (typeof this.props.pressed !== 'undefined') {
+            this.props[this.props.pressed ? 'onUnpressed' : 'onPressed']();
+        }
+    }
 
-        if (this.props.onDoubleClick) {
-            if (this.waiting) {
-                window.clearTimeout(this.waiting);
-                this.waiting = null;
+    handleClick() {
+        this.toggleState();
+        this.props.onClick();
+    }
 
-                this.props.onDoubleClick(event);
-            } else {
-                this.waiting = window.setTimeout((persistedEvent) => {
-                    this.props.onClick(persistedEvent);
-                    this.waiting = null;
-                }, 300, event);
-            }
-        } else {
-            this.props.onClick(event);
+    handleKeyDown(event) {
+        switch (event.key) {
+        case 'Enter':
+        case 'Space':
+            event.preventDefault();
+            this.toggleState();
         }
     }
 }
 
 UIButton.propTypes = {
-    autofocus: React.PropTypes.bool,
     children: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
     onClick: React.PropTypes.func,
-    onDoubleClick: React.PropTypes.func
+    onPressed: React.PropTypes.func,
+    onUnpressed: React.PropTypes.func,
+    pressed: React.PropTypes.bool
+};
+
+UIButton.defaultProps = {
+    onClick: noop,
+    onPressed: noop,
+    onUnpressed: noop
 };
 
 export default UIButton;
