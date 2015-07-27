@@ -94,13 +94,12 @@ UICheckboxGroup.propTypes = {
     ]),
     items: React.PropTypes.arrayOf(
         React.PropTypes.shape({
-            autofocus: React.PropTypes.bool,
             checked: React.PropTypes.bool.isRequired,
-            label: React.PropTypes.string,
+            labelContent: React.PropTypes.string,
             name: React.PropTypes.string.isRequired,
             value: React.PropTypes.string
         })
-    ),
+    ).isRequired,
     onAllChecked: React.PropTypes.func,
     onAllUnchecked: React.PropTypes.func,
     onChildChecked: React.PropTypes.func,

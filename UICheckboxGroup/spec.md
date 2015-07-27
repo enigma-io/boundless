@@ -1,41 +1,39 @@
-## Enigma Platform Team
-### `UIKit/UICheckboxGroup`
+# `UIKit/UICheckboxGroup`
+## A controller view for managing the aggregate state of multiple, related checkboxes.
 
-A controller view for managing the aggregate state of multiple, related checkboxes.
+Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/spec.md) for more details.
 
-#### Usage
+The most common use case for `UICheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `showSelectAll` prop.
 
-The content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape.
-
-```json
+```js
 {
     autofocus: "Boolean (optional)",
     checked: "Boolean",
-    label: "String (optional)",
+    labelContent: "String (optional)",
     name: "String",
     value: "String (optional)"
 }
 ```
 ```jsx
 let boxes = [{
-    label: 'ABC',
+    labelContent: 'ABC',
     value: 'DEF',
     name: 'GHI',
     checked: false
 }, {
-    label: 'JKL',
+    labelContent: 'JKL',
     value: 'MNO',
     name: 'PQR',
     checked: false
 }, {
-    label: 'STU',
+    labelContent: 'STU',
     value: 'VWX',
     name: 'YZ',
     checked: false
 }];
 
 return (
-        <UICheckboxGroup items={boxes} showSelectAll={true} />
+    <UICheckboxGroup items={boxes} showSelectAll={true} />
 );
 ```
 
@@ -62,19 +60,13 @@ Renders:
 </div>
 ```
 
-
 Styling of the element is provided via the class hooks:
 
 - `.ui-checkbox-group`
 - `.ui-checkbox-group-selectall`
 
 
-#### Usage Scenarios
-
-The most common case is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `showSelectAll` prop.
-
-
-#### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -84,22 +76,16 @@ Type | Context | Expectation
 **Mouse** | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
 
-#### Customization (via `props`)
+### Required `props`
 
 - **items** `Array<Object>`
-  the data wished to be rendered, must conform to a specific shape
+  the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/spec.md)
+
+
+### Optional `props`
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
-
-- **showSelectAll** `Boolean`
-  renders a master checkbox that can manipulate the values of all children simultaneously
-
-- **selectAllLabel** `String`
-  the text or renderable node to display next to the checkbox, defaults to "Select All"
-
-- **selectAllPosition** `Constant` (see [the implementation](index.jsx))
-  the rendering position of the "select all" checkbox, defaults to "before"
 
 - **onAllChecked** `Function`
   called when all children become checked (not fired on first render), no return
@@ -112,6 +98,15 @@ Type | Context | Expectation
 
 - **onChildUnchecked** `String`
   called when a specific child has become checked, returns the child definition
+
+- **selectAllLabel** `String`
+  the text or renderable node to display next to the checkbox, defaults to "Select All"
+
+- **selectAllPosition** `Constant` (see [the implementation](index.jsx))
+  the rendering position of the "select all" checkbox, defaults to "before"
+
+- **showSelectAll** `Boolean`
+  renders a master checkbox that can manipulate the values of all children simultaneously
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>
