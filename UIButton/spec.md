@@ -43,7 +43,7 @@ Type | Context | Expectation
 
 ### Optional `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the rendered element
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element

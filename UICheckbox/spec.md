@@ -48,7 +48,7 @@ Type | Context | Expectation
 
 ### Optional `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the rendered `<input>` element
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered `<input>` element
@@ -61,7 +61,7 @@ Type | Context | Expectation
 
 - **labelAttributes** `Object`
     - **labelAttributes.\***
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
 
 - **labelContent** `Node`
   any React-renderable content, most commonly a simple string
@@ -74,7 +74,7 @@ Type | Context | Expectation
 
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>

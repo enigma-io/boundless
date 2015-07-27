@@ -17,8 +17,20 @@ class UIDialog extends UIView {
         };
     }
 
-    getClassNames() {
-        return ['ui-dialog'].concat(this.props.className).join(' ');
+    getBodyClassNames() {
+        return ['ui-dialog-body'].concat(this.props.bodyAttributes.className || []).join(' ');
+    }
+
+    getFooterClassNames() {
+        return ['ui-dialog-footer'].concat(this.props.footerAttributes.className || []).join(' ');
+    }
+
+    getHeaderClassNames() {
+        return ['ui-dialog-header'].concat(this.props.headerAttributes.className || []).join(' ');
+    }
+
+    getRootClassNames() {
+        return ['ui-dialog'].concat(this.props.className || []).join(' ');
     }
 
     componentDidMount() {
@@ -42,7 +54,7 @@ class UIDialog extends UIView {
     render() {
         return (
             <div {...this.props}
-                 className={this.getClassNames()}
+                 className={this.getRootClassNames()}
                  onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeydown}
                  role='dialog'
@@ -56,21 +68,12 @@ class UIDialog extends UIView {
         );
     }
 
-    renderHeader() {
-        return (
-            <header ref='header'
-                    id={this.state.headerUUID}
-                    className='ui-dialog-header'>
-                {this.props.headerContent}
-            </header>
-        );
-    }
-
     renderBody() {
         return (
-            <div ref='body'
+            <div {...this.props.bodyAttributes}
+                 ref='body'
                  id={this.state.bodyUUID}
-                 className='ui-dialog-body'>
+                 className={this.getBodyClassNames()}>
                 {this.props.bodyContent}
             </div>
         );
@@ -78,10 +81,22 @@ class UIDialog extends UIView {
 
     renderFooter() {
         return (
-            <footer ref='footer'
-                    className='ui-dialog-footer'>
+            <footer {...this.props.footerAttributes}
+                    ref='footer'
+                    className={this.getFooterClassNames()}>
                 {this.props.footerContent}
             </footer>
+        );
+    }
+
+    renderHeader() {
+        return (
+            <header {...this.props.headerAttributes}
+                    ref='header'
+                    id={this.state.headerUUID}
+                    className={this.getHeaderClassNames()}>
+                {this.props.headerContent}
+            </header>
         );
     }
 
@@ -113,19 +128,25 @@ class UIDialog extends UIView {
 }
 
 UIDialog.propTypes = {
+    bodyAttributes: React.PropTypes.object,
+    bodyContent: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
-    headerContent: React.PropTypes.node,
-    bodyContent: React.PropTypes.node,
-    footerContent: React.PropTypes.node,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    footerAttributes: React.PropTypes.object,
+    footerContent: React.PropTypes.node,
+    headerAttributes: React.PropTypes.object,
+    headerContent: React.PropTypes.node,
     onClose: React.PropTypes.func
 };
 
 UIDialog.defaultProps = {
+    bodyAttributes: {},
+    footerAttributes: {},
+    headerAttributes: {},
     onClose: function noop() {}
 };
 

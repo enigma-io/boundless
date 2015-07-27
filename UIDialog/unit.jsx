@@ -12,47 +12,67 @@ describe('UIDialog', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const dialog = React.render(<UIDialog id='diag1' data-id='xr1' />, document.body);
+        it('React-supported HTML attributes as passthrough attributes to the root node', () => {
+            const dialog = React.render(<UIDialog data-id='foo' />, document.body);
             const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('id')).to.equal('diag1');
-            expect(node.getAttribute('data-id')).to.equal('xr1');
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('React-supported HTML attributes as passthrough attributes to the body node', () => {
+            const dialog = React.render(<UIDialog bodyAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const node = React.findDOMNode(dialog.refs.body);
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('React-supported HTML attributes as passthrough attributes to the footer node', () => {
+            const dialog = React.render(<UIDialog footerAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const node = React.findDOMNode(dialog.refs.footer);
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('React-supported HTML attributes as passthrough attributes to the header node', () => {
+            const dialog = React.render(<UIDialog headerAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const node = React.findDOMNode(dialog.refs.header);
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const dialog = React.render(<UIDialog className='abc' />, document.body);
+            const dialog = React.render(<UIDialog className='foo' />, document.body);
             const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-dialog abc');
+            expect(node.getAttribute('class')).to.equal('ui-dialog foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const dialog = React.render(<UIDialog className={['abc', '123']} />, document.body);
+            const dialog = React.render(<UIDialog className={['foo', 'bar']} />, document.body);
             const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-dialog abc 123');
+            expect(node.getAttribute('class')).to.equal('ui-dialog foo bar');
         });
 
         it('renderable header content', () => {
-            const dialog = React.render(<UIDialog headerContent='ABC123' />, document.body);
+            const dialog = React.render(<UIDialog headerContent='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.header);
 
-            expect(node.textContent).to.equal('ABC123');
+            expect(node.textContent).to.equal('foo');
         });
 
         it('renderable body content', () => {
-            const dialog = React.render(<UIDialog bodyContent='ABC123' />, document.body);
+            const dialog = React.render(<UIDialog bodyContent='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.body);
 
-            expect(node.textContent).to.equal('ABC123');
+            expect(node.textContent).to.equal('foo');
         });
 
         it('renderable footer content', () => {
-            const dialog = React.render(<UIDialog footerContent='ABC123' />, document.body);
+            const dialog = React.render(<UIDialog footerContent='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.footer);
 
-            expect(node.textContent).to.equal('ABC123');
+            expect(node.textContent).to.equal('foo');
         });
     });
 

@@ -54,7 +54,11 @@ Type | Context | Expectation
 
 ### Optional `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the `.ui-dialog` node
+
+- **bodyAttributes** `Object`
+    - **bodyAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
 
 - **bodyContent** `any renderable content`
   text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
@@ -68,8 +72,16 @@ Type | Context | Expectation
 - **closeOnOutsideClick** `Boolean`
   enable detection of clicks outside the dialog area to trigger `props.onClose`
 
+- **footerAttributes** `Object`
+    - **footerAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
+
 - **footerContent** `any renderable content`
   text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+
+- **headerAttributes** `Object`
+    - **headerAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
 
 - **headerContent** `any renderable content`
   text, ReactElements, etc. to represent the "title bar" area of the dialog
