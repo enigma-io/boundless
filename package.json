@@ -5,7 +5,6 @@
   "version": "0.0.1",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "dependencies": {
-    "lodash": "^3.10.0",
     "react": "~0.13.3"
   },
   "devDependencies": {
@@ -20,6 +19,7 @@
     "jsawk": "0.0.2",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "jsdoc-jsx": "^0.1.0",
+    "lodash": "^3.10.0",
     "karma": "^0.12.36",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "^0.2.0",
