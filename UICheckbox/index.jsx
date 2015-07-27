@@ -1,6 +1,8 @@
 import UIView from '../UIView';
 import React from 'react';
 
+function noop() {}
+
 class UICheckbox extends UIView {
     initialState() {
         return {
@@ -97,6 +99,7 @@ UICheckbox.propTypes = {
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
+    id: React.PropTypes.string,
     indeterminate: React.PropTypes.bool,
     labelAttributes: React.PropTypes.object,
     labelContent: React.PropTypes.node,
@@ -105,8 +108,6 @@ UICheckbox.propTypes = {
     onUnchecked: React.PropTypes.func,
     wrapperAttributes: React.PropTypes.object
 };
-
-function noop() { return; }
 
 UICheckbox.defaultProps = {
     checked: false,

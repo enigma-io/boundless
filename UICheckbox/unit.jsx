@@ -12,6 +12,27 @@ describe('UICheckbox', () => {
     });
 
     describe('accepts', () => {
+        it('React-supported HTML attributes as passthrough attributes to the rendered input', () => {
+            const box = React.render(<UICheckbox data-id='xr1' />, document.body);
+            const node = React.findDOMNode(box.refs.input);
+
+            expect(node.getAttribute('data-id')).to.equal('xr1');
+        });
+
+        it('React-supported HTML attributes as passthrough attributes to the rendered wrapper', () => {
+            const box = React.render(<UICheckbox wrapperAttributes={{ 'data-id': 'xr1' }} />, document.body);
+            const node = React.findDOMNode(box);
+
+            expect(node.getAttribute('data-id')).to.equal('xr1');
+        });
+
+        it('React-supported HTML attributes as passthrough attributes to the rendered label', () => {
+            const box = React.render(<UICheckbox labelAttributes={{ 'data-id': 'xr1' }} labelContent='foo' />, document.body);
+            const node = React.findDOMNode(box.refs.label);
+
+            expect(node.getAttribute('data-id')).to.equal('xr1');
+        });
+
         it('a default truthy value', () => {
             const box = React.render(<UICheckbox name='box1' checked={true} />, document.body);
             const node = React.findDOMNode(box.refs.input);
