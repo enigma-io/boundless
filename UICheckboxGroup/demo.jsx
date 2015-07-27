@@ -50,7 +50,7 @@ export default class UICheckboxGroupDemo extends UIView {
 
     renderFeedback() {
         if (_.any(this.state.items, {checked: true})) {
-            let liked = _.pluck(_.where(this.state.items, {checked: true}), 'label');
+            let liked = _.pluck(_.where(this.state.items, {checked: true}), 'labelContent');
             let lastIndex = liked.length - 1;
 
             return (
