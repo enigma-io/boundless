@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UIDialog",
-  "description": "A non-blocking implementation with header, body and footer support.",
+  "description": "A non-blocking, focus-stealing container.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

@@ -1,11 +1,9 @@
-## Enigma Platform Team
-### `UIKit/UIDialog`
-
-A non-blocking implementation with header, body and footer support.
-
-#### Usage
+# `UIKit/UIDialog`
+## A non-blocking, focus-stealing container.
 
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page) and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
+
+Specific areas (header, body, footer) are defined to provide easy conformance to the [WAI-ARIA spec](http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby` and `aria-describedby` (screen reader accessibility).
 
 ```jsx
 let footerButtons = [
@@ -44,7 +42,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-dialog-footer`
 
 
-#### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -54,34 +52,27 @@ Type | Context | Expectation
 **Mouse** | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
 
 
-#### Customization (via `props`)
+### Optional `props`
 
-Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
-
-- name
-- disabled
-- type
-- ...
-
-These core functionality `props` are handled separately and typechecked:
-
-- **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
-
-- **headerContent** `any renderable content`
-  text, ReactElements, etc. to represent the "title bar" area of the dialog
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element
 
 - **bodyContent** `any renderable content`
   text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
 
-- **footerContent** `any renderable content`
-  text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+- **className** `[String|Array<String>]`
+  additional CSS classes to be added to the rendered element, the core hook is not replaced
 
 - **closeOnEscKey** `Boolean`
   enable detection of "Escape" keypresses to trigger `props.onClose`
 
 - **closeOnOutsideClick** `Boolean`
   enable detection of clicks outside the dialog area to trigger `props.onClose`
+
+- **footerContent** `any renderable content`
+  text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+
+- **headerContent** `any renderable content`
+  text, ReactElements, etc. to represent the "title bar" area of the dialog
 
 - **onClose** `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
