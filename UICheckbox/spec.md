@@ -1,36 +1,35 @@
-## Enigma Platform Team
-### `UIKit/UICheckbox`
-
-A generic, accessible checkbox that supports indeterminate state.
-
-#### Usage
+# `UIKit/UICheckbox`
+##An accessible checkbox with indeterminate support.
 
 UICheckbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller view must intercept and apply against the data provider.
 
 ```jsx
 return (
-    <UICheckbox label='Save' checked={true} />
+    <UICheckbox checked={true}
+                labelAttributes={{ 'data-i18n': 'en-US' }}
+                labelContent='Save'
+                name='autosave'
+                wrapperAttributes={{ className: 'control-autosave' }} />
 );
 ```
 Renders:
 ```html
-<div>
-    <input id='XYZ' type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />
-    <label for='XYZ'>Save</label>
+<div class="ui-checkbox-wrapper control-autosave">
+    <input id="{uniqueId}" name="autosave" type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />
+    <label for="{uniqueId}" data-i18n="en-US">Save</label>
 </div>
 ```
 
 Styling of the element is provided via the class hooks:
 
 - `.ui-checkbox`
-- `.ui-checkbox-unchecked`
 - `.ui-checkbox-checked`
-- `.ui-checkbox-mixed`
 - `.ui-checkbox-label`
+- `.ui-checkbox-mixed`
 - `.ui-checkbox-wrapper`
 
 
-#### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -38,34 +37,44 @@ Type | Context | Expectation
 **Mouse** | `click` | should toggle the `checked` state
 
 
-#### Customization (via `props`)
-
-Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
-
-- name
-- disabled
-- type
-- ...
-
-These core functionality `props` are handled separately and typechecked:
+### Required `props`
 
 - **checked** `Boolean`
-  the default checked state of the checkbox (implemented as a ["controlled input"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+  determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
-- **label** `Node`
-  any React-renderable content, most commonly a simple string
+- **name** `String`
+  rendered as the input control's form name
+
+
+### Optional `props`
+
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the rendered `<input>` element
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
+  additional CSS classes to be added to the rendered `<input>` element
 
-- **autofocus** `Boolean`
-  programmatically focuses the element on first render (does not require HTML5 support)
+- **id** `String`
+  the string to be used for the rendered input HTML `id` and corresponding label `for` attributes; auto-generated if not provided
+
+- **indeterminate** `Boolean`
+  enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
+
+- **labelAttributes** `Object`
+    - **labelAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+- **labelContent** `Node`
+  any React-renderable content, most commonly a simple string
 
 - **onChecked** `Function`
-  called when the element's value becomes truthy
+  called when the element becomes checked; backing data must be updated to persist the state change
 
 - **onUnchecked** `Function`
-  called when the element's value becomes falsy
+  called when the element becomes unchecked; backing data must be updated to persist the state change
+
+- **wrapperAttributes** `Object`
+    - **wrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>

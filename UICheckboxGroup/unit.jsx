@@ -52,7 +52,7 @@ describe('UICheckboxGroup', () => {
 
         it('should be added to the "select all" element', () => {
             const group = React.render(<UICheckboxGroup items={items} showSelectAll={true} />, document.body);
-            const node = React.findDOMNode(group.refs.selectAll);
+            const node = React.findDOMNode(group.refs.selectAll.refs.input);
 
             expect(node.className).to.contain('ui-checkbox-group-selectall');
         });

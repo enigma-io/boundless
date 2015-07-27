@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UICheckbox",
-  "description": "A generic, accessible checkbox that supports indeterminate state.",
+  "description": "An accessible checkbox with indeterminate state support.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

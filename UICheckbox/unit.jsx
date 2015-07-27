@@ -14,7 +14,7 @@ describe('UICheckbox', () => {
     describe('accepts', () => {
         it('a default truthy value', () => {
             const box = React.render(<UICheckbox name='box1' checked={true} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.getAttribute('aria-checked')).to.equal('true');
             expect(node.hasAttribute('checked')).to.be.true;
@@ -22,21 +22,21 @@ describe('UICheckbox', () => {
 
         it('a default falsy value', () => {
             const box = React.render(<UICheckbox name='box1' checked={false} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.getAttribute('aria-checked')).to.equal('false');
             expect(node.hasAttribute('checked')).to.be.false;
         });
 
         it('a string label', () => {
-            const box = React.render(<UICheckbox name='box1' checked={false} label='Box1' />, document.body);
+            const box = React.render(<UICheckbox name='box1' checked={false} labelContent='Box1' />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.textContent).to.equal('Box1');
         });
 
         it('an element label', () => {
-            const box = React.render(<UICheckbox name='box1' checked={false} label={<p>Box1</p>} />, document.body);
+            const box = React.render(<UICheckbox name='box1' checked={false} labelContent={<p>Box1</p>} />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.textContent).to.equal('Box1');
@@ -52,7 +52,7 @@ describe('UICheckbox', () => {
         });
 
         it('should be added for the label element', () => {
-            const box = React.render(<UICheckbox label='xyz' />, document.body);
+            const box = React.render(<UICheckbox labelContent='xyz' />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.className).to.contain('ui-checkbox-label');
@@ -60,28 +60,28 @@ describe('UICheckbox', () => {
 
         it('should be added for the checkbox element', () => {
             const box = React.render(<UICheckbox />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.className).to.contain('ui-checkbox');
         });
 
         it('should be added when the checkbox value is truthy', () => {
             const box = React.render(<UICheckbox name='box1' checked={true} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.className).to.contain('ui-checkbox-checked');
         });
 
         it('should be added when the checkbox value is falsy', () => {
             const box = React.render(<UICheckbox name='box1' checked={false} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.className).to.contain('ui-checkbox-unchecked');
         });
 
         it('should be added when the checkbox is indeterminate', () => {
             const box = React.render(<UICheckbox name='box1' checked={true} indeterminate={true} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
+            const node = React.findDOMNode(box.refs.input);
 
             expect(node.className).to.contain('ui-checkbox-mixed');
         });
@@ -110,20 +110,11 @@ describe('UICheckbox', () => {
     describe('clicking on the label', () => {
         it('should toggle the checkbox state', () => {
             const stub = sandbox.stub();
-            const box = React.render(<UICheckbox name='box1' label='test' onChecked={stub} />, document.body);
+            const box = React.render(<UICheckbox name='box1' labelContent='test' onChecked={stub} />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             node.click();
             expect(stub).to.have.been.calledOnce;
-        });
-    });
-
-    describe('autofocus', () => {
-        it('should appropriately set focus on first render', () => {
-            const box = React.render(<UICheckbox name='box1' autofocus={true} checked={false} />, document.body);
-            const node = React.findDOMNode(box.refs.checkbox);
-
-            expect(document.activeElement).to.equal(node);
         });
     });
 });
