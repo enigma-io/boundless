@@ -8,23 +8,23 @@ export default class UICheckboxGroupDemo extends UIView {
         return {
             items: [{
                 checked: false,
-                label: 'Science',
+                labelContent: 'Science',
                 name: 'likes-science'
             }, {
                 checked: false,
-                label: 'Mathematics',
+                labelContent: 'Mathematics',
                 name: 'likes-math'
             }, {
                 checked: false,
-                label: 'Technology',
+                labelContent: 'Technology',
                 name: 'likes-tech'
             }, {
                 checked: false,
-                label: 'Art',
+                labelContent: 'Art',
                 name: 'likes-art'
             }, {
                 checked: false,
-                label: 'Sports',
+                labelContent: 'Sports',
                 name: 'likes-sports'
             }]
         };
