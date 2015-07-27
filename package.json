@@ -1,6 +1,6 @@
 {
   "name": "UIKit",
-  "description": "pure, accessible elements for use in React projects",
+  "description": "Pure, accessible elements for use in React projects.",
   "private": true,
   "version": "0.0.1",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
