@@ -25,9 +25,9 @@ export default class UIProgressDemo extends UIView {
             <div className='ui-spread-even ui-align-end ui-center'>
                 <figure>
                     <UIProgress ref='bar'
-                                className='progress-bar'
                                 labelContent={`${this.state.barProgress}%`}
-                                progress={`${this.state.barProgress}%`} />
+                                progress={`${this.state.barProgress}%`}
+                                wrapperAttributes={{ className: 'progress-bar' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'bar')}
                               style={{marginTop: '1rem'}}>
                         Reset
@@ -35,10 +35,10 @@ export default class UIProgressDemo extends UIView {
                 </figure>
                 <figure>
                     <UIProgress ref='meter'
-                                className='progress-meter'
                                 labelContent={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
-                                tweenProperty='height' />
+                                tweenProperty='height'
+                                wrapperAttributes={{ className: 'progress-meter' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'meter')}
                               style={{marginTop: '1rem'}}>
                         Reset
@@ -46,10 +46,10 @@ export default class UIProgressDemo extends UIView {
                 </figure>
                 <figure>
                     <UIProgress ref='forest'
-                                className='progress-forest'
                                 labelContent={this.state.trees}
                                 progress={100 - this.state.forestProgress}
-                                tweenProperty='zIndex' />
+                                tweenProperty='zIndex'
+                                wrapperAttributes={{ className: 'progress-forest' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'forest')}
                               style={{marginTop: '1rem'}}>
                         Reset
