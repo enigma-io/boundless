@@ -36,7 +36,7 @@ export default class UICheckboxGroupDemo extends UIView {
                 <p>What subjects are you interested in?</p>
                 <UICheckboxGroup
                     items={this.state.items}
-                    showSelectAll={true}
+                    selectAll={true}
                     selectAllLabel='All of the above'
                     selectAllPosition={UICheckboxGroup.Constants.SELECT_ALL_AFTER}
                     onAllChecked={this.handleAllChecked.bind(this)}

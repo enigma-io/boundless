@@ -42,6 +42,7 @@
     "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIModal": "./UIModal/index.jsx",
     "UIKit/UIProgress": "./UIProgress/index.jsx",
+    "UIKit/UIRadio": "./UIRadio/index.jsx",
     "UIKit/UIText": "./UIText/index.jsx",
     "UIKit/UITypeahead": "./UITypeahead/index.jsx",
     "UIKit/UIView": "./UIView/index.js"

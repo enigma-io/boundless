@@ -105,6 +105,7 @@
 
             .ui-spread-even {
                 display: flex;
+                align-items: flex-start;
             }
 
             .ui-spread-even > * {
@@ -134,6 +135,7 @@
                 <a class="ui-demo-nav-item" href="#ui-list">UIList</a>
                 <a class="ui-demo-nav-item" href="#ui-modal">UIModal</a>
                 <a class="ui-demo-nav-item" href="#ui-progress">UIProgress</a>
+                <a class="ui-demo-nav-item" href="#ui-radio">UIRadio</a>
                 <a class="ui-demo-nav-item" href="#ui-text">UIText</a>
                 <a class="ui-demo-nav-item" href="#ui-typeahead">UITypeahead</a>
             </nav>
@@ -148,6 +150,7 @@
                     color: #333;
                     cursor: pointer;
                     font-size: 14px;
+                    overflow: hidden;
                     padding: 0.5rem 0.75rem;
                     vertical-align: middle;
                     white-space: nowrap;
@@ -194,11 +197,6 @@
             <style>
                 .ui-checkbox-wrapper {
                     display: flex;
-                    align-items: center;
-                }
-
-                .ui-checkbox-wrapper + .ui-checkbox-wrapper {
-                    margin-top: 0.25rem;
                 }
 
                 .ui-checkbox,
@@ -207,18 +205,23 @@
                 }
 
                 .ui-checkbox-label {
-                    padding-left: 0.25rem;
+                    line-height: 1.1;
+                    padding-left: 0.25em;
                 }
 
                 .ui-checkbox {
-                    border: 1px solid #CCC;
-                    border-radius: 2px;
-                    box-shadow: none;
-                    height: 16px;
-                    width: 16px;
                     -webkit-appearance: none;
                     -moz-appearance: none;
                     appearance: none;
+
+                    border: 1px solid #CCC;
+                    border-radius: 2px;
+                    box-shadow: none;
+                    flex-shrink: 0;
+                    margin: 0 3px 0;
+                    padding: 0;
+                    height: 16px;
+                    width: 16px;
                     transition: border-color 200ms ease;
                 }
 
@@ -258,6 +261,10 @@
                     -webkit-columns: 3;
                     -moz-columns: 3;
                     columns: 3;
+                }
+
+                .ui-checkbox-group .ui-checkbox-wrapper + .ui-checkbox-wrapper {
+                    padding-top: 0.5em;
                 }
             </style>
 
@@ -505,6 +512,54 @@
 
             <h3 class="ui-demo-section-title">UIProgress</h3>
             <article class="ui-demo-section-example" id="ui-progress"></article>
+        </section>
+
+        <section class="ui-demo-section">
+            <style>
+                .ui-radio-wrapper {
+                    display: flex;
+                }
+
+                .ui-radio,
+                .ui-radio-label {
+                    cursor: pointer;
+                }
+
+                .ui-radio {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+
+                    background: transparent;
+                    border: 1px solid #CCC;
+                    border-radius: 50%;
+                    flex-shrink: 0;
+                    margin: 1px 3px 0;
+                    padding: 0;
+                    height: 16px;
+                    width: 16px;
+
+                    transition: border-color 200ms ease;
+                }
+
+                .ui-radio:hover,
+                .ui-radio:focus {
+                    border-color: #537C3B;
+                }
+
+                .ui-radio-selected {
+                    background-color: #537C3B;
+                    box-shadow: 0 0 0 1px #FFF inset;
+                }
+
+                .ui-radio-label {
+                    line-height: 1.2;
+                    margin-left: 0.25em;
+                }
+            </style>
+
+            <h3 class="ui-demo-section-title">UIRadio</h3>
+            <article class="ui-demo-section-example" id="ui-radio"></article>
         </section>
 
         <section class="ui-demo-section">
