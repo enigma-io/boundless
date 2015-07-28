@@ -1,5 +1,5 @@
-# `UIKit/UIImage`
-## An image block with placeholder support for loading and fallback scenarios.
+## `UIKit/UIImage`
+### An image block with placeholder support for loading and fallback scenarios.
 
 ```jsx
 return (
@@ -27,7 +27,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-image-error`
 
 
-### Expected Interactions
+#### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -35,13 +35,13 @@ Type | Context | Expectation
 **Mouse** | `click` | should trigger the onClick handler
 
 
-### Required `props`
+#### Required `props`
 
 - **src** `String`
   a valid path to the desired image
 
 
-### Optional `props`
+#### Optional `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
 

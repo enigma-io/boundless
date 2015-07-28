@@ -1,5 +1,5 @@
-# `UIKit/UIModal`
-## A blocking, focus-stealing container.
+## `UIKit/UIModal`
+### A blocking, focus-stealing container.
 
 A modal is an enhancement upon a [dialog](../UIDialog/spec.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
@@ -39,12 +39,12 @@ Styling of the element will be provided via the class hooks:
 - `.ui-modal-wrapper`
 
 
-### Expected Interactions
+#### Expected Interactions
 
 Refer to [UIDialog](../UIDialog/spec.md)
 
 
-### Optional `props`
+#### Optional `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
 

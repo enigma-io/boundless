@@ -1,5 +1,5 @@
-# `UIKit/UIButton`
-## A clickable control with "pressed" state support.
+## `UIKit/UIButton`
+### A clickable control with "pressed" state support.
 
 ```jsx
 let BOLD_LABEL = 'Press to activate bolding on the selected text and new input.';
@@ -30,7 +30,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-button-pressed`
 
 
-### Expected Interactions
+#### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -41,7 +41,7 @@ Type | Context | Expectation
 **Mouse** | `click` (pressed) | trigger the `onUnpressed` handler
 
 
-### Optional `props`
+#### Optional `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
