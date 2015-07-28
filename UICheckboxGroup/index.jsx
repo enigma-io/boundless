@@ -8,10 +8,14 @@ class UICheckboxGroup extends UIView {
         return ['ui-checkbox-group'].concat(this.props.className || []).join(' ');
     }
 
+    getSelectAllClasses() {
+        return ['ui-checkbox-group-selectall'].concat(this.props.selectAllAttributes.className || []).join(' ');
+    }
+
     render() {
         let toBeRendered = [this.renderCheckboxes()];
 
-        if (this.props.showSelectAll && this.props.selectAllPosition) {
+        if (this.props.selectAll && this.props.selectAllPosition) {
             switch (this.props.selectAllPosition) {
             case UICheckboxGroup.Constants.SELECT_ALL_BEFORE:
                 toBeRendered.unshift(this.renderSelectAll());
@@ -31,20 +35,20 @@ class UICheckboxGroup extends UIView {
     }
 
     renderSelectAll() {
-        if (this.props.showSelectAll) {
+        if (this.props.selectAll) {
             let allChecked = this.allItemsChecked();
 
             return (
-                <UICheckbox
-                    ref='selectAll'
-                    name='uikit-selectAll'
-                    key='uikit-selectAll'
-                    checked={allChecked}
-                    className='ui-checkbox-group-selectall'
-                    indeterminate={!allChecked && this.anyItemsChecked()}
-                    labelContent={this.props.selectAllLabel}
-                    onChecked={this.props.onAllChecked}
-                    onUnchecked={this.props.onAllUnchecked} />
+                <UICheckbox {...this.props.selectAllAttributes}
+                            ref='selectAll'
+                            name='uikit-selectAll'
+                            key='uikit-selectAll'
+                            checked={allChecked}
+                            className={this.getSelectAllClasses()}
+                            indeterminate={!allChecked && this.anyItemsChecked()}
+                            label={this.props.selectAllLabel}
+                            onChecked={this.props.onAllChecked}
+                            onUnchecked={this.props.onAllUnchecked} />
             );
         }
     }
@@ -76,18 +80,7 @@ UICheckboxGroup.Constants = {
     SELECT_ALL_AFTER: _.uniqueId()
 };
 
-UICheckboxGroup.defaultProps = {
-    items: [],
-    onAllChecked: _.noop,
-    onAllUnchecked: _.noop,
-    onChildChecked: _.noop,
-    onChildUnchecked: _.noop,
-    selectAllLabel: 'Select All',
-    selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE
-};
-
 UICheckboxGroup.propTypes = {
-    autofocus: React.PropTypes.oneOf(React.PropTypes.bool, React.PropTypes.number),
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
@@ -95,7 +88,7 @@ UICheckboxGroup.propTypes = {
     items: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             checked: React.PropTypes.bool.isRequired,
-            labelContent: React.PropTypes.string,
+            label: React.PropTypes.string,
             name: React.PropTypes.string.isRequired,
             value: React.PropTypes.string
         })
@@ -104,12 +97,24 @@ UICheckboxGroup.propTypes = {
     onAllUnchecked: React.PropTypes.func,
     onChildChecked: React.PropTypes.func,
     onChildUnchecked: React.PropTypes.func,
+    selectAll: React.PropTypes.bool,
+    selectAllAttributes: React.PropTypes.object,
     selectAllLabel: React.PropTypes.string,
     selectAllPosition: React.PropTypes.oneOf([
         UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
         UICheckboxGroup.Constants.SELECT_ALL_AFTER
-    ]),
-    showSelectAll: React.PropTypes.bool
+    ])
+};
+
+UICheckboxGroup.defaultProps = {
+    items: [],
+    onAllChecked: _.noop,
+    onAllUnchecked: _.noop,
+    onChildChecked: _.noop,
+    onChildUnchecked: _.noop,
+    selectAllAttributes: {},
+    selectAllLabel: 'Select All',
+    selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE
 };
 
 export default UICheckboxGroup;

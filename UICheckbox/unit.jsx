@@ -27,7 +27,7 @@ describe('UICheckbox', () => {
         });
 
         it('React-supported HTML attributes as passthrough attributes to the rendered label', () => {
-            const box = React.render(<UICheckbox labelAttributes={{ 'data-id': 'foo' }} labelContent='foo' />, document.body);
+            const box = React.render(<UICheckbox labelAttributes={{ 'data-id': 'foo' }} label='foo' />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
@@ -50,14 +50,14 @@ describe('UICheckbox', () => {
         });
 
         it('a string label', () => {
-            const box = React.render(<UICheckbox name='foo' checked={false} labelContent='foo' />, document.body);
+            const box = React.render(<UICheckbox name='foo' checked={false} label='foo' />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('an element label', () => {
-            const box = React.render(<UICheckbox name='foo' checked={false} labelContent={<p>foo</p>} />, document.body);
+            const box = React.render(<UICheckbox name='foo' checked={false} label={<p>foo</p>} />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             expect(node.textContent).to.equal('foo');
@@ -72,7 +72,7 @@ describe('UICheckbox', () => {
         });
 
         it('ui-checkbox-label should be rendered', () => {
-            const box = React.render(<UICheckbox labelContent='foo' />, document.body);
+            const box = React.render(<UICheckbox label='foo' />, document.body);
 
             expect(box.getLabelClasses()).to.contain('ui-checkbox-label');
         });
@@ -125,7 +125,7 @@ describe('UICheckbox', () => {
     describe('clicking on the label', () => {
         it('should toggle the checkbox state', () => {
             const stub = sandbox.stub();
-            const box = React.render(<UICheckbox name='foo' labelContent='test' onChecked={stub} />, document.body);
+            const box = React.render(<UICheckbox name='foo' label='test' onChecked={stub} />, document.body);
             const node = React.findDOMNode(box.refs.label);
 
             node.click();

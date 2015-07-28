@@ -90,7 +90,7 @@ describe('UIProgress', () => {
 
     describe('progress label', () => {
         it('should render if provided', () => {
-            const progress = React.render(<UIProgress labelContent='50%' />, document.body);
+            const progress = React.render(<UIProgress label='50%' />, document.body);
 
             expect(progress.refs.label).to.not.be.undefined;
         });

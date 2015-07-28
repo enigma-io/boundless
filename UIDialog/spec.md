@@ -12,9 +12,9 @@ let footerButtons = [
 ];
 
 return (
-    <UIDialog headerContent='My Dialog'
-              bodyContent='Testing 123'
-              footerContent={footerButtons}
+    <UIDialog header='My Dialog'
+              body='Testing 123'
+              footer={footerButtons}
               closeOnEscKey={true}
               closeOnOutsideClick={true}
               onClose={this.handleCancel} />
@@ -56,12 +56,12 @@ Type | Context | Expectation
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the `.ui-dialog` node
 
+- **body** `any renderable content`
+  text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
+
 - **bodyAttributes** `Object`
     - **bodyAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
-
-- **bodyContent** `any renderable content`
-  text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
@@ -72,19 +72,19 @@ Type | Context | Expectation
 - **closeOnOutsideClick** `Boolean`
   enable detection of clicks outside the dialog area to trigger `props.onClose`
 
+- **footer** `any renderable content`
+  text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+
 - **footerAttributes** `Object`
     - **footerAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
 
-- **footerContent** `any renderable content`
-  text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+- **header** `any renderable content`
+  text, ReactElements, etc. to represent the "title bar" area of the dialog
 
 - **headerAttributes** `Object`
     - **headerAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
-
-- **headerContent** `any renderable content`
-  text, ReactElements, etc. to represent the "title bar" area of the dialog
 
 - **onClose** `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`

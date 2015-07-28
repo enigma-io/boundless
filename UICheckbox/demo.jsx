@@ -33,7 +33,7 @@ export default class UICheckboxDemo extends UIView {
                     return (
                         <UICheckbox {...definition}
                                     key={definition.name}
-                                    labelContent={definition.label}
+                                    label={definition.label}
                                     onChecked={boundFunc}
                                     onUnchecked={boundFunc} />
                     );

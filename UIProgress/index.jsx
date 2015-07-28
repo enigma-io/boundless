@@ -47,12 +47,12 @@ class UIProgress extends UIView {
     }
 
     renderLabel() {
-        if (this.props.labelContent) {
+        if (this.props.label) {
             return (
                 <div {...this.props.labelAttributes}
                      ref='label'
                      className={this.getLabelClasses()}>
-                    {this.props.labelContent}
+                    {this.props.label}
                 </div>
             );
         }
@@ -72,8 +72,8 @@ UIProgress.propTypes = {
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
+    label: React.PropTypes.node,
     labelAttributes: React.PropTypes.object,
-    labelContent: React.PropTypes.node,
     onCancel: React.PropTypes.func,
     progress: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     tweenProperty: React.PropTypes.string,

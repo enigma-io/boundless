@@ -35,9 +35,9 @@ export default class UIModalDemo extends UIView {
             ];
 
             return (
-                <UIModal headerContent='Account Deletion'
-                         bodyContent='Are you sure you want to remove your account permanently?'
-                         footerContent={buttons} />
+                <UIModal header='Account Deletion'
+                         body='Are you sure you want to remove your account permanently?'
+                         footer={buttons} />
             );
         }
     }

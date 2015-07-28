@@ -39,7 +39,7 @@ export default class UIDialogDemo extends UIView {
             let closeButton = <UIButton onClick={this.toggleDialog}>Close</UIButton>;
 
             return (
-                <UIDialog bodyContent={
+                <UIDialog body={
                             <iframe className='video-frame'
                                     width='560'
                                     height='315'
@@ -47,7 +47,7 @@ export default class UIDialogDemo extends UIView {
                                     frameBorder='0'
                                     allowFullScreen />
                           }
-                          footerContent={closeButton}
+                          footer={closeButton}
                           closeOnEscKey={true}
                           closeOnOutsideClick={true}
                           onClose={this.toggleDialog}

@@ -3,37 +3,37 @@
 
 Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/spec.md) for more details.
 
-The most common use case for `UICheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `showSelectAll` prop.
+The most common use case for `UICheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `selectAll` prop.
 
 ```js
 {
     autofocus: "Boolean (optional)",
     checked: "Boolean",
-    labelContent: "String (optional)",
+    label: "String (optional)",
     name: "String",
     value: "String (optional)"
 }
 ```
 ```jsx
 let boxes = [{
-    labelContent: 'ABC',
+    label: 'ABC',
     value: 'DEF',
     name: 'GHI',
     checked: false
 }, {
-    labelContent: 'JKL',
+    label: 'JKL',
     value: 'MNO',
     name: 'PQR',
     checked: false
 }, {
-    labelContent: 'STU',
+    label: 'STU',
     value: 'VWX',
     name: 'YZ',
     checked: false
 }];
 
 return (
-    <UICheckboxGroup items={boxes} showSelectAll={true} />
+    <UICheckboxGroup items={boxes} selectAll={true} />
 );
 ```
 
@@ -99,14 +99,18 @@ Type | Context | Expectation
 - **onChildUnchecked** `String`
   called when a specific child has become checked, returns the child definition
 
+- **selectAll** `Boolean`
+  renders a master checkbox that can manipulate the values of all children simultaneously
+
+- **selectAllAttributes** `Object`
+    - **selectAllAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group-selectall` node
+
 - **selectAllLabel** `String`
   the text or renderable node to display next to the checkbox, defaults to "Select All"
 
 - **selectAllPosition** `Constant` (see [the implementation](index.jsx))
   the rendering position of the "select all" checkbox, defaults to "before"
-
-- **showSelectAll** `Boolean`
-  renders a master checkbox that can manipulate the values of all children simultaneously
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>

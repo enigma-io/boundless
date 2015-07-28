@@ -8,23 +8,23 @@ export default class UICheckboxGroupDemo extends UIView {
         return {
             items: [{
                 checked: false,
-                labelContent: 'Science',
+                label: 'Science',
                 name: 'likes-science'
             }, {
                 checked: false,
-                labelContent: 'Mathematics',
+                label: 'Mathematics',
                 name: 'likes-math'
             }, {
                 checked: false,
-                labelContent: 'Technology',
+                label: 'Technology',
                 name: 'likes-tech'
             }, {
                 checked: false,
-                labelContent: 'Art',
+                label: 'Art',
                 name: 'likes-art'
             }, {
                 checked: false,
-                labelContent: 'Sports',
+                label: 'Sports',
                 name: 'likes-sports'
             }]
         };
@@ -50,7 +50,7 @@ export default class UICheckboxGroupDemo extends UIView {
 
     renderFeedback() {
         if (_.any(this.state.items, {checked: true})) {
-            let liked = _.pluck(_.where(this.state.items, {checked: true}), 'labelContent');
+            let liked = _.pluck(_.where(this.state.items, {checked: true}), 'label');
             let lastIndex = liked.length - 1;
 
             return (

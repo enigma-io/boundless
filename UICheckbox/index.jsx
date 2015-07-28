@@ -68,13 +68,13 @@ class UICheckbox extends UIView {
     }
 
     renderLabel() {
-        if (this.props.labelContent) {
+        if (this.props.label) {
             return (
                 <label {...this.props.labelAttributes}
                        ref='label'
                        className={this.getLabelClasses()}
                        htmlFor={this.state.uuid}>
-                    {this.props.labelContent}
+                    {this.props.label}
                 </label>
             );
         }
@@ -101,8 +101,8 @@ UICheckbox.propTypes = {
     ]),
     id: React.PropTypes.string,
     indeterminate: React.PropTypes.bool,
+    label: React.PropTypes.node,
     labelAttributes: React.PropTypes.object,
-    labelContent: React.PropTypes.node,
     name: React.PropTypes.string,
     onChecked: React.PropTypes.func,
     onUnchecked: React.PropTypes.func,

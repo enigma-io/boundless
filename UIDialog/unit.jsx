@@ -53,21 +53,21 @@ describe('UIDialog', () => {
         });
 
         it('renderable header content', () => {
-            const dialog = React.render(<UIDialog headerContent='foo' />, document.body);
+            const dialog = React.render(<UIDialog header='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.header);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('renderable body content', () => {
-            const dialog = React.render(<UIDialog bodyContent='foo' />, document.body);
+            const dialog = React.render(<UIDialog body='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.body);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('renderable footer content', () => {
-            const dialog = React.render(<UIDialog footerContent='foo' />, document.body);
+            const dialog = React.render(<UIDialog footer='foo' />, document.body);
             const node = React.findDOMNode(dialog.refs.footer);
 
             expect(node.textContent).to.equal('foo');

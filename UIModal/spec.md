@@ -10,9 +10,9 @@ let footerButtons = [
 ];
 
 return (
-    <UIModal headerContent='My Dialog'
-             bodyContent='Testing 123'
-             footerContent={footerButtons} />
+    <UIModal header='My Dialog'
+             body='Testing 123'
+             footer={footerButtons} />
 );
 ```
 

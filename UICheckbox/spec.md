@@ -6,8 +6,8 @@ UICheckbox is implemented as a "controlled input", meaning it is a direct repres
 ```jsx
 return (
     <UICheckbox checked={true}
+                label='Save'
                 labelAttributes={{ 'data-i18n': 'en-US' }}
-                labelContent='Save'
                 name='autosave'
                 wrapperAttributes={{ className: 'control-autosave' }} />
 );
@@ -59,12 +59,12 @@ Type | Context | Expectation
 - **indeterminate** `Boolean`
   enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
 
+- **label** `Node`
+  any React-renderable content, most commonly a simple string
+
 - **labelAttributes** `Object`
     - **labelAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
-
-- **labelContent** `Node`
-  any React-renderable content, most commonly a simple string
 
 - **onChecked** `Function`
   called when the element becomes checked; backing data must be updated to persist the state change

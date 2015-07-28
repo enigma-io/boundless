@@ -52,26 +52,24 @@ describe('UICheckboxGroup', () => {
         it('ui-checkbox-group-selectall should be rendered', () => {
             const group = React.render(
                 <UICheckboxGroup items={items}
-                                 showSelectAll={true} />, document.body
+                                 selectAll={true} />, document.body
             );
 
-            const node = React.findDOMNode(group.refs.selectAll.refs.input);
-
-            expect(node.className).to.contain('ui-checkbox-group-selectall');
+            expect(group.getSelectAllClasses()).to.contain('ui-checkbox-group-selectall');
         });
     });
 
     describe('select all', () => {
-        it('should not render if `showSelectAll` is falsy', () => {
+        it('should not render if `selectAll` is falsy', () => {
             const group = React.render(<UICheckboxGroup items={items} />, document.body);
 
             expect(group.refs.selectAll).to.be.undefined;
         });
 
-        it('should render if `showSelectAll` is truthy', () => {
+        it('should render if `selectAll` is truthy', () => {
             const group = React.render(
                 <UICheckboxGroup items={items}
-                                 showSelectAll={true} />, document.body
+                                 selectAll={true} />, document.body
             );
 
             const node = React.findDOMNode(group.refs.selectAll);
@@ -82,7 +80,7 @@ describe('UICheckboxGroup', () => {
         it('should render in the first position by default', () => {
             const group = React.render(
                 <UICheckboxGroup items={items}
-                                 showSelectAll={true} />, document.body
+                                 selectAll={true} />, document.body
             );
 
             const node = React.findDOMNode(group.refs.selectAll);
@@ -93,7 +91,7 @@ describe('UICheckboxGroup', () => {
         it('should render in the last position if passed the appropriate `selectAllPosition`', () => {
             const group = React.render(
                 <UICheckboxGroup items={items}
-                                 showSelectAll={true}
+                                 selectAll={true}
                                  selectAllPosition={UICheckboxGroup.Constants.SELECT_ALL_AFTER} />, document.body
             );
 
@@ -106,7 +104,7 @@ describe('UICheckboxGroup', () => {
             const stub = sandbox.stub();
             const group = React.render(
                 <UICheckboxGroup items={items}
-                                 showSelectAll={true}
+                                 selectAll={true}
                                  onAllChecked={stub} />, document.body
             );
 
@@ -119,7 +117,7 @@ describe('UICheckboxGroup', () => {
             const stub = sandbox.stub();
             const group = React.render(
                 <UICheckboxGroup items={checkedItems}
-                                 showSelectAll={true}
+                                 selectAll={true}
                                  onAllUnchecked={stub} />, document.body
             );
 
@@ -131,7 +129,7 @@ describe('UICheckboxGroup', () => {
         it('should be indeterminate if children are in different checked states', () => {
             const group = React.render(
                 <UICheckboxGroup items={mixedItems}
-                                 showSelectAll={true} />, document.body
+                                 selectAll={true} />, document.body
             );
 
             expect(group.refs.selectAll.props.indeterminate).to.be.true;
@@ -141,7 +139,7 @@ describe('UICheckboxGroup', () => {
             const stub = sandbox.stub();
             const group = React.render(
                 <UICheckboxGroup items={mixedItems}
-                                 showSelectAll={true}
+                                 selectAll={true}
                                  onAllChecked={stub} />, document.body
             );
 

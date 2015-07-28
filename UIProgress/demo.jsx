@@ -25,7 +25,7 @@ export default class UIProgressDemo extends UIView {
             <div className='ui-spread-even ui-align-end ui-center'>
                 <figure>
                     <UIProgress ref='bar'
-                                labelContent={`${this.state.barProgress}%`}
+                                label={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`}
                                 wrapperAttributes={{ className: 'progress-bar' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'bar')}
@@ -35,7 +35,7 @@ export default class UIProgressDemo extends UIView {
                 </figure>
                 <figure>
                     <UIProgress ref='meter'
-                                labelContent={`${this.state.meterProgress}%`}
+                                label={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
                                 tweenProperty='height'
                                 wrapperAttributes={{ className: 'progress-meter' }} />
@@ -46,7 +46,7 @@ export default class UIProgressDemo extends UIView {
                 </figure>
                 <figure>
                     <UIProgress ref='forest'
-                                labelContent={this.state.trees}
+                                label={this.state.trees}
                                 progress={100 - this.state.forestProgress}
                                 tweenProperty='zIndex'
                                 wrapperAttributes={{ className: 'progress-forest' }} />

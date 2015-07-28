@@ -74,7 +74,7 @@ class UIDialog extends UIView {
                  ref='body'
                  id={this.state.bodyUUID}
                  className={this.getBodyClasses()}>
-                {this.props.bodyContent}
+                {this.props.body}
             </div>
         );
     }
@@ -84,7 +84,7 @@ class UIDialog extends UIView {
             <footer {...this.props.footerAttributes}
                     ref='footer'
                     className={this.getFooterClasses()}>
-                {this.props.footerContent}
+                {this.props.footer}
             </footer>
         );
     }
@@ -95,7 +95,7 @@ class UIDialog extends UIView {
                     ref='header'
                     id={this.state.headerUUID}
                     className={this.getHeaderClasses()}>
-                {this.props.headerContent}
+                {this.props.header}
             </header>
         );
     }
@@ -128,18 +128,18 @@ class UIDialog extends UIView {
 }
 
 UIDialog.propTypes = {
+    body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
-    bodyContent: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    footer: React.PropTypes.node,
     footerAttributes: React.PropTypes.object,
-    footerContent: React.PropTypes.node,
+    header: React.PropTypes.node,
     headerAttributes: React.PropTypes.object,
-    headerContent: React.PropTypes.node,
     onClose: React.PropTypes.func
 };
 

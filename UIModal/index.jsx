@@ -31,18 +31,18 @@ class UIModal extends UIView {
 }
 
 UIModal.propTypes = {
+    body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
-    bodyContent: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    footer: React.PropTypes.node,
     footerAttributes: React.PropTypes.object,
-    footerContent: React.PropTypes.node,
+    header: React.PropTypes.node,
     headerAttributes: React.PropTypes.object,
-    headerContent: React.PropTypes.node,
     maskAttributes: React.PropTypes.object,
     onClose: React.PropTypes.func,
     wrapperAttributes: React.PropTypes.object
