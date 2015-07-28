@@ -10,8 +10,30 @@ class UITypeahead extends UIView {
         };
     }
 
-    getClassNames() {
-        return ['ui-typeahead-wrapper'].concat(this.props.className).join(' ');
+    getHintClasses() {
+        return ['ui-typeahead-hint'].concat(this.props.hintAttributes.className || []).join(' ');
+    }
+
+    getMatchClasses(entity, selected) {
+        let classes = ['ui-typeahead-match'];
+
+        if (selected) {
+            classes.push('ui-typeahead-match-selected');
+        }
+
+        return classes.concat(entity.className || []).join(' ');
+    }
+
+    getMatchWrapperClasses() {
+        return ['ui-typeahead-match-wrapper'].concat(this.props.matchWrapperAttributes.className || []).join(' ');
+    }
+
+    getInputClasses() {
+        return ['ui-typeahead'].concat(this.props.className || []).join(' ');
+    }
+
+    getWrapperClasses() {
+        return ['ui-typeahead-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
     componentWillMount() {
@@ -22,14 +44,15 @@ class UITypeahead extends UIView {
 
     render() {
         return (
-            <div className={this.getClassNames()}
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}
                  onKeyDown={this.handleKeyDown.bind(this)}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
                 <input {...this.props}
                        ref='input'
-                       className='ui-typeahead'
+                       className={this.getInputClasses()}
                        aria-controls={this.state.uuid}
                        onInput={this.handleInput.bind(this)} />
 
@@ -44,15 +67,15 @@ class UITypeahead extends UIView {
                  id={this.state.uuid}
                  className={this.props.offscreenClass}
                  aria-live='polite'>
-                {this.getSelectedEntity()}
+                {this.getSelectedEntityContent()}
             </div>
         );
     }
 
     renderHint() {
-        if (this.props.showHint) {
+        if (this.props.hint) {
             let userText = this.state.userInput;
-            let raw = this.getSelectedEntity();
+            let raw = this.getSelectedEntityContent();
             let processed = '';
 
             if (raw && raw.toLowerCase().indexOf(userText.toLowerCase()) === 0) {
@@ -60,9 +83,10 @@ class UITypeahead extends UIView {
             }
 
             return (
-                <input ref='hint'
+                <input {...this.props.hintAttributes}
+                       ref='hint'
                        type='text'
-                       className='ui-typeahead-hint'
+                       className={this.getHintClasses()}
                        value={processed}
                        disabled={true}
                        tabIndex='-1' />
@@ -73,20 +97,18 @@ class UITypeahead extends UIView {
     renderMatches() {
         if (this.state.entityMatchIndices.length) {
             return (
-                <div ref='matches' className='ui-typeahead-match-wrapper'>
+                <div {...this.props.matchWrapperAttributes}
+                     ref='matches'
+                     className={this.getMatchWrapperClasses()}>
                     {this.state.entityMatchIndices.map((index) => {
                         let entity = this.props.entities[index];
-                        let classes = ['ui-typeahead-match'];
-
-                        if (this.state.selectedEntityIndex === index) {
-                            classes.push('ui-typeahead-match-selected');
-                        }
 
                         return (
-                            <div className={classes.join(' ')}
-                                 key={this.createHashedKey(entity)}
+                            <div {...entity}
+                                 className={this.getMatchClasses(entity, this.state.selectedEntityIndex === index)}
+                                 key={this.createHashedKey(entity.content)}
                                  onClick={this.handleMatchClick.bind(this, index)}>
-                                {this.markMatchSubstring(entity, this.state.userInput)}
+                                {this.markMatchSubstring(entity.content, this.state.userInput)}
                             </div>
                         );
                     })}
@@ -117,19 +139,19 @@ class UITypeahead extends UIView {
         this.getInputNode().focus();
     }
 
-    markMatchSubstring(entity, userInput) {
+    markMatchSubstring(entityContent, userInput) {
         if (this.props.markFunc) {
-            return this.props.markFunc(entity, userInput);
+            return this.props.markFunc(entityContent, userInput);
         }
 
         let seekValue = userInput.toLowerCase();
-        let indexStart = entity.toLowerCase().indexOf(seekValue);
+        let indexStart = entityContent.toLowerCase().indexOf(seekValue);
         let indexEnd = indexStart + seekValue.length;
 
         return [
-            <span key='0'>{entity.slice(0, indexStart)}</span>,
-            <mark key='1' className='ui-typeahead-match-highlight'>{entity.slice(indexStart, indexEnd)}</mark>,
-            <span key='2'>{entity.slice(indexEnd)}</span>
+            <span key='0'>{entityContent.slice(0, indexStart)}</span>,
+            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+            <span key='2'>{entityContent.slice(indexEnd)}</span>
         ];
     }
 
@@ -140,8 +162,10 @@ class UITypeahead extends UIView {
         });
     }
 
-    getSelectedEntity() {
-        return this.props.entities[this.state.selectedEntityIndex];
+    getSelectedEntityContent() {
+        let entity = this.props.entities[this.state.selectedEntityIndex];
+
+        return entity ? entity.content : '';
     }
 
     // The default implementation is a simple "starts-with" search
@@ -153,7 +177,7 @@ class UITypeahead extends UIView {
         let seekValue = currentValue.toLowerCase();
 
         return entities.reduce(function seekMatch(result, entity, index) {
-            return entity.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
+            return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
         }, []);
     }
 
@@ -192,7 +216,7 @@ class UITypeahead extends UIView {
                 && this.cursorAtEndOfInput()
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
-                this.setValue(this.getSelectedEntity());
+                this.setValue(this.getSelectedEntityContent());
             }
 
             break;
@@ -221,7 +245,7 @@ class UITypeahead extends UIView {
             if (this.state.selectedEntityIndex !== -1
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
-                this.setValue(this.getSelectedEntity());
+                this.setValue(this.getSelectedEntityContent());
             } else if (this.props.onComplete) {
                 this.props.onComplete(this.state.userInput);
                 this.focusInput();
@@ -236,7 +260,7 @@ class UITypeahead extends UIView {
     }
 
     handleMatchClick(index) {
-        this.setValue(this.props.entities[index]);
+        this.setValue(this.props.entities[index].content);
     }
 }
 
@@ -246,19 +270,29 @@ UITypeahead.propTypes = {
         React.PropTypes.string
     ]),
     defaultValue: React.PropTypes.string,
-    entities: React.PropTypes.arrayOf(React.PropTypes.string),
+    entities: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+            content: React.PropTypes.string
+        })
+    ),
+    hint: React.PropTypes.bool,
+    hintAttributes: React.PropTypes.object,
     markFunc: React.PropTypes.func,
     matchFunc: React.PropTypes.func,
+    matchWrapperAttributes: React.PropTypes.object,
     offscreenClass: React.PropTypes.string,
     onComplete: React.PropTypes.func,
-    showHint: React.PropTypes.bool,
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
+    wrapperAttributes: React.PropTypes.object
 };
 
 UITypeahead.defaultProps = {
     entities: [],
+    hintAttributes: {},
+    matchWrapperAttributes: {},
     offscreenClass: 'ui-offscreen',
-    type: 'text'
+    type: 'text',
+    wrapperAttributes: {}
 };
 
 export default UITypeahead;

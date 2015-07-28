@@ -1,12 +1,14 @@
-## Enigma Platform Team
-### `UIKit/UITypeahead`
-
-Intelligently recommend entities via customizable, fuzzy recognition.
-
-#### Usage
+# `UIKit/UITypeahead`
+## Intelligently recommend entities via customizable, fuzzy recognition.
 
 ```jsx
-let list = ['orange', 'apple', 'banana'];
+let list = [{
+    content: 'orange'
+}, {
+    content: 'apple'
+}, {
+    content: 'banana'
+}];
 
 return (
     <UITypeahead name='my-typeahead'
@@ -41,7 +43,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-typeahead-match-highlight`
 
 
-#### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -52,16 +54,10 @@ Type | Context | Expectation
 **Keyboard** | `[Escape]` | clear typeahead matches if they exist
 **Mouse** | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
 
-#### Customization (via `props`)
 
-Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
+### Optional `props`
 
-- name
-- disabled
-- type
-- ...
-
-These core functionality `props` are handled separately and typechecked:
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead` node
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
@@ -69,11 +65,15 @@ These core functionality `props` are handled separately and typechecked:
 - **offscreenClass** `String`
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
 
-- **entities** `Array<String>`
-  a list of strings to be considered by the matching algorithm
+- **entities** `Array<Object>`
+  a list of objects containing the property `content`; any additional [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) will be applied to the appropriate `.ui-typeahead-match` node
 
-- **showHint** `Boolean`
+- **hint** `Boolean`
   renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input
+
+- **hintAttributes** `Object`
+    - **hintAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-hint` node
 
 - **matchFunc** `Function`
   provide a custom matching algorithm, adhering to this format:
@@ -98,5 +98,12 @@ These core functionality `props` are handled separately and typechecked:
 
   could be used in conjunction with a custom `matchFunc` to normalize certain unicode characters for easier typing ç -> c
 
+- **matchWrapperAttributes** `Object`
+    - **matchWrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
+
+- **wrapperAttributes** `Object`
+    - **wrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>
