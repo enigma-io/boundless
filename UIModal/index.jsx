@@ -3,39 +3,54 @@ import UIView from '../UIView';
 import React from 'react';
 
 class UIModal extends UIView {
-    getClassNames() {
-        return ['ui-modal-wrapper'].concat(this.props.className).join(' ');
+    getDialogClasses() {
+        return ['ui-modal'].concat(this.props.className || []).join(' ');
+    }
+
+    getMaskClasses() {
+        return ['ui-modal-mask'].concat(this.props.maskAttributes.className || []).join(' ');
+    }
+
+    getWrapperClasses() {
+        return ['ui-modal-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
     render() {
         return (
-            <div {...this.props}
-                 className={this.getClassNames()}>
-                <div ref='mask' className='ui-modal-mask' />
-                <UIDialog ref='dialog'
-                          className='ui-modal'
-                          headerContent={this.props.headerContent}
-                          bodyContent={this.props.bodyContent}
-                          footerContent={this.props.footerContent}
-                          closeOnEscKey={this.props.closeOnEscKey}
-                          closeOnOutsideClick={this.props.closeOnOutsideClick}
-                          onClose={this.props.onClose} />
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
+                <div {...this.props.maskAttributes}
+                     ref='mask'
+                     className={this.getMaskClasses()} />
+                <UIDialog {...this.props}
+                          ref='dialog'
+                          className={this.getDialogClasses()} />
             </div>
         );
     }
 }
 
 UIModal.propTypes = {
+    bodyAttributes: React.PropTypes.object,
+    bodyContent: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
-    headerContent: React.PropTypes.node,
-    bodyContent: React.PropTypes.node,
-    footerContent: React.PropTypes.node,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
-    onClose: React.PropTypes.func
+    footerAttributes: React.PropTypes.object,
+    footerContent: React.PropTypes.node,
+    headerAttributes: React.PropTypes.object,
+    headerContent: React.PropTypes.node,
+    maskAttributes: React.PropTypes.object,
+    onClose: React.PropTypes.func,
+    wrapperAttributes: React.PropTypes.object
+};
+
+UIModal.defaultProps = {
+    maskAttributes: {},
+    wrapperAttributes: {}
 };
 
 export default UIModal;

@@ -3,17 +3,32 @@ import UIView from '../UIView';
 import React from 'react';
 
 class UIProgress extends UIView {
-    getClassNames() {
-        return ['ui-progress-wrapper'].concat(this.props.className).join(' ');
+    getCancelClasses() {
+        return ['ui-progress-cancel'].concat(this.props.cancelAttributes.className || []).join(' ');
+    }
+
+    getLabelClasses() {
+        return ['ui-progress-label'].concat(this.props.labelAttributes.className || []).join(' ');
+    }
+
+    getProgressClasses() {
+        return ['ui-progress'].concat(this.props.className || []).join(' ');
+    }
+
+    getWrapperClasses() {
+        return ['ui-progress-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
     render() {
         return (
-            <div className={this.getClassNames()}>
-                <div ref='progress'
-                     className='ui-progress'
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
+                <div {...this.props}
+                     ref='progress'
+                     className={this.getProgressClasses()}
                      role='presentation'
                      style={{[this.props.tweenProperty]: this.props.progress}} />
+
                 {this.renderLabel()}
                 {this.renderCancel()}
             </div>
@@ -23,18 +38,21 @@ class UIProgress extends UIView {
     renderCancel() {
         if (this.props.onCancel) {
             return (
-                <UIButton ref='cancel'
-                          className='ui-progress-cancel'
+                <UIButton {...this.props.cancelAttributes}
+                          ref='cancel'
+                          className={this.getCancelClasses()}
                           onClick={this.props.onCancel} />
             );
         }
     }
 
     renderLabel() {
-        if (this.props.label) {
+        if (this.props.labelContent) {
             return (
-                <div ref='label' className='ui-progress-label'>
-                    {this.props.label}
+                <div {...this.props.labelAttributes}
+                     ref='label'
+                     className={this.getLabelClasses()}>
+                    {this.props.labelContent}
                 </div>
             );
         }
@@ -42,18 +60,24 @@ class UIProgress extends UIView {
 }
 
 UIProgress.defaultProps = {
-    tweenProperty: 'width'
+    cancelAttributes: {},
+    labelAttributes: {},
+    tweenProperty: 'width',
+    wrapperAttributes: {}
 };
 
 UIProgress.propTypes = {
+    cancelAttributes: React.PropTypes.object,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
-    label: React.PropTypes.node,
+    labelAttributes: React.PropTypes.object,
+    labelContent: React.PropTypes.node,
     onCancel: React.PropTypes.func,
     progress: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    tweenProperty: React.PropTypes.string
+    tweenProperty: React.PropTypes.string,
+    wrapperAttributes: React.PropTypes.object
 };
 
 export default UIProgress;

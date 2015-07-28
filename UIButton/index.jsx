@@ -4,7 +4,7 @@ import React from 'react';
 function noop() {}
 
 class UIButton extends UIView {
-    getClassNames() {
+    getClasses() {
         let classes = ['ui-button'];
 
         if (typeof this.props.pressed !== 'undefined') {
@@ -22,7 +22,7 @@ class UIButton extends UIView {
         return (
             <button
                 {...this.props}
-                className={this.getClassNames()}
+                className={this.getClasses()}
                 aria-pressed={this.props.pressed}
                 onKeyDown={this.handleKeyDown.bind(this)}
                 onClick={this.handleClick.bind(this)}>

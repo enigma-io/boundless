@@ -26,7 +26,7 @@ export default class UIProgressDemo extends UIView {
                 <figure>
                     <UIProgress ref='bar'
                                 className='progress-bar'
-                                label={`${this.state.barProgress}%`}
+                                labelContent={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`} />
                     <UIButton onClick={this.resetProgress.bind(this, 'bar')}
                               style={{marginTop: '1rem'}}>
@@ -36,7 +36,7 @@ export default class UIProgressDemo extends UIView {
                 <figure>
                     <UIProgress ref='meter'
                                 className='progress-meter'
-                                label={`${this.state.meterProgress}%`}
+                                labelContent={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
                                 tweenProperty='height' />
                     <UIButton onClick={this.resetProgress.bind(this, 'meter')}
@@ -47,7 +47,7 @@ export default class UIProgressDemo extends UIView {
                 <figure>
                     <UIProgress ref='forest'
                                 className='progress-forest'
-                                label={this.state.trees}
+                                labelContent={this.state.trees}
                                 progress={100 - this.state.forestProgress}
                                 tweenProperty='zIndex' />
                     <UIButton onClick={this.resetProgress.bind(this, 'forest')}

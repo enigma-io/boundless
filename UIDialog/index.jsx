@@ -17,19 +17,19 @@ class UIDialog extends UIView {
         };
     }
 
-    getBodyClassNames() {
+    getBodyClasses() {
         return ['ui-dialog-body'].concat(this.props.bodyAttributes.className || []).join(' ');
     }
 
-    getFooterClassNames() {
+    getFooterClasses() {
         return ['ui-dialog-footer'].concat(this.props.footerAttributes.className || []).join(' ');
     }
 
-    getHeaderClassNames() {
+    getHeaderClasses() {
         return ['ui-dialog-header'].concat(this.props.headerAttributes.className || []).join(' ');
     }
 
-    getRootClassNames() {
+    getRootClasses() {
         return ['ui-dialog'].concat(this.props.className || []).join(' ');
     }
 
@@ -54,7 +54,7 @@ class UIDialog extends UIView {
     render() {
         return (
             <div {...this.props}
-                 className={this.getRootClassNames()}
+                 className={this.getRootClasses()}
                  onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeydown}
                  role='dialog'
@@ -73,7 +73,7 @@ class UIDialog extends UIView {
             <div {...this.props.bodyAttributes}
                  ref='body'
                  id={this.state.bodyUUID}
-                 className={this.getBodyClassNames()}>
+                 className={this.getBodyClasses()}>
                 {this.props.bodyContent}
             </div>
         );
@@ -83,7 +83,7 @@ class UIDialog extends UIView {
         return (
             <footer {...this.props.footerAttributes}
                     ref='footer'
-                    className={this.getFooterClassNames()}>
+                    className={this.getFooterClasses()}>
                 {this.props.footerContent}
             </footer>
         );
@@ -94,7 +94,7 @@ class UIDialog extends UIView {
             <header {...this.props.headerAttributes}
                     ref='header'
                     id={this.state.headerUUID}
-                    className={this.getHeaderClassNames()}>
+                    className={this.getHeaderClasses()}>
                 {this.props.headerContent}
             </header>
         );

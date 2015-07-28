@@ -1,9 +1,5 @@
-## Enigma Platform Team
-### `UIKit/UIProgress`
-
-An unopinionated progress implementation that allows for a variety of shapes and effects.
-
-#### Usage
+# `UIKit/UIProgress`
+## An unopinionated progress implementation that allows for a variety of shapes and effects.
 
 ```jsx
 let cancelFunc = () => { endProcess(); };
@@ -32,7 +28,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-progress-wrapper`
 
 
-#### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -40,13 +36,26 @@ Type | Context | Expectation
 **Mouse** | `click` on cancel element | should trigger the onCancel handler
 
 
-#### Customization (via `props`)
+### Optional `props`
+
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
+
+- **cancelAttributes** `Object`
+    - **cancelAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
 
-- **label** `Boolean`
+- **labelAttributes** `Object`
+    - **labelAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-label` node
+
+- **labelContent** `Boolean`
   the value to show as a label of the progress, e.g. "50%"
+
+- **onCancel** `Function`
+  if supplied, adds a cancel element and calls this function when that element is clicked
 
 - **progress** `[String|Number]`
   the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
@@ -54,8 +63,9 @@ Type | Context | Expectation
 - **tweenProperty** `String`
   the CSS property to tween (must accept percentages) - defaults to "width"
 
-- **onCancel** `Function`
-  if supplied, adds a cancel element and calls this function when that element is clicked
+- **wrapperAttributes** `Object`
+    - **wrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>

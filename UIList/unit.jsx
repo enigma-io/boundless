@@ -28,36 +28,30 @@ describe('UIList', () => {
     });
 
     describe('CSS hook', () => {
-        it('should be added to the container', () => {
-            const node = React.findDOMNode(list);
-
-            expect(node.className).to.contain('ui-list');
+        it('ui-list should be rendered', () => {
+            expect(list.getClasses()).to.contain('ui-list');
         });
 
-        it('should be added to a plain list container', () => {
-            const node = React.findDOMNode(list);
-
-            expect(node.className).to.contain('ui-list-plain');
+        it('ui-list-plain should be rendered for a plain list container', () => {
+            expect(list.getClasses()).to.contain('ui-list-plain');
         });
 
-        it('should be added to a bulleted list container', () => {
+        it('ui-list-bulleted should be rendered for a bulleted list container', () => {
             list = React.render(<UIList type='bullet' items={['apple', 'orange']} />, document.body);
-            const node = React.findDOMNode(list);
 
-            expect(node.className).to.contain('ui-list-bulleted');
+            expect(list.getClasses()).to.contain('ui-list-bulleted');
         });
 
-        it('should be added to a numbered list container', () => {
+        it('ui-list-numbered should be rendered for a numbered list container', () => {
             list = React.render(<UIList type='number' items={['apple', 'orange']} />, document.body);
-            const node = React.findDOMNode(list);
 
-            expect(node.className).to.contain('ui-list-numbered');
+            expect(list.getClasses()).to.contain('ui-list-numbered');
         });
 
-        it('should be added to each list item', () => {
-            const node = React.findDOMNode(list.refs[0]);
+        it('ui-list-item should be rendered for each list item', () => {
+            const node = React.findDOMNode(list);
 
-            expect(node.className).to.contain('ui-list-item');
+            expect(node.querySelectorAll('.ui-list-item')).to.have.length(2);
         });
     });
 

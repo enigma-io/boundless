@@ -69,34 +69,28 @@ describe('UIImage', () => {
     });
 
     describe('CSS hook', () => {
-        it('should be added to the wrapper node', () => {
+        it('ui-image-wrapper should be rendered', () => {
             const image = React.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
             );
 
-            const node = React.findDOMNode(image);
-
-            expect(node.className).to.contain('ui-image-wrapper');
+            expect(image.getWrapperClasses()).to.contain('ui-image-wrapper');
         });
 
-        it('should be added to the image node', () => {
+        it('ui-image should be rendered', () => {
             const image = React.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
             );
 
-            const node = React.findDOMNode(image.refs.image);
-
-            expect(node.className).to.contain('ui-image');
+            expect(image.getImageClasses()).to.contain('ui-image');
         });
 
-        it('should be added to the status node', () => {
+        it('ui-image-status should be rendered', () => {
             const image = React.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
             );
 
-            const node = React.findDOMNode(image.refs.status);
-
-            expect(node.className).to.contain('ui-image-status');
+            expect(image.getStatusClasses()).to.contain('ui-image-status');
         });
     });
 

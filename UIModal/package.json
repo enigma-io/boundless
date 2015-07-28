@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UIModal",
-  "description": "A dialog that blocks user interaction with the rest of the page.",
+  "description": "A blocking, focus-stealing container.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

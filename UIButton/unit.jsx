@@ -15,49 +15,42 @@ describe('UIButton', () => {
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
-            const button = React.render(<UIButton name='button1' id='button1' data-id='xr1' />, document.body);
+            const button = React.render(<UIButton data-id='foo' />, document.body);
             const node = React.findDOMNode(button);
 
-            expect(node.getAttribute('name')).to.equal('button1');
-            expect(node.getAttribute('id')).to.equal('button1');
-            expect(node.getAttribute('data-id')).to.equal('xr1');
+            expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const button = React.render(<UIButton className='big-button' />, document.body);
-            const node = React.findDOMNode(button);
+            const button = React.render(<UIButton className='foo' />, document.body);
 
-            expect(node.className).to.equal('ui-button big-button');
+            expect(button.getClasses()).to.equal('ui-button foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const button = React.render(<UIButton className={['big-button', 'primary-button']} />, document.body);
-            const node = React.findDOMNode(button);
+            const button = React.render(<UIButton className={['foo', 'bar']} />, document.body);
 
-            expect(node.className).to.equal('ui-button big-button primary-button');
+            expect(button.getClasses()).to.equal('ui-button foo bar');
         });
     });
 
     describe('CSS hook', () => {
-        it('should be rendered for the button', () => {
+        it('ui-button should be rendered', () => {
             const button = React.render(<UIButton />, document.body);
-            const node = React.findDOMNode(button);
 
-            expect(node.className).to.contain('ui-button');
+            expect(button.getClasses()).to.contain('ui-button');
         });
 
-        it('should be rendered for a button with provided `props.pressed`', () => {
+        it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
             const button = React.render(<UIButton pressed={false} />, document.body);
-            const node = React.findDOMNode(button);
 
-            expect(node.className).to.contain('ui-button-pressable');
+            expect(button.getClasses()).to.contain('ui-button-pressable');
         });
 
-        it('should be rendered for a "pressed" button', () => {
+        it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
             const button = React.render(<UIButton pressed={true} />, document.body);
-            const node = React.findDOMNode(button);
 
-            expect(node.className).to.contain('ui-button-pressed');
+            expect(button.getClasses()).to.contain('ui-button-pressed');
         });
     });
 

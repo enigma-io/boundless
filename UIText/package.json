@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UIText",
-  "description": "Fits given text inside a parent container, obeying given constraints.",
+  "description": "Fit given text inside a parent container, obeying implict and explicit constraints.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

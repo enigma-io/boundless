@@ -8,18 +8,15 @@ class UIList extends UIView {
         };
     }
 
-    render() {
-        let nodeType = 'div';
+    getClasses() {
         let classes = ['ui-list'];
 
         switch (this.props.type) {
         case 'bullet':
-            nodeType = 'ul';
             classes.push('ui-list-bulleted');
             break;
 
         case 'number':
-            nodeType = 'ol';
             classes.push('ui-list-numbered');
             break;
 
@@ -28,8 +25,24 @@ class UIList extends UIView {
             break;
         }
 
+        return classes.concat(this.props.className || []).join(' ');
+    }
+
+    render() {
+        let nodeType = 'div';
+
+        switch (this.props.type) {
+        case 'bullet':
+            nodeType = 'ul';
+            break;
+
+        case 'number':
+            nodeType = 'ol';
+            break;
+        }
+
         return React.createElement(nodeType, {
-            className: classes.join(' '),
+            className: this.getClasses(),
             onKeyDown: this.handleKeyDown.bind(this),
             children: this.renderContent()
         });
@@ -112,6 +125,10 @@ UIList.defaultProps = {
 };
 
 UIList.propTypes = {
+    className: React.PropTypes.oneOfType([
+        React.PropTypes.arrayOf(React.PropTypes.string),
+        React.PropTypes.string
+    ]),
     items: React.PropTypes.arrayOf(React.PropTypes.node),
     type: React.PropTypes.oneOf(['bullet', 'number'])
 };

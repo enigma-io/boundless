@@ -42,16 +42,14 @@ describe('UIDialog', () => {
 
         it('an additional class as a string without replacing the core hook', () => {
             const dialog = React.render(<UIDialog className='foo' />, document.body);
-            const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-dialog foo');
+            expect(dialog.getRootClasses()).to.equal('ui-dialog foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
             const dialog = React.render(<UIDialog className={['foo', 'bar']} />, document.body);
-            const node = React.findDOMNode(dialog);
 
-            expect(node.getAttribute('class')).to.equal('ui-dialog foo bar');
+            expect(dialog.getRootClasses()).to.equal('ui-dialog foo bar');
         });
 
         it('renderable header content', () => {
@@ -79,30 +77,26 @@ describe('UIDialog', () => {
     describe('CSS hook', () => {
         it('ui-dialog is rendered', () => {
             const dialog = React.render(<UIDialog />, document.body);
-            const node = React.findDOMNode(dialog);
 
-            expect(node.className).to.contain('ui-dialog');
-        });
-
-        it('ui-dialog-header is rendered', () => {
-            const dialog = React.render(<UIDialog />, document.body);
-            const node = React.findDOMNode(dialog.refs.header);
-
-            expect(node.className).to.contain('ui-dialog-header');
+            expect(dialog.getRootClasses()).to.contain('ui-dialog');
         });
 
         it('ui-dialog-body is rendered', () => {
             const dialog = React.render(<UIDialog />, document.body);
-            const node = React.findDOMNode(dialog.refs.body);
 
-            expect(node.className).to.contain('ui-dialog-body');
+            expect(dialog.getBodyClasses()).to.contain('ui-dialog-body');
         });
 
         it('ui-dialog-footer is rendered', () => {
             const dialog = React.render(<UIDialog />, document.body);
-            const node = React.findDOMNode(dialog.refs.footer);
 
-            expect(node.className).to.contain('ui-dialog-footer');
+            expect(dialog.getFooterClasses()).to.contain('ui-dialog-footer');
+        });
+
+        it('ui-dialog-header is rendered', () => {
+            const dialog = React.render(<UIDialog />, document.body);
+
+            expect(dialog.getHeaderClasses()).to.contain('ui-dialog-header');
         });
     });
 

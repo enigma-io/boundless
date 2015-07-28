@@ -6,8 +6,8 @@ function toI(stringNumber) {
 }
 
 class UIText extends UIView {
-    getClassNames() {
-        return ['ui-text'].concat(this.props.className).join(' ');
+    getClasses() {
+        return ['ui-text'].concat(this.props.className || []).join(' ');
     }
 
     componentDidMount() {
@@ -21,7 +21,7 @@ class UIText extends UIView {
     render() {
         return (
             <span {...this.props}
-                  className={this.getClassNames()}>
+                  className={this.getClasses()}>
                 {this.props.children}
             </span>
         );

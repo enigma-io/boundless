@@ -13,62 +13,53 @@ describe('UIProgress', () => {
 
     describe('accepts', () => {
         it('an additional class as a string without replacing the core hook', () => {
-            const bar = React.render(<UIProgress className='smoothed' />, document.body);
-            const node = React.findDOMNode(bar);
+            const progress = React.render(<UIProgress className='foo' />, document.body);
 
-            expect(node.getAttribute('class')).to.equal('ui-progress-wrapper smoothed');
+            expect(progress.getProgressClasses()).to.equal('ui-progress foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const bar = React.render(<UIProgress className={['smoothed', 'blurred']} />, document.body);
-            const node = React.findDOMNode(bar);
+            const progress = React.render(<UIProgress className={['foo', 'bar']} />, document.body);
 
-            expect(node.getAttribute('class')).to.equal('ui-progress-wrapper smoothed blurred');
+            expect(progress.getProgressClasses()).to.equal('ui-progress foo bar');
         });
 
         it('a specific style property to tween', () => {
-            const bar = React.render(<UIProgress progress='0%' tweenProperty='height' />, document.body);
-            const node = React.findDOMNode(bar.refs.progress);
+            const progress = React.render(<UIProgress progress='0%' tweenProperty='height' />, document.body);
+            const node = React.findDOMNode(progress.refs.progress);
 
             expect(node.getAttribute('style')).to.equal('height:0%;');
         });
     });
 
     describe('CSS hook', () => {
-        it('should be added to the wrapper element', () => {
-            const progress = React.render(<UIProgress />, document.body);
-            const node = React.findDOMNode(progress);
+        let progress;
 
-            expect(node.className).to.contain('ui-progress-wrapper');
+        beforeEach(() => {
+            progress = React.render(<UIProgress />, document.body);
         });
 
-        it('should be added to the core element', () => {
-            const progress = React.render(<UIProgress />, document.body);
-            const node = React.findDOMNode(progress.refs.progress);
-
-            expect(node.className).to.contain('ui-progress');
+        it('ui-progress-wrapper should be rendered', () => {
+            expect(progress.getWrapperClasses()).to.contain('ui-progress-wrapper');
         });
 
-        it('should be added to the cancel element', () => {
-            const stub = sandbox.stub();
-            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
-            const node = React.findDOMNode(progress.refs.cancel);
-
-            expect(node.className).to.contain('ui-progress-cancel');
+        it('ui-progress should be rendered', () => {
+            expect(progress.getProgressClasses()).to.contain('ui-progress');
         });
 
-        it('should be added to the label element', () => {
-            const progress = React.render(<UIProgress label='xyz' />, document.body);
-            const node = React.findDOMNode(progress.refs.label);
+        it('ui-progress-cancel should be rendered', () => {
+            expect(progress.getCancelClasses()).to.contain('ui-progress-cancel');
+        });
 
-            expect(node.className).to.contain('ui-progress-label');
+        it('ui-progress-label should be rendered', () => {
+            expect(progress.getLabelClasses()).to.contain('ui-progress-label');
         });
     });
 
     describe('progress', () => {
         it('should update as the prop is changed', () => {
-            const bar = React.render(<UIProgress progress='0%' />, document.body);
-            const node = React.findDOMNode(bar.refs.progress);
+            const progress = React.render(<UIProgress progress='0%' />, document.body);
+            const node = React.findDOMNode(progress.refs.progress);
 
             expect(node.getAttribute('style')).to.equal('width:0%;');
 
@@ -81,15 +72,15 @@ describe('UIProgress', () => {
     describe('cancel button', () => {
         it('should render if the handler is provided', () => {
             const stub = sandbox.stub();
-            const bar = React.render(<UIProgress onCancel={stub} />, document.body);
+            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
 
-            expect(bar.refs.cancel).to.not.be.undefined;
+            expect(progress.refs.cancel).to.not.be.undefined;
         });
 
         it('should call the cancel handler on click', () => {
             const stub = sandbox.stub();
-            const bar = React.render(<UIProgress onCancel={stub} />, document.body);
-            const node = React.findDOMNode(bar.refs.cancel);
+            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
+            const node = React.findDOMNode(progress.refs.cancel);
 
             node.click();
 
@@ -99,9 +90,9 @@ describe('UIProgress', () => {
 
     describe('progress label', () => {
         it('should render if provided', () => {
-            const bar = React.render(<UIProgress label='50%' />, document.body);
+            const progress = React.render(<UIProgress labelContent='50%' />, document.body);
 
-            expect(bar.refs.label).to.not.be.undefined;
+            expect(progress.refs.label).to.not.be.undefined;
         });
     });
 });

@@ -1,5 +1,5 @@
 # `UIKit/UICheckbox`
-##An accessible checkbox with indeterminate support.
+## An accessible checkbox with indeterminate support.
 
 UICheckbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller view must intercept and apply against the data provider.
 

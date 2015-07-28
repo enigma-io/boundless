@@ -4,7 +4,7 @@ import React from 'react';
 import _ from 'lodash';
 
 class UICheckboxGroup extends UIView {
-    getClassNames() {
+    getClasses() {
         return ['ui-checkbox-group'].concat(this.props.className || []).join(' ');
     }
 
@@ -24,7 +24,7 @@ class UICheckboxGroup extends UIView {
         }
 
         return (
-            <div className={this.getClassNames()}>
+            <div className={this.getClasses()}>
                 {toBeRendered}
             </div>
         );

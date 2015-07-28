@@ -1,9 +1,5 @@
-## Enigma Platform Team
-### `UIKit/UIModal`
-
-A dialog that blocks user interaction with the rest of the page.
-
-#### Usage
+# `UIKit/UIModal`
+## A blocking, focus-stealing container.
 
 A modal is an enhancement upon a [dialog](../UIDialog/spec.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
@@ -43,42 +39,24 @@ Styling of the element will be provided via the class hooks:
 - `.ui-modal-wrapper`
 
 
-#### Expected Interactions
+### Expected Interactions
 
 Refer to [UIDialog](../UIDialog/spec.md)
 
 
-#### Customization (via `props`)
+### Optional `props`
 
-Any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element, e.g.
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
 
-- name
-- disabled
-- type
-- ...
+- all supported [UIDialog props](../UIDialog/spec.md)
 
-These core functionality `props` are handled separately and typechecked:
+- **maskAttributes** `Object`
+    - **maskAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-mask` node
 
-- **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
-
-- **headerContent** `any renderable content`
-  text, ReactElements, etc. to represent the "title bar" area of the modal
-
-- **bodyContent** `any renderable content`
-  text, ReactElements, etc. comprising the main area of the modal, e.g. forms, information, warnings
-
-- **footerContent** `any renderable content`
-  text, ReactElements, etc. comprising the "footer" area of the modal, e.g. confirm/cancel buttons
-
-- **closeOnEscKey** `Boolean`
-  enable detection of "Escape" keypresses to trigger `props.onClose`
-
-- **closeOnOutsideClick** `Boolean`
-  enable detection of clicks outside the modal area to trigger `props.onClose`
-
-- **onClose** `Function`
-  a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
+- **wrapperAttributes** `Object`
+    - **wrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
 
 
 <sub>A view must be functionally-accessible and whole by props alone.</sub>
