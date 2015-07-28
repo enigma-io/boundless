@@ -1,5 +1,6 @@
-## `UIKit/UICheckboxGroup`
-### A controller view for managing the aggregate state of multiple, related checkboxes.
+### `UIKit/UICheckboxGroup`
+#### A controller view for managing the aggregate state of multiple, related checkboxes.
+<br />
 
 Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/spec.md) for more details.
 
@@ -65,8 +66,8 @@ Styling of the element is provided via the class hooks:
 - `.ui-checkbox-group`
 - `.ui-checkbox-group-selectall`
 
-
-#### Expected Interactions
+<br />
+##### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -75,14 +76,14 @@ Type | Context | Expectation
 **Mouse** | `click` on "Select All" | should toggle the `checked` state for all children
 **Mouse** | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
-
-#### Required `props`
+<br />
+##### Required `props`
 
 - **items** `Array<Object>`
   the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/spec.md)
 
-
-#### Optional `props`
+<br />
+##### Optional `props`
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced

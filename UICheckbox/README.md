@@ -1,5 +1,6 @@
-## `UIKit/UICheckbox`
-### An accessible checkbox with indeterminate support.
+### `UIKit/UICheckbox`
+#### An accessible checkbox with indeterminate support.
+<br />
 
 UICheckbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller view must intercept and apply against the data provider.
 
@@ -28,16 +29,16 @@ Styling of the element is provided via the class hooks:
 - `.ui-checkbox-mixed`
 - `.ui-checkbox-wrapper`
 
-
-#### Expected Interactions
+<br />
+##### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
 **Keyboard** | `[Enter, Space]` | should toggle the `checked` state
 **Mouse** | `click` | should toggle the `checked` state
 
-
-#### Required `props`
+<br />
+##### Required `props`
 
 - **checked** `Boolean`
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
@@ -45,8 +46,8 @@ Type | Context | Expectation
 - **name** `String`
   rendered as the input control's form name
 
-
-#### Optional `props`
+<br />
+##### Optional `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 

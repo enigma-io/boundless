@@ -1,5 +1,6 @@
-## `UIKit/UIText`
-### Fit given text inside a parent container, obeying implict and explicit constraints.
+### `UIKit/UIText`
+#### Fit given text inside a parent container, obeying implict and explicit constraints.
+<br />
 
 The most common use case for this class is fitting single-line text of unknown/variable length into a button or heading with finite boundaries.
 
@@ -21,12 +22,12 @@ Renders:
 
 Styling of the element will be provided via the class hook: `.ui-text`
 
-
+<br />
 ##### Expected Interactions
 
 There are no expected user interactions. The component emits normal text and merely changes the presentation; accessibility is not obstructed.
 
-
+<br />
 ##### Optional `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
