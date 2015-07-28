@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="36px" height="34px" viewBox="0 0 36 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
-    <title>Slice 1</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <text id="" sketch:type="MSTextLayer" font-family="FontAwesome" font-size="36" font-weight="normal" fill="#AAAAAA">
-            <tspan x="0" y="31"></tspan>
-        </text>
-    </g>
-</svg>
+<svg width="36" height="34" viewBox="0 0 36 34" xmlns="http://www.w3.org/2000/svg"><title>error</title><path d="M20.57 27.766V23.95c0-.19-.062-.346-.19-.473-.127-.128-.277-.19-.45-.19h-3.86c-.173 0-.323.062-.45.19-.128.127-.19.284-.19.472v3.816c0 .187.062.344.19.472.127.127.277.19.45.19h3.86c.173 0 .323-.063.45-.19.128-.128.19-.285.19-.472zm-.04-7.514l.363-9.22c0-.16-.067-.29-.2-.382-.175-.148-.336-.22-.483-.22h-4.42c-.147 0-.308.072-.482.22-.134.093-.2.234-.2.42l.34 9.182c0 .134.068.245.202.332.133.087.294.13.482.13h3.716c.188 0 .345-.043.472-.13.128-.087.198-.198.21-.332zM20.25 1.49l15.43 28.285c.467.843.454 1.687-.042 2.53-.227.39-.54.697-.934.925-.395.228-.82.34-1.275.34H2.57c-.454 0-.88-.112-1.274-.34-.395-.228-.707-.536-.934-.924-.496-.844-.51-1.688-.04-2.53L15.75 1.488c.228-.416.542-.744.944-.986.402-.24.837-.36 1.306-.36.47 0 .904.12 1.306.36.402.242.716.57.944.985z" fill="#AAA" fill-rule="evenodd"/></svg>
