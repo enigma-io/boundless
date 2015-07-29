@@ -29,21 +29,25 @@ export default class UIPopoverDemo extends UIView {
         if (this.state.showPopover) {
             return (
                 <UIPopover anchor={this.refs.trigger}
-                           body={[
-                               <strong>tran·scen·den·tal</strong>,
-                               <br />,
-                               <em>adjective</em>,
-                               <UIList type='number'
-                                       items={[
-                                           'of or relating to a spiritual or nonphysical realm.',
-                                           '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
-                                       ]} />
-                           ]}
+                           body={this.renderPopoverBody()}
                            closeOnEscKey={true}
                            closeOnOutsideClick={true}
                            onClose={this.togglePopover} />
             );
         }
+    }
+
+    renderPopoverBody() {
+        return [
+            <strong>tran·scen·den·tal</strong>,
+            <br />,
+            <em>adjective</em>,
+            <UIList type='number'
+                    items={[
+                        'of or relating to a spiritual or nonphysical realm.',
+                        '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
+                    ]} />
+        ];
     }
 
     togglePopover() {
