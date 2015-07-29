@@ -41,6 +41,7 @@
     "UIKit/UIImage": "./UIImage/index.jsx",
     "UIKit/UIList": "./UIList/index.jsx",
     "UIKit/UIModal": "./UIModal/index.jsx",
+    "UIKit/UIPopover": "./UIPopover/index.jsx",
     "UIKit/UIProgress": "./UIProgress/index.jsx",
     "UIKit/UIRadio": "./UIRadio/index.jsx",
     "UIKit/UIText": "./UIText/index.jsx",
