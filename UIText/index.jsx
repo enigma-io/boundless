@@ -6,16 +6,26 @@ function toI(stringNumber) {
 }
 
 class UIText extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.rescale = this.rescale.bind(this);
+    }
+
     getClasses() {
         return ['ui-text'].concat(this.props.className || []).join(' ');
     }
 
     componentDidMount() {
         this.rescale();
+
+        window.addEventListener('resize', this.rescale, true);
     }
 
     componentDidUpdate() {
         this.rescale();
+
+        window.removeEventListener('resize', this.rescale, true);
     }
 
     render() {
