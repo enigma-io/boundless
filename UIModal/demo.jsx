@@ -43,12 +43,6 @@ export default class UIModalDemo extends UIView {
     }
 
     toggleModal() {
-        this.setState({ showModal: !this.state.showModal }, () => {
-            if (this.state.showModal) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        });
+        this.setState({ showModal: !this.state.showModal });
     }
 }
