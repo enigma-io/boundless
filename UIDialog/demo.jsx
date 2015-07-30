@@ -17,11 +17,11 @@ export default class UIDialogDemo extends UIView {
     }
 
     componentDidMount() {
-        let box = React.findDOMNode(this.refs.trigger).getBoundingClientRect();
+        let node = React.findDOMNode(this.refs.trigger);
 
         this.setState({
-            leftPosition: box.right + 10 + 'px',
-            topPosition: box.top + 'px'
+            leftPosition: node.offsetLeft + node.offsetWidth + 10 + 'px',
+            topPosition: node.offsetTop + 'px'
         });
     }
 

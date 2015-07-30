@@ -34,6 +34,10 @@ class UIDialog extends UIView {
     }
 
     componentDidMount() {
+        if (this.props.captureFocus) {
+            React.findDOMNode(this).focus();
+        }
+
         if (this.props.closeOnOutsideClick) {
             window.addEventListener('click', this.handleOutsideClick, true);
         }
@@ -67,35 +71,41 @@ class UIDialog extends UIView {
     }
 
     renderBody() {
-        return (
-            <div {...this.props.bodyAttributes}
-                 ref='body'
-                 id={this.state.bodyUUID}
-                 className={this.getBodyClasses()}>
-                {this.props.body}
-            </div>
-        );
+        if (this.props.body) {
+            return (
+                <div {...this.props.bodyAttributes}
+                     ref='body'
+                     id={this.state.bodyUUID}
+                     className={this.getBodyClasses()}>
+                    {this.props.body}
+                </div>
+            );
+        }
     }
 
     renderFooter() {
-        return (
-            <footer {...this.props.footerAttributes}
-                    ref='footer'
-                    className={this.getFooterClasses()}>
-                {this.props.footer}
-            </footer>
-        );
+        if (this.props.footer) {
+            return (
+                <footer {...this.props.footerAttributes}
+                        ref='footer'
+                        className={this.getFooterClasses()}>
+                    {this.props.footer}
+                </footer>
+            );
+        }
     }
 
     renderHeader() {
-        return (
-            <header {...this.props.headerAttributes}
-                    ref='header'
-                    id={this.state.headerUUID}
-                    className={this.getHeaderClasses()}>
-                {this.props.header}
-            </header>
-        );
+        if (this.props.header) {
+            return (
+                <header {...this.props.headerAttributes}
+                        ref='header'
+                        id={this.state.headerUUID}
+                        className={this.getHeaderClasses()}>
+                    {this.props.header}
+                </header>
+            );
+        }
     }
 
     isPartOfDialog(node) {

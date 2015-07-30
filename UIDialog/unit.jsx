@@ -20,21 +20,21 @@ describe('UIDialog', () => {
         });
 
         it('React-supported HTML attributes as passthrough attributes to the body node', () => {
-            const dialog = React.render(<UIDialog bodyAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const dialog = React.render(<UIDialog body='foo' bodyAttributes={{ 'data-id': 'foo' }} />, document.body);
             const node = React.findDOMNode(dialog.refs.body);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('React-supported HTML attributes as passthrough attributes to the footer node', () => {
-            const dialog = React.render(<UIDialog footerAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const dialog = React.render(<UIDialog footer='foo' footerAttributes={{ 'data-id': 'foo' }} />, document.body);
             const node = React.findDOMNode(dialog.refs.footer);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('React-supported HTML attributes as passthrough attributes to the header node', () => {
-            const dialog = React.render(<UIDialog headerAttributes={{ 'data-id': 'foo' }} />, document.body);
+            const dialog = React.render(<UIDialog header='foo' headerAttributes={{ 'data-id': 'foo' }} />, document.body);
             const node = React.findDOMNode(dialog.refs.header);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
@@ -101,14 +101,21 @@ describe('UIDialog', () => {
     });
 
     describe('focus', () => {
-        it('should be applied to the dialog on render', () => {
+        it('should be applied to the dialog on render if `props.captureFocus` is `true`', () => {
             const dialog = React.render(<UIDialog className='abc' />, document.body);
             const node = React.findDOMNode(dialog);
 
             expect(document.activeElement).to.equal(node);
         });
 
-        it('should not leave the dialog', () => {
+        it('should not be applied to the dialog on render if `props.captureFocus` is `false`', () => {
+            const dialog = React.render(<UIDialog captureFocus={false} className='abc' />, document.body);
+            const node = React.findDOMNode(dialog);
+
+            expect(document.activeElement).to.not.equal(node);
+        });
+
+        it('should not leave the dialog if `props.captureFocus` is `true`', () => {
             const dialog = React.render(<UIDialog className='abc' />, document.body);
             const node = React.findDOMNode(dialog);
 

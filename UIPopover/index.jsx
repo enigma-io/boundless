@@ -12,9 +12,9 @@ let transformProp = (function detectTransformProperty() {
         'msTransform'
     ];
 
-    for (let prop of props) {
-        if (prop in document.body.style) {
-            availableProp = prop;
+    for (let i = 0, len = props.length; i < len; i++) {
+        if (props[i] in document.body.style) {
+            availableProp = props[i];
             break;
         }
     }

@@ -1,6 +1,6 @@
 {
   "name": "UIKit/UIPopover",
-  "description": "A non-blocking, focus-stealing container positioned to a specific anchor element.",
+  "description": "A non-blocking container positioned to a specific anchor element.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {

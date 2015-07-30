@@ -1,5 +1,5 @@
 ### `UIKit/UIPopover`
-#### A non-blocking, focus-stealing container positioned to a specific anchor element.
+#### A non-blocking container positioned to a specific anchor element.
 <br />
 
 A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.

@@ -48,6 +48,10 @@ class UIButton extends UIView {
         case 'Space':
             event.preventDefault();
             this.toggleState();
+
+            if (typeof this.props.pressed === 'undefined') {
+                this.props.onClick();
+            }
         }
     }
 }

@@ -89,7 +89,7 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should toggle `onUnpressed` if `props.pressed` is `true`', () => {
+        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
 
@@ -98,7 +98,7 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should toggle `onPressed` if `props.pressed` is `false`', () => {
+        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
 
@@ -107,7 +107,7 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should not toggle `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
+        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
             const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);
@@ -122,7 +122,7 @@ describe('UIButton', () => {
     describe('on "Enter" key', () => {
         let eventStub = {key: 'Enter', preventDefault: noop};
 
-        it('should toggle `onUnpressed` if `props.pressed` is `true`', () => {
+        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
 
@@ -131,7 +131,7 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should toggle `onPressed` if `props.pressed` is `false`', () => {
+        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
 
@@ -140,7 +140,16 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should not toggle `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
+        it('should trigger `onClick` if `props.pressed` is not provided', () => {
+            const stub = sandbox.stub();
+            const button = React.render(<UIButton onClick={stub} />, document.body);
+
+            button.handleKeyDown(eventStub);
+
+            expect(stub).to.have.been.calledOnce;
+        });
+
+        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
             const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);
@@ -155,7 +164,7 @@ describe('UIButton', () => {
     describe('on "Space" key', () => {
         let eventStub = {key: 'Space', preventDefault: noop};
 
-        it('should toggle `onUnpressed` if `props.pressed` is `true`', () => {
+        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
 
@@ -164,7 +173,7 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should toggle `onPressed` if `props.pressed` is `false`', () => {
+        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
 
@@ -173,7 +182,16 @@ describe('UIButton', () => {
             expect(stub).to.have.been.calledOnce;
         });
 
-        it('should not toggle `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
+        it('should trigger `onClick` if `props.pressed` is not provided', () => {
+            const stub = sandbox.stub();
+            const button = React.render(<UIButton onClick={stub} />, document.body);
+
+            button.handleKeyDown(eventStub);
+
+            expect(stub).to.have.been.calledOnce;
+        });
+
+        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
             const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);

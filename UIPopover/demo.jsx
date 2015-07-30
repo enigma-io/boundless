@@ -96,11 +96,11 @@ export default class UIPopoverDemo extends UIView {
             <em>{definition.type}</em>
         ];
 
-        if (definition.primaryDefinition) {
+        if (definition.primaryDefinition.length) {
             bodyParts.push(<p>{definition.primaryDefinition}</p>);
         }
 
-        if (definition.secondaryDefinitions) {
+        if (definition.secondaryDefinitions.length) {
             bodyParts.push(<UIList type='number' items={definition.secondaryDefinitions} />);
         }
 

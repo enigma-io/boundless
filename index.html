@@ -286,6 +286,10 @@
                     z-index: 9999;
                 }
 
+                .ui-dialog *:last-child {
+                    margin-bottom: 0;
+                }
+
                 .ui-dialog-header {
                     text-transform: uppercase;
                     font-weight: 700;
@@ -364,10 +368,6 @@
                 .ui-list-numbered {
                     padding: 0 0 0 1.5em;
                 }
-
-                .ui-list + .ui-list {
-                    margin-top: 1em;
-                }
             </style>
 
             <h3 class="ui-demo-section-title">UIList<span class="ui-demo-section-description">A generic list view, supporting unstyled, bulleted and numbered output.</span></h3>
@@ -422,6 +422,8 @@
         <section class="ui-demo-section">
             <style>
                 .ui-popover {
+                    border-color: #537C3B;
+                    box-shadow: none;
                     max-width: 400px;
                 }
 
@@ -442,7 +444,7 @@
                 .ui-popover-self-y-start::before,
                 .ui-popover-self-y-start::after {
                     top: -21px;
-                    border-bottom-color: #CCC;
+                    border-bottom-color: #537C3B;
                 }
 
                 .ui-popover-self-y-start::after {
@@ -474,7 +476,7 @@
 
                 .ui-popover-anchor-x-end.ui-popover-self-x-start::before,
                 .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
-                    border-right-color: #CCC;
+                    border-right-color: #537C3B;
                     left: -21px;
                 }
 
@@ -484,13 +486,12 @@
                 }
 
                 .ui-popover-anchor-x-start.ui-popover-self-x-end {
-                    box-shadow: -2px -1px 3px #CCC;
                     margin-left: -14px;
                 }
 
                 .ui-popover-anchor-x-start.ui-popover-self-x-end::before,
                 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
-                    border-left-color: #CCC;
+                    border-left-color: #537C3B;
                     right: -21px;
                 }
 
@@ -506,14 +507,13 @@
                 }
 
                 .ui-popover-self-y-end {
-                    box-shadow: -1px -2px 3px #CCC;
                     margin-top: -14px;
                 }
 
                 .ui-popover-self-y-end::before,
                 .ui-popover-self-y-end::after {
                     bottom: -21px;
-                    border-top-color: #CCC;
+                    border-top-color: #537C3B;
                 }
 
                 .ui-popover-self-y-end::after {
@@ -531,7 +531,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIPopover<span class="ui-demo-section-description">A non-blocking, focus-stealing container positioned to a specific anchor element.</span></h3>
+            <h3 class="ui-demo-section-title">UIPopover<span class="ui-demo-section-description">A non-blocking container positioned to a specific anchor element.</span></h3>
             <article class="ui-demo-section-example" id="ui-popover"></article>
         </section>
 
