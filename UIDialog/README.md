@@ -48,7 +48,7 @@ Styling of the element will be provided via the class hooks:
 Type | Context | Expectation
 ---- | ------- | -----------
 **Render** | `N/A` | focus on dialog
-**Event** | window `focus` | should be cancelled if moving inside -> outside dialog (relatedTarget + explicitOriginalTarget)
+**Event** | window `focus` | should be cancelled if moving inside -> outside dialog if `props.captureFocus` is `true`
 **Keyboard** | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
 **Mouse** | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
 
@@ -63,6 +63,9 @@ Type | Context | Expectation
 - **bodyAttributes** `Object`
     - **bodyAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
+
+- **captureFocus** `Boolean` (default `true`)
+  determines if focus is allowed to move away from the dialog
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced

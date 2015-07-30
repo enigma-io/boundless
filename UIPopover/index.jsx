@@ -2,6 +2,26 @@ import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';
 
+let transformProp = (function detectTransformProperty() {
+    let availableProp;
+    let props = [
+        'transform',
+        'webkitTransform',
+        'MozTransform',
+        'OTransform',
+        'msTransform'
+    ];
+
+    for (let prop of props) {
+        if (prop in document.body.style) {
+            availableProp = prop;
+            break;
+        }
+    }
+
+    return availableProp;
+})();
+
 class UIPopover extends UIView {
     constructor(...args) {
         super(...args);
@@ -47,14 +67,13 @@ class UIPopover extends UIView {
 
         document.body.appendChild(this.node);
 
-        const anchor = this.getAnchorNode();
-
         React.render(
             <UIDialog {...this.props}
+                      captureFocus={false}
                       className={this.getClasses()}
                       style={{
                           position: 'absolute',
-                          top: anchor.offsetTop + 'px',
+                          top: '0px',
                           left: '0px'
                       }} />
         , this.node);
@@ -149,8 +168,8 @@ class UIPopover extends UIView {
 
         // Will we overflow? If so, adjust to prevent that.
 
-        let dialogHeight = dialog.clientWidth;
-        let dialogWidth = dialog.clientHeight;
+        let dialogWidth = dialog.clientWidth;
+        let dialogHeight = dialog.clientHeight;
         let xMax = document.body.scrollWidth;
         let yMax = document.body.scrollHeight;
 
@@ -160,8 +179,7 @@ class UIPopover extends UIView {
             nextY = yMax - dialogHeight;
         }
 
-        dialog.style.left = nextX + 'px';
-        dialog.style.top = nextY + 'px';
+        dialog.style[transformProp] = `translate(${nextX}px, ${nextY}px)`;
     }
 }
 

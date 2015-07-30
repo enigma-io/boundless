@@ -32,7 +32,7 @@ export default class UIPopoverDemo extends UIView {
                 syllabicRepresentation: 'o·li·o',
                 type: 'noun',
                 primaryDefinition: [
-                    <span>another term for</span>,
+                    <span>another term for </span>,
                     <a href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>
                 ],
                 secondaryDefinitions: [
@@ -71,7 +71,7 @@ export default class UIPopoverDemo extends UIView {
         return (
             <div>
                 <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
-                <div className='ui-spread-even'>
+                <div className='ui-spread-even ui-center'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <div key={definition.word}>

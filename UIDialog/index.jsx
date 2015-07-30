@@ -34,8 +34,6 @@ class UIDialog extends UIView {
     }
 
     componentDidMount() {
-        React.findDOMNode(this).focus();
-
         if (this.props.closeOnOutsideClick) {
             window.addEventListener('click', this.handleOutsideClick, true);
         }
@@ -105,6 +103,10 @@ class UIDialog extends UIView {
     }
 
     handleFocus(nativeEvent) {
+        if (!this.props.captureFocus) {
+            return;
+        }
+
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
@@ -130,6 +132,7 @@ class UIDialog extends UIView {
 UIDialog.propTypes = {
     body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
+    captureFocus: React.PropTypes.bool,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
@@ -145,6 +148,7 @@ UIDialog.propTypes = {
 
 UIDialog.defaultProps = {
     bodyAttributes: {},
+    captureFocus: true,
     footerAttributes: {},
     headerAttributes: {},
     onClose: function noop() {}
