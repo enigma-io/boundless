@@ -50,6 +50,9 @@ Aligns the popover to `{50, 100}` on the anchor element (if it was approximately
 Styling of the element will be provided via the class hooks:
 
 - `.ui-popover`
+
+Below are helper classes for each position combination; helpful for aligning UI "carets" if desired.
+
 - `.ui-popover-anchor-x-start`
 - `.ui-popover-anchor-x-middle`
 - `.ui-popover-anchor-x-end`
@@ -62,8 +65,6 @@ Styling of the element will be provided via the class hooks:
 - `.ui-popover-self-y-start`
 - `.ui-popover-self-y-middle`
 - `.ui-popover-self-y-end`
-
-> * Helper classes for each position combination; helpful for aligning UI "carets" if desired.
 
 <br />
 ##### Expected Interactions

@@ -9,7 +9,11 @@ class UIPopover extends UIView {
         this.align = this.align.bind(this);
     }
 
-    getPositionClassFragment(constant) {
+    getAnchorNode() {
+        return this.props.anchor instanceof HTMLElement ? this.props.anchor : React.findDOMNode(this.props.anchor);
+    }
+
+    getClassAlignmentFragment(constant) {
         let constants = UIPopover.Constants;
 
         switch (constant) {
@@ -29,10 +33,10 @@ class UIPopover extends UIView {
         let props = this.props;
 
         classes.push(
-            'ui-popover-anchor-x-' + this.getPositionClassFragment(props.anchorXAlign),
-            'ui-popover-anchor-y-' + this.getPositionClassFragment(props.anchorYAlign),
-            'ui-popover-self-x-' + this.getPositionClassFragment(props.selfXAlign),
-            'ui-popover-self-y-' + this.getPositionClassFragment(props.selfYAlign)
+            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(props.anchorXAlign),
+            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(props.anchorYAlign),
+            'ui-popover-self-x-' + this.getClassAlignmentFragment(props.selfXAlign),
+            'ui-popover-self-y-' + this.getClassAlignmentFragment(props.selfYAlign)
         );
 
         return classes.concat(this.props.className || []).join(' ');
@@ -74,10 +78,6 @@ class UIPopover extends UIView {
         return (
             <div />
         );
-    }
-
-    getAnchorNode() {
-        return this.props.anchor instanceof HTMLElement ? this.props.anchor : React.findDOMNode(this.props.anchor);
     }
 
     getNextXPosition(anchor, dialog) {
