@@ -47,7 +47,23 @@ Combine the {element}{Axis}Align properties to create complete alignment points.
 
 Aligns the popover to `{50, 100}` on the anchor element (if it was approximately 100px x 100px)
 
-Styling of the element will be provided via the class hook: `.ui-popover`
+Styling of the element will be provided via the class hooks:
+
+- `.ui-popover`
+- `.ui-popover-anchor-x-start`
+- `.ui-popover-anchor-x-middle`
+- `.ui-popover-anchor-x-end`
+- `.ui-popover-anchor-y-start`
+- `.ui-popover-anchor-y-middle`
+- `.ui-popover-anchor-y-end`
+- `.ui-popover-self-x-start`
+- `.ui-popover-self-x-middle`
+- `.ui-popover-self-x-end`
+- `.ui-popover-self-y-start`
+- `.ui-popover-self-y-middle`
+- `.ui-popover-self-y-end`
+
+> * Helper classes for each position combination; helpful for aligning UI "carets" if desired.
 
 <br />
 ##### Expected Interactions

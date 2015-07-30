@@ -24,7 +24,9 @@ class UIText extends UIView {
 
     componentDidUpdate() {
         this.rescale();
+    }
 
+    componentWillUnmount() {
         window.removeEventListener('resize', this.rescale, true);
     }
 

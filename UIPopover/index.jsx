@@ -9,8 +9,33 @@ class UIPopover extends UIView {
         this.align = this.align.bind(this);
     }
 
+    getPositionClassFragment(constant) {
+        let constants = UIPopover.Constants;
+
+        switch (constant) {
+        case constants.START:
+            return 'start';
+
+        case constants.MIDDLE:
+            return 'middle';
+
+        case constants.END:
+            return 'end';
+        }
+    }
+
     getClasses() {
-        return ['ui-popover'].concat(this.props.className || []).join(' ');
+        let classes = ['ui-popover'];
+        let props = this.props;
+
+        classes.push(
+            'ui-popover-anchor-x-' + this.getPositionClassFragment(props.anchorXAlign),
+            'ui-popover-anchor-y-' + this.getPositionClassFragment(props.anchorYAlign),
+            'ui-popover-self-x-' + this.getPositionClassFragment(props.selfXAlign),
+            'ui-popover-self-y-' + this.getPositionClassFragment(props.selfYAlign)
+        );
+
+        return classes.concat(this.props.className || []).join(' ');
     }
 
     componentDidMount() {
@@ -26,7 +51,7 @@ class UIPopover extends UIView {
                       style={{
                           position: 'absolute',
                           top: anchor.offsetTop + 'px',
-                          left: anchor.offsetLeft + 'px'
+                          left: '0px'
                       }} />
         , this.node);
 
@@ -63,11 +88,11 @@ class UIPopover extends UIView {
 
         switch (props.anchorXAlign) {
         case constants.MIDDLE:
-            nextX += anchor.clientWidth / 2;
+            nextX += anchor.offsetWidth / 2;
             break;
 
         case constants.END:
-            nextX += anchor.clientWidth;
+            nextX += anchor.offsetWidth;
             break;
         }
 

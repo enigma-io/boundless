@@ -59,7 +59,12 @@ describe('UIText', () => {
         // verify it completed successfully
 
         it('should work', (done) => {
-            const tree = React.render(<div style={{height: '100px', width: '400px'}}><UIText maxFontSize={30}>foo</UIText></div>, document.body);
+            const tree = React.render(
+                <div style={{height: '100px', width: '400px'}}>
+                    <UIText maxFontSize={30}>foo</UIText>
+                </div>, document.body
+            );
+
             const node = React.findDOMNode(tree).children[0];
 
             window.setTimeout(function verifier() {
@@ -69,7 +74,12 @@ describe('UIText', () => {
         });
 
         it('should be ignored if the container size is too small', (done) => {
-            const tree = React.render(<div style={{width: '10px'}}><UIText maxFontSize={30}>foo</UIText></div>, document.body);
+            const tree = React.render(
+                <div style={{width: '10px'}}>
+                    <UIText maxFontSize={30}>foo</UIText>
+                </div>, document.body
+            );
+
             const node = React.findDOMNode(tree).children[0];
 
             window.setTimeout(function verifier() {

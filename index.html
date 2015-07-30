@@ -85,15 +85,15 @@
 
             .ui-demo-section-title {
                 display: flex;
-                align-items: center;
+                align-items: baseline;
+                margin-bottom: 1em;
             }
 
             .ui-demo-section-description {
                 color: #AAA;
                 font-size: 0.75em;
                 font-weight: 400;
-                text-align: right;
-                flex-grow: 1;
+                margin-left: 10px;
             }
 
             .ui-offscreen {
@@ -190,7 +190,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIButton</h3>
+            <h3 class="ui-demo-section-title">UIButton<span class="ui-demo-section-description">A clickable control with "pressed" state support.</span></h3>
             <article class="ui-demo-section-example" id="ui-button"></article>
         </section>
 
@@ -252,7 +252,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UICheckbox</h3>
+            <h3 class="ui-demo-section-title">UICheckbox<span class="ui-demo-section-description">An accessible checkbox with indeterminate state support.</span></h3>
             <article class="ui-demo-section-example" id="ui-checkbox"></article>
         </section>
 
@@ -269,7 +269,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UICheckboxGroup</h3>
+            <h3 class="ui-demo-section-title">UICheckboxGroup<span class="ui-demo-section-description">A controller view for managing the aggregate state of multiple, related checkboxes.</span></h3>
             <article class="ui-demo-section-example" id="ui-checkbox-group"></article>
         </section>
 
@@ -296,7 +296,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIDialog</h3>
+            <h3 class="ui-demo-section-title">UIDialog<span class="ui-demo-section-description">A non-blocking, focus-stealing container.</span></h3>
             <article class="ui-demo-section-example" id="ui-dialog"></article>
         </section>
 
@@ -345,7 +345,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIImage</h3>
+            <h3 class="ui-demo-section-title">UIImage<span class="ui-demo-section-description">An image block with placeholder support for loading and fallback scenarios.</span></h3>
             <article class="ui-demo-section-example" id="ui-image"></article>
         </section>
 
@@ -369,7 +369,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIList</h3>
+            <h3 class="ui-demo-section-title">UIList<span class="ui-demo-section-description">A generic list view, supporting unstyled, bulleted and numbered output.</span></h3>
             <article class="ui-demo-section-example" id="ui-list"></article>
         </section>
 
@@ -414,31 +414,110 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIModal</h3>
+            <h3 class="ui-demo-section-title">UIModal<span class="ui-demo-section-description">A blocking, focus-stealing container.</span></h3>
             <article class="ui-demo-section-example" id="ui-modal"></article>
         </section>
 
         <section class="ui-demo-section">
             <style>
                 .ui-popover {
-                    transform: translateY(12px);
+                    max-width: 400px;
                 }
 
                 .ui-popover::before,
                 .ui-popover::after {
                         content: '';
                         position: absolute;
-                        top: -21px;
                         border-width: 10px;
                         border-color: transparent;
                         border-style: solid;
-                        border-bottom-color: #CCC;
-                        left: 15px;
+                        left: 0;
                 }
 
-                .ui-popover::after {
+                .ui-popover-self-y-start {
+                    transform: translateY(14px);
+                }
+
+                .ui-popover-self-y-start::before,
+                .ui-popover-self-y-start::after {
+                    top: -21px;
+                    border-bottom-color: #CCC;
+                }
+
+                .ui-popover-self-y-start::after {
                     border-bottom-color: #FFF;
                     top: -20px;
+                }
+
+                .ui-popover-self-x-middle::before,
+                .ui-popover-self-x-middle::after {
+                    margin-left: -10px;
+                    left: 50%;
+                }
+
+                .ui-popover-self-y-middle::before,
+                .ui-popover-self-y-middle::after {
+                    margin-top: -10px;
+                    top: 50%;
+                }
+
+                .ui-popover-self-x-start.ui-popover-self-y-middle::before,
+                .ui-popover-self-x-start.ui-popover-self-y-middle::after {
+                    margin-top: -10px;
+                    top: 50%;
+                }
+
+                .ui-popover-anchor-x-end.ui-popover-self-x-start {
+                    transform: translateX(14px);
+                }
+
+                .ui-popover-anchor-x-end.ui-popover-self-x-start::before,
+                .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
+                    border-right-color: #CCC;
+                    left: -21px;
+                }
+
+                .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
+                    border-right-color: #FFF;
+                    left: -20px;
+                }
+
+                .ui-popover-anchor-x-start.ui-popover-self-x-end {
+                    box-shadow: -2px -1px 3px #CCC;
+                    transform: translateX(-14px);
+                }
+
+                .ui-popover-anchor-x-start.ui-popover-self-x-end::before,
+                .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
+                    border-left-color: #CCC;
+                    right: -21px;
+                }
+
+                .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
+                    border-left-color: #FFF;
+                    right: -20px;
+                }
+
+                .ui-popover-self-x-end::before,
+                .ui-popover-self-x-end::after {
+                    left: auto;
+                    right: 0;
+                }
+
+                .ui-popover-self-y-end {
+                    box-shadow: -1px -2px 3px #CCC;
+                    transform: translateY(-14px);
+                }
+
+                .ui-popover-self-y-end::before,
+                .ui-popover-self-y-end::after {
+                    bottom: -21px;
+                    border-top-color: #CCC;
+                }
+
+                .ui-popover-self-y-end::after {
+                    border-top-color: #FFF;
+                    bottom: -20px;
                 }
 
                 .ui-popover .ui-dialog-body {
@@ -451,7 +530,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIPopover</h3>
+            <h3 class="ui-demo-section-title">UIPopover<span class="ui-demo-section-description">A non-blocking, focus-stealing container positioned to a specific anchor element.</span></h3>
             <article class="ui-demo-section-example" id="ui-popover"></article>
         </section>
 
@@ -550,7 +629,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIProgress</h3>
+            <h3 class="ui-demo-section-title">UIProgress<span class="ui-demo-section-description">An unopinionated progress implementation that allows for a variety of shapes and effects.</span></h3>
             <article class="ui-demo-section-example" id="ui-progress"></article>
         </section>
 
@@ -598,14 +677,14 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UIRadio</h3>
+            <h3 class="ui-demo-section-title">UIRadio<span class="ui-demo-section-description">An accessible radio form control.</span></h3>
             <article class="ui-demo-section-example" id="ui-radio"></article>
         </section>
 
         <section class="ui-demo-section">
             <style></style>
 
-            <h3 class="ui-demo-section-title">UIText</h3>
+            <h3 class="ui-demo-section-title">UIText<span class="ui-demo-section-description">Fit given text inside a parent container, obeying implict and explicit constraints.</span></h3>
             <article class="ui-demo-section-example" id="ui-text"></article>
         </section>
 
@@ -688,7 +767,7 @@
                 }
             </style>
 
-            <h3 class="ui-demo-section-title">UITypeahead</h3>
+            <h3 class="ui-demo-section-title">UITypeahead<span class="ui-demo-section-description">Intelligently recommend entities via customizable, fuzzy recognition.</span></h3>
             <article class="ui-demo-section-example" id="ui-typeahead"></article>
         </section>
 

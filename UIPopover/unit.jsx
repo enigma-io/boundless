@@ -1,10 +1,12 @@
 /* eslint no-unused-expressions:0 */
 
-import UIModal from './index.jsx';
+import UIPopover from './index.jsx';
 import React from 'react';
 
-describe('UIModal', () => {
+describe('UIPopover', () => {
     const sandbox = sinon.sandbox.create();
+    const body = document.body;
+    const constants = UIPopover.Constants;
 
     afterEach(() => {
         React.unmountComponentAtNode(document.body);
@@ -12,57 +14,107 @@ describe('UIModal', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes to the wrapper node', () => {
-            const modal = React.render(<UIModal wrapperAttributes={{ 'data-id': 'foo' }} />, document.body);
-            const node = React.findDOMNode(modal);
+        it('React-supported HTML attributes as passthrough attributes', () => {
+            React.render(<UIPopover anchor={body} data-id='foo' />, document.body);
 
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-
-        it('React-supported HTML attributes as passthrough attributes to the dialog node', () => {
-            const modal = React.render(<UIModal data-id='foo' />, document.body);
-            const node = React.findDOMNode(modal.refs.dialog);
-
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-
-        it('React-supported HTML attributes as passthrough attributes to the mask node', () => {
-            const modal = React.render(<UIModal maskAttributes={{ 'data-id': 'foo' }} />, document.body);
-            const node = React.findDOMNode(modal.refs.mask);
+            const node = document.body.querySelector('.ui-popover');
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const modal = React.render(<UIModal className='foo' />, document.body);
+            const popover = React.render(<UIPopover anchor={body} className='foo' />, document.body);
 
-            expect(modal.getDialogClasses()).to.equal('ui-modal foo');
+            expect(popover.getClasses()).to.contain('ui-popover ');
+            expect(popover.getClasses()).to.contain('foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const modal = React.render(<UIModal className={['foo', 'bar']} />, document.body);
+            const popover = React.render(<UIPopover anchor={body} className={['foo', 'bar']} />, document.body);
 
-            expect(modal.getDialogClasses()).to.equal('ui-modal foo bar');
+            expect(popover.getClasses()).to.contain('ui-popover ');
+            expect(popover.getClasses()).to.contain('foo ');
+            expect(popover.getClasses()).to.contain(' bar');
         });
     });
 
     describe('CSS hook', () => {
-        let modal;
+        it('ui-popover is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} />, document.body);
 
-        beforeEach(() => {
-            modal = React.render(<UIModal />, document.body);
+            expect(popover.getClasses()).to.contain('ui-popover ');
         });
 
-        it('ui-modal is rendered', () => {
-            expect(modal.getDialogClasses()).to.contain('ui-modal');
+        it('ui-popover-anchor-x-start is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorXAlign={constants.START} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-start');
         });
 
-        it('ui-modal-mask is rendered', () => {
-            expect(modal.getMaskClasses()).to.contain('ui-modal-mask');
+        it('ui-popover-anchor-x-middle is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorXAlign={constants.MIDDLE} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-middle');
         });
 
-        it('ui-modal-wrapper is rendered', () => {
-            expect(modal.getWrapperClasses()).to.contain('ui-modal-wrapper');
+        it('ui-popover-anchor-x-end is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorXAlign={constants.END} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-end');
+        });
+
+        it('ui-popover-anchor-y-start is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorYAlign={constants.START} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-start');
+        });
+
+        it('ui-popover-anchor-y-middle is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorYAlign={constants.MIDDLE} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-middle');
+        });
+
+        it('ui-popover-anchor-y-end is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} anchorYAlign={constants.END} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-end');
+        });
+
+        it('ui-popover-self-x-start is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfXAlign={constants.START} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-x-start');
+        });
+
+        it('ui-popover-self-x-middle is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfXAlign={constants.MIDDLE} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-x-middle');
+        });
+
+        it('ui-popover-self-x-end is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfXAlign={constants.END} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-x-end');
+        });
+
+        it('ui-popover-self-y-start is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfYAlign={constants.START} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-y-start');
+        });
+
+        it('ui-popover-self-y-middle is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfYAlign={constants.MIDDLE} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-y-middle');
+        });
+
+        it('ui-popover-self-y-end is rendered', () => {
+            const popover = React.render(<UIPopover anchor={body} selfYAlign={constants.END} />, document.body);
+
+            expect(popover.getClasses()).to.contain('ui-popover-self-y-end');
         });
     });
 });
