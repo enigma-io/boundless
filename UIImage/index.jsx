@@ -52,6 +52,10 @@ class UIImage extends UIView {
         this.preload();
     }
 
+    componentWillUnmount() {
+        this.resetPreloader();
+    }
+
     render() {
         return (
             <div {...this.props.wrapperAttributes}
@@ -92,13 +96,23 @@ class UIImage extends UIView {
         );
     }
 
+    resetPreloader() {
+        this.loader.onload = null;
+        this.loader.onerror = null;
+        this.loader = null;
+    }
+
     preload() {
-        const loader = document.createElement('img');
+        if (this.loader) {
+            this.resetPreloader();
+        }
 
-        loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
-        loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+        this.loader = document.createElement('img');
 
-        loader.src = this.props.src;
+        this.loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
+        this.loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+
+        this.loader.src = this.props.src;
     }
 }
 
