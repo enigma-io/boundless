@@ -63,20 +63,22 @@ class UIPopover extends UIView {
     }
 
     componentDidMount() {
-        this.node = document.createElement('div');
+        this.container = document.createElement('div');
 
-        document.body.appendChild(this.node);
+        document.body.appendChild(this.container);
 
-        React.render(
-            <UIDialog {...this.props}
-                      captureFocus={false}
-                      className={this.getClasses()}
-                      style={{
-                          position: 'absolute',
-                          top: '0px',
-                          left: '0px'
-                      }} />
-        , this.node);
+        this.node = React.findDOMNode(
+            React.render(
+                <UIDialog {...this.props}
+                          captureFocus={false}
+                          className={this.getClasses()}
+                          style={{
+                              position: 'absolute',
+                              top: '0px',
+                              left: '0px'
+                          }} />
+            , this.container)
+        );
 
         window.addEventListener('resize', this.align, true);
 
@@ -88,8 +90,8 @@ class UIPopover extends UIView {
     }
 
     componentWillUnmount() {
-        React.unmountComponentAtNode(this.node);
-        document.body.removeChild(this.node);
+        React.unmountComponentAtNode(this.container);
+        document.body.removeChild(this.container);
         window.removeEventListener('resize', this.align, true);
     }
 
@@ -159,9 +161,18 @@ class UIPopover extends UIView {
         return nextY;
     }
 
+    applyTranslation(node, x, y) {
+        if (transformProp) {
+            node.style[transformProp] = `translate(${x}px, ${y}px)`;
+        } else {
+            node.style.left = x + 'px';
+            node.style.top = y + 'px';
+        }
+    }
+
     align() {
         const anchor = this.getAnchorNode();
-        const dialog = this.node.children[0];
+        const dialog = this.node;
 
         let nextX = this.getNextXPosition(anchor, dialog);
         let nextY = this.getNextYPosition(anchor, dialog);
@@ -179,7 +190,7 @@ class UIPopover extends UIView {
             nextY = yMax - dialogHeight;
         }
 
-        dialog.style[transformProp] = `translate(${nextX}px, ${nextY}px)`;
+        this.applyTranslation(dialog, nextX, nextY);
     }
 }
 
@@ -192,7 +203,10 @@ UIPopover.Constants = {
 UIPopover.propTypes = {
     anchor: React.PropTypes.oneOfType([
         React.PropTypes.instanceOf(HTMLElement),
-        React.PropTypes.element
+        React.PropTypes.shape({
+            props: React.PropTypes.object,
+            state: React.PropTypes.object
+        }) // a react element of some fashion, React.PropTypes.element wasn't working
     ]).isRequired,
     anchorXAlign: React.PropTypes.oneOf([
         UIPopover.Constants.START,
