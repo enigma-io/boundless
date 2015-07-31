@@ -29,6 +29,15 @@ class UIPopover extends UIView {
         this.align = this.align.bind(this);
     }
 
+    initialState() {
+        return {
+            anchorXAlign: this.props.anchorXAlign,
+            anchorYAlign: this.props.anchorYAlign,
+            selfXAlign: this.props.selfXAlign,
+            selfYAlign: this.props.selfYAlign
+        };
+    }
+
     getAnchorNode() {
         return this.props.anchor instanceof HTMLElement ? this.props.anchor : React.findDOMNode(this.props.anchor);
     }
@@ -50,13 +59,13 @@ class UIPopover extends UIView {
 
     getClasses() {
         let classes = ['ui-popover'];
-        let props = this.props;
+        let state = this.state;
 
         classes.push(
-            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(props.anchorXAlign),
-            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(props.anchorYAlign),
-            'ui-popover-self-x-' + this.getClassAlignmentFragment(props.selfXAlign),
-            'ui-popover-self-y-' + this.getClassAlignmentFragment(props.selfYAlign)
+            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(state.anchorXAlign),
+            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(state.anchorYAlign),
+            'ui-popover-self-x-' + this.getClassAlignmentFragment(state.selfXAlign),
+            'ui-popover-self-y-' + this.getClassAlignmentFragment(state.selfYAlign)
         );
 
         return classes.concat(this.props.className || []).join(' ');
@@ -67,18 +76,7 @@ class UIPopover extends UIView {
 
         document.body.appendChild(this.container);
 
-        this.node = React.findDOMNode(
-            React.render(
-                <UIDialog {...this.props}
-                          captureFocus={false}
-                          className={this.getClasses()}
-                          style={{
-                              position: 'absolute',
-                              top: '0px',
-                              left: '0px'
-                          }} />
-            , this.container)
-        );
+        this.node = React.findDOMNode(this.renderDialog());
 
         window.addEventListener('resize', this.align, true);
 
@@ -86,6 +84,7 @@ class UIPopover extends UIView {
     }
 
     componentDidUpdate() {
+        this.renderDialog();
         this.align();
     }
 
@@ -101,13 +100,26 @@ class UIPopover extends UIView {
         );
     }
 
+    renderDialog() {
+        return React.render(
+            <UIDialog {...this.props}
+                      captureFocus={false}
+                      className={this.getClasses()}
+                      style={{
+                          position: 'absolute',
+                          top: '0px',
+                          left: '0px'
+                      }} />
+        , this.container);
+    }
+
     getNextXPosition(anchor, dialog) {
-        const props = this.props;
+        const state = this.state;
         const constants = UIPopover.Constants;
 
         let nextX = anchor.offsetLeft;
 
-        switch (props.anchorXAlign) {
+        switch (state.anchorXAlign) {
         case constants.MIDDLE:
             nextX += anchor.offsetWidth / 2;
             break;
@@ -117,7 +129,7 @@ class UIPopover extends UIView {
             break;
         }
 
-        switch (props.selfXAlign) {
+        switch (state.selfXAlign) {
         case constants.MIDDLE:
             nextX -= dialog.clientWidth / 2;
             break;
@@ -131,14 +143,14 @@ class UIPopover extends UIView {
     }
 
     getNextYPosition(anchor, dialog) {
-        const props = this.props;
+        const state = this.state;
         const constants = UIPopover.Constants;
 
         let anchorY = anchor.offsetTop;
         let anchorHeight = anchor.offsetHeight;
         let nextY = anchorY + anchorHeight;
 
-        switch (props.anchorYAlign) {
+        switch (state.anchorYAlign) {
         case constants.START:
             nextY = anchorY;
             break;
@@ -148,7 +160,7 @@ class UIPopover extends UIView {
             break;
         }
 
-        switch (props.selfYAlign) {
+        switch (state.selfYAlign) {
         case constants.MIDDLE:
             nextY -= dialog.clientHeight / 2;
             break;
@@ -159,6 +171,35 @@ class UIPopover extends UIView {
         }
 
         return nextY;
+    }
+
+    getAlignmentCorrectionIfOverflowing(node, x, y) {
+        if (!this.props.autoReposition) {
+            return;
+        }
+
+        let corrections = {};
+
+        let width = node.clientWidth;
+        let height = node.clientHeight;
+        let xMax = document.body.scrollWidth;
+        let yMax = document.body.scrollHeight;
+
+        if (x + width > xMax) { // overflowing off to the right
+            corrections.anchorXAlign = UIPopover.Constants.END;
+            corrections.selfXAlign = UIPopover.Constants.END;
+        } else if (x < 0) { // overflowing off to the left
+            corrections.anchorXAlign = UIPopover.Constants.START;
+            corrections.selfXAlign = UIPopover.Constants.START;
+        } else if (y + height > yMax) { // overflowing below
+            corrections.anchorYAlign = UIPopover.Constants.START;
+            corrections.selfYAlign = UIPopover.Constants.END;
+        } else if (y < 0) { // overflowing above
+            corrections.anchorYAlign = UIPopover.Constants.END;
+            corrections.selfYAlign = UIPopover.Constants.START;
+        }
+
+        return corrections;
     }
 
     applyTranslation(node, x, y) {
@@ -174,23 +215,16 @@ class UIPopover extends UIView {
         const anchor = this.getAnchorNode();
         const dialog = this.node;
 
-        let nextX = this.getNextXPosition(anchor, dialog);
-        let nextY = this.getNextYPosition(anchor, dialog);
+        let x = this.getNextXPosition(anchor, dialog);
+        let y = this.getNextYPosition(anchor, dialog);
 
-        // Will we overflow? If so, adjust to prevent that.
+        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dialog, x, y);
 
-        let dialogWidth = dialog.clientWidth;
-        let dialogHeight = dialog.clientHeight;
-        let xMax = document.body.scrollWidth;
-        let yMax = document.body.scrollHeight;
-
-        if (nextX + dialogWidth > xMax) {
-            nextX = xMax - dialogWidth;
-        } else if (nextY + dialogHeight > yMax) {
-            nextY = yMax - dialogHeight;
+        if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
+            this.setState(alignmentCorrection);
+        } else {
+            this.applyTranslation(dialog, x, y);
         }
-
-        this.applyTranslation(dialog, nextX, nextY);
     }
 }
 
@@ -218,6 +252,7 @@ UIPopover.propTypes = {
         UIPopover.Constants.MIDDLE,
         UIPopover.Constants.END
     ]),
+    autoReposition: React.PropTypes.bool,
     body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
     className: React.PropTypes.oneOfType([
@@ -246,6 +281,7 @@ UIPopover.propTypes = {
 UIPopover.defaultProps = {
     anchorXAlign: UIPopover.Constants.START,
     anchorYAlign: UIPopover.Constants.END,
+    autoReposition: true,
     selfXAlign: UIPopover.Constants.START,
     selfYAlign: UIPopover.Constants.START
 };

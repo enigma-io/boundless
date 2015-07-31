@@ -106,6 +106,9 @@ Refer to [UIDialog](../UIDialog/spec.md)
     - **anchorYAlign** `UIPopover.Constants.END` *default*
       equates to `{?, 100}` on a 100x100 cartesian plane
 
+- **autoReposition** `Boolean`
+  if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
+
 - **selfXAlign** `Constant`
   location on the popover X-axis to use for alignment calculations
     - **selfXAlign** `UIPopover.Constants.START` *default*
