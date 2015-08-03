@@ -175,7 +175,7 @@ class UIPopover extends UIView {
 
     getAlignmentCorrectionIfOverflowing(node, x, y) {
         if (!this.props.autoReposition) {
-            return;
+            return false;
         }
 
         let corrections = {};
