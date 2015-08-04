@@ -14,7 +14,6 @@
     "browserify": "^10.2.4",
     "eslint-plugin-react": "^2.5.0",
     "eslintify": "*",
-    "exorcist": "^0.4.0",
     "jsawk": "0.0.2",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "jsdoc-jsx": "^0.1.0",
@@ -55,7 +54,7 @@
   },
   "scripts": {
     "postinstall": "touch ~/.jsawkrc && mkdir -p build/js && npm build",
-    "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx | exorcist build/js/bundle.js.map > build/js/bundle.js",
+    "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx > build/js/bundle.js",
     "start": "beefy index.js:build/js/bundle.js 9300 --colors --live --open -- --debug --extension=.jsx",
     "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
     "test": "karma start",

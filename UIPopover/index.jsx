@@ -117,7 +117,7 @@ class UIPopover extends UIView {
         const state = this.state;
         const constants = UIPopover.Constants;
 
-        let nextX = anchor.offsetLeft;
+        let nextX = anchor.getBoundingClientRect().left + document.body.scrollLeft;
 
         switch (state.anchorXAlign) {
         case constants.MIDDLE:
@@ -146,7 +146,7 @@ class UIPopover extends UIView {
         const state = this.state;
         const constants = UIPopover.Constants;
 
-        let anchorY = anchor.offsetTop;
+        let anchorY = anchor.getBoundingClientRect().top + document.body.scrollTop;
         let anchorHeight = anchor.offsetHeight;
         let nextY = anchorY + anchorHeight;
 
