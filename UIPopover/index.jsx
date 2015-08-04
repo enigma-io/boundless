@@ -6,7 +6,7 @@ let transformProp = (function detectTransformProperty() {
     let availableProp;
     let props = [
         'transform',
-        'webkitTransform',
+        'WebkitTransform',
         'MozTransform',
         'OTransform',
         'msTransform'

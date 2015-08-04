@@ -26,6 +26,7 @@ class UIProgress extends UIView {
                 <div {...this.props}
                      ref='progress'
                      className={this.getProgressClasses()}
+                     label={null}
                      role='presentation'
                      style={{[this.props.tweenProperty]: this.props.progress}} />
 

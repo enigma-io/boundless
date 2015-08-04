@@ -6,6 +6,26 @@ import _ from 'lodash';
 
 require('./index.scss');
 
+let transformProp = (function detectTransformProperty() {
+    let availableProp;
+    let props = [
+        'transform',
+        'WebkitTransform',
+        'MozTransform',
+        'OTransform',
+        'msTransform'
+    ];
+
+    for (let i = 0, len = props.length; i < len; i++) {
+        if (props[i] in document.body.style) {
+            availableProp = props[i];
+            break;
+        }
+    }
+
+    return availableProp;
+})();
+
 export default class UIProgressDemo extends UIView {
     initialState() {
         return {
@@ -79,7 +99,7 @@ export default class UIProgressDemo extends UIView {
                      className='progress-forest-tree'
                      style={{
                         borderBottomColor: `hsl(97.8, 35.5%, ${(Math.random() * (55 - 25) + 25).toFixed(4)}%)`,
-                        transform: `scale(${(Math.random() * 0.3 + 0.9).toFixed(3)}) translate(${this.randomPosition(...(i < 70 ? [3, 2] : []))})`,
+                        [transformProp]: `scale(${(Math.random() * 0.3 + 0.9).toFixed(3)}) translate(${this.randomPosition(...(i < 70 ? [3, 2] : []))})`,
                         zIndex: i
                      }}>
                     |
