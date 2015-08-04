@@ -13,8 +13,6 @@ import UITextDemo from './UIText/demo';
 import UITypeaheadDemo from './UITypeahead/demo';
 import React from 'react';
 
-require('./demo.scss');
-
 React.render(<UIButtonDemo />, document.getElementById('ui-button'));
 React.render(<UICheckboxDemo />, document.getElementById('ui-checkbox'));
 React.render(<UICheckboxGroupDemo />, document.getElementById('ui-checkbox-group'));

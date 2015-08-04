@@ -3,8 +3,6 @@ import UIDialog from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 
-require('./index.scss');
-
 export default class UIDialogDemo extends UIView {
     constructor(...args) {
         super(...args);

@@ -1,0 +1,9 @@
+{
+  "in": [
+    "./demo.scss",
+    "./!(node_modules)/**/*.scss"
+  ],
+  "out": "build/css/demo.css",
+  "browsers": ["> 1% in US"],
+  "sourcemaps": true
+}

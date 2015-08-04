@@ -33,9 +33,9 @@
 }
 
 .ui-image-loading::before {
-    background: url('./UIImage/demo/loader.gif') no-repeat center;
+    background: url('../../UIImage/demo/loader.gif') no-repeat center;
 }
 
 .ui-image-error::before {
-    background: url('./UIImage/demo/error.svg') no-repeat center;
+    background: url('../../UIImage/demo/error.svg') no-repeat center;
 }

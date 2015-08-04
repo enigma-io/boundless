@@ -3,8 +3,6 @@ import UIPopover from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 
-require('./index.scss');
-
 export default class UIPopoverDemo extends UIView {
     initialState() {
         return {

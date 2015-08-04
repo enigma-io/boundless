@@ -4,8 +4,6 @@ import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
 
-require('./index.scss');
-
 let transformProp = (function detectTransformProperty() {
     let availableProp;
     let props = [

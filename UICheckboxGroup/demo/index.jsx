@@ -3,8 +3,6 @@ import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
 
-require('./index.scss');
-
 export default class UICheckboxGroupDemo extends UIView {
     initialState() {
         return {

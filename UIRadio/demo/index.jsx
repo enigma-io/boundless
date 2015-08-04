@@ -2,8 +2,6 @@ import UIRadio from '../index.jsx';
 import UIView from '../../UIView';
 import React from 'react';
 
-require('./index.scss');
-
 export default class UIRadioDemo extends UIView {
     initialState() {
         return {

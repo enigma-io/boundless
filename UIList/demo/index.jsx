@@ -2,8 +2,6 @@ import UIList from '../index.jsx';
 import UIView from '../../UIView';
 import React from 'react';
 
-require('./index.scss');
-
 export default class UIListDemo extends UIView {
     initialState() {
         return {
