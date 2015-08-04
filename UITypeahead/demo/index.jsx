@@ -1,7 +1,9 @@
-import UITypeahead from './index';
-import UIView from '../UIView';
+import UITypeahead from '../index';
+import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
+
+require('./index.scss');
 
 export default class UITypeaheadDemo extends UIView {
     initialState() {

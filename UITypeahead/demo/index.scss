@@ -1,0 +1,75 @@
+.ui-typeahead-wrapper {
+    position: relative;
+}
+
+.ui-typeahead,
+.ui-typeahead-hint {
+    border: 1px solid #333;
+    padding: 0.5em 0.75em;
+    width: 100%;
+}
+
+.ui-typeahead {
+    background: transparent;
+    border: 1px solid #333;
+    border-radius: 2px;
+    position: relative;
+    z-index: 1;
+
+    transition: border-color 200ms ease;
+}
+
+.ui-typeahead:hover,
+.ui-typeahead:focus {
+    border-color: #537C3B;
+    outline: 0;
+}
+
+.ui-typeahead-hint {
+    border-color: transparent;
+    color: gray;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ui-typeahead-match-wrapper {
+    background: #FFF;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 0 0 1px #CCC inset;
+    margin-top: -1px;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+}
+
+.ui-typeahead-match {
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0.25em 0.5em;
+}
+
+.ui-typeahead-match:hover {
+    background-color: rgba(83, 124, 59, 0.2);
+}
+
+.ui-typeahead-match-selected,
+.ui-typeahead-match-selected:hover {
+    background-color: rgba(83, 124, 59, 0.9);
+    color: #FFF;
+}
+
+.ui-typeahead-match-highlight {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.ui-typeahead-match-selected .ui-typeahead-match-highlight {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #FFF;
+}

@@ -1,8 +1,10 @@
-import UIButton from '../UIButton';
-import UIProgress from './index';
-import UIView from '../UIView';
+import UIButton from '../../UIButton';
+import UIProgress from '../index';
+import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
+
+require('./index.scss');
 
 export default class UIProgressDemo extends UIView {
     initialState() {

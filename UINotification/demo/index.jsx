@@ -1,6 +1,6 @@
-import UINotification from './index.jsx';
-import UIButton from '../UIButton';
-import UIView from '../UIView';
+import UINotification from '../index.jsx';
+import UIButton from '../../UIButton';
+import UIView from '../../UIView';
 import React from 'react';
 
 export default class UINotificationDemo extends UIView {

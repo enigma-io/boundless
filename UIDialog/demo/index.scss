@@ -1,0 +1,23 @@
+.ui-dialog {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    box-shadow: 1px 2px 3px #CCC;
+    outline: 0;
+    padding: 1.5em;
+    position: absolute;
+    z-index: 9999;
+}
+
+.ui-dialog *:last-child {
+    margin-bottom: 0;
+}
+
+.ui-dialog-header {
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.ui-dialog-body {
+    line-height: 1.5;
+    padding: 1em 0;
+}

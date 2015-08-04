@@ -1,0 +1,37 @@
+.ui-radio-wrapper {
+    display: flex;
+}
+
+.ui-radio,
+.ui-radio-label {
+    cursor: pointer;
+}
+
+.ui-radio {
+    appearance: none;
+    background: transparent;
+    border: 1px solid #CCC;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin: 1px 3px 0;
+    padding: 0;
+    height: 16px;
+    width: 16px;
+
+    transition: border-color 200ms ease;
+}
+
+.ui-radio:hover,
+.ui-radio:focus {
+    border-color: #537C3B;
+}
+
+.ui-radio-selected {
+    background-color: #537C3B;
+    box-shadow: 0 0 0 1px #FFF inset;
+}
+
+.ui-radio-label {
+    line-height: 1.2;
+    margin-left: 0.25em;
+}

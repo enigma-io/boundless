@@ -1,7 +1,9 @@
-import UIButton from '../UIButton';
-import UIImage from './index.jsx';
-import UIView from '../UIView';
+import UIButton from '../../UIButton';
+import UIImage from '../index.jsx';
+import UIView from '../../UIView';
 import React from 'react';
+
+require('./index.scss');
 
 export default class UIImageDemo extends UIView {
     initialState() {

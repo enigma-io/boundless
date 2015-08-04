@@ -1,13 +1,11 @@
-import UIList from '../UIList';
-import UIPopover from './index';
-import UIView from '../UIView';
+import UIList from '../../UIList';
+import UIPopover from '../index';
+import UIView from '../../UIView';
 import React from 'react';
 
-export default class UIPopoverDemo extends UIView {
-    constructor(...args) {
-        super(...args);
-    }
+require('./index.scss');
 
+export default class UIPopoverDemo extends UIView {
     initialState() {
         return {
             words: [{

@@ -1,7 +1,9 @@
-import UIButton from '../UIButton';
-import UIModal from './index';
-import UIView from '../UIView';
+import UIButton from '../../UIButton';
+import UIModal from '../index';
+import UIView from '../../UIView';
 import React from 'react';
+
+require('./index.scss');
 
 export default class UIModalDemo extends UIView {
     constructor(...args) {

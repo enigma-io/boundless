@@ -1,0 +1,41 @@
+.ui-image-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.ui-image,
+.ui-image-loading,
+.ui-image-error {
+    width: 100%;
+}
+
+.ui-image {
+    background-size: cover;
+    background-position: center;
+}
+
+.ui-image::after,
+.ui-image-loading::before,
+.ui-image-error::before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+    width: 100%;
+}
+
+.ui-image-loading,
+.ui-image-error {
+    background: lightGray;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ui-image-loading::before {
+    background: url('./UIImage/demo/loader.gif') no-repeat center;
+}
+
+.ui-image-error::before {
+    background: url('./UIImage/demo/error.svg') no-repeat center;
+}

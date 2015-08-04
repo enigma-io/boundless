@@ -1,6 +1,8 @@
-import UICheckbox from './index.jsx';
-import UIView from '../UIView';
+import UICheckbox from '../index.jsx';
+import UIView from '../../UIView';
 import React from 'react';
+
+require('./index.scss');
 
 export default class UICheckboxDemo extends UIView {
     initialState() {

@@ -8,6 +8,7 @@
     "react": "~0.13.3"
   },
   "devDependencies": {
+    "autoprefixer": "^5.2.0",
     "babel-eslint": "^3.1.15",
     "babelify": "^6.1.2",
     "beefy": "^2.1.5",
@@ -28,6 +29,7 @@
     "karma-source-map-support": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
+    "scssify": "^0.3.4",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
@@ -49,13 +51,29 @@
   "browserify": {
     "transform": [
       "eslintify",
-      "babelify"
+      "babelify",
+      [
+        "scssify",
+        {
+          "autoInject": {
+            "styleTag": true
+          },
+          "postcss": {
+            "autoprefixer": [
+              "> 1% in US"
+            ]
+          },
+          "sass": {
+            "sourceMap": false
+          }
+        }
+      ]
     ]
   },
   "scripts": {
     "postinstall": "touch ~/.jsawkrc && mkdir -p build/js && npm build",
     "build": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx > build/js/bundle.js",
-    "start": "beefy index.js:build/js/bundle.js 9300 --colors --live --open -- --debug --extension=.jsx",
+    "start": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug --extension=.jsx",
     "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",

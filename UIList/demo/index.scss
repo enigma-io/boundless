@@ -1,0 +1,12 @@
+.ui-list-plain .ui-list-item::after {
+    content: ', ';
+}
+
+.ui-list-plain .ui-list-item:last-child::after {
+    content: none;
+}
+
+.ui-list-bulleted,
+.ui-list-numbered {
+    padding: 0 0 0 1.5em;
+}
