@@ -5,5 +5,6 @@
   ],
   "out": "build/css/demo.css",
   "browsers": ["> 1% in US"],
+  "sass": true,
   "sourcemaps": true
 }
