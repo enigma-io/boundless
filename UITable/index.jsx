@@ -1,11 +1,8 @@
 import UIView from '../UIView';
 import UITableRow from './row';
 import React from 'react';
-import {merge} from 'lodash';
-
-require('array.from');
-
-function noop() {}
+import transformProp from '../UIUtils/transform';
+import {each, merge, noop, toArray} from 'lodash';
 
 /**
  * 1) Initial render w/ one row of cells
@@ -13,26 +10,6 @@ function noop() {}
  * 3) apply widths to column definitions
  * 4) render pass 2 w/ column heads and the rest of the cells
  */
-
-let transformProp = (function detectTransformProperty() {
-    let availableProp;
-    let props = [
-        'transform',
-        'WebkitTransform',
-        'MozTransform',
-        'OTransform',
-        'msTransform'
-    ];
-
-    for (let i = 0, len = props.length; i < len; i++) {
-        if (props[i] in document.body.style) {
-            availableProp = props[i];
-            break;
-        }
-    }
-
-    return availableProp;
-})();
 
 class UITable extends UIView {
     initialState() {
@@ -64,7 +41,7 @@ class UITable extends UIView {
 
             let columns = this.state.columns;
 
-            Array.from(firstRowCells, function discoverWidth(node, index) {
+            each(toArray(firstRowCells), function discoverWidth(node, index) {
                 columns[index] = merge({width: node.clientWidth}, columns[index]);
             });
 
