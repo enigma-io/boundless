@@ -1,7 +1,7 @@
 import UIView from '../UIView';
 import UICheckbox from '../UICheckbox/';
 import React from 'react';
-import _ from 'lodash';
+import {map, every, some, noop} from 'lodash';
 
 class UICheckboxGroup extends UIView {
     getClasses() {
@@ -54,7 +54,7 @@ class UICheckboxGroup extends UIView {
     }
 
     renderCheckboxes() {
-        return _.map(this.props.items, (item) => {
+        return map(this.props.items, (item) => {
             return (
                 <UICheckbox
                     {...item}
@@ -67,17 +67,17 @@ class UICheckboxGroup extends UIView {
     }
 
     allItemsChecked() {
-        return _.every(this.props.items, {checked: true});
+        return every(this.props.items, {checked: true});
     }
 
     anyItemsChecked() {
-        return _.some(this.props.items, {checked: true});
+        return some(this.props.items, {checked: true});
     }
 }
 
 UICheckboxGroup.Constants = {
-    SELECT_ALL_BEFORE: _.uniqueId(),
-    SELECT_ALL_AFTER: _.uniqueId()
+    SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
+    SELECT_ALL_AFTER: 'SELECT_ALL_AFTER'
 };
 
 UICheckboxGroup.propTypes = {
@@ -108,10 +108,10 @@ UICheckboxGroup.propTypes = {
 
 UICheckboxGroup.defaultProps = {
     items: [],
-    onAllChecked: _.noop,
-    onAllUnchecked: _.noop,
-    onChildChecked: _.noop,
-    onChildUnchecked: _.noop,
+    onAllChecked: noop,
+    onAllUnchecked: noop,
+    onChildChecked: noop,
+    onChildUnchecked: noop,
     selectAllAttributes: {},
     selectAllLabel: 'Select All',
     selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE

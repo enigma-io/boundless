@@ -1,5 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
+import {noop} from 'lodash';
 
 class UIRadio extends UIView {
     initialState() {
@@ -87,7 +88,7 @@ UIRadio.propTypes = {
 UIRadio.defaultProps = {
     selected: false,
     labelAttributes: {},
-    onSelected: function noop() {},
+    onSelected: noop,
     wrapperAttributes: {}
 };
 

@@ -1,5 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
+import {indexOf, map} from 'lodash';
 
 class UIList extends UIView {
     initialState() {
@@ -51,7 +52,7 @@ class UIList extends UIView {
     renderContent() {
         let nodeType = this.props.type ? 'li' : 'span';
 
-        return this.props.items.map((item, index) => {
+        return map(this.props.items, (item, index) => {
             return React.createElement(nodeType, {
                 className: 'ui-list-item',
                 ref: index,
@@ -69,13 +70,13 @@ class UIList extends UIView {
     }
 
     getNextItemIndex(currentItem) {
-        let next = this.props.items.indexOf(currentItem) + 1;
+        let next = indexOf(this.props.items, currentItem) + 1;
 
         return next < this.props.items.length ? next : 0;
     }
 
     getPreviousItemIndex(currentItem) {
-        let previous = this.props.items.indexOf(currentItem) - 1;
+        let previous = indexOf(this.props.items, currentItem) - 1;
 
         return previous < 0 ? this.props.items.length - 1 : previous;
     }
@@ -95,7 +96,7 @@ class UIList extends UIView {
                 event.preventDefault();
             }
         } else {
-            let activeItemIndex = items.indexOf(activeItem);
+            let activeItemIndex = indexOf(items, activeItem);
 
             if (key === 'ArrowLeft'
                 || (key === 'Tab' && event.shiftKey && activeItemIndex !== 0)) {

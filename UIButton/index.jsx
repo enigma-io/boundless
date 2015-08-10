@@ -1,7 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
-
-function noop() {}
+import {noop} from 'lodash';
 
 class UIButton extends UIView {
     getClasses() {

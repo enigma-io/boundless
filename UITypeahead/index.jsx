@@ -1,5 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
+import {indexOf, map, reduce} from 'lodash';
 
 class UITypeahead extends UIView {
     initialState() {
@@ -100,7 +101,7 @@ class UITypeahead extends UIView {
                 <div {...this.props.matchWrapperAttributes}
                      ref='matches'
                      className={this.getMatchWrapperClasses()}>
-                    {this.state.entityMatchIndices.map((index) => {
+                    {map(this.state.entityMatchIndices, (index) => {
                         let entity = this.props.entities[index];
 
                         return (
@@ -176,7 +177,7 @@ class UITypeahead extends UIView {
 
         let seekValue = currentValue.toLowerCase();
 
-        return entities.reduce(function seekMatch(result, entity, index) {
+        return reduce(entities, function seekMatch(result, entity, index) {
             return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
         }, []);
     }
@@ -195,7 +196,7 @@ class UITypeahead extends UIView {
     selectMatch(delta) {
         let matches = this.state.entityMatchIndices;
         let totalMatches = matches.length;
-        let nextIndex = matches.indexOf(this.state.selectedEntityIndex) + delta;
+        let nextIndex = indexOf(matches, this.state.selectedEntityIndex) + delta;
 
         if (totalMatches) {
             if (nextIndex < 0) {

@@ -1,5 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
+import {noop} from 'lodash';
 
 class UIDialog extends UIView {
     constructor(...args) {
@@ -120,14 +121,16 @@ class UIDialog extends UIView {
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
-        if (this.isPartOfDialog(previous) && !this.isPartOfDialog(nativeEvent.target)) {
+        if (this.isPartOfDialog(previous)
+            && !this.isPartOfDialog(nativeEvent.target)) {
             nativeEvent.preventDefault();
             previous.focus(); // restore focus
         }
     }
 
     handleKeydown(event) {
-        if (this.props.closeOnEscKey && event.key === 'Escape') {
+        if (this.props.closeOnEscKey
+            && event.key === 'Escape') {
             this.props.onClose();
         }
     }
@@ -161,7 +164,7 @@ UIDialog.defaultProps = {
     captureFocus: true,
     footerAttributes: {},
     headerAttributes: {},
-    onClose: function noop() {}
+    onClose: noop
 };
 
 export default UIDialog;

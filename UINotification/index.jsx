@@ -1,5 +1,6 @@
 import UIView from '../UIView';
 import React from 'react';
+import {noop} from 'lodash';
 
 const NotificationAPI = (function detectSupport() {
     if (window.Notification) {
@@ -106,8 +107,6 @@ UINotification.propTypes = {
     onClick: React.PropTypes.func,
     onDismiss: React.PropTypes.func
 };
-
-function noop() {}
 
 UINotification.defaultProps = {
     body: '',

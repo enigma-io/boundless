@@ -1,26 +1,7 @@
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';
-
-let transformProp = (function detectTransformProperty() {
-    let availableProp;
-    let props = [
-        'transform',
-        'WebkitTransform',
-        'MozTransform',
-        'OTransform',
-        'msTransform'
-    ];
-
-    for (let i = 0, len = props.length; i < len; i++) {
-        if (props[i] in document.body.style) {
-            availableProp = props[i];
-            break;
-        }
-    }
-
-    return availableProp;
-})();
+import transformProp from '../UIUtils/transform';
 
 class UIPopover extends UIView {
     constructor(...args) {
@@ -220,7 +201,8 @@ class UIPopover extends UIView {
 
         let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dialog, x, y);
 
-        if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
+        if (alignmentCorrection
+            && Object.keys(alignmentCorrection).length) {
             this.setState(alignmentCorrection);
         } else {
             this.applyTranslation(dialog, x, y);
