@@ -66,10 +66,20 @@ export default class UITableDemo extends UIView {
         xhr.send();
     }
 
+    handleRowRequest(index) {
+        // this might be async if row must be retrieved remotely
+        return this.state.rows[index];
+    }
+
     render() {
-        return (
-            <UITable columns={this.state.columns}
-                     rows={this.state.rows} />
-        );
+        if (this.state.rows.length) {
+            return (
+                <UITable columns={this.state.columns}
+                         totalRows={this.state.rows.length}
+                         getRow={this.handleRowRequest.bind(this)} />
+            );
+        }
+
+        return null;
     }
 }

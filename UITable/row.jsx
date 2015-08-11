@@ -1,45 +1,26 @@
 import UIView from '../UIView';
-import UITableCell from './cell';
+import Cell from './cell';
 import React from 'react';
-
-let transformProp = (function detectTransformProperty() {
-    let availableProp;
-    let props = [
-        'transform',
-        'WebkitTransform',
-        'MozTransform',
-        'OTransform',
-        'msTransform'
-    ];
-
-    for (let i = 0, len = props.length; i < len; i++) {
-        if (props[i] in document.body.style) {
-            availableProp = props[i];
-            break;
-        }
-    }
-
-    return availableProp;
-})();
+import transformProp from '../UIUtils/transform';
 
 class UITableRow extends UIView {
-    render() {
-        return (
-            <tr className='ui-table-row'
-                style={{[transformProp]: this.props.y ? `translateY(${this.props.y}px)` : null}}>
-                {this.renderCells()}
-            </tr>
-        );
-    }
-
     renderCells() {
         return this.props.columns.map((definition, index) => {
             return (
-                <UITableCell key={index}
-                             content={this.props.data[definition.mapping]}
-                             width={definition.width} />
+                <Cell key={index}
+                      content={this.props.data[definition.mapping]}
+                      width={definition.width} />
             );
         });
+    }
+
+    render() {
+        return (
+            <div className='ui-table-row'
+                 style={{[transformProp]: this.props.y ? `translateY(${this.props.y}px)` : null}}>
+                {this.renderCells()}
+            </div>
+        );
     }
 }
 

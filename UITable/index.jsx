@@ -1,7 +1,8 @@
 import UIView from '../UIView';
+import Row from './row';
 import React from 'react';
 import transformProp from '../UIUtils/transform';
-import {each, map, merge, noop, toArray} from 'lodash';
+import {chain, each, indexOf, map, merge, noop, toArray} from 'lodash';
 
 /**
  * 1) Initial render w/ one row of cells
@@ -13,50 +14,52 @@ import {each, map, merge, noop, toArray} from 'lodash';
 class UITable extends UIView {
     initialState() {
         return {
-            columns: this.props.columns.slice(0),
-            visibleRowRangeStart: null,
-            visibleRowRangeEnd: null
+            chokeRender: true,
+            rows: [{
+                data: this.props.getRow(0),
+                y: 0
+            }],
+            columns: this.props.columns.slice(0)
         };
     }
 
-    getClasses() {
-        return ['ui-table-wrapper'].concat(this.props.className).join(' ');
-    }
-
     captureDimensions() {
-        if (this.props.rows.length
-            && this.state.visibleRowRangeEnd === null) {
-            let firstRowCells = this.body.getElementsByClassName('ui-table-row')[0].getElementsByClassName('ui-table-cell');
+        let firstRowCells = this.body.getElementsByClassName('ui-table-row')[0].getElementsByClassName('ui-table-cell');
 
-            this.cellHeight = firstRowCells[0].clientHeight;
+        this.cellHeight = firstRowCells[0].clientHeight;
 
-            let containerHeight = React.findDOMNode(this).clientHeight;
-            let numRowsToRender = Math.ceil(containerHeight / this.cellHeight + ((containerHeight * 0.2) / this.cellHeight));
+        let containerHeight = React.findDOMNode(this).clientHeight;
+        let numRowsToRender = Math.ceil(containerHeight / this.cellHeight + ((containerHeight * 0.2) / this.cellHeight));
 
-            this.yBound = containerHeight - (numRowsToRender + 1) * this.cellHeight; // +1 for the header
+        this.rowStartIndex = 0;
+        this.rowEndIndex = numRowsToRender;
+        this.yLowerBound = containerHeight - numRowsToRender * this.cellHeight;
+        this.yUpperBound = 0;
 
-            let columns = this.state.columns;
+        let modifiedColumns = this.state.columns.slice(0);
 
-            each(toArray(firstRowCells), function discoverWidth(node, index) {
-                columns[index] = merge({width: Math.ceil(node.getBoundingClientRect().width)}, columns[index]);
-            });
+        each(toArray(firstRowCells), function discoverWidth(node, index) {
+            modifiedColumns[index] = merge({
+                width: Math.ceil(node.getBoundingClientRect().width)
+            }, modifiedColumns[index]);
+        });
 
-            this.setState({
-                columns,
-                visibleRowRangeStart: 0,
-                visibleRowRangeEnd: numRowsToRender
-            });
-        }
+        this.setState({
+            chokeRender: false,
+            columns: modifiedColumns,
+            rows: map(new Array(numRowsToRender), (/*ignore*/x, index) => {
+                return {
+                    data: this.props.getRow(index),
+                    y: this.cellHeight * index
+                };
+            })
+        });
     }
 
     componentDidMount() {
         this.xCurrent = this.yCurrent = 0;
         this.body = React.findDOMNode(this.refs.body);
 
-        this.captureDimensions();
-    }
-
-    componentDidUpdate() {
         this.captureDimensions();
     }
 
@@ -82,8 +85,113 @@ class UITable extends UIView {
         this.yCurrent = dy;
     }
 
+    handleScrollDown(dy) {
+        let endIndex = this.rowEndIndex;
+        let maxIndex = this.props.totalRows;
+
+        if (dy < this.yCurrent
+            && dy <= this.yLowerBound
+            && endIndex < maxIndex) {
+            /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request
+            the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+
+            let shiftIndex = Math.ceil((Math.abs(dy - this.yLowerBound)) / this.cellHeight);
+            let nSlots = shiftIndex;
+
+            if (nSlots + endIndex > maxIndex) {
+                /* more rows than there is data available, truncate */
+                nSlots = maxIndex - endIndex;
+            }
+
+            if (nSlots > 0) {
+                let rowsModified = this.state.rows.slice(0);
+
+                if (nSlots > rowsModified.length) {
+                    /* a very large scroll delta, bump the boundaries by the amount
+                    not covered by our row slots */
+                    this.yLowerBound -= (nSlots - rowsModified.length) * this.cellHeight;
+                    this.yUpperBound -= (nSlots - rowsModified.length) * this.cellHeight;
+                    nSlots = rowsModified.length;
+                }
+
+                if (nSlots > 0) {
+                    /* Find the n lowest rows and migrate them in order. */
+                    let rowsAsc = chain(rowsModified).sortByOrder('y', 'asc').take(nSlots).value();
+                    let pointer;
+
+                    for (let i = 0, len = rowsAsc.length; i < len; i++) {
+                        pointer = indexOf(rowsModified, rowsAsc[i]);
+                        rowsModified[pointer] = {
+                            data: this.props.getRow(endIndex + shiftIndex + i),
+                            y: (endIndex + i) * this.cellHeight
+                        };
+                    }
+
+                    this.rowStartIndex += shiftIndex;
+                    this.rowEndIndex += shiftIndex;
+                    this.yLowerBound -= nSlots * this.cellHeight;
+                    this.yUpperBound -= nSlots * this.cellHeight;
+
+                    this.setState({rows: rowsModified});
+                }
+            }
+        }
+    }
+
+    handleScrollUp(dy) {
+        let startIndex = this.rowStartIndex;
+
+        if (dy > this.yCurrent
+            && dy > this.yUpperBound
+            && startIndex > 0) {
+            /* Scrolling up, so we want to move the highest Y value to the lowest position and request
+            the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+
+            let shiftIndex = Math.ceil((Math.abs(dy - this.yUpperBound)) / this.cellHeight);
+            let nSlots = shiftIndex;
+
+            if (startIndex - nSlots < 0) {
+                nSlots = startIndex;
+            }
+
+            if (nSlots > 0) {
+                let rowsModified = this.state.rows.slice(0);
+
+                if (nSlots > rowsModified.length) {
+                    /* a very large scroll delta, bump the boundaries by the amount
+                    not covered by our row slots */
+                    this.yLowerBound += (nSlots - rowsModified.length) * this.cellHeight;
+                    this.yUpperBound += (nSlots - rowsModified.length) * this.cellHeight;
+                    nSlots = rowsModified.length;
+                }
+
+                if (nSlots > 0) {
+                    /* Find the n highest rows and migrate them in order. */
+                    let rowsDesc = chain(rowsModified).sortByOrder('y', 'desc').take(nSlots).value();
+                    let pointer;
+
+                    for (let i = 0, len = rowsDesc.length; i < len; i++) {
+                        pointer = indexOf(rowsModified, rowsDesc[i]);
+                        rowsModified[pointer] = {
+                            data: this.props.getRow(startIndex - shiftIndex - i),
+                            y: (startIndex - i - 1) * this.cellHeight
+                        };
+                    }
+
+                    this.rowStartIndex -= shiftIndex;
+                    this.rowEndIndex -= shiftIndex;
+                    this.yLowerBound += nSlots * this.cellHeight;
+                    this.yUpperBound += nSlots * this.cellHeight;
+
+                    this.setState({rows: rowsModified});
+                }
+            }
+        }
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
+        event.stopPropagation();
 
         if (event.deltaX === this.xCurrent
             && event.deltaY === this.yCurrent) {
@@ -91,123 +199,48 @@ class UITable extends UIView {
         }
 
         if (!this.xBound) {
-            this.xBound = React.findDOMNode(this).clientWidth - this.body.clientWidth;
+            this.xBound = React.findDOMNode(this).clientWidth - this.body.children[0].clientWidth;
         } // lazy calculate the table width on first move
 
         if (!this.head) {
             this.head = React.findDOMNode(this.refs.head);
         } // header doesn't get rendered until the second pass
 
-        let xNext = this.xCurrent - event.deltaX;
         let yNext = this.yCurrent - event.deltaY;
-        let start = this.state.visibleRowRangeStart;
-        let end = this.state.visibleRowRangeEnd;
 
-        if (yNext < this.yCurrent
-            && yNext <= this.yBound
-            && this.state.visibleRowRangeEnd < this.props.rows.length) {
-            let rowShiftAmount = Math.ceil((Math.abs(yNext - this.yBound)) / this.cellHeight);
-            let numRows = this.props.rows.length;
+        this.handleScrollDown(yNext);
+        this.handleScrollUp(yNext);
 
-            if (rowShiftAmount + end > numRows) {
-                rowShiftAmount = numRows - end;
-            }
-
-            this.setState({
-                visibleRowRangeStart: start + rowShiftAmount,
-                visibleRowRangeEnd: end + rowShiftAmount
-            });
-
-            yNext += rowShiftAmount * this.cellHeight;
-        } else if (yNext > this.yCurrent
-            && yNext > 0
-            && this.state.visibleRowRangeStart > 0) {
-            let rowShiftAmount = Math.ceil((Math.abs(yNext + this.yBound)) / this.cellHeight);
-
-            if (start - rowShiftAmount < 0) {
-                rowShiftAmount = start;
-            }
-
-            this.setState({
-                visibleRowRangeStart: start - rowShiftAmount,
-                visibleRowRangeEnd: end - rowShiftAmount
-            });
-
-            yNext -= rowShiftAmount * this.cellHeight;
-        }
+        let xNext = this.xCurrent - event.deltaX;
 
         this.applyTranslations(
             this.normalizeCoordinate(xNext, this.xBound),
-            this.normalizeCoordinate(yNext, this.yBound)
+            this.normalizeCoordinate(yNext, this.yLowerBound)
         );
     }
 
-    renderCellContent(content, width) {
-        if (typeof width === 'number') {
+    renderRows() {
+        return map(this.state.rows, (row, index) => {
             return (
-                <div className='ui-table-cell-inner'>
-                    <span className='ui-table-cell-inner-text'>{content}</span>
-                </div>
-            );
-        }
-
-        return content;
-    }
-
-    renderCells(datum) {
-        return map(this.state.columns, (definition, index) => {
-            return (
-                <div key={index}
-                    className='ui-table-cell'
-                    style={{width: definition.width ? definition.width + 'px' : null}}>
-                    {this.renderCellContent(datum[definition.mapping], definition.width)}
-                </div>
+                <Row key={index}
+                     columns={this.state.columns}
+                     data={row.data}
+                     y={row.y} />
             );
         });
     }
 
-    renderRows(start, end) {
-        let data = this.props.rows;
-        let len = data.length;
-        let rows = [];
-        let i = start;
-        let cap = end;
-        let datum;
-
-        if (cap > len) {
-            cap = len;
-        }
-
-        for (; i < cap; i += 1) {
-            datum = data[i];
-
-            rows.push(
-                <div className='ui-table-row'
-                    key={datum.id}>
-                    {this.renderCells(datum)}
-                </div>
-            );
-        }
-
-        return rows;
-    }
-
     renderBody() {
-        let useComputed = typeof this.state.visibleRowRangeStart === 'number';
-
-        // render a single row to grab width metrics
-        let start = useComputed ? this.state.visibleRowRangeStart : 0;
-        let end = useComputed ? this.state.visibleRowRangeEnd : 1;
-
         return (
-            <div ref='body' className='ui-table-body'>
-                {this.renderRows(start, end)}
+            <div ref='body'
+                 className='ui-table-body'>
+                {this.renderRows()}
             </div>
         );
     }
 
     renderHead() {
-        if (typeof this.state.visibleRowRangeStart === 'number') {
+        if (!this.state.chokeRender) {
             let moddedData = {};
 
             this.state.columns.forEach(function pareDown(definition) {
@@ -216,47 +249,45 @@ class UITable extends UIView {
 
             return (
                 <div ref='head' className='ui-table-header'>
-                    <div className='ui-table-row'>
-                        {this.renderCells(moddedData)}
-                    </div>
+                    <Row columns={this.state.columns}
+                         data={moddedData} />
                 </div>
             );
         }
     }
 
-    renderScrollbars() {
-        return (
-            <div>
-                <div className='ui-table-x-scroller'>
-                    <div ref='xNub'
-                         className='ui-table-x-scroller-nub'
-                         style={{
-                            width: this.state.xNubSize,
-                            [transformProp]: `translateX(${this.state.xProgress})`
-                         }} />
-                </div>
-                <div className='ui-table-y-scroller'>
-                    <div ref='yNub'
-                         className='ui-table-y-scroller-nub'
-                         style={{
-                            height: this.state.yNubSize,
-                            [transformProp]: `translateY(${this.state.yProgress})`
-                         }} />
-                </div>
-            </div>
-        );
-    }
+    // renderScrollbars() {
+    //     return (
+    //         <div>
+    //             <div className='ui-table-x-scroller'>
+    //                 <div ref='xNub'
+    //                      className='ui-table-x-scroller-nub'
+    //                      style={{
+    //                         width: this.state.xNubSize,
+    //                         [transformProp]: `translateX(${this.state.xProgress})`
+    //                      }} />
+    //             </div>
+    //             <div className='ui-table-y-scroller'>
+    //                 <div ref='yNub'
+    //                      className='ui-table-y-scroller-nub'
+    //                      style={{
+    //                         height: this.state.yNubSize,
+    //                         [transformProp]: `translateY(${this.state.yProgress})`
+    //                      }} />
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     render() {
         return (
-            <div className={this.getClasses()}
+            <div className='ui-table-wrapper'
                  onWheel={this.handleMoveIntent.bind(this)}>
                 <div ref='table'
                        className='ui-table'>
                     {this.renderHead()}
                     {this.renderBody()}
                 </div>
-                {this.renderScrollbars()}
             </div>
         );
     }
@@ -275,17 +306,12 @@ UITable.propTypes = {
             width: React.PropTypes.number
         })
     ),
-    onCellInteract: React.PropTypes.func,
-    onRowInteract: React.PropTypes.func,
-    rows: React.PropTypes.arrayOf(React.PropTypes.object)
+    getRow: React.PropTypes.func
 };
 
 UITable.defaultProps = {
-    className: [],
     columns: [],
-    onCellInteract: noop,
-    onRowInteract: noop,
-    rows: []
+    getRow: noop
 };
 
 export default UITable;
