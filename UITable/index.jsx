@@ -1,8 +1,7 @@
 import UIView from '../UIView';
-import UITableRow from './row';
 import React from 'react';
 import transformProp from '../UIUtils/transform';
-import {each, merge, noop, toArray} from 'lodash';
+import {each, map, merge, noop, toArray} from 'lodash';
 
 /**
  * 1) Initial render w/ one row of cells
@@ -14,12 +13,9 @@ import {each, merge, noop, toArray} from 'lodash';
 class UITable extends UIView {
     initialState() {
         return {
-            columns: this.props.columns,
-            rowYPositions: {},
+            columns: this.props.columns.slice(0),
             visibleRowRangeStart: null,
-            visibleRowRangeEnd: null,
-            visibleColumnRangeStart: null,
-            visibleColumnRangeEnd: null
+            visibleRowRangeEnd: null
         };
     }
 
@@ -28,7 +24,8 @@ class UITable extends UIView {
     }
 
     captureDimensions() {
-        if (this.props.rows.length) {
+        if (this.props.rows.length
+            && this.state.visibleRowRangeEnd === null) {
             let firstRowCells = this.body.getElementsByClassName('ui-table-row')[0].getElementsByClassName('ui-table-cell');
 
             this.cellHeight = firstRowCells[0].clientHeight;
@@ -36,13 +33,12 @@ class UITable extends UIView {
             let containerHeight = React.findDOMNode(this).clientHeight;
             let numRowsToRender = Math.ceil(containerHeight / this.cellHeight + ((containerHeight * 0.2) / this.cellHeight));
 
-            this.head = React.findDOMNode(this.refs.head);
             this.yBound = containerHeight - (numRowsToRender + 1) * this.cellHeight; // +1 for the header
 
             let columns = this.state.columns;
 
             each(toArray(firstRowCells), function discoverWidth(node, index) {
-                columns[index] = merge({width: node.clientWidth}, columns[index]);
+                columns[index] = merge({width: Math.ceil(node.getBoundingClientRect().width)}, columns[index]);
             });
 
             this.setState({
@@ -64,49 +60,110 @@ class UITable extends UIView {
         this.captureDimensions();
     }
 
-    render() {
-        return (
-            <div className={this.getClasses()}
-                 onWheel={this.handleMoveIntent.bind(this)}>
-                <table ref='table'
-                       className='ui-table'>
-                    {this.renderBody()}
-                    {this.renderHead()}
-                </table>
-                {this.renderScrollbars()}
-            </div>
-        );
+    normalizeCoordinate(delta, bound) {
+        if (bound > 0
+            || delta > 0) {
+            return 0;
+        } else if (delta < bound) {
+            return bound;
+        }
+
+        return delta;
     }
 
-    renderHead() {
-        if (typeof this.state.visibleRowRangeStart === 'number') {
-            let moddedData = {};
+    applyTranslations(dx, dy) {
+        if (dx !== this.xCurrent) {
+            this.head.style[transformProp] = `translateX(${dx}px)`;
+        }
 
-            this.state.columns.forEach(function pareDown(definition) {
-                moddedData[definition.mapping] = definition.title;
+        this.body.style[transformProp] = `translate(${dx}px, ${dy}px)`;
+
+        this.xCurrent = dx;
+        this.yCurrent = dy;
+    }
+
+    handleMoveIntent(event) {
+        event.preventDefault();
+
+        if (event.deltaX === this.xCurrent
+            && event.deltaY === this.yCurrent) {
+            return;
+        }
+
+        if (!this.xBound) {
+            this.xBound = React.findDOMNode(this).clientWidth - this.body.clientWidth;
+        } // lazy calculate the table width on first move
+
+        if (!this.head) {
+            this.head = React.findDOMNode(this.refs.head);
+        } // header doesn't get rendered until the second pass
+
+        let xNext = this.xCurrent - event.deltaX;
+        let yNext = this.yCurrent - event.deltaY;
+        let start = this.state.visibleRowRangeStart;
+        let end = this.state.visibleRowRangeEnd;
+
+        if (yNext < this.yCurrent
+            && yNext <= this.yBound
+            && this.state.visibleRowRangeEnd < this.props.rows.length) {
+            let rowShiftAmount = Math.ceil((Math.abs(yNext - this.yBound)) / this.cellHeight);
+            let numRows = this.props.rows.length;
+
+            if (rowShiftAmount + end > numRows) {
+                rowShiftAmount = numRows - end;
+            }
+
+            this.setState({
+                visibleRowRangeStart: start + rowShiftAmount,
+                visibleRowRangeEnd: end + rowShiftAmount
             });
 
-            return (
-                <thead ref='head' className='ui-table-header'>
-                    <UITableRow columns={this.state.columns}
-                                data={moddedData} />
-                </thead>
-            );
+            yNext += rowShiftAmount * this.cellHeight;
+        } else if (yNext > this.yCurrent
+            && yNext > 0
+            && this.state.visibleRowRangeStart > 0) {
+            let rowShiftAmount = Math.ceil((Math.abs(yNext + this.yBound)) / this.cellHeight);
+
+            if (start - rowShiftAmount < 0) {
+                rowShiftAmount = start;
+            }
+
+            this.setState({
+                visibleRowRangeStart: start - rowShiftAmount,
+                visibleRowRangeEnd: end - rowShiftAmount
+            });
+
+            yNext -= rowShiftAmount * this.cellHeight;
         }
+
+        this.applyTranslations(
+            this.normalizeCoordinate(xNext, this.xBound),
+            this.normalizeCoordinate(yNext, this.yBound)
+        );
     }
 
-    renderBody() {
-        let useComputed = typeof this.state.visibleRowRangeStart === 'number';
+    renderCellContent(content, width) {
+        if (typeof width === 'number') {
+            return (
+                <div className='ui-table-cell-inner'>
+                    <span className='ui-table-cell-inner-text'>{content}</span>
+                </div>
+            );
+        }
 
-        // render a single row to grab width metrics
-        let start = useComputed ? this.state.visibleRowRangeStart : 0;
-        let end = useComputed ? this.state.visibleRowRangeEnd : 1;
+        return content;
+    }
 
-        return (
-            <tbody ref='body' className='ui-table-body'>
-                {this.renderRows(start, end)}
-            </tbody>
-        );
+    renderCells(datum) {
+        return map(this.state.columns, (definition, index) => {
+            return (
+                <div key={index}
+                    className='ui-table-cell'
+                    style={{width: definition.width ? definition.width + 'px' : null}}>
+                    {this.renderCellContent(datum[definition.mapping], definition.width)}
+                </div>
+            );
+        });
     }
 
     renderRows(start, end) {
@@ -125,15 +182,46 @@ class UITable extends UIView {
             datum = data[i];
 
             rows.push(
-                <UITableRow ref={'row' + i}
-                            key={datum.id}
-                            columns={this.state.columns}
-                            data={datum}
-                            y={this.state.rowYPositions['row' + i]} />
+                <div className='ui-table-row'
+                    key={datum.id}>
+                    {this.renderCells(datum)}
+                </div>
             );
         }
 
         return rows;
+    }
+
+    renderBody() {
+        let useComputed = typeof this.state.visibleRowRangeStart === 'number';
+
+        // render a single row to grab width metrics
+        let start = useComputed ? this.state.visibleRowRangeStart : 0;
+        let end = useComputed ? this.state.visibleRowRangeEnd : 1;
+
+        return (
+            <div ref='body' className='ui-table-body'>
+                {this.renderRows(start, end)}
+            </div>
+        );
+    }
+
+    renderHead() {
+        if (typeof this.state.visibleRowRangeStart === 'number') {
+            let moddedData = {};
+
+            this.state.columns.forEach(function pareDown(definition) {
+                moddedData[definition.mapping] = definition.title;
+            });
+
+            return (
+                <div ref='head' className='ui-table-header'>
+                    <div className='ui-table-row'>
+                        {this.renderCells(moddedData)}
+                    </div>
+                </div>
+            );
+        }
     }
 
     renderScrollbars() {
@@ -159,43 +247,17 @@ class UITable extends UIView {
         );
     }
 
-    applyTranslation(dx, dy) {
-        if (dx !== this.xCurrent) {
-            this.head.style[transformProp] = `translateX(${dx}px)`;
-        }
-
-        this.body.style[transformProp] = `translate(${dx}px, ${dy}px)`;
-
-        this.xCurrent = dx;
-        this.yCurrent = dy;
-    }
-
-    normalize(delta, bound) {
-        if (bound > 0
-            || delta > 0) {
-            return 0;
-        } else if (delta < bound) {
-            return bound;
-        }
-
-        return delta;
-    }
-
-    handleMoveIntent(event) {
-        event.preventDefault();
-
-        if (event.deltaX === this.xCurrent
-            && event.deltaY === this.yCurrent) {
-            return;
-        }
-
-        if (!this.xBound) { // lazy calculate the table width on first move
-            this.xBound = React.findDOMNode(this).clientWidth - this.body.clientWidth;
-        }
-
-        this.applyTranslation(
-            this.normalize(this.xCurrent - event.deltaX, this.xBound),
-            this.normalize(this.yCurrent - event.deltaY, this.yBound)
+    render() {
+        return (
+            <div className={this.getClasses()}
+                 onWheel={this.handleMoveIntent.bind(this)}>
+                <div ref='table'
+                       className='ui-table'>
+                    {this.renderHead()}
+                    {this.renderBody()}
+                </div>
+                {this.renderScrollbars()}
+            </div>
         );
     }
 }

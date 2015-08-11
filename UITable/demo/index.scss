@@ -2,6 +2,11 @@ $cell-color-base: #537C3B;
 $cell-height: 40px;
 $cell-x-padding: 0.75em;
 
+.ui-table-wrapper,
+.ui-table-wrapper * {
+    box-sizing: border-box;
+}
+
 .ui-table-wrapper {
     overflow: hidden;
     position: relative;
@@ -12,32 +17,41 @@ $cell-x-padding: 0.75em;
 .ui-table {
     border-spacing: 0;
     text-align: left;
+    white-space: nowrap;
+}
+
+.ui-table-header {
+    position: relative;
+    z-index: 1;
+}
+
+.ui-table-body {
+    position: absolute;
 }
 
 .ui-table-row {
-    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 }
 
 .ui-table-cell {
-    background: rgba($cell-color-base, 0);
+    background: rgba($cell-color-base, 0.05);
+    display: inline-block;
+    vertical-align: top;
     height: $cell-height;
+    line-height: $cell-height;
     min-width: 75px;
     padding: 0 $cell-x-padding;
     position: relative;
-    white-space: nowrap;
     user-select: none;
 }
 
 .ui-table-cell-inner {
-    line-height: $cell-height;
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    left: $cell-x-padding;
+    right: $cell-x-padding;
     overflow: hidden;
-    padding: 0 $cell-x-padding;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .ui-table-cell-inner-text {
@@ -45,7 +59,7 @@ $cell-x-padding: 0.75em;
 }
 
 .ui-table-row:nth-child(2n+2) .ui-table-cell {
-    background: rgba($cell-color-base, 0.05);
+    background: rgba($cell-color-base, 0.1);
 }
 
 .ui-table-header .ui-table-cell {
