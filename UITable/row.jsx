@@ -17,7 +17,7 @@ class UITableRow extends UIView {
     render() {
         return (
             <div className='ui-table-row'
-                 style={{[transformProp]: this.props.y ? `translateY(${this.props.y}px)` : null}}>
+                 style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}>
                 {this.renderCells()}
             </div>
         );

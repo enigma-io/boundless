@@ -186,10 +186,10 @@ class UITable extends UIView {
 
     applyTranslations(xNext, yNext) {
         if (xNext !== this.xCurrent) {
-            this.head.style[transformProp] = `translateX(${xNext}px)`;
+            this.head.style[transformProp] = `translate3d(${xNext}px, 0px, 0px)`;
         }
 
-        this.body.style[transformProp] = `translate(${xNext}px, ${yNext}px)`;
+        this.body.style[transformProp] = `translate3d(${xNext}px, ${yNext}px, 0px)`;
 
         this.xCurrent = xNext;
         this.yCurrent = yNext;
