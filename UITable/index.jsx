@@ -2,7 +2,7 @@ import UIView from '../UIView';
 import Row from './row';
 import React from 'react';
 import transformProp from '../UIUtils/transform';
-import {chain, each, indexOf, map, merge, noop, toArray} from 'lodash';
+import {chain, each, indexOf, map, merge, noop} from 'lodash';
 
 /**
  * 1) Initial render w/ one row of cells
@@ -24,29 +24,29 @@ class UITable extends UIView {
     }
 
     captureDimensions() {
-        let firstRowCells = this.body.getElementsByClassName('ui-table-row')[0].getElementsByClassName('ui-table-cell');
+        let firstRow = this.body.getElementsByClassName('ui-table-row')[0];
+        let firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
 
         this.cellHeight = firstRowCells[0].clientHeight;
 
         let containerHeight = React.findDOMNode(this).clientHeight;
-        let numRowsToRender = Math.ceil(containerHeight / this.cellHeight + ((containerHeight * 0.2) / this.cellHeight));
+        let numRowsToRender = Math.ceil((containerHeight * 1.2) / this.cellHeight);
 
         this.rowStartIndex = 0;
         this.rowEndIndex = numRowsToRender;
-        this.yLowerBound = containerHeight - numRowsToRender * this.cellHeight;
+
+        this.xBound = React.findDOMNode(this).clientWidth - firstRow.clientWidth;
+
         this.yUpperBound = 0;
-
-        let modifiedColumns = this.state.columns.slice(0);
-
-        each(toArray(firstRowCells), function discoverWidth(node, index) {
-            modifiedColumns[index] = merge({
-                width: Math.ceil(node.getBoundingClientRect().width)
-            }, modifiedColumns[index]);
-        });
+        this.yLowerBound = containerHeight - (numRowsToRender * this.cellHeight);
 
         this.setState({
             chokeRender: false,
-            columns: modifiedColumns,
+            columns: map(this.state.columns, function discoverWidth(column, index) {
+                return merge({
+                    width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
+                }, column);
+            }),
             rows: map(new Array(numRowsToRender), (/*ignore*/x, index) => {
                 return {
                     data: this.props.getRow(index),
@@ -63,74 +63,56 @@ class UITable extends UIView {
         this.captureDimensions();
     }
 
-    normalizeCoordinate(delta, bound) {
-        if (bound > 0
-            || delta > 0) {
-            return 0;
-        } else if (delta < bound) {
-            return bound;
-        }
-
-        return delta;
-    }
-
-    applyTranslations(dx, dy) {
-        if (dx !== this.xCurrent) {
-            this.head.style[transformProp] = `translateX(${dx}px)`;
-        }
-
-        this.body.style[transformProp] = `translate(${dx}px, ${dy}px)`;
-
-        this.xCurrent = dx;
-        this.yCurrent = dy;
-    }
-
-    handleScrollDown(dy) {
-        let endIndex = this.rowEndIndex;
+    handleScrollDown(yNext) {
         let maxIndex = this.props.totalRows;
 
-        if (dy < this.yCurrent
-            && dy <= this.yLowerBound
-            && endIndex < maxIndex) {
+        if (yNext < this.yLowerBound
+            && this.rowEndIndex < maxIndex) {
             /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request
             the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            let shiftIndex = Math.ceil((Math.abs(dy - this.yLowerBound)) / this.cellHeight);
-            let nSlots = shiftIndex;
+            let nRowsToShift = Math.ceil((Math.abs(yNext - this.yLowerBound)) / this.cellHeight);
 
-            if (nSlots + endIndex > maxIndex) {
+            if (nRowsToShift + this.rowEndIndex > maxIndex) {
                 /* more rows than there is data available, truncate */
-                nSlots = maxIndex - endIndex;
+                nRowsToShift = maxIndex - this.rowEndIndex;
             }
 
-            if (nSlots > 0) {
+            if (nRowsToShift > 0) {
                 let rowsModified = this.state.rows.slice(0);
+                let numRowsAvailable = rowsModified.length;
 
-                if (nSlots > rowsModified.length) {
-                    /* a very large scroll delta, bump the boundaries by the amount
-                    not covered by our row slots */
-                    this.yLowerBound -= (nSlots - rowsModified.length) * this.cellHeight;
-                    this.yUpperBound -= (nSlots - rowsModified.length) * this.cellHeight;
-                    nSlots = rowsModified.length;
+                if (nRowsToShift > numRowsAvailable) {
+                    /* a very large scroll delta, calculate where the boundaries should be */
+                    let updatedBound = (nRowsToShift - numRowsAvailable) * this.cellHeight;
+
+                    this.yUpperBound -= updatedBound;
+                    this.yLowerBound -= updatedBound;
+
+                    this.rowStartIndex += nRowsToShift - numRowsAvailable;
+                    this.rowEndIndex += nRowsToShift - numRowsAvailable;
+
+                    nRowsToShift = numRowsAvailable;
                 }
 
-                if (nSlots > 0) {
-                    /* Find the n lowest rows and migrate them in order. */
-                    let rowsAsc = chain(rowsModified).sortByOrder('y', 'asc').take(nSlots).value();
-                    let pointer;
+                if (nRowsToShift > 0) {
+                    /* Find the lowest y-value rows and migrate them to the end of the heap */
+                    let rowsSorted = chain(rowsModified).sortByOrder('y', 'asc').take(nRowsToShift).value();
+                    let nextIndex;
 
-                    for (let i = 0, len = rowsAsc.length; i < len; i++) {
-                        pointer = indexOf(rowsModified, rowsAsc[i]);
-                        rowsModified[pointer] = {
-                            data: this.props.getRow(endIndex + shiftIndex + i),
-                            y: (endIndex + i) * this.cellHeight
+                    each(rowsSorted, (row, arrIndex) => {
+                        nextIndex = this.rowEndIndex + arrIndex;
+                        rowsModified[indexOf(rowsModified, row)] = {
+                            data: this.props.getRow(nextIndex),
+                            y: nextIndex * this.cellHeight
                         };
-                    }
+                    });
 
-                    this.rowStartIndex += shiftIndex;
-                    this.rowEndIndex += shiftIndex;
-                    this.yLowerBound -= nSlots * this.cellHeight;
-                    this.yUpperBound -= nSlots * this.cellHeight;
+                    this.rowStartIndex += nRowsToShift;
+                    this.rowEndIndex += nRowsToShift;
+
+                    this.yUpperBound -= nRowsToShift * this.cellHeight;
+                    this.yLowerBound -= nRowsToShift * this.cellHeight;
 
                     this.setState({rows: rowsModified});
                 }
@@ -138,55 +120,79 @@ class UITable extends UIView {
         }
     }
 
-    handleScrollUp(dy) {
-        let startIndex = this.rowStartIndex;
-
-        if (dy > this.yCurrent
-            && dy > this.yUpperBound
-            && startIndex > 0) {
-            /* Scrolling up, so we want to move the highest Y value to the lowest position and request
+    handleScrollUp(yNext) {
+        if (yNext > this.yUpperBound
+            && this.rowStartIndex > 0) {
+            /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request
             the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            let shiftIndex = Math.ceil((Math.abs(dy - this.yUpperBound)) / this.cellHeight);
-            let nSlots = shiftIndex;
+            let nRowsToShift = Math.ceil((Math.abs(yNext - this.yUpperBound)) / this.cellHeight);
 
-            if (startIndex - nSlots < 0) {
-                nSlots = startIndex;
+            if (this.rowStartIndex - nRowsToShift < 0) {
+                nRowsToShift = this.rowStartIndex;
             }
 
-            if (nSlots > 0) {
+            if (nRowsToShift > 0) {
                 let rowsModified = this.state.rows.slice(0);
+                let numRowsAvailable = rowsModified.length;
 
-                if (nSlots > rowsModified.length) {
-                    /* a very large scroll delta, bump the boundaries by the amount
-                    not covered by our row slots */
-                    this.yLowerBound += (nSlots - rowsModified.length) * this.cellHeight;
-                    this.yUpperBound += (nSlots - rowsModified.length) * this.cellHeight;
-                    nSlots = rowsModified.length;
+                if (nRowsToShift > numRowsAvailable) {
+                    /* a very large scroll delta, calculate where the boundaries should be */
+                    let updatedBound = (nRowsToShift - numRowsAvailable) * this.cellHeight;
+
+                    this.rowStartIndex -= nRowsToShift - numRowsAvailable;
+                    this.rowEndIndex -= nRowsToShift - numRowsAvailable;
+
+                    this.yUpperBound += updatedBound;
+                    this.yLowerBound += updatedBound;
+
+                    nRowsToShift = numRowsAvailable;
                 }
 
-                if (nSlots > 0) {
-                    /* Find the n highest rows and migrate them in order. */
-                    let rowsDesc = chain(rowsModified).sortByOrder('y', 'desc').take(nSlots).value();
-                    let pointer;
+                if (nRowsToShift > 0) {
+                    /* Find the highest y-value rows and migrate them to the top of the heap */
+                    let rowsSorted = chain(rowsModified).sortByOrder('y', 'desc').take(nRowsToShift).value();
+                    let prevIndex;
 
-                    for (let i = 0, len = rowsDesc.length; i < len; i++) {
-                        pointer = indexOf(rowsModified, rowsDesc[i]);
-                        rowsModified[pointer] = {
-                            data: this.props.getRow(startIndex - shiftIndex - i),
-                            y: (startIndex - i - 1) * this.cellHeight
+                    each(rowsSorted, (row, arrIndex) => {
+                        prevIndex = this.rowStartIndex - arrIndex - 1;
+                        rowsModified[indexOf(rowsModified, row)] = {
+                            data: this.props.getRow(prevIndex),
+                            y: prevIndex * this.cellHeight
                         };
-                    }
+                    });
 
-                    this.rowStartIndex -= shiftIndex;
-                    this.rowEndIndex -= shiftIndex;
-                    this.yLowerBound += nSlots * this.cellHeight;
-                    this.yUpperBound += nSlots * this.cellHeight;
+                    this.rowStartIndex -= nRowsToShift;
+                    this.rowEndIndex -= nRowsToShift;
+
+                    this.yUpperBound += nRowsToShift * this.cellHeight;
+                    this.yLowerBound += nRowsToShift * this.cellHeight;
 
                     this.setState({rows: rowsModified});
                 }
             }
         }
+    }
+
+    normalizeCoordinate(next, bound) {
+        if (next > 0) {
+            return 0;
+        } else if (next < bound) {
+            return bound;
+        }
+
+        return next;
+    }
+
+    applyTranslations(xNext, yNext) {
+        if (xNext !== this.xCurrent) {
+            this.head.style[transformProp] = `translateX(${xNext}px)`;
+        }
+
+        this.body.style[transformProp] = `translate(${xNext}px, ${yNext}px)`;
+
+        this.xCurrent = xNext;
+        this.yCurrent = yNext;
     }
 
     handleMoveIntent(event) {
@@ -198,18 +204,17 @@ class UITable extends UIView {
             return;
         }
 
-        if (!this.xBound) {
-            this.xBound = React.findDOMNode(this).clientWidth - this.body.children[0].clientWidth;
-        } // lazy calculate the table width on first move
-
         if (!this.head) {
             this.head = React.findDOMNode(this.refs.head);
         } // header doesn't get rendered until the second pass
 
         let yNext = this.yCurrent - event.deltaY;
 
-        this.handleScrollDown(yNext);
-        this.handleScrollUp(yNext);
+        if (yNext < this.yCurrent) {
+            this.handleScrollDown(yNext);
+        } else if (yNext > this.yCurrent) {
+            this.handleScrollUp(yNext);
+        }
 
         let xNext = this.xCurrent - event.deltaX;
 

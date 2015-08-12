@@ -64,7 +64,7 @@
     "start": "npm run start-css & npm run start-js",
     "start-css": "pleeease-watch",
     "start-js": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug --extension=.jsx",
-    "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.min.js",
+    "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/api && find . -type f -name '*.js' -o -name '*.jsx' | grep -v '\\./\\(node_modules\\|docs\\|build\\)' | xargs jsdoc -d docs/api -c docs/jsdoc.json"

@@ -63,10 +63,6 @@ $cell-x-padding: 0.75em;
     user-select: auto;
 }
 
-.ui-table-row:nth-child(2n+2) .ui-table-cell {
-    background: rgba($cell-color-base, 0.1);
-}
-
 .ui-table-header .ui-table-cell {
     background: #333;
     color: #FFF;
