@@ -69,47 +69,52 @@ $cell-x-padding: 0.75em;
     color: #FFF;
 }
 
+.ui-table-x-scroller,
 .ui-table-y-scroller {
-    width: 10px;
+    background: #CCC;
+    cursor: move;
     position: absolute;
-    right: 0;
     top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-
-    transition: width 200ms ease;
-}
-
-.ui-table-y-scroller:hover {
-    width: 15px;
+    transition-duration: 200ms;
+    transition-timing: ease;
+    z-index: 2;
 }
 
 .ui-table-x-scroller {
-    height: 10px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    transition: height 200ms ease;
+    height: 8px;
+    top: auto;
+    transition-property: height;
 }
 
 .ui-table-x-scroller:hover {
-    height: 15px;
+    height: 12px;
+}
+
+.ui-table-y-scroller {
+    width: 8px;
+    left: auto;
+    transition-property: width;
+}
+
+.ui-table-y-scroller:hover {
+    width: 12px;
 }
 
 .ui-table-x-scroller-nub,
 .ui-table-y-scroller-nub {
     background-color: black;
-    border-radius: 3px;
     position: absolute;
 }
 
 .ui-table-x-scroller-nub {
-    top: 3px;
-    bottom: 3px;
+    top: 0;
+    bottom: 0;
 }
 
 .ui-table-y-scroller-nub {
-    left: 3px;
-    right: 3px;
+    left: 0;
+    right: 0;
 }

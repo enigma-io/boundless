@@ -12,6 +12,14 @@ import {chain, each, indexOf, map, merge, noop} from 'lodash';
  */
 
 class UITable extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.handleScrollDown = this.handleScrollDown.bind(this);
+        this.handleScrollUp = this.handleScrollUp.bind(this);
+        this.handleMoveIntent = this.handleMoveIntent.bind(this);
+    }
+
     initialState() {
         return {
             chokeRender: true,
@@ -19,26 +27,37 @@ class UITable extends UIView {
                 data: this.props.getRow(0),
                 y: 0
             }],
-            columns: this.props.columns.slice(0)
+            columns: this.props.columns.slice(0),
+            xNubSize: null,
+            xProgress: 0,
+            yNubSize: null,
+            yProgress: 0
         };
     }
 
     captureDimensions() {
         let firstRow = this.body.getElementsByClassName('ui-table-row')[0];
         let firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
+        let container = React.findDOMNode(this);
 
         this.cellHeight = firstRowCells[0].clientHeight;
+        this.containerHeight = container.clientHeight;
 
-        let containerHeight = React.findDOMNode(this).clientHeight;
-        let numRowsToRender = Math.ceil((containerHeight * 1.2) / this.cellHeight);
+        let numRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
         this.rowStartIndex = 0;
         this.rowEndIndex = numRowsToRender;
 
-        this.xBound = React.findDOMNode(this).clientWidth - firstRow.clientWidth;
+        let containerWidth = container.clientWidth;
+        let tableWidth = firstRow.clientWidth;
+
+        this.xBound = containerWidth - tableWidth;
 
         this.yUpperBound = 0;
-        this.yLowerBound = containerHeight - (numRowsToRender * this.cellHeight);
+        this.yLowerBound = this.containerHeight - (numRowsToRender * this.cellHeight);
+
+        let calculatedXNub = containerWidth - Math.abs(this.xBound);
+        let calculatedYNub = this.rowEndIndex / this.props.totalRows;
 
         this.setState({
             chokeRender: false,
@@ -52,7 +71,9 @@ class UITable extends UIView {
                     data: this.props.getRow(index),
                     y: this.cellHeight * index
                 };
-            })
+            }),
+            xNubSize: calculatedXNub < 12 ? 12 : calculatedXNub,
+            yNubSize: calculatedYNub < 12 ? 12 : calculatedYNub
         });
     }
 
@@ -61,6 +82,20 @@ class UITable extends UIView {
         this.body = React.findDOMNode(this.refs.body);
 
         this.captureDimensions();
+    }
+
+    calculateXProgress() {
+        this.setState({xProgress: Math.abs(this.xCurrent)});
+    }
+
+    calculateYProgress() {
+        let yPos = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
+
+        if (yPos + this.state.yNubSize > this.containerHeight) {
+            yPos = this.containerHeight - this.state.yNubSize;
+        }
+
+        this.setState({yProgress: yPos});
     }
 
     handleScrollDown(yNext) {
@@ -197,7 +232,6 @@ class UITable extends UIView {
 
     handleMoveIntent(event) {
         event.preventDefault();
-        event.stopPropagation();
 
         if (event.deltaX === this.xCurrent
             && event.deltaY === this.yCurrent) {
@@ -222,6 +256,9 @@ class UITable extends UIView {
             this.normalizeCoordinate(xNext, this.xBound),
             this.normalizeCoordinate(yNext, this.yLowerBound)
         );
+
+        this.calculateXProgress();
+        this.calculateYProgress();
     }
 
     renderRows() {
@@ -261,38 +298,62 @@ class UITable extends UIView {
         }
     }
 
-    // renderScrollbars() {
-    //     return (
-    //         <div>
-    //             <div className='ui-table-x-scroller'>
-    //                 <div ref='xNub'
-    //                      className='ui-table-x-scroller-nub'
-    //                      style={{
-    //                         width: this.state.xNubSize,
-    //                         [transformProp]: `translateX(${this.state.xProgress})`
-    //                      }} />
-    //             </div>
-    //             <div className='ui-table-y-scroller'>
-    //                 <div ref='yNub'
-    //                      className='ui-table-y-scroller-nub'
-    //                      style={{
-    //                         height: this.state.yNubSize,
-    //                         [transformProp]: `translateY(${this.state.yProgress})`
-    //                      }} />
-    //             </div>
-    //         </div>
-    //     );
-    // }
+    handleYDrag(event) {
+        if (typeof this.lastYNubPos === 'undefined') {
+            this.lastYNubPos = event.pageY;
+        }
+
+        /* `event.buttons === 1` means dragging with the left-button depressed */
+        if (event.buttons === 1) {
+            /* each pixel moved on the track is a small-scale representation of the whole dataset, so
+            a 1px movement on a 100px height track equates to a 1% movement, so for 1000 rows at a
+            sample cell height of 40px, that represents an equivalent delta of 400 */
+            let calculatedDelta = ((event.pageY - this.lastYNubPos) / this.containerHeight) * (this.props.totalRows * this.cellHeight);
+
+            this.handleMoveIntent({
+                deltaX: 0,
+                deltaY: calculatedDelta,
+                preventDefault: noop
+            });
+
+            this.lastYNubPos = event.pageY;
+        }
+    }
+
+    renderScrollbars() {
+        return (
+            <div>
+                <div className='ui-table-x-scroller'>
+                    <div ref='xNub'
+                         className='ui-table-x-scroller-nub'
+                         style={{
+                            width: this.state.xNubSize,
+                            [transformProp]: `translateX(${this.state.xProgress}px)`
+                         }} />
+                </div>
+                <div className='ui-table-y-scroller'>
+                    <div ref='yNub'
+                         className='ui-table-y-scroller-nub'
+                         onMouseMove={this.handleYDrag.bind(this)}
+                         style={{
+                            height: this.state.yNubSize,
+                            [transformProp]: `translateY(${this.state.yProgress}px)`
+                         }} />
+                </div>
+            </div>
+        );
+    }
 
     render() {
         return (
             <div className='ui-table-wrapper'
-                 onWheel={this.handleMoveIntent.bind(this)}>
+                 onWheel={this.handleMoveIntent}>
                 <div ref='table'
-                       className='ui-table'>
+                     className='ui-table'>
                     {this.renderHead()}
                     {this.renderBody()}
                 </div>
+                {this.renderScrollbars()}
             </div>
         );
     }
