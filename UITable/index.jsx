@@ -424,9 +424,10 @@ class UITable extends UIView {
             return (
                 <div ref='head' className='ui-table-header'>
                     <div className='ui-table-row ui-table-header-row'>
-                        {map(this.state.columns, (column) => {
+                        {map(this.state.columns, (column, index) => {
                             return (
-                                <div className='ui-table-cell ui-table-header-cell'
+                                <div key={index}
+                                     className='ui-table-cell ui-table-header-cell'
                                      style={{width: typeof column.width === 'number' ? column.width : null}}>
                                     <div className='ui-table-cell-inner'>
                                         <span className='ui-table-cell-inner-text'>{column.title}</span>
