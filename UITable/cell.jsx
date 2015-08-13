@@ -15,9 +15,12 @@ class UITableCell extends UIView {
     }
 
     render() {
+        let addTitle = typeof this.props.content === 'string';
+
         return (
             <div className='ui-table-cell'
-                style={{width: this.props.width ? this.props.width + 'px' : null}}>
+                 title={addTitle ? this.props.content : null}
+                 style={{width: this.props.width ? this.props.width + 'px' : null}}>
                 {this.renderContent()}
             </div>
         );

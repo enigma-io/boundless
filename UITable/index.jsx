@@ -248,8 +248,9 @@ class UITable extends UIView {
             this.head = React.findDOMNode(this.refs.head);
         } // header doesn't get rendered until the second pass
 
-        let xNext = this.xCurrent - event.deltaX;
-        let yNext = this.yCurrent - event.deltaY;
+        /* lock the translation axis if the user is manually manipulating the synthetic scrollbars */
+        let xNext = this.manuallyScrollingY ? 0 : this.xCurrent - event.deltaX;
+        let yNext = this.manuallyScrollingX ? 0 : this.yCurrent - event.deltaY;
 
         if (yNext < this.yCurrent) {
             this.handleScrollDown(yNext);
@@ -304,15 +305,65 @@ class UITable extends UIView {
         }
     }
 
+    handleXDragStart(event) {
+        if (event.buttons === 1) {
+            this.lastXScroll = event.clientX;
+            this.manuallyScrollingX = true;
+        }
+    }
+
+    handleYDragStart(event) {
+        if (event.buttons === 1) {
+            this.lastYScroll = event.clientY;
+            this.manuallyScrollingY = true;
+        }
+    }
+
+    handleDragMove(event) {
+        if (event.buttons === 1) {
+            if (this.manuallyScrollingX) {
+                this.handleMoveIntent({
+                    deltaX: event.clientX - this.lastXScroll,
+                    deltaY: 0,
+                    preventDefault: noop
+                });
+
+                this.lastXScroll = event.clientX;
+            }
+
+            if (this.manuallyScrollingY) {
+                this.handleMoveIntent({
+                    deltaX: 0,
+                    deltaY: ((event.clientY - this.lastYScroll) / this.containerHeight) * this.props.totalRows * this.cellHeight,
+                    preventDefault: noop
+                });
+
+                this.lastYScroll = event.clientY;
+            }
+        }
+    }
+
+    handleDragEnd() {
+        if (this.manuallyScrollingX) {
+            this.manuallyScrollingX = false;
+        }
+
+        if (this.manuallyScrollingY) {
+            this.manuallyScrollingY = false;
+        }
+    }
+
     renderScrollbars() {
         return (
             <div>
-                <div className='ui-table-x-scroller'>
+                <div className='ui-table-x-scroller'
+                     onMouseDown={this.handleXDragStart.bind(this)}>
                     <div ref='xNub'
                          className='ui-table-x-scroller-nub'
                          style={{width: this.state.xNubSize}} />
                 </div>
-                <div className='ui-table-y-scroller'>
+                <div className='ui-table-y-scroller'
+                     onMouseDown={this.handleYDragStart.bind(this)}>
                     <div ref='yNub'
                          className='ui-table-y-scroller-nub'
                          style={{height: this.state.yNubSize}} />
@@ -324,6 +375,8 @@ class UITable extends UIView {
     render() {
         return (
             <div className='ui-table-wrapper'
+                 onMouseMove={this.handleDragMove.bind(this)}
+                 onMouseUp={this.handleDragEnd.bind(this)}
                  onWheel={this.handleMoveIntent}>
                 <div ref='table'
                      className='ui-table'>
@@ -349,7 +402,8 @@ UITable.propTypes = {
             width: React.PropTypes.number
         })
     ),
-    getRow: React.PropTypes.func
+    getRow: React.PropTypes.func,
+    totalRows: React.PropTypes.number
 };
 
 UITable.defaultProps = {
