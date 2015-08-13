@@ -30,10 +30,20 @@ class UITable extends UIView {
             }],
             columns: this.props.columns.slice(0),
             xNubSize: null,
-            xProgress: 0,
-            yNubSize: null,
-            yProgress: 0
+            yNubSize: null
         };
+    }
+
+    calculateXNubSize() {
+        let px = this.containerWidth - Math.abs(this.xBound);
+
+        return px < 12 ? 12 : px;
+    }
+
+    calculateYNubSize() {
+        let px = this.rowEndIndex / this.props.totalRows;
+
+        return px < 12 ? 12 : px;
     }
 
     captureDimensions() {
@@ -43,22 +53,19 @@ class UITable extends UIView {
 
         this.cellHeight = firstRowCells[0].clientHeight;
         this.containerHeight = container.clientHeight;
+        this.containerWidth = container.clientWidth;
 
         let numRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
         this.rowStartIndex = 0;
         this.rowEndIndex = numRowsToRender;
 
-        let containerWidth = container.clientWidth;
         let tableWidth = firstRow.clientWidth;
 
-        this.xBound = containerWidth - tableWidth;
+        this.xBound = this.containerWidth - tableWidth;
 
         this.yUpperBound = 0;
         this.yLowerBound = this.containerHeight - (numRowsToRender * this.cellHeight);
-
-        let calculatedXNub = containerWidth - Math.abs(this.xBound);
-        let calculatedYNub = this.rowEndIndex / this.props.totalRows;
 
         this.setState({
             chokeRender: false,
@@ -74,8 +81,8 @@ class UITable extends UIView {
                     y: this.cellHeight * index
                 };
             }),
-            xNubSize: calculatedXNub < 12 ? 12 : calculatedXNub,
-            yNubSize: calculatedYNub < 12 ? 12 : calculatedYNub
+            xNubSize: this.calculateXNubSize(),
+            yNubSize: this.calculateYNubSize()
         });
     }
 
@@ -288,18 +295,86 @@ class UITable extends UIView {
         );
     }
 
+    handleColumnResize(delta) {
+        if (delta === 0) {
+            return;
+        }
+
+        if (typeof this.minimumColumnWidth === 'undefined') {
+            let style = window.getComputedStyle(
+                React.findDOMNode(this).querySelector('.ui-table-header-cell')
+            );
+
+            // will be NaN if not a pixel value
+            this.maximumColumnWidth = parseInt(style.maxWidth, 10);
+            this.minimumColumnWidth = parseInt(style.minWidth, 10);
+        }
+
+        let adjustedDelta = delta;
+        let copy = map(this.state.columns, function alterMatch(definition) {
+            if (definition.mapping !== this.manuallyResizingColumn.mapping) {
+                return definition;
+            }
+
+            /* Before any measurements are applied, first we need to compare the delta to the known cell width thresholds and scale appropriately. Then, the xBound is modified and the xNubSize will recompute itself based on the new xBound. */
+
+            if (adjustedDelta < 0
+                && !isNaN(this.minimumColumnWidth)
+                && definition.width + adjustedDelta < this.minimumColumnWidth) {
+                    adjustedDelta = this.minimumColumnWidth - definition.width;
+            } else if (!isNaN(this.maximumColumnWidth)
+                       && definition.width + adjustedDelta > this.maximumColumnWidth) {
+                adjustedDelta = this.maximumColumnWidth - definition.width;
+            }
+
+            this.xBound -= adjustedDelta;
+
+            return merge(definition, {
+                width: definition.width + adjustedDelta
+            });
+        }, this);
+
+        this.setState({
+            columns: copy,
+            xNubSize: this.calculateXNubSize()
+        }, () => {
+            if (adjustedDelta < 0) {
+                /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
+                we'll see unwanted whitespace on the right side. */
+                this.handleMoveIntent({
+                    deltaX: adjustedDelta,
+                    deltaY: 0,
+                    preventDefault: noop
+                });
+            }
+        });
+    }
+
+    handleColumnDragStart(reference, event) {
+        if (event.buttons === 1) {
+            this.lastColumnX = event.clientX;
+            this.manuallyResizingColumn = reference;
+        }
+    }
+
     renderHead() {
         if (!this.state.chokeRender) {
-            let moddedData = {};
-
-            this.state.columns.forEach(function pareDown(definition) {
-                moddedData[definition.mapping] = definition.title;
-            });
-
             return (
                 <div ref='head' className='ui-table-header'>
-                    <Row columns={this.state.columns}
-                         data={moddedData} />
+                    <div className='ui-table-row ui-table-header-row'>
+                        {map(this.state.columns, (column) => {
+                            return (
+                                <div className='ui-table-cell ui-table-header-cell'
+                                     style={{width: typeof column.width === 'number' ? column.width : null}}>
+                                    <div className='ui-table-cell-inner'>
+                                        <span className='ui-table-cell-inner-text'>{column.title}</span>
+                                    </div>
+                                    <div className='ui-table-header-cell-resize-handle'
+                                         onMouseDown={this.handleColumnDragStart.bind(this, column)} />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             );
         }
@@ -321,6 +396,12 @@ class UITable extends UIView {
 
     handleDragMove(event) {
         if (event.buttons === 1) {
+            if (this.manuallyResizingColumn) {
+                this.handleColumnResize(event.clientX - this.lastColumnX);
+
+                this.lastColumnX = event.clientX;
+            }
+
             if (this.manuallyScrollingX) {
                 this.handleMoveIntent({
                     deltaX: event.clientX - this.lastXScroll,
@@ -344,6 +425,10 @@ class UITable extends UIView {
     }
 
     handleDragEnd() {
+        if (this.manuallyResizingColumn) {
+            this.manuallyResizingColumn = null;
+        }
+
         if (this.manuallyScrollingX) {
             this.manuallyScrollingX = false;
         }

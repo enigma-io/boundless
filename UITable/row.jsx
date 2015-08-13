@@ -59,6 +59,9 @@ class UITableRow extends UIView {
             return (
                 <Cell key={index}
                       content={data[definition.mapping]}
+                      header={this.props.header}
+                      resizable={definition.resizable}
+                      resizeFunc={this.props.resizeFunc}
                       width={definition.width} />
             );
         });
@@ -78,6 +81,8 @@ UITableRow.propTypes = {
     columns: React.PropTypes.array,
     even: React.PropTypes.bool,
     data: React.PropTypes.object,
+    header: React.PropTypes.bool,
+    resizeFunc: React.PropTypes.func,
     y: React.PropTypes.number
 };
 
