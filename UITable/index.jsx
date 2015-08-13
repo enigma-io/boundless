@@ -12,14 +12,6 @@ import {chain, each, indexOf, map, merge, noop} from 'lodash';
  */
 
 class UITable extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.handleScrollDown = this.handleScrollDown.bind(this);
-        this.handleScrollUp = this.handleScrollUp.bind(this);
-        this.handleMoveIntent = this.handleMoveIntent.bind(this);
-    }
-
     initialState() {
         return {
             chokeRender: true,
@@ -74,13 +66,13 @@ class UITable extends UIView {
                     width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
                 }, column);
             }),
-            rows: map(new Array(numRowsToRender), (/*ignore*/x, index) => {
+            rows: map(new Array(numRowsToRender), function generateRowSlot(/*ignore*/x, index) {
                 return {
                     data: this.props.getRow(index),
                     setIndex: index,
                     y: this.cellHeight * index
                 };
-            }),
+            }, this),
             xNubSize: this.calculateXNubSize(),
             yNubSize: this.calculateYNubSize()
         });
@@ -132,14 +124,14 @@ class UITable extends UIView {
                     let rowsSorted = chain(rowsModified).sortByOrder('y', 'asc').take(nRowsToShift).value();
                     let nextIndex;
 
-                    each(rowsSorted, (row, arrIndex) => {
+                    each(rowsSorted, function reallocateSlot(row, arrIndex) {
                         nextIndex = this.rowEndIndex + arrIndex;
                         rowsModified[indexOf(rowsModified, row)] = {
                             data: this.props.getRow(nextIndex),
                             setIndex: nextIndex,
                             y: nextIndex * this.cellHeight
                         };
-                    });
+                    }, this);
 
                     this.rowStartIndex += nRowsToShift;
                     this.rowEndIndex += nRowsToShift;
@@ -187,14 +179,14 @@ class UITable extends UIView {
                     let rowsSorted = chain(rowsModified).sortByOrder('y', 'desc').take(nRowsToShift).value();
                     let prevIndex;
 
-                    each(rowsSorted, (row, arrIndex) => {
+                    each(rowsSorted, function reallocateSlot(row, arrIndex) {
                         prevIndex = this.rowStartIndex - arrIndex - 1;
                         rowsModified[indexOf(rowsModified, row)] = {
                             data: this.props.getRow(prevIndex),
                             setIndex: prevIndex,
                             y: prevIndex * this.cellHeight
                         };
-                    });
+                    }, this);
 
                     this.rowStartIndex -= nRowsToShift;
                     this.rowEndIndex -= nRowsToShift;
@@ -399,7 +391,7 @@ class UITable extends UIView {
     }
 
     renderRows() {
-        return map(this.state.rows, (row, index) => {
+        return map(this.state.rows, function generateRow(row, index) {
             return (
                 <Row key={index}
                      columns={this.state.columns}
@@ -407,7 +399,7 @@ class UITable extends UIView {
                      even={(row.setIndex) % 2 === 0}
                      y={row.y} />
             );
-        });
+        }, this);
     }
 
     renderBody() {
@@ -424,7 +416,7 @@ class UITable extends UIView {
             return (
                 <div ref='head' className='ui-table-header'>
                     <div className='ui-table-row ui-table-header-row'>
-                        {map(this.state.columns, (column, index) => {
+                        {map(this.state.columns, function generateColumnCell(column, index) {
                             return (
                                 <div key={index}
                                      className='ui-table-cell ui-table-header-cell'
@@ -436,7 +428,7 @@ class UITable extends UIView {
                                          onMouseDown={this.handleColumnDragStart.bind(this, column)} />
                                 </div>
                             );
-                        })}
+                        }, this)}
                     </div>
                 </div>
             );
@@ -467,7 +459,7 @@ class UITable extends UIView {
             <div className='ui-table-wrapper'
                  onMouseMove={this.handleDragMove.bind(this)}
                  onMouseUp={this.handleDragEnd.bind(this)}
-                 onWheel={this.handleMoveIntent}>
+                 onWheel={this.handleMoveIntent.bind(this)}>
                 <div ref='table'
                      className='ui-table'>
                     {this.renderHead()}
