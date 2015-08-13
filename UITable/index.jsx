@@ -274,27 +274,6 @@ class UITable extends UIView {
         this.applyYProgress();
     }
 
-    renderRows() {
-        return map(this.state.rows, (row, index) => {
-            return (
-                <Row key={index}
-                     columns={this.state.columns}
-                     data={row.data}
-                     even={(row.setIndex) % 2 === 0}
-                     y={row.y} />
-            );
-        });
-    }
-
-    renderBody() {
-        return (
-            <div ref='body'
-                 className='ui-table-body'>
-                {this.renderRows()}
-            </div>
-        );
-    }
-
     handleColumnResize(delta) {
         if (delta === 0) {
             return;
@@ -316,7 +295,8 @@ class UITable extends UIView {
                 return definition;
             }
 
-            /* Before any measurements are applied, first we need to compare the delta to the known cell width thresholds and scale appropriately. Then, the xBound is modified and the xNubSize will recompute itself based on the new xBound. */
+            /* Before any measurements are applied, first we need to compare the delta to the known
+            cell width thresholds and scale appropriately. */
 
             if (adjustedDelta < 0
                 && !isNaN(this.minimumColumnWidth)
@@ -327,20 +307,23 @@ class UITable extends UIView {
                 adjustedDelta = this.maximumColumnWidth - definition.width;
             }
 
-            this.xBound -= adjustedDelta;
-
             return merge(definition, {
                 width: definition.width + adjustedDelta
             });
         }, this);
 
+        /* The xBound is then modified (the basis for all horizontal translation operations) and
+        also the xNubSize, which is recomputed in the following setState. */
+        this.xBound -= adjustedDelta;
+
         this.setState({
             columns: copy,
             xNubSize: this.calculateXNubSize()
         }, () => {
+            /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
+            we'll see unwanted whitespace on the right side. If the table width becomes smaller than the
+            overall container, whitespace will appear regardless. */
             if (adjustedDelta < 0) {
-                /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
-                we'll see unwanted whitespace on the right side. */
                 this.handleMoveIntent({
                     deltaX: adjustedDelta,
                     deltaY: 0,
@@ -357,37 +340,14 @@ class UITable extends UIView {
         }
     }
 
-    renderHead() {
-        if (!this.state.chokeRender) {
-            return (
-                <div ref='head' className='ui-table-header'>
-                    <div className='ui-table-row ui-table-header-row'>
-                        {map(this.state.columns, (column) => {
-                            return (
-                                <div className='ui-table-cell ui-table-header-cell'
-                                     style={{width: typeof column.width === 'number' ? column.width : null}}>
-                                    <div className='ui-table-cell-inner'>
-                                        <span className='ui-table-cell-inner-text'>{column.title}</span>
-                                    </div>
-                                    <div className='ui-table-header-cell-resize-handle'
-                                         onMouseDown={this.handleColumnDragStart.bind(this, column)} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            );
-        }
-    }
-
-    handleXDragStart(event) {
+    handleXScrollerDragStart(event) {
         if (event.buttons === 1) {
             this.lastXScroll = event.clientX;
             this.manuallyScrollingX = true;
         }
     }
 
-    handleYDragStart(event) {
+    handleYScrollerDragStart(event) {
         if (event.buttons === 1) {
             this.lastYScroll = event.clientY;
             this.manuallyScrollingY = true;
@@ -438,17 +398,61 @@ class UITable extends UIView {
         }
     }
 
+    renderRows() {
+        return map(this.state.rows, (row, index) => {
+            return (
+                <Row key={index}
+                     columns={this.state.columns}
+                     data={row.data}
+                     even={(row.setIndex) % 2 === 0}
+                     y={row.y} />
+            );
+        });
+    }
+
+    renderBody() {
+        return (
+            <div ref='body'
+                 className='ui-table-body'>
+                {this.renderRows()}
+            </div>
+        );
+    }
+
+    renderHead() {
+        if (!this.state.chokeRender) {
+            return (
+                <div ref='head' className='ui-table-header'>
+                    <div className='ui-table-row ui-table-header-row'>
+                        {map(this.state.columns, (column) => {
+                            return (
+                                <div className='ui-table-cell ui-table-header-cell'
+                                     style={{width: typeof column.width === 'number' ? column.width : null}}>
+                                    <div className='ui-table-cell-inner'>
+                                        <span className='ui-table-cell-inner-text'>{column.title}</span>
+                                    </div>
+                                    <div className='ui-table-header-cell-resize-handle'
+                                         onMouseDown={this.handleColumnDragStart.bind(this, column)} />
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            );
+        }
+    }
+
     renderScrollbars() {
         return (
             <div>
                 <div className='ui-table-x-scroller'
-                     onMouseDown={this.handleXDragStart.bind(this)}>
+                     onMouseDown={this.handleXScrollerDragStart.bind(this)}>
                     <div ref='xNub'
                          className='ui-table-x-scroller-nub'
                          style={{width: this.state.xNubSize}} />
                 </div>
                 <div className='ui-table-y-scroller'
-                     onMouseDown={this.handleYDragStart.bind(this)}>
+                     onMouseDown={this.handleYScrollerDragStart.bind(this)}>
                     <div ref='yNub'
                          className='ui-table-y-scroller-nub'
                          style={{height: this.state.yNubSize}} />
