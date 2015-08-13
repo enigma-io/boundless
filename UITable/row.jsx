@@ -4,6 +4,18 @@ import React from 'react';
 import transformProp from '../UIUtils/transform';
 
 class UITableRow extends UIView {
+    getClasses() {
+        let classes = ['ui-table-row'];
+
+        if (this.props.even) {
+            classes.push('ui-table-row-even');
+        } else {
+            classes.push('ui-table-row-odd');
+        }
+
+        return classes.join(' ');
+    }
+
     renderCells() {
         return this.props.columns.map((definition, index) => {
             return (
@@ -16,7 +28,7 @@ class UITableRow extends UIView {
 
     render() {
         return (
-            <div className='ui-table-row'
+            <div className={this.getClasses()}
                  style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}>
                 {this.renderCells()}
             </div>
@@ -26,6 +38,7 @@ class UITableRow extends UIView {
 
 UITableRow.propTypes = {
     columns: React.PropTypes.array,
+    even: React.PropTypes.bool,
     data: React.PropTypes.object,
     y: React.PropTypes.number
 };

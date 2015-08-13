@@ -25,6 +25,7 @@ class UITable extends UIView {
             chokeRender: true,
             rows: [{
                 data: this.props.getRow(0),
+                setIndex: 0,
                 y: 0
             }],
             columns: this.props.columns.slice(0),
@@ -69,6 +70,7 @@ class UITable extends UIView {
             rows: map(new Array(numRowsToRender), (/*ignore*/x, index) => {
                 return {
                     data: this.props.getRow(index),
+                    setIndex: index,
                     y: this.cellHeight * index
                 };
             }),
@@ -80,22 +82,10 @@ class UITable extends UIView {
     componentDidMount() {
         this.xCurrent = this.yCurrent = 0;
         this.body = React.findDOMNode(this.refs.body);
+        this.xNub = React.findDOMNode(this.refs.xNub);
+        this.yNub = React.findDOMNode(this.refs.yNub);
 
         this.captureDimensions();
-    }
-
-    calculateXProgress() {
-        this.setState({xProgress: Math.abs(this.xCurrent)});
-    }
-
-    calculateYProgress() {
-        let yPos = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
-
-        if (yPos + this.state.yNubSize > this.containerHeight) {
-            yPos = this.containerHeight - this.state.yNubSize;
-        }
-
-        this.setState({yProgress: yPos});
     }
 
     handleScrollDown(yNext) {
@@ -139,6 +129,7 @@ class UITable extends UIView {
                         nextIndex = this.rowEndIndex + arrIndex;
                         rowsModified[indexOf(rowsModified, row)] = {
                             data: this.props.getRow(nextIndex),
+                            setIndex: nextIndex,
                             y: nextIndex * this.cellHeight
                         };
                     });
@@ -193,6 +184,7 @@ class UITable extends UIView {
                         prevIndex = this.rowStartIndex - arrIndex - 1;
                         rowsModified[indexOf(rowsModified, row)] = {
                             data: this.props.getRow(prevIndex),
+                            setIndex: prevIndex,
                             y: prevIndex * this.cellHeight
                         };
                     });
@@ -230,6 +222,20 @@ class UITable extends UIView {
         this.yCurrent = yNext;
     }
 
+    applyXProgress() {
+        this.xNub.style[transformProp] = `translate3d(${Math.abs(this.xCurrent)}px, 0px, 0px)`;
+    }
+
+    applyYProgress() {
+        let yPos = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
+
+        if (yPos + this.state.yNubSize > this.containerHeight) {
+            yPos = this.containerHeight - this.state.yNubSize;
+        }
+
+        this.yNub.style[transformProp] = `translate3d(0px, ${yPos}px, 0px)`;
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
 
@@ -242,6 +248,7 @@ class UITable extends UIView {
             this.head = React.findDOMNode(this.refs.head);
         } // header doesn't get rendered until the second pass
 
+        let xNext = this.xCurrent - event.deltaX;
         let yNext = this.yCurrent - event.deltaY;
 
         if (yNext < this.yCurrent) {
@@ -250,15 +257,13 @@ class UITable extends UIView {
             this.handleScrollUp(yNext);
         }
 
-        let xNext = this.xCurrent - event.deltaX;
-
         this.applyTranslations(
             this.normalizeCoordinate(xNext, this.xBound),
             this.normalizeCoordinate(yNext, this.yLowerBound)
         );
 
-        this.calculateXProgress();
-        this.calculateYProgress();
+        this.applyXProgress();
+        this.applyYProgress();
     }
 
     renderRows() {
@@ -267,6 +272,7 @@ class UITable extends UIView {
                 <Row key={index}
                      columns={this.state.columns}
                      data={row.data}
+                     even={(row.setIndex) % 2 === 0}
                      y={row.y} />
             );
         });
@@ -298,47 +304,18 @@ class UITable extends UIView {
         }
     }
 
-    handleYDrag(event) {
-        if (typeof this.lastYNubPos === 'undefined') {
-            this.lastYNubPos = event.pageY;
-        }
-
-        /* `event.buttons === 1` means dragging with the left-button depressed */
-        if (event.buttons === 1) {
-            /* each pixel moved on the track is a small-scale representation of the whole dataset, so
-            a 1px movement on a 100px height track equates to a 1% movement, so for 1000 rows at a
-            sample cell height of 40px, that represents an equivalent delta of 400 */
-            let calculatedDelta = ((event.pageY - this.lastYNubPos) / this.containerHeight) * (this.props.totalRows * this.cellHeight);
-
-            this.handleMoveIntent({
-                deltaX: 0,
-                deltaY: calculatedDelta,
-                preventDefault: noop
-            });
-
-            this.lastYNubPos = event.pageY;
-        }
-    }
-
     renderScrollbars() {
         return (
             <div>
                 <div className='ui-table-x-scroller'>
                     <div ref='xNub'
                          className='ui-table-x-scroller-nub'
-                         style={{
-                            width: this.state.xNubSize,
-                            [transformProp]: `translateX(${this.state.xProgress}px)`
-                         }} />
+                         style={{width: this.state.xNubSize}} />
                 </div>
                 <div className='ui-table-y-scroller'>
                     <div ref='yNub'
                          className='ui-table-y-scroller-nub'
-                         onMouseMove={this.handleYDrag.bind(this)}
-                         style={{
-                            height: this.state.yNubSize,
-                            [transformProp]: `translateY(${this.state.yProgress}px)`
-                         }} />
+                         style={{height: this.state.yNubSize}} />
                 </div>
             </div>
         );

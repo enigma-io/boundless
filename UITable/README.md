@@ -6,14 +6,12 @@ Styling of the element will be provided via the class hooks:
 
 - `.ui-table`
 - `.ui-table-wrapper`
-- `.ui-table-row-active`
+- `.ui-table-row`
+- `.ui-table-row-even`
+- `.ui-table-row-odd`
 - `.ui-table-cell`
-- `.ui-table-cell-active`
-- `.ui-table-column`
-- `.ui-table-column-active`
-- `.ui-table-column-cell`
-- `.ui-table-column-cell-handle`
-- `.ui-table-column-header-cell`
+- `.ui-table-header-cell`
+- `.ui-table-header-cell-resize-handle`
 
 <br />
 ##### Expected Interactions

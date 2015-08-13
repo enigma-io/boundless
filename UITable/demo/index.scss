@@ -39,8 +39,15 @@ $cell-x-padding: 0.75em;
     backface-visibility: hidden;
 }
 
+.ui-table-row-even {
+    background: rgba($cell-color-base, 0.025);
+}
+
+.ui-table-row-odd {
+    background: rgba($cell-color-base, 0.075);
+}
+
 .ui-table-cell {
-    background: rgba($cell-color-base, 0.05);
     display: inline-block;
     vertical-align: top;
     height: $cell-height;
@@ -105,6 +112,7 @@ $cell-x-padding: 0.75em;
 
 .ui-table-x-scroller-nub,
 .ui-table-y-scroller-nub {
+    backface-visibility: hidden;
     background-color: black;
     position: absolute;
 }
