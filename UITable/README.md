@@ -9,6 +9,7 @@ Styling of the element will be provided via the class hooks:
 - `.ui-table-row`
 - `.ui-table-row-even`
 - `.ui-table-row-odd`
+- `.ui-table-row-loading`
 - `.ui-table-cell`
 - `.ui-table-header-cell`
 - `.ui-table-header-cell-resize-handle`

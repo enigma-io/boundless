@@ -4,6 +4,38 @@ import React from 'react';
 import transformProp from '../UIUtils/transform';
 
 class UITableRow extends UIView {
+    initialState() {
+        return {
+            data: this.props.data
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            this.setState({
+                data: nextProps.data
+            });
+        }
+    }
+
+    waitForContentIfNecessary() {
+        if (this.state.data instanceof Promise) {
+            this.state.data.then(function cautiouslySetRowData(promise, value) {
+                if (this.state.data === promise) {
+                    this.setState({data: value});
+                } // only replace if we're looking at the same promise, otherwise do nothing
+            }.bind(this, this.state.data));
+        }
+    }
+
+    componentDidMount() {
+        this.waitForContentIfNecessary();
+    }
+
+    componentDidUpdate() {
+        this.waitForContentIfNecessary();
+    }
+
     getClasses() {
         let classes = ['ui-table-row'];
 
@@ -13,14 +45,20 @@ class UITableRow extends UIView {
             classes.push('ui-table-row-odd');
         }
 
+        if (this.state.data instanceof Promise) {
+            classes.push('ui-table-row-loading');
+        }
+
         return classes.join(' ');
     }
 
     renderCells() {
+        let data = this.state.data instanceof Promise ? {} : this.state.data;
+
         return this.props.columns.map((definition, index) => {
             return (
                 <Cell key={index}
-                      content={this.props.data[definition.mapping]}
+                      content={data[definition.mapping]}
                       width={definition.width} />
             );
         });

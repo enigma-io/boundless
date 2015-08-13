@@ -47,6 +47,10 @@ $cell-x-padding: 0.75em;
     background: rgba($cell-color-base, 0.075);
 }
 
+.ui-table-row-loading {
+    opacity: 0.5;
+}
+
 .ui-table-cell {
     display: inline-block;
     vertical-align: top;

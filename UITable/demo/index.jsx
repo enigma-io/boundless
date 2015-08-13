@@ -68,6 +68,15 @@ export default class UITableDemo extends UIView {
 
     handleRowRequest(index) {
         // this might be async if row must be retrieved remotely
+
+        if (index > 800) {
+            return new Promise((resolve) => {
+                window.setTimeout((setIndex) => {
+                    resolve(this.state.rows[setIndex]);
+                }, 2000, index);
+            });
+        }
+
         return this.state.rows[index];
     }
 
