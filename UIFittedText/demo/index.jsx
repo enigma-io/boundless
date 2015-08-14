@@ -1,32 +1,32 @@
 import UIButton from '../../UIButton';
-import UIText from '../index.jsx';
+import UIFittedText from '../index.jsx';
 import UIView from '../../UIView';
 import React from 'react';
 
-export default class UITextDemo extends UIView {
+export default class UIFittedTextDemo extends UIView {
     render() {
         return (
             <div className='ui-spread-even'>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>Welcome</UIText>
+                    <UIFittedText maxFontSize={24}>Welcome</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>Karibu</UIText>
+                    <UIFittedText maxFontSize={24}>Karibu</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>Willkommen</UIText>
+                    <UIFittedText maxFontSize={24}>Willkommen</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>Добро пожаловать</UIText>
+                    <UIFittedText maxFontSize={24}>Добро пожаловать</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>Benvenuto</UIText>
+                    <UIFittedText maxFontSize={24}>Benvenuto</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>환영합니다</UIText>
+                    <UIFittedText maxFontSize={24}>환영합니다</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIText maxFontSize={24}>സ്വാഗതം</UIText>
+                    <UIFittedText maxFontSize={24}>സ്വാഗതം</UIFittedText>
                 </UIButton>
             </div>
         );

@@ -1,9 +1,9 @@
 /* eslint no-unused-expressions:0 */
 
-import UIText from './index.jsx';
+import UIFittedText from './index.jsx';
 import React from 'react';
 
-describe('UIText', () => {
+describe('UIFittedText', () => {
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -13,33 +13,33 @@ describe('UIText', () => {
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
-            const text = React.render(<UIText data-id='foo' />, document.body);
+            const text = React.render(<UIFittedText data-id='foo' />, document.body);
             const node = React.findDOMNode(text);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const text = React.render(<UIText className='foo' />, document.body);
+            const text = React.render(<UIFittedText className='foo' />, document.body);
 
             expect(text.getClasses()).to.equal('ui-text foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const text = React.render(<UIText className={['foo', 'bar']} />, document.body);
+            const text = React.render(<UIFittedText className={['foo', 'bar']} />, document.body);
 
             expect(text.getClasses()).to.equal('ui-text foo bar');
         });
 
         it('text to render', () => {
-            const text = React.render(<UIText>foo</UIText>, document.body);
+            const text = React.render(<UIFittedText>foo</UIFittedText>, document.body);
             const node = React.findDOMNode(text);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('numbers to render', () => {
-            const text = React.render(<UIText>{1234}</UIText>, document.body);
+            const text = React.render(<UIFittedText>{1234}</UIFittedText>, document.body);
             const node = React.findDOMNode(text);
 
             expect(node.textContent).to.equal('1234');
@@ -48,7 +48,7 @@ describe('UIText', () => {
 
     describe('CSS hooks', () => {
         it('ui-text should render', () => {
-            const text = React.render(<UIText />, document.body);
+            const text = React.render(<UIFittedText />, document.body);
 
             expect(text.getClasses()).to.equal('ui-text');
         });
@@ -61,7 +61,7 @@ describe('UIText', () => {
         it('should work', (done) => {
             const tree = React.render(
                 <div style={{height: '100px', width: '400px'}}>
-                    <UIText maxFontSize={30}>foo</UIText>
+                    <UIFittedText maxFontSize={30}>foo</UIFittedText>
                 </div>, document.body
             );
 
@@ -76,7 +76,7 @@ describe('UIText', () => {
         it('should be ignored if the container size is too small', (done) => {
             const tree = React.render(
                 <div style={{width: '10px'}}>
-                    <UIText maxFontSize={30}>foo</UIText>
+                    <UIFittedText maxFontSize={30}>foo</UIFittedText>
                 </div>, document.body
             );
 

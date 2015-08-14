@@ -5,7 +5,7 @@ function toI(stringNumber) {
     return parseInt(stringNumber, 10);
 }
 
-class UIText extends UIView {
+class UIFittedText extends UIView {
     constructor(...args) {
         super(...args);
 
@@ -60,11 +60,11 @@ class UIText extends UIView {
     }
 }
 
-UIText.defaultProps = {
+UIFittedText.defaultProps = {
     maxFontSize: Number.MAX_VALUE
 };
 
-UIText.propTypes = {
+UIFittedText.propTypes = {
     children: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
@@ -76,4 +76,4 @@ UIText.propTypes = {
     maxFontSize: React.PropTypes.number
 };
 
-export default UIText;
+export default UIFittedText;

@@ -1,4 +1,4 @@
-### `UIKit/UIText`
+### `UIKit/UIFittedText`
 #### Fit given text inside a parent container, obeying implict and explicit constraints.
 <br />
 
@@ -7,7 +7,7 @@ The most common use case for this class is fitting single-line text of unknown/v
 ```jsx
 return (
     <UIButton onClick={someFunc} style={{width: '400px'}}>
-        <UIText>Testing 123</UIText>
+        <UIFittedText>Testing 123</UIFittedText>
     </UIButton>
 );
 ```
