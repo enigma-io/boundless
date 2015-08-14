@@ -15,13 +15,16 @@ describe('UIProgress', () => {
         it('an additional class as a string without replacing the core hook', () => {
             const progress = React.render(<UIProgress className='foo' />, document.body);
 
-            expect(progress.getProgressClasses()).to.equal('ui-progress foo');
+            expect(progress.getProgressClasses()).to.contain('ui-progress ');
+            expect(progress.getProgressClasses()).to.contain('foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
             const progress = React.render(<UIProgress className={['foo', 'bar']} />, document.body);
 
-            expect(progress.getProgressClasses()).to.equal('ui-progress foo bar');
+            expect(progress.getProgressClasses()).to.contain('ui-progress ');
+            expect(progress.getProgressClasses()).to.contain('foo');
+            expect(progress.getProgressClasses()).to.contain('bar');
         });
 
         it('a specific style property to tween', () => {
@@ -47,6 +50,10 @@ describe('UIProgress', () => {
             expect(progress.getProgressClasses()).to.contain('ui-progress');
         });
 
+        it('ui-progress-indeterminate should be rendered', () => {
+            expect(progress.getProgressClasses()).to.contain('ui-progress-indeterminate');
+        });
+
         it('ui-progress-cancel should be rendered', () => {
             expect(progress.getCancelClasses()).to.contain('ui-progress-cancel');
         });
@@ -66,6 +73,12 @@ describe('UIProgress', () => {
             React.render(<UIProgress progress='10%' />, document.body);
 
             expect(node.getAttribute('style')).to.equal('width: 10%;');
+        });
+
+        it('should not show as indeterminate if `progress` is passed', () => {
+            const progress = React.render(<UIProgress progress='0%' />, document.body);
+
+            expect(progress.getProgressClasses()).to.not.contain('ui-progress-indeterminate');
         });
     });
 

@@ -25,6 +25,7 @@ Styling of the element will be provided via the class hooks:
 
 - `.ui-progress`
 - `.ui-progress-cancel`
+- `.ui-progress-indeterminate`
 - `.ui-progress-label`
 - `.ui-progress-wrapper`
 
@@ -33,6 +34,7 @@ Styling of the element will be provided via the class hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
+**Render** | no `progress` passed | should have the indeterminate classß
 **Keyboard** | `[Enter, Space]` on cancel element | should trigger the onCancel handler
 **Mouse** | `click` on cancel element | should trigger the onCancel handler
 

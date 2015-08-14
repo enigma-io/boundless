@@ -4,19 +4,25 @@ import React from 'react';
 
 class UIProgress extends UIView {
     getCancelClasses() {
-        return ['ui-progress-cancel'].concat(this.props.cancelAttributes.className || []).join(' ');
+        return ['ui-progress-cancel'].concat(this.props.cancelAttributes.className).join(' ');
     }
 
     getLabelClasses() {
-        return ['ui-progress-label'].concat(this.props.labelAttributes.className || []).join(' ');
+        return ['ui-progress-label'].concat(this.props.labelAttributes.className).join(' ');
     }
 
     getProgressClasses() {
-        return ['ui-progress'].concat(this.props.className || []).join(' ');
+        let classes = ['ui-progress'];
+
+        if (typeof this.props.progress === 'undefined') {
+            classes.push('ui-progress-indeterminate');
+        }
+
+        return classes.concat(this.props.className).join(' ');
     }
 
     getWrapperClasses() {
-        return ['ui-progress-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
+        return ['ui-progress-wrapper'].concat(this.props.wrapperAttributes.className).join(' ');
     }
 
     render() {
@@ -61,10 +67,17 @@ class UIProgress extends UIView {
 }
 
 UIProgress.defaultProps = {
-    cancelAttributes: {},
-    labelAttributes: {},
+    cancelAttributes: {
+        className: []
+    },
+    className: [],
+    labelAttributes: {
+        className: []
+    },
     tweenProperty: 'width',
-    wrapperAttributes: {}
+    wrapperAttributes: {
+        className: []
+    }
 };
 
 UIProgress.propTypes = {
