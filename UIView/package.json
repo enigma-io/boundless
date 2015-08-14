@@ -5,7 +5,6 @@
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",
   "browserify": {
     "transform": [
-      "eslintify",
       "babelify"
     ]
   }
