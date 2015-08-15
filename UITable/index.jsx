@@ -87,15 +87,35 @@ class UITable extends UIView {
         this.captureDimensions();
     }
 
+    componentDidUpdate() {
+        if (!this.head) {
+            this.head = React.findDOMNode(this.refs.head);
+        } // header doesn't get rendered until the second pass
+
+        if (this.head
+            && typeof this.minimumColumnWidth === 'undefined') {
+            let node = React.findDOMNode(this).querySelector('.ui-table-header-cell');
+
+            if (node) {
+                let nodeStyle = window.getComputedStyle(node);
+
+                // will be NaN if not a pixel value
+                this.maximumColumnWidth = parseInt(nodeStyle.maxWidth, 10);
+                this.minimumColumnWidth = parseInt(nodeStyle.minWidth, 10);
+            }
+        }
+    }
+
     handleScrollDown(yNext) {
         let maxIndex = this.props.totalRows;
 
-        if (yNext < this.yLowerBound
-            && this.rowEndIndex < maxIndex) {
-            /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request
-            the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        if (this.rowEndIndex < maxIndex
+            && yNext < this.yLowerBound) {
+            /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            let nRowsToShift = Math.ceil((Math.abs(yNext - this.yLowerBound)) / this.cellHeight);
+            let nRowsToShift = Math.ceil(
+                Math.abs(yNext - this.yLowerBound) / this.cellHeight
+            );
 
             if (nRowsToShift + this.rowEndIndex > maxIndex) {
                 /* more rows than there is data available, truncate */
@@ -103,8 +123,7 @@ class UITable extends UIView {
             }
 
             if (nRowsToShift > 0) {
-                let rowsModified = this.state.rows.slice(0);
-                let numRowsAvailable = rowsModified.length;
+                let numRowsAvailable = this.state.rows.length;
 
                 if (nRowsToShift > numRowsAvailable) {
                     /* a very large scroll delta, calculate where the boundaries should be */
@@ -121,6 +140,7 @@ class UITable extends UIView {
 
                 if (nRowsToShift > 0) {
                     /* Find the lowest y-value rows and migrate them to the end of the heap */
+                    let rowsModified = this.state.rows.slice(0);
                     let rowsSorted = chain(rowsModified).sortByOrder('y', 'asc').take(nRowsToShift).value();
                     let nextIndex;
 
@@ -146,20 +166,20 @@ class UITable extends UIView {
     }
 
     handleScrollUp(yNext) {
-        if (yNext > this.yUpperBound
-            && this.rowStartIndex > 0) {
-            /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request
-            the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        if (this.rowStartIndex > 0
+            && yNext > this.yUpperBound) {
+            /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            let nRowsToShift = Math.ceil((Math.abs(yNext - this.yUpperBound)) / this.cellHeight);
+            let nRowsToShift = Math.ceil(
+                Math.abs(yNext - this.yUpperBound) / this.cellHeight
+            );
 
             if (this.rowStartIndex - nRowsToShift < 0) {
                 nRowsToShift = this.rowStartIndex;
             }
 
             if (nRowsToShift > 0) {
-                let rowsModified = this.state.rows.slice(0);
-                let numRowsAvailable = rowsModified.length;
+                let numRowsAvailable = this.state.rows.length;
 
                 if (nRowsToShift > numRowsAvailable) {
                     /* a very large scroll delta, calculate where the boundaries should be */
@@ -176,6 +196,7 @@ class UITable extends UIView {
 
                 if (nRowsToShift > 0) {
                     /* Find the highest y-value rows and migrate them to the top of the heap */
+                    let rowsModified = this.state.rows.slice(0);
                     let rowsSorted = chain(rowsModified).sortByOrder('y', 'desc').take(nRowsToShift).value();
                     let prevIndex;
 
@@ -238,16 +259,13 @@ class UITable extends UIView {
     handleMoveIntent(event) {
         event.preventDefault();
 
-        if (event.deltaX === this.xCurrent
-            && event.deltaY === this.yCurrent) {
+        if ((event.deltaX === 0 && event.deltaY === 0)
+            || this.manuallyScrollingY && event.deltaY === 0
+            || this.manuallyScrollingX && event.deltaX === 0) {
             return;
         }
 
-        if (!this.head) {
-            this.head = React.findDOMNode(this.refs.head);
-        } // header doesn't get rendered until the second pass
-
-        /* lock the translation axis if the user is manually manipulating the synthetic scrollbars */
+        /* lock the translation axis if the user is manipulating the synthetic scrollbars */
         let xNext = this.manuallyScrollingY ? 0 : this.xCurrent - event.deltaX;
         let yNext = this.manuallyScrollingX ? 0 : this.yCurrent - event.deltaY;
 
@@ -269,16 +287,6 @@ class UITable extends UIView {
     handleColumnResize(delta) {
         if (delta === 0) {
             return;
-        }
-
-        if (typeof this.minimumColumnWidth === 'undefined') {
-            let style = window.getComputedStyle(
-                React.findDOMNode(this).querySelector('.ui-table-header-cell')
-            );
-
-            // will be NaN if not a pixel value
-            this.maximumColumnWidth = parseInt(style.maxWidth, 10);
-            this.minimumColumnWidth = parseInt(style.minWidth, 10);
         }
 
         let adjustedDelta = delta;
@@ -320,8 +328,7 @@ class UITable extends UIView {
             xScrollerNubSize: this.calculateXScrollerNubSize()
         }, () => {
             /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
-            we'll see unwanted whitespace on the right side. If the table width becomes smaller than the
-            overall container, whitespace will appear regardless. */
+            we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
             if (adjustedDelta < 0) {
                 this.handleMoveIntent({
                     deltaX: adjustedDelta,

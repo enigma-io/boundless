@@ -37,19 +37,19 @@ class UITableRow extends UIView {
     }
 
     getClasses() {
-        let classes = ['ui-table-row'];
+        let classes = 'ui-table-row';
 
         if (this.props.even) {
-            classes.push('ui-table-row-even');
+            classes += ' ui-table-row-even';
         } else {
-            classes.push('ui-table-row-odd');
+            classes += ' ui-table-row-odd';
         }
 
         if (this.state.data instanceof Promise) {
-            classes.push('ui-table-row-loading');
+            classes += ' ui-table-row-loading';
         }
 
-        return classes.join(' ');
+        return classes;
     }
 
     renderCells() {
