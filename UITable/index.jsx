@@ -21,18 +21,18 @@ class UITable extends UIView {
                 y: 0
             }],
             columns: this.props.columns.slice(0),
-            xNubSize: null,
-            yNubSize: null
+            xScrollerNubSize: null,
+            yScrollerNubSize: null
         };
     }
 
-    calculateXNubSize() {
-        let px = this.containerWidth - Math.abs(this.xBound);
+    calculateXScrollerNubSize() {
+        let px = this.containerWidth - Math.abs(this.xMaximumTranslation);
 
         return px < 12 ? 12 : px;
     }
 
-    calculateYNubSize() {
+    calculateYScrollerNubSize() {
         let px = this.rowEndIndex / this.props.totalRows;
 
         return px < 12 ? 12 : px;
@@ -54,7 +54,7 @@ class UITable extends UIView {
 
         let tableWidth = firstRow.clientWidth;
 
-        this.xBound = this.containerWidth - tableWidth;
+        this.xMaximumTranslation = this.containerWidth > tableWidth ? 0 : this.containerWidth - tableWidth;
 
         this.yUpperBound = 0;
         this.yLowerBound = this.containerHeight - (numRowsToRender * this.cellHeight);
@@ -73,16 +73,16 @@ class UITable extends UIView {
                     y: this.cellHeight * index
                 };
             }, this),
-            xNubSize: this.calculateXNubSize(),
-            yNubSize: this.calculateYNubSize()
+            xScrollerNubSize: this.calculateXScrollerNubSize(),
+            yScrollerNubSize: this.calculateYScrollerNubSize()
         });
     }
 
     componentDidMount() {
         this.xCurrent = this.yCurrent = 0;
         this.body = React.findDOMNode(this.refs.body);
-        this.xNub = React.findDOMNode(this.refs.xNub);
-        this.yNub = React.findDOMNode(this.refs.yNub);
+        this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
+        this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
 
         this.captureDimensions();
     }
@@ -222,17 +222,17 @@ class UITable extends UIView {
     }
 
     applyXProgress() {
-        this.xNub.style[transformProp] = `translate3d(${Math.abs(this.xCurrent)}px, 0px, 0px)`;
+        this.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xCurrent)}px, 0px, 0px)`;
     }
 
     applyYProgress() {
         let yPos = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
 
-        if (yPos + this.state.yNubSize > this.containerHeight) {
-            yPos = this.containerHeight - this.state.yNubSize;
+        if (yPos + this.state.yScrollerNubSize > this.containerHeight) {
+            yPos = this.containerHeight - this.state.yScrollerNubSize;
         }
 
-        this.yNub.style[transformProp] = `translate3d(0px, ${yPos}px, 0px)`;
+        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${yPos}px, 0px)`;
     }
 
     handleMoveIntent(event) {
@@ -258,7 +258,7 @@ class UITable extends UIView {
         }
 
         this.applyTranslations(
-            this.normalizeCoordinate(xNext, this.xBound),
+            this.normalizeCoordinate(xNext, this.xMaximumTranslation),
             this.normalizeCoordinate(yNext, this.yLowerBound)
         );
 
@@ -282,13 +282,16 @@ class UITable extends UIView {
         }
 
         let adjustedDelta = delta;
+        let newTableWidth = 0;
+
         let copy = map(this.state.columns, function alterMatch(definition) {
             if (definition.mapping !== this.manuallyResizingColumn.mapping) {
+                newTableWidth += definition.width;
+
                 return definition;
             }
 
-            /* Before any measurements are applied, first we need to compare the delta to the known
-            cell width thresholds and scale appropriately. */
+            /* Before any measurements are applied, first we need to compare the delta to the known cell width thresholds and scale appropriately. */
 
             if (adjustedDelta < 0
                 && !isNaN(this.minimumColumnWidth)
@@ -299,18 +302,22 @@ class UITable extends UIView {
                 adjustedDelta = this.maximumColumnWidth - definition.width;
             }
 
+            newTableWidth += definition.width + adjustedDelta;
+
             return merge(definition, {
                 width: definition.width + adjustedDelta
             });
         }, this);
 
-        /* The xBound is then modified (the basis for all horizontal translation operations) and
-        also the xNubSize, which is recomputed in the following setState. */
-        this.xBound -= adjustedDelta;
+        if (newTableWidth <= this.containerWidth) {
+            this.xMaximumTranslation = 0;
+        } else {
+            this.xMaximumTranslation -= adjustedDelta;
+        }
 
         this.setState({
             columns: copy,
-            xNubSize: this.calculateXNubSize()
+            xScrollerNubSize: this.calculateXScrollerNubSize()
         }, () => {
             /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
             we'll see unwanted whitespace on the right side. If the table width becomes smaller than the
@@ -326,28 +333,28 @@ class UITable extends UIView {
     }
 
     handleColumnDragStart(reference, event) {
-        if (event.buttons === 1) {
+        if (event.button === 0) {
             this.lastColumnX = event.clientX;
             this.manuallyResizingColumn = reference;
         }
     }
 
     handleXScrollerDragStart(event) {
-        if (event.buttons === 1) {
+        if (event.button === 0) {
             this.lastXScroll = event.clientX;
             this.manuallyScrollingX = true;
         }
     }
 
     handleYScrollerDragStart(event) {
-        if (event.buttons === 1) {
+        if (event.button === 0) {
             this.lastYScroll = event.clientY;
             this.manuallyScrollingY = true;
         }
     }
 
     handleDragMove(event) {
-        if (event.buttons === 1) {
+        if (event.button === 0) {
             if (this.manuallyResizingColumn) {
                 this.handleColumnResize(event.clientX - this.lastColumnX);
 
@@ -440,15 +447,15 @@ class UITable extends UIView {
             <div>
                 <div className='ui-table-x-scroller'
                      onMouseDown={this.handleXScrollerDragStart.bind(this)}>
-                    <div ref='xNub'
+                    <div ref='xScrollerNub'
                          className='ui-table-x-scroller-nub'
-                         style={{width: this.state.xNubSize}} />
+                         style={{width: this.state.xScrollerNubSize}} />
                 </div>
                 <div className='ui-table-y-scroller'
                      onMouseDown={this.handleYScrollerDragStart.bind(this)}>
-                    <div ref='yNub'
+                    <div ref='yScrollerNub'
                          className='ui-table-y-scroller-nub'
-                         style={{height: this.state.yNubSize}} />
+                         style={{height: this.state.yScrollerNubSize}} />
                 </div>
             </div>
         );
