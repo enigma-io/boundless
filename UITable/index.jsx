@@ -5,10 +5,21 @@ import transformProp from '../UIUtils/transform';
 import {chain, each, indexOf, map, merge, noop} from 'lodash';
 
 /**
- * 1) Initial render w/ one row of cells
- * 2) Capture cell widths
- * 3) apply widths to column definitions
- * 4) render pass 2 w/ column heads and the rest of the cells
+ * FOR FUTURE EYES
+ *
+ * There are a lot of places where shared this.{name} variables have been
+ * used where they don't seem to be needed. This is completely on purpose to
+ * reduce memory pressure during scroll operations. If you change them back to
+ * normal vars, you'll see the sawtoothing in your JS profiler... so don't do it!
+ */
+
+/**
+ * ORDER OF OPERATIONS
+ *
+ * 1. initial render w/ one row of cells
+ * 2. capture table & cell sizing metrics
+ * 3. apply widths to column definitions
+ * 4. render pass 2 w/ column heads and the rest of the cells
  */
 
 class UITable extends UIView {
@@ -47,17 +58,17 @@ class UITable extends UIView {
         this.containerHeight = container.clientHeight;
         this.containerWidth = container.clientWidth;
 
-        let numRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
+        this.nRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
         this.rowStartIndex = 0;
-        this.rowEndIndex = numRowsToRender;
+        this.rowEndIndex = this.nRowsToRender;
 
         let tableWidth = firstRow.clientWidth;
 
         this.xMaximumTranslation = this.containerWidth > tableWidth ? 0 : this.containerWidth - tableWidth;
 
         this.yUpperBound = 0;
-        this.yLowerBound = this.containerHeight - (numRowsToRender * this.cellHeight);
+        this.yLowerBound = this.containerHeight - (this.nRowsToRender * this.cellHeight);
 
         this.setState({
             chokeRender: false,
@@ -66,7 +77,7 @@ class UITable extends UIView {
                     width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
                 }, column);
             }),
-            rows: map(new Array(numRowsToRender), function generateRowSlot(/*ignore*/x, index) {
+            rows: map(new Array(this.nRowsToRender), function generateRowSlot(/*ignore*/x, index) {
                 return {
                     data: this.props.getRow(index),
                     setIndex: index,
@@ -79,12 +90,20 @@ class UITable extends UIView {
     }
 
     componentDidMount() {
-        this.xCurrent = this.yCurrent = 0;
         this.body = React.findDOMNode(this.refs.body);
+        this.nRowsToShift = 0;
+        this.xCurrent = this.yCurrent = 0;
+        this.xNext = this.yNext = null;
         this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
         this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
+        this.yScrollNubPosition = 0;
 
         this.captureDimensions();
+    }
+
+    shouldComponentUpdate() {
+        /* so we can reuse state.rows to avoid extra array allocations in the scroll handlers - in this case a few more CPU cycles are far cheaper than running up against the GC */
+        return true;
     }
 
     componentDidUpdate() {
@@ -106,140 +125,123 @@ class UITable extends UIView {
         }
     }
 
-    handleScrollDown(yNext) {
-        let maxIndex = this.props.totalRows;
+    handleScrollDown() {
+        if (this.rowEndIndex === this.props.totalRows || this.yNext >= this.yLowerBound) {
+            return;
+        }
 
-        if (this.rowEndIndex < maxIndex
-            && yNext < this.yLowerBound) {
-            /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            let nRowsToShift = Math.ceil(
-                Math.abs(yNext - this.yLowerBound) / this.cellHeight
-            );
+        this.nRowsToShift = Math.ceil(
+            Math.abs(this.yNext - this.yLowerBound) / this.cellHeight
+        );
 
-            if (nRowsToShift + this.rowEndIndex > maxIndex) {
-                /* more rows than there is data available, truncate */
-                nRowsToShift = maxIndex - this.rowEndIndex;
+        if (this.nRowsToShift + this.rowEndIndex > this.props.totalRows) {
+            /* more rows than there is data available, truncate */
+            this.nRowsToShift = this.props.totalRows - this.rowEndIndex;
+        }
+
+        if (this.nRowsToShift > 0) {
+            if (this.nRowsToShift > this.nRowsToRender) {
+                /* a very large scroll delta, calculate where the boundaries should be */
+                this.yUpperBound -= (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
+                this.yLowerBound -= (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
+
+                this.rowStartIndex += this.nRowsToShift - this.nRowsToRender;
+                this.rowEndIndex += this.nRowsToShift - this.nRowsToRender;
+
+                this.nRowsToShift = this.nRowsToRender;
             }
 
-            if (nRowsToShift > 0) {
-                let numRowsAvailable = this.state.rows.length;
+            if (this.nRowsToShift > 0) {
+                /* Find the lowest y-value rows and migrate them to the end of the heap */
+                let rowsSorted = chain(this.state.rows).sortByOrder('y', 'asc').take(this.nRowsToShift).value();
+                let nextIndex;
 
-                if (nRowsToShift > numRowsAvailable) {
-                    /* a very large scroll delta, calculate where the boundaries should be */
-                    let updatedBound = (nRowsToShift - numRowsAvailable) * this.cellHeight;
+                each(rowsSorted, function reallocateSlot(row, arrIndex) {
+                    nextIndex = this.rowEndIndex + arrIndex;
+                    this.state.rows[indexOf(this.state.rows, row)] = {
+                        data: this.props.getRow(nextIndex),
+                        setIndex: nextIndex,
+                        y: nextIndex * this.cellHeight
+                    };
+                }, this);
 
-                    this.yUpperBound -= updatedBound;
-                    this.yLowerBound -= updatedBound;
+                this.rowStartIndex += this.nRowsToShift;
+                this.rowEndIndex += this.nRowsToShift;
 
-                    this.rowStartIndex += nRowsToShift - numRowsAvailable;
-                    this.rowEndIndex += nRowsToShift - numRowsAvailable;
+                this.yUpperBound -= this.nRowsToShift * this.cellHeight;
+                this.yLowerBound -= this.nRowsToShift * this.cellHeight;
 
-                    nRowsToShift = numRowsAvailable;
-                }
-
-                if (nRowsToShift > 0) {
-                    /* Find the lowest y-value rows and migrate them to the end of the heap */
-                    let rowsModified = this.state.rows.slice(0);
-                    let rowsSorted = chain(rowsModified).sortByOrder('y', 'asc').take(nRowsToShift).value();
-                    let nextIndex;
-
-                    each(rowsSorted, function reallocateSlot(row, arrIndex) {
-                        nextIndex = this.rowEndIndex + arrIndex;
-                        rowsModified[indexOf(rowsModified, row)] = {
-                            data: this.props.getRow(nextIndex),
-                            setIndex: nextIndex,
-                            y: nextIndex * this.cellHeight
-                        };
-                    }, this);
-
-                    this.rowStartIndex += nRowsToShift;
-                    this.rowEndIndex += nRowsToShift;
-
-                    this.yUpperBound -= nRowsToShift * this.cellHeight;
-                    this.yLowerBound -= nRowsToShift * this.cellHeight;
-
-                    this.setState({rows: rowsModified});
-                }
+                this.setState({rows: this.state.rows});
             }
         }
     }
 
-    handleScrollUp(yNext) {
-        if (this.rowStartIndex > 0
-            && yNext > this.yUpperBound) {
-            /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+    handleScrollUp() {
+        if (this.rowStartIndex === 0 || this.yNext <= this.yUpperBound) {
+            return;
+        }
 
-            let nRowsToShift = Math.ceil(
-                Math.abs(yNext - this.yUpperBound) / this.cellHeight
-            );
+        /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-            if (this.rowStartIndex - nRowsToShift < 0) {
-                nRowsToShift = this.rowStartIndex;
+        this.nRowsToShift = Math.ceil(
+            Math.abs(this.yNext - this.yUpperBound) / this.cellHeight
+        );
+
+        if (this.rowStartIndex - this.nRowsToShift < 0) {
+            this.nRowsToShift = this.rowStartIndex;
+        }
+
+        if (this.nRowsToShift > 0) {
+            if (this.nRowsToShift > this.nRowsToRender) {
+                /* a very large scroll delta, calculate where the boundaries should be */
+                let updatedBound = (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
+
+                this.rowStartIndex -= this.nRowsToShift - this.nRowsToRender;
+                this.rowEndIndex -= this.nRowsToShift - this.nRowsToRender;
+
+                this.yUpperBound += updatedBound;
+                this.yLowerBound += updatedBound;
+
+                this.nRowsToShift = this.nRowsToRender;
             }
 
-            if (nRowsToShift > 0) {
-                let numRowsAvailable = this.state.rows.length;
+            if (this.nRowsToShift > 0) {
+                /* Find the highest y-value rows and migrate them to the top of the heap */
+                let rows = this.state.rows;
+                let rowsSorted = chain(rows).sortByOrder('y', 'desc').take(this.nRowsToShift).value();
+                let prevIndex;
 
-                if (nRowsToShift > numRowsAvailable) {
-                    /* a very large scroll delta, calculate where the boundaries should be */
-                    let updatedBound = (nRowsToShift - numRowsAvailable) * this.cellHeight;
+                each(rowsSorted, function reallocateSlot(row, arrIndex) {
+                    prevIndex = this.rowStartIndex - arrIndex - 1;
+                    rows[indexOf(rows, row)] = {
+                        data: this.props.getRow(prevIndex),
+                        setIndex: prevIndex,
+                        y: prevIndex * this.cellHeight
+                    };
+                }, this);
 
-                    this.rowStartIndex -= nRowsToShift - numRowsAvailable;
-                    this.rowEndIndex -= nRowsToShift - numRowsAvailable;
+                this.rowStartIndex -= this.nRowsToShift;
+                this.rowEndIndex -= this.nRowsToShift;
 
-                    this.yUpperBound += updatedBound;
-                    this.yLowerBound += updatedBound;
+                this.yUpperBound += this.nRowsToShift * this.cellHeight;
+                this.yLowerBound += this.nRowsToShift * this.cellHeight;
 
-                    nRowsToShift = numRowsAvailable;
-                }
-
-                if (nRowsToShift > 0) {
-                    /* Find the highest y-value rows and migrate them to the top of the heap */
-                    let rowsModified = this.state.rows.slice(0);
-                    let rowsSorted = chain(rowsModified).sortByOrder('y', 'desc').take(nRowsToShift).value();
-                    let prevIndex;
-
-                    each(rowsSorted, function reallocateSlot(row, arrIndex) {
-                        prevIndex = this.rowStartIndex - arrIndex - 1;
-                        rowsModified[indexOf(rowsModified, row)] = {
-                            data: this.props.getRow(prevIndex),
-                            setIndex: prevIndex,
-                            y: prevIndex * this.cellHeight
-                        };
-                    }, this);
-
-                    this.rowStartIndex -= nRowsToShift;
-                    this.rowEndIndex -= nRowsToShift;
-
-                    this.yUpperBound += nRowsToShift * this.cellHeight;
-                    this.yLowerBound += nRowsToShift * this.cellHeight;
-
-                    this.setState({rows: rowsModified});
-                }
+                this.setState({rows});
             }
         }
     }
 
-    normalizeCoordinate(next, bound) {
-        if (next > 0) {
-            return 0;
-        } else if (next < bound) {
-            return bound;
+    applyTranslations() {
+        if (this.xNext !== this.xCurrent) {
+            this.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
         }
 
-        return next;
-    }
+        this.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
 
-    applyTranslations(xNext, yNext) {
-        if (xNext !== this.xCurrent) {
-            this.head.style[transformProp] = `translate3d(${xNext}px, 0px, 0px)`;
-        }
-
-        this.body.style[transformProp] = `translate3d(${xNext}px, ${yNext}px, 0px)`;
-
-        this.xCurrent = xNext;
-        this.yCurrent = yNext;
+        this.xCurrent = this.xNext;
+        this.yCurrent = this.yNext;
     }
 
     applyXProgress() {
@@ -247,13 +249,13 @@ class UITable extends UIView {
     }
 
     applyYProgress() {
-        let yPos = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
+        this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
 
-        if (yPos + this.state.yScrollerNubSize > this.containerHeight) {
-            yPos = this.containerHeight - this.state.yScrollerNubSize;
+        if (this.yScrollNubPosition + this.state.yScrollerNubSize > this.containerHeight) {
+            this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
         }
 
-        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${yPos}px, 0px)`;
+        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
     }
 
     handleMoveIntent(event) {
@@ -266,20 +268,29 @@ class UITable extends UIView {
         }
 
         /* lock the translation axis if the user is manipulating the synthetic scrollbars */
-        let xNext = this.manuallyScrollingY ? 0 : this.xCurrent - event.deltaX;
-        let yNext = this.manuallyScrollingX ? 0 : this.yCurrent - event.deltaY;
+        this.xNext = this.manuallyScrollingY ? 0 : this.xCurrent - event.deltaX;
 
-        if (yNext < this.yCurrent) {
-            this.handleScrollDown(yNext);
-        } else if (yNext > this.yCurrent) {
-            this.handleScrollUp(yNext);
+        if (this.xNext > 0) {
+            this.xNext = 0;
+        } else if (this.xNext < this.xMaximumTranslation) {
+            this.xNext = this.xMaximumTranslation;
         }
 
-        this.applyTranslations(
-            this.normalizeCoordinate(xNext, this.xMaximumTranslation),
-            this.normalizeCoordinate(yNext, this.yLowerBound)
-        );
+        this.yNext = this.manuallyScrollingX ? 0 : this.yCurrent - event.deltaY;
 
+        if (this.yNext < this.yCurrent) {
+            this.handleScrollDown();
+        } else if (this.yNext > this.yCurrent) {
+            this.handleScrollUp();
+        }
+
+        if (this.yNext > 0) {
+            this.yNext = 0;
+        } else if (this.yNext < this.yLowerBound) {
+            this.yNext = this.yLowerBound;
+        }
+
+        this.applyTranslations();
         this.applyXProgress();
         this.applyYProgress();
     }
