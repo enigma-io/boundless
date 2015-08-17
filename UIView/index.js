@@ -6,49 +6,7 @@
  */
 
 import React from 'react';
-
-/*
- * A simplified version of Alberto Leal's shallowequal module
- *
- * https://github.com/Dashed/shallowequal
- * Author: https://github.com/Dashed
- * License (MIT): https://github.com/Dashed/shallowequal/blob/master/LICENSE
- */
-function shallowEqual(objA, objB) {
-    if (objA === objB) {
-        return true;
-    }
-
-    if (typeof objA !== 'object'
-        || objA === null
-        || typeof objB !== 'object'
-        || objB === null) {
-        return false;
-    }
-
-    const keysA = Object.keys(objA);
-    const keysB = Object.keys(objB);
-    const len = keysA.length;
-
-    if (len !== keysB.length) {
-        return false;
-    }
-
-    // Test for A's keys different from B.
-    const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
-
-    for (let i = 0; i < len; i++) {
-        const key = keysA[i];
-
-        if (!bHasOwnProperty(key)) {
-            return false;
-        } else if (objA[key] !== objB[key]) {
-            return false;
-        }
-    }
-
-    return true;
-}
+import {isEqual} from 'lodash';
 
 class UIView extends React.Component {
     constructor(...args) {
@@ -85,7 +43,7 @@ class UIView extends React.Component {
      * @return {Boolean}          Informs React to re-render the component.
      */
     shouldComponentUpdate(nextProps, nextState) {
-        return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
+        return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
     }
 
     /**

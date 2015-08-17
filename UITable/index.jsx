@@ -233,31 +233,6 @@ class UITable extends UIView {
         }
     }
 
-    applyTranslations() {
-        if (this.xNext !== this.xCurrent) {
-            this.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
-        }
-
-        this.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
-
-        this.xCurrent = this.xNext;
-        this.yCurrent = this.yNext;
-    }
-
-    applyXProgress() {
-        this.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xCurrent)}px, 0px, 0px)`;
-    }
-
-    applyYProgress() {
-        this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
-
-        if (this.yScrollNubPosition + this.state.yScrollerNubSize > this.containerHeight) {
-            this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
-        }
-
-        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
-    }
-
     handleMoveIntent(event) {
         event.preventDefault();
 
@@ -290,9 +265,26 @@ class UITable extends UIView {
             this.yNext = this.yLowerBound;
         }
 
-        this.applyTranslations();
-        this.applyXProgress();
-        this.applyYProgress();
+        if (this.xNext !== this.xCurrent) {
+            this.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
+        }
+
+        /* Move wrapper */
+        this.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
+
+        /* move scrollbar nubs */
+        this.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xNext)}px, 0px, 0px)`;
+
+        this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
+
+        if (this.yScrollNubPosition + this.state.yScrollerNubSize > this.containerHeight) {
+            this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
+        }
+
+        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
+
+        this.xCurrent = this.xNext;
+        this.yCurrent = this.yNext;
     }
 
     handleColumnResize(delta) {
