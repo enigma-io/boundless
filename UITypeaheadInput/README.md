@@ -1,4 +1,4 @@
-### `UIKit/UITypeahead`
+### `UIKit/UITypeaheadInput`
 #### Intelligently recommend entities via customizable, fuzzy recognition.
 <br />
 
@@ -12,7 +12,7 @@ let list = [{
 }];
 
 return (
-    <UITypeahead name='my-typeahead'
+    <UITypeaheadInput name='my-typeahead'
                  aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available."
                  defaultValue='or'
                  entities={list}

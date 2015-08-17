@@ -11,7 +11,7 @@
 // import UIProgressDemo from './UIProgress/demo';
 // import UIRadioDemo from './UIRadio/demo';
 import UITableDemo from './UITable/demo';
-// import UITypeaheadDemo from './UITypeahead/demo';
+// import UITypeaheadInputDemo from './UITypeaheadInput/demo';
 import React from 'react';
 
 // React.render(<UIButtonDemo />, document.getElementById('ui-button'));
@@ -27,4 +27,4 @@ import React from 'react';
 // React.render(<UIProgressDemo />, document.getElementById('ui-progress'));
 // React.render(<UIRadioDemo />, document.getElementById('ui-radio'));
 React.render(<UITableDemo />, document.getElementById('ui-table'));
-// React.render(<UITypeaheadDemo />, document.getElementById('ui-typeahead'));
+// React.render(<UITypeaheadInputDemo />, document.getElementById('ui-typeahead'));

@@ -2,7 +2,7 @@ import UIView from '../UIView';
 import React from 'react';
 import {indexOf, map, reduce} from 'lodash';
 
-class UITypeahead extends UIView {
+class UITypeaheadInput extends UIView {
     initialState() {
         return {
             entityMatchIndices: [],
@@ -265,7 +265,7 @@ class UITypeahead extends UIView {
     }
 }
 
-UITypeahead.propTypes = {
+UITypeaheadInput.propTypes = {
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
@@ -287,7 +287,7 @@ UITypeahead.propTypes = {
     wrapperAttributes: React.PropTypes.object
 };
 
-UITypeahead.defaultProps = {
+UITypeaheadInput.defaultProps = {
     entities: [],
     hintAttributes: {},
     matchWrapperAttributes: {},
@@ -296,4 +296,4 @@ UITypeahead.defaultProps = {
     wrapperAttributes: {}
 };
 
-export default UITypeahead;
+export default UITypeaheadInput;

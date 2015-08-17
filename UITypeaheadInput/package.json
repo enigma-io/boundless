@@ -1,5 +1,5 @@
 {
-  "name": "UIKit/UITypeahead",
+  "name": "UIKit/UITypeaheadInput",
   "description": "Intelligently recommend entities via customizable, fuzzy recognition.",
   "version": "1.0.0",
   "author": "Evan Jacobs <evan.jacobs@enigma.io>",

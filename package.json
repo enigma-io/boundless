@@ -45,7 +45,7 @@
     "UIKit/UIProgress": "./UIProgress/index.jsx",
     "UIKit/UIRadio": "./UIRadio/index.jsx",
     "UIKit/UITable": "./UITable/index.jsx",
-    "UIKit/UITypeahead": "./UITypeahead/index.jsx",
+    "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.jsx",
     "UIKit/UIView": "./UIView/index.js"
   },
   "browserify": {

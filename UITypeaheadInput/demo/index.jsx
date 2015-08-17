@@ -1,9 +1,9 @@
-import UITypeahead from '../index';
+import UITypeaheadInput from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
 
-export default class UITypeaheadDemo extends UIView {
+export default class UITypeaheadInputDemo extends UIView {
     initialState() {
         return {
             countries: [
@@ -265,13 +265,13 @@ export default class UITypeaheadDemo extends UIView {
                 <div>
                     <h5>Starts-with matching</h5>
                     <p>Please enter your country of origin:</p>
-                    <UITypeahead entities={this.state.countries}
+                    <UITypeaheadInput entities={this.state.countries}
                                  hint={true} />
                 </div>
                 <div style={{marginLeft: '1em'}}>
                     <h5>Fuzzy matching</h5>
                     <p>Please enter your country of origin:</p>
-                    <UITypeahead entities={this.state.countries}
+                    <UITypeaheadInput entities={this.state.countries}
                                  hint={true}
                                  matchFunc={this.fuzzyMatch.bind(this)}
                                  markFunc={this.markAllSubstringMatches.bind(this)} />
