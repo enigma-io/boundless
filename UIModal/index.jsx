@@ -1,3 +1,8 @@
+/**
+ * A blocking, focus-stealing container.
+ * @class UIModal
+ */
+
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';

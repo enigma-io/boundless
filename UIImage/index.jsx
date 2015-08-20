@@ -1,3 +1,8 @@
+/**
+ * An image block with placeholder support for loading and fallback scenarios.
+ * @class UIImage
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';

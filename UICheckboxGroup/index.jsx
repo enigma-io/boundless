@@ -1,3 +1,8 @@
+/**
+ * A controller view for managing the aggregate state of multiple, related checkboxes.
+ * @class UICheckboxGroup
+ */
+
 import UIView from '../UIView';
 import UICheckbox from '../UICheckbox/';
 import React from 'react';

@@ -1,3 +1,8 @@
+/**
+ * Intelligently recommend entities via customizable, fuzzy recognition.
+ * @class UITypeaheadInput
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {indexOf, map, reduce} from 'lodash';

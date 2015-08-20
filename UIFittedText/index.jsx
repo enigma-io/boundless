@@ -1,3 +1,8 @@
+/**
+ * Fit given text inside a parent container, obeying implict and explicit constraints.
+ * @class UIFittedText
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 

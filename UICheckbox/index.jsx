@@ -1,3 +1,8 @@
+/**
+ * An accessible checkbox with indeterminate support.
+ * @class UICheckbox
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';

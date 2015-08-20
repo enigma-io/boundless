@@ -1,3 +1,8 @@
+/**
+ * An unopinionated progress implementation that allows for a variety of shapes and effects.
+ * @class UIProgress
+ */
+
 import UIButton from '../UIButton';
 import UIView from '../UIView';
 import React from 'react';

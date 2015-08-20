@@ -1,3 +1,8 @@
+/**
+ * A non-blocking container positioned to a specific anchor element.
+ * @class UINotification
+ */
+
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';

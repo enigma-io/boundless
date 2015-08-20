@@ -1,3 +1,8 @@
+/**
+ * A high-performance, infinite table view.
+ * @class UITable
+ */
+
 import UIView from '../UIView';
 import Row from './row';
 import React from 'react';

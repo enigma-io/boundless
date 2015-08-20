@@ -1,3 +1,8 @@
+/**
+ * A generic list view, supporting unstyled, bulleted and numbered output.
+ * @class UIList
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {indexOf, map} from 'lodash';

@@ -1,3 +1,8 @@
+/**
+ * Trigger native toasts in supporting browsers.
+ * @class UINotification
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';

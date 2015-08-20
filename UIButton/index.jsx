@@ -1,3 +1,8 @@
+/**
+ * A clickable control with "pressed" state support.
+ * @class UIButton
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';

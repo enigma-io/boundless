@@ -1,3 +1,8 @@
+/**
+ * A non-blocking, focus-stealing container.
+ * @class UIDialog
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';

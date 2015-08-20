@@ -2,11 +2,5 @@
     "opts": {
         "template": "../node_modules/minami"
     },
-    "plugins": [
-        "../node_modules/jsdoc-jsx"
-    ],
-    "jsx": {
-        "es6": true,
-        "es6module": true
-    }
+    "plugins": []
 }

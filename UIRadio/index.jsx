@@ -1,3 +1,8 @@
+/**
+ * An accessible radio form control.
+ * @class UIRadio
+ */
+
 import UIView from '../UIView';
 import React from 'react';
 import {noop} from 'lodash';
