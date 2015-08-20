@@ -65,6 +65,6 @@
     "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
-    "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -o -name '*.jsx' | grep -v '\\./\\(node_modules\\|docs\\|build\\)' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json"
+    "docs": "mkdir -p docs/sdk && find . -type f \\( -name '*.js' -or -name '*.jsx' \\) -and -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './build/*' -or -path './*/demo/*' \\) -and -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose"
   }
 }
