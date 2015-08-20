@@ -46,7 +46,7 @@ class UIView extends React.Component {
     }
 
     /**
-     * @return {string} a unique identifier
+     * @return {string} a unique identifier, e.g. 1f2cd27f-0754-4344-9d20-436a201b2f80
      * @see {@link https://gist.github.com/jed/982883|GitHub}
      */
     uuid() {
