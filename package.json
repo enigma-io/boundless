@@ -3,7 +3,9 @@
   "description": "Pure, accessible elements for use in React projects.",
   "private": true,
   "version": "0.0.1",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "dependencies": {
     "react": "~0.13.3"
   },
