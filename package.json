@@ -14,7 +14,6 @@
     "browserify": "^11.0.0",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "*",
-    "jsawk": "0.0.2",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "karma": "^0.13.0",
     "karma-browserify": "^4.3.0",
@@ -55,14 +54,14 @@
     ]
   },
   "scripts": {
-    "postinstall": "touch ~/.jsawkrc && mkdir -p build/js && npm build",
+    "postinstall": "mkdir -p build/js && npm build",
     "build": "npm run build-js",
     "build-css": "pleeease-compile",
-    "build-js": "browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --debug --no-bundle-external --extension=.jsx > build/js/bundle.js",
+    "build-js": "browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external --extension=.jsx > build/js/bundle.js",
     "start": "npm run start-css & npm run start-js",
     "start-css": "pleeease-watch",
     "start-js": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug --extension=.jsx",
-    "release": "NODE_ENV=production browserify `cat package.json | jsawk 'return \"-r \" + Object.keys(this.browser).join(\" -r \")' | awk '{$1=\"\"; print $0}'` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.js",
+    "release": "NODE_ENV=production browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f \\( -name '*.js' -or -name '*.jsx' \\) -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './build/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose"
