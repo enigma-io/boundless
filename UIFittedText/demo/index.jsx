@@ -11,12 +11,6 @@ export default class UIFittedTextDemo extends UIView {
                     <UIFittedText maxFontSize={24}>Welcome</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>
-                    <UIFittedText maxFontSize={24}>Karibu</UIFittedText>
-                </UIButton>
-                <UIButton className='tall-button'>
-                    <UIFittedText maxFontSize={24}>Willkommen</UIFittedText>
-                </UIButton>
-                <UIButton className='tall-button'>
                     <UIFittedText maxFontSize={24}>Добро пожаловать</UIFittedText>
                 </UIButton>
                 <UIButton className='tall-button'>

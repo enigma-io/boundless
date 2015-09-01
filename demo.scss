@@ -74,6 +74,8 @@ h4 {
 .ui-demo-section {
     background-color: #FFF;
     border-bottom: 1px solid #EEE;
+    display: flex;
+    align-items: stretch;
     margin: 0;
     padding: 2em;
 }
@@ -83,17 +85,24 @@ h4 {
 }
 
 .ui-demo-section-title {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 1em;
+    flex-basis: 300px;
+    flex-shrink: 0;
+    margin: 0;
 }
 
 .ui-demo-section-description {
     color: #AAA;
+    display: block;
     font-size: 0.75em;
     font-weight: 400;
-    margin-left: 10px;
-    white-space: nowrap;
+    margin-top: 0.5em;
+}
+
+.ui-demo-section-example {
+    align-self: center;
+    padding-left: 1em;
+    flex-basis: calc(100% - 300px);
+    box-sizing: border-box;
 }
 
 .ui-offscreen {
