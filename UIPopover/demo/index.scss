@@ -1,5 +1,7 @@
+@import "../../_globals";
+
 .ui-popover {
-    border-color: #537C3B;
+    border-color: $color-accent;
     box-shadow: none;
     max-width: 400px;
 }
@@ -11,7 +13,7 @@
         border-width: 10px;
         border-color: transparent;
         border-style: solid;
-        left: 0;
+        left: 5px;
 }
 
 .ui-popover-self-y-start {
@@ -21,7 +23,7 @@
 .ui-popover-self-y-start::before,
 .ui-popover-self-y-start::after {
     top: -21px;
-    border-bottom-color: #537C3B;
+    border-bottom-color: $color-accent;
 }
 
 .ui-popover-self-y-start::after {
@@ -53,7 +55,7 @@
 
 .ui-popover-anchor-x-end.ui-popover-self-x-start::before,
 .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
-    border-right-color: #537C3B;
+    border-right-color: $color-accent;
     left: -20px;
 }
 
@@ -68,7 +70,7 @@
 
 .ui-popover-anchor-x-start.ui-popover-self-x-end::before,
 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
-    border-left-color: #537C3B;
+    border-left-color: $color-accent;
     right: -20px;
 }
 
@@ -80,7 +82,7 @@
 .ui-popover-self-x-end::before,
 .ui-popover-self-x-end::after {
     left: auto;
-    right: 0;
+    right: 5px;
 }
 
 .ui-popover-self-y-end {
@@ -89,13 +91,13 @@
 
 .ui-popover-self-y-end::before,
 .ui-popover-self-y-end::after {
-    bottom: -21px;
-    border-top-color: #537C3B;
+    bottom: -20px;
+    border-top-color: $color-accent;
 }
 
 .ui-popover-self-y-end::after {
     border-top-color: #FFF;
-    bottom: -20px;
+    bottom: -19px;
 }
 
 .ui-popover .ui-dialog-body {

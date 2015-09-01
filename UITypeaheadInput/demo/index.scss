@@ -1,3 +1,5 @@
+@import "../../_globals";
+
 .ui-typeahead-wrapper {
     position: relative;
 }
@@ -21,7 +23,7 @@
 
 .ui-typeahead:hover,
 .ui-typeahead:focus {
-    border-color: #537C3B;
+    border-color: $color-accent;
     outline: 0;
 }
 
@@ -56,12 +58,12 @@
 }
 
 .ui-typeahead-match:hover {
-    background-color: rgba(83, 124, 59, 0.2);
+    background-color: rgba($color-accent, 0.2);
 }
 
 .ui-typeahead-match-selected,
 .ui-typeahead-match-selected:hover {
-    background-color: rgba(83, 124, 59, 0.9);
+    background-color: rgba($color-accent, 0.9);
     color: #FFF;
 }
 

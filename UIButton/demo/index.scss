@@ -1,8 +1,10 @@
+@import "../../_globals";
+
 .ui-button {
     background: transparent;
-    border: 1px solid #333;
+    border: 1px solid $color-text-body;
     border-radius: 2px;
-    color: #333;
+    color: $color-text-body;
     cursor: pointer;
     font-size: 14px;
     overflow: hidden;
@@ -20,14 +22,14 @@
 
 .ui-button:hover,
 .ui-button:focus {
-    border-color: #537C3B;
-    color: #537C3B;
+    border-color: $color-accent;
+    color: $color-accent;
     outline: 0;
 }
 
 .ui-button:active,
 .ui-button-pressed {
-    background: #537C3B;
+    background: $color-accent;
     color: #FFF !important;
 }
 

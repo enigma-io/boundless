@@ -1,3 +1,5 @@
+@import "../../_globals";
+
 .ui-checkbox-wrapper {
     display: flex;
 }
@@ -28,15 +30,15 @@
 
 .ui-checkbox:hover,
 .ui-checkbox:focus {
-    border-color: #537C3B;
+    border-color: $color-accent;
 }
 
 .ui-checkbox-checked {
-    background-color: #537C3B;
+    background-color: $color-accent;
 }
 
 .ui-checkbox-mixed {
-    background: linear-gradient(135deg, rgba(83,124,59,1) 50%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(135deg, rgba($color-accent, 1) 50%, rgba(#fff, 0) 50%, rgba(#fff, 0) 100%);
 }
 
 .ui-checkbox-checked,

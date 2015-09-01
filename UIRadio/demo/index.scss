@@ -1,3 +1,5 @@
+@import "../../_globals";
+
 .ui-radio-wrapper {
     display: flex;
 }
@@ -23,11 +25,11 @@
 
 .ui-radio:hover,
 .ui-radio:focus {
-    border-color: #537C3B;
+    border-color: $color-accent;
 }
 
 .ui-radio-selected {
-    background-color: #537C3B;
+    background-color: $color-accent;
     box-shadow: 0 0 0 1px #FFF inset;
 }
 

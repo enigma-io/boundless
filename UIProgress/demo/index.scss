@@ -1,3 +1,5 @@
+@import "../../_globals";
+
 .ui-progress-wrapper {
     position: relative;
 }
@@ -7,7 +9,7 @@
 }
 
 .progress-bar .ui-progress {
-    background: #537C3B;
+    background: $color-accent;
     border-radius: 2px;
     position: absolute;
     top: 0;
@@ -30,7 +32,7 @@
 }
 
 .progress-meter .ui-progress {
-    background: #537C3B;
+    background: $color-accent;
     border-radius: 2px;
     position: absolute;
     right: 0;
@@ -63,8 +65,8 @@
 }
 
 .progress-forest-tree {
-    border-bottom-color: #537C3B;
-    color: #53350A;
+    border-bottom-color: $color-accent;
+    color: darken($color-accent, 5%);
     font-family: Helvetica;
     font-weight: 700;
     line-height: 0;

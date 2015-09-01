@@ -1,4 +1,6 @@
-$cell-color-base: #537C3B;
+@import "../../_globals";
+
+$cell-color-base: $color-accent;
 $cell-height: 40px;
 $cell-x-padding: 0.75em;
 
@@ -40,7 +42,7 @@ $cell-x-padding: 0.75em;
 }
 
 .ui-table-row-even {
-    background: rgba($cell-color-base, 0.025);
+    background: #fff;
 }
 
 .ui-table-row-odd {

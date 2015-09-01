@@ -1,3 +1,5 @@
+@import "../../_globals";
+
 .ui-modal-wrapper {
     display: flex;
     align-items: center;
@@ -15,7 +17,7 @@
 }
 
 .ui-modal-mask {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(#FFF, 0.9);
     position: absolute;
     top: 0;
     left: 0;
@@ -26,7 +28,7 @@
 .cancel-button,
 .cancel-button:hover,
 .cancel-button:focus {
-    background: #537C3B;
+    background: $color-accent;
     border-color: transparent;
     color: white;
 }
