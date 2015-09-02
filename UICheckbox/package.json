@@ -2,7 +2,9 @@
   "name": "UIKit/UICheckbox",
   "description": "An accessible checkbox with indeterminate state support.",
   "version": "1.0.0",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "browserify": {
     "transform": [
       "babelify"

@@ -2,7 +2,9 @@
   "name": "UIKit/UINotification",
   "description": "Trigger native toasts in supporting browsers.",
   "version": "1.0.0",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "browserify": {
     "transform": [
       "babelify"

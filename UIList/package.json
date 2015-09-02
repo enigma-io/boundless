@@ -2,7 +2,9 @@
   "name": "UIKit/UIList",
   "description": "A generic list view, supporting unstyled, bulleted and numbered output.",
   "version": "1.0.0",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "browserify": {
     "transform": [
       "babelify"

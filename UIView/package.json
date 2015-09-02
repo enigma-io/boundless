@@ -2,7 +2,9 @@
   "name": "UIKit/UIView",
   "description": "Helpful abstractions for ES6 React classes.",
   "version": "1.0.0",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "browserify": {
     "transform": [
       "babelify"

@@ -2,7 +2,9 @@
   "name": "UIKit/UIImage",
   "description": "An image block with placeholder support for loading and fallback scenarios.",
   "version": "1.0.0",
-  "author": "Evan Jacobs <evan.jacobs@enigma.io>",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
   "browserify": {
     "transform": [
       "babelify"
