@@ -1,6 +1,5 @@
 ### `UIKit/UIImage`
 #### An image block with placeholder support for loading and fallback scenarios.
-<br />
 
 ```jsx
 return (
@@ -18,7 +17,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-image`
 - `.ui-image-wrapper`
@@ -36,13 +35,7 @@ Type | Context | Expectation
 **Mouse** | `click` | should trigger the onClick handler
 
 <br />
-##### Required `props`
-
-- **src** `String`
-  a valid path to the desired image
-
-<br />
-##### Optional `props`
+##### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
 
@@ -61,6 +54,9 @@ Type | Context | Expectation
 - **onError** `Function`
   called if the image fails to load
 
+- **src** `String`
+  a valid path to the desired image
+
 - **statusAttributes** `Object`
     - **statusAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-status` node
@@ -68,6 +64,3 @@ Type | Context | Expectation
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-wrapper` node
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

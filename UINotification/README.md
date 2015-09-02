@@ -1,6 +1,5 @@
 ### `UIKit/UINotification`
 #### Trigger native toasts in supporting browsers.
-<br />
 
 When this module is loaded, the user will be automatically asked to enable desktop notifications. If they decline, then the `onDismiss` callback will be immediately called on every usage.
 
@@ -24,7 +23,7 @@ return (
 When the virtual component is unmounted, if the notification is still visible, it will be programmatically dismissed.
 
 <br />
-##### Optional `props`
+##### Available `props`
 
 - **body** `String`
   up to two lines are displayed in the notification (based on the current browser implementations)
@@ -40,6 +39,3 @@ When the virtual component is unmounted, if the notification is still visible, i
 
 - **onDismiss** `Function`
   called after a notification is closed in some way (usually a click, manual or programmatic close); implement this to update the data-backing and unmount the virtual component
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

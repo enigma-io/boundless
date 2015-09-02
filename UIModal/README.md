@@ -1,8 +1,7 @@
 ### `UIKit/UIModal`
 #### A blocking, focus-stealing container.
-<br />
 
-A modal is an enhancement upon a [dialog](../UIDialog/spec.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
+A modal is an enhancement upon a [dialog](../UIDialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
 ```jsx
 let footerButtons = [
@@ -33,7 +32,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-modal`
 - `.ui-modal-mask`
@@ -42,14 +41,14 @@ Styling of the element will be provided via the class hooks:
 <br />
 ##### Expected Interactions
 
-Refer to [UIDialog](../UIDialog/spec.md)
+Refer to [UIDialog](../UIDialog/README.md)
 
 <br />
-##### Optional `props`
+##### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
 
-- all supported [UIDialog props](../UIDialog/spec.md)
+- all supported [UIDialog props](../UIDialog/README.md)
 
 - **maskAttributes** `Object`
     - **maskAttributes.\***
@@ -58,6 +57,3 @@ Refer to [UIDialog](../UIDialog/spec.md)
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

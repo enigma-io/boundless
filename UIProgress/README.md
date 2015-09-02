@@ -1,6 +1,5 @@
 ### `UIKit/UIProgress`
 #### An unopinionated progress implementation that allows for a variety of shapes and effects.
-<br />
 
 ```jsx
 let cancelFunc = () => { endProcess(); };
@@ -21,7 +20,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-progress`
 - `.ui-progress-cancel`
@@ -39,7 +38,7 @@ Type | Context | Expectation
 **Mouse** | `click` on cancel element | should trigger the onCancel handler
 
 <br />
-##### Optional `props`
+##### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
 
@@ -69,6 +68,3 @@ Type | Context | Expectation
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

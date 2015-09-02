@@ -1,6 +1,5 @@
 ### `UIKit/UIPopover`
 #### A non-blocking container positioned to a specific anchor element.
-<br />
 
 A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
@@ -47,7 +46,7 @@ Combine the {element}{Axis}Align properties to create complete alignment points.
 
 Aligns the popover to `{50, 100}` on the anchor element (if it was approximately 100px x 100px)
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-popover`
 
@@ -69,24 +68,21 @@ Below are helper classes for each position combination; helpful for aligning UI 
 <br />
 ##### Expected Interactions
 
-Refer to [UIDialog](../UIDialog/spec.md)
+Refer to [UIDialog](../UIDialog/README.md)
 
 <br />
-##### Required `props`
+##### Available `props`
+
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+
+- all supported [UIDialog props](../UIDialog/README.md)
 
 - **anchor** `[ReactElement, HTMLElement]`
   a DOM element or React reference to one for positioning purposes
 
-<br />
-##### Optional `props`
-
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
-
-- all supported [UIDialog props](../UIDialog/spec.md)
-
 - **anchorXAlign** `Constant`
-  location on the anchor X-axis to use for alignment calculations
-    - **anchorXAlign** `UIPopover.Constants.START` *default*
+  (default `UIPopover.Constants.START`) location on the anchor X-axis to use for alignment calculations
+    - **anchorXAlign** `UIPopover.Constants.START`
       equates to `{0, ?}` on a 100x100 cartesian plane
 
     - **anchorXAlign** `UIPopover.Constants.MIDDLE`
@@ -96,22 +92,22 @@ Refer to [UIDialog](../UIDialog/spec.md)
       equates to `{100, ?}` on a 100x100 cartesian plane
 
 - **anchorYAlign** `Constant`
-  location on the anchor Y-axis to use for alignment calculations
+  (default `UIPopover.Constants.END`) location on the anchor Y-axis to use for alignment calculations
     - **anchorYAlign** `UIPopover.Constants.START`
       equates to `{?, 0}` on a 100x100 cartesian plane
 
     - **anchorYAlign** `UIPopover.Constants.MIDDLE`
       equates to `{?, 50}` on a 100x100 cartesian plane
 
-    - **anchorYAlign** `UIPopover.Constants.END` *default*
+    - **anchorYAlign** `UIPopover.Constants.END`
       equates to `{?, 100}` on a 100x100 cartesian plane
 
 - **autoReposition** `Boolean`
   if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
 
 - **selfXAlign** `Constant`
-  location on the popover X-axis to use for alignment calculations
-    - **selfXAlign** `UIPopover.Constants.START` *default*
+  (default `UIPopover.Constants.START`) location on the popover X-axis to use for alignment calculations
+    - **selfXAlign** `UIPopover.Constants.START`
       equates to `{0, ?}` on a 100x100 cartesian plane
 
     - **selfXAlign** `UIPopover.Constants.MIDDLE`
@@ -121,15 +117,12 @@ Refer to [UIDialog](../UIDialog/spec.md)
       equates to `{100, ?}` on a 100x100 cartesian plane
 
 - **selfYAlign** `Constant`
-  location on the popover Y-axis to use for alignment calculations
+  default (`UIPopover.Constants.END`) location on the popover Y-axis to use for alignment calculations
     - **selfYAlign** `UIPopover.Constants.START`
       equates to `{?, 0}` on a 100x100 cartesian plane
 
     - **selfYAlign** `UIPopover.Constants.MIDDLE`
       equates to `{?, 50}` on a 100x100 cartesian plane
 
-    - **selfYAlign** `UIPopover.Constants.END` *default*
+    - **selfYAlign** `UIPopover.Constants.END`
       equates to `{?, 100}` on a 100x100 cartesian plane
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

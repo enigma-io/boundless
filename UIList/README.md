@@ -1,6 +1,5 @@
 ### `UIKit/UIList`
 #### A generic list view, supporting unstyled, bulleted and numbered output.
-<br />
 
 ```jsx
 let list = ['apple', 'orange', 'lemon'];
@@ -10,7 +9,7 @@ return (
 );
 ```
 
-Styling of the list will be provided via class hooks:
+Styling of the list will be provided via CSS hooks:
 
 - `.ui-list`
 - `.ui-list-bulleted`
@@ -30,16 +29,10 @@ Type | Context | Expectation
 **Keyboard** |`['Top', 'Bottom']` | should move focus to previous/next child if `props.type` is set; should loop
 
 <br />
-##### Required `props`
+##### Available `props`
 
 - **items** `Array`
   the content to be rendered inside the list
 
-<br />
-##### Optional `props`
-
 - **type** `['bullet', 'number']`
-  change the container element type to activate browser native styles (defaults to `div`)
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>
+  (default `null`, meaning `<div>`) change the container element type to activate browser native styles

@@ -1,6 +1,5 @@
 ### `UIKit/UIRadio`
 #### An accessible radio form control.
-<br />
 
 UIRadio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
 
@@ -36,7 +35,7 @@ Renders:
 </div>
 ```
 
-Styling of the element is provided via the class hooks:
+Styling of the element is provided via the CSS hooks:
 
 - `.ui-radio`
 - `.ui-radio-label`
@@ -52,17 +51,7 @@ Type | Context | Expectation
 **Mouse** | `click` (not selected) | should trigger `onSelected`
 
 <br />
-##### Required `props`
-
-- **selected** `Boolean`
-  determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
-
-- **name** `String`
-  passthrough to the HTML `name` attribute on the `.ui-radio` node
-
-<br />
-##### Optional `props`
-
+##### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
 
 - **className** `[String|Array<String>]`
@@ -78,12 +67,15 @@ Type | Context | Expectation
     - **labelAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
 
+- **name** `String`
+  passthrough to the HTML `name` attribute on the `.ui-radio` node
+
 - **onSelected** `Function`
   called when the element becomes selected; backing data must be updated to persist the state change
+
+- **selected** `Boolean`
+  determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

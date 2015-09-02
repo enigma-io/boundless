@@ -1,6 +1,5 @@
 ### `UIKit/UICheckbox`
 #### An accessible checkbox with indeterminate support.
-<br />
 
 UICheckbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller view must intercept and apply against the data provider.
 
@@ -21,7 +20,7 @@ Renders:
 </div>
 ```
 
-Styling of the element is provided via the class hooks:
+Styling of the element is provided via the CSS hooks:
 
 - `.ui-checkbox`
 - `.ui-checkbox-checked`
@@ -38,18 +37,12 @@ Type | Context | Expectation
 **Mouse** | `click` | should toggle the `checked` state
 
 <br />
-##### Required `props`
+##### Available `props`
+
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
 - **checked** `Boolean`
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
-
-- **name** `String`
-  rendered as the input control's form name
-
-<br />
-##### Optional `props`
-
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered `<input>` element
@@ -67,6 +60,9 @@ Type | Context | Expectation
     - **labelAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
 
+- **name** `String`
+  rendered as the input control's form name
+
 - **onChecked** `Function`
   called when the element becomes checked; backing data must be updated to persist the state change
 
@@ -76,6 +72,3 @@ Type | Context | Expectation
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

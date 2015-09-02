@@ -1,8 +1,7 @@
 ### `UIKit/UITable`
 #### A high-performance, infinite table view.
-<br />
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-table`
 - `.ui-table-wrapper`
@@ -40,7 +39,11 @@ Type | Context | Expectation
 **touchEnd** | column header cell drag handle | recalculate column width with end X value & apply new sizing
 
 <br />
-##### Required `props`
+##### Available `props`
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
+
+- **className** `[String|Array<String>]`
+  additional CSS classes to be added to the rendered element
 
 - **columns** `Array<Object>`
     - **columns[].mapping** `String`
@@ -55,19 +58,8 @@ Type | Context | Expectation
     - **columns[].width** `Number`
       (default `null`) a defined initial width for all cells associated with the column
 
-<br />
-##### Optional `props`
-
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
-
-- **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element
-
 - **onCellInteract** `Function`
   invoked when a cell is interacted with
 
 - **onRowInteract** `Function`
   invoked when a cell in a row is interacted with
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

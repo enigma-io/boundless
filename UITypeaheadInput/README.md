@@ -1,6 +1,5 @@
 ### `UIKit/UITypeaheadInput`
 #### Intelligently recommend entities via customizable, fuzzy recognition.
-<br />
 
 ```jsx
 let list = [{
@@ -33,7 +32,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-typeahead`
 - `.ui-typeahead-wrapper`
@@ -56,7 +55,7 @@ Type | Context | Expectation
 **Mouse** | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
 
 <br />
-##### Optional `props`
+##### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead` node
 
@@ -106,5 +105,3 @@ Type | Context | Expectation
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

@@ -1,6 +1,5 @@
 ### `UIKit/UIDialog`
 #### A non-blocking, focus-stealing container.
-<br />
 
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page) and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 
@@ -35,7 +34,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the class hooks:
+Styling of the element will be provided via the CSS hooks:
 
 - `.ui-dialog`
 - `.ui-dialog-header`
@@ -53,7 +52,7 @@ Type | Context | Expectation
 **Mouse** | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
 
 <br />
-##### Optional `props`
+##### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the `.ui-dialog` node
 
@@ -92,6 +91,3 @@ Type | Context | Expectation
 
 - **onClose** `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>

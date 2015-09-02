@@ -1,8 +1,7 @@
 ### `UIKit/UICheckboxGroup`
 #### A controller view for managing the aggregate state of multiple, related checkboxes.
-<br />
 
-Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/spec.md) for more details.
+Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/README.md) for more details.
 
 The most common use case for `UICheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `selectAll` prop.
 
@@ -61,7 +60,7 @@ Renders:
 </div>
 ```
 
-Styling of the element is provided via the class hooks:
+Styling of the element is provided via the CSS hooks:
 
 - `.ui-checkbox-group`
 - `.ui-checkbox-group-selectall`
@@ -77,16 +76,13 @@ Type | Context | Expectation
 **Mouse** | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
 <br />
-##### Required `props`
-
-- **items** `Array<Object>`
-  the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/spec.md)
-
-<br />
-##### Optional `props`
+##### Available `props`
 
 - **className** `[String|Array<String>]`
   additional CSS classes to be added to the rendered element, the core hook is not replaced
+
+- **items** `Array<Object>`
+  the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/README.md)
 
 - **onAllChecked** `Function`
   called when all children become checked (not fired on first render), no return
@@ -112,6 +108,3 @@ Type | Context | Expectation
 
 - **selectAllPosition** `Constant` (see [the implementation](index.jsx))
   the rendering position of the "select all" checkbox, defaults to "before"
-
-
-<sub>A view must be functionally-accessible and whole by props alone.</sub>
