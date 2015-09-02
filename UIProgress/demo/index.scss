@@ -10,7 +10,7 @@
 
 .progress-bar .ui-progress {
     background: $color-accent;
-    border-radius: 2px;
+    border-radius: $default-border-radius;
     position: absolute;
     top: 0;
     left: 0;
@@ -33,7 +33,7 @@
 
 .progress-meter .ui-progress {
     background: $color-accent;
-    border-radius: 2px;
+    border-radius: $default-border-radius;
     position: absolute;
     right: 0;
     left: 0;

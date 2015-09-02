@@ -31,7 +31,8 @@ h4 {
 }
 
 .ui-demo-header {
-    background: linear-gradient(to left, rgba($color-accent, 0.075) 0%, $color-bg-body 50%, $color-bg-body 100%);
+    // safari is tempermental about rgba -> rgb gradients, so we need to emulate using all rgba
+    background: linear-gradient(to left, rgba($color-accent, 0.075) 0%, rgba($color-accent, 0) 50%, rgba($color-accent, 0) 100%);
     border-right: 1px solid rgba($color-accent, 0.35);
     position: fixed;
     top: 0;
@@ -100,7 +101,7 @@ h4 {
 
 .ui-demo-section-example {
     align-self: center;
-    padding-left: 1em;
+    padding-left: 2em;
     flex-basis: calc(100% - 300px);
     box-sizing: border-box;
 }

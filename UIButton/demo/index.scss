@@ -3,7 +3,7 @@
 .ui-button {
     background: transparent;
     border: 1px solid $color-text-body;
-    border-radius: 2px;
+    border-radius: $default-border-radius;
     color: $color-text-body;
     cursor: pointer;
     font-size: 14px;

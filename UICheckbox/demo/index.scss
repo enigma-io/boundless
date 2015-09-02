@@ -17,7 +17,7 @@
 .ui-checkbox {
     appearance: none;
     border: 1px solid #CCC;
-    border-radius: 2px;
+    border-radius: $default-border-radius;
     box-shadow: none;
     flex-shrink: 0;
     margin: 0 3px 0;

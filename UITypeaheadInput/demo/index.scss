@@ -14,7 +14,7 @@
 .ui-typeahead {
     background: transparent;
     border: 1px solid #333;
-    border-radius: 2px;
+    border-radius: $default-border-radius;
     position: relative;
     z-index: 1;
 
@@ -37,8 +37,8 @@
 
 .ui-typeahead-match-wrapper {
     background: #FFF;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: $default-border-radius;
+    border-bottom-right-radius: $default-border-radius;
     box-shadow: 0 0 0 1px #CCC inset;
     margin-top: -1px;
     max-height: 300px;
