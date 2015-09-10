@@ -72,6 +72,13 @@ describe('UIDialog', () => {
 
             expect(node.textContent).to.equal('foo');
         });
+
+        it('renderable content as a nested child', () => {
+            const dialog = React.render(<UIDialog>foo</UIDialog>, document.body);
+            const node = React.findDOMNode(dialog);
+
+            expect(node.textContent).to.equal('foo');
+        });
     });
 
     describe('CSS hook', () => {

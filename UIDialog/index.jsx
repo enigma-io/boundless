@@ -70,7 +70,7 @@ class UIDialog extends UIView {
                  aria-describedby={this.state.bodyUUID}
                  tabIndex='0'>
                 {this.renderHeader()}
-                {this.renderBody()}
+                {this.props.children || this.renderBody()}
                 {this.renderFooter()}
             </div>
         );
