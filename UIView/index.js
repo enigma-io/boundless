@@ -11,9 +11,7 @@ class UIView extends React.Component {
     constructor(...args) {
         super(...args);
 
-        if (this.initialState) {
-            this.state = this.initialState();
-        }
+        this.state = this.initialState ? this.initialState() : {};
     }
 
     /**
