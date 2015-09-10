@@ -7,6 +7,7 @@
     "Evan Jacobs <evan.jacobs@enigma.io>"
   ],
   "dependencies": {
+    "lodash": "^3.10.0",
     "react": "~0.13.3"
   },
   "devDependencies": {
@@ -26,7 +27,6 @@
     "karma-sinon-chai": "^1.0.0",
     "karma-source-map-support": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.5",
-    "lodash": "^3.10.0",
     "minami": "^1.1.0",
     "pleeease": "^3.4.0",
     "pleeease-cli": "^3.2.8",
