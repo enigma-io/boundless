@@ -44,6 +44,7 @@
     "UIKit/UIModal": "./UIModal/index.jsx",
     "UIKit/UIPopover": "./UIPopover/index.jsx",
     "UIKit/UIProgress": "./UIProgress/index.jsx",
+    "UIKit/UIProgressiveDisclosure": "./UIProgressiveDisclosure/index.jsx",
     "UIKit/UIRadio": "./UIRadio/index.jsx",
     "UIKit/UITable": "./UITable/index.jsx",
     "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.jsx",

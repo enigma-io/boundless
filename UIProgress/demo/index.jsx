@@ -3,26 +3,7 @@ import UIProgress from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';
-
-let transformProp = (function detectTransformProperty() {
-    let availableProp;
-    let props = [
-        'transform',
-        'WebkitTransform',
-        'MozTransform',
-        'OTransform',
-        'msTransform'
-    ];
-
-    for (let i = 0, len = props.length; i < len; i++) {
-        if (props[i] in document.body.style) {
-            availableProp = props[i];
-            break;
-        }
-    }
-
-    return availableProp;
-})();
+import transformProp from '../../UIUtils/transform';
 
 export default class UIProgressDemo extends UIView {
     initialState() {
