@@ -24,10 +24,8 @@ class UITableRow extends UIView {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.data !== this.props.data
-               || nextProps.columns !== this.props.columns
-               || nextState.data !== this.state.data;
+    shouldComponentUpdate() {
+        return true;
     }
 
     waitForContentIfNecessary() {
