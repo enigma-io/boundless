@@ -42,8 +42,8 @@ Type | Context | Expectation
 ##### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
 
-- **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element
+- **className** `String`
+  additional CSS class(es) to be added to the rendered `.ui-table-wrapper` element
 
 - **columns** `Array<Object>`
     - **columns[].mapping** `String`

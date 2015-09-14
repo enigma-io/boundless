@@ -478,7 +478,7 @@ class UITable extends UIView {
 
     render() {
         return (
-            <div className='ui-table-wrapper'
+            <div className={`ui-table-wrapper ${this.props.className}`}
                  onMouseMove={this.handleDragMove.bind(this)}
                  onMouseUp={this.handleDragEnd.bind(this)}
                  onWheel={this.handleMoveIntent.bind(this)}>
@@ -494,10 +494,7 @@ class UITable extends UIView {
 }
 
 UITable.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     columns: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             mapping: React.PropTypes.string,
@@ -511,6 +508,7 @@ UITable.propTypes = {
 };
 
 UITable.defaultProps = {
+    className: '',
     columns: [],
     getRow: noop
 };
