@@ -81,11 +81,11 @@ export default class UITableDemo extends UIView {
     }
 
     handleCellClick(event, rowData, cellData) {
-        console.debug(`clicked the cell containing: ${cellData}`);
+        console.debug('clicked the cell containing', cellData);
     }
 
     handleRowClick(event, rowData) {
-        console.debug(`clicked the row containing: ${JSON.stringify(rowData)}`);
+        console.debug('clicked the row containing', rowData);
     }
 
     render() {
