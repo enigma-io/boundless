@@ -18,6 +18,12 @@ class UITableRow extends UIView {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.data !== this.props.data
+               || nextProps.columns !== this.props.columns
+               || nextState.data !== this.state.data;
+    }
+
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetRowData(promise, value) {
