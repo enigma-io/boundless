@@ -7,7 +7,7 @@ import UIView from '../UIView';
 import Row from './row';
 import React from 'react';
 import transformProp from '../UIUtils/transform';
-import {chain, each, indexOf, map, merge, noop} from 'lodash';
+import {chain, each, findWhere, indexOf, map, merge, noop} from 'lodash';
 
 /**
  * FOR FUTURE EYES
@@ -28,10 +28,17 @@ import {chain, each, indexOf, map, merge, noop} from 'lodash';
  */
 
 class UITable extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.handleRowClick = this.handleRowClick.bind(this);
+    }
+
     initialState() {
         return {
             chokeRender: true,
             rows: [{
+                active: false,
                 data: this.props.getRow(0),
                 setIndex: 0,
                 y: 0
@@ -84,6 +91,7 @@ class UITable extends UIView {
             }),
             rows: map(new Array(this.nRowsToRender), function generateRowSlot(/*ignore*/x, index) {
                 return {
+                    active: false,
                     data: this.props.getRow(index),
                     setIndex: index,
                     y: this.cellHeight * index
@@ -166,6 +174,7 @@ class UITable extends UIView {
                 each(rowsSorted, function reallocateSlot(row, arrIndex) {
                     nextIndex = this.rowEndIndex + arrIndex;
                     this.state.rows[indexOf(this.state.rows, row)] = {
+                        active: row.active,
                         data: this.props.getRow(nextIndex),
                         setIndex: nextIndex,
                         y: nextIndex * this.cellHeight
@@ -221,6 +230,7 @@ class UITable extends UIView {
                 each(rowsSorted, function reallocateSlot(row, arrIndex) {
                     prevIndex = this.rowStartIndex - arrIndex - 1;
                     rows[indexOf(rows, row)] = {
+                        active: row.active,
                         data: this.props.getRow(prevIndex),
                         setIndex: prevIndex,
                         y: prevIndex * this.cellHeight
@@ -412,24 +422,88 @@ class UITable extends UIView {
         }
     }
 
+    handleRowClick(event, clickedRowData) {
+        if (this.props.onRowClick) {
+            this.props.onRowClick(event, clickedRowData);
+        }
+
+        // reset active
+        this.setState({
+            rows: this.state.rows.map(function(row) {
+                return merge(row, {active: row.data === clickedRowData});
+            })
+        });
+    }
+
     renderRows() {
         return map(this.state.rows, function generateRow(row, index) {
             return (
                 <Row key={index}
+                     active={row.active}
                      columns={this.state.columns}
                      data={row.data}
                      even={(row.setIndex) % 2 === 0}
                      y={row.y}
-                     onClick={this.props.onRowClick}
+                     onClick={this.handleRowClick}
                      onCellClick={this.props.onCellClick} />
             );
         }, this);
     }
 
+    changeActiveRow(indexDelta) {
+        let currentActive = findWhere(this.state.rows, {active: true}).setIndex;
+        let nextActive = findWhere(this.state.rows, {setIndex: currentActive + indexDelta});
+
+        if (nextActive
+            && (
+                (indexDelta === -1 && nextActive.y * -1 > this.yCurrent)
+                || (indexDelta === 1 && nextActive.y * -1 - this.cellHeight < this.yCurrent - this.containerHeight + this.cellHeight)
+                )) {
+            this.handleMoveIntent({
+                deltaX: 0,
+                deltaY: this.cellHeight * indexDelta,
+                preventDefault: noop
+            });
+        }
+
+        if (nextActive) {
+            this.setState({
+                rows: this.state.rows.map(function(row) {
+                    return merge(row, {active: row === nextActive});
+                })
+            });
+        } else if ((indexDelta === -1 && currentActive > 1)
+                   || (indexDelta === 1 && currentActive < this.props.totalRows)) {
+            // move the viewport
+            this.handleMoveIntent({
+                deltaX: 0,
+                deltaY: this.cellHeight * indexDelta,
+                preventDefault: noop
+            });
+
+            this.changeActiveRow(indexDelta);
+        }
+    }
+
+    handleKeyDown(event) {
+        switch (event.key) {
+        case 'ArrowDown':
+            this.changeActiveRow(1);
+            event.preventDefault();
+            break;
+        case 'ArrowUp':
+            this.changeActiveRow(-1);
+            event.preventDefault();
+            break;
+        }
+    }
+
     renderBody() {
         return (
             <div ref='body'
-                 className='ui-table-body'>
+                 className='ui-table-body'
+                 onKeyDown={this.handleKeyDown.bind(this)}
+                 tabIndex='0'>
                 {this.renderRows()}
             </div>
         );

@@ -18,9 +18,7 @@ class UITableRow extends UIView {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            this.setState({
-                data: nextProps.data
-            });
+            this.setState({ data: nextProps.data });
         }
     }
 
@@ -57,6 +55,10 @@ class UITableRow extends UIView {
 
         if (this.state.data instanceof Promise) {
             classes += ' ui-table-row-loading';
+        }
+
+        if (this.props.active) {
+            classes += ' ui-table-row-active';
         }
 
         return classes;
