@@ -2,6 +2,20 @@ import UIView from '../UIView';
 import React from 'react';
 
 class UITableCell extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event) {
+        if (this.props.onClick) {
+            event.persist();
+
+            this.props.onClick(event, this.props.row, this.props.content);
+        }
+    }
+
     renderContent() {
         if (typeof this.props.width === 'number') {
             return (
@@ -20,7 +34,8 @@ class UITableCell extends UIView {
         return (
             <div className='ui-table-cell'
                  title={addTitle ? this.props.content : null}
-                 style={{width: this.props.width ? this.props.width + 'px' : null}}>
+                 style={{width: this.props.width ? this.props.width + 'px' : null}}
+                 onClick={this.handleClick}>
                 {this.renderContent()}
             </div>
         );
@@ -29,7 +44,9 @@ class UITableCell extends UIView {
 
 UITableCell.propTypes = {
     content: React.PropTypes.node,
-    width: React.PropTypes.number
+    width: React.PropTypes.number,
+    onClick: React.PropTypes.func,
+    row: React.PropTypes.object
 };
 
 export default UITableCell;

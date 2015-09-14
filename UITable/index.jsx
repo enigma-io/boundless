@@ -419,7 +419,9 @@ class UITable extends UIView {
                      columns={this.state.columns}
                      data={row.data}
                      even={(row.setIndex) % 2 === 0}
-                     y={row.y} />
+                     y={row.y}
+                     onClick={this.props.onRowClick}
+                     onCellClick={this.props.onCellClick} />
             );
         }, this);
     }
@@ -511,6 +513,8 @@ UITable.propTypes = {
         })
     ),
     getRow: React.PropTypes.func,
+    onCellClick: React.PropTypes.func,
+    onRowClick: React.PropTypes.func,
     totalRows: React.PropTypes.number
 };
 

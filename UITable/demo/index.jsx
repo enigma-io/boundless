@@ -80,12 +80,22 @@ export default class UITableDemo extends UIView {
         return this.state.rows[index];
     }
 
+    handleCellClick(event, rowData, cellData) {
+        console.debug(`clicked the cell containing: ${cellData}`);
+    }
+
+    handleRowClick(event, rowData) {
+        console.debug(`clicked the row containing: ${JSON.stringify(rowData)}`);
+    }
+
     render() {
         if (this.state.rows.length) {
             return (
                 <UITable columns={this.state.columns}
                          totalRows={this.state.rows.length}
-                         getRow={this.handleRowRequest.bind(this)} />
+                         getRow={this.handleRowRequest.bind(this)}
+                         onRowClick={this.handleRowClick}
+                         onCellClick={this.handleCellClick} />
             );
         }
 

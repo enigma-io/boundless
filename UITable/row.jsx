@@ -4,6 +4,12 @@ import React from 'react';
 import transformProp from '../UIUtils/transform';
 
 class UITableRow extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
     initialState() {
         return {
             data: this.props.data
@@ -65,18 +71,25 @@ class UITableRow extends UIView {
             return (
                 <Cell key={index}
                       content={data[definition.mapping]}
-                      header={this.props.header}
-                      resizable={definition.resizable}
-                      resizeFunc={this.props.resizeFunc}
-                      width={definition.width} />
+                      width={definition.width}
+                      onClick={this.props.onCellClick}
+                      row={this.state.row} />
             );
         });
+    }
+
+    handleClick(event) {
+        if (this.props.onClick) {
+            event.persist();
+            this.props.onClick(event, this.state.data);
+        }
     }
 
     render() {
         return (
             <div className={this.getClasses()}
-                 style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}>
+                 style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}
+                 onClick={this.handleClick}>
                 {this.renderCells()}
             </div>
         );
@@ -87,8 +100,8 @@ UITableRow.propTypes = {
     columns: React.PropTypes.array,
     even: React.PropTypes.bool,
     data: React.PropTypes.object,
-    header: React.PropTypes.bool,
-    resizeFunc: React.PropTypes.func,
+    onClick: React.PropTypes.func,
+    onCellClick: React.PropTypes.func,
     y: React.PropTypes.number
 };
 
