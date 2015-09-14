@@ -9,12 +9,6 @@ import React from 'react';
 import transformProp from '../UIUtils/transform';
 
 class UIPopover extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.align = this.align.bind(this);
-    }
-
     initialState() {
         return {
             anchorXAlign: this.props.anchorXAlign,
@@ -24,49 +18,15 @@ class UIPopover extends UIView {
         };
     }
 
-    getAnchorNode() {
-        return this.props.anchor instanceof HTMLElement ? this.props.anchor : React.findDOMNode(this.props.anchor);
-    }
-
-    getClassAlignmentFragment(constant) {
-        let constants = UIPopover.Constants;
-
-        switch (constant) {
-        case constants.START:
-            return 'start';
-
-        case constants.MIDDLE:
-            return 'middle';
-
-        case constants.END:
-            return 'end';
-        }
-    }
-
-    getClasses() {
-        let classes = ['ui-popover'];
-        let state = this.state;
-
-        classes.push(
-            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(state.anchorXAlign),
-            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(state.anchorYAlign),
-            'ui-popover-self-x-' + this.getClassAlignmentFragment(state.selfXAlign),
-            'ui-popover-self-y-' + this.getClassAlignmentFragment(state.selfYAlign)
-        );
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     componentDidMount() {
-        this.container = document.createElement('div');
-
-        document.body.appendChild(this.container);
+        document.body.appendChild((this.container = document.createElement('div')));
 
         this.node = React.findDOMNode(this.renderDialog());
 
-        window.addEventListener('resize', this.align, true);
-
+        this.align = this.align.bind(this);
         this.align();
+
+        window.addEventListener('resize', this.align, true);
     }
 
     componentDidUpdate() {
@@ -77,26 +37,8 @@ class UIPopover extends UIView {
     componentWillUnmount() {
         React.unmountComponentAtNode(this.container);
         document.body.removeChild(this.container);
+
         window.removeEventListener('resize', this.align, true);
-    }
-
-    render() {
-        return (
-            <div />
-        );
-    }
-
-    renderDialog() {
-        return React.render(
-            <UIDialog {...this.props}
-                      captureFocus={false}
-                      className={this.getClasses()}
-                      style={{
-                          position: 'absolute',
-                          top: '0px',
-                          left: '0px'
-                      }} />
-        , this.container);
     }
 
     getNextXPosition(anchor, dialog) {
@@ -198,20 +140,68 @@ class UIPopover extends UIView {
     }
 
     align() {
-        const anchor = this.getAnchorNode();
-        const dialog = this.node;
+        const anchor = this.props.anchor instanceof HTMLElement
+                       ? this.props.anchor
+                       : React.findDOMNode(this.props.anchor);
 
-        let x = this.getNextXPosition(anchor, dialog);
-        let y = this.getNextYPosition(anchor, dialog);
+        let x = this.getNextXPosition(anchor, this.node);
+        let y = this.getNextYPosition(anchor, this.node);
 
-        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dialog, x, y);
+        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
 
-        if (alignmentCorrection
-            && Object.keys(alignmentCorrection).length) {
+        if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
             this.setState(alignmentCorrection);
         } else {
-            this.applyTranslation(dialog, x, y);
+            this.applyTranslation(this.node, x, y);
         }
+    }
+
+    getClassAlignmentFragment(constant) {
+        let constants = UIPopover.Constants;
+
+        switch (constant) {
+        case constants.START:
+            return 'start';
+
+        case constants.MIDDLE:
+            return 'middle';
+
+        case constants.END:
+            return 'end';
+        }
+    }
+
+    getClasses() {
+        let classes = ['ui-popover'];
+        let state = this.state;
+
+        classes.push(
+            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(state.anchorXAlign),
+            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(state.anchorYAlign),
+            'ui-popover-self-x-' + this.getClassAlignmentFragment(state.selfXAlign),
+            'ui-popover-self-y-' + this.getClassAlignmentFragment(state.selfYAlign)
+        );
+
+        return classes.concat(this.props.className || []).join(' ');
+    }
+
+    renderDialog() {
+        return React.render(
+            <UIDialog {...this.props}
+                      captureFocus={false}
+                      className={this.getClasses()}
+                      style={{
+                          position: 'absolute',
+                          top: '0px',
+                          left: '0px'
+                      }} />
+        , this.container);
+    }
+
+    render() {
+        return (
+            <div />
+        );
     }
 }
 

@@ -14,34 +14,6 @@ class UIImage extends UIView {
         };
     }
 
-    getImageClasses() {
-        return ['ui-image'].concat(this.props.className || []).join(' ');
-    }
-
-    getStatusClasses() {
-        let classes = ['ui-image-status'];
-
-        switch (this.state.status) {
-        case UIImage.Constants.IMAGE_LOADING:
-            classes.push('ui-image-loading');
-            break;
-
-        case UIImage.Constants.IMAGE_LOADED:
-            classes.push('ui-image-loaded');
-            break;
-
-        case UIImage.Constants.IMAGE_ERROR:
-            classes.push('ui-image-error');
-            break;
-        }
-
-        return classes.concat(this.props.statusAttributes.className || []).join(' ');
-    }
-
-    getWrapperClasses() {
-        return ['ui-image-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.src !== this.props.src) {
             this.setState({ status: UIImage.Constants.IMAGE_LOADING });
@@ -60,14 +32,27 @@ class UIImage extends UIView {
         this.resetPreloader();
     }
 
-    render() {
-        return (
-            <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
-                {this.renderImage()}
-                {this.renderStatus()}
-            </div>
-        );
+    resetPreloader() {
+        this.loader.onload = null;
+        this.loader.onerror = null;
+        this.loader = null;
+    }
+
+    preload() {
+        if (this.loader) {
+            this.resetPreloader();
+        }
+
+        this.loader = document.createElement('img');
+
+        this.loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
+        this.loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+
+        this.loader.src = this.props.src;
+    }
+
+    getImageClasses() {
+        return ['ui-image'].concat(this.props.className || []).join(' ');
     }
 
     renderImage() {
@@ -91,6 +76,26 @@ class UIImage extends UIView {
         );
     }
 
+    getStatusClasses() {
+        let classes = ['ui-image-status'];
+
+        switch (this.state.status) {
+        case UIImage.Constants.IMAGE_LOADING:
+            classes.push('ui-image-loading');
+            break;
+
+        case UIImage.Constants.IMAGE_LOADED:
+            classes.push('ui-image-loaded');
+            break;
+
+        case UIImage.Constants.IMAGE_ERROR:
+            classes.push('ui-image-error');
+            break;
+        }
+
+        return classes.concat(this.props.statusAttributes.className || []).join(' ');
+    }
+
     renderStatus() {
         return (
             <div {...this.props.statusAttributes}
@@ -100,23 +105,18 @@ class UIImage extends UIView {
         );
     }
 
-    resetPreloader() {
-        this.loader.onload = null;
-        this.loader.onerror = null;
-        this.loader = null;
+    getWrapperClasses() {
+        return ['ui-image-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
-    preload() {
-        if (this.loader) {
-            this.resetPreloader();
-        }
-
-        this.loader = document.createElement('img');
-
-        this.loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
-        this.loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
-
-        this.loader.src = this.props.src;
+    render() {
+        return (
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
+                {this.renderImage()}
+                {this.renderStatus()}
+            </div>
+        );
     }
 }
 

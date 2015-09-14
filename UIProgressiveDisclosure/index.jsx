@@ -25,17 +25,13 @@ export default class UIProgressiveDisclosure extends UIView {
     }
 
     getClasses() {
-        let str = 'ui-disclosure';
+        let classes = ['ui-disclosure'];
 
         if (this.state.expanded) {
-            str += ' ui-disclosure-expanded';
+            classes.push('ui-disclosure-expanded');
         }
 
-        if (this.props.className) {
-            str += ' ' + (Array.isArray(this.props.className) ? this.props.className.join(' ') : this.props.className);
-        }
-
-        return str;
+        return classes.concat(this.props.className || []).join(' ');
     }
 
     handleClick() {

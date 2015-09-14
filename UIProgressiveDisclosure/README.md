@@ -52,7 +52,7 @@ Type | Context | Expectation
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered `.ui-disclosure` node
+  additional CSS class(es) to be added to the rendered `.ui-disclosure` element
 
 - **expanded** `Boolean`
   allows the disclosure to be rendered expanded by default

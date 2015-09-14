@@ -67,7 +67,7 @@ Type | Context | Expectation
   determines if focus is allowed to move away from the dialog
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
+  additional CSS class(es) to be added to the rendered `.ui-dialog` element
 
 - **closeOnEscKey** `Boolean`
   enable detection of "Escape" keypresses to trigger `props.onClose`

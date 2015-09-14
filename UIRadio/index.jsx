@@ -14,6 +14,12 @@ class UIRadio extends UIView {
         };
     }
 
+    handleChange() { // Send the opposite signal from what was passed to toggle the data
+        if (!this.props.selected) {
+            this.props.onSelected(this.props.name);
+        }
+    }
+
     getInputClasses() {
         let classes = ['ui-radio'];
 
@@ -22,24 +28,6 @@ class UIRadio extends UIView {
         }
 
         return classes.concat(this.props.className || []).join(' ');
-    }
-
-    getLabelClasses() {
-        return ['ui-radio-label'].concat(this.props.labelAttributes.className || []).join(' ');
-    }
-
-    getWrapperClasses() {
-        return ['ui-radio-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
-    render() {
-        return (
-            <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
-                {this.renderInput()}
-                {this.renderLabel()}
-            </div>
-        );
     }
 
     renderInput() {
@@ -56,6 +44,10 @@ class UIRadio extends UIView {
         );
     }
 
+    getLabelClasses() {
+        return ['ui-radio-label'].concat(this.props.labelAttributes.className || []).join(' ');
+    }
+
     renderLabel() {
         if (this.props.label) {
             return (
@@ -69,10 +61,18 @@ class UIRadio extends UIView {
         }
     }
 
-    handleChange() { // Send the opposite signal from what was passed to toggle the data
-        if (!this.props.selected) {
-            this.props.onSelected(this.props.name);
-        }
+    getWrapperClasses() {
+        return ['ui-radio-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
+    }
+
+    render() {
+        return (
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
+                {this.renderInput()}
+                {this.renderLabel()}
+            </div>
+        );
     }
 }
 

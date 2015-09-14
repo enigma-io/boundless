@@ -8,6 +8,30 @@ import React from 'react';
 import {noop} from 'lodash';
 
 class UIButton extends UIView {
+    toggleState() {
+        if (typeof this.props.pressed !== 'undefined') {
+            this.props[this.props.pressed ? 'onUnpressed' : 'onPressed']();
+        }
+    }
+
+    handleClick() {
+        this.toggleState();
+        this.props.onClick();
+    }
+
+    handleKeyDown(event) {
+        switch (event.key) {
+        case 'Enter':
+        case 'Space':
+            event.preventDefault();
+            this.toggleState();
+
+            if (typeof this.props.pressed === 'undefined') {
+                this.props.onClick();
+            }
+        }
+    }
+
     getClasses() {
         let classes = ['ui-button'];
 
@@ -33,30 +57,6 @@ class UIButton extends UIView {
                 {this.props.children}
             </button>
         );
-    }
-
-    toggleState() {
-        if (typeof this.props.pressed !== 'undefined') {
-            this.props[this.props.pressed ? 'onUnpressed' : 'onPressed']();
-        }
-    }
-
-    handleClick() {
-        this.toggleState();
-        this.props.onClick();
-    }
-
-    handleKeyDown(event) {
-        switch (event.key) {
-        case 'Enter':
-        case 'Space':
-            event.preventDefault();
-            this.toggleState();
-
-            if (typeof this.props.pressed === 'undefined') {
-                this.props.onClick();
-            }
-        }
     }
 }
 

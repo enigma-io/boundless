@@ -79,7 +79,7 @@ Type | Context | Expectation
 ##### Available `props`
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
+  additional CSS class(es) to be added to the rendered `.ui-checkbox-group` element
 
 - **items** `Array<Object>`
   the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/README.md)

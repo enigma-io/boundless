@@ -31,6 +31,9 @@ Type | Context | Expectation
 <br />
 ##### Available `props`
 
+- **className** `[String|Array<String>]`
+  additional CSS class(es) to be added to the rendered `.ui-list` element
+
 - **items** `Array`
   the content to be rendered inside the list
 

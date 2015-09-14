@@ -60,7 +60,7 @@ Type | Context | Expectation
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead` node
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
+  additional CSS class(es) to be added to the rendered `.ui-typeahead` element
 
 - **offscreenClass** `String`
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration

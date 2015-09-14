@@ -45,7 +45,7 @@ Type | Context | Expectation
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered `<input>` element
+  additional CSS class(es) to be added to the rendered `.ui-checkbox` element
 
 - **id** `String`
   the string to be used for the rendered input HTML `id` and corresponding label `for` attributes; auto-generated if not provided

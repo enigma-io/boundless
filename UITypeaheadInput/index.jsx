@@ -16,55 +16,16 @@ class UITypeaheadInput extends UIView {
         };
     }
 
-    getHintClasses() {
-        return ['ui-typeahead-hint'].concat(this.props.hintAttributes.className || []).join(' ');
-    }
-
-    getMatchClasses(entity, selected) {
-        let classes = ['ui-typeahead-match'];
-
-        if (selected) {
-            classes.push('ui-typeahead-match-selected');
-        }
-
-        return classes.concat(entity.className || []).join(' ');
-    }
-
-    getMatchWrapperClasses() {
-        return ['ui-typeahead-match-wrapper'].concat(this.props.matchWrapperAttributes.className || []).join(' ');
-    }
-
-    getInputClasses() {
-        return ['ui-typeahead'].concat(this.props.className || []).join(' ');
-    }
-
-    getWrapperClasses() {
-        return ['ui-typeahead-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
     componentWillMount() {
         if (this.props.defaultValue) {
             this.computeMatches(this.props.defaultValue);
         }
     }
 
-    render() {
-        return (
-            <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
-                {this.renderNotification()}
-                {this.renderHint()}
+    getSelectedEntityContent() {
+        let entity = this.props.entities[this.state.selectedEntityIndex];
 
-                <input {...this.props}
-                       ref='input'
-                       className={this.getInputClasses()}
-                       aria-controls={this.state.uuid}
-                       onInput={this.handleInput.bind(this)} />
-
-                {this.renderMatches()}
-            </div>
-        );
+        return entity ? entity.content : '';
     }
 
     renderNotification() {
@@ -76,6 +37,10 @@ class UITypeaheadInput extends UIView {
                 {this.getSelectedEntityContent()}
             </div>
         );
+    }
+
+    getHintClasses() {
+        return ['ui-typeahead-hint'].concat(this.props.hintAttributes.className || []).join(' ');
     }
 
     renderHint() {
@@ -98,6 +63,40 @@ class UITypeaheadInput extends UIView {
                        tabIndex='-1' />
             );
         }
+    }
+
+    getMatchClasses(entity, selected) {
+        let classes = ['ui-typeahead-match'];
+
+        if (selected) {
+            classes.push('ui-typeahead-match-selected');
+        }
+
+        return classes.concat(entity.className || []).join(' ');
+    }
+
+    getMatchWrapperClasses() {
+        return ['ui-typeahead-match-wrapper'].concat(this.props.matchWrapperAttributes.className || []).join(' ');
+    }
+
+    handleMatchClick(index) {
+        this.setValue(this.props.entities[index].content);
+    }
+
+    markMatchSubstring(entityContent, userInput) {
+        if (this.props.markFunc) {
+            return this.props.markFunc(entityContent, userInput);
+        }
+
+        let seekValue = userInput.toLowerCase();
+        let indexStart = entityContent.toLowerCase().indexOf(seekValue);
+        let indexEnd = indexStart + seekValue.length;
+
+        return [
+            <span key='0'>{entityContent.slice(0, indexStart)}</span>,
+            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+            <span key='2'>{entityContent.slice(indexEnd)}</span>
+        ];
     }
 
     renderMatches() {
@@ -123,79 +122,12 @@ class UITypeaheadInput extends UIView {
         }
     }
 
-    getInputNode() {
-        return React.findDOMNode(this.refs.input);
+    getWrapperClasses() {
+        return ['ui-typeahead-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
-    cursorAtEndOfInput() {
-        let node = this.getInputNode();
-
-        return node.selectionStart === node.selectionEnd && node.selectionEnd === node.value.length;
-    }
-
-    setValue(newValue) {
-        this.getInputNode().value = newValue;
-
-        this.setState({ userInput: newValue });
-        this.resetMatches();
-        this.focusInput();
-    }
-
-    focusInput() {
-        this.getInputNode().focus();
-    }
-
-    markMatchSubstring(entityContent, userInput) {
-        if (this.props.markFunc) {
-            return this.props.markFunc(entityContent, userInput);
-        }
-
-        let seekValue = userInput.toLowerCase();
-        let indexStart = entityContent.toLowerCase().indexOf(seekValue);
-        let indexEnd = indexStart + seekValue.length;
-
-        return [
-            <span key='0'>{entityContent.slice(0, indexStart)}</span>,
-            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
-            <span key='2'>{entityContent.slice(indexEnd)}</span>
-        ];
-    }
-
-    resetMatches() {
-        this.setState({
-            selectedEntityIndex: -1,
-            entityMatchIndices: []
-        });
-    }
-
-    getSelectedEntityContent() {
-        let entity = this.props.entities[this.state.selectedEntityIndex];
-
-        return entity ? entity.content : '';
-    }
-
-    // The default implementation is a simple "starts-with" search
-    getMatchIndices(currentValue, entities) {
-        if (this.props.matchFunc) {
-            return this.props.matchFunc(currentValue, entities);
-        }
-
-        let seekValue = currentValue.toLowerCase();
-
-        return reduce(entities, function seekMatch(result, entity, index) {
-            return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
-        }, []);
-    }
-
-    computeMatches(currentValue) {
-        let entities = this.props.entities;
-        let matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
-
-        this.setState({
-            userInput: currentValue,
-            selectedEntityIndex: matches.length ? matches[0] : -1,
-            entityMatchIndices: matches
-        });
+    getInputClasses() {
+        return ['ui-typeahead'].concat(this.props.className || []).join(' ');
     }
 
     selectMatch(delta) {
@@ -212,6 +144,35 @@ class UITypeaheadInput extends UIView {
 
             this.setState({ selectedEntityIndex: matches[nextIndex] });
         }
+    }
+
+    resetMatches() {
+        this.setState({
+            selectedEntityIndex: -1,
+            entityMatchIndices: []
+        });
+    }
+
+    getInputNode() {
+        return React.findDOMNode(this.refs.input);
+    }
+
+    focusInput() {
+        this.getInputNode().focus();
+    }
+
+    setValue(newValue) {
+        this.getInputNode().value = newValue;
+
+        this.setState({ userInput: newValue });
+        this.resetMatches();
+        this.focusInput();
+    }
+
+    cursorAtEndOfInput() {
+        let node = this.getInputNode();
+
+        return node.selectionStart === node.selectionEnd && node.selectionEnd === node.value.length;
     }
 
     handleKeyDown(event) {
@@ -261,12 +222,51 @@ class UITypeaheadInput extends UIView {
         }
     }
 
+    // The default implementation is a simple "starts-with" search
+    getMatchIndices(currentValue, entities) {
+        if (this.props.matchFunc) {
+            return this.props.matchFunc(currentValue, entities);
+        }
+
+        let seekValue = currentValue.toLowerCase();
+
+        return reduce(entities, function seekMatch(result, entity, index) {
+            return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
+        }, []);
+    }
+
+    computeMatches(currentValue) {
+        let entities = this.props.entities;
+        let matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
+
+        this.setState({
+            userInput: currentValue,
+            selectedEntityIndex: matches.length ? matches[0] : -1,
+            entityMatchIndices: matches
+        });
+    }
+
     handleInput(event) {
         this.computeMatches(event.target.value);
     }
 
-    handleMatchClick(index) {
-        this.setValue(this.props.entities[index].content);
+    render() {
+        return (
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}
+                 onKeyDown={this.handleKeyDown.bind(this)}>
+                {this.renderNotification()}
+                {this.renderHint()}
+
+                <input {...this.props}
+                       ref='input'
+                       className={this.getInputClasses()}
+                       aria-controls={this.state.uuid}
+                       onInput={this.handleInput.bind(this)} />
+
+                {this.renderMatches()}
+            </div>
+        );
     }
 }
 

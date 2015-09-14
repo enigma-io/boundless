@@ -47,7 +47,7 @@ Type | Context | Expectation
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element, the core hook is not replaced
+  additional CSS class(es) to be added to the rendered `.ui-progress` element
 
 - **label** `Boolean`
   the value to show as a label of the progress, e.g. "50%"

@@ -34,42 +34,6 @@ class UIList extends UIView {
         return classes.concat(this.props.className || []).join(' ');
     }
 
-    render() {
-        let nodeType = 'div';
-
-        switch (this.props.type) {
-        case 'bullet':
-            nodeType = 'ul';
-            break;
-
-        case 'number':
-            nodeType = 'ol';
-            break;
-        }
-
-        return React.createElement(nodeType, {
-            className: this.getClasses(),
-            onKeyDown: this.handleKeyDown.bind(this),
-            children: this.renderContent()
-        });
-    }
-
-    renderContent() {
-        let nodeType = this.props.type ? 'li' : 'span';
-
-        return map(this.props.items, (item, index) => {
-            return React.createElement(nodeType, {
-                className: 'ui-list-item',
-                ref: index,
-                key: this.createHashedKey(item) + index, // in case 2 pieces of content are identical
-                tabIndex: 0,
-                onBlur: this.handleItemBlur.bind(this, item),
-                onFocus: this.handleItemFocus.bind(this, item),
-                children: item
-            });
-        });
-    }
-
     setFocus(index) {
         React.findDOMNode(this.refs[index]).focus();
     }
@@ -115,14 +79,40 @@ class UIList extends UIView {
         }
     }
 
-    handleItemBlur(item) {
-        if (this.state.activeItem === item) {
-            this.setState({activeItem: null});
-        }
+    renderContent() {
+        let nodeType = this.props.type ? 'li' : 'span';
+
+        return map(this.props.items, (item, index) => {
+            return React.createElement(nodeType, {
+                className: 'ui-list-item',
+                ref: index,
+                key: this.createHashedKey(item) + index, // in case 2 pieces of content are identical
+                tabIndex: 0,
+                onBlur: () => this.state.activeItem === item && this.setState({activeItem: null}),
+                onFocus: () => this.setState({activeItem: item}),
+                children: item
+            });
+        });
     }
 
-    handleItemFocus(item) {
-        this.setState({activeItem: item});
+    render() {
+        let nodeType = 'div';
+
+        switch (this.props.type) {
+        case 'bullet':
+            nodeType = 'ul';
+            break;
+
+        case 'number':
+            nodeType = 'ol';
+            break;
+        }
+
+        return React.createElement(nodeType, {
+            className: this.getClasses(),
+            onKeyDown: this.handleKeyDown.bind(this),
+            children: this.renderContent()
+        });
     }
 }
 

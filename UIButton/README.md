@@ -2,12 +2,8 @@
 #### A clickable control with "pressed" state support.
 
 ```jsx
-let BOLD_LABEL = 'Press to activate bolding on the selected text and new input.';
-
-// ...
-
 return (
-    <UIButton aria-label={BOLD_LABEL}
+    <UIButton aria-label='Press to activate bolding on the selected text and new input.'
               className='text-bolder'
               onPressed={this.activateBolding}
               onUnpressed={this.deactivateBolding}
@@ -46,7 +42,7 @@ Type | Context | Expectation
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered element
+  additional CSS class(es) to be added to the rendered `.ui-button` element
 
 - **onClick** `Function`
   called when the element receives a mouse click

@@ -8,35 +8,11 @@ import React from 'react';
 import {noop} from 'lodash';
 
 class UIDialog extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.handleFocus = this.handleFocus.bind(this);
-        this.handleKeydown = this.handleKeydown.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
-    }
-
     initialState() {
         return {
             headerUUID: this.uuid(),
             bodyUUID: this.uuid()
         };
-    }
-
-    getBodyClasses() {
-        return ['ui-dialog-body'].concat(this.props.bodyAttributes.className || []).join(' ');
-    }
-
-    getFooterClasses() {
-        return ['ui-dialog-footer'].concat(this.props.footerAttributes.className || []).join(' ');
-    }
-
-    getHeaderClasses() {
-        return ['ui-dialog-header'].concat(this.props.headerAttributes.className || []).join(' ');
-    }
-
-    getRootClasses() {
-        return ['ui-dialog'].concat(this.props.className || []).join(' ');
     }
 
     componentDidMount() {
@@ -45,8 +21,12 @@ class UIDialog extends UIView {
         }
 
         if (this.props.closeOnOutsideClick) {
+            this.handleOutsideClick = this.handleOutsideClick.bind(this);
+
             window.addEventListener('click', this.handleOutsideClick, true);
         }
+
+        this.handleFocus = this.handleFocus.bind(this);
 
         window.addEventListener('focus', this.handleFocus, true);
     }
@@ -57,61 +37,6 @@ class UIDialog extends UIView {
         }
 
         window.removeEventListener('focus', this.handleFocus, true);
-    }
-
-    render() {
-        return (
-            <div {...this.props}
-                 className={this.getRootClasses()}
-                 onDragEnd={this.handleDrop}
-                 onKeyDown={this.handleKeydown}
-                 role='dialog'
-                 aria-labelledby={this.state.headerUUID}
-                 aria-describedby={this.state.bodyUUID}
-                 tabIndex='0'>
-                {this.renderHeader()}
-                {this.props.children || this.renderBody()}
-                {this.renderFooter()}
-            </div>
-        );
-    }
-
-    renderBody() {
-        if (this.props.body) {
-            return (
-                <div {...this.props.bodyAttributes}
-                     ref='body'
-                     id={this.state.bodyUUID}
-                     className={this.getBodyClasses()}>
-                    {this.props.body}
-                </div>
-            );
-        }
-    }
-
-    renderFooter() {
-        if (this.props.footer) {
-            return (
-                <footer {...this.props.footerAttributes}
-                        ref='footer'
-                        className={this.getFooterClasses()}>
-                    {this.props.footer}
-                </footer>
-            );
-        }
-    }
-
-    renderHeader() {
-        if (this.props.header) {
-            return (
-                <header {...this.props.headerAttributes}
-                        ref='header'
-                        id={this.state.headerUUID}
-                        className={this.getHeaderClasses()}>
-                    {this.props.header}
-                </header>
-            );
-        }
     }
 
     isPartOfDialog(node) {
@@ -144,6 +69,77 @@ class UIDialog extends UIView {
         if (!this.isPartOfDialog(nativeEvent.target)) {
             this.props.onClose();
         }
+    }
+
+    getBodyClasses() {
+        return ['ui-dialog-body'].concat(this.props.bodyAttributes.className || []).join(' ');
+    }
+
+    renderBody() {
+        if (this.props.body) {
+            return (
+                <div {...this.props.bodyAttributes}
+                     ref='body'
+                     id={this.state.bodyUUID}
+                     className={this.getBodyClasses()}>
+                    {this.props.body}
+                </div>
+            );
+        }
+    }
+
+    getFooterClasses() {
+        return ['ui-dialog-footer'].concat(this.props.footerAttributes.className || []).join(' ');
+    }
+
+    renderFooter() {
+        if (this.props.footer) {
+            return (
+                <footer {...this.props.footerAttributes}
+                        ref='footer'
+                        className={this.getFooterClasses()}>
+                    {this.props.footer}
+                </footer>
+            );
+        }
+    }
+
+    getHeaderClasses() {
+        return ['ui-dialog-header'].concat(this.props.headerAttributes.className || []).join(' ');
+    }
+
+    renderHeader() {
+        if (this.props.header) {
+            return (
+                <header {...this.props.headerAttributes}
+                        ref='header'
+                        id={this.state.headerUUID}
+                        className={this.getHeaderClasses()}>
+                    {this.props.header}
+                </header>
+            );
+        }
+    }
+
+    getRootClasses() {
+        return ['ui-dialog'].concat(this.props.className || []).join(' ');
+    }
+
+    render() {
+        return (
+            <div {...this.props}
+                 className={this.getRootClasses()}
+                 onDragEnd={this.handleDrop}
+                 onKeyDown={this.handleKeydown.bind(this)}
+                 role='dialog'
+                 aria-labelledby={this.state.headerUUID}
+                 aria-describedby={this.state.bodyUUID}
+                 tabIndex='0'>
+                {this.renderHeader()}
+                {this.props.children || this.renderBody()}
+                {this.renderFooter()}
+            </div>
+        );
     }
 }
 

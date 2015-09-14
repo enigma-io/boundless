@@ -55,7 +55,7 @@ Type | Context | Expectation
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
 
 - **className** `[String|Array<String>]`
-  additional CSS classes to be added to the rendered `.ui-radio` node
+  additional CSS class(es) to be added to the rendered `.ui-radio` node
 
 - **id** `String`
   the string to be used for the rendered input HTML `id` and corresponding label `for` attributes; auto-generated if not provided

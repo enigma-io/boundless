@@ -35,21 +35,17 @@ if (!notificationPermissionGranted && NotificationAPI && NotificationAPI.request
 } // Request permissions if not already granted
 
 class UINotification extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handleDismiss = this.handleDismiss.bind(this);
-        this.handleError = this.handleError.bind(this);
-        this.handleExpiration = this.handleExpiration.bind(this);
-    }
-
     componentDidMount() {
         if (notificationPermissionGranted) {
             this.notification = new NotificationAPI(this.props.header, {
                 body: this.props.body,
                 icon: this.props.icon
             });
+
+            this.handleClick = this.handleClick.bind(this);
+            this.handleDismiss = this.handleDismiss.bind(this);
+            this.handleError = this.handleError.bind(this);
+            this.handleExpiration = this.handleExpiration.bind(this);
 
             this.notification.addEventListener('click', this.handleClick);
             this.notification.addEventListener('close', this.handleDismiss);
@@ -69,10 +65,6 @@ class UINotification extends UIView {
         if (this.expiryTimer) {
             window.clearTimeout(this.expiryTimer);
         }
-    }
-
-    render() {
-        return null;
     }
 
     purgeNotification() {
@@ -101,6 +93,10 @@ class UINotification extends UIView {
     handleExpiration() {
         this.purgeNotification();
         this.props.onDismiss();
+    }
+
+    render() {
+        return null;
     }
 }
 

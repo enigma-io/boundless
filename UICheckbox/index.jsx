@@ -26,6 +26,10 @@ class UICheckbox extends UIView {
         }
     }
 
+    setIndeterminate() {
+        React.findDOMNode(this.refs.input).indeterminate = !!this.props.indeterminate;
+    }
+
     getCheckboxClasses() {
         let classes = ['ui-checkbox'];
 
@@ -40,22 +44,12 @@ class UICheckbox extends UIView {
         return classes.concat(this.props.className || []).join(' ');
     }
 
-    getLabelClasses() {
-        return ['ui-checkbox-label'].concat(this.props.labelAttributes.className || []).join(' ');
+    ariaState() {
+        return this.props.indeterminate ? 'mixed' : String(this.props.checked);
     }
 
-    getWrapperClasses() {
-        return ['ui-checkbox-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
-    render() {
-        return (
-            <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
-                {this.renderInput()}
-                {this.renderLabel()}
-            </div>
-        );
+    handleChange() { // Send the opposite signal from what was passed to toggle the data
+        this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
     }
 
     renderInput() {
@@ -71,6 +65,10 @@ class UICheckbox extends UIView {
         );
     }
 
+    getLabelClasses() {
+        return ['ui-checkbox-label'].concat(this.props.labelAttributes.className || []).join(' ');
+    }
+
     renderLabel() {
         if (this.props.label) {
             return (
@@ -84,16 +82,18 @@ class UICheckbox extends UIView {
         }
     }
 
-    ariaState() {
-        return this.props.indeterminate ? 'mixed' : String(this.props.checked);
+    getWrapperClasses() {
+        return ['ui-checkbox-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
-    setIndeterminate() {
-        React.findDOMNode(this.refs.input).indeterminate = !!this.props.indeterminate;
-    }
-
-    handleChange() { // Send the opposite signal from what was passed to toggle the data
-        this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
+    render() {
+        return (
+            <div {...this.props.wrapperAttributes}
+                 className={this.getWrapperClasses()}>
+                {this.renderInput()}
+                {this.renderLabel()}
+            </div>
+        );
     }
 }
 

@@ -42,7 +42,7 @@ Type | Context | Expectation
 ##### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
 
-- **className** `String`
+- **className** `[Array<String>|String]`
   additional CSS class(es) to be added to the rendered `.ui-table-wrapper` element
 
 - **columns** `Array<Object>`

@@ -11,17 +11,8 @@ function toI(stringNumber) {
 }
 
 class UIFittedText extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.rescale = this.rescale.bind(this);
-    }
-
-    getClasses() {
-        return ['ui-text'].concat(this.props.className || []).join(' ');
-    }
-
     componentDidMount() {
+        this.rescale = this.rescale.bind(this);
         this.rescale();
 
         window.addEventListener('resize', this.rescale, true);
@@ -33,15 +24,6 @@ class UIFittedText extends UIView {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.rescale, true);
-    }
-
-    render() {
-        return (
-            <span {...this.props}
-                  className={this.getClasses()}>
-                {this.props.children}
-            </span>
-        );
     }
 
     rescale() {
@@ -62,6 +44,19 @@ class UIFittedText extends UIView {
         let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * containerWidth);
 
         node.style.fontSize = Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) + 'px';
+    }
+
+    getClasses() {
+        return ['ui-text'].concat(this.props.className || []).join(' ');
+    }
+
+    render() {
+        return (
+            <span {...this.props}
+                  className={this.getClasses()}>
+                {this.props.children}
+            </span>
+        );
     }
 }
 

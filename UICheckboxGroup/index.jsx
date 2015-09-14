@@ -9,34 +9,16 @@ import React from 'react';
 import {map, every, some, noop} from 'lodash';
 
 class UICheckboxGroup extends UIView {
-    getClasses() {
-        return ['ui-checkbox-group'].concat(this.props.className || []).join(' ');
+    allItemsChecked() {
+        return every(this.props.items, {checked: true});
+    }
+
+    anyItemsChecked() {
+        return some(this.props.items, {checked: true});
     }
 
     getSelectAllClasses() {
         return ['ui-checkbox-group-selectall'].concat(this.props.selectAllAttributes.className || []).join(' ');
-    }
-
-    render() {
-        let toBeRendered = [this.renderCheckboxes()];
-
-        if (this.props.selectAll && this.props.selectAllPosition) {
-            switch (this.props.selectAllPosition) {
-            case UICheckboxGroup.Constants.SELECT_ALL_BEFORE:
-                toBeRendered.unshift(this.renderSelectAll());
-                break;
-
-            case UICheckboxGroup.Constants.SELECT_ALL_AFTER:
-                toBeRendered.push(this.renderSelectAll());
-                break;
-            }
-        }
-
-        return (
-            <div className={this.getClasses()}>
-                {toBeRendered}
-            </div>
-        );
     }
 
     renderSelectAll() {
@@ -71,12 +53,30 @@ class UICheckboxGroup extends UIView {
         });
     }
 
-    allItemsChecked() {
-        return every(this.props.items, {checked: true});
+    getClasses() {
+        return ['ui-checkbox-group'].concat(this.props.className || []).join(' ');
     }
 
-    anyItemsChecked() {
-        return some(this.props.items, {checked: true});
+    render() {
+        let toBeRendered = [this.renderCheckboxes()];
+
+        if (this.props.selectAll && this.props.selectAllPosition) {
+            switch (this.props.selectAllPosition) {
+            case UICheckboxGroup.Constants.SELECT_ALL_BEFORE:
+                toBeRendered.unshift(this.renderSelectAll());
+                break;
+
+            case UICheckboxGroup.Constants.SELECT_ALL_AFTER:
+                toBeRendered.push(this.renderSelectAll());
+                break;
+            }
+        }
+
+        return (
+            <div className={this.getClasses()}>
+                {toBeRendered}
+            </div>
+        );
     }
 }
 
