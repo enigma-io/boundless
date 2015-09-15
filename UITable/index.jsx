@@ -32,13 +32,21 @@ class UITable extends UIView {
         super(...args);
 
         this.handleRowClick = this.handleRowClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleDragMove = this.handleDragMove.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleMoveIntent = this.handleMoveIntent.bind(this);
+
+        this.handleXScrollerDragStart = this.handleXScrollerDragStart.bind(this);
+        this.handleYScrollerDragStart = this.handleYScrollerDragStart.bind(this);
+        this.handleColumnDragStart = this.handleColumnDragStart.bind(this);
     }
 
     initialState() {
         return {
             chokeRender: true,
+            currentActiveRowIndex: -1,
             rows: [{
-                active: false,
                 data: this.props.getRow(0),
                 setIndex: 0,
                 y: 0
@@ -91,7 +99,6 @@ class UITable extends UIView {
             }),
             rows: map(new Array(this.nRowsToRender), function generateRowSlot(/*ignore*/x, index) {
                 return {
-                    active: false,
                     data: this.props.getRow(index),
                     setIndex: index,
                     y: this.cellHeight * index
@@ -104,6 +111,7 @@ class UITable extends UIView {
 
     componentDidMount() {
         this.body = React.findDOMNode(this.refs.body);
+        this.nextActiveRow = null;
         this.nRowsToShift = 0;
         this.xCurrent = this.yCurrent = 0;
         this.xNext = this.yNext = null;
@@ -124,8 +132,7 @@ class UITable extends UIView {
             this.head = React.findDOMNode(this.refs.head);
         } // header doesn't get rendered until the second pass
 
-        if (this.head
-            && typeof this.minimumColumnWidth === 'undefined') {
+        if (this.head && typeof this.minimumColumnWidth === 'undefined') {
             let node = React.findDOMNode(this).querySelector('.ui-table-header-cell');
 
             if (node) {
@@ -174,7 +181,6 @@ class UITable extends UIView {
                 each(rowsSorted, function reallocateSlot(row, arrIndex) {
                     nextIndex = this.rowEndIndex + arrIndex;
                     this.state.rows[indexOf(this.state.rows, row)] = {
-                        active: row.active,
                         data: this.props.getRow(nextIndex),
                         setIndex: nextIndex,
                         y: nextIndex * this.cellHeight
@@ -230,7 +236,6 @@ class UITable extends UIView {
                 each(rowsSorted, function reallocateSlot(row, arrIndex) {
                     prevIndex = this.rowStartIndex - arrIndex - 1;
                     rows[indexOf(rows, row)] = {
-                        active: row.active,
                         data: this.props.getRow(prevIndex),
                         setIndex: prevIndex,
                         y: prevIndex * this.cellHeight
@@ -319,7 +324,7 @@ class UITable extends UIView {
 
             /* Before any measurements are applied, first we need to compare the delta to the known cell width thresholds and scale appropriately. */
 
-            if (adjustedDelta < 0
+            if (   adjustedDelta < 0
                 && !isNaN(this.minimumColumnWidth)
                 && definition.width + adjustedDelta < this.minimumColumnWidth) {
                     adjustedDelta = this.minimumColumnWidth - definition.width;
@@ -357,10 +362,10 @@ class UITable extends UIView {
         });
     }
 
-    handleColumnDragStart(reference, event) {
+    handleColumnDragStart(event) {
         if (event.button === 0) {
             this.lastColumnX = event.clientX;
-            this.manuallyResizingColumn = reference;
+            this.manuallyResizingColumn = this.state.columns[event.target.getAttribute('data-column-index')];
         }
     }
 
@@ -427,19 +432,14 @@ class UITable extends UIView {
             this.props.onRowClick(event, clickedRowData);
         }
 
-        // reset active
-        this.setState({
-            rows: this.state.rows.map(function(row) {
-                return merge(row, {active: row.data === clickedRowData});
-            })
-        });
+        this.setState({currentActiveRowIndex: findWhere(this.state.rows, {data: clickedRowData}).setIndex});
     }
 
     renderRows() {
         return map(this.state.rows, function generateRow(row, index) {
             return (
                 <Row key={index}
-                     active={row.active}
+                     active={row.setIndex === this.state.currentActiveRowIndex}
                      columns={this.state.columns}
                      data={row.data}
                      even={(row.setIndex) % 2 === 0}
@@ -450,60 +450,10 @@ class UITable extends UIView {
         }, this);
     }
 
-    changeActiveRow(indexDelta) {
-        let currentActive = findWhere(this.state.rows, {active: true}).setIndex;
-        let nextActive = findWhere(this.state.rows, {setIndex: currentActive + indexDelta});
-
-        if (nextActive
-            && (
-                (indexDelta === -1 && nextActive.y * -1 > this.yCurrent)
-                || (indexDelta === 1 && nextActive.y * -1 - this.cellHeight < this.yCurrent - this.containerHeight + this.cellHeight)
-                )) {
-            this.handleMoveIntent({
-                deltaX: 0,
-                deltaY: this.cellHeight * indexDelta,
-                preventDefault: noop
-            });
-        }
-
-        if (nextActive) {
-            this.setState({
-                rows: this.state.rows.map(function(row) {
-                    return merge(row, {active: row === nextActive});
-                })
-            });
-        } else if ((indexDelta === -1 && currentActive > 1)
-                   || (indexDelta === 1 && currentActive < this.props.totalRows)) {
-            // move the viewport
-            this.handleMoveIntent({
-                deltaX: 0,
-                deltaY: this.cellHeight * indexDelta,
-                preventDefault: noop
-            });
-
-            this.changeActiveRow(indexDelta);
-        }
-    }
-
-    handleKeyDown(event) {
-        switch (event.key) {
-        case 'ArrowDown':
-            this.changeActiveRow(1);
-            event.preventDefault();
-            break;
-        case 'ArrowUp':
-            this.changeActiveRow(-1);
-            event.preventDefault();
-            break;
-        }
-    }
-
     renderBody() {
         return (
             <div ref='body'
-                 className='ui-table-body'
-                 onKeyDown={this.handleKeyDown.bind(this)}
-                 tabIndex='0'>
+                 className='ui-table-body'>
                 {this.renderRows()}
             </div>
         );
@@ -523,7 +473,8 @@ class UITable extends UIView {
                                         <span className='ui-table-cell-inner-text'>{column.title}</span>
                                     </div>
                                     <div className='ui-table-header-cell-resize-handle'
-                                         onMouseDown={this.handleColumnDragStart.bind(this, column)} />
+                                         data-column-index={index}
+                                         onMouseDown={this.handleColumnDragStart} />
                                 </div>
                             );
                         }, this)}
@@ -537,13 +488,13 @@ class UITable extends UIView {
         return (
             <div>
                 <div className='ui-table-x-scroller'
-                     onMouseDown={this.handleXScrollerDragStart.bind(this)}>
+                     onMouseDown={this.handleXScrollerDragStart}>
                     <div ref='xScrollerNub'
                          className='ui-table-x-scroller-nub'
                          style={{width: this.state.xScrollerNubSize}} />
                 </div>
                 <div className='ui-table-y-scroller'
-                     onMouseDown={this.handleYScrollerDragStart.bind(this)}>
+                     onMouseDown={this.handleYScrollerDragStart}>
                     <div ref='yScrollerNub'
                          className='ui-table-y-scroller-nub'
                          style={{height: this.state.yScrollerNubSize}} />
@@ -556,12 +507,66 @@ class UITable extends UIView {
         return ['ui-table-wrapper'].concat(this.props.className || []).join(' ');
     }
 
+    changeActiveRow(delta, currentIndex) {
+        this.nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
+
+        if (this.nextActiveRow) {
+            this.setState({ currentActiveRowIndex: this.nextActiveRow.setIndex });
+
+            if (
+                   (delta === -1 && this.nextActiveRow.y * -1 > this.yCurrent)
+                || (delta === 1 && this.nextActiveRow.y * -1 - this.cellHeight < this.yCurrent - this.containerHeight + this.cellHeight) // 1 unit of cellHeight is removed to compensate for the header row
+            ) { // Destination row is outside the viewport, so simulate a scroll
+                this.handleMoveIntent({
+                    deltaX: 0,
+                    deltaY: this.cellHeight * delta,
+                    preventDefault: noop
+                });
+            }
+        } else if (   (delta === -1 && this.state.currentActiveRowIndex > 0)
+                   || (delta === 1 && this.state.currentActiveRowIndex < this.props.totalRows)) {
+            /*
+                The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
+                in the viewport.
+             */
+            this.handleMoveIntent({
+                deltaX: 0,
+                deltaY: (   (    this.rowStartIndex > this.state.currentActiveRowIndex
+                              && this.state.currentActiveRowIndex - this.rowStartIndex)
+                         || (    this.rowStartIndex < this.state.currentActiveRowIndex
+                              && this.state.currentActiveRowIndex - this.rowStartIndex)
+                         + delta) * this.cellHeight,
+                preventDefault: noop
+            });
+
+            // start the process again, now that the row is available
+            window.requestAnimationFrame(() => this.changeActiveRow(delta));
+        }
+
+        this.nextActiveRow = null;
+    }
+
+    handleKeyDown(event) {
+        switch (event.key) {
+        case 'ArrowDown':
+            this.changeActiveRow(1);
+            event.preventDefault();
+            break;
+        case 'ArrowUp':
+            this.changeActiveRow(-1);
+            event.preventDefault();
+            break;
+        }
+    }
+
     render() {
         return (
             <div className={this.getClasses()}
-                 onMouseMove={this.handleDragMove.bind(this)}
-                 onMouseUp={this.handleDragEnd.bind(this)}
-                 onWheel={this.handleMoveIntent.bind(this)}>
+                 onKeyDown={this.handleKeyDown}
+                 onMouseMove={this.handleDragMove}
+                 onMouseUp={this.handleDragEnd}
+                 onWheel={this.handleMoveIntent}
+                 tabIndex='0'>
                 <div ref='table'
                      className='ui-table'>
                     {this.renderHead()}
