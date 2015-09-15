@@ -7,7 +7,7 @@ import UIView from '../UIView';
 import Row from './row';
 import React from 'react';
 import transformProp from '../UIUtils/transform';
-import {chain, each, findWhere, indexOf, map, merge, noop} from 'lodash';
+import {findWhere, map, merge, noop} from 'lodash';
 
 /**
  * FOR FUTURE EYES
@@ -51,6 +51,7 @@ class UITable extends UIView {
                 setIndex: 0,
                 y: 0
             }],
+            rowsOrderedByY: [0],
             columns: this.props.columns.slice(0),
             xScrollerNubSize: null,
             yScrollerNubSize: null
@@ -104,6 +105,9 @@ class UITable extends UIView {
                     y: this.cellHeight * index
                 };
             }, this),
+            rowsOrderedByY: map(new Array(this.nRowsToRender), function indexes(/*ignore*/x, index) {
+                return index;
+            }),
             xScrollerNubSize: this.calculateXScrollerNubSize(),
             yScrollerNubSize: this.calculateYScrollerNubSize()
         });
@@ -111,13 +115,20 @@ class UITable extends UIView {
 
     componentDidMount() {
         this.body = React.findDOMNode(this.refs.body);
-        this.nextActiveRow = null;
-        this.nRowsToShift = 0;
         this.xCurrent = this.yCurrent = 0;
         this.xNext = this.yNext = null;
         this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
         this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
         this.yScrollNubPosition = 0;
+
+        // temporary variables in various calculations
+        this.cache_iterator = null;
+        this.cache_nextActiveRow = null;
+        this.cache_nRowsToShift = null;
+        this.cache_orderedYArrayTargetIndex = null;
+        this.cache_rowPointer = null;
+        this.cache_shiftDelta = null;
+        this.cache_targetIndex = null;
 
         this.captureDimensions();
     }
@@ -146,52 +157,56 @@ class UITable extends UIView {
     }
 
     handleScrollDown() {
-        if (this.rowEndIndex === this.props.totalRows || this.yNext >= this.yLowerBound) {
+        if (   this.rowEndIndex === this.props.totalRows
+            || this.yNext >= this.yLowerBound) {
             return;
         }
 
         /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-        this.nRowsToShift = Math.ceil(
+        this.cache_nRowsToShift = Math.ceil(
             Math.abs(this.yNext - this.yLowerBound) / this.cellHeight
         );
 
-        if (this.nRowsToShift + this.rowEndIndex > this.props.totalRows) {
+        if (this.cache_nRowsToShift + this.rowEndIndex > this.props.totalRows) {
             /* more rows than there is data available, truncate */
-            this.nRowsToShift = this.props.totalRows - this.rowEndIndex;
+            this.cache_nRowsToShift = this.props.totalRows - this.rowEndIndex;
         }
 
-        if (this.nRowsToShift > 0) {
-            if (this.nRowsToShift > this.nRowsToRender) {
+        if (this.cache_nRowsToShift > 0) {
+            if (this.cache_nRowsToShift > this.nRowsToRender) {
                 /* a very large scroll delta, calculate where the boundaries should be */
-                this.yUpperBound -= (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
-                this.yLowerBound -= (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
+                this.cache_shiftDelta = this.cache_nRowsToShift - this.nRowsToRender;
 
-                this.rowStartIndex += this.nRowsToShift - this.nRowsToRender;
-                this.rowEndIndex += this.nRowsToShift - this.nRowsToRender;
+                this.yUpperBound -= this.cache_shiftDelta * this.cellHeight;
+                this.yLowerBound -= this.cache_shiftDelta * this.cellHeight;
 
-                this.nRowsToShift = this.nRowsToRender;
+                this.rowStartIndex += this.cache_shiftDelta;
+                this.rowEndIndex += this.cache_shiftDelta;
+
+                this.cache_nRowsToShift = this.nRowsToRender;
             }
 
-            if (this.nRowsToShift > 0) {
-                /* Find the lowest y-value rows and migrate them to the end of the heap */
-                let rowsSorted = chain(this.state.rows).sortByOrder('y', 'asc').take(this.nRowsToShift).value();
-                let nextIndex;
+            if (this.cache_nRowsToShift > 0) {
+                /* move the lowest Y-value rows to the bottom of the ordering array */
+                this.cache_orderedYArrayTargetIndex = 0;
 
-                each(rowsSorted, function reallocateSlot(row, arrIndex) {
-                    nextIndex = this.rowEndIndex + arrIndex;
-                    this.state.rows[indexOf(this.state.rows, row)] = {
-                        data: this.props.getRow(nextIndex),
-                        setIndex: nextIndex,
-                        y: nextIndex * this.cellHeight
-                    };
-                }, this);
+                for (this.cache_iterator = 0; this.cache_iterator < this.cache_nRowsToShift; this.cache_iterator++) {
+                    this.cache_targetIndex = this.rowEndIndex + this.cache_iterator;
 
-                this.rowStartIndex += this.nRowsToShift;
-                this.rowEndIndex += this.nRowsToShift;
+                    this.cache_rowPointer = this.state.rows[this.state.rowsOrderedByY[this.cache_orderedYArrayTargetIndex]];
+                    this.cache_rowPointer.data = this.props.getRow(this.cache_targetIndex);
+                    this.cache_rowPointer.setIndex = this.cache_targetIndex;
+                    this.cache_rowPointer.y = this.cache_targetIndex * this.cellHeight;
 
-                this.yUpperBound -= this.nRowsToShift * this.cellHeight;
-                this.yLowerBound -= this.nRowsToShift * this.cellHeight;
+                    this.state.rowsOrderedByY.push(this.state.rowsOrderedByY.shift());
+                }
+
+                this.rowStartIndex += this.cache_nRowsToShift;
+                this.rowEndIndex += this.cache_nRowsToShift;
+
+                this.yUpperBound -= this.cache_nRowsToShift * this.cellHeight;
+                this.yLowerBound -= this.cache_nRowsToShift * this.cellHeight;
 
                 this.setState({rows: this.state.rows});
             }
@@ -205,50 +220,50 @@ class UITable extends UIView {
 
         /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-        this.nRowsToShift = Math.ceil(
+        this.cache_nRowsToShift = Math.ceil(
             Math.abs(this.yNext - this.yUpperBound) / this.cellHeight
         );
 
-        if (this.rowStartIndex - this.nRowsToShift < 0) {
-            this.nRowsToShift = this.rowStartIndex;
+        if (this.rowStartIndex - this.cache_nRowsToShift < 0) {
+            this.cache_nRowsToShift = this.rowStartIndex;
         }
 
-        if (this.nRowsToShift > 0) {
-            if (this.nRowsToShift > this.nRowsToRender) {
+        if (this.cache_nRowsToShift > 0) {
+            if (this.cache_nRowsToShift > this.nRowsToRender) {
                 /* a very large scroll delta, calculate where the boundaries should be */
-                let updatedBound = (this.nRowsToShift - this.nRowsToRender) * this.cellHeight;
+                this.cache_shiftDelta = this.cache_nRowsToShift - this.nRowsToRender;
 
-                this.rowStartIndex -= this.nRowsToShift - this.nRowsToRender;
-                this.rowEndIndex -= this.nRowsToShift - this.nRowsToRender;
+                this.yUpperBound += this.cache_shiftDelta * this.cellHeight;
+                this.yLowerBound += this.cache_shiftDelta * this.cellHeight;
 
-                this.yUpperBound += updatedBound;
-                this.yLowerBound += updatedBound;
+                this.rowStartIndex -= this.cache_shiftDelta;
+                this.rowEndIndex -= this.cache_shiftDelta;
 
-                this.nRowsToShift = this.nRowsToRender;
+                this.cache_nRowsToShift = this.nRowsToRender;
             }
 
-            if (this.nRowsToShift > 0) {
-                /* Find the highest y-value rows and migrate them to the top of the heap */
-                let rows = this.state.rows;
-                let rowsSorted = chain(rows).sortByOrder('y', 'desc').take(this.nRowsToShift).value();
-                let prevIndex;
+            if (this.cache_nRowsToShift > 0) {
+                /* move the highest Y-value rows to the top of the ordering array */
+                this.cache_orderedYArrayTargetIndex = this.state.rowsOrderedByY.length - 1;
 
-                each(rowsSorted, function reallocateSlot(row, arrIndex) {
-                    prevIndex = this.rowStartIndex - arrIndex - 1;
-                    rows[indexOf(rows, row)] = {
-                        data: this.props.getRow(prevIndex),
-                        setIndex: prevIndex,
-                        y: prevIndex * this.cellHeight
-                    };
-                }, this);
+                for (this.cache_iterator = 0; this.cache_iterator < this.cache_nRowsToShift; this.cache_iterator++) {
+                    this.cache_targetIndex = this.rowStartIndex - this.cache_iterator - 1;
 
-                this.rowStartIndex -= this.nRowsToShift;
-                this.rowEndIndex -= this.nRowsToShift;
+                    this.cache_rowPointer = this.state.rows[this.state.rowsOrderedByY[this.cache_orderedYArrayTargetIndex]];
+                    this.cache_rowPointer.data = this.props.getRow(this.cache_targetIndex);
+                    this.cache_rowPointer.setIndex = this.cache_targetIndex;
+                    this.cache_rowPointer.y = this.cache_targetIndex * this.cellHeight;
 
-                this.yUpperBound += this.nRowsToShift * this.cellHeight;
-                this.yLowerBound += this.nRowsToShift * this.cellHeight;
+                    this.state.rowsOrderedByY.unshift(this.state.rowsOrderedByY.pop());
+                }
 
-                this.setState({rows});
+                this.rowStartIndex -= this.cache_nRowsToShift;
+                this.rowEndIndex -= this.cache_nRowsToShift;
+
+                this.yUpperBound += this.cache_nRowsToShift * this.cellHeight;
+                this.yLowerBound += this.cache_nRowsToShift * this.cellHeight;
+
+                this.setState({rows: this.state.rows});
             }
         }
     }
@@ -507,15 +522,15 @@ class UITable extends UIView {
         return ['ui-table-wrapper'].concat(this.props.className || []).join(' ');
     }
 
-    changeActiveRow(delta, currentIndex) {
-        this.nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
+    changeActiveRow(delta) {
+        this.cache_nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
 
-        if (this.nextActiveRow) {
-            this.setState({ currentActiveRowIndex: this.nextActiveRow.setIndex });
+        if (this.cache_nextActiveRow) {
+            this.setState({ currentActiveRowIndex: this.cache_nextActiveRow.setIndex });
 
             if (
-                   (delta === -1 && this.nextActiveRow.y * -1 > this.yCurrent)
-                || (delta === 1 && this.nextActiveRow.y * -1 - this.cellHeight < this.yCurrent - this.containerHeight + this.cellHeight) // 1 unit of cellHeight is removed to compensate for the header row
+                   (delta === -1 && this.cache_nextActiveRow.y * -1 > this.yCurrent)
+                || (delta === 1 && this.cache_nextActiveRow.y * -1 - this.cellHeight < this.yCurrent - this.containerHeight + this.cellHeight) // 1 unit of cellHeight is removed to compensate for the header row
             ) { // Destination row is outside the viewport, so simulate a scroll
                 this.handleMoveIntent({
                     deltaX: 0,
@@ -543,7 +558,7 @@ class UITable extends UIView {
             window.requestAnimationFrame(() => this.changeActiveRow(delta));
         }
 
-        this.nextActiveRow = null;
+        this.cache_nextActiveRow = null;
     }
 
     handleKeyDown(event) {
