@@ -9,10 +9,10 @@ class UITableCell extends UIView {
     }
 
     handleClick(event) {
-        if (this.props.onClick) {
+        if (this.props.onInteract) {
             event.persist();
 
-            this.props.onClick(event, this.props.row, this.props.content);
+            this.props.onInteract(event, this.props.row, this.props.content);
         }
     }
 
@@ -45,7 +45,7 @@ class UITableCell extends UIView {
 UITableCell.propTypes = {
     content: React.PropTypes.node,
     width: React.PropTypes.number,
-    onClick: React.PropTypes.func,
+    onInteract: React.PropTypes.func,
     row: React.PropTypes.object
 };
 

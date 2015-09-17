@@ -72,16 +72,16 @@ class UITableRow extends UIView {
                 <Cell key={index}
                       content={data[definition.mapping]}
                       width={definition.width}
-                      onClick={this.props.onCellClick}
+                      onInteract={this.props.onCellInteract}
                       row={this.state.row} />
             );
         });
     }
 
     handleClick(event) {
-        if (this.props.onClick) {
+        if (this.props.onInteract) {
             event.persist();
-            this.props.onClick(event, this.state.data);
+            this.props.onInteract(event, this.state.data);
         }
     }
 
@@ -89,7 +89,7 @@ class UITableRow extends UIView {
         return (
             <div className={this.getClasses()}
                  style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}
-                 onClick={this.handleClick}>
+                 onInteract={this.handleClick}>
                 {this.renderCells()}
             </div>
         );
@@ -100,8 +100,8 @@ UITableRow.propTypes = {
     columns: React.PropTypes.array,
     even: React.PropTypes.bool,
     data: React.PropTypes.object,
-    onClick: React.PropTypes.func,
-    onCellClick: React.PropTypes.func,
+    onCellInteract: React.PropTypes.func,
+    onInteract: React.PropTypes.func,
     y: React.PropTypes.number
 };
 

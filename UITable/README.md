@@ -30,7 +30,7 @@ Type | Context | Expectation
 **keydown** `[Enter]` | table cell | call `onCellInteract` with the row object reference and cell property name
 **touchend** (delta X/Y change <= 10) | table cell | call `onCellInteract` with the row object reference and cell property name
 
-**keydown** `[Left, Right, Up, Down]` | table cell | move focus and apply `active` class to row & cell
+**keydown** `[Up, Down]` | table cell | move focus and apply `active` class to row
 
 **contextmenu** | table cell | block browser menu, launch custom menu
 
@@ -40,7 +40,7 @@ Type | Context | Expectation
 
 <br />
 ##### Available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
 
 - **className** `[Array<String>|String]`
   additional CSS class(es) to be added to the rendered `.ui-table-wrapper` element

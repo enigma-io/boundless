@@ -44,6 +44,7 @@ class UITable extends UIView {
 
     initialState() {
         return {
+            ariaSpokenOutput: '',
             chokeRender: true,
             currentActiveRowIndex: -1,
             rows: [{
@@ -56,6 +57,49 @@ class UITable extends UIView {
             xScrollerNubSize: null,
             yScrollerNubSize: null
         };
+    }
+
+    componentDidMount() {
+        this.body = React.findDOMNode(this.refs.body);
+        this.xCurrent = this.yCurrent = 0;
+        this.xNext = this.yNext = null;
+        this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
+        this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
+        this.yScrollNubPosition = 0;
+
+        // temporary variables in various calculations
+        this.cache_iterator = null;
+        this.cache_nextActiveRow = null;
+        this.cache_nRowsToShift = null;
+        this.cache_orderedYArrayTargetIndex = null;
+        this.cache_rowPointer = null;
+        this.cache_shiftDelta = null;
+        this.cache_targetIndex = null;
+
+        this.captureDimensions();
+    }
+
+    shouldComponentUpdate() {
+        /* so we can reuse state.rows to avoid extra array allocations in the scroll handlers - in this case a few more CPU cycles are far cheaper than running up against the GC */
+        return true;
+    }
+
+    componentDidUpdate() {
+        if (!this.head) {
+            this.head = React.findDOMNode(this.refs.head);
+        } // header doesn't get rendered until the second pass
+
+        if (this.head && typeof this.minimumColumnWidth === 'undefined') {
+            let node = React.findDOMNode(this).querySelector('.ui-table-header-cell');
+
+            if (node) {
+                let nodeStyle = window.getComputedStyle(node);
+
+                // will be NaN if not a pixel value
+                this.maximumColumnWidth = parseInt(nodeStyle.maxWidth, 10);
+                this.minimumColumnWidth = parseInt(nodeStyle.minWidth, 10);
+            }
+        }
     }
 
     calculateXScrollerNubSize() {
@@ -111,49 +155,6 @@ class UITable extends UIView {
             xScrollerNubSize: this.calculateXScrollerNubSize(),
             yScrollerNubSize: this.calculateYScrollerNubSize()
         });
-    }
-
-    componentDidMount() {
-        this.body = React.findDOMNode(this.refs.body);
-        this.xCurrent = this.yCurrent = 0;
-        this.xNext = this.yNext = null;
-        this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
-        this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
-        this.yScrollNubPosition = 0;
-
-        // temporary variables in various calculations
-        this.cache_iterator = null;
-        this.cache_nextActiveRow = null;
-        this.cache_nRowsToShift = null;
-        this.cache_orderedYArrayTargetIndex = null;
-        this.cache_rowPointer = null;
-        this.cache_shiftDelta = null;
-        this.cache_targetIndex = null;
-
-        this.captureDimensions();
-    }
-
-    shouldComponentUpdate() {
-        /* so we can reuse state.rows to avoid extra array allocations in the scroll handlers - in this case a few more CPU cycles are far cheaper than running up against the GC */
-        return true;
-    }
-
-    componentDidUpdate() {
-        if (!this.head) {
-            this.head = React.findDOMNode(this.refs.head);
-        } // header doesn't get rendered until the second pass
-
-        if (this.head && typeof this.minimumColumnWidth === 'undefined') {
-            let node = React.findDOMNode(this).querySelector('.ui-table-header-cell');
-
-            if (node) {
-                let nodeStyle = window.getComputedStyle(node);
-
-                // will be NaN if not a pixel value
-                this.maximumColumnWidth = parseInt(nodeStyle.maxWidth, 10);
-                this.minimumColumnWidth = parseInt(nodeStyle.minWidth, 10);
-            }
-        }
     }
 
     handleScrollDown() {
@@ -443,8 +444,8 @@ class UITable extends UIView {
     }
 
     handleRowClick(event, clickedRowData) {
-        if (this.props.onRowClick) {
-            this.props.onRowClick(event, clickedRowData);
+        if (this.props.onRowInteract) {
+            this.props.onRowInteract(event, clickedRowData);
         }
 
         this.setState({currentActiveRowIndex: findWhere(this.state.rows, {data: clickedRowData}).setIndex});
@@ -459,8 +460,8 @@ class UITable extends UIView {
                      data={row.data}
                      even={(row.setIndex) % 2 === 0}
                      y={row.y}
-                     onClick={this.handleRowClick}
-                     onCellClick={this.props.onCellClick} />
+                     onInteract={this.handleRowClick}
+                     onCellInteract={this.props.onCellInteract} />
             );
         }, this);
     }
@@ -526,7 +527,10 @@ class UITable extends UIView {
         this.cache_nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
 
         if (this.cache_nextActiveRow) {
-            this.setState({ currentActiveRowIndex: this.cache_nextActiveRow.setIndex });
+            this.setState({
+                ariaSpokenOutput: this.cache_nextActiveRow.data[this.state.columns[0].mapping],
+                currentActiveRowIndex: this.cache_nextActiveRow.setIndex
+            });
 
             if (
                    (delta === -1 && this.cache_nextActiveRow.y * -1 > this.yCurrent)
@@ -561,6 +565,18 @@ class UITable extends UIView {
         this.cache_nextActiveRow = null;
     }
 
+    ariaExposeFullRowData() {
+        let row = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex});
+
+        if (row) {
+            this.setState({
+                ariaSpokenOutput: this.state.columns.map(column => {
+                    return `${column.title}: ${row.data[column.mapping]}`;
+                }).join('\n')
+            });
+        }
+    }
+
     handleKeyDown(event) {
         switch (event.key) {
         case 'ArrowDown':
@@ -571,12 +587,27 @@ class UITable extends UIView {
             this.changeActiveRow(-1);
             event.preventDefault();
             break;
+        case 'Enter':
+            this.ariaExposeFullRowData();
+            event.preventDefault();
+            break;
         }
+    }
+
+    renderNotification() {
+        return (
+            <div ref='aria'
+                 className={this.props.offscreenClass}
+                 aria-live='polite'>
+                {this.state.ariaSpokenOutput}
+            </div>
+        );
     }
 
     render() {
         return (
-            <div className={this.getClasses()}
+            <div {...this.props}
+                 className={this.getClasses()}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
@@ -587,6 +618,7 @@ class UITable extends UIView {
                     {this.renderHead()}
                     {this.renderBody()}
                 </div>
+                {this.renderNotification()}
                 {this.renderScrollbars()}
             </div>
         );
@@ -607,14 +639,16 @@ UITable.propTypes = {
         })
     ),
     getRow: React.PropTypes.func,
-    onCellClick: React.PropTypes.func,
-    onRowClick: React.PropTypes.func,
+    offscreenClass: React.PropTypes.string,
+    onCellInteract: React.PropTypes.func,
+    onRowInteract: React.PropTypes.func,
     totalRows: React.PropTypes.number
 };
 
 UITable.defaultProps = {
     columns: [],
-    getRow: noop
+    getRow: noop,
+    offscreenClass: 'ui-offscreen'
 };
 
 export default UITable;

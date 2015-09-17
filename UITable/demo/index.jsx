@@ -94,8 +94,8 @@ export default class UITableDemo extends UIView {
                 <UITable columns={this.state.columns}
                          totalRows={this.state.rows.length}
                          getRow={this.handleRowRequest.bind(this)}
-                         onRowClick={this.handleRowClick}
-                         onCellClick={this.handleCellClick} />
+                         onCellInteract={this.handleCellClick}
+                         onRowInteract={this.handleRowClick} />
             );
         }
 
