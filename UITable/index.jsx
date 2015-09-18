@@ -592,6 +592,11 @@ class UITable extends UIView {
             event.preventDefault();
             break;
         }
+
+        if (this.props.handleKeyDown) {
+            event.persist();
+            this.props.handleKeyDown(event);
+        }
     }
 
     renderNotification() {
@@ -639,6 +644,7 @@ UITable.propTypes = {
         })
     ),
     getRow: React.PropTypes.func,
+    handleKeyDown: React.PropTypes.func,
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
