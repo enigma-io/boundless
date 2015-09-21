@@ -1,5 +1,5 @@
 module.exports = {
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS2'],
 
     coverageReporter: {
         type: 'html',
