@@ -5,6 +5,7 @@ Styling of the element will be provided via the CSS hooks:
 
 - `.ui-table`
 - `.ui-table-wrapper`
+- `.ui-table-body`
 - `.ui-table-row`
 - `.ui-table-row-even`
 - `.ui-table-row-odd`
@@ -12,6 +13,10 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-table-cell`
 - `.ui-table-header-cell`
 - `.ui-table-header-cell-resize-handle`
+- `.ui-table-x-scroller`
+- `.ui-table-x-scroller-nub`
+- `.ui-table-y-scroller`
+- `.ui-table-y-scroller-nub`
 
 <br />
 ##### Expected Interactions

@@ -67,15 +67,17 @@ class UITableRow extends UIView {
     renderCells() {
         let data = this.state.data instanceof Promise ? {} : this.state.data;
 
-        return this.props.columns.map((definition, index) => {
-            return (
-                <Cell key={index}
-                      content={data[definition.mapping]}
-                      width={definition.width}
-                      onInteract={this.props.onCellInteract}
-                      row={this.state.row} />
-            );
-        });
+        if (data) {
+            return this.props.columns.map((definition, index) => {
+                return (
+                    <Cell key={index}
+                          content={data[definition.mapping]}
+                          width={definition.width}
+                          onInteract={this.props.onCellInteract}
+                          row={this.state.data} />
+                );
+            });
+        }
     }
 
     handleClick(event) {
@@ -89,7 +91,7 @@ class UITableRow extends UIView {
         return (
             <div className={this.getClasses()}
                  style={{[transformProp]: this.props.y ? `translate3d(0px, ${this.props.y}px, 0px)` : null}}
-                 onInteract={this.handleClick}>
+                 onClick={this.handleClick}>
                 {this.renderCells()}
             </div>
         );
