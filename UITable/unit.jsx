@@ -231,40 +231,110 @@ describe('UITable', () => {
         });
     });
 
-    describe('row rotation', () => {
-        // styles are needed to test this
-        let styles = '.ui-table-wrapper,.ui-table-wrapper *{box-sizing:border-box}.ui-table-wrapper{overflow:hidden;position:relative;height:500px;width:100%;transform:translateZ(0)}.ui-table{border-spacing:0;text-align:left;white-space:nowrap}.ui-table-header{position:relative;z-index:1}.ui-table-body,.ui-table-row{position:absolute;backface-visibility:hidden}.ui-table-body{top:40px}.ui-table-row{top:0;left:0}.ui-table-row-even{background:#fff}.ui-table-row-odd{background:rgba(0,0,0,.075)}.ui-table-row-loading{opacity:.5}.ui-table-row-active{background:rgba(0,0,0,.25)}.ui-table-cell{display:inline-block;vertical-align:top;height:40px;line-height:40px;min-width:75px;padding:0 .75em;position:relative;user-select:none}.ui-table-cell-inner{position:absolute;top:0;left:.75em;right:.75em;overflow:hidden;text-overflow:ellipsis}.ui-table-header-cell{background:#333;color:#FFF}.ui-table-header-cell .ui-table-cell-inner{right:.75em + .5em}.ui-table-header-cell:hover .ui-table-header-cell-resize-handle{opacity:1}.ui-table-header-cell-resize-handle{border-right:2px dotted #FFF;cursor:col-resize;opacity:0;position:absolute;top:5px;bottom:5px;right:5px;width:5px;transition:opacity 200ms ease}.ui-table-x-scroller,.ui-table-y-scroller{background:#CCC;cursor:move;position:absolute;top:0;left:0;right:0;bottom:0;z-index:2}.ui-table-x-scroller{height:8px;top:auto;transition-property:height}.ui-table-x-scroller:hover{height:12px}.ui-table-y-scroller{width:8px;left:auto;transition-property:width}.ui-table-y-scroller:hover{width:12px}.ui-table-x-scroller-nub,.ui-table-y-scroller-nub{background-color:#000;position:absolute}.ui-table-x-scroller-nub{top:0;bottom:0}.ui-table-y-scroller-nub{left:0;right:0}';
+    describe('for screen readers', () => {
+        let table;
 
-        class ComposedTestView extends React.Component {
-            render() {
-                return (
-                    <div>
-                        <style>{styles}</style>
-                        <UITable ref='table'
-                                 getRow={rowGetter}
-                                 columns={columns}
-                                 totalRows={rows.length}
-                                 style={{height: '90px'}} />
-                    </div>
-                );
-            }
-        }
-
-        it('should occur once the user has scrolled far enough', () => {
-            const base = React.render(
-                <ComposedTestView />, document.body
+        beforeEach(() => {
+            table = React.render(
+                <UITable getRow={rowGetter}
+                         columns={columns}
+                         totalRows={rows.length} />, document.body
             );
+        });
 
-            const node = React.findDOMNode(base.refs.table.refs.body);
-            const originalFirstCellContent = node.querySelector('.ui-table-cell').textContent;
+        it('the first column content should be spoken aloud on arrow down', () => {
+            table.handleKeyDown({
+                key: 'ArrowDown',
+                preventDefault: noop
+            });
 
-            base.refs.table.handleMoveIntent({
+            expect(table.state.ariaSpokenOutput).to.equal(rowGetter(0)[columns[0].mapping]);
+        });
+
+        it('the whole row content should be spoken aloud on enter', () => {
+            table.handleKeyDown({
+                key: 'ArrowDown',
+                preventDefault: noop
+            });
+
+            table.handleKeyDown({
+                key: 'Enter',
+                preventDefault: noop
+            });
+
+            const rowData = rowGetter(0);
+
+            columns.forEach(({title, mapping}) => {
+                expect(table.state.ariaSpokenOutput).to.contain(`${title}: ${rowData[mapping]}`);
+            });
+        });
+    });
+
+    // styles are needed to test rotation, simulated drag, etc.
+    let styles = '.ui-table-wrapper,.ui-table-wrapper *{box-sizing:border-box}.ui-table-wrapper{overflow:hidden;position:relative;height:500px;width:100%;transform:translateZ(0)}.ui-table{border-spacing:0;text-align:left;white-space:nowrap}.ui-table-header{position:relative;z-index:1}.ui-table-body,.ui-table-row{position:absolute;backface-visibility:hidden}.ui-table-body{top:40px}.ui-table-row{top:0;left:0}.ui-table-row-even{background:#fff}.ui-table-row-odd{background:rgba(0,0,0,.075)}.ui-table-row-loading{opacity:.5}.ui-table-row-active{background:rgba(0,0,0,.25)}.ui-table-cell{display:inline-block;vertical-align:top;height:40px;line-height:40px;min-width:75px;padding:0 .75em;position:relative;user-select:none}.ui-table-cell-inner{position:absolute;top:0;left:.75em;right:.75em;overflow:hidden;text-overflow:ellipsis}.ui-table-header-cell{background:#333;color:#FFF}.ui-table-header-cell .ui-table-cell-inner{right:.75em + .5em}.ui-table-header-cell:hover .ui-table-header-cell-resize-handle{opacity:1}.ui-table-header-cell-resize-handle{border-right:2px dotted #FFF;cursor:col-resize;opacity:0;position:absolute;top:5px;bottom:5px;right:5px;width:5px;transition:opacity 200ms ease}.ui-table-x-scroller,.ui-table-y-scroller{background:#CCC;cursor:move;position:absolute;top:0;left:0;right:0;bottom:0;z-index:2}.ui-table-x-scroller{height:8px;top:auto;transition-property:height}.ui-table-x-scroller:hover{height:12px}.ui-table-y-scroller{width:8px;left:auto;transition-property:width}.ui-table-y-scroller:hover{width:12px}.ui-table-x-scroller-nub,.ui-table-y-scroller-nub{background-color:#000;position:absolute}.ui-table-x-scroller-nub{top:0;bottom:0}.ui-table-y-scroller-nub{left:0;right:0}';
+
+    class ComposedTestView extends React.Component {
+        render() {
+            return (
+                <div>
+                    <style>{styles}</style>
+                    <UITable ref='table'
+                             getRow={rowGetter}
+                             columns={columns}
+                             totalRows={rows.length}
+                             style={{height: '90px'}} />
+                </div>
+            );
+        }
+    }
+
+    describe('row rotation', () => {
+        it('should occur when scrolled down', () => {
+            const base = React.render(<ComposedTestView />, document.body);
+            const table = base.refs.table;
+            const firstRowData = table.state.rows[0].data;
+
+            table.handleMoveIntent({
                 deltaX: 0,
                 deltaY: 200,
                 preventDefault: noop
             });
 
-            expect(node.querySelector('.ui-table-cell').textContent).to.not.equal(originalFirstCellContent);
+            expect(table.state.rows[0].data).to.not.equal(firstRowData);
+        });
+
+        it('should occur when scrolled up', () => {
+            const base = React.render(<ComposedTestView />, document.body);
+            const table = base.refs.table;
+
+            table.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 200,
+                preventDefault: noop
+            });
+
+            const firstRowData = table.state.rows[0].data;
+
+            table.handleMoveIntent({
+                deltaX: 0,
+                deltaY: -200,
+                preventDefault: noop
+            });
+
+            expect(table.state.rows[0].data).to.not.equal(firstRowData);
+        });
+
+        it('should occur on left-click drag of the y scroll nub', () => {
+            const base = React.render(<ComposedTestView />, document.body);
+            const table = base.refs.table;
+            const firstRowData = table.state.rows[0].data;
+
+            // simulate drag cascade
+            table.handleYScrollerDragStart({button: 0, clientY: 0});
+            table.handleDragMove({button: 0, clientY: 200});
+            table.handleDragEnd();
+
+            expect(table.state.rows[0].data).to.not.equal(firstRowData);
         });
     });
 });
