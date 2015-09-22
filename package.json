@@ -29,7 +29,7 @@
     "karma-source-map-support": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
-    "pleeease": "^3.4.0",
+    "pleeease": "git+https://github.com/yaycmyk/pleeease.git#upgrade-node-sass",
     "pleeease-cli": "^3.2.8",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
