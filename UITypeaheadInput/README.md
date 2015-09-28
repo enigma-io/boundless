@@ -102,6 +102,12 @@ Type | Context | Expectation
     - **matchWrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
 
+- **onEntitySelected** `Function`
+  called with the index of the entity selected by the user
+
+- **onComplete** `Function`
+  called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
+
 - **wrapperAttributes** `Object`
     - **wrapperAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node

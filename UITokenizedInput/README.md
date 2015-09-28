@@ -75,6 +75,10 @@ Type | Context | Expectation
 - **onRemoveToken** `Function`
   triggered when an action has been taken to remove a token from the UI
 
+- **outerWrapperAttributes** `Object`
+    - **outerWrapperAttributes.\***
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
+
 - **showTokenClose** `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
 

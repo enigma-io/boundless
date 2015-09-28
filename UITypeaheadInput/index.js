@@ -5,7 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
-import {indexOf, map, reduce} from 'lodash';
+import {indexOf, map, noop, reduce} from 'lodash';
 
 class UITypeaheadInput extends UIView {
     initialState() {
@@ -26,6 +26,13 @@ class UITypeaheadInput extends UIView {
         let entity = this.props.entities[this.state.selectedEntityIndex];
 
         return entity ? entity.content : '';
+    }
+
+    getInputValueWithoutSelectedEntityContent() {
+        let currentValue = this.getInputNode().value;
+        let entityContent = this.getSelectedEntityContent();
+
+        
     }
 
     renderNotification() {
@@ -49,7 +56,8 @@ class UITypeaheadInput extends UIView {
             let raw = this.getSelectedEntityContent();
             let processed = '';
 
-            if (raw && raw.toLowerCase().indexOf(userText.toLowerCase()) === 0) {
+            if (   raw
+                && raw.toLowerCase().indexOf(userText.toLowerCase()) === 0) {
                 processed = raw.replace(new RegExp(userText, 'i'), userText);
             }
 
@@ -177,9 +185,19 @@ class UITypeaheadInput extends UIView {
 
     handleKeyDown(event) {
         switch (event.key) {
+        case 'ArrowLeft':
+            if (event.target.selectionStart > 1) {
+                event.stopPropagation();
+            }
+
+        case 'ArrowRight':
+            if (event.target.selectionStart >= 0) {
+                event.stopPropagation();
+            }
+
         case 'Tab':
         case 'ArrowRight':
-            if (this.state.selectedEntityIndex !== -1
+            if (   this.state.selectedEntityIndex !== -1
                 && this.cursorAtEndOfInput()
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
@@ -201,7 +219,7 @@ class UITypeaheadInput extends UIView {
             break;
 
         case 'Escape':
-            if (this.state.selectedEntityIndex !== -1
+            if (   this.state.selectedEntityIndex !== -1
                 && this.getInputNode() === event.target) {
                 this.resetMatches();
             }
@@ -209,13 +227,19 @@ class UITypeaheadInput extends UIView {
             break;
 
         case 'Enter':
-            if (this.state.selectedEntityIndex !== -1
+            if (   this.state.selectedEntityIndex !== -1
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
-                this.setValue(this.getSelectedEntityContent());
-            } else if (this.props.onComplete) {
+
+                if (this.props.clearPartialInputOnSelection) {
+                    this.setValue(this.getInputValueWithoutSelectedEntityContent());
+                } else {
+                    this.setValue(this.getSelectedEntityContent());
+                }
+
+                this.props.onEntitySelected(this.state.selectedEntityIndex);
+            } else {
                 this.props.onComplete(this.state.userInput);
-                this.focusInput();
             }
 
             break;
@@ -275,6 +299,7 @@ UITypeaheadInput.propTypes = {
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string
     ]),
+    clearPartialInputOnSelection: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(
         React.PropTypes.shape({
@@ -288,15 +313,19 @@ UITypeaheadInput.propTypes = {
     matchWrapperAttributes: React.PropTypes.object,
     offscreenClass: React.PropTypes.string,
     onComplete: React.PropTypes.func,
+    onEntitySelected: React.PropTypes.func,
     type: React.PropTypes.string,
     wrapperAttributes: React.PropTypes.object
 };
 
 UITypeaheadInput.defaultProps = {
+    clearPartialInputOnSelection: false,
     entities: [],
     hintAttributes: {},
     matchWrapperAttributes: {},
     offscreenClass: 'ui-offscreen',
+    onComplete: noop,
+    onEntitySelected: noop,
     type: 'text',
     wrapperAttributes: {}
 };
