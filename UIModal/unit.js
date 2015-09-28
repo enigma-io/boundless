@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIModal from './index.jsx';
+import UIModal from './index';
 import React from 'react';
 
 describe('UIModal', () => {

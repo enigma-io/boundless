@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIProgress from './index.jsx';
+import UIProgress from './index';
 import React from 'react';
 
 describe('UIProgress', () => {

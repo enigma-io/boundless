@@ -1,4 +1,4 @@
-import UINotification from '../index.jsx';
+import UINotification from '../index';
 import UIButton from '../../UIButton';
 import UIView from '../../UIView';
 import React from 'react';

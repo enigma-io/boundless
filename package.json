@@ -35,20 +35,20 @@
     "watchify": "^3.2.3"
   },
   "browser": {
-    "UIKit/UIButton": "./UIButton/index.jsx",
-    "UIKit/UICheckbox": "./UICheckbox/index.jsx",
-    "UIKit/UICheckboxGroup": "./UICheckboxGroup/index.jsx",
-    "UIKit/UIDialog": "./UIDialog/index.jsx",
-    "UIKit/UIImage": "./UIImage/index.jsx",
-    "UIKit/UIFittedText": "./UIFittedText/index.jsx",
-    "UIKit/UIList": "./UIList/index.jsx",
-    "UIKit/UIModal": "./UIModal/index.jsx",
-    "UIKit/UIPopover": "./UIPopover/index.jsx",
-    "UIKit/UIProgress": "./UIProgress/index.jsx",
-    "UIKit/UIProgressiveDisclosure": "./UIProgressiveDisclosure/index.jsx",
-    "UIKit/UIRadio": "./UIRadio/index.jsx",
-    "UIKit/UITable": "./UITable/index.jsx",
-    "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.jsx",
+    "UIKit/UIButton": "./UIButton/index.js",
+    "UIKit/UICheckbox": "./UICheckbox/index.js",
+    "UIKit/UICheckboxGroup": "./UICheckboxGroup/index.js",
+    "UIKit/UIDialog": "./UIDialog/index.js",
+    "UIKit/UIImage": "./UIImage/index.js",
+    "UIKit/UIFittedText": "./UIFittedText/index.js",
+    "UIKit/UIList": "./UIList/index.js",
+    "UIKit/UIModal": "./UIModal/index.js",
+    "UIKit/UIPopover": "./UIPopover/index.js",
+    "UIKit/UIProgress": "./UIProgress/index.js",
+    "UIKit/UIProgressiveDisclosure": "./UIProgressiveDisclosure/index.js",
+    "UIKit/UIRadio": "./UIRadio/index.js",
+    "UIKit/UITable": "./UITable/index.js",
+    "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.js",
     "UIKit/UIView": "./UIView/index.js"
   },
   "browserify": {
@@ -61,13 +61,13 @@
     "postinstall": "mkdir -p build/js && npm build",
     "build": "npm run build-js",
     "build-css": "pleeease-compile",
-    "build-js": "browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external --extension=.jsx > build/js/bundle.js",
+    "build-js": "browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external > build/js/bundle.js",
     "start": "npm run start-css & npm run start-js",
     "start-css": "pleeease-watch",
-    "start-js": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug --extension=.jsx",
-    "release": "NODE_ENV=production browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --no-bundle-external --extension=.jsx | uglifyjs -mc drop_console > build/js/bundle.js",
+    "start-js": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug",
+    "release": "NODE_ENV=production browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --no-bundle-external | uglifyjs -mc drop_console > build/js/bundle.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
-    "docs": "mkdir -p docs/sdk && find . -type f \\( -name '*.js' -or -name '*.jsx' \\) -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './build/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose"
+    "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './build/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose"
   }
 }

@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UICheckboxGroup from './index.jsx';
+import UICheckboxGroup from './index';
 import React from 'react';
 import _ from 'lodash';
 

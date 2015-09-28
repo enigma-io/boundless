@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIRadio from './index.jsx';
+import UIRadio from './index';
 import React from 'react';
 
 describe('UIRadio', () => {

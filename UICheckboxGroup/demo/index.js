@@ -1,4 +1,4 @@
-import UICheckboxGroup from '../index.jsx';
+import UICheckboxGroup from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 import _ from 'lodash';

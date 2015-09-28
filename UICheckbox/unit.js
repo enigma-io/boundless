@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UICheckbox from './index.jsx';
+import UICheckbox from './index';
 import React from 'react';
 
 describe('UICheckbox', () => {

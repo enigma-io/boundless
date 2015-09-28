@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIProgressiveDisclosure from './index.jsx';
+import UIProgressiveDisclosure from './index';
 import React from 'react';
 import {noop} from 'lodash';
 

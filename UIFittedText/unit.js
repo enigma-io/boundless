@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIFittedText from './index.jsx';
+import UIFittedText from './index';
 import React from 'react';
 
 describe('UIFittedText', () => {

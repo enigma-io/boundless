@@ -1,4 +1,4 @@
-import UICheckbox from '../index.jsx';
+import UICheckbox from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 

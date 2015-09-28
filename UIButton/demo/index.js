@@ -1,4 +1,4 @@
-import UIButton from '../index.jsx';
+import UIButton from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 

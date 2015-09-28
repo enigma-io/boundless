@@ -1,4 +1,4 @@
-import UIProgressiveDisclosure from '../index.jsx';
+import UIProgressiveDisclosure from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 

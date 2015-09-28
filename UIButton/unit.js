@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIButton from './index.jsx';
+import UIButton from './index';
 import React from 'react';
 
 function noop() {}

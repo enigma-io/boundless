@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UITypeaheadInput from './index.jsx';
+import UITypeaheadInput from './index';
 import React from 'react';
 import _ from 'lodash';
 

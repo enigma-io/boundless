@@ -106,5 +106,5 @@ Type | Context | Expectation
 - **selectAllLabel** `String`
   the text or renderable node to display next to the checkbox, defaults to "Select All"
 
-- **selectAllPosition** `Constant` (see [the implementation](index.jsx))
+- **selectAllPosition** `Constant` (see [the implementation](index.js))
   the rendering position of the "select all" checkbox, defaults to "before"

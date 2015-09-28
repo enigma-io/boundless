@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIPopover from './index.jsx';
+import UIPopover from './index';
 import React from 'react';
 
 describe('UIPopover', () => {

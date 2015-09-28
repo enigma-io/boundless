@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIDialog from './index.jsx';
+import UIDialog from './index';
 import React from 'react';
 
 describe('UIDialog', () => {

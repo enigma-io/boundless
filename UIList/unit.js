@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIList from './index.jsx';
+import UIList from './index';
 import React from 'react';
 import _ from 'lodash';
 

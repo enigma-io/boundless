@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import UIImage from './index.jsx';
+import UIImage from './index';
 import React from 'react';
 
 describe('UIImage', () => {

@@ -1,4 +1,4 @@
-import UIList from '../index.jsx';
+import UIList from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 
