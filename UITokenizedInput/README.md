@@ -56,12 +56,12 @@ In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput) wi
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter]` | select the current typeahead match if one exists, trigger `onAddToken` with entity index
-**Keyboard** | `[Backspace]` on token | trigger `onRemoveToken` with token data
+**Keyboard** | `[Enter]` | select the current typeahead match if one exists, trigger `onTokenChange` with token data
+**Keyboard** | `[Backspace]` on token | trigger `onTokenChange` with token data
 **Keyboard** | `[Left]` | cycle left through tokens if a token is already selected or cursor is at the start of the typeahead
 **Keyboard** | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
 **Mouse** | `[Click]` on token | focus token, add "selected" class
-**Mouse** | `[Click]` on token close | trigger `onRemoveToken` with token data
+**Mouse** | `[Click]` on token close | trigger `onTokenChange` with token data
 
 <br />
 ##### Available `props`
@@ -69,11 +69,8 @@ Type | Context | Expectation
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
 
-- **onAddToken** `Function`
-  triggered when an action has been taken to add a token to the UI
-
-- **onRemoveToken** `Function`
-  triggered when an action has been taken to remove a token from the UI
+- **onTokenChange** `Function`
+  triggered when an action has been taken to add or remove a token to the UI
 
 - **outerWrapperAttributes** `Object`
     - **outerWrapperAttributes.\***

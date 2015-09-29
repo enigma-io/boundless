@@ -177,13 +177,13 @@ class UITypeaheadInput extends UIView {
     }
 
     setValueWithSelectedEntity() {
+        this.props.onEntitySelected(this.state.selectedEntityIndex);
+
         if (this.props.clearPartialInputOnSelection) {
             this.setValue('');
         } else {
             this.setValue(this.getSelectedEntityContent());
         }
-
-        this.props.onEntitySelected(this.state.selectedEntityIndex);
     }
 
     handleKeyDown(event) {
@@ -193,10 +193,7 @@ class UITypeaheadInput extends UIView {
                 event.stopPropagation();
             }
 
-        case 'ArrowRight':
-            if (event.target.selectionStart >= 0) {
-                event.stopPropagation();
-            }
+            break;
 
         case 'Tab':
         case 'ArrowRight':

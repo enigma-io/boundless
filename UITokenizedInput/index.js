@@ -17,15 +17,33 @@ class UITokenizedInput extends UIView {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.tokenizedEntityIndices !== this.state.tokenizedEntityIndices) {
+        let previousIndices = prevState.tokenizedEntityIndices;
+        let previousSelectedIndices = prevState.tokenizedEntityIndicesSelected;
+        let currentIndices = this.state.tokenizedEntityIndices;
+        let currentSelectedIndices = this.state.tokenizedEntityIndicesSelected;
+
+        if (previousIndices !== currentIndices) {
             this.props.onTokenChange(
-                this.state.tokenizedEntityIndices.map(index => this.props.entities[index])
+                currentSelectedIndices.map(index => this.props.entities[index])
             );
+        }
+
+        if (previousSelectedIndices !== currentSelectedIndices) { // move focus
+            if (currentSelectedIndices.length === 0) {
+                return;
+            } else if (   currentSelectedIndices.length === 1
+                       || currentSelectedIndices[0] !== previousSelectedIndices[0] /* multi selection, leftward */) {
+                React.findDOMNode(this.refs[`token${currentSelectedIndices[0]}`]).focus();
+            } else if (last(currentSelectedIndices) !== last(previousSelectedIndices) /* multi selection, rightward */) {
+                React.findDOMNode(this.refs[`token${last(currentSelectedIndices)}`]).focus();
+            }
         }
     }
 
     handleEntitySelected(index) {
-        this.setState({tokenizedEntityIndices: tokenizedEntityIndices.concat(index)});
+        if (this.state.tokenizedEntityIndices.indexOf(index) === -1) {
+            this.setState({tokenizedEntityIndices: this.state.tokenizedEntityIndices.concat(index)});
+        }
     }
 
     selectPreviousToken(append) {
@@ -56,20 +74,20 @@ class UITokenizedInput extends UIView {
 
         if (selected.length === 0) {
             return;
-        } else if (selected.length === 1) {
-            if (last(selected) === last(indices)) {
-                this.setState({
-                    tokenizedEntityIndicesSelected: []
-                });
+        }
 
-                this.refs.typeahead.focusInput();
-            } else {
-                let nextToken = indices[indices.indexOf(first(selected)) + 1];
+        if (last(selected) === last(indices)) {
+            this.setState({
+                tokenizedEntityIndicesSelected: []
+            });
 
-                this.setState({
-                    tokenizedEntityIndicesSelected: append ? [selected].concat(nextToken) : [nextToken]
-                });
-            }
+            this.refs.typeahead.focusInput();
+        } else {
+            let nextToken = indices[indices.indexOf(last(selected)) + 1];
+
+            this.setState({
+                tokenizedEntityIndicesSelected: append ? selected.concat(nextToken) : [nextToken]
+            });
         }
     }
 
@@ -90,17 +108,26 @@ class UITokenizedInput extends UIView {
                     tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, ...this.state.tokenizedEntityIndicesSelected),
                     tokenizedEntityIndicesSelected: []
                 });
+
+                this.refs.typeahead.focusInput();
             }
 
             break;
         }
     }
 
+    handleTokenCloseClick(index) {
+        this.setState({
+            tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, index),
+            tokenizedEntityIndicesSelected: without(this.state.tokenizedEntityIndicesSelected, index)
+        });
+    }
+
     renderTokenClose(index) {
         if (this.props.showTokenClose) {
             return (
                 <div className='ui-tokenfield-token-close'
-                     onClick={() => this.setState({tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, index)})} />
+                     onClick={this.handleTokenCloseClick.bind(this, index)} />
             );
         }
     }
@@ -108,7 +135,7 @@ class UITokenizedInput extends UIView {
     getTokenClasses(index) {
         let classes = ['ui-tokenfield-token'];
 
-        if (this.state.tokenizedEntityIndicesSelected.includes(index)) {
+        if (this.state.tokenizedEntityIndicesSelected.indexOf(index) !== -1) {
             classes.push('ui-tokenfield-token-selected');
         }
 
@@ -116,7 +143,7 @@ class UITokenizedInput extends UIView {
     }
 
     selectSingleToken(index) {
-        if (   !this.state.tokenizedEntityIndicesSelected.includes(index)
+        if (   this.state.tokenizedEntityIndicesSelected.indexOf(index) === -1
             || this.state.tokenizedEntityIndicesSelected.length > 1) {
             this.setState({
                 tokenizedEntityIndicesSelected: [index]
@@ -125,7 +152,9 @@ class UITokenizedInput extends UIView {
     }
 
     handleTokenKeyDown(index, event) {
-        if (event.key === 'Enter') {
+        switch (event.key) {
+        case 'Enter':
+        case 'Space':
             this.selectSingleToken(index);
         }
     }
@@ -135,7 +164,8 @@ class UITokenizedInput extends UIView {
             <div className='ui-tokenfield-tokens'>
                 {this.state.tokenizedEntityIndices.map(index => {
                     return (
-                        <div className={this.getTokenClasses(index)}
+                        <div ref={`token${index}`}
+                             className={this.getTokenClasses(index)}
                              onClick={this.selectSingleToken.bind(this, index)}
                              onKeyDown={this.handleTokenKeyDown.bind(this, index)}
                              tabIndex='0'>
@@ -148,8 +178,12 @@ class UITokenizedInput extends UIView {
         );
     }
 
-    getWrapperClasses(index) {
+    getWrapperClasses() {
         return ['ui-tokenfield-wrapper'].concat(this.props.outerWrapperAttributes.className || []).join(' ');
+    }
+
+    getTypeaheadClasses() {
+        return ['ui-tokenfield'].concat(this.props.className || []).join(' ');
     }
 
     render() {
@@ -161,9 +195,9 @@ class UITokenizedInput extends UIView {
 
                 <UITypeaheadInput {...this.props}
                                   ref='typeahead'
-                                  className='ui-tokenfield'
+                                  className={this.getTypeaheadClasses()}
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
-                                  persistSelection={false} />
+                                  clearPartialInputOnSelection={true} />
             </div>
         );
     }
@@ -180,13 +214,15 @@ UITokenizedInput.propTypes = {
         })
     ),
     onTokenChange: React.PropTypes.func,
-    outerWrapperAttributes: React.PropTypes.object
+    outerWrapperAttributes: React.PropTypes.object,
+    showTokenClose: React.PropTypes.bool
 };
 
 UITokenizedInput.defaultProps = {
     entities: [],
     onTokenChange: noop,
-    outerWrapperAttributes: {}
+    outerWrapperAttributes: {},
+    showTokenClose: true
 };
 
 export default UITokenizedInput;

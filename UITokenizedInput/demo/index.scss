@@ -1,0 +1,33 @@
+@import "../../_globals";
+
+.ui-tokenfield-wrapper {
+    display: flex;
+}
+
+.ui-tokenfield-tokens {
+    display: flex;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+}
+
+.ui-tokenfield-wrapper .ui-typeahead-wrapper {
+    flex-grow: 1;
+}
+
+.ui-tokenfield-token {
+    align-self: stretch;
+    border: 1px solid #CCC;
+    border-radius: $default-border-radius;
+
+    margin-right: 5px;
+    outline: none;
+    padding: 0.25rem 0.5rem;
+
+    transition: border-color 200ms ease-in-out,
+                background-color 200ms ease-in-out;
+}
+
+.ui-tokenfield-token-selected {
+    background-color: rgba($color-accent, 0.25);
+    border-color: $color-accent;
+}

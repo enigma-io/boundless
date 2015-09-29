@@ -147,6 +147,7 @@ UIDialog.propTypes = {
     body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
     captureFocus: React.PropTypes.bool,
+    children: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string

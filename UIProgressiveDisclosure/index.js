@@ -67,6 +67,7 @@ export default class UIProgressiveDisclosure extends UIView {
 }
 
 UIProgressiveDisclosure.propTypes = {
+    children: React.PropTypes.node,
     className: React.PropTypes.oneOfType([
         React.PropTypes.arrayOf(React.PropTypes.string),
         React.PropTypes.string

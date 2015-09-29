@@ -20,7 +20,7 @@ describe('UITypeaheadInput', () => {
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
             const typeahead = React.render(<UITypeaheadInput data-id='foo' />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
@@ -121,7 +121,7 @@ describe('UITypeaheadInput', () => {
 
         it('should clear on a successful autocomplete', () => {
             const typeahead = React.render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />, document.body);
-            const inputNode = React.findDOMNode(typeahead.refs.input);
+            const inputNode = typeahead.getInputNode();
             const hintNode = React.findDOMNode(typeahead.refs.hint);
 
             inputNode.setSelectionRange(inputNode.value.length, inputNode.value.length);
@@ -192,7 +192,7 @@ describe('UITypeaheadInput', () => {
     describe('right arrow', () => {
         it('should autocomplete the currently selected entity to the input field', () => {
             const typeahead = React.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             node.setSelectionRange(node.value.length, node.value.length);
             typeahead.handleKeyDown({
@@ -207,7 +207,7 @@ describe('UITypeaheadInput', () => {
 
         it('should not autocomplete if the cursor is not at the end of the input field', () => {
             const typeahead = React.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             node.setSelectionRange(0, 0); // reset to beginning
             typeahead.handleKeyDown({
@@ -224,7 +224,7 @@ describe('UITypeaheadInput', () => {
     describe('tab', () => {
         it('should autocomplete the currently selected entity to the input field', () => {
             const typeahead = React.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             node.setSelectionRange(node.value.length, node.value.length);
             typeahead.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: noop}});
@@ -234,7 +234,7 @@ describe('UITypeaheadInput', () => {
 
         it('should not autocomplete if the cursor is not at the end of the input field', () => {
             const typeahead = React.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             node.setSelectionRange(0, 0); // reset to beginning
             typeahead.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: noop}});
@@ -247,7 +247,11 @@ describe('UITypeaheadInput', () => {
         it('should select the current entity match, if one exists', () => {
             const typeahead = React.render(<UITypeaheadInput entities={entities} defaultValue='ap' />, document.body);
 
-            typeahead.handleKeyDown({key: 'Enter', target: React.findDOMNode(typeahead.refs.input), nativeEvent: {preventDefault: noop}});
+            typeahead.handleKeyDown({
+                key: 'Enter',
+                target: typeahead.getInputNode(),
+                nativeEvent: {preventDefault: noop}
+            });
 
             expect(typeahead.state.userInput).to.equal('apple');
         });
@@ -266,7 +270,7 @@ describe('UITypeaheadInput', () => {
     describe('entity matches', () => {
         it('should autocomplete on click', () => {
             const typeahead = React.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             expect(node.value).to.equal('ap');
 
@@ -293,7 +297,7 @@ describe('UITypeaheadInput', () => {
                                   defaultValue='ap'
                                   entities={entities} />, document.body
             );
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             expect(node.value).to.equal('ap');
 
@@ -307,7 +311,7 @@ describe('UITypeaheadInput', () => {
     describe('misc internals', () => {
         it('focusInput should focus the correct node', () => {
             const typeahead = React.render(<UITypeaheadInput />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             expect(document.activeElement).to.not.equal(node);
 
@@ -318,7 +322,7 @@ describe('UITypeaheadInput', () => {
 
         it('getInputNode should return the correct node', () => {
             const typeahead = React.render(<UITypeaheadInput />, document.body);
-            const node = React.findDOMNode(typeahead.refs.input);
+            const node = typeahead.getInputNode();
 
             expect(typeahead.getInputNode()).to.equal(node);
         });

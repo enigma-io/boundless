@@ -30,7 +30,7 @@
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
     "pleeease": "git+https://github.com/yaycmyk/pleeease.git#upgrade-node-sass",
-    "pleeease-cli": "^3.2.8",
+    "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
@@ -48,6 +48,7 @@
     "UIKit/UIProgressiveDisclosure": "./UIProgressiveDisclosure/index.js",
     "UIKit/UIRadio": "./UIRadio/index.js",
     "UIKit/UITable": "./UITable/index.js",
+    "UIKit/UITokenizedInput": "./UITokenizedInput/index.js",
     "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.js",
     "UIKit/UIView": "./UIView/index.js"
   },

@@ -12,6 +12,7 @@ import UIProgressDemo from './UIProgress/demo';
 import UIProgressiveDisclosureDemo from './UIProgressiveDisclosure/demo';
 import UIRadioDemo from './UIRadio/demo';
 import UITableDemo from './UITable/demo';
+import UITokenizedInputDemo from './UITokenizedInput/demo';
 import UITypeaheadInputDemo from './UITypeaheadInput/demo';
 import React from 'react';
 
@@ -29,4 +30,5 @@ React.render(<UIProgressDemo />, document.getElementById('ui-progress'));
 React.render(<UIProgressiveDisclosureDemo />, document.getElementById('ui-disclosure'));
 React.render(<UIRadioDemo />, document.getElementById('ui-radio'));
 React.render(<UITableDemo />, document.getElementById('ui-table'));
+React.render(<UITokenizedInputDemo />, document.getElementById('ui-tokenfield'));
 React.render(<UITypeaheadInputDemo />, document.getElementById('ui-typeahead'));
