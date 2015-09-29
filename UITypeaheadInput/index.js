@@ -28,13 +28,6 @@ class UITypeaheadInput extends UIView {
         return entity ? entity.content : '';
     }
 
-    getInputValueWithoutSelectedEntityContent() {
-        let currentValue = this.getInputNode().value;
-        let entityContent = this.getSelectedEntityContent();
-
-        
-    }
-
     renderNotification() {
         return (
             <div ref='aria'
@@ -88,7 +81,7 @@ class UITypeaheadInput extends UIView {
     }
 
     handleMatchClick(index) {
-        this.setValue(this.props.entities[index].content);
+        this.setState({selectedEntityIndex: index}, () => this.setValueWithSelectedEntity());
     }
 
     markMatchSubstring(entityContent, userInput) {
@@ -183,6 +176,16 @@ class UITypeaheadInput extends UIView {
         return node.selectionStart === node.selectionEnd && node.selectionEnd === node.value.length;
     }
 
+    setValueWithSelectedEntity() {
+        if (this.props.clearPartialInputOnSelection) {
+            this.setValue('');
+        } else {
+            this.setValue(this.getSelectedEntityContent());
+        }
+
+        this.props.onEntitySelected(this.state.selectedEntityIndex);
+    }
+
     handleKeyDown(event) {
         switch (event.key) {
         case 'ArrowLeft':
@@ -201,7 +204,7 @@ class UITypeaheadInput extends UIView {
                 && this.cursorAtEndOfInput()
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
-                this.setValue(this.getSelectedEntityContent());
+                this.setValueWithSelectedEntity();
             }
 
             break;
@@ -230,14 +233,7 @@ class UITypeaheadInput extends UIView {
             if (   this.state.selectedEntityIndex !== -1
                 && this.getInputNode() === event.target) {
                 event.nativeEvent.preventDefault();
-
-                if (this.props.clearPartialInputOnSelection) {
-                    this.setValue(this.getInputValueWithoutSelectedEntityContent());
-                } else {
-                    this.setValue(this.getSelectedEntityContent());
-                }
-
-                this.props.onEntitySelected(this.state.selectedEntityIndex);
+                this.setValueWithSelectedEntity();
             } else {
                 this.props.onComplete(this.state.userInput);
             }

@@ -2,7 +2,7 @@
 
 import UITypeaheadInput from './index';
 import React from 'react';
-import _ from 'lodash';
+import {noop} from 'lodash';
 
 describe('UITypeaheadInput', () => {
     const sandbox = sinon.sandbox.create();
@@ -125,7 +125,14 @@ describe('UITypeaheadInput', () => {
             const hintNode = React.findDOMNode(typeahead.refs.hint);
 
             inputNode.setSelectionRange(inputNode.value.length, inputNode.value.length);
-            typeahead.handleKeyDown({key: 'ArrowRight', target: inputNode, nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({
+                key: 'ArrowRight',
+                target: inputNode,
+                nativeEvent: {
+                    preventDefault: noop
+                },
+                stopPropagation: noop
+            });
 
             expect(hintNode.value).to.equal('');
         });
@@ -145,7 +152,7 @@ describe('UITypeaheadInput', () => {
             const typeahead = React.render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />, document.body);
             const node = React.findDOMNode(typeahead.refs.hint);
 
-            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('apricot');
         });
@@ -154,8 +161,8 @@ describe('UITypeaheadInput', () => {
             const typeahead = React.render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />, document.body);
             const node = React.findDOMNode(typeahead.refs.hint);
 
-            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: _.noop}});
-            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
+            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('apple');
         });
@@ -166,8 +173,8 @@ describe('UITypeaheadInput', () => {
             const typeahead = React.render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />, document.body);
             const node = React.findDOMNode(typeahead.refs.hint);
 
-            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: _.noop}});
-            typeahead.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
+            typeahead.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('apple');
         });
@@ -176,7 +183,7 @@ describe('UITypeaheadInput', () => {
             const typeahead = React.render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />, document.body);
             const node = React.findDOMNode(typeahead.refs.hint);
 
-            typeahead.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('apricot');
         });
@@ -188,7 +195,12 @@ describe('UITypeaheadInput', () => {
             const node = React.findDOMNode(typeahead.refs.input);
 
             node.setSelectionRange(node.value.length, node.value.length);
-            typeahead.handleKeyDown({key: 'ArrowRight', target: node, nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({
+                key: 'ArrowRight',
+                nativeEvent: {preventDefault: noop},
+                stopPropagation: noop,
+                target: node
+            });
 
             expect(node.value).to.equal('apple');
         });
@@ -198,7 +210,12 @@ describe('UITypeaheadInput', () => {
             const node = React.findDOMNode(typeahead.refs.input);
 
             node.setSelectionRange(0, 0); // reset to beginning
-            typeahead.handleKeyDown({key: 'ArrowRight', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({
+                key: 'ArrowRight',
+                nativeEvent: {preventDefault: noop},
+                stopPropagation: noop,
+                target: node
+            });
 
             expect(node.value).to.equal('ap');
         });
@@ -210,7 +227,7 @@ describe('UITypeaheadInput', () => {
             const node = React.findDOMNode(typeahead.refs.input);
 
             node.setSelectionRange(node.value.length, node.value.length);
-            typeahead.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('apple');
         });
@@ -220,7 +237,7 @@ describe('UITypeaheadInput', () => {
             const node = React.findDOMNode(typeahead.refs.input);
 
             node.setSelectionRange(0, 0); // reset to beginning
-            typeahead.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: noop}});
 
             expect(node.value).to.equal('ap');
         });
@@ -230,7 +247,7 @@ describe('UITypeaheadInput', () => {
         it('should select the current entity match, if one exists', () => {
             const typeahead = React.render(<UITypeaheadInput entities={entities} defaultValue='ap' />, document.body);
 
-            typeahead.handleKeyDown({key: 'Enter', target: React.findDOMNode(typeahead.refs.input), nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'Enter', target: React.findDOMNode(typeahead.refs.input), nativeEvent: {preventDefault: noop}});
 
             expect(typeahead.state.userInput).to.equal('apple');
         });
@@ -239,7 +256,7 @@ describe('UITypeaheadInput', () => {
             const stub = sandbox.stub();
             const typeahead = React.render(<UITypeaheadInput onComplete={stub} defaultValue='ap' />, document.body);
 
-            typeahead.handleKeyDown({key: 'Enter', nativeEvent: {preventDefault: _.noop}});
+            typeahead.handleKeyDown({key: 'Enter', nativeEvent: {preventDefault: noop}});
 
             expect(stub).to.have.been.calledOnce;
             expect(stub).to.have.been.calledWith('ap');
@@ -266,6 +283,24 @@ describe('UITypeaheadInput', () => {
 
             expect(node.textContent).to.equal('apple');
             expect(node.querySelector('.ui-typeahead-match-highlight').textContent).to.equal('ap');
+        });
+    });
+
+    describe('clearPartialInputOnSelection as `true`', () => {
+        it('should blank out the input field on selection of an entity', () => {
+            const typeahead = React.render(
+                <UITypeaheadInput clearPartialInputOnSelection={true}
+                                  defaultValue='ap'
+                                  entities={entities} />, document.body
+            );
+            const node = React.findDOMNode(typeahead.refs.input);
+
+            expect(node.value).to.equal('ap');
+
+            // default selected should be 'apple'
+            document.querySelector('.ui-typeahead-match-selected').click();
+
+            expect(node.value).to.equal('');
         });
     });
 
