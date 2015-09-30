@@ -59,7 +59,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "mkdir -p build/js && npm build",
+    "postinstall": "mkdir -p build/js && npm run build",
     "build": "npm run build-js",
     "build-css": "pleeease-compile",
     "build-js": "browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external > build/js/bundle.js",
