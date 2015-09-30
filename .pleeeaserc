@@ -1,6 +1,6 @@
 {
   "in": [
-    "./demo.scss",
+    "./*.scss",
     "./!(node_modules)/**/*.scss"
   ],
   "out": "build/css/demo.css",
