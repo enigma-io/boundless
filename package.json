@@ -29,7 +29,7 @@
     "karma-source-map-support": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
-    "pleeease": "^4.0.0",
+    "pleeease": "git+ssh://git@github.com:yaycmyk/pleeease.git#fix-source-string-error",
     "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
