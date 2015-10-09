@@ -155,7 +155,7 @@ class UITypeaheadInput extends UIView {
     }
 
     getInputNode() {
-        return React.findDOMNode(this.refs.input);
+        return this.refs.input;
     }
 
     focusInput() {

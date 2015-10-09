@@ -14,6 +14,7 @@ Each component is independently requireable / importable using the `UIKit/` name
 ```jsx
 import UIList from 'UIKit/UIList';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class MyUI extends React.Component {
     render() {
@@ -23,5 +24,5 @@ class MyUI extends React.Component {
     }
 }
 
-React.render(<MyUI />, document.body);
+ReactDOM.render(<MyUI />, document.body);
 ```

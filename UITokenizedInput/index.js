@@ -33,9 +33,9 @@ class UITokenizedInput extends UIView {
                 return;
             } else if (   currentSelectedIndices.length === 1
                        || currentSelectedIndices[0] !== previousSelectedIndices[0] /* multi selection, leftward */) {
-                React.findDOMNode(this.refs[`token${currentSelectedIndices[0]}`]).focus();
+                this.refs[`token${currentSelectedIndices[0]}`].focus();
             } else if (last(currentSelectedIndices) !== last(previousSelectedIndices) /* multi selection, rightward */) {
-                React.findDOMNode(this.refs[`token${last(currentSelectedIndices)}`]).focus();
+                this.refs[`token${last(currentSelectedIndices)}`].focus();
             }
         }
     }

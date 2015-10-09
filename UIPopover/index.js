@@ -6,6 +6,7 @@
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
 
 class UIPopover extends UIView {
@@ -21,7 +22,7 @@ class UIPopover extends UIView {
     componentDidMount() {
         document.body.appendChild((this.container = document.createElement('div')));
 
-        this.node = React.findDOMNode(this.renderDialog());
+        this.node = ReactDOM.findDOMNode(this.renderDialog());
 
         this.align = this.align.bind(this);
         this.align();
@@ -35,7 +36,7 @@ class UIPopover extends UIView {
     }
 
     componentWillUnmount() {
-        React.unmountComponentAtNode(this.container);
+        ReactDOM.unmountComponentAtNode(this.container);
         document.body.removeChild(this.container);
 
         window.removeEventListener('resize', this.align, true);
@@ -142,7 +143,7 @@ class UIPopover extends UIView {
     align() {
         const anchor = this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
-                       : React.findDOMNode(this.props.anchor);
+                       : ReactDOM.findDOMNode(this.props.anchor);
 
         let x = this.getNextXPosition(anchor, this.node);
         let y = this.getNextYPosition(anchor, this.node);
@@ -186,7 +187,7 @@ class UIPopover extends UIView {
     }
 
     renderDialog() {
-        return React.render(
+        return ReactDOM.render(
             <UIDialog {...this.props}
                       captureFocus={false}
                       className={this.getClasses()}

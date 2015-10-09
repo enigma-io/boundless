@@ -2,45 +2,47 @@
 
 import UIFittedText from './index';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 describe('UIFittedText', () => {
+    const mountNode = document.body.appendChild(document.createElement('div'));
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
-        React.unmountComponentAtNode(document.body);
+        ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
-            const text = React.render(<UIFittedText data-id='foo' />, document.body);
-            const node = React.findDOMNode(text);
+            const text = ReactDOM.render(<UIFittedText data-id='foo' />, mountNode);
+            const node = ReactDOM.findDOMNode(text);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const text = React.render(<UIFittedText className='foo' />, document.body);
+            const text = ReactDOM.render(<UIFittedText className='foo' />, mountNode);
 
             expect(text.getClasses()).to.equal('ui-text foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const text = React.render(<UIFittedText className={['foo', 'bar']} />, document.body);
+            const text = ReactDOM.render(<UIFittedText className={['foo', 'bar']} />, mountNode);
 
             expect(text.getClasses()).to.equal('ui-text foo bar');
         });
 
         it('text to render', () => {
-            const text = React.render(<UIFittedText>foo</UIFittedText>, document.body);
-            const node = React.findDOMNode(text);
+            const text = ReactDOM.render(<UIFittedText>foo</UIFittedText>, mountNode);
+            const node = ReactDOM.findDOMNode(text);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('numbers to render', () => {
-            const text = React.render(<UIFittedText>{1234}</UIFittedText>, document.body);
-            const node = React.findDOMNode(text);
+            const text = ReactDOM.render(<UIFittedText>{1234}</UIFittedText>, mountNode);
+            const node = ReactDOM.findDOMNode(text);
 
             expect(node.textContent).to.equal('1234');
         });
@@ -48,7 +50,7 @@ describe('UIFittedText', () => {
 
     describe('CSS hooks', () => {
         it('ui-text should render', () => {
-            const text = React.render(<UIFittedText />, document.body);
+            const text = ReactDOM.render(<UIFittedText />, mountNode);
 
             expect(text.getClasses()).to.equal('ui-text');
         });
@@ -59,13 +61,13 @@ describe('UIFittedText', () => {
         // verify it completed successfully
 
         it('should work', (done) => {
-            const tree = React.render(
+            const tree = ReactDOM.render(
                 <div style={{height: '100px', width: '400px'}}>
                     <UIFittedText maxFontSize={30}>foo</UIFittedText>
-                </div>, document.body
+                </div>, mountNode
             );
 
-            const node = React.findDOMNode(tree).children[0];
+            const node = ReactDOM.findDOMNode(tree).children[0];
 
             window.setTimeout(function verifier() {
                 expect(node.style.fontSize).to.equal('30px');
@@ -74,13 +76,13 @@ describe('UIFittedText', () => {
         });
 
         it('should be ignored if the container size is too small', (done) => {
-            const tree = React.render(
+            const tree = ReactDOM.render(
                 <div style={{width: '10px'}}>
                     <UIFittedText maxFontSize={30}>foo</UIFittedText>
-                </div>, document.body
+                </div>, mountNode
             );
 
-            const node = React.findDOMNode(tree).children[0];
+            const node = ReactDOM.findDOMNode(tree).children[0];
 
             window.setTimeout(function verifier() {
                 expect(node.style.fontSize).to.not.equal('30px');

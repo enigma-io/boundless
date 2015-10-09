@@ -2,33 +2,35 @@
 
 import UIButton from './index';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 function noop() {}
 
 describe('UIButton', () => {
+    const mountNode = document.body.appendChild(document.createElement('div'));
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
-        React.unmountComponentAtNode(document.body);
+        ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes', () => {
-            const button = React.render(<UIButton data-id='foo' />, document.body);
-            const node = React.findDOMNode(button);
+            const button = ReactDOM.render(<UIButton data-id='foo' />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const button = React.render(<UIButton className='foo' />, document.body);
+            const button = ReactDOM.render(<UIButton className='foo' />, mountNode);
 
             expect(button.getClasses()).to.equal('ui-button foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const button = React.render(<UIButton className={['foo', 'bar']} />, document.body);
+            const button = ReactDOM.render(<UIButton className={['foo', 'bar']} />, mountNode);
 
             expect(button.getClasses()).to.equal('ui-button foo bar');
         });
@@ -36,19 +38,19 @@ describe('UIButton', () => {
 
     describe('CSS hook', () => {
         it('ui-button should be rendered', () => {
-            const button = React.render(<UIButton />, document.body);
+            const button = ReactDOM.render(<UIButton />, mountNode);
 
             expect(button.getClasses()).to.contain('ui-button');
         });
 
         it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
-            const button = React.render(<UIButton pressed={false} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={false} />, mountNode);
 
             expect(button.getClasses()).to.contain('ui-button-pressable');
         });
 
         it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
-            const button = React.render(<UIButton pressed={true} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={true} />, mountNode);
 
             expect(button.getClasses()).to.contain('ui-button-pressed');
         });
@@ -56,22 +58,22 @@ describe('UIButton', () => {
 
     describe('`aria-pressed` HTML attribute', () => {
         it('should be "true" if `props.pressed` is `true`', () => {
-            const button = React.render(<UIButton pressed={true} />, document.body);
-            const node = React.findDOMNode(button);
+            const button = ReactDOM.render(<UIButton pressed={true} />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
             expect(node.getAttribute('aria-pressed')).to.equal('true');
         });
 
         it('should be "false" if `props.pressed` is `false`', () => {
-            const button = React.render(<UIButton pressed={false} />, document.body);
-            const node = React.findDOMNode(button);
+            const button = ReactDOM.render(<UIButton pressed={false} />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
             expect(node.getAttribute('aria-pressed')).to.equal('false');
         });
 
         it('should not be applied if `props.pressed` is not provided', () => {
-            const button = React.render(<UIButton />, document.body);
-            const node = React.findDOMNode(button);
+            const button = ReactDOM.render(<UIButton />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
             expect(node.hasAttribute('aria-pressed')).to.be.false;
         });
@@ -82,7 +84,7 @@ describe('UIButton', () => {
 
         it('should trigger `onClick`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton onClick={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
 
             button.handleClick(eventStub);
 
@@ -91,7 +93,7 @@ describe('UIButton', () => {
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
 
             button.handleClick(eventStub);
 
@@ -100,7 +102,7 @@ describe('UIButton', () => {
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
 
             button.handleClick(eventStub);
 
@@ -110,7 +112,7 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);
+            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
 
             button.handleClick(eventStub);
 
@@ -124,7 +126,7 @@ describe('UIButton', () => {
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -133,7 +135,7 @@ describe('UIButton', () => {
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -142,7 +144,7 @@ describe('UIButton', () => {
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton onClick={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -152,7 +154,7 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);
+            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -166,7 +168,7 @@ describe('UIButton', () => {
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={true} onUnpressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -175,7 +177,7 @@ describe('UIButton', () => {
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton pressed={false} onPressed={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -184,7 +186,7 @@ describe('UIButton', () => {
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const button = React.render(<UIButton onClick={stub} />, document.body);
+            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 
@@ -194,7 +196,7 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = React.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, document.body);
+            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
 
             button.handleKeyDown(eventStub);
 

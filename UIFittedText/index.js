@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 function toI(stringNumber) {
     return parseInt(stringNumber, 10);
@@ -27,7 +28,7 @@ class UIFittedText extends UIView {
     }
 
     rescale() {
-        let node = React.findDOMNode(this);
+        let node = ReactDOM.findDOMNode(this);
         let container = node.parentNode;
         let containerBox = window.getComputedStyle(container);
         let containerHeight = toI(containerBox.height);

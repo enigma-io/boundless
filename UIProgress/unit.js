@@ -2,25 +2,27 @@
 
 import UIProgress from './index';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 describe('UIProgress', () => {
+    const mountNode = document.body.appendChild(document.createElement('div'));
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
-        React.unmountComponentAtNode(document.body);
+        ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
     describe('accepts', () => {
         it('an additional class as a string without replacing the core hook', () => {
-            const progress = React.render(<UIProgress className='foo' />, document.body);
+            const progress = ReactDOM.render(<UIProgress className='foo' />, mountNode);
 
             expect(progress.getProgressClasses()).to.contain('ui-progress ');
             expect(progress.getProgressClasses()).to.contain('foo');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const progress = React.render(<UIProgress className={['foo', 'bar']} />, document.body);
+            const progress = ReactDOM.render(<UIProgress className={['foo', 'bar']} />, mountNode);
 
             expect(progress.getProgressClasses()).to.contain('ui-progress ');
             expect(progress.getProgressClasses()).to.contain('foo');
@@ -28,10 +30,9 @@ describe('UIProgress', () => {
         });
 
         it('a specific style property to tween', () => {
-            const progress = React.render(<UIProgress progress='0%' tweenProperty='height' />, document.body);
-            const node = React.findDOMNode(progress.refs.progress);
+            const progress = ReactDOM.render(<UIProgress progress='0%' tweenProperty='height' />, mountNode);
 
-            expect(node.getAttribute('style')).to.equal('height:0%;');
+            expect(progress.refs.progress.getAttribute('style')).to.equal('height:0%;');
         });
     });
 
@@ -39,7 +40,7 @@ describe('UIProgress', () => {
         let progress;
 
         beforeEach(() => {
-            progress = React.render(<UIProgress />, document.body);
+            progress = ReactDOM.render(<UIProgress />, mountNode);
         });
 
         it('ui-progress-wrapper should be rendered', () => {
@@ -65,18 +66,18 @@ describe('UIProgress', () => {
 
     describe('progress', () => {
         it('should update as the prop is changed', () => {
-            const progress = React.render(<UIProgress progress='0%' />, document.body);
-            const node = React.findDOMNode(progress.refs.progress);
+            const progress = ReactDOM.render(<UIProgress progress='0%' />, mountNode);
+            const node = progress.refs.progress;
 
             expect(node.getAttribute('style')).to.equal('width:0%;');
 
-            React.render(<UIProgress progress='10%' />, document.body);
+            ReactDOM.render(<UIProgress progress='10%' />, mountNode);
 
             expect(node.getAttribute('style')).to.equal('width: 10%;');
         });
 
         it('should not show as indeterminate if `progress` is passed', () => {
-            const progress = React.render(<UIProgress progress='0%' />, document.body);
+            const progress = ReactDOM.render(<UIProgress progress='0%' />, mountNode);
 
             expect(progress.getProgressClasses()).to.not.contain('ui-progress-indeterminate');
         });
@@ -85,15 +86,15 @@ describe('UIProgress', () => {
     describe('cancel button', () => {
         it('should render if the handler is provided', () => {
             const stub = sandbox.stub();
-            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
+            const progress = ReactDOM.render(<UIProgress onCancel={stub} />, mountNode);
 
             expect(progress.refs.cancel).to.not.be.undefined;
         });
 
         it('should call the cancel handler on click', () => {
             const stub = sandbox.stub();
-            const progress = React.render(<UIProgress onCancel={stub} />, document.body);
-            const node = React.findDOMNode(progress.refs.cancel);
+            const progress = ReactDOM.render(<UIProgress onCancel={stub} />, mountNode);
+            const node = ReactDOM.findDOMNode(progress.refs.cancel);
 
             node.click();
 
@@ -103,7 +104,7 @@ describe('UIProgress', () => {
 
     describe('progress label', () => {
         it('should render if provided', () => {
-            const progress = React.render(<UIProgress label='50%' />, document.body);
+            const progress = ReactDOM.render(<UIProgress label='50%' />, mountNode);
 
             expect(progress.refs.label).to.not.be.undefined;
         });

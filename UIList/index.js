@@ -35,7 +35,7 @@ class UIList extends UIView {
     }
 
     setFocus(index) {
-        React.findDOMNode(this.refs[index]).focus();
+        this.refs[index].focus();
     }
 
     getNextItemIndex(currentItem) {

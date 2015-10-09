@@ -27,7 +27,7 @@ class UICheckbox extends UIView {
     }
 
     setIndeterminate() {
-        React.findDOMNode(this.refs.input).indeterminate = !!this.props.indeterminate;
+        this.refs.input.indeterminate = !!this.props.indeterminate;
     }
 
     getCheckboxClasses() {

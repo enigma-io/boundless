@@ -2,7 +2,7 @@ import UIButton from '../../UIButton';
 import UIProgress from '../index';
 import UIView from '../../UIView';
 import React from 'react';
-import _ from 'lodash';
+import {each} from 'lodash';
 import transformProp from '../../UIUtils/transform';
 
 export default class UIProgressDemo extends UIView {
@@ -16,9 +16,7 @@ export default class UIProgressDemo extends UIView {
     }
 
     componentDidMount() {
-        _.each(this.refs, (value, key) => {
-            this.updateProgress(key);
-        });
+        each(this.refs, (value, key) => this.updateProgress(key));
     }
 
     render() {

@@ -2,63 +2,65 @@
 
 import UIProgressiveDisclosure from './index';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {noop} from 'lodash';
 
 describe('UIProgressiveDisclosure', () => {
+    const mountNode = document.body.appendChild(document.createElement('div'));
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
-        React.unmountComponentAtNode(document.body);
+        ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes to the rendered input', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure data-id='foo' />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure data-id='foo' />, mountNode);
 
-            expect(React.findDOMNode(disclosure).getAttribute('data-id')).to.equal('foo');
+            expect(ReactDOM.findDOMNode(disclosure).getAttribute('data-id')).to.equal('foo');
         });
 
         it('a teaser string', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure teaser='foo' />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure teaser='foo' />, mountNode);
 
-            expect(React.findDOMNode(disclosure.refs.toggle).textContent).to.equal('foo');
+            expect(disclosure.refs.toggle.textContent).to.equal('foo');
         });
 
         it('a teaser element', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure teaser={<p>foo</p>} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure teaser={<p>foo</p>} />, mountNode);
 
-            expect(React.findDOMNode(disclosure.refs.toggle).textContent).to.equal('foo');
+            expect(disclosure.refs.toggle.textContent).to.equal('foo');
         });
 
         it('string content', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure>foo</UIProgressiveDisclosure>, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure>foo</UIProgressiveDisclosure>, mountNode);
 
-            expect(React.findDOMNode(disclosure.refs.content).textContent).to.equal('foo');
+            expect(disclosure.refs.content.textContent).to.equal('foo');
         });
 
         it('element content', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure><p>foo</p></UIProgressiveDisclosure>, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure><p>foo</p></UIProgressiveDisclosure>, mountNode);
 
-            expect(React.findDOMNode(disclosure.refs.content).textContent).to.equal('foo');
+            expect(disclosure.refs.content.textContent).to.equal('foo');
         });
     });
 
     describe('CSS hook', () => {
         it('ui-disclosure should be rendered', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
 
             expect(disclosure.getClasses()).to.contain('ui-disclosure');
         });
 
         it('ui-disclosure-expanded should be rendered when `props.expanded` is `true`', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure expanded={true} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure expanded={true} />, mountNode);
 
             expect(disclosure.getClasses()).to.contain('ui-disclosure-expanded');
         });
 
         it('ui-disclosure-expanded should not be rendered when `props.expanded` is falsy', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
 
             expect(disclosure.getClasses()).to.not.contain('ui-disclosure-expanded');
         });
@@ -66,7 +68,7 @@ describe('UIProgressiveDisclosure', () => {
 
     describe('click on the toggle', () => {
         it('should should show and hide the content', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
 
             disclosure.handleClick();
 
@@ -80,7 +82,7 @@ describe('UIProgressiveDisclosure', () => {
 
     describe('enter key on the toggle', () => {
         it('should should show and hide the content', () => {
-            const disclosure = React.render(<UIProgressiveDisclosure />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
 
             disclosure.handleKeyDown({key: 'Enter', preventDefault: noop});
 
@@ -95,7 +97,7 @@ describe('UIProgressiveDisclosure', () => {
     describe('onExpand', () => {
         it('should be called when the disclosure is expanded', () => {
             const stub = sandbox.spy();
-            const disclosure = React.render(<UIProgressiveDisclosure onExpand={stub} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} />, mountNode);
 
             disclosure.handleClick();
 
@@ -104,7 +106,7 @@ describe('UIProgressiveDisclosure', () => {
 
         it('should be not called on first render if `props.expanded` is `true`', () => {
             const stub = sandbox.spy();
-            const disclosure = React.render(<UIProgressiveDisclosure onExpand={stub} expanded={true} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} expanded={true} />, mountNode);
 
             expect(stub).to.not.have.been.called;
         });
@@ -113,7 +115,7 @@ describe('UIProgressiveDisclosure', () => {
     describe('onHide', () => {
         it('should be called when the disclosure is hidden', () => {
             const stub = sandbox.spy();
-            const disclosure = React.render(<UIProgressiveDisclosure onHide={stub} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onHide={stub} />, mountNode);
 
             disclosure.handleClick();
             disclosure.handleClick();
@@ -123,7 +125,7 @@ describe('UIProgressiveDisclosure', () => {
 
         it('should be not called on first render if `props.expanded` is falsy', () => {
             const stub = sandbox.spy();
-            const disclosure = React.render(<UIProgressiveDisclosure onExpand={stub} />, document.body);
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} />, mountNode);
 
             expect(stub).to.not.have.been.called;
         });

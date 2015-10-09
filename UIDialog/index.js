@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {noop} from 'lodash';
 
 class UIDialog extends UIView {
@@ -17,7 +18,7 @@ class UIDialog extends UIView {
 
     componentDidMount() {
         if (this.props.captureFocus) {
-            React.findDOMNode(this).focus();
+            ReactDOM.findDOMNode(this).focus();
         }
 
         if (this.props.closeOnOutsideClick) {
@@ -40,7 +41,7 @@ class UIDialog extends UIView {
     }
 
     isPartOfDialog(node) {
-        return React.findDOMNode(this).contains(node);
+        return ReactDOM.findDOMNode(this).contains(node);
     }
 
     handleFocus(nativeEvent) {

@@ -6,6 +6,7 @@
 import UIView from '../UIView';
 import Row from './row';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
 import {findWhere, map, merge, noop} from 'lodash';
 
@@ -60,11 +61,8 @@ class UITable extends UIView {
     }
 
     componentDidMount() {
-        this.body = React.findDOMNode(this.refs.body);
         this.xCurrent = this.yCurrent = 0;
         this.xNext = this.yNext = null;
-        this.xScrollerNub = React.findDOMNode(this.refs.xScrollerNub);
-        this.yScrollerNub = React.findDOMNode(this.refs.yScrollerNub);
         this.yScrollNubPosition = 0;
 
         // temporary variables in various calculations
@@ -85,12 +83,8 @@ class UITable extends UIView {
     }
 
     componentDidUpdate() {
-        if (!this.head) {
-            this.head = React.findDOMNode(this.refs.head);
-        } // header doesn't get rendered until the second pass
-
-        if (this.head && typeof this.minimumColumnWidth === 'undefined') {
-            let node = React.findDOMNode(this).querySelector('.ui-table-header-cell');
+        if (this.refs.head && typeof this.minimumColumnWidth === 'undefined') {
+            let node = ReactDOM.findDOMNode(this).querySelector('.ui-table-header-cell');
 
             if (node) {
                 let nodeStyle = window.getComputedStyle(node);
@@ -115,9 +109,9 @@ class UITable extends UIView {
     }
 
     captureDimensions() {
-        let firstRow = this.body.getElementsByClassName('ui-table-row')[0];
+        let firstRow = this.refs.body.getElementsByClassName('ui-table-row')[0];
         let firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
-        let container = React.findDOMNode(this);
+        let container = ReactDOM.findDOMNode(this);
 
         this.cellHeight = firstRowCells[0].clientHeight;
         this.containerHeight = container.clientHeight;
@@ -302,14 +296,14 @@ class UITable extends UIView {
         }
 
         if (this.xNext !== this.xCurrent) {
-            this.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
+            this.refs.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
         }
 
         /* Move wrapper */
-        this.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
+        this.refs.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
 
         /* move scrollbar nubs */
-        this.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xNext)}px, 0px, 0px)`;
+        this.refs.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xNext)}px, 0px, 0px)`;
 
         this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
 
@@ -317,7 +311,7 @@ class UITable extends UIView {
             this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
         }
 
-        this.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
+        this.refs.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
 
         this.xCurrent = this.xNext;
         this.yCurrent = this.yNext;

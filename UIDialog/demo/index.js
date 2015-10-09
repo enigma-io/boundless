@@ -2,6 +2,7 @@ import UIButton from '../../UIButton';
 import UIDialog from '../index';
 import UIView from '../../UIView';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 export default class UIDialogDemo extends UIView {
     constructor(...args) {
@@ -17,7 +18,7 @@ export default class UIDialogDemo extends UIView {
     }
 
     componentDidMount() {
-        let node = React.findDOMNode(this.refs.trigger);
+        let node = ReactDOM.findDOMNode(this.refs.trigger);
 
         this.setState({
             leftPosition: node.offsetLeft + node.offsetWidth + 10 + 'px',

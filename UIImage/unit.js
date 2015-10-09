@@ -2,92 +2,86 @@
 
 import UIImage from './index';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 describe('UIImage', () => {
+    const mountNode = document.body.appendChild(document.createElement('div'));
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
-        React.unmountComponentAtNode(document.body);
+        ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
     describe('accepts', () => {
         it('React-supported HTML attributes as passthrough attributes for the image node', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         data-id='xr1' />, document.body
+                         data-id='xr1' />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.image);
-
-            expect(node.getAttribute('data-id')).to.equal('xr1');
+            expect(image.refs.image.getAttribute('data-id')).to.equal('xr1');
         });
 
         it('React-supported HTML attributes as passthrough attributes for the wrapper node', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         wrapperAttributes={{ 'data-id': 'xr1' }} />, document.body
+                         wrapperAttributes={{ 'data-id': 'xr1' }} />, mountNode
             );
 
-            const node = React.findDOMNode(image);
+            const node = ReactDOM.findDOMNode(image);
 
             expect(node.getAttribute('data-id')).to.equal('xr1');
         });
 
         it('React-supported HTML attributes as passthrough attributes for the status node', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         statusAttributes={{ 'data-id': 'xr1' }} />, document.body
+                         statusAttributes={{ 'data-id': 'xr1' }} />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.status);
-
-            expect(node.getAttribute('data-id')).to.equal('xr1');
+            expect(image.refs.status.getAttribute('data-id')).to.equal('xr1');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage className='hero-image'
-                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.image);
-
-            expect(node.getAttribute('class')).to.equal('ui-image hero-image');
+            expect(image.refs.image.className).to.equal('ui-image hero-image');
         });
 
         it('additional classes as an array of strings without replacing the core hook', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage className={['hero-image', 'large-image']}
-                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.image);
-
-            expect(node.getAttribute('class')).to.equal('ui-image hero-image large-image');
+            expect(image.refs.image.className).to.equal('ui-image hero-image large-image');
         });
     });
 
     describe('CSS hook', () => {
         it('ui-image-wrapper should be rendered', () => {
-            const image = React.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+            const image = ReactDOM.render(
+                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
             expect(image.getWrapperClasses()).to.contain('ui-image-wrapper');
         });
 
         it('ui-image should be rendered', () => {
-            const image = React.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+            const image = ReactDOM.render(
+                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
             expect(image.getImageClasses()).to.contain('ui-image');
         });
 
         it('ui-image-status should be rendered', () => {
-            const image = React.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+            const image = ReactDOM.render(
+                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
             expect(image.getStatusClasses()).to.contain('ui-image-status');
@@ -96,25 +90,25 @@ describe('UIImage', () => {
 
     describe('description', () => {
         it('should be rendered as the HTML `alt` attribute if `props.displayAsBackgroundImage` is falsy', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         alt='foo' />, document.body
+                         alt='foo' />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.image);
+            const node = image.refs.image;
 
             expect(node.getAttribute('alt')).to.equal('foo');
             expect(node.hasAttribute('title')).to.be.false;
         });
 
         it('should be rendered as the HTML `title` attribute if `props.displayAsBackgroundImage` is `true`', () => {
-            const image = React.render(
+            const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
                          alt='foo'
-                         displayAsBackgroundImage={true} />, document.body
+                         displayAsBackgroundImage={true} />, mountNode
             );
 
-            const node = React.findDOMNode(image.refs.image);
+            const node = image.refs.image;
 
             expect(node.getAttribute('title')).to.equal('foo');
             expect(node.hasAttribute('alt')).to.be.false;
@@ -125,8 +119,8 @@ describe('UIImage', () => {
         let image;
 
         beforeEach(() => {
-            image = React.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, document.body
+            image = ReactDOM.render(
+                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
         });
 
