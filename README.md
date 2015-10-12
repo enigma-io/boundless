@@ -16,12 +16,10 @@ import UIList from 'UIKit/UIList';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class MyUI extends React.Component {
-    render() {
-        return (
-            <UIList items={['red', 'green', 'blue']} />
-        );
-    }
+function MyUI() {
+    return (
+        <UIList items={['red', 'green', 'blue']} />
+    );
 }
 
 ReactDOM.render(<MyUI />, document.body);
