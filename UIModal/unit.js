@@ -35,15 +35,10 @@ describe('UIModal', () => {
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const modal = ReactDOM.render(<UIModal className='foo' />, mountNode);
+            const modal = ReactDOM.render(<UIModal className='foo bar' />, mountNode);
+            const node = ReactDOM.findDOMNode(modal.refs.dialog);
 
-            expect(modal.getDialogClasses()).to.equal('ui-modal foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const modal = ReactDOM.render(<UIModal className={['foo', 'bar']} />, mountNode);
-
-            expect(modal.getDialogClasses()).to.equal('ui-modal foo bar');
+            ['ui-modal', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
         });
     });
 
@@ -55,15 +50,15 @@ describe('UIModal', () => {
         });
 
         it('ui-modal is rendered', () => {
-            expect(modal.getDialogClasses()).to.contain('ui-modal');
+            assert(ReactDOM.findDOMNode(modal.refs.dialog).classList.contains('ui-modal'));
         });
 
         it('ui-modal-mask is rendered', () => {
-            expect(modal.getMaskClasses()).to.contain('ui-modal-mask');
+            assert(modal.refs.mask.classList.contains('ui-modal-mask'));
         });
 
         it('ui-modal-wrapper is rendered', () => {
-            expect(modal.getWrapperClasses()).to.contain('ui-modal-wrapper');
+            assert(ReactDOM.findDOMNode(modal).classList.contains('ui-modal-wrapper'));
         });
     });
 });

@@ -6,6 +6,7 @@
 import UIView from '../UIView';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import cx from 'classnames';
 
 function toI(stringNumber) {
     return parseInt(stringNumber, 10);
@@ -47,14 +48,10 @@ class UIFittedText extends UIView {
         node.style.fontSize = Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) + 'px';
     }
 
-    getClasses() {
-        return ['ui-text'].concat(this.props.className || []).join(' ');
-    }
-
     render() {
         return (
             <span {...this.props}
-                  className={this.getClasses()}>
+                  className={cx({'ui-text': true, [this.props.className]: !!this.props.className})}>
                 {this.props.children}
             </span>
         );
@@ -70,10 +67,7 @@ UIFittedText.propTypes = {
         React.PropTypes.string,
         React.PropTypes.number
     ]),
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     maxFontSize: React.PropTypes.number
 };
 

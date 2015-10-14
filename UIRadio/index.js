@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {noop} from 'lodash';
 
 class UIRadio extends UIView {
@@ -20,16 +21,6 @@ class UIRadio extends UIView {
         }
     }
 
-    getInputClasses() {
-        let classes = ['ui-radio'];
-
-        if (this.props.selected) {
-            classes.push('ui-radio-selected');
-        }
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     renderInput() {
         return (
             <input
@@ -37,15 +28,15 @@ class UIRadio extends UIView {
                 ref='input'
                 type='radio'
                 id={this.state.uuid}
-                className={this.getInputClasses()}
+                className={cx({
+                    'ui-radio': true,
+                    'ui-radio-selected': this.props.selected,
+                    [this.props.className]: !!this.props.className
+                })}
                 checked={this.props.selected}
                 aria-checked={String(this.props.selected)}
                 onChange={this.handleChange.bind(this)} />
         );
-    }
-
-    getLabelClasses() {
-        return ['ui-radio-label'].concat(this.props.labelAttributes.className || []).join(' ');
     }
 
     renderLabel() {
@@ -53,7 +44,10 @@ class UIRadio extends UIView {
             return (
                 <label {...this.props.labelAttributes}
                        ref='label'
-                       className={this.getLabelClasses()}
+                       className={cx({
+                           'ui-radio-label': true,
+                           [this.props.labelAttributes.className]: !!this.props.labelAttributes.className
+                       })}
                        htmlFor={this.state.uuid}>
                     {this.props.label}
                 </label>
@@ -61,14 +55,13 @@ class UIRadio extends UIView {
         }
     }
 
-    getWrapperClasses() {
-        return ['ui-radio-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
+                 className={cx({
+                     'ui-radio-wrapper': true,
+                     [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                 })}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -77,10 +70,7 @@ class UIRadio extends UIView {
 }
 
 UIRadio.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     id: React.PropTypes.string,
     label: React.PropTypes.node,
     labelAttributes: React.PropTypes.object,

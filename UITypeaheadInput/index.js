@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {indexOf, map, noop, reduce} from 'lodash';
 
 class UITypeaheadInput extends UIView {
@@ -39,10 +40,6 @@ class UITypeaheadInput extends UIView {
         );
     }
 
-    getHintClasses() {
-        return ['ui-typeahead-hint'].concat(this.props.hintAttributes.className || []).join(' ');
-    }
-
     renderHint() {
         if (this.props.hint) {
             let userText = this.state.userInput;
@@ -58,26 +55,15 @@ class UITypeaheadInput extends UIView {
                 <input {...this.props.hintAttributes}
                        ref='hint'
                        type='text'
-                       className={this.getHintClasses()}
+                       className={cx({
+                           'ui-typeahead-hint': true,
+                           [this.props.hintAttributes.className]: !!this.props.hintAttributes.className
+                       })}
                        value={processed}
                        disabled={true}
                        tabIndex='-1' />
             );
         }
-    }
-
-    getMatchClasses(entity, selected) {
-        let classes = ['ui-typeahead-match'];
-
-        if (selected) {
-            classes.push('ui-typeahead-match-selected');
-        }
-
-        return classes.concat(entity.className || []).join(' ');
-    }
-
-    getMatchWrapperClasses() {
-        return ['ui-typeahead-match-wrapper'].concat(this.props.matchWrapperAttributes.className || []).join(' ');
     }
 
     handleMatchClick(index) {
@@ -105,13 +91,20 @@ class UITypeaheadInput extends UIView {
             return (
                 <div {...this.props.matchWrapperAttributes}
                      ref='matches'
-                     className={this.getMatchWrapperClasses()}>
+                     className={cx({
+                         'ui-typeahead-match-wrapper': true,
+                         [this.props.matchWrapperAttributes.className]: !!this.props.matchWrapperAttributes.className
+                     })}>
                     {map(this.state.entityMatchIndices, (index) => {
                         let entity = this.props.entities[index];
 
                         return (
                             <div {...entity}
-                                 className={this.getMatchClasses(entity, this.state.selectedEntityIndex === index)}
+                                 className={cx({
+                                     'ui-typeahead-match': true,
+                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
+                                     [entity.className]: !!entity.className
+                                 })}
                                  key={this.createHashedKey(entity.content)}
                                  onClick={this.handleMatchClick.bind(this, index)}>
                                 {this.markMatchSubstring(entity.content, this.state.userInput)}
@@ -121,14 +114,6 @@ class UITypeaheadInput extends UIView {
                 </div>
             );
         }
-    }
-
-    getWrapperClasses() {
-        return ['ui-typeahead-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
-    getInputClasses() {
-        return ['ui-typeahead'].concat(this.props.className || []).join(' ');
     }
 
     selectMatch(delta) {
@@ -270,14 +255,20 @@ class UITypeaheadInput extends UIView {
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}
+                 className={cx({
+                    'ui-typeahead-wrapper': true,
+                    [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                 })}
                  onKeyDown={this.handleKeyDown.bind(this)}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
                 <input {...this.props}
                        ref='input'
-                       className={this.getInputClasses()}
+                       className={cx({
+                           'ui-typeahead': true,
+                           [this.props.className]: !!this.props.className
+                       })}
                        aria-controls={this.state.uuid}
                        onInput={this.handleInput.bind(this)} />
 
@@ -288,10 +279,7 @@ class UITypeaheadInput extends UIView {
 }
 
 UITypeaheadInput.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     clearPartialInputOnSelection: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(

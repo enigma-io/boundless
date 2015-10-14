@@ -42,13 +42,28 @@ describe('UICheckboxGroup', () => {
 
             expect(node).to.not.be.null;
         });
+
+        it('React-supported HTML attributes as passthrough attributes', () => {
+            const group = ReactDOM.render(<UICheckboxGroup data-id='foo' />, mountNode);
+            const node = ReactDOM.findDOMNode(group);
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('additional classes as a string without replacing the core hook', () => {
+            const group = ReactDOM.render(<UICheckboxGroup className='foo bar' />, mountNode);
+            const node = ReactDOM.findDOMNode(group);
+
+            ['ui-checkbox-group', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
+        });
     });
 
     describe('CSS hook', () => {
         it('ui-checkbox-group should be rendered', () => {
             const group = ReactDOM.render(<UICheckboxGroup items={items} />, mountNode);
+            const node = ReactDOM.findDOMNode(group);
 
-            expect(group.getClasses()).to.contain('ui-checkbox-group');
+            assert(node.classList.contains('ui-checkbox-group'));
         });
 
         it('ui-checkbox-group-selectall should be rendered', () => {
@@ -57,7 +72,7 @@ describe('UICheckboxGroup', () => {
                                  selectAll={true} />, mountNode
             );
 
-            expect(group.getSelectAllClasses()).to.contain('ui-checkbox-group-selectall');
+            assert(group.refs.selectAll.refs.input.classList.contains('ui-checkbox-group-selectall'));
         });
     });
 

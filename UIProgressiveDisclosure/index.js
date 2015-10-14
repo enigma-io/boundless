@@ -5,6 +5,7 @@
 
 import React from 'react';
 import UIView from '../UIView';
+import cx from 'classnames';
 import {noop} from 'lodash';
 
 export default class UIProgressiveDisclosure extends UIView {
@@ -14,42 +15,36 @@ export default class UIProgressiveDisclosure extends UIView {
         };
     }
 
-    triggerAppropriateCallback() {
+    dispatchCallback() {
         this.props[this.state.expanded ? 'onExpand' : 'onHide']();
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.expanded !== this.props.expanded) {
-            this.setState({expanded: newProps.expanded}, () => this.triggerAppropriateCallback());
+            this.setState({expanded: newProps.expanded}, () => this.dispatchCallback());
         }
-    }
-
-    getClasses() {
-        let classes = ['ui-disclosure'];
-
-        if (this.state.expanded) {
-            classes.push('ui-disclosure-expanded');
-        }
-
-        return classes.concat(this.props.className || []).join(' ');
     }
 
     handleClick() {
-        this.setState({expanded: !this.state.expanded}, () => this.triggerAppropriateCallback());
+        this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
     }
 
     handleKeyDown(event) {
         switch (event.key) {
         case 'Enter':
             event.preventDefault();
-            this.setState({expanded: !this.state.expanded}, () => this.triggerAppropriateCallback());
+            this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
         }
     }
 
     render() {
         return (
             <div {...this.props}
-                 className={this.getClasses()}>
+                 className={cx({
+                    'ui-disclosure': true,
+                    'ui-disclosure-expanded': this.state.expanded,
+                    [this.props.className]: !!this.props.className
+                 })}>
                 <div ref='toggle'
                      className='ui-disclosure-toggle'
                      onClick={this.handleClick.bind(this)}
@@ -68,10 +63,7 @@ export default class UIProgressiveDisclosure extends UIView {
 
 UIProgressiveDisclosure.propTypes = {
     children: React.PropTypes.node,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     expanded: React.PropTypes.bool,
     onExpand: React.PropTypes.func,
     onHide: React.PropTypes.func,

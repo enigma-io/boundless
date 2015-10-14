@@ -8,6 +8,7 @@ import Row from './row';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
+import cx from 'classnames';
 import {findWhere, map, merge, noop} from 'lodash';
 
 /**
@@ -513,10 +514,6 @@ class UITable extends UIView {
         );
     }
 
-    getClasses() {
-        return ['ui-table-wrapper'].concat(this.props.className || []).join(' ');
-    }
-
     changeActiveRow(delta) {
         this.cache_nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
 
@@ -606,7 +603,10 @@ class UITable extends UIView {
     render() {
         return (
             <div {...this.props}
-                 className={this.getClasses()}
+                 className={cx({
+                    'ui-table-wrapper': true,
+                    [this.props.className]: !!this.props.className
+                 })}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
@@ -625,10 +625,7 @@ class UITable extends UIView {
 }
 
 UITable.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     columns: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             mapping: React.PropTypes.string,

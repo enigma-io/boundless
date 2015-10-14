@@ -24,13 +24,8 @@ describe('UIFittedText', () => {
         it('an additional class as a string without replacing the core hook', () => {
             const text = ReactDOM.render(<UIFittedText className='foo' />, mountNode);
 
-            expect(text.getClasses()).to.equal('ui-text foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const text = ReactDOM.render(<UIFittedText className={['foo', 'bar']} />, mountNode);
-
-            expect(text.getClasses()).to.equal('ui-text foo bar');
+            assert(ReactDOM.findDOMNode(text).classList.contains('ui-text'));
+            assert(ReactDOM.findDOMNode(text).classList.contains('foo'));
         });
 
         it('text to render', () => {
@@ -52,7 +47,7 @@ describe('UIFittedText', () => {
         it('ui-text should render', () => {
             const text = ReactDOM.render(<UIFittedText />, mountNode);
 
-            expect(text.getClasses()).to.equal('ui-text');
+            assert(ReactDOM.findDOMNode(text).classList.contains('ui-text'));
         });
     });
 

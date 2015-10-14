@@ -44,7 +44,7 @@ Type | Context | Expectation
 - **checked** `Boolean`
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
-- **className** `[String|Array<String>]`
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-checkbox` element
 
 - **id** `String`

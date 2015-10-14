@@ -6,30 +6,28 @@
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 
 class UIModal extends UIView {
-    getDialogClasses() {
-        return ['ui-modal'].concat(this.props.className || []).join(' ');
-    }
-
-    getMaskClasses() {
-        return ['ui-modal-mask'].concat(this.props.maskAttributes.className || []).join(' ');
-    }
-
-    getWrapperClasses() {
-        return ['ui-modal-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
+                 className={cx({
+                    'ui-modal-wrapper': true,
+                    [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                 })}>
                 <div {...this.props.maskAttributes}
                      ref='mask'
-                     className={this.getMaskClasses()} />
+                     className={cx({
+                        'ui-modal-mask': true,
+                        [this.props.maskAttributes.className]: !!this.props.maskAttributes.className
+                     })} />
                 <UIDialog {...this.props}
                           ref='dialog'
-                          className={this.getDialogClasses()} />
+                          className={cx({
+                            'ui-modal': true,
+                            [this.props.className]: !!this.props.className
+                          })} />
             </div>
         );
     }
@@ -38,10 +36,7 @@ class UIModal extends UIView {
 UIModal.propTypes = {
     body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
     footer: React.PropTypes.node,

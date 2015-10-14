@@ -8,6 +8,7 @@ import UIView from '../UIView';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
+import cx from 'classnames';
 
 class UIPopover extends UIView {
     initialState() {
@@ -172,25 +173,21 @@ class UIPopover extends UIView {
         }
     }
 
-    getClasses() {
-        let classes = ['ui-popover'];
-        let state = this.state;
-
-        classes.push(
-            'ui-popover-anchor-x-' + this.getClassAlignmentFragment(state.anchorXAlign),
-            'ui-popover-anchor-y-' + this.getClassAlignmentFragment(state.anchorYAlign),
-            'ui-popover-self-x-' + this.getClassAlignmentFragment(state.selfXAlign),
-            'ui-popover-self-y-' + this.getClassAlignmentFragment(state.selfYAlign)
-        );
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     renderDialog() {
+        let state = this.state;
+        let getFrag = this.getClassAlignmentFragment;
+
         return ReactDOM.render(
             <UIDialog {...this.props}
                       captureFocus={false}
-                      className={this.getClasses()}
+                      className={cx({
+                        'ui-popover': true,
+                        [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
+                        [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
+                        [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
+                        [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
+                        [this.props.className]: !!this.props.className
+                      })}
                       style={{
                           position: 'absolute',
                           top: '0px',
@@ -233,10 +230,7 @@ UIPopover.propTypes = {
     autoReposition: React.PropTypes.bool,
     body: React.PropTypes.node,
     bodyAttributes: React.PropTypes.object,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
     footer: React.PropTypes.node,

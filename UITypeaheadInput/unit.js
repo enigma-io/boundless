@@ -28,22 +28,15 @@ describe('UITypeaheadInput', () => {
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput className='foo' />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput className='foo bar' />, mountNode);
 
-            expect(typeahead.getInputClasses()).to.equal('ui-typeahead foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput className={['foo', 'bar']} />, mountNode);
-
-            expect(typeahead.getInputClasses()).to.equal('ui-typeahead foo bar');
+            ['ui-typeahead', 'foo', 'bar'].forEach(cname => assert(typeahead.refs.input.classList.contains(cname)));
         });
 
         it('a custom offscreen class for the ARIA notification element', () => {
             const typeahead = ReactDOM.render(<UITypeaheadInput offscreenClass='offscreen' />, mountNode);
-            const node = typeahead.refs.aria;
 
-            expect(node.getAttribute('class')).to.equal('offscreen');
+            assert(typeahead.refs.aria.classList.contains('offscreen'));
         });
 
         it('a custom entity matching function', () => {
@@ -64,38 +57,43 @@ describe('UITypeaheadInput', () => {
     describe('CSS hook', () => {
         it('ui-typeahead-wrapper should be rendered', () => {
             const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
+            const node = ReactDOM.findDOMNode(typeahead);
 
-            expect(typeahead.getWrapperClasses()).to.contain('ui-typeahead-wrapper');
+            assert(node.classList.contains('ui-typeahead-wrapper'));
         });
 
         it('ui-typeahead should be rendered', () => {
             const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
 
-            expect(typeahead.getInputClasses()).to.contain('ui-typeahead');
+            assert(typeahead.refs.input.classList.contains('ui-typeahead'));
         });
 
         it('ui-typeahead-hint should be rendered', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput hint='foo' />, mountNode);
 
-            expect(typeahead.getHintClasses()).to.contain('ui-typeahead-hint');
+            assert(typeahead.refs.hint.classList.contains('ui-typeahead-hint'));
         });
 
         it('ui-typeahead-match-wrapper should be rendered', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, mountNode);
 
-            expect(typeahead.getMatchWrapperClasses()).to.contain('ui-typeahead-match-wrapper');
+            assert(typeahead.refs.matches.classList.contains('ui-typeahead-match-wrapper'));
         });
 
         it('ui-typeahead-match should be rendered', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, mountNode);
+            const node = typeahead.refs.matches;
+            const matches = node.querySelectorAll('.ui-typeahead-match');
 
-            expect(typeahead.getMatchClasses({})).to.contain('ui-typeahead-match');
+            expect(matches).to.not.have.length(0);
         });
 
         it('ui-typeahead-match-selected should be rendered', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput defaultValue='ap' entities={entities} />, mountNode);
+            const node = typeahead.refs.matches;
+            const match = node.querySelector('.ui-typeahead-match-selected');
 
-            expect(typeahead.getMatchClasses({}, true)).to.contain('ui-typeahead-match-selected');
+            expect(match).to.not.be.null;
         });
 
         it('should be added for the marked text inside each match', () => {

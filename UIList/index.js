@@ -5,7 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
-import {indexOf, map} from 'lodash';
+import cx from 'classnames';
 
 class UIList extends UIView {
     initialState() {
@@ -14,38 +14,18 @@ class UIList extends UIView {
         };
     }
 
-    getClasses() {
-        let classes = ['ui-list'];
-
-        switch (this.props.type) {
-        case 'bullet':
-            classes.push('ui-list-bulleted');
-            break;
-
-        case 'number':
-            classes.push('ui-list-numbered');
-            break;
-
-        default:
-            classes.push('ui-list-plain');
-            break;
-        }
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     setFocus(index) {
         this.refs[index].focus();
     }
 
     getNextItemIndex(currentItem) {
-        let next = indexOf(this.props.items, currentItem) + 1;
+        let next = this.props.items.indexOf(currentItem) + 1;
 
         return next < this.props.items.length ? next : 0;
     }
 
     getPreviousItemIndex(currentItem) {
-        let previous = indexOf(this.props.items, currentItem) - 1;
+        let previous = this.props.items.indexOf(currentItem) - 1;
 
         return previous < 0 ? this.props.items.length - 1 : previous;
     }
@@ -65,7 +45,7 @@ class UIList extends UIView {
                 event.preventDefault();
             }
         } else {
-            let activeItemIndex = indexOf(items, activeItem);
+            let activeItemIndex = items.indexOf(activeItem);
 
             if (key === 'ArrowLeft'
                 || (key === 'Tab' && event.shiftKey && activeItemIndex !== 0)) {
@@ -82,7 +62,7 @@ class UIList extends UIView {
     renderContent() {
         let nodeType = this.props.type ? 'li' : 'span';
 
-        return map(this.props.items, (item, index) => {
+        return this.props.items.map((item, index) => {
             return React.createElement(nodeType, {
                 className: 'ui-list-item',
                 ref: index,
@@ -109,7 +89,13 @@ class UIList extends UIView {
         }
 
         return React.createElement(nodeType, {
-            className: this.getClasses(),
+            className: cx({
+                'ui-list': true,
+                'ui-list-bulleted': this.props.type === 'bullet',
+                'ui-list-numbered': this.props.type === 'number',
+                'ui-list-plain': this.props.type !== 'bullet' && this.props.type !== 'number',
+                [this.props.className]: !!this.props.className
+            }),
             onKeyDown: this.handleKeyDown.bind(this),
             children: this.renderContent()
         });
@@ -121,10 +107,7 @@ UIList.defaultProps = {
 };
 
 UIList.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     items: React.PropTypes.arrayOf(React.PropTypes.node),
     type: React.PropTypes.oneOf(['bullet', 'number'])
 };

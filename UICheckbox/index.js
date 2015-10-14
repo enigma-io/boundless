@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {noop} from 'lodash';
 
 class UICheckbox extends UIView {
@@ -30,20 +31,6 @@ class UICheckbox extends UIView {
         this.refs.input.indeterminate = !!this.props.indeterminate;
     }
 
-    getCheckboxClasses() {
-        let classes = ['ui-checkbox'];
-
-        if (this.props.indeterminate) {
-            classes.push('ui-checkbox-mixed');
-        } else if (this.props.checked) {
-            classes.push('ui-checkbox-checked');
-        } else {
-            classes.push('ui-checkbox-unchecked');
-        }
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     ariaState() {
         return this.props.indeterminate ? 'mixed' : String(this.props.checked);
     }
@@ -59,14 +46,16 @@ class UICheckbox extends UIView {
                 ref='input'
                 type='checkbox'
                 id={this.state.uuid}
-                className={this.getCheckboxClasses()}
+                className={cx({
+                    'ui-checkbox': true,
+                    'ui-checkbox-mixed': this.props.indeterminate,
+                    'ui-checkbox-checked': this.props.checked,
+                    'ui-checkbox-unchecked': !this.props.indeterminate && !this.props.checked,
+                    [this.props.className]: !!this.props.className
+                })}
                 aria-checked={this.ariaState()}
                 onChange={this.handleChange.bind(this)} />
         );
-    }
-
-    getLabelClasses() {
-        return ['ui-checkbox-label'].concat(this.props.labelAttributes.className || []).join(' ');
     }
 
     renderLabel() {
@@ -74,7 +63,10 @@ class UICheckbox extends UIView {
             return (
                 <label {...this.props.labelAttributes}
                        ref='label'
-                       className={this.getLabelClasses()}
+                       className={cx({
+                            'ui-checkbox-label': true,
+                            [this.props.labelAttributes.className]: !!this.props.labelAttributes.className
+                       })}
                        htmlFor={this.state.uuid}>
                     {this.props.label}
                 </label>
@@ -82,14 +74,13 @@ class UICheckbox extends UIView {
         }
     }
 
-    getWrapperClasses() {
-        return ['ui-checkbox-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
+                 className={cx({
+                    'ui-checkbox-wrapper': true,
+                    [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                 })}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -99,10 +90,7 @@ class UICheckbox extends UIView {
 
 UICheckbox.propTypes = {
     checked: React.PropTypes.bool,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     id: React.PropTypes.string,
     indeterminate: React.PropTypes.bool,
     label: React.PropTypes.node,

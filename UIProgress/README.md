@@ -46,7 +46,7 @@ Type | Context | Expectation
     - **cancelAttributes.\***
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
 
-- **className** `[String|Array<String>]`
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-progress` element
 
 - **label** `Boolean`

@@ -42,7 +42,7 @@ Type | Context | Expectation
 - **alt** `String`
   a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.ui-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
 
-- **className** `[String|Array<String>]`
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-image` element
 
 - **displayAsBackgroundImage** `Boolean`

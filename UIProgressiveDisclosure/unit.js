@@ -49,48 +49,49 @@ describe('UIProgressiveDisclosure', () => {
     describe('CSS hook', () => {
         it('ui-disclosure should be rendered', () => {
             const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
+            const node = ReactDOM.findDOMNode(disclosure);
 
-            expect(disclosure.getClasses()).to.contain('ui-disclosure');
+            assert(node.classList.contains('ui-disclosure'));
         });
 
         it('ui-disclosure-expanded should be rendered when `props.expanded` is `true`', () => {
             const disclosure = ReactDOM.render(<UIProgressiveDisclosure expanded={true} />, mountNode);
+            const node = ReactDOM.findDOMNode(disclosure);
 
-            expect(disclosure.getClasses()).to.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded'));
         });
 
         it('ui-disclosure-expanded should not be rendered when `props.expanded` is falsy', () => {
             const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
+            const node = ReactDOM.findDOMNode(disclosure);
 
-            expect(disclosure.getClasses()).to.not.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
     });
 
     describe('click on the toggle', () => {
         it('should should show and hide the content', () => {
             const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
+            const node = ReactDOM.findDOMNode(disclosure);
 
             disclosure.handleClick();
-
-            expect(disclosure.getClasses()).to.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded'));
 
             disclosure.handleClick();
-
-            expect(disclosure.getClasses()).to.not.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
     });
 
     describe('enter key on the toggle', () => {
         it('should should show and hide the content', () => {
             const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
+            const node = ReactDOM.findDOMNode(disclosure);
 
             disclosure.handleKeyDown({key: 'Enter', preventDefault: noop});
-
-            expect(disclosure.getClasses()).to.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded'));
 
             disclosure.handleKeyDown({key: 'Enter', preventDefault: noop});
-
-            expect(disclosure.getClasses()).to.not.contain('ui-disclosure-expanded');
+            assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
     });
 

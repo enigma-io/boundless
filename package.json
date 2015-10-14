@@ -7,6 +7,7 @@
     "Evan Jacobs <evan.jacobs@enigma.io>"
   ],
   "dependencies": {
+    "classnames": "^2.1.5",
     "lodash": "^3.10.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
@@ -63,11 +64,11 @@
     "postinstall": "mkdir -p build/js && npm run build",
     "build": "npm run build-js",
     "build-css": "pleeease-compile",
-    "build-js": "browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external > build/js/bundle.js",
+    "build-js": "browserify -r classnames `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external > build/js/bundle.js",
     "start": "npm run start-css & npm run start-js",
     "start-css": "pleeease-watch",
     "start-js": "beefy demo.js:build/js/bundle.js 9300 --colors --live --open --index=demo.html -- --debug",
-    "release": "NODE_ENV=production browserify `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --no-bundle-external | uglifyjs -mc drop_console > build/js/bundle.js",
+    "release": "NODE_ENV=production browserify -r classnames `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --no-bundle-external | uglifyjs -mc drop_console > build/js/bundle.js",
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './build/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose"

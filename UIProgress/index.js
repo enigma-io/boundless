@@ -6,40 +6,22 @@
 import UIButton from '../UIButton';
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 
 class UIProgress extends UIView {
-    getWrapperClasses() {
-        return ['ui-progress-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
-    }
-
-    getProgressClasses() {
-        let classes = ['ui-progress'];
-
-        if (typeof this.props.progress === 'undefined') {
-            classes.push('ui-progress-indeterminate');
-        }
-
-        return classes.concat(this.props.className).join(' ');
-    }
-
-    getLabelClasses() {
-        return ['ui-progress-label'].concat(this.props.labelAttributes.className || []).join(' ');
-    }
-
     renderLabel() {
         if (this.props.label) {
             return (
                 <div {...this.props.labelAttributes}
                      ref='label'
-                     className={this.getLabelClasses()}>
+                     className={cx({
+                        'ui-progress-label': true,
+                        [this.props.labelAttributes.className]: !!this.props.labelAttributes.className
+                     })}>
                     {this.props.label}
                 </div>
             );
         }
-    }
-
-    getCancelClasses() {
-        return ['ui-progress-cancel'].concat(this.props.cancelAttributes.className || []).join(' ');
     }
 
     renderCancel() {
@@ -47,7 +29,10 @@ class UIProgress extends UIView {
             return (
                 <UIButton {...this.props.cancelAttributes}
                           ref='cancel'
-                          className={this.getCancelClasses()}
+                          className={cx({
+                              'ui-progress-cancel': true,
+                              [this.props.cancelAttributes.className]: !!this.props.cancelAttributes.className
+                          })}
                           onClick={this.props.onCancel} />
             );
         }
@@ -56,10 +41,17 @@ class UIProgress extends UIView {
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
+                 className={cx({
+                    'ui-progress-wrapper': true,
+                    [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                 })}>
                 <div {...this.props}
                      ref='progress'
-                     className={this.getProgressClasses()}
+                     className={cx({
+                        'ui-progress': true,
+                        'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
+                        [this.props.className]: !!this.props.className
+                     })}
                      label={null}
                      role='presentation'
                      style={{[this.props.tweenProperty]: this.props.progress}} />
@@ -73,7 +65,6 @@ class UIProgress extends UIView {
 
 UIProgress.defaultProps = {
     cancelAttributes: {},
-    className: [],
     labelAttributes: {},
     tweenProperty: 'width',
     wrapperAttributes: {}
@@ -81,10 +72,7 @@ UIProgress.defaultProps = {
 
 UIProgress.propTypes = {
     cancelAttributes: React.PropTypes.object,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     label: React.PropTypes.node,
     labelAttributes: React.PropTypes.object,
     onCancel: React.PropTypes.func,

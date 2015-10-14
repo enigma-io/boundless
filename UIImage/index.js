@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {noop} from 'lodash';
 
 class UIImage extends UIView {
@@ -45,14 +46,10 @@ class UIImage extends UIView {
 
         this.loader = document.createElement('img');
 
-        this.loader.onload = () => { this.setState({ status: UIImage.Constants.IMAGE_LOADED }); };
-        this.loader.onerror = () => { this.setState({ status: UIImage.Constants.IMAGE_ERROR }); };
+        this.loader.onload = () => { this.setState({status: UIImage.Constants.IMAGE_LOADED}); };
+        this.loader.onerror = () => { this.setState({status: UIImage.Constants.IMAGE_ERROR}); };
 
         this.loader.src = this.props.src;
-    }
-
-    getImageClasses() {
-        return ['ui-image'].concat(this.props.className || []).join(' ');
     }
 
     renderImage() {
@@ -60,7 +57,7 @@ class UIImage extends UIView {
             return (
                 <div {...this.props}
                      ref='image'
-                     className={this.getImageClasses()}
+                     className={cx({'ui-image': true, [this.props.className]: !!this.props.className})}
                      alt={null}
                      title={this.props.alt}
                      style={{backgroundImage: 'url(' + this.props.src + ')'}} />
@@ -70,49 +67,34 @@ class UIImage extends UIView {
         return (
             <img {...this.props}
                  ref='image'
-                 className={this.getImageClasses()}
+                 className={cx({'ui-image': true, [this.props.className]: !!this.props.className})}
                  onLoad={noop}
                  onError={noop} />
         );
-    }
-
-    getStatusClasses() {
-        let classes = ['ui-image-status'];
-
-        switch (this.state.status) {
-        case UIImage.Constants.IMAGE_LOADING:
-            classes.push('ui-image-loading');
-            break;
-
-        case UIImage.Constants.IMAGE_LOADED:
-            classes.push('ui-image-loaded');
-            break;
-
-        case UIImage.Constants.IMAGE_ERROR:
-            classes.push('ui-image-error');
-            break;
-        }
-
-        return classes.concat(this.props.statusAttributes.className || []).join(' ');
     }
 
     renderStatus() {
         return (
             <div {...this.props.statusAttributes}
                  ref='status'
-                 className={this.getStatusClasses()}
+                 className={cx({
+                    'ui-image-status': true,
+                    'ui-image-loading': this.state.status === UIImage.Constants.IMAGE_LOADING,
+                    'ui-image-loaded': this.state.status === UIImage.Constants.IMAGE_LOADED,
+                    'ui-image-error': this.state.status === UIImage.Constants.IMAGE_ERROR,
+                    [this.props.statusAttributes.className]: !!this.props.statusAttributes.className
+                 })}
                  role='presentation' />
         );
-    }
-
-    getWrapperClasses() {
-        return ['ui-image-wrapper'].concat(this.props.wrapperAttributes.className || []).join(' ');
     }
 
     render() {
         return (
             <div {...this.props.wrapperAttributes}
-                 className={this.getWrapperClasses()}>
+                 className={cx({
+                    'ui-image-wrapper': true,
+                    [this.props.wrapperAttributes]: !!this.props.wrapperAttributes
+                 })}>
                 {this.renderImage()}
                 {this.renderStatus()}
             </div>
@@ -128,10 +110,7 @@ UIImage.Constants = {
 
 UIImage.propTypes = {
     alt: React.PropTypes.string,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     displayAsBackgroundImage: React.PropTypes.bool,
     src: React.PropTypes.string,
     statusAttributes: React.PropTypes.object,

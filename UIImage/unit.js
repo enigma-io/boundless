@@ -49,16 +49,7 @@ describe('UIImage', () => {
                          src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            expect(image.refs.image.className).to.equal('ui-image hero-image');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const image = ReactDOM.render(
-                <UIImage className={['hero-image', 'large-image']}
-                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
-
-            expect(image.refs.image.className).to.equal('ui-image hero-image large-image');
+            ['ui-image', 'hero-image'].forEach(cname => assert(image.refs.image.classList.contains(cname)));
         });
     });
 
@@ -68,7 +59,7 @@ describe('UIImage', () => {
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            expect(image.getWrapperClasses()).to.contain('ui-image-wrapper');
+            assert(ReactDOM.findDOMNode(image).classList.contains('ui-image-wrapper'));
         });
 
         it('ui-image should be rendered', () => {
@@ -76,7 +67,7 @@ describe('UIImage', () => {
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            expect(image.getImageClasses()).to.contain('ui-image');
+            assert(image.refs.image.classList.contains('ui-image'));
         });
 
         it('ui-image-status should be rendered', () => {
@@ -84,7 +75,7 @@ describe('UIImage', () => {
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
             );
 
-            expect(image.getStatusClasses()).to.contain('ui-image-status');
+            assert(image.refs.status.classList.contains('ui-image-status'));
         });
     });
 
@@ -126,21 +117,21 @@ describe('UIImage', () => {
 
         it('should return the correct class hook for error', (done) => {
             image.setState({ status: UIImage.Constants.IMAGE_ERROR }, () => {
-                expect(image.getStatusClasses()).to.contain('ui-image-error');
+                assert(image.refs.status.classList.contains('ui-image-error'));
                 done();
             });
         });
 
         it('should return the correct class hook for loading', (done) => {
             image.setState({ status: UIImage.Constants.IMAGE_LOADING }, () => {
-                expect(image.getStatusClasses()).to.contain('ui-image-loading');
+                assert(image.refs.status.classList.contains('ui-image-loading'));
                 done();
             });
         });
 
         it('should return the correct class hook for loaded', (done) => {
             image.setState({ status: UIImage.Constants.IMAGE_LOADED }, () => {
-                expect(image.getStatusClasses()).to.contain('ui-image-loaded');
+                assert(image.refs.status.classList.contains('ui-image-loaded'));
                 done();
             });
         });

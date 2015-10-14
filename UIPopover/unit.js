@@ -25,98 +25,103 @@ describe('UIPopover', () => {
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const popover = ReactDOM.render(<UIPopover anchor={body} className='foo' />, mountNode);
+            const popover = ReactDOM.render(<UIPopover anchor={body} className='foo bar' />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover ');
-            expect(popover.getClasses()).to.contain('foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const popover = ReactDOM.render(<UIPopover anchor={body} className={['foo', 'bar']} />, mountNode);
-
-            expect(popover.getClasses()).to.contain('ui-popover ');
-            expect(popover.getClasses()).to.contain('foo ');
-            expect(popover.getClasses()).to.contain(' bar');
+            ['ui-popover', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
         });
     });
 
     describe('CSS hook', () => {
         it('ui-popover is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover ');
+            assert(node.classList.contains('ui-popover'));
         });
 
         it('ui-popover-anchor-x-start is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorXAlign={constants.START} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-start');
+            assert(node.classList.contains('ui-popover-anchor-x-start'));
         });
 
         it('ui-popover-anchor-x-middle is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorXAlign={constants.MIDDLE} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-middle');
+            assert(node.classList.contains('ui-popover-anchor-x-middle'));
         });
 
         it('ui-popover-anchor-x-end is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorXAlign={constants.END} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-x-end');
+            assert(node.classList.contains('ui-popover-anchor-x-end'));
         });
 
         it('ui-popover-anchor-y-start is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorYAlign={constants.START} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-start');
+            assert(node.classList.contains('ui-popover-anchor-y-start'));
         });
 
         it('ui-popover-anchor-y-middle is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorYAlign={constants.MIDDLE} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-middle');
+            assert(node.classList.contains('ui-popover-anchor-y-middle'));
         });
 
         it('ui-popover-anchor-y-end is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} anchorYAlign={constants.END} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-anchor-y-end');
+            assert(node.classList.contains('ui-popover-anchor-y-end'));
         });
 
         it('ui-popover-self-x-start is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfXAlign={constants.START} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-x-start');
+            assert(node.classList.contains('ui-popover-self-x-start'));
         });
 
         it('ui-popover-self-x-middle is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfXAlign={constants.MIDDLE} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-x-middle');
+            assert(node.classList.contains('ui-popover-self-x-middle'));
         });
 
         it('ui-popover-self-x-end is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfXAlign={constants.END} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-x-end');
+            assert(node.classList.contains('ui-popover-self-x-end'));
         });
 
         it('ui-popover-self-y-start is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfYAlign={constants.START} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-y-start');
+            assert(node.classList.contains('ui-popover-self-y-start'));
         });
 
         it('ui-popover-self-y-middle is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfYAlign={constants.MIDDLE} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-y-middle');
+            assert(node.classList.contains('ui-popover-self-y-middle'));
         });
 
         it('ui-popover-self-y-end is rendered', () => {
             const popover = ReactDOM.render(<UIPopover anchor={body} selfYAlign={constants.END} />, mountNode);
+            const node = ReactDOM.findDOMNode(popover.renderDialog());
 
-            expect(popover.getClasses()).to.contain('ui-popover-self-y-end');
+            assert(node.classList.contains('ui-popover-self-y-end'));
         });
     });
 });

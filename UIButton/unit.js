@@ -23,36 +23,34 @@ describe('UIButton', () => {
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('an additional class as a string without replacing the core hook', () => {
-            const button = ReactDOM.render(<UIButton className='foo' />, mountNode);
+        it('additional classes as a string without replacing the core hook', () => {
+            const button = ReactDOM.render(<UIButton className='foo bar' />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
-            expect(button.getClasses()).to.equal('ui-button foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const button = ReactDOM.render(<UIButton className={['foo', 'bar']} />, mountNode);
-
-            expect(button.getClasses()).to.equal('ui-button foo bar');
+            ['ui-button', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
         });
     });
 
     describe('CSS hook', () => {
         it('ui-button should be rendered', () => {
             const button = ReactDOM.render(<UIButton />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
-            expect(button.getClasses()).to.contain('ui-button');
+            assert(node.classList.contains('ui-button'));
         });
 
         it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
             const button = ReactDOM.render(<UIButton pressed={false} />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
-            expect(button.getClasses()).to.contain('ui-button-pressable');
+            assert(node.classList.contains('ui-button-pressable'));
         });
 
         it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
             const button = ReactDOM.render(<UIButton pressed={true} />, mountNode);
+            const node = ReactDOM.findDOMNode(button);
 
-            expect(button.getClasses()).to.contain('ui-button-pressed');
+            assert(node.classList.contains('ui-button-pressed'));
         });
     });
 

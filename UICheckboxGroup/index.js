@@ -6,19 +6,16 @@
 import UIView from '../UIView';
 import UICheckbox from '../UICheckbox/';
 import React from 'react';
-import {map, every, some, noop} from 'lodash';
+import cx from 'classnames';
+import {noop} from 'lodash';
 
 class UICheckboxGroup extends UIView {
     allItemsChecked() {
-        return every(this.props.items, {checked: true});
+        return this.props.items.every(item => item.checked === true);
     }
 
     anyItemsChecked() {
-        return some(this.props.items, {checked: true});
-    }
-
-    getSelectAllClasses() {
-        return ['ui-checkbox-group-selectall'].concat(this.props.selectAllAttributes.className || []).join(' ');
+        return this.props.items.some(item => item.checked === true);
     }
 
     renderSelectAll() {
@@ -31,7 +28,10 @@ class UICheckboxGroup extends UIView {
                             name='uikit-selectAll'
                             key='uikit-selectAll'
                             checked={allChecked}
-                            className={this.getSelectAllClasses()}
+                            className={cx({
+                                'ui-checkbox-group-selectall': true,
+                                [this.props.selectAllAttributes.className]: !!this.props.selectAllAttributes.className
+                            })}
                             indeterminate={!allChecked && this.anyItemsChecked()}
                             label={this.props.selectAllLabel}
                             onChecked={this.props.onAllChecked}
@@ -41,20 +41,15 @@ class UICheckboxGroup extends UIView {
     }
 
     renderCheckboxes() {
-        return map(this.props.items, (item) => {
+        return this.props.items.map(item => {
             return (
-                <UICheckbox
-                    {...item}
-                    ref={item.name}
-                    key={item.name}
-                    onChecked={this.props.onChildChecked}
-                    onUnchecked={this.props.onChildUnchecked} />
+                <UICheckbox {...item}
+                            ref={item.name}
+                            key={item.name}
+                            onChecked={this.props.onChildChecked}
+                            onUnchecked={this.props.onChildUnchecked} />
             );
         });
-    }
-
-    getClasses() {
-        return ['ui-checkbox-group'].concat(this.props.className || []).join(' ');
     }
 
     render() {
@@ -73,7 +68,11 @@ class UICheckboxGroup extends UIView {
         }
 
         return (
-            <div className={this.getClasses()}>
+            <div {...this.props}
+                 className={cx({
+                    'ui-checkbox-group': true,
+                    [this.props.className]: !!this.props.className
+                })}>
                 {toBeRendered}
             </div>
         );
@@ -86,10 +85,7 @@ UICheckboxGroup.Constants = {
 };
 
 UICheckboxGroup.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     items: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             checked: React.PropTypes.bool.isRequired,

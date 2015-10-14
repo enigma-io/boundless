@@ -78,7 +78,9 @@ Type | Context | Expectation
 <br />
 ##### Available `props`
 
-- **className** `[String|Array<String>]`
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
+
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-checkbox-group` element
 
 - **items** `Array<Object>`

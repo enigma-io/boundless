@@ -15,18 +15,10 @@ describe('UIProgress', () => {
 
     describe('accepts', () => {
         it('an additional class as a string without replacing the core hook', () => {
-            const progress = ReactDOM.render(<UIProgress className='foo' />, mountNode);
+            const progress = ReactDOM.render(<UIProgress className='foo bar' />, mountNode);
+            const node = progress.refs.progress;
 
-            expect(progress.getProgressClasses()).to.contain('ui-progress ');
-            expect(progress.getProgressClasses()).to.contain('foo');
-        });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const progress = ReactDOM.render(<UIProgress className={['foo', 'bar']} />, mountNode);
-
-            expect(progress.getProgressClasses()).to.contain('ui-progress ');
-            expect(progress.getProgressClasses()).to.contain('foo');
-            expect(progress.getProgressClasses()).to.contain('bar');
+            ['ui-progress', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
         });
 
         it('a specific style property to tween', () => {
@@ -40,27 +32,27 @@ describe('UIProgress', () => {
         let progress;
 
         beforeEach(() => {
-            progress = ReactDOM.render(<UIProgress />, mountNode);
+            progress = ReactDOM.render(<UIProgress label='foo' onCancel={function(){}} />, mountNode);
         });
 
         it('ui-progress-wrapper should be rendered', () => {
-            expect(progress.getWrapperClasses()).to.contain('ui-progress-wrapper');
+            assert(ReactDOM.findDOMNode(progress).classList.contains('ui-progress-wrapper'));
         });
 
         it('ui-progress should be rendered', () => {
-            expect(progress.getProgressClasses()).to.contain('ui-progress');
+            assert(progress.refs.progress.classList.contains('ui-progress'));
         });
 
         it('ui-progress-indeterminate should be rendered', () => {
-            expect(progress.getProgressClasses()).to.contain('ui-progress-indeterminate');
+            assert(progress.refs.progress.classList.contains('ui-progress-indeterminate'));
         });
 
         it('ui-progress-cancel should be rendered', () => {
-            expect(progress.getCancelClasses()).to.contain('ui-progress-cancel');
+            assert(ReactDOM.findDOMNode(progress.refs.cancel).classList.contains('ui-progress-cancel'));
         });
 
         it('ui-progress-label should be rendered', () => {
-            expect(progress.getLabelClasses()).to.contain('ui-progress-label');
+            assert(progress.refs.label.classList.contains('ui-progress-label'));
         });
     });
 
@@ -79,7 +71,7 @@ describe('UIProgress', () => {
         it('should not show as indeterminate if `progress` is passed', () => {
             const progress = ReactDOM.render(<UIProgress progress='0%' />, mountNode);
 
-            expect(progress.getProgressClasses()).to.not.contain('ui-progress-indeterminate');
+            assert(progress.refs.progress.classList.contains('ui-progress-indeterminate') === false);
         });
     });
 

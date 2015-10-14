@@ -33,13 +33,6 @@ describe('UITokenizedInput', () => {
 
             ['ui-tokenfield', 'ui-typeahead', 'foo'].forEach(name => assert(node.classList.contains(name)));
         });
-
-        it('additional classes as an array of strings without replacing the core hook', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput className={['foo', 'bar']} />, mountNode);
-            const node = tokenfield.refs.typeahead.getInputNode();
-
-            ['ui-tokenfield', 'ui-typeahead', 'foo', 'bar'].forEach(name => assert(node.classList.contains(name)));
-        });
     });
 
     describe('CSS hook', () => {

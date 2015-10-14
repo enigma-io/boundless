@@ -30,5 +30,7 @@ module.exports = {
 
     browserify: {
         debug: true
-    }
+    },
+
+    reportSlowerThan: 10
 };

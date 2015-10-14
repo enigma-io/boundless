@@ -54,7 +54,7 @@ Type | Context | Expectation
 ##### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
 
-- **className** `[String|Array<String>]`
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-radio` node
 
 - **id** `String`

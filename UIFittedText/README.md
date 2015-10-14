@@ -31,7 +31,7 @@ There are no expected user interactions. The component emits normal text and mer
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
 
-- **className** `[String|Array<String>]`
+- **className** `String`
   additional CSS class(es) to be added to the rendered `.ui-text` element
 
 - **maxFontSize** `Number`

@@ -6,6 +6,7 @@
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {first, last, noop, without} from 'lodash';
 
 class UITokenizedInput extends UIView {
@@ -132,16 +133,6 @@ class UITokenizedInput extends UIView {
         }
     }
 
-    getTokenClasses(index) {
-        let classes = ['ui-tokenfield-token'];
-
-        if (this.state.tokenizedEntityIndicesSelected.indexOf(index) !== -1) {
-            classes.push('ui-tokenfield-token-selected');
-        }
-
-        return classes.join(' ');
-    }
-
     selectSingleToken(index) {
         if (   this.state.tokenizedEntityIndicesSelected.indexOf(index) === -1
             || this.state.tokenizedEntityIndicesSelected.length > 1) {
@@ -165,7 +156,11 @@ class UITokenizedInput extends UIView {
                 {this.state.tokenizedEntityIndices.map(index => {
                     return (
                         <div ref={`token${index}`}
-                             className={this.getTokenClasses(index)}
+                             key={index}
+                             className={cx({
+                                'ui-tokenfield-token': true,
+                                'ui-tokenfield-token-selected': this.state.tokenizedEntityIndicesSelected.indexOf(index) !== -1
+                             })}
                              onClick={this.selectSingleToken.bind(this, index)}
                              onKeyDown={this.handleTokenKeyDown.bind(this, index)}
                              tabIndex='0'>
@@ -178,24 +173,22 @@ class UITokenizedInput extends UIView {
         );
     }
 
-    getWrapperClasses() {
-        return ['ui-tokenfield-wrapper'].concat(this.props.outerWrapperAttributes.className || []).join(' ');
-    }
-
-    getTypeaheadClasses() {
-        return ['ui-tokenfield'].concat(this.props.className || []).join(' ');
-    }
-
     render() {
         return (
             <div {...this.props.outerWrapperAttributes}
-                 className={this.getWrapperClasses()}
+                 className={cx({
+                     'ui-tokenfield-wrapper': true,
+                     [this.props.outerWrapperAttributes.className]: !!this.props.outerWrapperAttributes.className
+                 })}
                  onKeyDown={this.handleKeyDown.bind(this)}>
                 {this.renderTokens()}
 
                 <UITypeaheadInput {...this.props}
                                   ref='typeahead'
-                                  className={this.getTypeaheadClasses()}
+                                  className={cx({
+                                      'ui-tokenfield': true,
+                                      [this.props.className]: !!this.props.className
+                                  })}
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
                                   clearPartialInputOnSelection={true} />
             </div>
@@ -204,10 +197,7 @@ class UITokenizedInput extends UIView {
 }
 
 UITokenizedInput.propTypes = {
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             content: React.PropTypes.string

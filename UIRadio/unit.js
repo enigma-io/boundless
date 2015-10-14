@@ -49,32 +49,34 @@ describe('UIRadio', () => {
     describe('CSS hook', () => {
         it('ui-radio-wrapper should be rendered', () => {
             const radio = ReactDOM.render(<UIRadio />, mountNode);
+            const node = ReactDOM.findDOMNode(radio);
 
-            expect(radio.getWrapperClasses()).to.contain('ui-radio-wrapper');
+            assert(node.classList.contains('ui-radio-wrapper'));
         });
 
         it('ui-radio-label should be rendered', () => {
             const radio = ReactDOM.render(<UIRadio label='foo' />, mountNode);
 
-            expect(radio.getLabelClasses()).to.contain('ui-radio-label');
+            assert(radio.refs.label.classList.contains('ui-radio-label'));
         });
 
         it('ui-radio should be rendered', () => {
             const radio = ReactDOM.render(<UIRadio />, mountNode);
 
-            expect(radio.getInputClasses()).to.contain('ui-radio');
+            assert(radio.refs.input.classList.contains('ui-radio'));
         });
 
         it('ui-radio-selected should be rendered when `props.selected` is `true`', () => {
             const radio = ReactDOM.render(<UIRadio name='foo' selected={true} />, mountNode);
 
-            expect(radio.getInputClasses()).to.contain('ui-radio-selected');
+            assert(radio.refs.input.classList.contains('ui-radio-selected'));
         });
 
         it('ui-radio-selected should not be rendered when `props.selected` is falsy', () => {
             const radio = ReactDOM.render(<UIRadio name='foo' />, mountNode);
+            const node = ReactDOM.findDOMNode(radio);
 
-            expect(radio.getInputClasses()).to.not.contain('ui-radio-selected');
+            assert(node.classList.contains('ui-radio-selected') === false);
         });
     });
 

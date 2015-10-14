@@ -5,6 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
+import cx from 'classnames';
 import {noop} from 'lodash';
 
 class UIButton extends UIView {
@@ -32,25 +33,16 @@ class UIButton extends UIView {
         }
     }
 
-    getClasses() {
-        let classes = ['ui-button'];
-
-        if (typeof this.props.pressed !== 'undefined') {
-            classes.push('ui-button-pressable');
-        }
-
-        if (this.props.pressed) {
-            classes.push('ui-button-pressed');
-        }
-
-        return classes.concat(this.props.className || []).join(' ');
-    }
-
     render() {
         return (
             <button
                 {...this.props}
-                className={this.getClasses()}
+                className={cx({
+                    'ui-button': true,
+                    'ui-button-pressable': typeof this.props.pressed !== 'undefined',
+                    'ui-button-pressed': this.props.pressed,
+                    [this.props.className]: !!this.props.className
+                })}
                 aria-pressed={this.props.pressed}
                 onKeyDown={this.handleKeyDown.bind(this)}
                 onClick={this.handleClick.bind(this)}>
@@ -62,10 +54,7 @@ class UIButton extends UIView {
 
 UIButton.propTypes = {
     children: React.PropTypes.node,
-    className: React.PropTypes.oneOfType([
-        React.PropTypes.arrayOf(React.PropTypes.string),
-        React.PropTypes.string
-    ]),
+    className: React.PropTypes.string,
     onClick: React.PropTypes.func,
     onPressed: React.PropTypes.func,
     onUnpressed: React.PropTypes.func,
