@@ -12,7 +12,7 @@ module.exports = {
 
     frameworks: [
         'browserify',
-        'sinon-chai',
+        'chai-sinon',
         'mocha',
         'source-map-support'
     ],
