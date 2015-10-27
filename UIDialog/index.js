@@ -18,7 +18,7 @@ class UIDialog extends UIView {
     }
 
     componentDidMount() {
-        if (this.props.captureFocus) {
+        if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
             ReactDOM.findDOMNode(this).focus();
         }
 
