@@ -250,6 +250,11 @@ class UITypeaheadInput extends UIView {
 
     handleInput(event) {
         this.computeMatches(event.target.value);
+
+        if (this.props.onInput) {
+            event.persist();
+            this.props.onInput(event);
+        }
     }
 
     render() {
@@ -294,6 +299,7 @@ UITypeaheadInput.propTypes = {
     matchWrapperAttributes: React.PropTypes.object,
     offscreenClass: React.PropTypes.string,
     onComplete: React.PropTypes.func,
+    onInput: React.PropTypes.func,
     onEntitySelected: React.PropTypes.func,
     type: React.PropTypes.string,
     wrapperAttributes: React.PropTypes.object
