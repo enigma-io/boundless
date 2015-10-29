@@ -16,8 +16,8 @@
     "babel-eslint": "^4.0.0",
     "babelify": "^6.1.2",
     "beefy": "^2.1.5",
-    "browserify": "^11.0.0",
-    "chai": "^3.3.0",
+    "browserify": "^12.0.0",
+    "chai": "^3.4.0",
     "es6-promise": "^3.0.2",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "*",
@@ -32,10 +32,10 @@
     "karma-source-map-support": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.5",
     "minami": "^1.1.0",
+    "mocha": "^2.3.3",
     "pleeease": "^4.0.2",
     "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
-    "sinon": "^1.17.1",
-    "sinon-chai": "^2.8.0",
+    "sinon": "^1.17.2",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
@@ -64,7 +64,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "mkdir -p build/js && npm run build",
+    "postinstall": "mkdir -p build/js",
     "build-css": "pleeease-compile",
     "build-js": "browserify -r classnames `node -p \"'-r '+Object.keys(require('./package').browser).join(' -r ')\"` --colors --debug --no-bundle-external > build/js/bundle.js",
     "build": "npm run build-js",
