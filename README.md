@@ -24,3 +24,8 @@ function MyUI() {
 
 ReactDOM.render(<MyUI />, document.body);
 ```
+
+A demo is available with working examples of each component by running the following commands:
+
++ `npm i`
++ `npm run demo`
