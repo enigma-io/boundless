@@ -23,6 +23,12 @@ class UITypeaheadInput extends UIView {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.entities !== this.props.entities) {
+            this.computeMatches(this.state.userInput, nextProps.entities);
+        }
+    }
+
     getSelectedEntityContent() {
         let entity = this.props.entities[this.state.selectedEntityIndex];
 
@@ -237,8 +243,7 @@ class UITypeaheadInput extends UIView {
         }, []);
     }
 
-    computeMatches(currentValue) {
-        let entities = this.props.entities;
+    computeMatches(currentValue, entities = this.props.entities) {
         let matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
 
         this.setState({
