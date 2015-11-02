@@ -68,8 +68,8 @@
   "scripts": {
     "postinstall": "mkdir -p build/js",
     "demo-css": "pleeease-watch",
-    "demo-js": "beefy --colors --live --open --index=demo.html --iw --debug demo.js:build/js/bundle.js 9300",
-    "demo": "sh parallelize.sh \"pleeease-watch\" \"npm run start-js\"",
+    "demo-js": "beefy demo.js:build/js/bundle.js --colors --live --open --index=demo.html --iw --debug",
+    "demo": "sh parallelize.sh \"npm run demo-css\" \"npm run demo-js\"",
     "export-classes": "echo $(node -p \"'-r ' + Object.keys(require('./package').browser).join(' -r ')\")",
     "exclude-peer-deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify-config": "echo $(npm run -s export-classes) $(npm run -s exclude-peer-deps)",
