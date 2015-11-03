@@ -1,5 +1,5 @@
 {
-  "name": "UIKit/UIProgress",
+  "name": "enigma-uikit-UIProgress",
   "description": "An unopinionated progress implementation that allows for a variety of shapes and effects.",
   "version": "1.0.0",
   "contributors": [
@@ -9,5 +9,12 @@
     "transform": [
       "babelify"
     ]
+  },
+  "peerDependencies": {
+    "babelify": "^6.0.0",
+    "browserify": ">= 12.0.0",
+    "lodash": "^3.0.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   }
 }
