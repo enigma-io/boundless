@@ -3,7 +3,7 @@
     "./*.scss",
     "./!(node_modules)/**/*.scss"
   ],
-  "out": "build/css/demo.css",
+  "out": "dist/css/demo.css",
   "browsers": ["> 1% in US"],
   "sass": true,
   "sourcemaps": true

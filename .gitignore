@@ -6,5 +6,5 @@ node_modules/
 
 # build things
 artifacts/
-build/
+dist/css
 docs/sdk
