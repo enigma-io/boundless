@@ -6,7 +6,7 @@
 import UIView from '../UIView';
 import React from 'react';
 import cx from 'classnames';
-import {indexOf, map, noop, reduce} from 'lodash';
+import noop from '../UIUtils/noop';
 
 class UITypeaheadInput extends UIView {
     initialState() {
@@ -101,7 +101,7 @@ class UITypeaheadInput extends UIView {
                          'ui-typeahead-match-wrapper': true,
                          [this.props.matchWrapperAttributes.className]: !!this.props.matchWrapperAttributes.className
                      })}>
-                    {map(this.state.entityMatchIndices, (index) => {
+                    {this.state.entityMatchIndices.map(index => {
                         let entity = this.props.entities[index];
 
                         return (
@@ -125,7 +125,7 @@ class UITypeaheadInput extends UIView {
     selectMatch(delta) {
         let matches = this.state.entityMatchIndices;
         let totalMatches = matches.length;
-        let nextIndex = indexOf(matches, this.state.selectedEntityIndex) + delta;
+        let nextIndex = matches.indexOf(this.state.selectedEntityIndex) + delta;
 
         if (totalMatches) {
             if (nextIndex < 0) {
@@ -238,7 +238,7 @@ class UITypeaheadInput extends UIView {
 
         let seekValue = currentValue.toLowerCase();
 
-        return reduce(entities, function seekMatch(result, entity, index) {
+        return entities.reduce(function seekMatch(result, entity, index) {
             return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
         }, []);
     }

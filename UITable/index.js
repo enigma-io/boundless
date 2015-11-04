@@ -8,8 +8,8 @@ import Row from './row';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
+import noop from '../UIUtils/noop';
 import cx from 'classnames';
-import {findWhere, map, merge, noop} from 'lodash';
 
 /**
  * FOR FUTURE EYES
@@ -28,6 +28,18 @@ import {findWhere, map, merge, noop} from 'lodash';
  * 3. apply widths to column definitions
  * 4. render pass 2 w/ column heads and the rest of the cells
  */
+
+const findWhere = function findWhere(array, property, value) {
+    let index = array.length - 1;
+
+    while (index > -1) {
+        if (array[index][property] === value) {
+            return array[index];
+        }
+
+        index -= 1;
+    }
+}; // optimized specifically to only look for a single key:value match
 
 class UITable extends UIView {
     constructor(...args) {
@@ -130,23 +142,31 @@ class UITable extends UIView {
         this.yUpperBound = 0;
         this.yLowerBound = this.containerHeight - (this.nRowsToRender * this.cellHeight);
 
+        const adjustedColumns = this.state.columns.map(function discoverWidth(column, index) {
+            return {
+                ...column,
+                width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
+            };
+        });
+
+        const generatedRows = [];
+        const rowsOrderedByY = [];
+
+        for (let i = 0; i < this.nRowsToRender; i += 1) {
+            generatedRows.push({
+                data: this.props.getRow(i),
+                setIndex: i,
+                y: this.cellHeight * i
+            });
+
+            rowsOrderedByY.push(i);
+        }
+
         this.setState({
             chokeRender: false,
-            columns: map(this.state.columns, function discoverWidth(column, index) {
-                return merge({
-                    width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
-                }, column);
-            }),
-            rows: map(new Array(this.nRowsToRender), function generateRowSlot(/*ignore*/x, index) {
-                return {
-                    data: this.props.getRow(index),
-                    setIndex: index,
-                    y: this.cellHeight * index
-                };
-            }, this),
-            rowsOrderedByY: map(new Array(this.nRowsToRender), function indexes(/*ignore*/x, index) {
-                return index;
-            }),
+            columns: adjustedColumns,
+            rows: generatedRows,
+            rowsOrderedByY: rowsOrderedByY,
             xScrollerNubSize: this.calculateXScrollerNubSize(),
             yScrollerNubSize: this.calculateYScrollerNubSize()
         });
@@ -326,7 +346,7 @@ class UITable extends UIView {
         let adjustedDelta = delta;
         let newTableWidth = 0;
 
-        let copy = map(this.state.columns, function alterMatch(definition) {
+        let copy = this.state.columns.map(definition => {
             if (definition.mapping !== this.manuallyResizingColumn.mapping) {
                 newTableWidth += definition.width;
 
@@ -346,10 +366,11 @@ class UITable extends UIView {
 
             newTableWidth += definition.width + adjustedDelta;
 
-            return merge(definition, {
+            return {
+                ...definition,
                 width: definition.width + adjustedDelta
-            });
-        }, this);
+            };
+        });
 
         if (newTableWidth <= this.containerWidth) {
             this.xMaximumTranslation = 0;
@@ -443,11 +464,11 @@ class UITable extends UIView {
             this.props.onRowInteract(event, clickedRowData);
         }
 
-        this.setState({currentActiveRowIndex: findWhere(this.state.rows, {data: clickedRowData}).setIndex});
+        this.setState({currentActiveRowIndex: findWhere(this.state.rows, 'data', clickedRowData).setIndex});
     }
 
     renderRows() {
-        return map(this.state.rows, function generateRow(row, index) {
+        return this.state.rows.map((row, index) => {
             return (
                 <Row key={index}
                      active={row.setIndex === this.state.currentActiveRowIndex}
@@ -458,7 +479,7 @@ class UITable extends UIView {
                      onInteract={this.handleRowClick}
                      onCellInteract={this.props.onCellInteract} />
             );
-        }, this);
+        });
     }
 
     renderBody() {
@@ -475,7 +496,7 @@ class UITable extends UIView {
             return (
                 <div ref='head' className='ui-table-header'>
                     <div className='ui-table-row ui-table-header-row'>
-                        {map(this.state.columns, function generateColumnCell(column, index) {
+                        {this.state.columns.map((column, index) => {
                             return (
                                 <div key={index}
                                      className='ui-table-cell ui-table-header-cell'
@@ -488,7 +509,7 @@ class UITable extends UIView {
                                          onMouseDown={this.handleColumnDragStart} />
                                 </div>
                             );
-                        }, this)}
+                        })}
                     </div>
                 </div>
             );
@@ -515,7 +536,7 @@ class UITable extends UIView {
     }
 
     changeActiveRow(delta) {
-        this.cache_nextActiveRow = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex + delta});
+        this.cache_nextActiveRow = findWhere(this.state.rows, 'setIndex', this.state.currentActiveRowIndex + delta);
 
         if (this.cache_nextActiveRow) {
             this.setState({
@@ -557,7 +578,7 @@ class UITable extends UIView {
     }
 
     ariaExposeFullRowData() {
-        let row = findWhere(this.state.rows, {setIndex: this.state.currentActiveRowIndex});
+        let row = findWhere(this.state.rows, 'setIndex', this.state.currentActiveRowIndex);
 
         if (row) {
             this.setState({

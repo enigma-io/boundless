@@ -69,7 +69,7 @@ describe('UITypeaheadInput', () => {
         });
 
         it('ui-typeahead-hint should be rendered', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput hint='foo' />, mountNode);
+            const typeahead = ReactDOM.render(<UITypeaheadInput hint={true} />, mountNode);
 
             assert(typeahead.refs.hint.classList.contains('ui-typeahead-hint'));
         });

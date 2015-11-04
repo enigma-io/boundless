@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash.isequal';
 
 class UIView extends React.Component {
     constructor(...args) {

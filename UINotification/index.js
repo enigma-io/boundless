@@ -5,7 +5,7 @@
 
 import UIView from '../UIView';
 import React from 'react';
-import {noop} from 'lodash';
+import noop from '../UIUtils/noop';
 
 const NotificationAPI = (function detectSupport() {
     if (window.Notification) {

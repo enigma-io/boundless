@@ -7,7 +7,7 @@ import UIView from '../UIView';
 import UICheckbox from '../UICheckbox/';
 import React from 'react';
 import cx from 'classnames';
-import {noop} from 'lodash';
+import noop from '../UIUtils/noop';
 
 class UICheckboxGroup extends UIView {
     allItemsChecked() {

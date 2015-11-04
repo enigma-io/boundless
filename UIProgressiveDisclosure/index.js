@@ -6,7 +6,7 @@
 import React from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
-import {noop} from 'lodash';
+import noop from '../UIUtils/noop';
 
 export default class UIProgressiveDisclosure extends UIView {
     initialState() {

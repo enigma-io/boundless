@@ -7,7 +7,10 @@ import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 import React from 'react';
 import cx from 'classnames';
-import {first, last, noop, without} from 'lodash';
+import noop from '../UIUtils/noop';
+import first from 'lodash.first';
+import last from 'lodash.last';
+import without from 'lodash.without';
 
 class UITokenizedInput extends UIView {
     initialState() {
