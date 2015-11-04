@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.0.0",
-    "babelify": "^6.1.2",
+    "babel-preset-enigma": "^6.0.0",
+    "babelify": "^7.0.0",
     "beefy": "^2.1.5",
     "browserify": "^12.0.0",
     "chai": "^3.4.0",
@@ -41,23 +42,10 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
-  "browser": {
-    "UIKit/UIButton": "./UIButton/index.js",
-    "UIKit/UICheckbox": "./UICheckbox/index.js",
-    "UIKit/UICheckboxGroup": "./UICheckboxGroup/index.js",
-    "UIKit/UIDialog": "./UIDialog/index.js",
-    "UIKit/UIImage": "./UIImage/index.js",
-    "UIKit/UIFittedText": "./UIFittedText/index.js",
-    "UIKit/UIList": "./UIList/index.js",
-    "UIKit/UIModal": "./UIModal/index.js",
-    "UIKit/UIPopover": "./UIPopover/index.js",
-    "UIKit/UIProgress": "./UIProgress/index.js",
-    "UIKit/UIProgressiveDisclosure": "./UIProgressiveDisclosure/index.js",
-    "UIKit/UIRadio": "./UIRadio/index.js",
-    "UIKit/UITable": "./UITable/index.js",
-    "UIKit/UITokenizedInput": "./UITokenizedInput/index.js",
-    "UIKit/UITypeaheadInput": "./UITypeaheadInput/index.js",
-    "UIKit/UIView": "./UIView/index.js"
+  "babel": {
+    "presets": [
+      "enigma"
+    ]
   },
   "browserify": {
     "transform": [
@@ -65,6 +53,24 @@
       "babelify"
     ]
   },
+  "exports": [
+    "./UIButton/index.js:UIKit/UIButton",
+    "./UICheckbox/index.js:UIKit/UICheckbox",
+    "./UICheckboxGroup/index.js:UIKit/UICheckboxGroup",
+    "./UIDialog/index.js:UIKit/UIDialog",
+    "./UIImage/index.js:UIKit/UIImage",
+    "./UIFittedText/index.js:UIKit/UIFittedText",
+    "./UIList/index.js:UIKit/UIList",
+    "./UIModal/index.js:UIKit/UIModal",
+    "./UIPopover/index.js:UIKit/UIPopover",
+    "./UIProgress/index.js:UIKit/UIProgress",
+    "./UIProgressiveDisclosure/index.js:UIKit/UIProgressiveDisclosure",
+    "./UIRadio/index.js:UIKit/UIRadio",
+    "./UITable/index.js:UIKit/UITable",
+    "./UITokenizedInput/index.js:UIKit/UITokenizedInput",
+    "./UITypeaheadInput/index.js:UIKit/UITypeaheadInput",
+    "./UIView/index.js:UIKit/UIView"
+  ],
   "scripts": {
     "postinstall": "mkdir -p dist",
     "test": "karma start",
@@ -73,14 +79,14 @@
     "demo-css": "pleeease-watch",
     "demo-js": "beefy demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug",
     "demo": "sh parallelize.sh \"npm run demo-css\" \"npm run demo-js\"",
-    "export-classes": "echo $(node -p \"'-r ' + Object.keys(require('./package').browser).join(' -r ')\")",
+    "export-classes": "echo $(node -p \"'-r ' + require('./package').exports.join(' -r ')\")",
     "exclude-peer-deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify-config": "echo $(npm run -s export-classes) $(npm run -s exclude-peer-deps)",
     "browserify-standalone-config": "echo $(npm run -s export-classes)",
-    "build": "browserify --colors --debug $(npm run -s browserify-config) > dist/uikit.js",
-    "start": "watchify --iw --verbose --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
-    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) | uglifyjs -mc drop_console > dist/uikit.min.js",
-    "standalone": "NODE_ENV=production browserify --colors $(npm run -s browserify-standalone-config) | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
+    "build": "browserify --colors --debug $(npm run -s browserify-config) -t [ babelify --presets enigma ] > dist/uikit.js",
+    "start": "watchify --iw --verbose --colors --debug $(npm run -s browserify-config) -t [ babelify --presets enigma ] > dist/uikit.js",
+    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) -t [ babelify --presets enigma ] | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "standalone": "NODE_ENV=production browserify --colors $(npm run -s browserify-standalone-config) -t [ babelify --presets enigma ] | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
     "all": "npm run build && npm run release && npm run standalone",
     "prepublish": "npm run all"
   }
