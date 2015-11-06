@@ -37,13 +37,16 @@
     "mocha": "^2.3.3",
     "pleeease": "^4.0.2",
     "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
     "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
   "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2"
   },
   "browserify": {
     "transform": [
@@ -82,7 +85,7 @@
     "browserify-standalone-config": "echo $(npm run -s export-classes)",
     "build": "browserify --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
     "start": "watchify --iw --verbose --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
-    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) -t deproptypeify | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) | uglifyjs -mc drop_console > dist/uikit.min.js",
     "standalone": "NODE_ENV=production browserify --colors $(npm run -s browserify-standalone-config) | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
     "all": "npm run build && npm run release && npm run standalone"
   }
