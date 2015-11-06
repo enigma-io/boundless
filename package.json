@@ -16,8 +16,8 @@
   "devDependencies": {
     "babel-eslint": "^4.0.0",
     "babelify": "^6.0.0",
-    "beefy": "^2.1.5",
     "browserify": "^12.0.0",
+    "budo": "^6.0.0",
     "chai": "^3.4.0",
     "es6-promise": "^3.0.2",
     "eslint-plugin-react": "^3.0.0",
@@ -74,7 +74,7 @@
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './dist/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "demo-css": "pleeease-watch",
-    "demo-js": "beefy demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug",
+    "demo-js": "budo demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug",
     "demo": "sh parallelize.sh \"npm run demo-css\" \"npm run demo-js\"",
     "export-classes": "echo $(node -p \"'-r ' + require('./package').exports.join(' -r ')\")",
     "exclude-peer-deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
@@ -82,7 +82,7 @@
     "browserify-standalone-config": "echo $(npm run -s export-classes)",
     "build": "browserify --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
     "start": "watchify --iw --verbose --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
-    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) -t deproptypeify | uglifyjs -mc drop_console > dist/uikit.min.js",
     "standalone": "NODE_ENV=production browserify --colors $(npm run -s browserify-standalone-config) | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
     "all": "npm run build && npm run release && npm run standalone"
   }
