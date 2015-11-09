@@ -15,9 +15,9 @@ class UIRadio extends UIView {
         };
     }
 
-    handleChange() { // Send the opposite signal from what was passed to toggle the data
-        if (!this.props.selected) {
-            this.props.onSelected(this.props.name);
+    handleChange(event) {
+        if (event.target.checked) {
+            this.props.onSelected(event.target.value);
         }
     }
 
@@ -81,9 +81,9 @@ UIRadio.propTypes = {
 };
 
 UIRadio.defaultProps = {
-    selected: false,
     labelAttributes: {},
     onSelected: noop,
+    selected: false,
     wrapperAttributes: {}
 };
 
