@@ -81,22 +81,14 @@ describe('UIRadio', () => {
     });
 
     describe('onSelected', () => {
-        it('should be called on a `change` event when `props.selected` is falsy', () => {
+        it('should be called with the proper value', () => {
             const stub = sandbox.stub();
-            const radio = ReactDOM.render(<UIRadio name='foo' onSelected={stub} />, mountNode);
+            const radio = ReactDOM.render(<UIRadio name='foo' onSelected={stub} value='abc' />, mountNode);
 
-            radio.handleChange();
+            radio.refs.input.click();
 
             expect(stub).to.have.been.calledOnce;
-        });
-
-        it('should not be called on a `change` event when `props.selected` is `true`', () => {
-            const stub = sandbox.stub();
-            const radio = ReactDOM.render(<UIRadio name='foo' selected={true} onSelected={stub} />, mountNode);
-
-            radio.handleChange();
-
-            expect(stub).to.not.have.been.called;
+            expect(stub).to.have.been.calledWith('abc');
         });
     });
 
