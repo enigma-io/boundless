@@ -31,6 +31,8 @@ class UIButton extends UIView {
     render() {
         return (
             <button {...this.props.attrs}
+                    ref='button'
+                    id={this.props.id || this.props.attrs.id}
                     className={cx({
                         'ui-button': true,
                         'ui-button-pressable': typeof this.props.pressed !== 'undefined',
@@ -40,7 +42,8 @@ class UIButton extends UIView {
                     })}
                     aria-pressed={this.props.pressed}
                     onKeyDown={this.handleKeyDown.bind(this)}
-                    onClick={this.handleClick.bind(this)}>
+                    onClick={this.handleClick.bind(this)}
+                    style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.props.children}
             </button>
         );
@@ -51,10 +54,12 @@ UIButton.propTypes = {
     attrs: React.PropTypes.object,
     children: React.PropTypes.node,
     className: React.PropTypes.string,
+    id: React.PropTypes.string,
     onClick: React.PropTypes.func,
     onPressed: React.PropTypes.func,
     onUnpressed: React.PropTypes.func,
-    pressed: React.PropTypes.bool
+    pressed: React.PropTypes.bool,
+    style: React.PropTypes.object
 };
 
 UIButton.defaultProps = {

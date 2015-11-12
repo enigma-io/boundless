@@ -11,11 +11,14 @@ let list = [{
 }];
 
 return (
-    <UITypeaheadInput name='my-typeahead'
-                 aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available."
-                 defaultValue='or'
-                 entities={list}
-                 provideHint={true} />
+    <UITypeaheadInput
+        name='my-typeahead'
+        attrs={{
+            'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.'
+        }}
+        defaultValue='or'
+        entities={list}
+        provideHint={true} />
 );
 ```
 
@@ -59,10 +62,13 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 - __attrs__ `Object`
   - __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead` node
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 
 - __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-typeahead` element
+  additional CSS class(es) to be added to the rendered `.ui-typeahead-wrapper` element
+
+- __defaultValue__ `String`
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
 
 - __offscreenClass__ `String`
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
@@ -76,6 +82,13 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __hintAttrs__ `Object`
     - __hintAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-hint` node
+
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-typeahead-wrapper` node
+
+- __inputAttrs__ `Object`
+    - __inputAttrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the main input node, `.ui-typeahead`
 
 - __matchFunc__ `Function`
   provide a custom matching algorithm, adhering to this format:
@@ -105,7 +118,7 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
 
 - __name__ `String`
-  passed through to the main `<input>` element
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
 
 - __onEntitySelected__ `Function`
   called with the index of the entity selected by the user
@@ -113,9 +126,9 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __onComplete__ `Function`
   called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
 
-- __type__ `String`
-  passed through to the main `<input>` element
+- __style__ `Object`
+  inline styles to be applied to the `.ui-typeahead-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
 
-- __wrapperAttrs__ `Object`
-    - __wrapperAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
+- __type__ `String`
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
+

@@ -6,6 +6,7 @@ window.Promise = window.Promise || require('es6-promise').Promise;
 import UITable from '../UITable';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 import {noop} from 'lodash';
 
 const rows = [{"id":1,"first_name":"Louise","last_name":"Fernandez","job_title":"Database Administrator I","phone":"6-(697)972-8601","email":"lfernandez1@opera.com","address1":"5049 Barnett Road","city":"Nglengkir","country":"Indonesia","country_code":"ID"},{"id":2,"first_name":"Dennis","last_name":"Nichols","job_title":"Nurse","phone":"9-(896)552-6623","email":"dnichols0@ycombinator.com","address1":"0 Drewry Drive","city":"Canggetelo","country":"Indonesia","country_code":"ID"},{"id":3,"first_name":"Stephen","last_name":"Hamilton","job_title":"Dental Hygienist","phone":"1-(274)517-4270","email":"shamilton2@amazon.co.jp","address1":"11 David Crossing","city":"Kotabaru","country":"Indonesia","country_code":"ID"},{"id":4,"first_name":"Shawn","last_name":"Richards","job_title":"Librarian","phone":"1-(173)205-8062","email":"srichards3@4shared.com","address1":"47533 Sherman Street","city":"Viengxay","country":"Laos","country_code":"LA"},{"id":5,"first_name":"John","last_name":"Hansen","job_title":"Staff Scientist","phone":"5-(650)401-5661","email":"jhansen4@sfgate.com","address1":"955 Jackson Park","city":"South Tangerang","country":"Indonesia","country_code":"ID"},{"id":6,"first_name":"Ronald","last_name":"Alexander","job_title":"Structural Engineer","phone":"7-(675)732-2723","email":"ralexander5@usgs.gov","address1":"0858 Hooker Court","city":"Kardítsa","country":"Greece","country_code":"GR"},{"id":7,"first_name":"Shawn","last_name":"Myers","job_title":"Executive Secretary","phone":"0-(903)830-7054","email":"smyers6@addtoany.com","address1":"69605 Rusk Junction","city":"Erpeldange","country":"Luxembourg","country_code":"LU"},{"id":8,"first_name":"Andrew","last_name":"Hill","job_title":"Research Nurse","phone":"9-(825)250-8207","email":"ahill7@sohu.com","address1":"4 Lunder Junction","city":"Naji","country":"China","country_code":"CN"},{"id":9,"first_name":"Susan","last_name":"Fowler","job_title":"Product Engineer","phone":"2-(891)897-3096","email":"sfowler8@addtoany.com","address1":"17 Artisan Pass","city":"Oslomej","country":"Macedonia","country_code":"MK"},{"id":10,"first_name":"Denise","last_name":"Gonzalez","job_title":"Associate Professor","phone":"7-(665)859-5877","email":"dgonzalez9@answers.com","address1":"8538 Sage Hill","city":"Baiima","country":"Sierra Leone","country_code":"SL"}];
@@ -15,8 +16,16 @@ const rowGetter = index => index === 3 ? new Promise(noop) : rows[index];
 
 const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{defaultWidth:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code',resizable:true}];
 
+const baseProps = {
+    getRow: rowGetter,
+    columns: columns,
+    totalRows: rows.length
+};
+
 describe('UITable', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -24,127 +33,97 @@ describe('UITable', () => {
         sandbox.restore();
     });
 
-    describe('accepts', () => {
-        it('arbitrary HTML attributes via props.attrs', () => {
-            const table = ReactDOM.render(
-                <UITable attrs={{'data-id': 'foo'}}
-                         getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
-
-            const node = table.refs.table;
-
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-
-        it('arbitrary HTML attributes via props.wrapperAttrs', () => {
-            const table = ReactDOM.render(
-                <UITable wrapperAttrs={{'data-id': 'foo'}}
-                         getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
-
-            const node = table.refs.wrapper;
-
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-    });
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UITable, baseProps));
 
     describe('CSS hooks', () => {
-        let table;
+        let element;
 
         beforeEach(() => {
-            table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
+            element = render(<UITable {...baseProps} />);
         });
 
         it('ui-table-wrapper should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.className).to.contain('ui-table-wrapper');
         });
 
         it('ui-table should be rendered', () => {
-            expect(table.refs.table.className).to.contain('ui-table');
+            expect(element.refs.table.className).to.contain('ui-table');
         });
 
         it('ui-table-body should be rendered', () => {
-            expect(table.refs.body.className).to.contain('ui-table-body');
+            expect(element.refs.body.className).to.contain('ui-table-body');
         });
 
         it('ui-table-row should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row:not(.ui-table-header-row)')).to.not.be.null;
         });
 
         it('ui-table-row-even should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-even')).to.not.be.null;
         });
 
         it('ui-table-row-odd should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-odd')).to.not.be.null;
         });
 
         it('ui-table-row-loading should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-loading')).to.not.be.null;
         });
 
         it('ui-table-cell should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-cell')).to.not.be.null;
         });
 
         it('ui-table-header-row should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-header-row')).to.not.be.null;
         });
 
         it('ui-table-header-cell should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-header-cell')).to.not.be.null;
         });
 
         it('ui-table-header-cell-resize-handle should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-header-cell-resize-handle')).to.not.be.null;
         });
 
         it('ui-table-x-scroller should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-x-scroller')).to.not.be.null;
         });
 
         it('ui-table-x-scroller-nub should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-x-scroller-nub')).to.not.be.null;
         });
 
         it('ui-table-y-scroller should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-y-scroller')).to.not.be.null;
         });
 
         it('ui-table-y-scroller-nub should be rendered', () => {
-            const node = ReactDOM.findDOMNode(table);
+            const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-y-scroller-nub')).to.not.be.null;
         });
@@ -152,121 +131,99 @@ describe('UITable', () => {
 
     describe('click functionality', () => {
         it('should make a row active', () => {
-            const table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
+            const element = render(<UITable {...baseProps} />);
 
-            expect(table.state.currentActiveRowIndex).to.not.equal(0);
+            expect(element.state.currentActiveRowIndex).to.not.equal(0);
 
-            table.handleRowClick(null, rowGetter(0));
-            expect(table.state.currentActiveRowIndex).to.equal(0);
+            element.handleRowClick(null, rowGetter(0));
+            expect(element.state.currentActiveRowIndex).to.equal(0);
 
-            table.handleRowClick(null, rowGetter(4));
-            expect(table.state.currentActiveRowIndex).to.equal(4);
+            element.handleRowClick(null, rowGetter(4));
+            expect(element.state.currentActiveRowIndex).to.equal(4);
         });
 
         it('should call `onRowInteract` with the event and row data', () => {
             const stub = sandbox.stub();
-            const table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length}
-                         onRowInteract={stub} />, mountNode
-            );
+            const element = render(<UITable {...baseProps} onRowInteract={stub} />);
 
-            table.refs.body.querySelector('.ui-table-row').click();
+            element.refs.body.querySelector('.ui-table-row').click();
 
             expect(stub).to.have.been.calledWith(sinon.match.object, rowGetter(0));
         });
 
         it('should call `onCellInteract` with the event, row data and cell content', () => {
             const stub = sandbox.stub();
-            const table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length}
-                         onCellInteract={stub} />, mountNode
-            );
+            const element = render(<UITable {...baseProps} onCellInteract={stub} />);
 
-            table.refs.body.querySelector('.ui-table-cell').click();
+            element.refs.body.querySelector('.ui-table-cell').click();
 
             expect(stub).to.have.been.calledWith(sinon.match.object, rowGetter(0), rowGetter(0)[columns[0].mapping]);
         });
     });
 
     describe('arrow key functionality', () => {
-        let table;
+        let element;
 
         beforeEach(() => {
-            table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
+            element = render(<UITable {...baseProps} />);
         });
 
         it('should move the active row on down arrow', () => {
-            expect(table.state.currentActiveRowIndex).to.not.equal(0);
+            expect(element.state.currentActiveRowIndex).to.not.equal(0);
 
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowDown',
                 preventDefault: noop
             });
 
-            expect(table.state.currentActiveRowIndex).to.equal(0);
+            expect(element.state.currentActiveRowIndex).to.equal(0);
         });
 
         it('should move the active row on up arrow', () => {
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowDown',
                 preventDefault: noop
             });
 
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowDown',
                 preventDefault: noop
             });
 
-            expect(table.state.currentActiveRowIndex).to.equal(1);
+            expect(element.state.currentActiveRowIndex).to.equal(1);
 
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowUp',
                 preventDefault: noop
             });
 
-            expect(table.state.currentActiveRowIndex).to.equal(0);
+            expect(element.state.currentActiveRowIndex).to.equal(0);
         });
     });
 
     describe('for screen readers', () => {
-        let table;
+        let element;
 
         beforeEach(() => {
-            table = ReactDOM.render(
-                <UITable getRow={rowGetter}
-                         columns={columns}
-                         totalRows={rows.length} />, mountNode
-            );
+            element = render(<UITable {...baseProps} />);
         });
 
         it('the first column content should be spoken aloud on arrow down', () => {
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowDown',
                 preventDefault: noop
             });
 
-            expect(table.state.ariaSpokenOutput).to.equal(rowGetter(0)[columns[0].mapping]);
+            expect(element.state.ariaSpokenOutput).to.equal(rowGetter(0)[columns[0].mapping]);
         });
 
         it('the whole row content should be spoken aloud on enter', () => {
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowDown',
                 preventDefault: noop
             });
 
-            table.handleKeyDown({
+            element.handleKeyDown({
                 key: 'Enter',
                 preventDefault: noop
             });
@@ -274,7 +231,7 @@ describe('UITable', () => {
             const rowData = rowGetter(0);
 
             columns.forEach(({title, mapping}) => {
-                expect(table.state.ariaSpokenOutput).to.contain(`${title}: ${rowData[mapping]}`);
+                expect(element.state.ariaSpokenOutput).to.contain(`${title}: ${rowData[mapping]}`);
             });
         });
     });
@@ -287,11 +244,9 @@ describe('UITable', () => {
             return (
                 <div>
                     <style>{styles}</style>
-                    <UITable ref='table'
-                             getRow={rowGetter}
-                             columns={columns}
-                             totalRows={rows.length}
-                             wrapperAttrs={{style: {height: '90px'}}} />
+                    <UITable {...baseProps}
+                             ref='table'
+                             style={{height: '90px'}} />
                 </div>
             );
         }
@@ -299,51 +254,51 @@ describe('UITable', () => {
 
     describe('row rotation', () => {
         it('should occur when scrolled down', () => {
-            const base = ReactDOM.render(<ComposedTestView />, mountNode);
-            const table = base.refs.table;
-            const firstRowData = table.state.rows[0].data;
+            const base = render(<ComposedTestView />);
+            const element = base.refs.table;
+            const firstRowData = element.state.rows[0].data;
 
-            table.handleMoveIntent({
+            element.handleMoveIntent({
                 deltaX: 0,
                 deltaY: 200,
                 preventDefault: noop
             });
 
-            expect(table.state.rows[0].data).to.not.equal(firstRowData);
+            expect(element.state.rows[0].data).to.not.equal(firstRowData);
         });
 
         it('should occur when scrolled up', () => {
-            const base = ReactDOM.render(<ComposedTestView />, mountNode);
-            const table = base.refs.table;
+            const base = render(<ComposedTestView />);
+            const element = base.refs.table;
 
-            table.handleMoveIntent({
+            element.handleMoveIntent({
                 deltaX: 0,
                 deltaY: 200,
                 preventDefault: noop
             });
 
-            const firstRowData = table.state.rows[0].data;
+            const firstRowData = element.state.rows[0].data;
 
-            table.handleMoveIntent({
+            element.handleMoveIntent({
                 deltaX: 0,
                 deltaY: -200,
                 preventDefault: noop
             });
 
-            expect(table.state.rows[0].data).to.not.equal(firstRowData);
+            expect(element.state.rows[0].data).to.not.equal(firstRowData);
         });
 
         it('should occur on left-click drag of the y scroll nub', () => {
-            const base = ReactDOM.render(<ComposedTestView />, mountNode);
-            const table = base.refs.table;
-            const firstRowData = table.state.rows[0].data;
+            const base = render(<ComposedTestView />);
+            const element = base.refs.table;
+            const firstRowData = element.state.rows[0].data;
 
             // simulate drag cascade
-            table.handleYScrollerDragStart({button: 0, clientY: 0});
-            table.handleDragMove({button: 0, clientY: 200});
-            table.handleDragEnd();
+            element.handleYScrollerDragStart({button: 0, clientY: 0});
+            element.handleDragMove({button: 0, clientY: 200});
+            element.handleDragEnd();
 
-            expect(table.state.rows[0].data).to.not.equal(firstRowData);
+            expect(element.state.rows[0].data).to.not.equal(firstRowData);
         });
     });
 });

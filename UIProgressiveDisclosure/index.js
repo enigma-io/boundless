@@ -40,14 +40,21 @@ export default class UIProgressiveDisclosure extends UIView {
     render() {
         return (
             <div {...this.props.attrs}
+                 ref='wrapper'
                  className={cx({
                     'ui-disclosure': true,
                     'ui-disclosure-expanded': this.state.expanded,
                     [this.props.className]: !!this.props.className,
                     [this.props.attrs.className]: !!this.props.attrs.className
-                 })}>
-                <div ref='toggle'
-                     className='ui-disclosure-toggle'
+                 })}
+                 id={this.props.id || this.props.attrs.id}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
+                <div {...this.props.toggleAttrs}
+                     ref='toggle'
+                     className={cx({
+                        'ui-disclosure-toggle': true,
+                        [this.props.toggleAttrs.className]: !!this.props.toggleAttrs.className
+                     })}
                      onClick={this.handleClick.bind(this)}
                      onKeyDown={this.handleKeyDown.bind(this)}
                      tabIndex='0'>
@@ -66,17 +73,21 @@ UIProgressiveDisclosure.propTypes = {
     attrs: React.PropTypes.object,
     children: React.PropTypes.node,
     className: React.PropTypes.string,
+    id: React.PropTypes.string,
     expanded: React.PropTypes.bool,
     onExpand: React.PropTypes.func,
     onHide: React.PropTypes.func,
-    teaser: React.PropTypes.node
+    style: React.PropTypes.object,
+    teaser: React.PropTypes.node,
+    toggleAttrs: React.PropTypes.object,
 };
 
 UIProgressiveDisclosure.defaultProps = {
     attrs: {},
     expanded: false,
     onExpand: noop,
-    onHide: noop
+    onHide: noop,
+    toggleAttrs: {}
 };
 
 export default UIProgressiveDisclosure;

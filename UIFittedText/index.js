@@ -36,7 +36,7 @@ class UIFittedText extends UIView {
         let containerWidth = toI(containerBox.width);
         let fontSize = toI(window.getComputedStyle(node).fontSize);
 
-        if (containerBox.boxSizing === 'border-box'
+        if (   containerBox.boxSizing === 'border-box'
             || containerBox.boxSizing === 'padding-box') { // need to account for padding
             containerHeight -= toI(containerBox.paddingTop) + toI(containerBox.paddingBottom);
             containerWidth -= toI(containerBox.paddingLeft) + toI(containerBox.paddingRight);
@@ -51,7 +51,13 @@ class UIFittedText extends UIView {
     render() {
         return (
             <span {...this.props.attrs}
-                  className={cx({'ui-text': true, [this.props.className]: !!this.props.className})}>
+                  className={cx({
+                      'ui-text': true,
+                      [this.props.className]: !!this.props.className,
+                      [this.props.attrs.className]: !!this.props.attrs.className
+                  })}
+                  id={this.props.id || this.props.attrs.id}
+                  style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.props.children}
             </span>
         );
@@ -59,16 +65,20 @@ class UIFittedText extends UIView {
 }
 
 UIFittedText.defaultProps = {
+    attrs: {},
     maxFontSize: Number.MAX_VALUE
 };
 
 UIFittedText.propTypes = {
+    attrs: React.PropTypes.object,
     children: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
     ]),
     className: React.PropTypes.string,
-    maxFontSize: React.PropTypes.number
+    id: React.PropTypes.string,
+    maxFontSize: React.PropTypes.number,
+    style: React.PropTypes.object
 };
 
 export default UIFittedText;

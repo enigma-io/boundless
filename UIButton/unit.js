@@ -3,11 +3,14 @@
 import UIButton from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 function noop() {}
 
 describe('UIButton', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -15,40 +18,26 @@ describe('UIButton', () => {
         sandbox.restore();
     });
 
-    describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes in the `attrs` prop', () => {
-            const button = ReactDOM.render(<UIButton attrs={{'data-id': 'foo'}} />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
-
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-
-        it('additional classes as a string without replacing the core hook', () => {
-            const button = ReactDOM.render(<UIButton className='foo bar' />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
-
-            ['ui-button', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
-        });
-    });
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIButton));
 
     describe('CSS hook', () => {
         it('ui-button should be rendered', () => {
-            const button = ReactDOM.render(<UIButton />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton />);
+            const node = element.refs.button;
 
             assert(node.classList.contains('ui-button'));
         });
 
         it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
-            const button = ReactDOM.render(<UIButton pressed={false} />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton pressed={false} />);
+            const node = element.refs.button;
 
             assert(node.classList.contains('ui-button-pressable'));
         });
 
         it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
-            const button = ReactDOM.render(<UIButton pressed={true} />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton pressed={true} />);
+            const node = element.refs.button;
 
             assert(node.classList.contains('ui-button-pressed'));
         });
@@ -56,22 +45,22 @@ describe('UIButton', () => {
 
     describe('`aria-pressed` HTML attribute', () => {
         it('should be "true" if `props.pressed` is `true`', () => {
-            const button = ReactDOM.render(<UIButton pressed={true} />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton pressed={true} />);
+            const node = element.refs.button;
 
             expect(node.getAttribute('aria-pressed')).to.equal('true');
         });
 
         it('should be "false" if `props.pressed` is `false`', () => {
-            const button = ReactDOM.render(<UIButton pressed={false} />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton pressed={false} />);
+            const node = element.refs.button;
 
             expect(node.getAttribute('aria-pressed')).to.equal('false');
         });
 
         it('should not be applied if `props.pressed` is not provided', () => {
-            const button = ReactDOM.render(<UIButton />, mountNode);
-            const node = ReactDOM.findDOMNode(button);
+            const element = render(<UIButton />);
+            const node = element.refs.button;
 
             expect(node.hasAttribute('aria-pressed')).to.be.false;
         });
@@ -82,27 +71,27 @@ describe('UIButton', () => {
 
         it('should trigger `onClick`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
+            const element = render(<UIButton onClick={stub} />);
 
-            button.handleClick(eventStub);
+            element.handleClick(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            button.handleClick(eventStub);
+            element.handleClick(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            button.handleClick(eventStub);
+            element.handleClick(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
@@ -110,9 +99,9 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
+            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
 
-            button.handleClick(eventStub);
+            element.handleClick(eventStub);
 
             expect(pressedStub).to.not.have.been.called;
             expect(unpressedStub).to.not.have.been.called;
@@ -124,27 +113,27 @@ describe('UIButton', () => {
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
+            const element = render(<UIButton onClick={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
@@ -152,9 +141,9 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
+            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(pressedStub).to.not.have.been.called;
             expect(unpressedStub).to.not.have.been.called;
@@ -166,27 +155,27 @@ describe('UIButton', () => {
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={true} onUnpressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton pressed={false} onPressed={stub} />, mountNode);
+            const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onClick={stub} />, mountNode);
+            const element = render(<UIButton onClick={stub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(stub).to.have.been.calledOnce;
         });
@@ -194,9 +183,9 @@ describe('UIButton', () => {
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
             const pressedStub = sandbox.stub();
             const unpressedStub = sandbox.stub();
-            const button = ReactDOM.render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />, mountNode);
+            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
 
-            button.handleKeyDown(eventStub);
+            element.handleKeyDown(eventStub);
 
             expect(pressedStub).to.not.have.been.called;
             expect(unpressedStub).to.not.have.been.called;

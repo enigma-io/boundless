@@ -44,7 +44,10 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
 - __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-button` element
+  additional CSS class(es) to be added to the rendered `.ui-button` node
+
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-button` node
 
 - __onClick__ `Function`
   called when the element receives a mouse click
@@ -56,4 +59,7 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
   called when the element becomes "unpressed"; backing data must be updated to persist the state change
 
 - __pressed__ `Boolean`
-  enables "pressed" support and adds the `aria-pressed` attribute to the rendered element
+  enables "pressed" support and adds the `aria-pressed` attribute to the `.ui-button` node
+
+- __style__ `Object`
+  inline styles to be applied to the `.ui-button` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

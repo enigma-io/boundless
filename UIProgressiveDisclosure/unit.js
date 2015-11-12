@@ -3,10 +3,13 @@
 import UIProgressiveDisclosure from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 import {noop} from 'lodash';
 
 describe('UIProgressiveDisclosure', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -14,56 +17,66 @@ describe('UIProgressiveDisclosure', () => {
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIProgressiveDisclosure));
+
     describe('accepts', () => {
-        it('arbitrary HTML attributes via props.attrs', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure attrs={{'data-id': 'foo'}} />, mountNode);
-
-            expect(ReactDOM.findDOMNode(disclosure).getAttribute('data-id')).to.equal('foo');
-        });
-
         it('a teaser string', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure teaser='foo' />, mountNode);
+            const element = render(<UIProgressiveDisclosure teaser='foo' />);
 
-            expect(disclosure.refs.toggle.textContent).to.equal('foo');
+            expect(element.refs.toggle.textContent).to.equal('foo');
         });
 
         it('a teaser element', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure teaser={<p>foo</p>} />, mountNode);
+            const element = render(<UIProgressiveDisclosure teaser={<p>foo</p>} />);
 
-            expect(disclosure.refs.toggle.textContent).to.equal('foo');
+            expect(element.refs.toggle.textContent).to.equal('foo');
         });
 
         it('string content', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure>foo</UIProgressiveDisclosure>, mountNode);
+            const element = render(<UIProgressiveDisclosure>foo</UIProgressiveDisclosure>);
 
-            expect(disclosure.refs.content.textContent).to.equal('foo');
+            expect(element.refs.content.textContent).to.equal('foo');
         });
 
         it('element content', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure><p>foo</p></UIProgressiveDisclosure>, mountNode);
+            const element = render(<UIProgressiveDisclosure><p>foo</p></UIProgressiveDisclosure>);
 
-            expect(disclosure.refs.content.textContent).to.equal('foo');
+            expect(element.refs.content.textContent).to.equal('foo');
+        });
+
+        it('arbitrary HTML attributes via props.toggleAttrs', () => {
+            const element = render(<UIProgressiveDisclosure toggleAttrs={{'data-foo': 'bar'}} />);
+            const node = element.refs.toggle;
+
+            expect(node.getAttribute('data-foo')).to.equal('bar');
+        });
+
+        it('additional classes via props.toggleAttrs.className', () => {
+            const element = render(<UIProgressiveDisclosure toggleAttrs={{className: 'foo'}} />);
+            const node = element.refs.toggle;
+
+            expect(node.classList.contains('foo')).to.be.true;
         });
     });
 
     describe('CSS hook', () => {
         it('ui-disclosure should be rendered', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
-            const node = ReactDOM.findDOMNode(disclosure);
+            const element = render(<UIProgressiveDisclosure />);
+            const node = element.refs.wrapper;
 
             assert(node.classList.contains('ui-disclosure'));
         });
 
         it('ui-disclosure-expanded should be rendered when `props.expanded` is `true`', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure expanded={true} />, mountNode);
-            const node = ReactDOM.findDOMNode(disclosure);
+            const element = render(<UIProgressiveDisclosure expanded={true} />);
+            const node = element.refs.wrapper;
 
             assert(node.classList.contains('ui-disclosure-expanded'));
         });
 
         it('ui-disclosure-expanded should not be rendered when `props.expanded` is falsy', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
-            const node = ReactDOM.findDOMNode(disclosure);
+            const element = render(<UIProgressiveDisclosure />);
+            const node = element.refs.wrapper;
 
             assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
@@ -71,26 +84,26 @@ describe('UIProgressiveDisclosure', () => {
 
     describe('click on the toggle', () => {
         it('should should show and hide the content', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
-            const node = ReactDOM.findDOMNode(disclosure);
+            const element = render(<UIProgressiveDisclosure />);
+            const node = element.refs.wrapper;
 
-            disclosure.handleClick();
+            element.handleClick();
             assert(node.classList.contains('ui-disclosure-expanded'));
 
-            disclosure.handleClick();
+            element.handleClick();
             assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
     });
 
     describe('enter key on the toggle', () => {
         it('should should show and hide the content', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure />, mountNode);
-            const node = ReactDOM.findDOMNode(disclosure);
+            const element = render(<UIProgressiveDisclosure />);
+            const node = element.refs.wrapper;
 
-            disclosure.handleKeyDown({key: 'Enter', preventDefault: noop});
+            element.handleKeyDown({key: 'Enter', preventDefault: noop});
             assert(node.classList.contains('ui-disclosure-expanded'));
 
-            disclosure.handleKeyDown({key: 'Enter', preventDefault: noop});
+            element.handleKeyDown({key: 'Enter', preventDefault: noop});
             assert(node.classList.contains('ui-disclosure-expanded') === false);
         });
     });
@@ -98,16 +111,16 @@ describe('UIProgressiveDisclosure', () => {
     describe('onExpand', () => {
         it('should be called when the disclosure is expanded', () => {
             const stub = sandbox.spy();
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} />, mountNode);
+            const element = render(<UIProgressiveDisclosure onExpand={stub} />);
 
-            disclosure.handleClick();
+            element.handleClick();
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should be not called on first render if `props.expanded` is `true`', () => {
             const stub = sandbox.spy();
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} expanded={true} />, mountNode);
+            const element = render(<UIProgressiveDisclosure onExpand={stub} expanded={true} />);
 
             expect(stub).to.not.have.been.called;
         });
@@ -116,17 +129,17 @@ describe('UIProgressiveDisclosure', () => {
     describe('onHide', () => {
         it('should be called when the disclosure is hidden', () => {
             const stub = sandbox.spy();
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onHide={stub} />, mountNode);
+            const element = render(<UIProgressiveDisclosure onHide={stub} />);
 
-            disclosure.handleClick();
-            disclosure.handleClick();
+            element.handleClick();
+            element.handleClick();
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should be not called on first render if `props.expanded` is falsy', () => {
             const stub = sandbox.spy();
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure onExpand={stub} />, mountNode);
+            const element = render(<UIProgressiveDisclosure onExpand={stub} />);
 
             expect(stub).to.not.have.been.called;
         });

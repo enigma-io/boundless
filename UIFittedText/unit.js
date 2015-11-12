@@ -3,9 +3,12 @@
 import UIFittedText from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 describe('UIFittedText', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -13,30 +16,25 @@ describe('UIFittedText', () => {
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIFittedText));
+
     describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes via attrs prop', () => {
-            const text = ReactDOM.render(<UIFittedText attrs={{'data-id': 'foo'}} />, mountNode);
-            const node = ReactDOM.findDOMNode(text);
-
-            expect(node.getAttribute('data-id')).to.equal('foo');
-        });
-
         it('an additional class as a string without replacing the core hook', () => {
-            const text = ReactDOM.render(<UIFittedText className='foo' />, mountNode);
+            const text = render(<UIFittedText className='foo' />);
 
             assert(ReactDOM.findDOMNode(text).classList.contains('ui-text'));
             assert(ReactDOM.findDOMNode(text).classList.contains('foo'));
         });
 
         it('text to render', () => {
-            const text = ReactDOM.render(<UIFittedText>foo</UIFittedText>, mountNode);
+            const text = render(<UIFittedText>foo</UIFittedText>);
             const node = ReactDOM.findDOMNode(text);
 
             expect(node.textContent).to.equal('foo');
         });
 
         it('numbers to render', () => {
-            const text = ReactDOM.render(<UIFittedText>{1234}</UIFittedText>, mountNode);
+            const text = render(<UIFittedText>{1234}</UIFittedText>);
             const node = ReactDOM.findDOMNode(text);
 
             expect(node.textContent).to.equal('1234');
@@ -45,7 +43,7 @@ describe('UIFittedText', () => {
 
     describe('CSS hooks', () => {
         it('ui-text should render', () => {
-            const text = ReactDOM.render(<UIFittedText />, mountNode);
+            const text = render(<UIFittedText />);
 
             assert(ReactDOM.findDOMNode(text).classList.contains('ui-text'));
         });
@@ -56,10 +54,10 @@ describe('UIFittedText', () => {
         // verify it completed successfully
 
         it('should work', (done) => {
-            const tree = ReactDOM.render(
+            const tree = render(
                 <div style={{height: '100px', width: '400px'}}>
                     <UIFittedText maxFontSize={30}>foo</UIFittedText>
-                </div>, mountNode
+                </div>
             );
 
             const node = ReactDOM.findDOMNode(tree).children[0];
@@ -71,10 +69,10 @@ describe('UIFittedText', () => {
         });
 
         it('should be ignored if the container size is too small', (done) => {
-            const tree = ReactDOM.render(
+            const tree = render(
                 <div style={{width: '10px'}}>
                     <UIFittedText maxFontSize={30}>foo</UIFittedText>
-                </div>, mountNode
+                </div>
             );
 
             const node = ReactDOM.findDOMNode(tree).children[0];

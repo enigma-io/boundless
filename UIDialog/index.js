@@ -123,16 +123,19 @@ class UIDialog extends UIView {
     render() {
         return (
             <div {...this.props.attrs}
+                 ref='dialog'
                  className={cx({
                     'ui-dialog': true,
                     [this.props.className]: !!this.props.className,
                     [this.props.attrs.className]: !!this.props.attrs.className
                  })}
+                 id={this.props.id || this.props.attrs.id}
                  onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeydown.bind(this)}
                  role='dialog'
                  aria-labelledby={this.state.headerUUID}
                  aria-describedby={this.state.bodyUUID}
+                 style={{...this.props.style, ...this.props.attrs.style}}
                  tabIndex='0'>
                 {this.renderHeader()}
                 {this.props.children || this.renderBody()}
@@ -155,7 +158,9 @@ UIDialog.propTypes = {
     footerAttrs: React.PropTypes.object,
     header: React.PropTypes.node,
     headerAttrs: React.PropTypes.object,
-    onClose: React.PropTypes.func
+    id: React.PropTypes.string,
+    onClose: React.PropTypes.func,
+    style: React.PropTypes.object
 };
 
 UIDialog.defaultProps = {

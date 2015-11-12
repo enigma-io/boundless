@@ -3,9 +3,12 @@
 import UIDialog from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 describe('UIDialog', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -13,108 +16,105 @@ describe('UIDialog', () => {
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIDialog));
+
     describe('accepts', () => {
-        let dialog;
+        let element;
 
         beforeEach(() => {
-            dialog = ReactDOM.render(
+            element = render(
                 <UIDialog className='foo'
-                          attrs={{'data-id': 'foo'}}
                           body='foo'
                           bodyAttrs={{'data-id': 'foo'}}
                           footer='foo'
                           footerAttrs={{'data-id': 'foo'}}
                           header='foo'
-                          headerAttrs={{'data-id': 'foo'}}  />, mountNode
+                          headerAttrs={{'data-id': 'foo'}}  />
             )
         });
 
-        it('arbitrary React-supported HTML attributes via attrs prop', () => {
-            expect(ReactDOM.findDOMNode(dialog).getAttribute('data-id')).to.equal('foo');
+        it('arbitrary React-supported HTML attributes via props.bodyAttrs', () => {
+            expect(element.refs.body.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('arbitrary React-supported HTML attributes via bodyAttrs prop', () => {
-            expect(dialog.refs.body.getAttribute('data-id')).to.equal('foo');
+        it('arbitrary React-supported HTML attributes via props.footerAttrs', () => {
+            expect(element.refs.footer.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('arbitrary React-supported HTML attributes via footerAttrs prop', () => {
-            expect(dialog.refs.footer.getAttribute('data-id')).to.equal('foo');
-        });
-
-        it('arbitrary React-supported HTML attributes via headerAttrs prop', () => {
-            expect(dialog.refs.header.getAttribute('data-id')).to.equal('foo');
+        it('arbitrary React-supported HTML attributes via props.headerAttrs', () => {
+            expect(element.refs.header.getAttribute('data-id')).to.equal('foo');
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            assert(ReactDOM.findDOMNode(dialog).classList.contains('ui-dialog'));
-            assert(ReactDOM.findDOMNode(dialog).classList.contains('foo'));
+            assert(element.refs.dialog.classList.contains('ui-dialog'));
+            assert(element.refs.dialog.classList.contains('foo'));
         });
 
         it('renderable header content', () => {
-            expect(dialog.refs.header.textContent).to.equal('foo');
+            expect(element.refs.header.textContent).to.equal('foo');
         });
 
         it('renderable body content', () => {
-            expect(dialog.refs.body.textContent).to.equal('foo');
+            expect(element.refs.body.textContent).to.equal('foo');
         });
 
         it('renderable footer content', () => {
-            expect(dialog.refs.footer.textContent).to.equal('foo');
+            expect(element.refs.footer.textContent).to.equal('foo');
         });
 
         it('renderable content as a nested child', () => {
-            dialog = ReactDOM.render(<UIDialog>foo</UIDialog>, mountNode);
+            element = render(<UIDialog>foo</UIDialog>);
 
-            expect(ReactDOM.findDOMNode(dialog).textContent).to.equal('foo');
+            expect(element.refs.dialog.textContent).to.equal('foo');
         });
     });
 
     describe('CSS hook', () => {
-        let dialog;
+        let element;
 
         beforeEach(() => {
-            dialog = ReactDOM.render(
+            element = render(
                 <UIDialog body='foo'
                           footer='foo'
-                          header='foo' />, mountNode
+                          header='foo' />
             )
         });
 
         it('ui-dialog is rendered', () => {
-            assert(ReactDOM.findDOMNode(dialog).classList.contains('ui-dialog'));
+            assert(element.refs.dialog.classList.contains('ui-dialog'));
         });
 
         it('ui-dialog-body is rendered', () => {
-            assert(dialog.refs.body.classList.contains('ui-dialog-body'));
+            assert(element.refs.body.classList.contains('ui-dialog-body'));
         });
 
         it('ui-dialog-footer is rendered', () => {
-            assert(dialog.refs.footer.classList.contains('ui-dialog-footer'));
+            assert(element.refs.footer.classList.contains('ui-dialog-footer'));
         });
 
         it('ui-dialog-header is rendered', () => {
-            assert(dialog.refs.header.classList.contains('ui-dialog-header'));
+            assert(element.refs.header.classList.contains('ui-dialog-header'));
         });
     });
 
     describe('focus', () => {
         it('should be applied to the dialog on render if `props.captureFocus` is `true`', () => {
-            const dialog = ReactDOM.render(<UIDialog className='abc' />, mountNode);
-            const node = ReactDOM.findDOMNode(dialog);
+            const element = render(<UIDialog className='abc' />);
+            const node = element.refs.dialog;
 
             expect(document.activeElement).to.equal(node);
         });
 
         it('should not be applied to the dialog on render if `props.captureFocus` is `false`', () => {
-            const dialog = ReactDOM.render(<UIDialog captureFocus={false} className='abc' />, mountNode);
-            const node = ReactDOM.findDOMNode(dialog);
+            const element = render(<UIDialog captureFocus={false} className='abc' />);
+            const node = element.refs.dialog;
 
             expect(document.activeElement).to.not.equal(node);
         });
 
         it('should not leave the dialog if `props.captureFocus` is `true`', () => {
-            const dialog = ReactDOM.render(<UIDialog className='abc' />, mountNode);
-            const node = ReactDOM.findDOMNode(dialog);
+            const element = render(<UIDialog className='abc' />);
+            const node = element.refs.dialog;
 
             mountNode.focus();
 
@@ -125,18 +125,18 @@ describe('UIDialog', () => {
     describe('closeOnEscKey', () => {
         it('should trigger `props.onClose` if `true`', () => {
             const stub = sandbox.stub();
-            const dialog = ReactDOM.render(<UIDialog closeOnEscKey={true} onClose={stub} />, mountNode);
+            const element = render(<UIDialog closeOnEscKey={true} onClose={stub} />);
 
-            dialog.handleKeydown({key: 'Escape'});
+            element.handleKeydown({key: 'Escape'});
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should not trigger `props.onClose` if falsy or not provided', () => {
             const stub = sandbox.stub();
-            const dialog = ReactDOM.render(<UIDialog onClose={stub} />, mountNode);
+            const element = render(<UIDialog onClose={stub} />);
 
-            dialog.handleKeydown({key: 'Escape'});
+            element.handleKeydown({key: 'Escape'});
 
             expect(stub).to.not.have.been.called;
         });
@@ -145,18 +145,18 @@ describe('UIDialog', () => {
     describe('closeOnOutsideClick', () => {
         it('should trigger `props.onClose` if `true`', () => {
             const stub = sandbox.stub();
-            const dialog = ReactDOM.render(<UIDialog closeOnOutsideClick={true} onClose={stub} />, mountNode);
+            const element = render(<UIDialog closeOnOutsideClick={true} onClose={stub} />);
 
-            dialog.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({target: mountNode});
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('should not trigger `props.onClose` if falsy or not provided', () => {
             const stub = sandbox.stub();
-            const dialog = ReactDOM.render(<UIDialog onClose={stub} />, mountNode);
+            const element = render(<UIDialog onClose={stub} />);
 
-            dialog.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({target: mountNode});
 
             expect(stub).to.have.been.called;
         });

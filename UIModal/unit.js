@@ -3,9 +3,12 @@
 import UIModal from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 describe('UIModal', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -13,52 +16,61 @@ describe('UIModal', () => {
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIModal));
+
     describe('accepts', () => {
-        it('arbitrary HTML attributes via props.wrapperAttrs', () => {
-            const modal = ReactDOM.render(<UIModal wrapperAttrs={{ 'data-id': 'foo' }} />, mountNode);
-            const node = ReactDOM.findDOMNode(modal);
+        it('arbitrary HTML attributes via props.modalAttrs', () => {
+            const element = render(<UIModal modalAttrs={{'data-id': 'foo'}} />);
+            const node = React.findDOMNode(element.refs.dialog);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('arbitrary HTML attributes via props.attrs', () => {
-            const modal = ReactDOM.render(<UIModal attrs={{'data-id': 'foo'}} />, mountNode);
-            const node = ReactDOM.findDOMNode(modal.refs.dialog);
+        it('extra classes via props.modalAttrs.className', () => {
+            const element = render(<UIModal modalAttrs={{className: 'foo'}} />);
+            const node = React.findDOMNode(element.refs.dialog);
 
-            expect(node.getAttribute('data-id')).to.equal('foo');
+            expect(node.classList.contains('foo')).to.be.true;
         });
 
         it('arbitrary HTML attributes via props.maskAttrs', () => {
-            const modal = ReactDOM.render(<UIModal maskAttrs={{ 'data-id': 'foo' }} />, mountNode);
+            const element = render(<UIModal maskAttrs={{'data-id': 'foo'}} />);
 
-            expect(modal.refs.mask.getAttribute('data-id')).to.equal('foo');
+            expect(element.refs.mask.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('extra classes via props.maskAttrs.className', () => {
+            const element = render(<UIModal maskAttrs={{className: 'foo'}} />);
+            const node = element.refs.mask;
+
+            expect(node.classList.contains('foo')).to.be.true;
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const modal = ReactDOM.render(<UIModal className='foo bar' />, mountNode);
-            const node = ReactDOM.findDOMNode(modal.refs.dialog);
+            const element = render(<UIModal className='foo bar' />);
+            const node = element.refs.wrapper;
 
-            ['ui-modal', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
+            ['ui-modal-wrapper', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
         });
     });
 
     describe('CSS hook', () => {
-        let modal;
+        let element;
 
         beforeEach(() => {
-            modal = ReactDOM.render(<UIModal />, mountNode);
+            element = render(<UIModal />);
         });
 
         it('ui-modal is rendered', () => {
-            assert(ReactDOM.findDOMNode(modal.refs.dialog).classList.contains('ui-modal'));
+            assert(ReactDOM.findDOMNode(element.refs.dialog).classList.contains('ui-modal'));
         });
 
         it('ui-modal-mask is rendered', () => {
-            assert(modal.refs.mask.classList.contains('ui-modal-mask'));
+            assert(element.refs.mask.classList.contains('ui-modal-mask'));
         });
 
         it('ui-modal-wrapper is rendered', () => {
-            assert(ReactDOM.findDOMNode(modal).classList.contains('ui-modal-wrapper'));
+            assert(element.refs.wrapper.classList.contains('ui-modal-wrapper'));
         });
     });
 });

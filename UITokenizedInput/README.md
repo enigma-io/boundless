@@ -14,7 +14,7 @@ let list = [{
 
 return (
     <UITokenizedInput name='my-typeahead'
-                      aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available."
+                      attrs={{'aria-label': "An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available."}}
                       defaultValue='ap'
                       entities={list}
                       provideHint={true}
@@ -69,20 +69,29 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 - __attrs__ `Object`
     - __attrs.*__
-    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
+    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
 - __className__ `string`
-  applied to the `.ui-tokenfield` node
+  applied to the `.ui-tokenfield-wrapper` node
+
+- __defaultValue__ `String`
+  passed through to the main input node, `.ui-tokenfield` -- may alternatively be set in `props.inputAttrs` if desired
+
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-tokenfield-wrapper` node
+
+- __inputAttrs__ `Object`
+    - __inputAttrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
 
 - __onTokenChange__ `Function`
   triggered when an action has been taken to add or remove a token to the UI
 
-- __outerWrapperAttrs__ `Object`
-    - __outerWrapperAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
-
 - __showTokenClose__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
+
+- __style__ `Object`
+  inline styles to be applied to the `.ui-tokenfield-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
 
 - __tokens__ `Array<Object>`
   object references to the entities that have been added as tokens

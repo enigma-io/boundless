@@ -83,7 +83,10 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
 
 - __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-checkbox-group` element
+  additional CSS class(es) to be added to the rendered `.ui-checkbox-group` node
+
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-checkbox-group` node
 
 - __items__ `Array<Object>`
   the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/README.md)
@@ -112,3 +115,6 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 
 - __selectAllPosition__ `Constant` (see [the implementation](index.js))
   the rendering position of the "select all" checkbox, defaults to "before"
+
+- __style__ `Object`
+  inline styles to be applied to the `.ui-checkbox-group` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

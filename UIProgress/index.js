@@ -38,26 +38,35 @@ class UIProgress extends UIView {
         }
     }
 
+    renderProgress() {
+        return (
+            <div {...this.props.progressAttrs}
+                 ref='progress'
+                 className={cx({
+                    'ui-progress': true,
+                    'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
+                    [this.props.progressAttrs.className]: !!this.props.progressAttrs.className
+                 })}
+                 role='presentation'
+                 style={{
+                     ...this.props.progressAttrs.style,
+                     [this.props.tweenProperty]: this.props.progress
+                 }} />
+        );
+    }
+
     render() {
         return (
-            <div {...this.props.wrapperAttrs}
+            <div {...this.props.attrs}
                  ref='wrapper'
                  className={cx({
                     'ui-progress-wrapper': true,
-                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
-                 })}>
-                <div {...this.props.attrs}
-                     ref='progress'
-                     className={cx({
-                        'ui-progress': true,
-                        'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
-                        [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className
-                     })}
-                     label={null}
-                     role='presentation'
-                     style={{[this.props.tweenProperty]: this.props.progress}} />
-
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
+                 })}
+                 id={this.props.id || this.props.attrs.id}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
+                {this.renderProgress()}
                 {this.renderLabel()}
                 {this.renderCancel()}
             </div>
@@ -69,20 +78,25 @@ UIProgress.defaultProps = {
     attrs: {},
     cancelAttrs: {},
     labelAttrs: {},
-    tweenProperty: 'width',
-    wrapperAttrs: {}
+    progressAttrs: {},
+    tweenProperty: 'width'
 };
 
 UIProgress.propTypes = {
     attrs: React.PropTypes.object,
     cancelAttrs: React.PropTypes.object,
     className: React.PropTypes.string,
+    id: React.PropTypes.string,
     label: React.PropTypes.node,
     labelAttrs: React.PropTypes.object,
     onCancel: React.PropTypes.func,
-    progress: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    progress: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    progressAttrs: React.PropTypes.object,
     tweenProperty: React.PropTypes.string,
-    wrapperAttrs: React.PropTypes.object
+    style: React.PropTypes.object
 };
 
 export default UIProgress;

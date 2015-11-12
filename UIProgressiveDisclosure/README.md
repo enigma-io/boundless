@@ -59,11 +59,21 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 - __expanded__ `Boolean`
   allows the disclosure to be rendered expanded by default
 
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-disclosure` node
+
 - __onExpand__ `Boolean`
   called when the content is shown; not called on initial render
 
 - __onHide__ `Function`
   called when the content is hidden; not called on initial render
 
+- __style__ `Object`
+  inline styles to be applied to the `.ui-disclosure` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
+
 - __teaser__ `Node`
   content to be shown next to the expansion toggle, e.g. "Advanced Options"
+
+- __toggleAttrs__ `Object`
+  __toggleAttrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure-toggle` node

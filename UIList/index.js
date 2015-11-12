@@ -15,7 +15,7 @@ class UIList extends UIView {
     }
 
     setFocus(index) {
-        this.refs[index].focus();
+        this.refs[`item_${index}`].focus();
     }
 
     getNextItemIndex(currentItem) {
@@ -65,7 +65,7 @@ class UIList extends UIView {
         return this.props.items.map((item, index) => {
             return React.createElement(nodeType, {
                 className: 'ui-list-item',
-                ref: index,
+                ref: `item_${index}`,
                 key: this.createHashedKey(item) + index, // in case 2 pieces of content are identical
                 tabIndex: 0,
                 onBlur: () => this.state.activeItem === item && this.setState({activeItem: null}),
@@ -90,6 +90,7 @@ class UIList extends UIView {
 
         return React.createElement(nodeType, {
             ...this.props.attrs,
+            ref: 'list',
             className: cx({
                 'ui-list': true,
                 'ui-list-bulleted': this.props.type === 'bullet',
@@ -98,7 +99,9 @@ class UIList extends UIView {
                 [this.props.className]: !!this.props.className,
                 [this.props.attrs.className]: !!this.props.attrs.className
             }),
+            id: this.props.id || this.props.attrs.id,
             onKeyDown: this.handleKeyDown.bind(this),
+            style: {...this.props.style, ...this.props.attrs.style},
             children: this.renderContent()
         });
     }
@@ -107,8 +110,10 @@ class UIList extends UIView {
 UIList.propTypes = {
     attrs: React.PropTypes.object,
     className: React.PropTypes.string,
+    id: React.PropTypes.string,
     items: React.PropTypes.arrayOf(React.PropTypes.node),
-    type: React.PropTypes.oneOf(['bullet', 'number'])
+    type: React.PropTypes.oneOf(['bullet', 'number']),
+    style: React.PropTypes.object
 };
 
 UIList.defaultProps = {

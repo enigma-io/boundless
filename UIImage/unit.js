@@ -3,103 +3,123 @@
 import UIImage from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 describe('UIImage', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
+    const baseProps = {src: 'http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'};
 
     afterEach(() => {
         ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIImage, baseProps));
+
     describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes via props.attrs', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         attrs={{'data-id': 'xr1'}} />, mountNode
-            );
-
-            expect(image.refs.image.getAttribute('data-id')).to.equal('xr1');
-        });
-
-        it('arbitrary React-supported HTML attributes via props.wrapperAttrs', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         wrapperAttrs={{'data-id': 'xr1'}} />, mountNode
-            );
-
-            const node = ReactDOM.findDOMNode(image);
+        it('arbitrary React-supported HTML attributes via props.imageAttrs', () => {
+            const element = render(<UIImage {...baseProps} imageAttrs={{'data-id': 'xr1'}} />);
+            const node = element.refs.image;
 
             expect(node.getAttribute('data-id')).to.equal('xr1');
         });
 
-        it('arbitrary React-supported HTML attributes via props.statusAttrs', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         statusAttrs={{'data-id': 'xr1'}} />, mountNode
+        it('classes via props.imageAttrs.className', () => {
+            const element = render(
+                <UIImage {...baseProps}
+                         imageAttrs={{
+                            className: 'foo'
+                         }} />
             );
 
-            expect(image.refs.status.getAttribute('data-id')).to.equal('xr1');
+            expect(element.refs.image.classList.contains('foo')).to.be.true;
+        });
+
+        it('classes via props.imageAttrs.className when props.displayAsBackgroundImage is true', () => {
+            const element = render(
+                <UIImage {...baseProps}
+                         displayAsBackgroundImage={true}
+                         imageAttrs={{
+                            className: 'foo'
+                         }} />
+            );
+
+            expect(element.refs.image.classList.contains('foo')).to.be.true;
+        });
+
+        it('inline styles via props.imageAttrs.style when props.displayAsBackgroundImage is true', () => {
+            const element = render(
+                <UIImage {...baseProps}
+                         displayAsBackgroundImage={true}
+                         imageAttrs={{
+                            style: {
+                                textDecoration: 'underline'
+                            }
+                         }} />
+            );
+
+            expect(element.refs.image.style.textDecoration).to.equal('underline');
+        });
+
+        it('arbitrary React-supported HTML attributes via props.statusAttrs', () => {
+            const element = render(<UIImage {...baseProps} statusAttrs={{'data-id': 'xr1'}} />);
+
+            expect(element.refs.status.getAttribute('data-id')).to.equal('xr1');
+        });
+
+        it('classes via props.statusAttrs.className', () => {
+            const element = render(
+                <UIImage {...baseProps}
+                         statusAttrs={{
+                            className: 'foo'
+                         }} />
+            );
+
+            expect(element.refs.status.classList.contains('foo')).to.be.true;
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const image = ReactDOM.render(
-                <UIImage className='hero-image'
-                         src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
+            const element = render(<UIImage {...baseProps} className='hero-image' />);
 
-            ['ui-image', 'hero-image'].forEach(cname => assert(image.refs.image.classList.contains(cname)));
+            ['ui-image-wrapper', 'hero-image'].forEach(cname => assert(element.refs.wrapper.classList.contains(cname)));
         });
     });
 
     describe('CSS hook', () => {
         it('ui-image-wrapper should be rendered', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
+            const element = render(<UIImage {...baseProps} />);
 
-            assert(ReactDOM.findDOMNode(image).classList.contains('ui-image-wrapper'));
+            assert(element.refs.wrapper.classList.contains('ui-image-wrapper'));
         });
 
         it('ui-image should be rendered', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
+            const element = render(<UIImage {...baseProps} />);
 
-            assert(image.refs.image.classList.contains('ui-image'));
+            assert(element.refs.image.classList.contains('ui-image'));
         });
 
         it('ui-image-status should be rendered', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
+            const element = render(<UIImage {...baseProps} />);
 
-            assert(image.refs.status.classList.contains('ui-image-status'));
+            assert(element.refs.status.classList.contains('ui-image-status'));
         });
     });
 
     describe('description', () => {
         it('should be rendered as the HTML `alt` attribute if `props.displayAsBackgroundImage` is falsy', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         alt='foo' />, mountNode
-            );
-
-            const node = image.refs.image;
+            const element = render(<UIImage {...baseProps} alt='foo' />);
+            const node = element.refs.image;
 
             expect(node.getAttribute('alt')).to.equal('foo');
             expect(node.hasAttribute('title')).to.be.false;
         });
 
         it('should be rendered as the HTML `title` attribute if `props.displayAsBackgroundImage` is `true`', () => {
-            const image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         alt='foo'
-                         displayAsBackgroundImage={true} />, mountNode
-            );
-
-            const node = image.refs.image;
+            const element = render(<UIImage {...baseProps} alt='foo' displayAsBackgroundImage={true} />);
+            const node = element.refs.image;
 
             expect(node.getAttribute('title')).to.equal('foo');
             expect(node.hasAttribute('alt')).to.be.false;
@@ -107,31 +127,29 @@ describe('UIImage', () => {
     });
 
     describe('on image status change', () => {
-        let image;
+        let element;
 
         beforeEach(() => {
-            image = ReactDOM.render(
-                <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' />, mountNode
-            );
+            element = render(<UIImage {...baseProps} />);
         });
 
         it('should return the correct class hook for error', (done) => {
-            image.setState({ status: UIImage.status.IMAGE_ERROR }, () => {
-                assert(image.refs.status.classList.contains('ui-image-error'));
+            element.setState({ status: UIImage.status.ERROR }, () => {
+                assert(element.refs.status.classList.contains('ui-image-error'));
                 done();
             });
         });
 
         it('should return the correct class hook for loading', (done) => {
-            image.setState({ status: UIImage.status.IMAGE_LOADING }, () => {
-                assert(image.refs.status.classList.contains('ui-image-loading'));
+            element.setState({ status: UIImage.status.LOADING }, () => {
+                assert(element.refs.status.classList.contains('ui-image-loading'));
                 done();
             });
         });
 
         it('should return the correct class hook for loaded', (done) => {
-            image.setState({ status: UIImage.status.IMAGE_LOADED }, () => {
-                assert(image.refs.status.classList.contains('ui-image-loaded'));
+            element.setState({ status: UIImage.status.LOADED }, () => {
+                assert(element.refs.status.classList.contains('ui-image-loaded'));
                 done();
             });
         });

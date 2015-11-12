@@ -20,10 +20,12 @@ class UIPopover extends UIView {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         document.body.appendChild((this.container = document.createElement('div')));
 
-        this.node = ReactDOM.findDOMNode(this.renderDialog());
+        // this is bad, don't do this anywhere else :-x.
+        this.refs = {};
+        this.refs.dialog = ReactDOM.findDOMNode(this.renderDialog());
 
         this.align = this.align.bind(this);
         this.align();
@@ -146,15 +148,15 @@ class UIPopover extends UIView {
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        let x = this.getNextXPosition(anchor, this.node);
-        let y = this.getNextYPosition(anchor, this.node);
+        let x = this.getNextXPosition(anchor, this.refs.dialog);
+        let y = this.getNextYPosition(anchor, this.refs.dialog);
 
-        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
+        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.refs.dialog, x, y);
 
         if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
             this.setState(alignmentCorrection);
         } else {
-            this.applyTranslation(this.node, x, y);
+            this.applyTranslation(this.refs.dialog, x, y);
         }
     }
 
@@ -186,15 +188,15 @@ class UIPopover extends UIView {
                         [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
                         [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                         [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                        [this.props.className]: !!this.props.className
+                        [this.props.className]: !!this.props.className,
+                        [this.props.attrs.className]: !!this.props.attrs.className
                       })}
-                      attrs={{
-                        ...this.props.attrs,
-                        style: {
-                            position: 'absolute',
-                            top: '0px',
-                            left: '0px'
-                        }
+                      style={{
+                          ...this.props.style,
+                          ...this.props.attrs.style,
+                          position: 'absolute',
+                          top: '0px',
+                          left: '0px'
                       }} />
         , this.container);
     }
@@ -214,6 +216,7 @@ UIPopover.position = {
 
 UIPopover.propTypes = {
     ...UIDialog.propTypes,
+    attrs: React.PropTypes.object,
     anchor: React.PropTypes.oneOfType([
         React.PropTypes.instanceOf(HTMLElement),
         React.PropTypes.shape({
@@ -232,6 +235,8 @@ UIPopover.propTypes = {
         UIPopover.position.END
     ]),
     autoReposition: React.PropTypes.bool,
+    className: React.PropTypes.string,
+    id: React.PropTypes.string,
     selfXAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
@@ -241,10 +246,12 @@ UIPopover.propTypes = {
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
         UIPopover.position.END
-    ])
+    ]),
+    style: React.PropTypes.object,
 };
 
 UIPopover.defaultProps = {
+    attrs: {},
     anchorXAlign: UIPopover.position.START,
     anchorYAlign: UIPopover.position.END,
     autoReposition: true,

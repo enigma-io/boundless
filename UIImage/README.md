@@ -39,16 +39,19 @@ __Mouse__ | `click` | should trigger the onClick handler
 
 - __attrs__ `Object`
   __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image-wrapper` node
 
 - __alt__ `String`
   a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.ui-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
 
 - __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-image` element
+  additional CSS class(es) to be added to the rendered `.ui-image-wrapper` node
 
 - __displayAsBackgroundImage__ `Boolean`
   emits the image as a `<div>` with `background-image` css property set instead of `<img>`
+
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-image-wrapper` node
 
 - __onClick__ `Function`
   called when the element is single-clicked
@@ -59,10 +62,13 @@ __Mouse__ | `click` | should trigger the onClick handler
 - __src__ `String`
   a valid path to the desired image
 
+- __style__ `Object`
+  inline styles to be applied to the `.ui-image-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
+
 - __statusAttrs__ `Object`
     - __statusAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-status` node
 
-- __wrapperAttrs__ `Object`
-    - __wrapperAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-wrapper` node
+- __imageAttrs__ `Object`
+    - __imageAttrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image` node

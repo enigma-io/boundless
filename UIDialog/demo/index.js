@@ -40,13 +40,7 @@ export default class UIDialogDemo extends UIView {
             let closeButton = <UIButton onClick={this.toggleDialog}>Close</UIButton>;
 
             return (
-                <UIDialog attrs={{
-                              style: {
-                                  left: this.state.leftPosition,
-                                  top: this.state.topPosition
-                              }
-                          }}
-                          body={
+                <UIDialog body={
                             <iframe className='video-frame'
                                     width='560'
                                     height='315'
@@ -57,7 +51,11 @@ export default class UIDialogDemo extends UIView {
                           footer={closeButton}
                           closeOnEscKey={true}
                           closeOnOutsideClick={true}
-                          onClose={this.toggleDialog} />
+                          onClose={this.toggleDialog}
+                          style={{
+                                  left: this.state.leftPosition,
+                                  top: this.state.topPosition
+                          }} />
             );
         }
     }

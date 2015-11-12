@@ -47,10 +47,10 @@ __touchEnd__ | column header cell drag handle | recalculate column width with en
 ##### Available `props`
 - __attrs__ `Object`
     - __attrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
 
 - __className__ `[Array<String>|String]`
-  additional CSS class(es) to be added to the rendered `.ui-table` element
+  additional CSS class(es) to be added to the rendered `.ui-table-wrapper` element
 
 - __columns__ `Array<Object>`
     - __columns[].mapping__ `String`
@@ -65,12 +65,14 @@ __touchEnd__ | column header cell drag handle | recalculate column width with en
     - __columns[].width__ `Number`
       (default `null`) a defined initial width for all cells associated with the column
 
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-table-wrapper` node
+
 - __onCellInteract__ `Function`
   invoked when a cell is interacted with
 
 - __onRowInteract__ `Function`
   invoked when a cell in a row is interacted with
 
-- __wrapperAttrs__ `Object`
-    - __wrapperAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
+- __style__ `Object`
+  inline styles to be applied to the `.ui-table-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

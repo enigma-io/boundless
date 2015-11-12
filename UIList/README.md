@@ -37,8 +37,14 @@ __Keyboard__ |`['Top', 'Bottom']` | should move focus to previous/next child if 
 - __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-list` node
 
+- __id__ `String`
+  a valid HTML `id` to be passed-though to the `.ui-list` node
+
 - __items__ `Array`
   the content to be rendered inside the list
+
+- __style__ `Object`
+  inline styles to be applied to the `.ui-list` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
 
 - __type__ `['bullet', 'number']`
   (default `null`, meaning `<div>`) change the container element type to activate browser native styles

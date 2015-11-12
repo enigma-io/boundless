@@ -264,25 +264,28 @@ class UITypeaheadInput extends UIView {
 
     render() {
         return (
-            <div {...this.props.wrapperAttrs}
+            <div {...this.props.attrs}
+                 ref='wrapper'
                  className={cx({
                     'ui-typeahead-wrapper': true,
-                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
+                 id={this.props.id || this.props.attrs.id}
+                 onKeyDown={this.handleKeyDown.bind(this)}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
-                <input {...this.props.attrs}
+                <input {...this.props.inputAttrs}
                        ref='input'
                        className={cx({
                            'ui-typeahead': true,
-                           [this.props.className]: !!this.props.className,
-                           [this.props.attrs.className]: !!this.props.attrs.className
+                           [this.props.inputAttrs.className]: !!this.props.inputAttrs.className
                        })}
-                       defaultValue={this.props.defaultValue}
-                       name={this.props.name}
-                       type={this.props.type}
+                       defaultValue={this.props.defaultValue || this.props.inputAttrs.defaultValue}
+                       name={this.props.name || this.props.inputAttrs.name}
+                       type={this.props.type || this.props.inputAttrs.type || 'text'}
                        aria-controls={this.state.id}
                        onInput={this.handleInput.bind(this)} />
 
@@ -304,6 +307,8 @@ UITypeaheadInput.propTypes = {
     ),
     hint: React.PropTypes.bool,
     hintAttrs: React.PropTypes.object,
+    id: React.PropTypes.string,
+    inputAttrs: React.PropTypes.object,
     markFunc: React.PropTypes.func,
     matchFunc: React.PropTypes.func,
     matchWrapperAttrs: React.PropTypes.object,
@@ -312,8 +317,8 @@ UITypeaheadInput.propTypes = {
     onComplete: React.PropTypes.func,
     onInput: React.PropTypes.func,
     onEntitySelected: React.PropTypes.func,
-    type: React.PropTypes.string,
-    wrapperAttrs: React.PropTypes.object
+    style: React.PropTypes.object,
+    type: React.PropTypes.string
 };
 
 UITypeaheadInput.defaultProps = {
@@ -321,12 +326,11 @@ UITypeaheadInput.defaultProps = {
     clearPartialInputOnSelection: false,
     entities: [],
     hintAttrs: {},
+    inputAttrs: {},
     matchWrapperAttrs: {},
     offscreenClass: 'ui-offscreen',
     onComplete: noop,
-    onEntitySelected: noop,
-    type: 'text',
-    wrapperAttrs: {}
+    onEntitySelected: noop
 };
 
 export default UITypeaheadInput;

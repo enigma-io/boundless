@@ -37,9 +37,9 @@ class UITokenizedInput extends UIView {
                 return;
             } else if (   currentSelectedIndices.length === 1
                        || currentSelectedIndices[0] !== previousSelectedIndices[0] /* multi selection, leftward */) {
-                this.refs[`token${currentSelectedIndices[0]}`].focus();
+                this.refs[`token_${currentSelectedIndices[0]}`].focus();
             } else if (last(currentSelectedIndices) !== last(previousSelectedIndices) /* multi selection, rightward */) {
-                this.refs[`token${last(currentSelectedIndices)}`].focus();
+                this.refs[`token_${last(currentSelectedIndices)}`].focus();
             }
         }
     }
@@ -158,7 +158,7 @@ class UITokenizedInput extends UIView {
             <div className='ui-tokenfield-tokens'>
                 {this.state.tokenizedEntityIndices.map(index => {
                     return (
-                        <div ref={`token${index}`}
+                        <div ref={`token_${index}`}
                              key={index}
                              className={cx({
                                 'ui-tokenfield-token': true,
@@ -178,22 +178,24 @@ class UITokenizedInput extends UIView {
 
     render() {
         return (
-            <div {...this.props.outerWrapperAttrs}
+            <div {...this.props.attrs}
                  ref='wrapper'
                  className={cx({
                      'ui-tokenfield-wrapper': true,
-                     [this.props.outerWrapperAttrs.className]: !!this.props.outerWrapperAttrs.className
+                     [this.props.className]: !!this.props.className,
+                     [this.props.attrs.className]: !!this.props.attrs.className
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
+                 id={this.props.id || this.props.attrs.id}
+                 onKeyDown={this.handleKeyDown.bind(this)}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.renderTokens()}
 
                 <UITypeaheadInput {...this.props}
+                                  attrs={undefined}
+                                  id={undefined}
+                                  style={undefined}
                                   ref='typeahead'
-                                  className={cx({
-                                      'ui-tokenfield': true,
-                                      [this.props.className]: !!this.props.className,
-                                      [this.props.attrs.className]: !!this.props.attrs.className
-                                  })}
+                                  className='ui-tokenfield'
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
                                   clearPartialInputOnSelection={true} />
             </div>
@@ -205,16 +207,19 @@ UITokenizedInput.propTypes = {
     ...UITypeaheadInput.propTypes,
     attrs: React.PropTypes.object,
     className: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
+    id: React.PropTypes.string,
+    inputAttrs: React.PropTypes.object,
     onTokenChange: React.PropTypes.func,
-    outerWrapperAttrs: React.PropTypes.object,
-    showTokenClose: React.PropTypes.bool
+    showTokenClose: React.PropTypes.bool,
+    style: React.PropTypes.object
 };
 
 UITokenizedInput.defaultProps = {
     attrs: {},
     entities: [],
+    inputAttrs: {},
     onTokenChange: noop,
-    outerWrapperAttrs: {},
     showTokenClose: true
 };
 

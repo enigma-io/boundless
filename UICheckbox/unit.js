@@ -3,133 +3,161 @@
 import UICheckbox from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 
 describe('UICheckbox', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
+    const baseProps = {
+        name: 'foo',
+        value: 'bar'
+    };
 
     afterEach(() => {
         ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
     });
 
-    describe('accepts', () => {
-        it('arbitarary React-supported HTML attributes via the `attrs` prop', () => {
-            const box = ReactDOM.render(<UICheckbox attrs={{'data-id': 'foo'}} />, mountNode);
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UICheckbox, baseProps));
 
-            expect(box.refs.input.getAttribute('data-id')).to.equal('foo');
+    it('defaults to being unchecked', () => {
+        const element = render(<UICheckbox {...baseProps} />);
+        const node = element.refs.input;
+
+        expect(node.getAttribute('aria-checked')).to.equal('false');
+        expect(node.hasAttribute('checked')).to.be.false;
+    });
+
+    describe('passes through', () => {
+        it('props.name to the input node', () => {
+            const element = render(<UICheckbox {...baseProps} />);
+            const node = element.refs.input;
+
+            expect(node.getAttribute('name')).to.equal('foo');
         });
 
-        it('arbitarary React-supported HTML attributes via the `wrapperAttrs` prop', () => {
-            const box = ReactDOM.render(<UICheckbox wrapperAttrs={{'data-id': 'foo'}} />, mountNode);
-            const node = ReactDOM.findDOMNode(box);
+        it('props.value to the input node', () => {
+            const element = render(<UICheckbox {...baseProps} />);
+            const node = element.refs.input;
+
+            expect(node.value).to.equal('bar');
+        });
+    });
+
+    describe('accepts', () => {
+        it('arbitrary React-supported HTML attributes via the `inputAttrs` prop', () => {
+            const element = render(<UICheckbox {...baseProps} inputAttrs={{'data-id': 'foo'}} />);
+            const node = element.refs.input;
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('arbitarary React-supported HTML attributes via the `labelAttrs` prop', () => {
-            const box = ReactDOM.render(<UICheckbox labelAttrs={{'data-id': 'foo'}} label='foo' />, mountNode);
+        it('arbitrary React-supported HTML attributes via the `labelAttrs` prop', () => {
+            const element = render(<UICheckbox {...baseProps} labelAttrs={{'data-id': 'foo'}} label='foo' />);
+            const node = element.refs.label;
 
-            expect(box.refs.label.getAttribute('data-id')).to.equal('foo');
+            expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('a default truthy value', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={true} />, mountNode);
-            const node = box.refs.input;
+        it('a truthy value', () => {
+            const element = render(<UICheckbox {...baseProps} checked={true} />);
+            const node = element.refs.input;
 
             expect(node.getAttribute('aria-checked')).to.equal('true');
             expect(node.hasAttribute('checked')).to.be.true;
         });
 
-        it('a default falsy value', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={false} />, mountNode);
-            const node = box.refs.input;
+        it('a falsy value', () => {
+            const element = render(<UICheckbox {...baseProps} checked={false} />);
+            const node = element.refs.input;
 
             expect(node.getAttribute('aria-checked')).to.equal('false');
             expect(node.hasAttribute('checked')).to.be.false;
         });
 
         it('a string label', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={false} label='foo' />, mountNode);
+            const element = render(<UICheckbox {...baseProps} label='foo' />);
 
-            expect(box.refs.label.textContent).to.equal('foo');
+            expect(element.refs.label.textContent).to.equal('foo');
         });
 
         it('an element label', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={false} label={<p>foo</p>} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} label={<p>foo</p>} />);
 
-            expect(box.refs.label.textContent).to.equal('foo');
+            expect(element.refs.label.textContent).to.equal('foo');
         });
     });
 
     describe('prop', () => {
         it('`checked` should be applied to the input node', () => {
-             const box = ReactDOM.render(<UICheckbox name='foo' checked={true} />, mountNode);
+             const element = render(<UICheckbox {...baseProps} checked={true} />);
 
-             expect(box.refs.input.checked).to.be.true;
+             expect(element.refs.input.checked).to.be.true;
         });
 
         it('`name` should be applied to the input node', () => {
-             const box = ReactDOM.render(<UICheckbox name='foo' />, mountNode);
+             const element = render(<UICheckbox {...baseProps} />);
 
-             expect(box.refs.input.hasAttribute('name')).to.be.true;
-             expect(box.refs.input.getAttribute('name')).to.equal('foo');
+             expect(element.refs.input.hasAttribute('name')).to.be.true;
+             expect(element.refs.input.getAttribute('name')).to.equal('foo');
         });
     });
 
     describe('CSS hook', () => {
         it('ui-checkbox-wrapper should be rendered', () => {
-            const box = ReactDOM.render(<UICheckbox />, mountNode);
+            const element = render(<UICheckbox {...baseProps} />);
 
-            assert(ReactDOM.findDOMNode(box).classList.contains('ui-checkbox-wrapper'));
+            assert(element.refs.wrapper.classList.contains('ui-checkbox-wrapper'));
         });
 
         it('ui-checkbox-label should be rendered', () => {
-            const box = ReactDOM.render(<UICheckbox label='foo' />, mountNode);
+            const element = render(<UICheckbox {...baseProps} label='foo' />);
 
-            assert(box.refs.label.classList.contains('ui-checkbox-label'));
+            assert(element.refs.label.classList.contains('ui-checkbox-label'));
         });
 
         it('ui-checkbox should be rendered', () => {
-            const box = ReactDOM.render(<UICheckbox />, mountNode);
+            const element = render(<UICheckbox {...baseProps} />);
 
-            assert(box.refs.input.classList.contains('ui-checkbox'));
+            assert(element.refs.input.classList.contains('ui-checkbox'));
         });
 
         it('ui-checkbox-checked should be rendered when the checkbox value is truthy', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={true} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} checked={true} />);
 
-            assert(box.refs.input.classList.contains('ui-checkbox-checked'));
+            assert(element.refs.input.classList.contains('ui-checkbox-checked'));
         });
 
         it('ui-checkbox-unchecked should be rendered when the checkbox value is falsy', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={false} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} />);
 
-            assert(box.refs.input.classList.contains('ui-checkbox-unchecked'));
+            assert(element.refs.input.classList.contains('ui-checkbox-unchecked'));
         });
 
         it('ui-checkbox-mixed should be rendered when the checkbox is indeterminate', () => {
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={true} indeterminate={true} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} checked={true} indeterminate={true} />);
 
-            assert(box.refs.input.classList.contains('ui-checkbox-mixed'));
+            assert(element.refs.input.classList.contains('ui-checkbox-mixed'));
         });
     });
 
     describe('calls the appropriate handler', () => {
         it('when the checkbox value becomes truthy', () => {
             const stub = sandbox.stub();
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={false} onChecked={stub} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} onChecked={stub} />);
 
-            box.handleChange();
+            element.handleChange();
 
             expect(stub).to.have.been.calledOnce;
         });
 
         it('when the checkbox value becomes falsy', () => {
             const stub = sandbox.stub();
-            const box = ReactDOM.render(<UICheckbox name='foo' checked={true} onUnchecked={stub} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} checked={true} onUnchecked={stub} />);
 
-            box.handleChange();
+            element.handleChange();
 
             expect(stub).to.have.been.calledOnce;
         });
@@ -138,9 +166,9 @@ describe('UICheckbox', () => {
     describe('clicking on the label', () => {
         it('should toggle the checkbox state', () => {
             const stub = sandbox.stub();
-            const box = ReactDOM.render(<UICheckbox name='foo' label='test' onChecked={stub} />, mountNode);
+            const element = render(<UICheckbox {...baseProps} label='test' onChecked={stub} />);
 
-            box.refs.label.click();
+            element.refs.label.click();
             expect(stub).to.have.been.calledOnce;
         });
     });

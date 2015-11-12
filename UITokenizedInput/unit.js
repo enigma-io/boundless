@@ -3,10 +3,13 @@
 import UITokenizedInput from './index';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import conformanceChecker from '../UIUtils/conform';
 import {noop} from 'lodash';
 
 describe('UITokenizedInput', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
+    const render = vdom => ReactDOM.render(vdom, mountNode);
+
     const sandbox = sinon.sandbox.create();
     const entities = [
         { content: 'apple' },
@@ -19,96 +22,98 @@ describe('UITokenizedInput', () => {
         sandbox.restore();
     });
 
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UITokenizedInput));
+
     describe('accepts', () => {
-        it('arbitrary HTML attributes via props.attrs', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput attrs={{'data-id': 'foo'}} />, mountNode);
-            const node = tokenfield.refs.typeahead.getInputNode();
+        it('arbitrary HTML attributes via props.inputAttrs', () => {
+            const element = render(<UITokenizedInput inputAttrs={{'data-id': 'foo'}} />);
+            const node = element.refs.typeahead.refs.input;
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('arbitrary HTML attributes via props.outerWrapperAttrs', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput outerWrapperAttrs={{'data-id': 'foo'}} />, mountNode);
-            const node = tokenfield.refs.wrapper;
+        it('additional classes via props.inputAttrs.className', () => {
+            const element = render(<UITokenizedInput inputAttrs={{className: 'foo'}} />);
+            const node = element.refs.typeahead.refs.input;
 
-            expect(node.getAttribute('data-id')).to.equal('foo');
+            expect(node.classList.contains('foo')).to.be.true;
         });
 
         it('an additional class as a string without replacing the core hook', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput className='foo' />, mountNode);
-            const node = tokenfield.refs.typeahead.getInputNode();
+            const element = render(<UITokenizedInput className='foo' />);
+            const node = element.refs.wrapper;
 
-            ['ui-tokenfield', 'ui-typeahead', 'foo'].forEach(name => assert(node.classList.contains(name)));
+            ['ui-tokenfield-wrapper', 'foo'].forEach(name => assert(node.classList.contains(name)));
         });
     });
 
     describe('CSS hook', () => {
         it('ui-tokenfield-wrapper should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput />, mountNode);
-            const node = ReactDOM.findDOMNode(tokenfield);
+            const element = render(<UITokenizedInput />);
+            const node = element.refs.wrapper;
 
             expect(node.className).to.contain('ui-tokenfield-wrapper');
         });
 
         it('ui-tokenfield should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput />, mountNode);
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield');
+            const element = render(<UITokenizedInput />);
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield');
 
             expect(node).to.not.be.null;
         });
 
         it('ui-tokenfield-tokens should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput />, mountNode);
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-tokens');
+            const element = render(<UITokenizedInput />);
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield-tokens');
 
             expect(node).to.not.be.null;
         });
 
         it('ui-tokenfield-token should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
+            const element = render(<UITokenizedInput entities={entities} />);
 
-            tokenfield.setState({tokenizedEntityIndices: [0]});
+            element.setState({tokenizedEntityIndices: [0]});
 
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token');
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token');
 
             expect(node).to.not.be.null;
         });
 
         it('ui-tokenfield-token-selected should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
+            const element = render(<UITokenizedInput entities={entities} />);
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0],
                 tokenizedEntityIndicesSelected: [0]
             });
 
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token-selected');
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-selected');
 
             expect(node).to.not.be.null;
         });
 
         it('ui-tokenfield-token-close should be rendered', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
+            const element = render(<UITokenizedInput entities={entities} />);
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0],
                 tokenizedEntityIndicesSelected: [0]
             });
 
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token-close');
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
 
             expect(node).to.not.be.null;
         });
 
         it('ui-tokenfield-token-close not should be rendered if `showTokenClose` is `false`', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput showTokenClose={false} entities={entities} />, mountNode);
+            const element = render(<UITokenizedInput showTokenClose={false} entities={entities} />);
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0],
                 tokenizedEntityIndicesSelected: [0]
             });
 
-            const node = ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token-close');
+            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
 
             expect(node).to.be.null;
         });
@@ -116,8 +121,8 @@ describe('UITokenizedInput', () => {
 
     describe('token creation', () => {
         it('should occur upon entity selection', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput defaultValue='ap' entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput defaultValue='ap' entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
             typeahead.handleKeyDown({
                 key: 'Enter',
@@ -125,12 +130,12 @@ describe('UITokenizedInput', () => {
                 target: typeahead.getInputNode()
             });
 
-            expect(tokenfield.state.tokenizedEntityIndices).to.contain(0);
+            expect(element.state.tokenizedEntityIndices).to.contain(0);
         });
 
         it('should not duplicate if the same token already exists', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput defaultValue='ap' entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput defaultValue='ap' entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
             typeahead.handleKeyDown({
                 key: 'Enter',
@@ -146,148 +151,148 @@ describe('UITokenizedInput', () => {
                 target: typeahead.getInputNode()
             });
 
-            expect(tokenfield.state.tokenizedEntityIndices).to.contain(0);
-            expect(tokenfield.state.tokenizedEntityIndices).to.have.length(1);
+            expect(element.state.tokenizedEntityIndices).to.contain(0);
+            expect(element.state.tokenizedEntityIndices).to.have.length(1);
         });
     });
 
     describe('token selection', () => {
         it('should occur when pressing the left arrow key at the start of the input field', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({tokenizedEntityIndices: [0, 1]});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            element.setState({tokenizedEntityIndices: [0, 1]});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
 
             typeahead.focusInput();
-            tokenfield.handleKeyDown({key: 'ArrowLeft'});
+            element.handleKeyDown({key: 'ArrowLeft'});
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.not.contain(0);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.not.contain(0);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(1);
         });
 
         it('should not change if pressing the left arrow key with the only token already selected', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0],
                 tokenizedEntityIndicesSelected: [0]
             });
 
             typeahead.focusInput();
-            tokenfield.handleKeyDown({key: 'ArrowLeft'});
+            element.handleKeyDown({key: 'ArrowLeft'});
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(0);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(0);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(1);
         });
 
         it('should deselect if pressing the right arrow key with the only token already selected and focus the input', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0],
                 tokenizedEntityIndicesSelected: [0]
             });
 
-            ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token').focus();
-            tokenfield.handleKeyDown({key: 'ArrowRight'});
+            element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
+            element.handleKeyDown({key: 'ArrowRight'});
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
             expect(document.activeElement).to.equal(typeahead.getInputNode());
         });
 
         it('should move rightward if the rightmost token is not selected on right arrow key presses', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0, 1],
                 tokenizedEntityIndicesSelected: [0]
             });
 
-            ReactDOM.findDOMNode(tokenfield).querySelector('.ui-tokenfield-token').focus();
-            tokenfield.handleKeyDown({key: 'ArrowRight'});
+            element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
+            element.handleKeyDown({key: 'ArrowRight'});
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(1);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(1);
         });
     });
 
     describe('multiple token selection', () => {
         it('should occur when pressing the shift and left arrow keys', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0, 1],
                 tokenizedEntityIndicesSelected: [1]
             });
 
             typeahead.focusInput();
-            tokenfield.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowLeft',
                 shiftKey: true
             });
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(0);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(1);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(2);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(0);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(2);
         });
 
         it('should occur when pressing the shift and right arrow keys', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({
+            element.setState({
                 tokenizedEntityIndices: [0, 1],
                 tokenizedEntityIndicesSelected: [0]
             });
 
             typeahead.focusInput();
-            tokenfield.handleKeyDown({
+            element.handleKeyDown({
                 key: 'ArrowRight',
                 shiftKey: true
             });
 
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(0);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.contain(1);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(2);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(0);
+            expect(element.state.tokenizedEntityIndicesSelected).to.contain(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(2);
         });
     });
 
     describe('token removal', () => {
         it('should occur when pressing the Backspace key with a selected token', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({tokenizedEntityIndices: [0, 1]});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            element.setState({tokenizedEntityIndices: [0, 1]});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
 
             typeahead.focusInput();
 
-            tokenfield.handleKeyDown({key: 'ArrowLeft'});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(1);
+            element.handleKeyDown({key: 'ArrowLeft'});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(1);
 
-            tokenfield.handleKeyDown({key: 'Backspace', preventDefault: noop});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            element.handleKeyDown({key: 'Backspace', preventDefault: noop});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
         });
 
         it('should occur when clicking a token\'s "close" handle', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput entities={entities} />, mountNode);
-            const typeahead = tokenfield.refs.typeahead;
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
 
-            tokenfield.setState({tokenizedEntityIndices: [0, 1]});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            element.setState({tokenizedEntityIndices: [0, 1]});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
 
             typeahead.focusInput();
 
-            tokenfield.handleKeyDown({key: 'ArrowLeft'});
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(1);
+            element.handleKeyDown({key: 'ArrowLeft'});
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(1);
 
-            tokenfield.handleTokenCloseClick(1);
-            expect(tokenfield.state.tokenizedEntityIndicesSelected).to.have.length(0);
+            element.handleTokenCloseClick(1);
+            expect(element.state.tokenizedEntityIndicesSelected).to.have.length(0);
         });
     });
 });

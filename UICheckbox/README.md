@@ -41,19 +41,23 @@ __Mouse__ | `click` | should toggle the `checked` state
 
 - __attrs__ `Object`
   __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
 
 - __checked__ `Boolean`
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
 - __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-checkbox` element
+  additional CSS class(es) to be added to the rendered `.ui-checkbox-wrapper` node
 
 - __id__ `String`
-  the string to be used for the rendered input HTML `id` and corresponding label `for` attributes; auto-generated if not provided
+  a valid HTML `id` to be passed-though to the `.ui-checkbox-wrapper` node
 
 - __indeterminate__ `Boolean`
   enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
+
+- __inputAttrs__ `Object`
+    - __inputAttrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
 - __label__ `Node`
   any React-renderable content, most commonly a simple string
@@ -71,6 +75,8 @@ __Mouse__ | `click` | should toggle the `checked` state
 - __onUnchecked__ `Function`
   called when the element becomes unchecked; backing data must be updated to persist the state change
 
-- __wrapperAttrs__ `Object`
-    - __wrapperAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
+- __style__ `Object`
+  inline styles to be applied to the `.ui-checkbox-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
+
+- __value__ `String`
+  passed-through to the input node, like `name`

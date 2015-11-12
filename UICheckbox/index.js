@@ -11,7 +11,7 @@ import noop from '../UIUtils/noop';
 class UICheckbox extends UIView {
     initialState() {
         return {
-            id: this.props.attrs.id || this.uuid()
+            id: this.props.inputAttrs.id || this.uuid()
         };
     }
 
@@ -41,7 +41,7 @@ class UICheckbox extends UIView {
 
     renderInput() {
         return (
-            <input {...this.props.attrs}
+            <input {...this.props.inputAttrs}
                    ref='input'
                    type='checkbox'
                    id={this.state.id}
@@ -50,13 +50,13 @@ class UICheckbox extends UIView {
                        'ui-checkbox-mixed': this.props.indeterminate,
                        'ui-checkbox-checked': this.props.checked,
                        'ui-checkbox-unchecked': !this.props.indeterminate && !this.props.checked,
-                       [this.props.className]: !!this.props.className,
-                       [this.props.attrs.className]: !!this.props.attrs.className
+                       [this.props.inputAttrs.className]: !!this.props.inputAttrs.className
                    })}
                    name={this.props.name}
                    checked={this.props.checked}
                    aria-checked={this.ariaState()}
-                   onChange={this.handleChange.bind(this)} />
+                   onChange={this.handleChange.bind(this)}
+                   value={this.props.value} />
         );
     }
 
@@ -78,11 +78,15 @@ class UICheckbox extends UIView {
 
     render() {
         return (
-            <div {...this.props.wrapperAttrs}
+            <div {...this.props.attrs}
+                 ref='wrapper'
                  className={cx({
                     'ui-checkbox-wrapper': true,
-                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
-                 })}>
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
+                 })}
+                 id={this.props.id || this.props.attrs.id}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -96,22 +100,24 @@ UICheckbox.propTypes = {
     className: React.PropTypes.string,
     id: React.PropTypes.string,
     indeterminate: React.PropTypes.bool,
+    inputAttrs: React.PropTypes.object,
     label: React.PropTypes.node,
     labelAttrs: React.PropTypes.object,
-    name: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
     onChecked: React.PropTypes.func,
     onUnchecked: React.PropTypes.func,
-    wrapperAttrs: React.PropTypes.object
+    style: React.PropTypes.object,
+    value: React.PropTypes.string
 };
 
 UICheckbox.defaultProps = {
     attrs: {},
     checked: false,
     indeterminate: false,
+    inputAttrs: {},
     labelAttrs: {},
     onChecked: noop,
-    onUnchecked: noop,
-    wrapperAttrs: {}
+    onUnchecked: noop
 };
 
 export default UICheckbox;

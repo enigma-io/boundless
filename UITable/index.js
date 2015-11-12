@@ -624,24 +624,23 @@ class UITable extends UIView {
 
     render() {
         return (
-            <div {...this.props.wrapperAttrs}
+            <div {...this.props.attrs}
                  ref='wrapper'
                  className={cx({
                     'ui-table-wrapper': true,
-                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
                  })}
+                 id={this.props.id || this.props.attrs.id}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
                  onWheel={this.handleMoveIntent}
-                 tabIndex='0'>
+                 tabIndex='0'
+                 style={{...this.props.style, ...this.props.attrs.style}}>
                 <div {...this.props.attrs}
                      ref='table'
-                     className={cx({
-                        'ui-table': true,
-                        [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className
-                     })}>
+                     className='ui-table'>
                     {this.renderHead()}
                     {this.renderBody()}
                 </div>
@@ -665,19 +664,19 @@ UITable.propTypes = {
     ),
     getRow: React.PropTypes.func,
     handleKeyDown: React.PropTypes.func,
+    id: React.PropTypes.string,
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
     totalRows: React.PropTypes.number,
-    wrapperAttrs: React.PropTypes.object
+    style: React.PropTypes.object
 };
 
 UITable.defaultProps = {
     attrs: {},
     columns: [],
     getRow: noop,
-    offscreenClass: 'ui-offscreen',
-    wrapperAttrs: {}
+    offscreenClass: 'ui-offscreen'
 };
 
 export default UITable;

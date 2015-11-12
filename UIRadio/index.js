@@ -11,7 +11,7 @@ import noop from '../UIUtils/noop';
 class UIRadio extends UIView {
     initialState() {
         return {
-            id: this.props.attrs.id || this.uuid()
+            id: this.props.inputAttrs.id || this.uuid()
         };
     }
 
@@ -23,22 +23,20 @@ class UIRadio extends UIView {
 
     renderInput() {
         return (
-            <input
-                {...this.props.attrs}
-                ref='input'
-                type='radio'
-                id={this.state.id}
-                className={cx({
-                    'ui-radio': true,
-                    'ui-radio-selected': this.props.selected,
-                    [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
-                })}
-                name={this.props.name}
-                value={this.props.value}
-                checked={this.props.selected}
-                aria-checked={String(this.props.selected)}
-                onChange={this.handleChange.bind(this)} />
+            <input {...this.props.inputAttrs}
+                   ref='input'
+                   type='radio'
+                   id={this.state.id}
+                   className={cx({
+                       'ui-radio': true,
+                       'ui-radio-selected': this.props.selected,
+                       [this.props.inputAttrs.className]: !!this.props.inputAttrs.className
+                   })}
+                   name={this.props.name}
+                   value={this.props.value}
+                   checked={this.props.selected}
+                   aria-checked={String(this.props.selected)}
+                   onChange={this.handleChange.bind(this)} />
         );
     }
 
@@ -60,11 +58,15 @@ class UIRadio extends UIView {
 
     render() {
         return (
-            <div {...this.props.wrapperAttrs}
+            <div {...this.props.attrs}
+                 ref='wrapper'
                  className={cx({
                      'ui-radio-wrapper': true,
-                     [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
-                 })}>
+                     [this.props.className]: !!this.props.className,
+                     [this.props.attrs.className]: !!this.props.attrs.className
+                 })}
+                 id={this.props.id || this.props.attrs.id}
+                 style={{...this.props.style, ...this.props.attrs.style}}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -75,21 +77,23 @@ class UIRadio extends UIView {
 UIRadio.propTypes = {
     attrs: React.PropTypes.object,
     className: React.PropTypes.string,
+    id: React.PropTypes.string,
+    inputAttrs: React.PropTypes.object,
     label: React.PropTypes.node,
     labelAttrs: React.PropTypes.object,
     name: React.PropTypes.string.isRequired,
     onSelected: React.PropTypes.func,
     selected: React.PropTypes.bool,
-    wrapperAttrs: React.PropTypes.object,
+    style: React.PropTypes.object,
     value: React.PropTypes.string.isRequired
 };
 
 UIRadio.defaultProps = {
     attrs: {},
+    inputAttrs: {},
     labelAttrs: {},
     onSelected: noop,
-    selected: false,
-    wrapperAttrs: {}
+    selected: false
 };
 
 export default UIRadio;
