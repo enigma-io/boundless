@@ -25,9 +25,17 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-A demo is available with working examples of each component by running the following commands:
+#### "Kitchen Sink" & Demos
+
+To access the full set of demos, you'll need to clone the repo locally to your favored projects folder:
+
+```
+git clone git@github.com:enigma-platform/uikit.git
+```
+
+Then `cd` into it and run the following commands:
 
 ```bash
-npm i
+npm install
 npm run demo
 ```
