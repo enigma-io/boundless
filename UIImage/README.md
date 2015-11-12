@@ -37,7 +37,7 @@ __Mouse__ | `click` | should trigger the onClick handler
 <br />
 ##### Available `props`
 
-- __attrs__ {Object}
+- __attrs__ `Object`
   __attrs.*__
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
 

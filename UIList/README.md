@@ -30,7 +30,7 @@ __Keyboard__ |`['Top', 'Bottom']` | should move focus to previous/next child if 
 
 <br />
 ##### Available `props`
-- __attrs__ {Object}
+- __attrs__ `Object`
   __attrs.*__
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-list` node
 

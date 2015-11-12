@@ -39,7 +39,7 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 <br />
 ##### Available `props`
 
-- __attrs__ {Object}
+- __attrs__ `Object`
   __attrs.*__
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
 
