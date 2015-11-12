@@ -25,46 +25,52 @@ First and foremost, it must be able to display content and remain fully interact
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**scroll** | any | move the viewfinder (should handle diagonals)
+__scroll__ | any | move the viewfinder (should handle diagonals)
 
-**click** | row | call `onRowInteract` with the row object reference
-**keydown** `[Enter]` | row | call `onRowInteract` with the row object reference
-**touchend** (delta X/Y change <= 10) | row | call `onRowInteract` with the row object reference
+__click__ | row | call `onRowInteract` with the row object reference
+__keydown__ `[Enter]` | row | call `onRowInteract` with the row object reference
+__touchend__ (delta X/Y change <= 10) | row | call `onRowInteract` with the row object reference
 
-**click** | table cell | call `onCellInteract` with the row object reference and cell property name
-**keydown** `[Enter]` | table cell | call `onCellInteract` with the row object reference and cell property name
-**touchend** (delta X/Y change <= 10) | table cell | call `onCellInteract` with the row object reference and cell property name
+__click__ | table cell | call `onCellInteract` with the row object reference and cell property name
+__keydown__ `[Enter]` | table cell | call `onCellInteract` with the row object reference and cell property name
+__touchend__ (delta X/Y change <= 10) | table cell | call `onCellInteract` with the row object reference and cell property name
 
-**keydown** `[Up, Down]` | table cell | move focus and apply `active` class to row
+__keydown__ `[Up, Down]` | table cell | move focus and apply `active` class to row
 
-**contextmenu** | table cell | block browser menu, launch custom menu
+__contextmenu__ | table cell | block browser menu, launch custom menu
 
-**dblclick** | column header cell drag handle | recalculate column width with currently visible values & apply new sizing
-**dragEnd** | column header cell drag handle | recalculate column width with end X value & apply new sizing
-**touchEnd** | column header cell drag handle | recalculate column width with end X value & apply new sizing
+__dblclick__ | column header cell drag handle | recalculate column width with currently visible values & apply new sizing
+__dragEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
+__touchEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
 
 <br />
 ##### Available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
+- __attrs__ `Object`
+    - __attrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table` node
 
-- **className** `[Array<String>|String]`
-  additional CSS class(es) to be added to the rendered `.ui-table-wrapper` element
+- __className__ `[Array<String>|String]`
+  additional CSS class(es) to be added to the rendered `.ui-table` element
 
-- **columns** `Array<Object>`
-    - **columns[].mapping** `String`
+- __columns__ `Array<Object>`
+    - __columns[].mapping__ `String`
       the exact name of the corresponding property in each row object
 
-    - **columns[].resizable** `Boolean`
+    - __columns[].resizable__ `Boolean`
       (default `true`) enables/disables drag-to-resize on the column header cell edges
 
-    - **columns[].title** `String`
+    - __columns[].title__ `String`
       the label to be displayed in the cell
 
-    - **columns[].width** `Number`
+    - __columns[].width__ `Number`
       (default `null`) a defined initial width for all cells associated with the column
 
-- **onCellInteract** `Function`
+- __onCellInteract__ `Function`
   invoked when a cell is interacted with
 
-- **onRowInteract** `Function`
+- __onRowInteract__ `Function`
   invoked when a cell in a row is interacted with
+
+- __wrapperAttrs__ `Object`
+    - __wrapperAttrs.*__
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node

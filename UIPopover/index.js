@@ -45,26 +45,26 @@ class UIPopover extends UIView {
 
     getNextXPosition(anchor, dialog) {
         const state = this.state;
-        const constants = UIPopover.Constants;
+        const position = UIPopover.position;
 
         let nextX = anchor.getBoundingClientRect().left + document.body.scrollLeft;
 
         switch (state.anchorXAlign) {
-        case constants.MIDDLE:
+        case position.MIDDLE:
             nextX += anchor.offsetWidth / 2;
             break;
 
-        case constants.END:
+        case position.END:
             nextX += anchor.offsetWidth;
             break;
         }
 
         switch (state.selfXAlign) {
-        case constants.MIDDLE:
+        case position.MIDDLE:
             nextX -= dialog.clientWidth / 2;
             break;
 
-        case constants.END:
+        case position.END:
             nextX -= dialog.clientWidth;
             break;
         }
@@ -74,28 +74,28 @@ class UIPopover extends UIView {
 
     getNextYPosition(anchor, dialog) {
         const state = this.state;
-        const constants = UIPopover.Constants;
+        const position = UIPopover.position;
 
         let anchorY = anchor.getBoundingClientRect().top + document.body.scrollTop;
         let anchorHeight = anchor.offsetHeight;
         let nextY = anchorY + anchorHeight;
 
         switch (state.anchorYAlign) {
-        case constants.START:
+        case position.START:
             nextY = anchorY;
             break;
 
-        case constants.MIDDLE:
+        case position.MIDDLE:
             nextY = anchorY + anchorHeight / 2;
             break;
         }
 
         switch (state.selfYAlign) {
-        case constants.MIDDLE:
+        case position.MIDDLE:
             nextY -= dialog.clientHeight / 2;
             break;
 
-        case constants.END:
+        case position.END:
             nextY -= dialog.clientHeight;
             break;
         }
@@ -116,17 +116,17 @@ class UIPopover extends UIView {
         let yMax = document.body.scrollHeight;
 
         if (x + width > xMax) { // overflowing off to the right
-            corrections.anchorXAlign = UIPopover.Constants.END;
-            corrections.selfXAlign = UIPopover.Constants.END;
+            corrections.anchorXAlign = UIPopover.position.END;
+            corrections.selfXAlign = UIPopover.position.END;
         } else if (x < 0) { // overflowing off to the left
-            corrections.anchorXAlign = UIPopover.Constants.START;
-            corrections.selfXAlign = UIPopover.Constants.START;
+            corrections.anchorXAlign = UIPopover.position.START;
+            corrections.selfXAlign = UIPopover.position.START;
         } else if (y + height > yMax) { // overflowing below
-            corrections.anchorYAlign = UIPopover.Constants.START;
-            corrections.selfYAlign = UIPopover.Constants.END;
+            corrections.anchorYAlign = UIPopover.position.START;
+            corrections.selfYAlign = UIPopover.position.END;
         } else if (y < 0) { // overflowing above
-            corrections.anchorYAlign = UIPopover.Constants.END;
-            corrections.selfYAlign = UIPopover.Constants.START;
+            corrections.anchorYAlign = UIPopover.position.END;
+            corrections.selfYAlign = UIPopover.position.START;
         }
 
         return corrections;
@@ -159,16 +159,16 @@ class UIPopover extends UIView {
     }
 
     getClassAlignmentFragment(constant) {
-        let constants = UIPopover.Constants;
+        let position = UIPopover.position;
 
         switch (constant) {
-        case constants.START:
+        case position.START:
             return 'start';
 
-        case constants.MIDDLE:
+        case position.MIDDLE:
             return 'middle';
 
-        case constants.END:
+        case position.END:
             return 'end';
         }
     }
@@ -188,10 +188,13 @@ class UIPopover extends UIView {
                         [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
                         [this.props.className]: !!this.props.className
                       })}
-                      style={{
-                          position: 'absolute',
-                          top: '0px',
-                          left: '0px'
+                      attrs={{
+                        ...this.props.attrs,
+                        style: {
+                            position: 'absolute',
+                            top: '0px',
+                            left: '0px'
+                        }
                       }} />
         , this.container);
     }
@@ -203,13 +206,14 @@ class UIPopover extends UIView {
     }
 }
 
-UIPopover.Constants = {
+UIPopover.position = {
     START: 'START',
     MIDDLE: 'MIDDLE',
     END: 'END'
 };
 
 UIPopover.propTypes = {
+    ...UIDialog.propTypes,
     anchor: React.PropTypes.oneOfType([
         React.PropTypes.instanceOf(HTMLElement),
         React.PropTypes.shape({
@@ -218,44 +222,34 @@ UIPopover.propTypes = {
         }) // a react element of some fashion, React.PropTypes.element wasn't working
     ]).isRequired,
     anchorXAlign: React.PropTypes.oneOf([
-        UIPopover.Constants.START,
-        UIPopover.Constants.MIDDLE,
-        UIPopover.Constants.END
+        UIPopover.position.START,
+        UIPopover.position.MIDDLE,
+        UIPopover.position.END
     ]),
     anchorYAlign: React.PropTypes.oneOf([
-        UIPopover.Constants.START,
-        UIPopover.Constants.MIDDLE,
-        UIPopover.Constants.END
+        UIPopover.position.START,
+        UIPopover.position.MIDDLE,
+        UIPopover.position.END
     ]),
     autoReposition: React.PropTypes.bool,
-    body: React.PropTypes.node,
-    bodyAttributes: React.PropTypes.object,
-    className: React.PropTypes.string,
-    closeOnEscKey: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    footer: React.PropTypes.node,
-    footerAttributes: React.PropTypes.object,
-    header: React.PropTypes.node,
-    headerAttributes: React.PropTypes.object,
-    onClose: React.PropTypes.func,
     selfXAlign: React.PropTypes.oneOf([
-        UIPopover.Constants.START,
-        UIPopover.Constants.MIDDLE,
-        UIPopover.Constants.END
+        UIPopover.position.START,
+        UIPopover.position.MIDDLE,
+        UIPopover.position.END
     ]),
     selfYAlign: React.PropTypes.oneOf([
-        UIPopover.Constants.START,
-        UIPopover.Constants.MIDDLE,
-        UIPopover.Constants.END
+        UIPopover.position.START,
+        UIPopover.position.MIDDLE,
+        UIPopover.position.END
     ])
 };
 
 UIPopover.defaultProps = {
-    anchorXAlign: UIPopover.Constants.START,
-    anchorYAlign: UIPopover.Constants.END,
+    anchorXAlign: UIPopover.position.START,
+    anchorYAlign: UIPopover.position.END,
     autoReposition: true,
-    selfXAlign: UIPopover.Constants.START,
-    selfYAlign: UIPopover.Constants.START
+    selfXAlign: UIPopover.position.START,
+    selfYAlign: UIPopover.position.START
 };
 
 export default UIPopover;

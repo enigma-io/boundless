@@ -39,11 +39,12 @@ export default class UIProgressiveDisclosure extends UIView {
 
     render() {
         return (
-            <div {...this.props}
+            <div {...this.props.attrs}
                  className={cx({
                     'ui-disclosure': true,
                     'ui-disclosure-expanded': this.state.expanded,
-                    [this.props.className]: !!this.props.className
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
                  })}>
                 <div ref='toggle'
                      className='ui-disclosure-toggle'
@@ -62,6 +63,7 @@ export default class UIProgressiveDisclosure extends UIView {
 }
 
 UIProgressiveDisclosure.propTypes = {
+    attrs: React.PropTypes.object,
     children: React.PropTypes.node,
     className: React.PropTypes.string,
     expanded: React.PropTypes.bool,
@@ -71,6 +73,7 @@ UIProgressiveDisclosure.propTypes = {
 };
 
 UIProgressiveDisclosure.defaultProps = {
+    attrs: {},
     expanded: false,
     onExpand: noop,
     onHide: noop

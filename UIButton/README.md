@@ -3,7 +3,7 @@
 
 ```jsx
 return (
-    <UIButton aria-label='Press to activate bolding on the selected text and new input.'
+    <UIButton attrs={{'aria-label': 'Press to activate bolding on the selected text and new input.'}}
               className='text-bolder'
               onPressed={this.activateBolding}
               onUnpressed={this.deactivateBolding}
@@ -30,28 +30,29 @@ Styling of the element will be provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter, Space]` (unpressed) | trigger the `onPressed` handler
-**Keyboard** | `[Enter, Space]` (pressed) | trigger the `onUnpressed` handler
-**Mouse** | `click` | trigger the `onClicked` handler
-**Mouse** | `click` (unpressed) | trigger the `onPressed` handler
-**Mouse** | `click` (pressed) | trigger the `onUnpressed` handler
+__Keyboard__ | `[Enter, Space]` (unpressed) | trigger the `onPressed` handler
+__Keyboard__ | `[Enter, Space]` (pressed) | trigger the `onUnpressed` handler
+__Mouse__ | `click` | trigger the `onClicked` handler
+__Mouse__ | `click` (unpressed) | trigger the `onPressed` handler
+__Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
+- __attrs__ `Object`
+  __attrs.*__ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-button` element
 
-- **onClick** `Function`
+- __onClick__ `Function`
   called when the element receives a mouse click
 
-- **onPressed** `Function`
+- __onPressed__ `Function`
   called when the element becomes "pressed"; backing data must be updated to persist the state change
 
-- **onUnpressed** `Function`
+- __onUnpressed__ `Function`
   called when the element becomes "unpressed"; backing data must be updated to persist the state change
 
-- **pressed** `Boolean`
+- __pressed__ `Boolean`
   enables "pressed" support and adds the `aria-pressed` attribute to the rendered element

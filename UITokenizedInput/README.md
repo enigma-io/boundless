@@ -56,28 +56,33 @@ In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput) wi
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter]` | select the current typeahead match if one exists, trigger `onTokenChange` with token data
-**Keyboard** | `[Backspace]` on token | trigger `onTokenChange` with token data
-**Keyboard** | `[Left]` | cycle left through tokens if a token is already selected or cursor is at the start of the typeahead
-**Keyboard** | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
-**Mouse** | `[Click]` on token | focus token, add "selected" class
-**Mouse** | `[Click]` on token close | trigger `onTokenChange` with token data
+__Keyboard__ | `[Enter]` | select the current typeahead match if one exists, trigger `onTokenChange` with token data
+__Keyboard__ | `[Backspace]` on token | trigger `onTokenChange` with token data
+__Keyboard__ | `[Left]` | cycle left through tokens if a token is already selected or cursor is at the start of the typeahead
+__Keyboard__ | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
+__Mouse__ | `[Click]` on token | focus token, add "selected" class
+__Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 <br />
 ##### Available `props`
 > See the props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
+- __attrs__ `Object`
+    - __attrs.*__
+    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
 
-- **onTokenChange** `Function`
+- __className__ `string`
+  applied to the `.ui-tokenfield` node
+
+- __onTokenChange__ `Function`
   triggered when an action has been taken to add or remove a token to the UI
 
-- **outerWrapperAttributes** `Object`
-    - **outerWrapperAttributes.\***
+- __outerWrapperAttrs__ `Object`
+    - __outerWrapperAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
-- **showTokenClose** `Boolean`
+- __showTokenClose__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
 
-- **tokens** `Array<Object>`
+- __tokens__ `Array<Object>`
   object references to the entities that have been added as tokens

@@ -89,12 +89,14 @@ class UIList extends UIView {
         }
 
         return React.createElement(nodeType, {
+            ...this.props.attrs,
             className: cx({
                 'ui-list': true,
                 'ui-list-bulleted': this.props.type === 'bullet',
                 'ui-list-numbered': this.props.type === 'number',
                 'ui-list-plain': this.props.type !== 'bullet' && this.props.type !== 'number',
-                [this.props.className]: !!this.props.className
+                [this.props.className]: !!this.props.className,
+                [this.props.attrs.className]: !!this.props.attrs.className
             }),
             onKeyDown: this.handleKeyDown.bind(this),
             children: this.renderContent()
@@ -102,14 +104,16 @@ class UIList extends UIView {
     }
 }
 
-UIList.defaultProps = {
-    items: []
-};
-
 UIList.propTypes = {
+    attrs: React.PropTypes.object,
     className: React.PropTypes.string,
     items: React.PropTypes.arrayOf(React.PropTypes.node),
     type: React.PropTypes.oneOf(['bullet', 'number'])
+};
+
+UIList.defaultProps = {
+    attrs: {},
+    items: []
 };
 
 export default UIList;

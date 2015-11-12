@@ -21,8 +21,8 @@ export default class UIPopoverDemo extends UIView {
                 type: 'noun',
                 primaryDefinition: 'the branch of medicine and surgery concerned with childbirth and the care of women giving birth',
                 secondaryDefinitions: [],
-                anchorXAlign: UIPopover.Constants.MIDDLE,
-                selfXAlign: UIPopover.Constants.MIDDLE
+                anchorXAlign: UIPopover.position.MIDDLE,
+                selfXAlign: UIPopover.position.MIDDLE
             }, {
                 word: 'olio',
                 syllabicRepresentation: 'o·li·o',
@@ -35,30 +35,30 @@ export default class UIPopoverDemo extends UIView {
                     'a miscellaneous collection of things',
                     'a variety act or show'
                 ],
-                anchorXAlign: UIPopover.Constants.END,
-                anchorYAlign: UIPopover.Constants.MIDDLE,
-                selfXAlign: UIPopover.Constants.START,
-                selfYAlign: UIPopover.Constants.MIDDLE
+                anchorXAlign: UIPopover.position.END,
+                anchorYAlign: UIPopover.position.MIDDLE,
+                selfXAlign: UIPopover.position.START,
+                selfYAlign: UIPopover.position.MIDDLE
             }, {
                 word: 'anastrophe',
                 syllabicRepresentation: 'a·nas·tro·phe',
                 type: 'noun',
                 primaryDefinition: 'the inversion of the usual order of words or clauses',
                 secondaryDefinitions: [],
-                anchorXAlign: UIPopover.Constants.START,
-                anchorYAlign: UIPopover.Constants.MIDDLE,
-                selfXAlign: UIPopover.Constants.END,
-                selfYAlign: UIPopover.Constants.MIDDLE
+                anchorXAlign: UIPopover.position.START,
+                anchorYAlign: UIPopover.position.MIDDLE,
+                selfXAlign: UIPopover.position.END,
+                selfYAlign: UIPopover.position.MIDDLE
             }, {
                 word: 'octothorp',
                 syllabicRepresentation: 'oc·to·thorp',
                 type: 'noun',
                 primaryDefinition: 'another term for the pound sign (#)',
                 secondaryDefinitions: [],
-                anchorXAlign: UIPopover.Constants.MIDDLE,
-                anchorYAlign: UIPopover.Constants.START,
-                selfXAlign: UIPopover.Constants.MIDDLE,
-                selfYAlign: UIPopover.Constants.END
+                anchorXAlign: UIPopover.position.MIDDLE,
+                anchorYAlign: UIPopover.position.START,
+                selfXAlign: UIPopover.position.MIDDLE,
+                selfYAlign: UIPopover.position.END
             }]
         };
     }
@@ -86,21 +86,13 @@ export default class UIPopoverDemo extends UIView {
     }
 
     renderBody(definition) {
-        let bodyParts = [
-            <strong>{definition.syllabicRepresentation}</strong>,
-            <br />,
-            <em>{definition.type}</em>
+        return [
+            <strong key='syllabic'>{definition.syllabicRepresentation}</strong>,
+            <br key='break' />,
+            <em key='type'>{definition.type}</em>,
+            definition.primaryDefinition.length ? <p key='primary'>{definition.primaryDefinition}</p> : null,
+            definition.secondaryDefinitions.length ? <UIList key='secondary' type='number' items={definition.secondaryDefinitions} /> : null
         ];
-
-        if (definition.primaryDefinition.length) {
-            bodyParts.push(<p>{definition.primaryDefinition}</p>);
-        }
-
-        if (definition.secondaryDefinitions.length) {
-            bodyParts.push(<UIList type='number' items={definition.secondaryDefinitions} />);
-        }
-
-        return bodyParts;
     }
 
     renderPopovers() {

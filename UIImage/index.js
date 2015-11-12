@@ -11,13 +11,13 @@ import noop from '../UIUtils/noop';
 class UIImage extends UIView {
     initialState() {
         return {
-            status: UIImage.Constants.IMAGE_LOADING
+            status: UIImage.status.IMAGE_LOADING
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.src !== this.props.src) {
-            this.setState({ status: UIImage.Constants.IMAGE_LOADING });
+            this.setState({status: UIImage.status.IMAGE_LOADING});
         }
     }
 
@@ -46,8 +46,8 @@ class UIImage extends UIView {
 
         this.loader = document.createElement('img');
 
-        this.loader.onload = () => { this.setState({status: UIImage.Constants.IMAGE_LOADED}); };
-        this.loader.onerror = () => { this.setState({status: UIImage.Constants.IMAGE_ERROR}); };
+        this.loader.onload = () => { this.setState({status: UIImage.status.IMAGE_LOADED}); };
+        this.loader.onerror = () => { this.setState({status: UIImage.status.IMAGE_ERROR}); };
 
         this.loader.src = this.props.src;
     }
@@ -55,7 +55,7 @@ class UIImage extends UIView {
     renderImage() {
         if (this.props.displayAsBackgroundImage) {
             return (
-                <div {...this.props}
+                <div {...this.props.attrs}
                      ref='image'
                      className={cx({'ui-image': true, [this.props.className]: !!this.props.className})}
                      alt={null}
@@ -65,9 +65,15 @@ class UIImage extends UIView {
         }
 
         return (
-            <img {...this.props}
+            <img {...this.props.attrs}
                  ref='image'
-                 className={cx({'ui-image': true, [this.props.className]: !!this.props.className})}
+                 className={cx({
+                    'ui-image': true,
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
+                 })}
+                 src={this.props.src}
+                 alt={this.props.alt}
                  onLoad={noop}
                  onError={noop} />
         );
@@ -75,14 +81,14 @@ class UIImage extends UIView {
 
     renderStatus() {
         return (
-            <div {...this.props.statusAttributes}
+            <div {...this.props.statusAttrs}
                  ref='status'
                  className={cx({
                     'ui-image-status': true,
-                    'ui-image-loading': this.state.status === UIImage.Constants.IMAGE_LOADING,
-                    'ui-image-loaded': this.state.status === UIImage.Constants.IMAGE_LOADED,
-                    'ui-image-error': this.state.status === UIImage.Constants.IMAGE_ERROR,
-                    [this.props.statusAttributes.className]: !!this.props.statusAttributes.className
+                    'ui-image-loading': this.state.status === UIImage.status.IMAGE_LOADING,
+                    'ui-image-loaded': this.state.status === UIImage.status.IMAGE_LOADED,
+                    'ui-image-error': this.state.status === UIImage.status.IMAGE_ERROR,
+                    [this.props.statusAttrs.className]: !!this.props.statusAttrs.className
                  })}
                  role='presentation' />
         );
@@ -90,10 +96,10 @@ class UIImage extends UIView {
 
     render() {
         return (
-            <div {...this.props.wrapperAttributes}
+            <div {...this.props.wrapperAttrs}
                  className={cx({
                     'ui-image-wrapper': true,
-                    [this.props.wrapperAttributes]: !!this.props.wrapperAttributes
+                    [this.props.wrapperAttrs]: !!this.props.wrapperAttrs
                  })}>
                 {this.renderImage()}
                 {this.renderStatus()}
@@ -102,24 +108,26 @@ class UIImage extends UIView {
     }
 }
 
-UIImage.Constants = {
+UIImage.status = {
     IMAGE_LOADING: 'IMAGE_LOADING',
     IMAGE_LOADED: 'IMAGE_LOADED',
     IMAGE_ERROR: 'IMAGE_ERROR'
 };
 
 UIImage.propTypes = {
+    attrs: React.PropTypes.object,
     alt: React.PropTypes.string,
     className: React.PropTypes.string,
     displayAsBackgroundImage: React.PropTypes.bool,
     src: React.PropTypes.string,
-    statusAttributes: React.PropTypes.object,
-    wrapperAttributes: React.PropTypes.object
+    statusAttrs: React.PropTypes.object,
+    wrapperAttrs: React.PropTypes.object
 };
 
 UIImage.defaultProps = {
-    statusAttributes: {},
-    wrapperAttributes: {}
+    attrs: {},
+    statusAttrs: {},
+    wrapperAttrs: {}
 };
 
 export default UIImage;

@@ -14,8 +14,8 @@ describe('UIFittedText', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const text = ReactDOM.render(<UIFittedText data-id='foo' />, mountNode);
+        it('arbitrary React-supported HTML attributes via attrs prop', () => {
+            const text = ReactDOM.render(<UIFittedText attrs={{'data-id': 'foo'}} />, mountNode);
             const node = ReactDOM.findDOMNode(text);
 
             expect(node.getAttribute('data-id')).to.equal('foo');

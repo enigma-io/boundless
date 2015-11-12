@@ -39,8 +39,8 @@ Combine the {element}{Axis}Align properties to create complete alignment points.
 
 ```jsx
 <UIPopover anchor={HTMLElement}
-           anchorXAlign={UIPopover.Constants.MIDDLE}
-           anchorYAlign={UIPopover.Constants.END}
+           anchorXAlign={UIPopover.position.MIDDLE}
+           anchorYAlign={UIPopover.position.END}
            body='foo' />
 ```
 
@@ -73,56 +73,58 @@ Refer to [UIDialog](../UIDialog/README.md)
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
 
 - all supported [UIDialog props](../UIDialog/README.md)
 
-- **anchor** `[ReactElement, HTMLElement]`
+- __anchor__ `[ReactElement, HTMLElement]`
   a DOM element or React reference to one for positioning purposes
 
-- **anchorXAlign** `Constant`
-  (default `UIPopover.Constants.START`) location on the anchor X-axis to use for alignment calculations
-    - **anchorXAlign** `UIPopover.Constants.START`
+- __anchorXAlign__ `Constant`
+  (default `UIPopover.position.START`) location on the anchor X-axis to use for alignment calculations
+    - __anchorXAlign__ `UIPopover.position.START`
       equates to `{0, ?}` on a 100x100 cartesian plane
 
-    - **anchorXAlign** `UIPopover.Constants.MIDDLE`
+    - __anchorXAlign__ `UIPopover.position.MIDDLE`
       equates to `{50, ?}` on a 100x100 cartesian plane
 
-    - **anchorXAlign** `UIPopover.Constants.END`
+    - __anchorXAlign__ `UIPopover.position.END`
       equates to `{100, ?}` on a 100x100 cartesian plane
 
-- **anchorYAlign** `Constant`
-  (default `UIPopover.Constants.END`) location on the anchor Y-axis to use for alignment calculations
-    - **anchorYAlign** `UIPopover.Constants.START`
+- __anchorYAlign__ `Constant`
+  (default `UIPopover.position.END`) location on the anchor Y-axis to use for alignment calculations
+    - __anchorYAlign__ `UIPopover.position.START`
       equates to `{?, 0}` on a 100x100 cartesian plane
 
-    - **anchorYAlign** `UIPopover.Constants.MIDDLE`
+    - __anchorYAlign__ `UIPopover.position.MIDDLE`
       equates to `{?, 50}` on a 100x100 cartesian plane
 
-    - **anchorYAlign** `UIPopover.Constants.END`
+    - __anchorYAlign__ `UIPopover.position.END`
       equates to `{?, 100}` on a 100x100 cartesian plane
 
-- **autoReposition** `Boolean`
+- __autoReposition__ `Boolean`
   if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
 
-- **selfXAlign** `Constant`
-  (default `UIPopover.Constants.START`) location on the popover X-axis to use for alignment calculations
-    - **selfXAlign** `UIPopover.Constants.START`
+- __selfXAlign__ `Constant`
+  (default `UIPopover.position.START`) location on the popover X-axis to use for alignment calculations
+    - __selfXAlign__ `UIPopover.position.START`
       equates to `{0, ?}` on a 100x100 cartesian plane
 
-    - **selfXAlign** `UIPopover.Constants.MIDDLE`
+    - __selfXAlign__ `UIPopover.position.MIDDLE`
       equates to `{50, ?}` on a 100x100 cartesian plane
 
-    - **selfXAlign** `UIPopover.Constants.END`
+    - __selfXAlign__ `UIPopover.position.END`
       equates to `{100, ?}` on a 100x100 cartesian plane
 
-- **selfYAlign** `Constant`
-  default (`UIPopover.Constants.END`) location on the popover Y-axis to use for alignment calculations
-    - **selfYAlign** `UIPopover.Constants.START`
+- __selfYAlign__ `Constant`
+  default (`UIPopover.position.END`) location on the popover Y-axis to use for alignment calculations
+    - __selfYAlign__ `UIPopover.position.START`
       equates to `{?, 0}` on a 100x100 cartesian plane
 
-    - **selfYAlign** `UIPopover.Constants.MIDDLE`
+    - __selfYAlign__ `UIPopover.position.MIDDLE`
       equates to `{?, 50}` on a 100x100 cartesian plane
 
-    - **selfYAlign** `UIPopover.Constants.END`
+    - __selfYAlign__ `UIPopover.position.END`
       equates to `{?, 100}` on a 100x100 cartesian plane

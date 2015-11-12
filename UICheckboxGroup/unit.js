@@ -43,8 +43,8 @@ describe('UICheckboxGroup', () => {
             expect(node).to.not.be.null;
         });
 
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const group = ReactDOM.render(<UICheckboxGroup data-id='foo' />, mountNode);
+        it('arbitrary React-supported HTML attributes via attrs prop', () => {
+            const group = ReactDOM.render(<UICheckboxGroup attrs={{'data-id': 'foo'}} />, mountNode);
             const node = ReactDOM.findDOMNode(group);
 
             expect(node.getAttribute('data-id')).to.equal('foo');

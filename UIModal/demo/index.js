@@ -16,15 +16,8 @@ export default class UIModalDemo extends UIView {
         };
     }
 
-    render() {
-        return (
-            <div>
-                <UIButton ref='trigger' onClick={this.toggleModal}>
-                    Delete Account
-                </UIButton>
-                {this.renderModal()}
-            </div>
-        );
+    toggleModal() {
+        this.setState({showModal: !this.state.showModal});
     }
 
     renderModal() {
@@ -42,7 +35,14 @@ export default class UIModalDemo extends UIView {
         }
     }
 
-    toggleModal() {
-        this.setState({ showModal: !this.state.showModal });
+    render() {
+        return (
+            <div>
+                <UIButton ref='trigger' onClick={this.toggleModal}>
+                    Delete Account
+                </UIButton>
+                {this.renderModal()}
+            </div>
+        );
     }
 }

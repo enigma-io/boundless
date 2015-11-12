@@ -15,8 +15,8 @@ describe('UIProgressiveDisclosure', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes to the rendered input', () => {
-            const disclosure = ReactDOM.render(<UIProgressiveDisclosure data-id='foo' />, mountNode);
+        it('arbitrary HTML attributes via props.attrs', () => {
+            const disclosure = ReactDOM.render(<UIProgressiveDisclosure attrs={{'data-id': 'foo'}} />, mountNode);
 
             expect(ReactDOM.findDOMNode(disclosure).getAttribute('data-id')).to.equal('foo');
         });

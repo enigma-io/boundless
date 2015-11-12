@@ -14,22 +14,22 @@ describe('UIModal', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes to the wrapper node', () => {
-            const modal = ReactDOM.render(<UIModal wrapperAttributes={{ 'data-id': 'foo' }} />, mountNode);
+        it('arbitrary HTML attributes via props.wrapperAttrs', () => {
+            const modal = ReactDOM.render(<UIModal wrapperAttrs={{ 'data-id': 'foo' }} />, mountNode);
             const node = ReactDOM.findDOMNode(modal);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the dialog node', () => {
-            const modal = ReactDOM.render(<UIModal data-id='foo' />, mountNode);
+        it('arbitrary HTML attributes via props.attrs', () => {
+            const modal = ReactDOM.render(<UIModal attrs={{'data-id': 'foo'}} />, mountNode);
             const node = ReactDOM.findDOMNode(modal.refs.dialog);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the mask node', () => {
-            const modal = ReactDOM.render(<UIModal maskAttributes={{ 'data-id': 'foo' }} />, mountNode);
+        it('arbitrary HTML attributes via props.maskAttrs', () => {
+            const modal = ReactDOM.render(<UIModal maskAttrs={{ 'data-id': 'foo' }} />, mountNode);
 
             expect(modal.refs.mask.getAttribute('data-id')).to.equal('foo');
         });

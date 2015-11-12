@@ -5,7 +5,7 @@ The most common use case for this class is fitting single-line text of unknown/v
 
 ```jsx
 return (
-    <UIButton onClick={someFunc} style={{width: '400px'}}>
+    <UIButton onClick={someFunc} attrs={{style: {width: '400px'}}}>
         <UIFittedText>Testing 123</UIFittedText>
     </UIButton>
 );
@@ -29,10 +29,12 @@ There are no expected user interactions. The component emits normal text and mer
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-text` element
 
-- **maxFontSize** `Number`
+- __maxFontSize__ `Number`
   an upper-boundary for how large the UI text is allowed to grow

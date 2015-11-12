@@ -53,7 +53,7 @@ class UIDialog extends UIView {
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
-        if (this.isPartOfDialog(previous)
+        if (   this.isPartOfDialog(previous)
             && !this.isPartOfDialog(nativeEvent.target)) {
             nativeEvent.preventDefault();
             previous.focus(); // restore focus
@@ -76,12 +76,12 @@ class UIDialog extends UIView {
     renderBody() {
         if (this.props.body) {
             return (
-                <div {...this.props.bodyAttributes}
+                <div {...this.props.bodyAttrs}
                      ref='body'
                      id={this.state.bodyUUID}
                      className={cx({
                         'ui-dialog-body': true,
-                        [this.props.bodyAttributes.className]: !!this.props.bodyAttributes.className
+                        [this.props.bodyAttrs.className]: !!this.props.bodyAttrs.className
                      })}>
                     {this.props.body}
                 </div>
@@ -92,11 +92,11 @@ class UIDialog extends UIView {
     renderFooter() {
         if (this.props.footer) {
             return (
-                <footer {...this.props.footerAttributes}
+                <footer {...this.props.footerAttrs}
                         ref='footer'
                         className={cx({
                             'ui-dialog-footer': true,
-                            [this.props.footerAttributes.className]: !!this.props.footerAttributes.className
+                            [this.props.footerAttrs.className]: !!this.props.footerAttrs.className
                         })}>
                     {this.props.footer}
                 </footer>
@@ -107,12 +107,12 @@ class UIDialog extends UIView {
     renderHeader() {
         if (this.props.header) {
             return (
-                <header {...this.props.headerAttributes}
+                <header {...this.props.headerAttrs}
                         ref='header'
                         id={this.state.headerUUID}
                         className={cx({
                             'ui-dialog-header': true,
-                            [this.props.headerAttributes.className]: !!this.props.headerAttributes.className
+                            [this.props.headerAttrs.className]: !!this.props.headerAttrs.className
                         })}>
                     {this.props.header}
                 </header>
@@ -122,10 +122,11 @@ class UIDialog extends UIView {
 
     render() {
         return (
-            <div {...this.props}
+            <div {...this.props.attrs}
                  className={cx({
                     'ui-dialog': true,
-                    [this.props.className]: !!this.props.className
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
                  })}
                  onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeydown.bind(this)}
@@ -142,25 +143,27 @@ class UIDialog extends UIView {
 }
 
 UIDialog.propTypes = {
+    attrs: React.PropTypes.object,
     body: React.PropTypes.node,
-    bodyAttributes: React.PropTypes.object,
+    bodyAttrs: React.PropTypes.object,
     captureFocus: React.PropTypes.bool,
     children: React.PropTypes.node,
     className: React.PropTypes.string,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
     footer: React.PropTypes.node,
-    footerAttributes: React.PropTypes.object,
+    footerAttrs: React.PropTypes.object,
     header: React.PropTypes.node,
-    headerAttributes: React.PropTypes.object,
+    headerAttrs: React.PropTypes.object,
     onClose: React.PropTypes.func
 };
 
 UIDialog.defaultProps = {
-    bodyAttributes: {},
+    attrs: {},
+    bodyAttrs: {},
     captureFocus: true,
-    footerAttributes: {},
-    headerAttributes: {},
+    footerAttrs: {},
+    headerAttrs: {},
     onClose: noop
 };
 

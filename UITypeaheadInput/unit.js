@@ -20,8 +20,8 @@ describe('UITypeaheadInput', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const typeahead = ReactDOM.render(<UITypeaheadInput data-id='foo' />, mountNode);
+        it('arbitrary HTML attributes via props.attrs', () => {
+            const typeahead = ReactDOM.render(<UITypeaheadInput attrs={{'data-id': 'foo'}} />, mountNode);
             const node = typeahead.getInputNode();
 
             expect(node.getAttribute('data-id')).to.equal('foo');

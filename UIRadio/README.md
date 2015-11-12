@@ -9,12 +9,12 @@ return (
         <p>¿Guarda automáticamente?</p>
         <UIRadio selected={true}
                  label='Sí'
-                 labelAttributes={{ 'data-i18n': 'es-ES' }}
+                 labelAttributes={{'data-i18n': 'es-ES'}}
                  name='autosave'
                  value='1' />
         <UIRadio selected={false}
                  label='No'
-                 labelAttributes={{ 'data-i18n': 'es-ES' }}
+                 labelAttributes={{'data-i18n': 'es-ES'}}
                  name='autosave'
                  value='0' />
     </div>
@@ -47,35 +47,37 @@ Styling of the element is provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter, Space]` (not selected) | should trigger `onSelected`
-**Mouse** | `click` (not selected) | should trigger `onSelected`
+__Keyboard__ | `[Enter, Space]` (not selected) | should trigger `onSelected`
+__Mouse__ | `click` (not selected) | should trigger `onSelected`
 
 <br />
 ##### Available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
+- __attrs__ `Object`
+    - __attrs.*__
+    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-radio` node
 
-- **id** `String`
-  the string to be used for the rendered input HTML `id` and corresponding label `for` attributes; auto-generated if not provided
-
-- **label** `Node`
+- __label__ `Node`
   any React-renderable content, most commonly a simple string
 
-- **labelAttributes** `Object`
-    - **labelAttributes.\***
+- __labelAttrs__ `Object`
+    - __labelAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
 
-- **name** `String`
+- __name__ `String`
   passthrough to the HTML `name` attribute on the `.ui-radio` node
 
-- **onSelected** `Function`
+- __onSelected__ `Function`
   called when the element becomes selected; backing data must be updated to persist the state change
 
-- **selected** `Boolean`
+- __selected__ `Boolean`
   determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
-- **wrapperAttributes** `Object`
-    - **wrapperAttributes.\***
+- __wrapperAttrs__ `Object`
+    - __wrapperAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
+
+- __value__ `String`
+  passthrough to the HTML `value` attribute on the `.ui-radio` node

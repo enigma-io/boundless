@@ -26,6 +26,39 @@ describe('UIProgress', () => {
 
             expect(progress.refs.progress.getAttribute('style')).to.equal('height:0%;');
         });
+
+        it('arbitrary HTML attributes via props.attrs', () => {
+            const progress = ReactDOM.render(<UIProgress attrs={{'data-foo': 'bar'}} />, mountNode);
+            const node = progress.refs.progress;
+
+            expect(node.hasAttribute('data-foo')).to.be.true;
+            expect(node.getAttribute('data-foo')).to.equal('bar');
+        });
+
+        it('arbitrary HTML attributes via props.wrapperAttrs', () => {
+            const progress = ReactDOM.render(<UIProgress wrapperAttrs={{'data-foo': 'bar'}} />, mountNode);
+            const node = progress.refs.wrapper;
+
+            expect(node.hasAttribute('data-foo')).to.be.true;
+            expect(node.getAttribute('data-foo')).to.equal('bar');
+        });
+
+        it('arbitrary HTML attributes via props.labelAttrs', () => {
+            const progress = ReactDOM.render(<UIProgress label='hi' labelAttrs={{'data-foo': 'bar'}} />, mountNode);
+            const node = progress.refs.label;
+
+            expect(node.hasAttribute('data-foo')).to.be.true;
+            expect(node.getAttribute('data-foo')).to.equal('bar');
+        });
+
+        // /* this is erroring out for some reason, need to investigate further */
+        // it('arbitrary HTML attributes via props.cancelAttrs', () => {
+        //     const progress = ReactDOM.render(<UIProgress onCancel={sandbox.stub()} cancelAttrs={{'data-foo': 'bar'}} />, mountNode);
+        //     const node = progress.refs.cancel;
+
+        //     expect(node.hasAttribute('data-foo')).to.be.true;
+        //     expect(node.getAttribute('data-foo')).to.equal('bar');
+        // });
     });
 
     describe('CSS hook', () => {

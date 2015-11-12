@@ -19,29 +19,29 @@ describe('UIDialog', () => {
         beforeEach(() => {
             dialog = ReactDOM.render(
                 <UIDialog className='foo'
-                          data-id='foo'
+                          attrs={{'data-id': 'foo'}}
                           body='foo'
-                          bodyAttributes={{ 'data-id': 'foo' }}
+                          bodyAttrs={{'data-id': 'foo'}}
                           footer='foo'
-                          footerAttributes={{ 'data-id': 'foo' }}
+                          footerAttrs={{'data-id': 'foo'}}
                           header='foo'
-                          headerAttributes={{ 'data-id': 'foo' }}  />, mountNode
+                          headerAttrs={{'data-id': 'foo'}}  />, mountNode
             )
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the root node', () => {
+        it('arbitrary React-supported HTML attributes via attrs prop', () => {
             expect(ReactDOM.findDOMNode(dialog).getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the body node', () => {
+        it('arbitrary React-supported HTML attributes via bodyAttrs prop', () => {
             expect(dialog.refs.body.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the footer node', () => {
+        it('arbitrary React-supported HTML attributes via footerAttrs prop', () => {
             expect(dialog.refs.footer.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the header node', () => {
+        it('arbitrary React-supported HTML attributes via headerAttrs prop', () => {
             expect(dialog.refs.header.getAttribute('data-id')).to.equal('foo');
         });
 

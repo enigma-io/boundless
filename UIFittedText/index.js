@@ -50,7 +50,7 @@ class UIFittedText extends UIView {
 
     render() {
         return (
-            <span {...this.props}
+            <span {...this.props.attrs}
                   className={cx({'ui-text': true, [this.props.className]: !!this.props.className})}>
                 {this.props.children}
             </span>

@@ -46,48 +46,50 @@ Styling of the element will be provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Render** | `N/A` | focus on dialog
-**Event** | window `focus` | should be cancelled if moving inside -> outside dialog if `props.captureFocus` is `true`
-**Keyboard** | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
-**Mouse** | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
+__Render__ | `N/A` | focus on dialog
+__Event__ | window `focus` | should be cancelled if moving inside -> outside dialog if `props.captureFocus` is `true`
+__Keyboard__ | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
+__Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
 
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the `.ui-dialog` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the `.ui-dialog` node
 
-- **body** `any renderable content`
+- __body__ `any renderable content`
   text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
 
-- **bodyAttributes** `Object`
-    - **bodyAttributes.\***
+- __bodyAttrs__ `Object`
+    - __bodyAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
 
-- **captureFocus** `Boolean` (default `true`)
+- __captureFocus__ `Boolean` (default `true`)
   determines if focus is allowed to move away from the dialog
 
-- **className** `[String|Array<String>]`
+- __className__ `[String|Array<String>]`
   additional CSS class(es) to be added to the rendered `.ui-dialog` element
 
-- **closeOnEscKey** `Boolean`
+- __closeOnEscKey__ `Boolean`
   enable detection of "Escape" keypresses to trigger `props.onClose`
 
-- **closeOnOutsideClick** `Boolean`
+- __closeOnOutsideClick__ `Boolean`
   enable detection of clicks outside the dialog area to trigger `props.onClose`
 
-- **footer** `any renderable content`
+- __footer__ `any renderable content`
   text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
 
-- **footerAttributes** `Object`
-    - **footerAttributes.\***
+- __footerAttrs__ `Object`
+    - __footerAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
 
-- **header** `any renderable content`
+- __header__ `any renderable content`
   text, ReactElements, etc. to represent the "title bar" area of the dialog
 
-- **headerAttributes** `Object`
-    - **headerAttributes.\***
+- __headerAttrs__ `Object`
+    - __headerAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
 
-- **onClose** `Function`
+- __onClose__ `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`

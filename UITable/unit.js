@@ -25,15 +25,28 @@ describe('UITable', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes', () => {
+        it('arbitrary HTML attributes via props.attrs', () => {
             const table = ReactDOM.render(
-                <UITable data-id='foo'
+                <UITable attrs={{'data-id': 'foo'}}
                          getRow={rowGetter}
                          columns={columns}
                          totalRows={rows.length} />, mountNode
             );
 
-            const node = ReactDOM.findDOMNode(table);
+            const node = table.refs.table;
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('arbitrary HTML attributes via props.wrapperAttrs', () => {
+            const table = ReactDOM.render(
+                <UITable wrapperAttrs={{'data-id': 'foo'}}
+                         getRow={rowGetter}
+                         columns={columns}
+                         totalRows={rows.length} />, mountNode
+            );
+
+            const node = table.refs.wrapper;
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
@@ -278,7 +291,7 @@ describe('UITable', () => {
                              getRow={rowGetter}
                              columns={columns}
                              totalRows={rows.length}
-                             style={{height: '90px'}} />
+                             wrapperAttrs={{style: {height: '90px'}}} />
                 </div>
             );
         }

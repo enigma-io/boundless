@@ -22,7 +22,7 @@ export default class UIImageDemo extends UIView {
                              alt='Sunlight on leaves.'
                              displayAsBackgroundImage={true} />
                     <UIButton onClick={this.remountImage.bind(this, 'normal')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Remount Image
                     </UIButton>
                 </figure>
@@ -34,7 +34,7 @@ export default class UIImageDemo extends UIView {
                              alt='A beachscape.'
                              displayAsBackgroundImage={true} />
                     <UIButton onClick={this.remountImage.bind(this, 'delayed')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Remount Image
                     </UIButton>
                 </figure>
@@ -46,7 +46,7 @@ export default class UIImageDemo extends UIView {
                              alt='A dead image.'
                              displayAsBackgroundImage={true} />
                     <UIButton onClick={this.remountImage.bind(this, 'error')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Remount Image
                     </UIButton>
                 </figure>

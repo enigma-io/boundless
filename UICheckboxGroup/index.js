@@ -23,14 +23,14 @@ class UICheckboxGroup extends UIView {
             let allChecked = this.allItemsChecked();
 
             return (
-                <UICheckbox {...this.props.selectAllAttributes}
+                <UICheckbox {...this.props.selectAllAttrs}
                             ref='selectAll'
                             name='uikit-selectAll'
                             key='uikit-selectAll'
                             checked={allChecked}
                             className={cx({
                                 'ui-checkbox-group-selectall': true,
-                                [this.props.selectAllAttributes.className]: !!this.props.selectAllAttributes.className
+                                [this.props.selectAllAttrs.className]: !!this.props.selectAllAttrs.className
                             })}
                             indeterminate={!allChecked && this.anyItemsChecked()}
                             label={this.props.selectAllLabel}
@@ -52,7 +52,7 @@ class UICheckboxGroup extends UIView {
         });
     }
 
-    render() {
+    renderChildren() {
         let toBeRendered = [this.renderCheckboxes()];
 
         if (this.props.selectAll && this.props.selectAllPosition) {
@@ -67,13 +67,18 @@ class UICheckboxGroup extends UIView {
             }
         }
 
+        return toBeRendered;
+    }
+
+    render() {
         return (
-            <div {...this.props}
+            <div {...this.props.attrs}
                  className={cx({
                     'ui-checkbox-group': true,
-                    [this.props.className]: !!this.props.className
+                    [this.props.className]: !!this.props.className,
+                    [this.props.attrs.className]: !!this.props.attrs.className
                 })}>
-                {toBeRendered}
+                {this.renderChildren()}
             </div>
         );
     }
@@ -85,6 +90,7 @@ UICheckboxGroup.Constants = {
 };
 
 UICheckboxGroup.propTypes = {
+    attrs: React.PropTypes.object,
     className: React.PropTypes.string,
     items: React.PropTypes.arrayOf(
         React.PropTypes.shape({
@@ -99,7 +105,7 @@ UICheckboxGroup.propTypes = {
     onChildChecked: React.PropTypes.func,
     onChildUnchecked: React.PropTypes.func,
     selectAll: React.PropTypes.bool,
-    selectAllAttributes: React.PropTypes.object,
+    selectAllAttrs: React.PropTypes.object,
     selectAllLabel: React.PropTypes.string,
     selectAllPosition: React.PropTypes.oneOf([
         UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
@@ -108,12 +114,13 @@ UICheckboxGroup.propTypes = {
 };
 
 UICheckboxGroup.defaultProps = {
+    attrs: {},
     items: [],
     onAllChecked: noop,
     onAllUnchecked: noop,
     onChildChecked: noop,
     onChildUnchecked: noop,
-    selectAllAttributes: {},
+    selectAllAttrs: {},
     selectAllLabel: 'Select All',
     selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE
 };

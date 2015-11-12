@@ -16,8 +16,8 @@ describe('UIButton', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const button = ReactDOM.render(<UIButton data-id='foo' />, mountNode);
+        it('arbitrary React-supported HTML attributes in the `attrs` prop', () => {
+            const button = ReactDOM.render(<UIButton attrs={{'data-id': 'foo'}} />, mountNode);
             const node = ReactDOM.findDOMNode(button);
 
             expect(node.getAttribute('data-id')).to.equal('foo');

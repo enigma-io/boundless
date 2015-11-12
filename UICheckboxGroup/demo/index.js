@@ -34,15 +34,14 @@ export default class UICheckboxGroupDemo extends UIView {
         return (
             <div>
                 <p>What subjects are you interested in?</p>
-                <UICheckboxGroup
-                    items={this.state.items}
-                    selectAll={true}
-                    selectAllLabel='All of the above'
-                    selectAllPosition={UICheckboxGroup.Constants.SELECT_ALL_AFTER}
-                    onAllChecked={this.handleAllChecked.bind(this)}
-                    onAllUnchecked={this.handleAllUnchecked.bind(this)}
-                    onChildChecked={this.handleChildChecked.bind(this)}
-                    onChildUnchecked={this.handleChildUnchecked.bind(this)} />
+                <UICheckboxGroup items={this.state.items}
+                                 selectAll={true}
+                                 selectAllLabel='All of the above'
+                                 selectAllPosition={UICheckboxGroup.Constants.SELECT_ALL_AFTER}
+                                 onAllChecked={this.handleAllChecked.bind(this)}
+                                 onAllUnchecked={this.handleAllUnchecked.bind(this)}
+                                 onChildChecked={this.handleChildChecked.bind(this)}
+                                 onChildUnchecked={this.handleChildUnchecked.bind(this)} />
                 {this.renderFeedback()}
             </div>
         );

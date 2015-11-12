@@ -20,9 +20,16 @@ describe('UITokenizedInput', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes', () => {
-            const tokenfield = ReactDOM.render(<UITokenizedInput data-id='foo' />, mountNode);
+        it('arbitrary HTML attributes via props.attrs', () => {
+            const tokenfield = ReactDOM.render(<UITokenizedInput attrs={{'data-id': 'foo'}} />, mountNode);
             const node = tokenfield.refs.typeahead.getInputNode();
+
+            expect(node.getAttribute('data-id')).to.equal('foo');
+        });
+
+        it('arbitrary HTML attributes via props.outerWrapperAttrs', () => {
+            const tokenfield = ReactDOM.render(<UITokenizedInput outerWrapperAttrs={{'data-id': 'foo'}} />, mountNode);
+            const node = tokenfield.refs.wrapper;
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });

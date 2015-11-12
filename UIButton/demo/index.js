@@ -23,7 +23,7 @@ export default class UIButtonDemo extends UIView {
                 </UIButton>
 
                 <UIButton onClick={this.handleClick}
-                          disabled>
+                          attrs={{disabled: true}}>
                     Disabled
                 </UIButton>
             </div>
@@ -35,10 +35,10 @@ export default class UIButtonDemo extends UIView {
     }
 
     handlePressed() {
-        this.setState({ pressed: true });
+        this.setState({pressed: true});
     }
 
     handleUnpressed() {
-        this.setState({ pressed: false });
+        this.setState({pressed: false});
     }
 }

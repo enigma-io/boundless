@@ -46,14 +46,16 @@ Refer to [UIDialog](../UIDialog/README.md)
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
 
 - all supported [UIDialog props](../UIDialog/README.md)
 
-- **maskAttributes** `Object`
-    - **maskAttributes.\***
+- __maskAttrs__ `Object`
+    - __maskAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-mask` node
 
-- **wrapperAttributes** `Object`
-    - **wrapperAttributes.\***
+- __wrapperAttrs__ `Object`
+    - __wrapperAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node

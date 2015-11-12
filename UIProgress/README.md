@@ -5,9 +5,8 @@
 let cancelFunc = () => { endProcess(); };
 
 return (
-    <UIProgressBar
-        progress='45'
-        onCancel={cancelFunc} />
+    <UIProgressBar progress='45'
+                   onCancel={cancelFunc} />
 );
 ```
 
@@ -33,38 +32,40 @@ Styling of the element will be provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Render** | no `progress` passed | should have the indeterminate classß
-**Keyboard** | `[Enter, Space]` on cancel element | should trigger the onCancel handler
-**Mouse** | `click` on cancel element | should trigger the onCancel handler
+__Render__ | no `progress` passed | should have the indeterminate class
+__Keyboard__ | `[Enter, Space]` on cancel element | should trigger the onCancel handler
+__Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
 
-- **cancelAttributes** `Object`
-    - **cancelAttributes.\***
+- __cancelAttrs__ `Object`
+    - __cancelAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-progress` element
 
-- **label** `Boolean`
+- __label__ `Boolean`
   the value to show as a label of the progress, e.g. "50%"
 
-- **labelAttributes** `Object`
-    - **labelAttributes.\***
+- __labelAttrs__ `Object`
+    - __labelAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-label` node
 
-- **onCancel** `Function`
+- __onCancel__ `Function`
   if supplied, adds a cancel element and calls this function when that element is clicked
 
-- **progress** `[String|Number]`
+- __progress__ `[String|Number]`
   the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
 
-- **tweenProperty** `String`
+- __tweenProperty__ `String`
   the CSS property to tween (must accept percentages) - defaults to "width"
 
-- **wrapperAttributes** `Object`
-    - **wrapperAttributes.\***
+- __wrapperAttrs__ `Object`
+    - __wrapperAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node

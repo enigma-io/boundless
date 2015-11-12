@@ -7,7 +7,7 @@ The most common use case for `UICheckboxGroup` is a "select all" / children scen
 
 ```js
 {
-    autofocus: "Boolean (optional)",
+    autoFocus: "Boolean (optional)",
     checked: "Boolean",
     label: "String (optional)",
     name: "String",
@@ -70,43 +70,45 @@ Styling of the element is provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter, Space]` on "Select All" | should toggle the `checked` state for all children to fully on or fully off
-**Keyboard** | `[Enter, Space]` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
-**Mouse** | `click` on "Select All" | should toggle the `checked` state for all children
-**Mouse** | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
+__Keyboard__ | `[Enter, Space]` on "Select All" | should toggle the `checked` state for all children to fully on or fully off
+__Keyboard__ | `[Enter, Space]` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
+__Mouse__ | `click` on "Select All" | should toggle the `checked` state for all children
+__Mouse__ | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
+- __attrs__ `Object`
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-checkbox-group` element
 
-- **items** `Array<Object>`
+- __items__ `Array<Object>`
   the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/README.md)
 
-- **onAllChecked** `Function`
+- __onAllChecked__ `Function`
   called when all children become checked (not fired on first render), no return
 
-- **onAllUnchecked** `Function`
+- __onAllUnchecked__ `Function`
   called when all children become unchecked (not fired on first render), no return
 
-- **onChildChecked** `String`
+- __onChildChecked__ `String`
   called when a specific child has become checked, returns the child definition
 
-- **onChildUnchecked** `String`
+- __onChildUnchecked__ `String`
   called when a specific child has become checked, returns the child definition
 
-- **selectAll** `Boolean`
+- __selectAll__ `Boolean`
   renders a master checkbox that can manipulate the values of all children simultaneously
 
-- **selectAllAttributes** `Object`
-    - **selectAllAttributes.\***
+- __selectAllAttrs__ `Object`
+    - __selectAllAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group-selectall` node
 
-- **selectAllLabel** `String`
+- __selectAllLabel__ `String`
   the text or renderable node to display next to the checkbox, defaults to "Select All"
 
-- **selectAllPosition** `Constant` (see [the implementation](index.js))
+- __selectAllPosition__ `Constant` (see [the implementation](index.js))
   the rendering position of the "select all" checkbox, defaults to "before"

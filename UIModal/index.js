@@ -11,16 +11,16 @@ import cx from 'classnames';
 class UIModal extends UIView {
     render() {
         return (
-            <div {...this.props.wrapperAttributes}
+            <div {...this.props.wrapperAttrs}
                  className={cx({
                     'ui-modal-wrapper': true,
-                    [this.props.wrapperAttributes.className]: !!this.props.wrapperAttributes.className
+                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
                  })}>
-                <div {...this.props.maskAttributes}
+                <div {...this.props.maskAttrs}
                      ref='mask'
                      className={cx({
                         'ui-modal-mask': true,
-                        [this.props.maskAttributes.className]: !!this.props.maskAttributes.className
+                        [this.props.maskAttrs.className]: !!this.props.maskAttrs.className
                      })} />
                 <UIDialog {...this.props}
                           ref='dialog'
@@ -34,23 +34,14 @@ class UIModal extends UIView {
 }
 
 UIModal.propTypes = {
-    body: React.PropTypes.node,
-    bodyAttributes: React.PropTypes.object,
-    className: React.PropTypes.string,
-    closeOnEscKey: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    footer: React.PropTypes.node,
-    footerAttributes: React.PropTypes.object,
-    header: React.PropTypes.node,
-    headerAttributes: React.PropTypes.object,
-    maskAttributes: React.PropTypes.object,
-    onClose: React.PropTypes.func,
-    wrapperAttributes: React.PropTypes.object
+    ...UIDialog.propTypes,
+    maskAttrs: React.PropTypes.object,
+    wrapperAttrs: React.PropTypes.object
 };
 
 UIModal.defaultProps = {
-    maskAttributes: {},
-    wrapperAttributes: {}
+    maskAttrs: {},
+    wrapperAttrs: {}
 };
 
 export default UIModal;

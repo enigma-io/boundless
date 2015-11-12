@@ -14,19 +14,19 @@ describe('UIImage', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes for the image node', () => {
+        it('arbitrary React-supported HTML attributes via props.attrs', () => {
             const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         data-id='xr1' />, mountNode
+                         attrs={{'data-id': 'xr1'}} />, mountNode
             );
 
             expect(image.refs.image.getAttribute('data-id')).to.equal('xr1');
         });
 
-        it('React-supported HTML attributes as passthrough attributes for the wrapper node', () => {
+        it('arbitrary React-supported HTML attributes via props.wrapperAttrs', () => {
             const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         wrapperAttributes={{ 'data-id': 'xr1' }} />, mountNode
+                         wrapperAttrs={{'data-id': 'xr1'}} />, mountNode
             );
 
             const node = ReactDOM.findDOMNode(image);
@@ -34,10 +34,10 @@ describe('UIImage', () => {
             expect(node.getAttribute('data-id')).to.equal('xr1');
         });
 
-        it('React-supported HTML attributes as passthrough attributes for the status node', () => {
+        it('arbitrary React-supported HTML attributes via props.statusAttrs', () => {
             const image = ReactDOM.render(
                 <UIImage src='http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'
-                         statusAttributes={{ 'data-id': 'xr1' }} />, mountNode
+                         statusAttrs={{'data-id': 'xr1'}} />, mountNode
             );
 
             expect(image.refs.status.getAttribute('data-id')).to.equal('xr1');
@@ -116,21 +116,21 @@ describe('UIImage', () => {
         });
 
         it('should return the correct class hook for error', (done) => {
-            image.setState({ status: UIImage.Constants.IMAGE_ERROR }, () => {
+            image.setState({ status: UIImage.status.IMAGE_ERROR }, () => {
                 assert(image.refs.status.classList.contains('ui-image-error'));
                 done();
             });
         });
 
         it('should return the correct class hook for loading', (done) => {
-            image.setState({ status: UIImage.Constants.IMAGE_LOADING }, () => {
+            image.setState({ status: UIImage.status.IMAGE_LOADING }, () => {
                 assert(image.refs.status.classList.contains('ui-image-loading'));
                 done();
             });
         });
 
         it('should return the correct class hook for loaded', (done) => {
-            image.setState({ status: UIImage.Constants.IMAGE_LOADED }, () => {
+            image.setState({ status: UIImage.status.IMAGE_LOADED }, () => {
                 assert(image.refs.status.classList.contains('ui-image-loaded'));
                 done();
             });

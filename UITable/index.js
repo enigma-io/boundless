@@ -29,6 +29,7 @@ import cx from 'classnames';
  * 4. render pass 2 w/ column heads and the rest of the cells
  */
 
+/** @ignore */
 const findWhere = function findWhere(array, property, value) {
     let index = array.length - 1;
 
@@ -623,18 +624,24 @@ class UITable extends UIView {
 
     render() {
         return (
-            <div {...this.props}
+            <div {...this.props.wrapperAttrs}
+                 ref='wrapper'
                  className={cx({
                     'ui-table-wrapper': true,
-                    [this.props.className]: !!this.props.className
+                    [this.props.wrapperAttrs.className]: !!this.props.wrapperAttrs.className
                  })}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
                  onWheel={this.handleMoveIntent}
                  tabIndex='0'>
-                <div ref='table'
-                     className='ui-table'>
+                <div {...this.props.attrs}
+                     ref='table'
+                     className={cx({
+                        'ui-table': true,
+                        [this.props.className]: !!this.props.className,
+                        [this.props.attrs.className]: !!this.props.attrs.className
+                     })}>
                     {this.renderHead()}
                     {this.renderBody()}
                 </div>
@@ -646,6 +653,7 @@ class UITable extends UIView {
 }
 
 UITable.propTypes = {
+    attrs: React.PropTypes.object,
     className: React.PropTypes.string,
     columns: React.PropTypes.arrayOf(
         React.PropTypes.shape({
@@ -660,13 +668,16 @@ UITable.propTypes = {
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
-    totalRows: React.PropTypes.number
+    totalRows: React.PropTypes.number,
+    wrapperAttrs: React.PropTypes.object
 };
 
 UITable.defaultProps = {
+    attrs: {},
     columns: [],
     getRow: noop,
-    offscreenClass: 'ui-offscreen'
+    offscreenClass: 'ui-offscreen',
+    wrapperAttrs: {}
 };
 
 export default UITable;

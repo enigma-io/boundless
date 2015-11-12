@@ -1,5 +1,6 @@
 {
     "opts": {
         "template": "../node_modules/minami"
-    }
+    },
+    "plugins": ["plugins/markdown"]
 }

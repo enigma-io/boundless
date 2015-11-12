@@ -8,7 +8,7 @@ import {merge} from 'lodash';
 describe('UIList', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const eventBase = {preventDefault: () => {}};
-    const listBase = <UIList items={['apple', 'orange']} />;
+    const listBase = <UIList attrs={{'data-foo': 'bar'}} items={['apple', 'orange']} />;
 
     let list;
     let node;
@@ -26,6 +26,11 @@ describe('UIList', () => {
         it('items passed via props.items', () => {
             expect(node.children[0].textContent).to.equal('apple');
             expect(node.children[1].textContent).to.equal('orange');
+        });
+
+        it('arbitrary HTML attributes via props.attrs', () => {
+            expect(node.hasAttribute('data-foo')).to.be.true;
+            expect(node.getAttribute('data-foo')).to.equal('bar');
         });
     });
 

@@ -1,8 +1,3 @@
-/**
- * A clickable control with "pressed" state support.
- * @class UIButton
- */
-
 import UIView from '../UIView';
 import React from 'react';
 import cx from 'classnames';
@@ -35,17 +30,17 @@ class UIButton extends UIView {
 
     render() {
         return (
-            <button
-                {...this.props}
-                className={cx({
-                    'ui-button': true,
-                    'ui-button-pressable': typeof this.props.pressed !== 'undefined',
-                    'ui-button-pressed': this.props.pressed,
-                    [this.props.className]: !!this.props.className
-                })}
-                aria-pressed={this.props.pressed}
-                onKeyDown={this.handleKeyDown.bind(this)}
-                onClick={this.handleClick.bind(this)}>
+            <button {...this.props.attrs}
+                    className={cx({
+                        'ui-button': true,
+                        'ui-button-pressable': typeof this.props.pressed !== 'undefined',
+                        'ui-button-pressed': this.props.pressed,
+                        [this.props.className]: !!this.props.className,
+                        [this.props.attrs.className]: !!this.props.attrs.className
+                    })}
+                    aria-pressed={this.props.pressed}
+                    onKeyDown={this.handleKeyDown.bind(this)}
+                    onClick={this.handleClick.bind(this)}>
                 {this.props.children}
             </button>
         );
@@ -53,6 +48,7 @@ class UIButton extends UIView {
 }
 
 UIButton.propTypes = {
+    attrs: React.PropTypes.object,
     children: React.PropTypes.node,
     className: React.PropTypes.string,
     onClick: React.PropTypes.func,
@@ -62,6 +58,7 @@ UIButton.propTypes = {
 };
 
 UIButton.defaultProps = {
+    attrs: {},
     onClick: noop,
     onPressed: noop,
     onUnpressed: noop

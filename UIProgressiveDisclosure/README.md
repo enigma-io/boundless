@@ -44,24 +44,26 @@ Styling of the element is provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Mouse** | `click` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
-**Keyboard** | `[Enter]` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
+__Mouse__ | `click` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
+__Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
 
 <br />
 ##### Available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
+- __attrs__ `Object`
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-disclosure` element
 
-- **expanded** `Boolean`
+- __expanded__ `Boolean`
   allows the disclosure to be rendered expanded by default
 
-- **onExpand** `Boolean`
+- __onExpand__ `Boolean`
   called when the content is shown; not called on initial render
 
-- **onHide** `Function`
+- __onHide__ `Function`
   called when the content is hidden; not called on initial render
 
-- **teaser** `Node`
+- __teaser__ `Node`
   content to be shown next to the expansion toggle, e.g. "Advanced Options"

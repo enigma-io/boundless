@@ -1,7 +1,8 @@
 /**
  * Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.
- * @module UIUtils/transform
- * @return {String} the property key (e.g. WebkitTransform, msTransform)
+ * @module UIKit/utils/transform
+ *
+ * @return {String} the property key (e.g. `WebkitTransform`, `msTransform`)
  */
 
 export default (function detectTransformProperty() {

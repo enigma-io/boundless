@@ -14,21 +14,21 @@ describe('UICheckbox', () => {
     });
 
     describe('accepts', () => {
-        it('React-supported HTML attributes as passthrough attributes to the rendered input', () => {
-            const box = ReactDOM.render(<UICheckbox data-id='foo' />, mountNode);
+        it('arbitarary React-supported HTML attributes via the `attrs` prop', () => {
+            const box = ReactDOM.render(<UICheckbox attrs={{'data-id': 'foo'}} />, mountNode);
 
             expect(box.refs.input.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the rendered wrapper', () => {
-            const box = ReactDOM.render(<UICheckbox wrapperAttributes={{'data-id': 'foo'}} />, mountNode);
+        it('arbitarary React-supported HTML attributes via the `wrapperAttrs` prop', () => {
+            const box = ReactDOM.render(<UICheckbox wrapperAttrs={{'data-id': 'foo'}} />, mountNode);
             const node = ReactDOM.findDOMNode(box);
 
             expect(node.getAttribute('data-id')).to.equal('foo');
         });
 
-        it('React-supported HTML attributes as passthrough attributes to the rendered label', () => {
-            const box = ReactDOM.render(<UICheckbox labelAttributes={{'data-id': 'foo'}} label='foo' />, mountNode);
+        it('arbitarary React-supported HTML attributes via the `labelAttrs` prop', () => {
+            const box = ReactDOM.render(<UICheckbox labelAttrs={{'data-id': 'foo'}} label='foo' />, mountNode);
 
             expect(box.refs.label.getAttribute('data-id')).to.equal('foo');
         });
@@ -59,6 +59,21 @@ describe('UICheckbox', () => {
             const box = ReactDOM.render(<UICheckbox name='foo' checked={false} label={<p>foo</p>} />, mountNode);
 
             expect(box.refs.label.textContent).to.equal('foo');
+        });
+    });
+
+    describe('prop', () => {
+        it('`checked` should be applied to the input node', () => {
+             const box = ReactDOM.render(<UICheckbox name='foo' checked={true} />, mountNode);
+
+             expect(box.refs.input.checked).to.be.true;
+        });
+
+        it('`name` should be applied to the input node', () => {
+             const box = ReactDOM.render(<UICheckbox name='foo' />, mountNode);
+
+             expect(box.refs.input.hasAttribute('name')).to.be.true;
+             expect(box.refs.input.getAttribute('name')).to.equal('foo');
         });
     });
 

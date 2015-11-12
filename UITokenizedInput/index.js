@@ -178,10 +178,11 @@ class UITokenizedInput extends UIView {
 
     render() {
         return (
-            <div {...this.props.outerWrapperAttributes}
+            <div {...this.props.outerWrapperAttrs}
+                 ref='wrapper'
                  className={cx({
                      'ui-tokenfield-wrapper': true,
-                     [this.props.outerWrapperAttributes.className]: !!this.props.outerWrapperAttributes.className
+                     [this.props.outerWrapperAttrs.className]: !!this.props.outerWrapperAttrs.className
                  })}
                  onKeyDown={this.handleKeyDown.bind(this)}>
                 {this.renderTokens()}
@@ -190,7 +191,8 @@ class UITokenizedInput extends UIView {
                                   ref='typeahead'
                                   className={cx({
                                       'ui-tokenfield': true,
-                                      [this.props.className]: !!this.props.className
+                                      [this.props.className]: !!this.props.className,
+                                      [this.props.attrs.className]: !!this.props.attrs.className
                                   })}
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
                                   clearPartialInputOnSelection={true} />
@@ -200,21 +202,19 @@ class UITokenizedInput extends UIView {
 }
 
 UITokenizedInput.propTypes = {
+    ...UITypeaheadInput.propTypes,
+    attrs: React.PropTypes.object,
     className: React.PropTypes.string,
-    entities: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            content: React.PropTypes.string
-        })
-    ),
     onTokenChange: React.PropTypes.func,
-    outerWrapperAttributes: React.PropTypes.object,
+    outerWrapperAttrs: React.PropTypes.object,
     showTokenClose: React.PropTypes.bool
 };
 
 UITokenizedInput.defaultProps = {
+    attrs: {},
     entities: [],
     onTokenChange: noop,
-    outerWrapperAttributes: {},
+    outerWrapperAttrs: {},
     showTokenClose: true
 };
 

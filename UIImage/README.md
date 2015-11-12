@@ -31,36 +31,38 @@ Styling of the element will be provided via the CSS hooks:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-**Keyboard** | `[Enter, Space]` | should trigger the onClick handler
-**Mouse** | `click` | should trigger the onClick handler
+__Keyboard__ | `[Enter, Space]` | should trigger the onClick handler
+__Mouse__ | `click` | should trigger the onClick handler
 
 <br />
 ##### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
+- __attrs__ {Object}
+  __attrs.*__
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image` node
 
-- **alt** `String`
+- __alt__ `String`
   a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.ui-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
 
-- **className** `String`
+- __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-image` element
 
-- **displayAsBackgroundImage** `Boolean`
+- __displayAsBackgroundImage__ `Boolean`
   emits the image as a `<div>` with `background-image` css property set instead of `<img>`
 
-- **onClick** `Function`
+- __onClick__ `Function`
   called when the element is single-clicked
 
-- **onError** `Function`
+- __onError__ `Function`
   called if the image fails to load
 
-- **src** `String`
+- __src__ `String`
   a valid path to the desired image
 
-- **statusAttributes** `Object`
-    - **statusAttributes.\***
+- __statusAttrs__ `Object`
+    - __statusAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-status` node
 
-- **wrapperAttributes** `Object`
-    - **wrapperAttributes.\***
+- __wrapperAttrs__ `Object`
+    - __wrapperAttrs.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-wrapper` node

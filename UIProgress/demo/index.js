@@ -26,9 +26,9 @@ export default class UIProgressDemo extends UIView {
                     <UIProgress ref='bar'
                                 label={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`}
-                                wrapperAttributes={{ className: 'progress-bar' }} />
+                                wrapperAttrs={{ className: 'progress-bar' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'bar')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Reset
                     </UIButton>
                 </figure>
@@ -37,9 +37,9 @@ export default class UIProgressDemo extends UIView {
                                 label={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
                                 tweenProperty='height'
-                                wrapperAttributes={{ className: 'progress-meter' }} />
+                                wrapperAttrs={{ className: 'progress-meter' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'meter')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Reset
                     </UIButton>
                 </figure>
@@ -48,9 +48,9 @@ export default class UIProgressDemo extends UIView {
                                 label={this.state.trees}
                                 progress={100 - this.state.forestProgress}
                                 tweenProperty='zIndex'
-                                wrapperAttributes={{ className: 'progress-forest' }} />
+                                wrapperAttrs={{ className: 'progress-forest' }} />
                     <UIButton onClick={this.resetProgress.bind(this, 'forest')}
-                              style={{marginTop: '1rem'}}>
+                              attrs={{style: {marginTop: '1rem'}}}>
                         Reset
                     </UIButton>
                 </figure>
