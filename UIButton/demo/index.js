@@ -5,7 +5,7 @@ import React from 'react';
 export default class UIButtonDemo extends UIView {
     initialState() {
         return {
-            pressed: false
+            pressed: false,
         };
     }
 

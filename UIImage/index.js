@@ -11,7 +11,7 @@ import noop from '../UIUtils/noop';
 class UIImage extends UIView {
     initialState() {
         return {
-            status: UIImage.status.LOADING
+            status: UIImage.status.LOADING,
         };
     }
 
@@ -59,12 +59,12 @@ class UIImage extends UIView {
                      ref='image'
                      className={cx({
                          'ui-image': true,
-                         [this.props.imageAttrs.className]: !!this.props.imageAttrs.className
+                         [this.props.imageAttrs.className]: !!this.props.imageAttrs.className,
                      })}
                      title={this.props.alt}
                      style={{
                          ...this.props.imageAttrs.style,
-                         backgroundImage: `url(${this.props.src})`
+                         backgroundImage: `url(${this.props.src})`,
                      }} />
             );
         }
@@ -74,7 +74,7 @@ class UIImage extends UIView {
                  ref='image'
                  className={cx({
                     'ui-image': true,
-                    [this.props.imageAttrs.className]: !!this.props.imageAttrs.className
+                    [this.props.imageAttrs.className]: !!this.props.imageAttrs.className,
                  })}
                  src={this.props.src}
                  alt={this.props.alt}
@@ -92,7 +92,7 @@ class UIImage extends UIView {
                     'ui-image-loading': this.state.status === UIImage.status.LOADING,
                     'ui-image-loaded': this.state.status === UIImage.status.LOADED,
                     'ui-image-error': this.state.status === UIImage.status.ERROR,
-                    [this.props.statusAttrs.className]: !!this.props.statusAttrs.className
+                    [this.props.statusAttrs.className]: !!this.props.statusAttrs.className,
                  })}
                  role='presentation' />
         );
@@ -105,7 +105,7 @@ class UIImage extends UIView {
                  className={cx({
                     'ui-image-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  style={{...this.props.style, ...this.props.attrs.style}}>
@@ -119,7 +119,7 @@ class UIImage extends UIView {
 UIImage.status = {
     LOADING: 'LOADING',
     LOADED: 'LOADED',
-    ERROR: 'ERROR'
+    ERROR: 'ERROR',
 };
 
 UIImage.propTypes = {
@@ -129,13 +129,13 @@ UIImage.propTypes = {
     displayAsBackgroundImage: React.PropTypes.bool,
     imageAttrs: React.PropTypes.object,
     src: React.PropTypes.string.isRequired,
-    statusAttrs: React.PropTypes.object
+    statusAttrs: React.PropTypes.object,
 };
 
 UIImage.defaultProps = {
     attrs: {},
     imageAttrs: {},
-    statusAttrs: {}
+    statusAttrs: {},
 };
 
 export default UIImage;

@@ -16,7 +16,7 @@ class UIPopover extends UIView {
             anchorXAlign: this.props.anchorXAlign,
             anchorYAlign: this.props.anchorYAlign,
             selfXAlign: this.props.selfXAlign,
-            selfYAlign: this.props.selfYAlign
+            selfYAlign: this.props.selfYAlign,
         };
     }
 
@@ -189,14 +189,14 @@ class UIPopover extends UIView {
                         [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                         [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
                         [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className
+                        [this.props.attrs.className]: !!this.props.attrs.className,
                       })}
                       style={{
                           ...this.props.style,
                           ...this.props.attrs.style,
                           position: 'absolute',
                           top: '0px',
-                          left: '0px'
+                          left: '0px',
                       }} />
         , this.container);
     }
@@ -211,7 +211,7 @@ class UIPopover extends UIView {
 UIPopover.position = {
     START: 'START',
     MIDDLE: 'MIDDLE',
-    END: 'END'
+    END: 'END',
 };
 
 UIPopover.propTypes = {
@@ -221,18 +221,18 @@ UIPopover.propTypes = {
         React.PropTypes.instanceOf(HTMLElement),
         React.PropTypes.shape({
             props: React.PropTypes.object,
-            state: React.PropTypes.object
-        }) // a react element of some fashion, React.PropTypes.element wasn't working
+            state: React.PropTypes.object,
+        }), // a react element of some fashion, React.PropTypes.element wasn't working
     ]).isRequired,
     anchorXAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
-        UIPopover.position.END
+        UIPopover.position.END,
     ]),
     anchorYAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
-        UIPopover.position.END
+        UIPopover.position.END,
     ]),
     autoReposition: React.PropTypes.bool,
     className: React.PropTypes.string,
@@ -240,12 +240,12 @@ UIPopover.propTypes = {
     selfXAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
-        UIPopover.position.END
+        UIPopover.position.END,
     ]),
     selfYAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
-        UIPopover.position.END
+        UIPopover.position.END,
     ]),
     style: React.PropTypes.object,
 };
@@ -256,7 +256,7 @@ UIPopover.defaultProps = {
     anchorYAlign: UIPopover.position.END,
     autoReposition: true,
     selfXAlign: UIPopover.position.START,
-    selfYAlign: UIPopover.position.START
+    selfYAlign: UIPopover.position.START,
 };
 
 export default UIPopover;

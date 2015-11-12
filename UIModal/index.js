@@ -16,7 +16,7 @@ class UIModal extends UIView {
                  className={cx({
                     'ui-modal-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  style={{...this.props.style, ...this.props.attrs.style}}>
@@ -24,13 +24,13 @@ class UIModal extends UIView {
                      ref='mask'
                      className={cx({
                         'ui-modal-mask': true,
-                        [this.props.maskAttrs.className]: !!this.props.maskAttrs.className
+                        [this.props.maskAttrs.className]: !!this.props.maskAttrs.className,
                      })} />
                 <UIDialog attrs={this.props.modalAttrs}
                           ref='dialog'
                           className={cx({
                             'ui-modal': true,
-                            [this.props.modalAttrs.className]: !!this.props.modalAttrs.className
+                            [this.props.modalAttrs.className]: !!this.props.modalAttrs.className,
                           })} />
             </div>
         );
@@ -44,13 +44,13 @@ UIModal.propTypes = {
     id: React.PropTypes.string,
     maskAttrs: React.PropTypes.object,
     modalAttrs: React.PropTypes.object,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UIModal.defaultProps = {
     attrs: {},
     maskAttrs: {},
-    modalAttrs: {}
+    modalAttrs: {},
 };
 
 export default UIModal;

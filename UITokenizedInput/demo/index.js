@@ -253,8 +253,8 @@ export default class UITokenizedInputDemo extends UIView {
                 {content: 'Western Sahara'},
                 {content: 'Yemen'},
                 {content: 'Zambia'},
-                {content: 'Zimbabwe'}
-            ]
+                {content: 'Zimbabwe'},
+            ],
         };
     }
 

@@ -11,7 +11,7 @@ import noop from '../UIUtils/noop';
 export default class UIProgressiveDisclosure extends UIView {
     initialState() {
         return {
-            expanded: this.props.expanded
+            expanded: this.props.expanded,
         };
     }
 
@@ -45,15 +45,18 @@ export default class UIProgressiveDisclosure extends UIView {
                     'ui-disclosure': true,
                     'ui-disclosure-expanded': this.state.expanded,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 style={{
+                    ...this.props.style,
+                    ...this.props.attrs.style,
+                 }}>
                 <div {...this.props.toggleAttrs}
                      ref='toggle'
                      className={cx({
                         'ui-disclosure-toggle': true,
-                        [this.props.toggleAttrs.className]: !!this.props.toggleAttrs.className
+                        [this.props.toggleAttrs.className]: !!this.props.toggleAttrs.className,
                      })}
                      onClick={this.handleClick.bind(this)}
                      onKeyDown={this.handleKeyDown.bind(this)}
@@ -87,7 +90,7 @@ UIProgressiveDisclosure.defaultProps = {
     expanded: false,
     onExpand: noop,
     onHide: noop,
-    toggleAttrs: {}
+    toggleAttrs: {},
 };
 
 export default UIProgressiveDisclosure;

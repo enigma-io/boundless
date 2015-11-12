@@ -11,7 +11,7 @@ export default class UIProgressDemo extends UIView {
             barProgress: 0,
             meterProgress: 0,
             forestProgress: 0,
-            trees: this.generateTrees()
+            trees: this.generateTrees(),
         };
     }
 
@@ -77,7 +77,7 @@ export default class UIProgressDemo extends UIView {
                      style={{
                         borderBottomColor: `hsl(97.8, 35.5%, ${(Math.random() * (55 - 25) + 25).toFixed(4)}%)`,
                         [transformProp]: `scale(${(Math.random() * 0.3 + 0.9).toFixed(3)}) translate(${this.randomPosition(...(i < 70 ? [3, 2] : []))})`,
-                        zIndex: i
+                        zIndex: i,
                      }}>
                     |
                 </div>

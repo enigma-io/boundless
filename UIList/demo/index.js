@@ -5,7 +5,11 @@ import React from 'react';
 export default class UIListDemo extends UIView {
     initialState() {
         return {
-            items: ['lorem', 'ipsum', 'dolor']
+            items: [
+                'lorem',
+                'ipsum',
+                'dolor',
+            ],
         };
     }
 

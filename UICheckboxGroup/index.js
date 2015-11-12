@@ -30,7 +30,7 @@ class UICheckboxGroup extends UIView {
                             checked={allChecked}
                             className={cx({
                                 'ui-checkbox-group-selectall': true,
-                                [this.props.selectAllAttrs.className]: !!this.props.selectAllAttrs.className
+                                [this.props.selectAllAttrs.className]: !!this.props.selectAllAttrs.className,
                             })}
                             indeterminate={!allChecked && this.anyItemsChecked()}
                             label={this.props.selectAllLabel}
@@ -77,7 +77,7 @@ class UICheckboxGroup extends UIView {
                  className={cx({
                     'ui-checkbox-group': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  style={{...this.props.style, ...this.props.attrs.style}}>
@@ -89,7 +89,7 @@ class UICheckboxGroup extends UIView {
 
 UICheckboxGroup.Constants = {
     SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
-    SELECT_ALL_AFTER: 'SELECT_ALL_AFTER'
+    SELECT_ALL_AFTER: 'SELECT_ALL_AFTER',
 };
 
 UICheckboxGroup.propTypes = {
@@ -101,7 +101,7 @@ UICheckboxGroup.propTypes = {
             checked: React.PropTypes.bool.isRequired,
             label: React.PropTypes.string,
             name: React.PropTypes.string.isRequired,
-            value: React.PropTypes.string
+            value: React.PropTypes.string,
         })
     ).isRequired,
     onAllChecked: React.PropTypes.func,
@@ -113,9 +113,9 @@ UICheckboxGroup.propTypes = {
     selectAllLabel: React.PropTypes.string,
     selectAllPosition: React.PropTypes.oneOf([
         UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
-        UICheckboxGroup.Constants.SELECT_ALL_AFTER
+        UICheckboxGroup.Constants.SELECT_ALL_AFTER,
     ]),
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UICheckboxGroup.defaultProps = {
@@ -127,7 +127,7 @@ UICheckboxGroup.defaultProps = {
     onChildUnchecked: noop,
     selectAllAttrs: {},
     selectAllLabel: 'Select All',
-    selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE
+    selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
 };
 
 export default UICheckboxGroup;

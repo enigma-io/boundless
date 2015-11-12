@@ -10,7 +10,7 @@ import cx from 'classnames';
 class UIList extends UIView {
     initialState() {
         return {
-            activeItem: null
+            activeItem: null,
         };
     }
 
@@ -70,7 +70,7 @@ class UIList extends UIView {
                 tabIndex: 0,
                 onBlur: () => this.state.activeItem === item && this.setState({activeItem: null}),
                 onFocus: () => this.setState({activeItem: item}),
-                children: item
+                children: item,
             });
         });
     }
@@ -97,12 +97,12 @@ class UIList extends UIView {
                 'ui-list-numbered': this.props.type === 'number',
                 'ui-list-plain': this.props.type !== 'bullet' && this.props.type !== 'number',
                 [this.props.className]: !!this.props.className,
-                [this.props.attrs.className]: !!this.props.attrs.className
+                [this.props.attrs.className]: !!this.props.attrs.className,
             }),
             id: this.props.id || this.props.attrs.id,
             onKeyDown: this.handleKeyDown.bind(this),
             style: {...this.props.style, ...this.props.attrs.style},
-            children: this.renderContent()
+            children: this.renderContent(),
         });
     }
 }
@@ -113,12 +113,12 @@ UIList.propTypes = {
     id: React.PropTypes.string,
     items: React.PropTypes.arrayOf(React.PropTypes.node),
     type: React.PropTypes.oneOf(['bullet', 'number']),
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UIList.defaultProps = {
     attrs: {},
-    items: []
+    items: [],
 };
 
 export default UIList;

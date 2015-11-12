@@ -12,7 +12,7 @@ export default class UIModalDemo extends UIView {
 
     initialState() {
         return {
-            showModal: false
+            showModal: false,
         };
     }
 
@@ -24,7 +24,7 @@ export default class UIModalDemo extends UIView {
         if (this.state.showModal) {
             let buttons = [
                 <UIButton key='y' onClick={this.toggleModal}>Yes</UIButton>,
-                <UIButton key='n' className='cancel-button' onClick={this.toggleModal}>No</UIButton>
+                <UIButton key='n' className='cancel-button' onClick={this.toggleModal}>No</UIButton>,
             ];
 
             return (

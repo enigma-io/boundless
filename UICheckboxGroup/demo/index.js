@@ -9,24 +9,24 @@ export default class UICheckboxGroupDemo extends UIView {
             items: [{
                 checked: false,
                 label: 'Science',
-                name: 'likes-science'
+                name: 'likes-science',
             }, {
                 checked: false,
                 label: 'Mathematics',
-                name: 'likes-math'
+                name: 'likes-math',
             }, {
                 checked: false,
                 label: 'Technology',
-                name: 'likes-tech'
+                name: 'likes-tech',
             }, {
                 checked: false,
                 label: 'Art',
-                name: 'likes-art'
+                name: 'likes-art',
             }, {
                 checked: false,
                 label: 'Sports',
-                name: 'likes-sports'
-            }]
+                name: 'likes-sports',
+            }],
         };
     }
 
@@ -62,7 +62,7 @@ export default class UICheckboxGroupDemo extends UIView {
         this.setState({
             items: _.map(this.state.items, function transformer(item) {
                 return _.merge({}, item, delta);
-            })
+            }),
         });
     }
 
@@ -74,7 +74,7 @@ export default class UICheckboxGroupDemo extends UIView {
                 }
 
                 return _.merge({}, item, delta);
-            })
+            }),
         });
     }
 

@@ -8,7 +8,7 @@ export default class UIImageDemo extends UIView {
         return {
             normal: Date.now(),
             delayed: Date.now(),
-            error: Date.now()
+            error: Date.now(),
         };
     }
 

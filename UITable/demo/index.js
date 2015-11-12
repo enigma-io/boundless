@@ -8,42 +8,42 @@ export default class UITableDemo extends UIView {
             columns: [{
                 title: 'First Name',
                 mapping: 'first_name',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Last Name',
                 mapping: 'last_name',
-                resizable: true
+                resizable: true,
             }, {
                 defaultWidth: 100,
                 title: 'Job Title',
                 mapping: 'job_title',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Phone',
                 mapping: 'phone',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Email Address',
                 mapping: 'email',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Street Address',
                 mapping: 'address1',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'City',
                 mapping: 'city',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Country',
                 mapping: 'country',
-                resizable: true
+                resizable: true,
             }, {
                 title: 'Country Code',
                 mapping: 'country_code',
-                resizable: true
+                resizable: true,
             }],
-            rows: []
+            rows: [],
         };
     }
 
@@ -58,7 +58,7 @@ export default class UITableDemo extends UIView {
                 && xhr.status > 199
                 && xhr.status < 399) {
                 this.setState({
-                    rows: JSON.parse(xhr.responseText)
+                    rows: JSON.parse(xhr.responseText),
                 });
             }
         };

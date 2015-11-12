@@ -254,8 +254,8 @@ export default class UITypeaheadInputDemo extends UIView {
                 {content: 'Western Sahara'},
                 {content: 'Yemen'},
                 {content: 'Zambia'},
-                {content: 'Zimbabwe'}
-            ]
+                {content: 'Zimbabwe'},
+            ],
         };
     }
 

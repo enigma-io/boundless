@@ -65,12 +65,12 @@ class UITable extends UIView {
             rows: [{
                 data: this.props.getRow(0),
                 setIndex: 0,
-                y: 0
+                y: 0,
             }],
             rowsOrderedByY: [0],
             columns: this.props.columns.slice(0),
             xScrollerNubSize: null,
-            yScrollerNubSize: null
+            yScrollerNubSize: null,
         };
     }
 
@@ -146,7 +146,7 @@ class UITable extends UIView {
         const adjustedColumns = this.state.columns.map(function discoverWidth(column, index) {
             return {
                 ...column,
-                width: Math.ceil(firstRowCells[index].getBoundingClientRect().width)
+                width: Math.ceil(firstRowCells[index].getBoundingClientRect().width),
             };
         });
 
@@ -157,7 +157,7 @@ class UITable extends UIView {
             generatedRows.push({
                 data: this.props.getRow(i),
                 setIndex: i,
-                y: this.cellHeight * i
+                y: this.cellHeight * i,
             });
 
             rowsOrderedByY.push(i);
@@ -169,7 +169,7 @@ class UITable extends UIView {
             rows: generatedRows,
             rowsOrderedByY: rowsOrderedByY,
             xScrollerNubSize: this.calculateXScrollerNubSize(),
-            yScrollerNubSize: this.calculateYScrollerNubSize()
+            yScrollerNubSize: this.calculateYScrollerNubSize(),
         });
     }
 
@@ -369,7 +369,7 @@ class UITable extends UIView {
 
             return {
                 ...definition,
-                width: definition.width + adjustedDelta
+                width: definition.width + adjustedDelta,
             };
         });
 
@@ -381,7 +381,7 @@ class UITable extends UIView {
 
         this.setState({
             columns: copy,
-            xScrollerNubSize: this.calculateXScrollerNubSize()
+            xScrollerNubSize: this.calculateXScrollerNubSize(),
         }, () => {
             /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
             we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
@@ -389,7 +389,7 @@ class UITable extends UIView {
                 this.handleMoveIntent({
                     deltaX: adjustedDelta,
                     deltaY: 0,
-                    preventDefault: noop
+                    preventDefault: noop,
                 });
             }
         });
@@ -428,7 +428,7 @@ class UITable extends UIView {
                 this.handleMoveIntent({
                     deltaX: event.clientX - this.lastXScroll,
                     deltaY: 0,
-                    preventDefault: noop
+                    preventDefault: noop,
                 });
 
                 this.lastXScroll = event.clientX;
@@ -438,7 +438,7 @@ class UITable extends UIView {
                 this.handleMoveIntent({
                     deltaX: 0,
                     deltaY: ((event.clientY - this.lastYScroll) / this.containerHeight) * this.props.totalRows * this.cellHeight,
-                    preventDefault: noop
+                    preventDefault: noop,
                 });
 
                 this.lastYScroll = event.clientY;
@@ -542,7 +542,7 @@ class UITable extends UIView {
         if (this.cache_nextActiveRow) {
             this.setState({
                 ariaSpokenOutput: this.cache_nextActiveRow.data[this.state.columns[0].mapping],
-                currentActiveRowIndex: this.cache_nextActiveRow.setIndex
+                currentActiveRowIndex: this.cache_nextActiveRow.setIndex,
             });
 
             if (
@@ -552,7 +552,7 @@ class UITable extends UIView {
                 this.handleMoveIntent({
                     deltaX: 0,
                     deltaY: this.cellHeight * delta,
-                    preventDefault: noop
+                    preventDefault: noop,
                 });
             }
         } else if (   (delta === -1 && this.state.currentActiveRowIndex > 0)
@@ -568,7 +568,7 @@ class UITable extends UIView {
                          || (    this.rowStartIndex < this.state.currentActiveRowIndex
                               && this.state.currentActiveRowIndex - this.rowStartIndex)
                          + delta) * this.cellHeight,
-                preventDefault: noop
+                preventDefault: noop,
             });
 
             // start the process again, now that the row is available
@@ -585,7 +585,7 @@ class UITable extends UIView {
             this.setState({
                 ariaSpokenOutput: this.state.columns.map(column => {
                     return `${column.title}: ${row.data[column.mapping]}`;
-                }).join('\n')
+                }).join('\n'),
             });
         }
     }
@@ -629,7 +629,7 @@ class UITable extends UIView {
                  className={cx({
                     'ui-table-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  onKeyDown={this.handleKeyDown}
@@ -659,7 +659,7 @@ UITable.propTypes = {
             mapping: React.PropTypes.string,
             resizable: React.PropTypes.bool,
             title: React.PropTypes.string,
-            width: React.PropTypes.number
+            width: React.PropTypes.number,
         })
     ),
     getRow: React.PropTypes.func,
@@ -669,14 +669,14 @@ UITable.propTypes = {
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
     totalRows: React.PropTypes.number,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UITable.defaultProps = {
     attrs: {},
     columns: [],
     getRow: noop,
-    offscreenClass: 'ui-offscreen'
+    offscreenClass: 'ui-offscreen',
 };
 
 export default UITable;

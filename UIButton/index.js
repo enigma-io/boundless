@@ -38,7 +38,7 @@ class UIButton extends UIView {
                         'ui-button-pressable': typeof this.props.pressed !== 'undefined',
                         'ui-button-pressed': this.props.pressed,
                         [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className
+                        [this.props.attrs.className]: !!this.props.attrs.className,
                     })}
                     aria-pressed={this.props.pressed}
                     onKeyDown={this.handleKeyDown.bind(this)}
@@ -59,14 +59,14 @@ UIButton.propTypes = {
     onPressed: React.PropTypes.func,
     onUnpressed: React.PropTypes.func,
     pressed: React.PropTypes.bool,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UIButton.defaultProps = {
     attrs: {},
     onClick: noop,
     onPressed: noop,
-    onUnpressed: noop
+    onUnpressed: noop,
 };
 
 export default UIButton;

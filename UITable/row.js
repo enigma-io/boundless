@@ -12,7 +12,7 @@ class UITableRow extends UIView {
 
     initialState() {
         return {
-            data: this.props.data
+            data: this.props.data,
         };
     }
 
@@ -104,7 +104,7 @@ UITableRow.propTypes = {
     data: React.PropTypes.object,
     onCellInteract: React.PropTypes.func,
     onInteract: React.PropTypes.func,
-    y: React.PropTypes.number
+    y: React.PropTypes.number,
 };
 
 export default UITableRow;

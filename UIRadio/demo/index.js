@@ -9,28 +9,28 @@ export default class UIRadioDemo extends UIView {
                 selected: false,
                 label: 'Business',
                 value: 'bus',
-                name: 'major'
+                name: 'major',
             }, {
                 selected: true,
                 label: 'Engineering',
                 value: 'eng',
-                name: 'major'
+                name: 'major',
             }, {
                 selected: false,
                 label: 'Physical Sciences',
                 value: 'phys-sci',
-                name: 'major'
+                name: 'major',
             }, {
                 selected: false,
                 label: 'Psychology',
                 value: 'psy',
-                name: 'major'
+                name: 'major',
             }, {
                 selected: false,
                 label: 'Law',
                 value: 'law',
-                name: 'major'
-            }]
+                name: 'major',
+            }],
         };
     }
 

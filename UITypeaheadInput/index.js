@@ -13,7 +13,7 @@ class UITypeaheadInput extends UIView {
         return {
             entityMatchIndices: [],
             selectedEntityIndex: -1,
-            id: this.uuid()
+            id: this.uuid(),
         };
     }
 
@@ -63,7 +63,7 @@ class UITypeaheadInput extends UIView {
                        type='text'
                        className={cx({
                            'ui-typeahead-hint': true,
-                           [this.props.hintAttrs.className]: !!this.props.hintAttrs.className
+                           [this.props.hintAttrs.className]: !!this.props.hintAttrs.className,
                        })}
                        value={processed}
                        disabled={true}
@@ -88,7 +88,7 @@ class UITypeaheadInput extends UIView {
         return [
             <span key='0'>{entityContent.slice(0, indexStart)}</span>,
             <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
-            <span key='2'>{entityContent.slice(indexEnd)}</span>
+            <span key='2'>{entityContent.slice(indexEnd)}</span>,
         ];
     }
 
@@ -99,7 +99,7 @@ class UITypeaheadInput extends UIView {
                      ref='matches'
                      className={cx({
                          'ui-typeahead-match-wrapper': true,
-                         [this.props.matchWrapperAttrs.className]: !!this.props.matchWrapperAttrs.className
+                         [this.props.matchWrapperAttrs.className]: !!this.props.matchWrapperAttrs.className,
                      })}>
                     {this.state.entityMatchIndices.map(index => {
                         let entity = this.props.entities[index];
@@ -109,7 +109,7 @@ class UITypeaheadInput extends UIView {
                                  className={cx({
                                      'ui-typeahead-match': true,
                                      'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
-                                     [entity.className]: !!entity.className
+                                     [entity.className]: !!entity.className,
                                  })}
                                  key={this.createHashedKey(entity.content)}
                                  onClick={this.handleMatchClick.bind(this, index)}>
@@ -141,7 +141,7 @@ class UITypeaheadInput extends UIView {
     resetMatches() {
         this.setState({
             selectedEntityIndex: -1,
-            entityMatchIndices: []
+            entityMatchIndices: [],
         });
     }
 
@@ -249,7 +249,7 @@ class UITypeaheadInput extends UIView {
         this.setState({
             userInput: currentValue,
             selectedEntityIndex: matches.length ? matches[0] : -1,
-            entityMatchIndices: matches
+            entityMatchIndices: matches,
         });
     }
 
@@ -269,7 +269,7 @@ class UITypeaheadInput extends UIView {
                  className={cx({
                     'ui-typeahead-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  onKeyDown={this.handleKeyDown.bind(this)}
@@ -281,7 +281,7 @@ class UITypeaheadInput extends UIView {
                        ref='input'
                        className={cx({
                            'ui-typeahead': true,
-                           [this.props.inputAttrs.className]: !!this.props.inputAttrs.className
+                           [this.props.inputAttrs.className]: !!this.props.inputAttrs.className,
                        })}
                        defaultValue={this.props.defaultValue || this.props.inputAttrs.defaultValue}
                        name={this.props.name || this.props.inputAttrs.name}
@@ -302,7 +302,7 @@ UITypeaheadInput.propTypes = {
     defaultValue: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(
         React.PropTypes.shape({
-            content: React.PropTypes.string
+            content: React.PropTypes.string,
         })
     ),
     hint: React.PropTypes.bool,
@@ -318,7 +318,7 @@ UITypeaheadInput.propTypes = {
     onInput: React.PropTypes.func,
     onEntitySelected: React.PropTypes.func,
     style: React.PropTypes.object,
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
 };
 
 UITypeaheadInput.defaultProps = {
@@ -330,7 +330,7 @@ UITypeaheadInput.defaultProps = {
     matchWrapperAttrs: {},
     offscreenClass: 'ui-offscreen',
     onComplete: noop,
-    onEntitySelected: noop
+    onEntitySelected: noop,
 };
 
 export default UITypeaheadInput;

@@ -46,7 +46,7 @@
             "args": "after-used"
         }],
         "no-use-before-define": 2,
-        "comma-dangle": [2, "never"],
+        "comma-dangle": [2, "always-multiline"],
         "no-cond-assign": [2, "always"],
         "no-debugger": 1,
         "no-alert": 1,
@@ -101,7 +101,7 @@
         "no-self-compare": 2,
         "no-sequences": 2,
         "no-throw-literal": 2,
-        "no-undefined": 2,
+        "no-undefined": 0,
         "no-unneeded-ternary": 2,
         "no-unused-expressions": 2,
         "no-void": 2,

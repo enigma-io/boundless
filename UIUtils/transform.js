@@ -12,7 +12,7 @@ export default (function detectTransformProperty() {
         'WebkitTransform',
         'MozTransform',
         'OTransform',
-        'msTransform'
+        'msTransform',
     ];
 
     for (let i = 0, len = props.length; i < len; i++) {

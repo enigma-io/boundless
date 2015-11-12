@@ -46,7 +46,7 @@ UITableCell.propTypes = {
     content: React.PropTypes.node,
     width: React.PropTypes.number,
     onInteract: React.PropTypes.func,
-    row: React.PropTypes.object
+    row: React.PropTypes.object,
 };
 
 export default UITableCell;

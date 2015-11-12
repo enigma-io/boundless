@@ -13,7 +13,7 @@ class UIDialog extends UIView {
     initialState() {
         return {
             headerUUID: this.uuid(),
-            bodyUUID: this.uuid()
+            bodyUUID: this.uuid(),
         };
     }
 
@@ -81,7 +81,7 @@ class UIDialog extends UIView {
                      id={this.state.bodyUUID}
                      className={cx({
                         'ui-dialog-body': true,
-                        [this.props.bodyAttrs.className]: !!this.props.bodyAttrs.className
+                        [this.props.bodyAttrs.className]: !!this.props.bodyAttrs.className,
                      })}>
                     {this.props.body}
                 </div>
@@ -96,7 +96,7 @@ class UIDialog extends UIView {
                         ref='footer'
                         className={cx({
                             'ui-dialog-footer': true,
-                            [this.props.footerAttrs.className]: !!this.props.footerAttrs.className
+                            [this.props.footerAttrs.className]: !!this.props.footerAttrs.className,
                         })}>
                     {this.props.footer}
                 </footer>
@@ -112,7 +112,7 @@ class UIDialog extends UIView {
                         id={this.state.headerUUID}
                         className={cx({
                             'ui-dialog-header': true,
-                            [this.props.headerAttrs.className]: !!this.props.headerAttrs.className
+                            [this.props.headerAttrs.className]: !!this.props.headerAttrs.className,
                         })}>
                     {this.props.header}
                 </header>
@@ -127,7 +127,7 @@ class UIDialog extends UIView {
                  className={cx({
                     'ui-dialog': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
+                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  onDragEnd={this.handleDrop}
@@ -160,7 +160,7 @@ UIDialog.propTypes = {
     headerAttrs: React.PropTypes.object,
     id: React.PropTypes.string,
     onClose: React.PropTypes.func,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UIDialog.defaultProps = {
@@ -169,7 +169,7 @@ UIDialog.defaultProps = {
     captureFocus: true,
     footerAttrs: {},
     headerAttrs: {},
-    onClose: noop
+    onClose: noop,
 };
 
 export default UIDialog;

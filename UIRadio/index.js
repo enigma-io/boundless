@@ -11,7 +11,7 @@ import noop from '../UIUtils/noop';
 class UIRadio extends UIView {
     initialState() {
         return {
-            id: this.props.inputAttrs.id || this.uuid()
+            id: this.props.inputAttrs.id || this.uuid(),
         };
     }
 
@@ -30,7 +30,7 @@ class UIRadio extends UIView {
                    className={cx({
                        'ui-radio': true,
                        'ui-radio-selected': this.props.selected,
-                       [this.props.inputAttrs.className]: !!this.props.inputAttrs.className
+                       [this.props.inputAttrs.className]: !!this.props.inputAttrs.className,
                    })}
                    name={this.props.name}
                    value={this.props.value}
@@ -47,7 +47,7 @@ class UIRadio extends UIView {
                        ref='label'
                        className={cx({
                            'ui-radio-label': true,
-                           [this.props.labelAttrs.className]: !!this.props.labelAttrs.className
+                           [this.props.labelAttrs.className]: !!this.props.labelAttrs.className,
                        })}
                        htmlFor={this.state.id}>
                     {this.props.label}
@@ -63,10 +63,13 @@ class UIRadio extends UIView {
                  className={cx({
                      'ui-radio-wrapper': true,
                      [this.props.className]: !!this.props.className,
-                     [this.props.attrs.className]: !!this.props.attrs.className
+                     [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 style={{
+                     ...this.props.style,
+                     ...this.props.attrs.style,
+                 }}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
@@ -85,7 +88,7 @@ UIRadio.propTypes = {
     onSelected: React.PropTypes.func,
     selected: React.PropTypes.bool,
     style: React.PropTypes.object,
-    value: React.PropTypes.string.isRequired
+    value: React.PropTypes.string.isRequired,
 };
 
 UIRadio.defaultProps = {
@@ -93,7 +96,7 @@ UIRadio.defaultProps = {
     inputAttrs: {},
     labelAttrs: {},
     onSelected: noop,
-    selected: false
+    selected: false,
 };
 
 export default UIRadio;

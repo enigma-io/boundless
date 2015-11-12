@@ -39,7 +39,7 @@ class UINotification extends UIView {
         if (notificationPermissionGranted) {
             this.notification = new NotificationAPI(this.props.header, {
                 body: this.props.body,
-                icon: this.props.icon
+                icon: this.props.icon,
             });
 
             this.handleClick = this.handleClick.bind(this);
@@ -106,7 +106,7 @@ UINotification.propTypes = {
     header: React.PropTypes.string,
     icon: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    onDismiss: React.PropTypes.func
+    onDismiss: React.PropTypes.func,
 };
 
 UINotification.defaultProps = {
@@ -114,7 +114,7 @@ UINotification.defaultProps = {
     header: '',
     icon: '',
     onClick: noop,
-    onDismiss: noop
+    onDismiss: noop,
 };
 
 export default UINotification;

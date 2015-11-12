@@ -6,7 +6,7 @@ import React from 'react';
 export default class UINotificationDemo extends UIView {
     initialState() {
         return {
-            notifications: []
+            notifications: [],
         };
     }
 
@@ -20,7 +20,7 @@ export default class UINotificationDemo extends UIView {
         let copy = this.state.notifications.slice(0);
 
         this.setState({
-            notifications: (copy.splice(copy.indexOf(pointer), 1) && copy)
+            notifications: (copy.splice(copy.indexOf(pointer), 1) && copy),
         });
     }
 
@@ -65,5 +65,5 @@ UINotificationDemo.template = {
     body: 'I can support up to two lines of text.',
     icon: 'http://icons.iconarchive.com/icons/icons8/ios7/128/Astrology-Winter-icon.png',
     clickUrl: 'http://www.epa.gov/',
-    expiry: 5000
+    expiry: 5000,
 };

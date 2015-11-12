@@ -16,7 +16,7 @@ class UITokenizedInput extends UIView {
     initialState() {
         return {
             tokenizedEntityIndicesSelected: [],
-            tokenizedEntityIndices: []
+            tokenizedEntityIndices: [],
         };
     }
 
@@ -61,13 +61,13 @@ class UITokenizedInput extends UIView {
 
         if (selected.length === 0) { // pick the rightmost
             this.setState({
-                tokenizedEntityIndicesSelected: [last(indices)]
+                tokenizedEntityIndicesSelected: [last(indices)],
             });
         } else { // add the next leftmost to a reconstructed "selected" array
             let previousToken = indices[indices.indexOf(first(selected)) - 1];
 
             this.setState({
-                tokenizedEntityIndicesSelected: append ? [previousToken].concat(selected) : [previousToken]
+                tokenizedEntityIndicesSelected: append ? [previousToken].concat(selected) : [previousToken],
             });
         }
     }
@@ -82,7 +82,7 @@ class UITokenizedInput extends UIView {
 
         if (last(selected) === last(indices)) {
             this.setState({
-                tokenizedEntityIndicesSelected: []
+                tokenizedEntityIndicesSelected: [],
             });
 
             this.refs.typeahead.focusInput();
@@ -90,7 +90,7 @@ class UITokenizedInput extends UIView {
             let nextToken = indices[indices.indexOf(last(selected)) + 1];
 
             this.setState({
-                tokenizedEntityIndicesSelected: append ? selected.concat(nextToken) : [nextToken]
+                tokenizedEntityIndicesSelected: append ? selected.concat(nextToken) : [nextToken],
             });
         }
     }
@@ -110,7 +110,7 @@ class UITokenizedInput extends UIView {
                 event.preventDefault();
                 this.setState({
                     tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, ...this.state.tokenizedEntityIndicesSelected),
-                    tokenizedEntityIndicesSelected: []
+                    tokenizedEntityIndicesSelected: [],
                 });
 
                 this.refs.typeahead.focusInput();
@@ -123,7 +123,7 @@ class UITokenizedInput extends UIView {
     handleTokenCloseClick(index) {
         this.setState({
             tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, index),
-            tokenizedEntityIndicesSelected: without(this.state.tokenizedEntityIndicesSelected, index)
+            tokenizedEntityIndicesSelected: without(this.state.tokenizedEntityIndicesSelected, index),
         });
     }
 
@@ -140,7 +140,7 @@ class UITokenizedInput extends UIView {
         if (   this.state.tokenizedEntityIndicesSelected.indexOf(index) === -1
             || this.state.tokenizedEntityIndicesSelected.length > 1) {
             this.setState({
-                tokenizedEntityIndicesSelected: [index]
+                tokenizedEntityIndicesSelected: [index],
             });
         }
     }
@@ -162,7 +162,7 @@ class UITokenizedInput extends UIView {
                              key={index}
                              className={cx({
                                 'ui-tokenfield-token': true,
-                                'ui-tokenfield-token-selected': this.state.tokenizedEntityIndicesSelected.indexOf(index) !== -1
+                                'ui-tokenfield-token-selected': this.state.tokenizedEntityIndicesSelected.indexOf(index) !== -1,
                              })}
                              onClick={this.selectSingleToken.bind(this, index)}
                              onKeyDown={this.handleTokenKeyDown.bind(this, index)}
@@ -183,7 +183,7 @@ class UITokenizedInput extends UIView {
                  className={cx({
                      'ui-tokenfield-wrapper': true,
                      [this.props.className]: !!this.props.className,
-                     [this.props.attrs.className]: !!this.props.attrs.className
+                     [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
                  id={this.props.id || this.props.attrs.id}
                  onKeyDown={this.handleKeyDown.bind(this)}
@@ -212,7 +212,7 @@ UITokenizedInput.propTypes = {
     inputAttrs: React.PropTypes.object,
     onTokenChange: React.PropTypes.func,
     showTokenClose: React.PropTypes.bool,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
 };
 
 UITokenizedInput.defaultProps = {
@@ -220,7 +220,7 @@ UITokenizedInput.defaultProps = {
     entities: [],
     inputAttrs: {},
     onTokenChange: noop,
-    showTokenClose: true
+    showTokenClose: true,
 };
 
 export default UITokenizedInput;

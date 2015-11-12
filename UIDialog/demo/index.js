@@ -13,7 +13,7 @@ export default class UIDialogDemo extends UIView {
 
     initialState() {
         return {
-            showDialog: false
+            showDialog: false,
         };
     }
 
@@ -22,7 +22,7 @@ export default class UIDialogDemo extends UIView {
 
         this.setState({
             leftPosition: node.offsetLeft + node.offsetWidth + 10 + 'px',
-            topPosition: node.offsetTop + 'px'
+            topPosition: node.offsetTop + 'px',
         });
     }
 
@@ -54,7 +54,7 @@ export default class UIDialogDemo extends UIView {
                           onClose={this.toggleDialog}
                           style={{
                                   left: this.state.leftPosition,
-                                  top: this.state.topPosition
+                                  top: this.state.topPosition,
                           }} />
             );
         }
