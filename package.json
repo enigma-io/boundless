@@ -2,7 +2,7 @@
   "name": "enigma-uikit",
   "description": "Intuitive, accessible solutions for common UI needs in React.",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "contributors": [
     "Evan Jacobs <evan.jacobs@enigma.io>"
   ],
