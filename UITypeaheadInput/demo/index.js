@@ -266,15 +266,15 @@ export default class UITypeaheadInputDemo extends UIView {
                     <h5>Starts-with matching</h5>
                     <p>Please enter your country of origin:</p>
                     <UITypeaheadInput entities={this.state.countries}
-                                 hint={true} />
+                                      hint={true} />
                 </div>
                 <div style={{marginLeft: '1em'}}>
                     <h5>Fuzzy matching</h5>
                     <p>Please enter your country of origin:</p>
                     <UITypeaheadInput entities={this.state.countries}
-                                 hint={true}
-                                 matchFunc={this.fuzzyMatch.bind(this)}
-                                 markFunc={this.markAllSubstringMatches.bind(this)} />
+                                      hint={true}
+                                      matchFunc={this.fuzzyMatch.bind(this)}
+                                      markFunc={this.markAllSubstringMatches.bind(this)} />
                 </div>
             </div>
         );
