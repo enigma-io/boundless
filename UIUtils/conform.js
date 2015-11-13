@@ -36,7 +36,13 @@ export default function verifyConformance(render, Constructor, baseProps, ref) {
             )
         );
 
-        return ref ? element.refs[ref] : React.findDOMNode(element);
+        if (ref) {
+            return   element.refs[ref] instanceof HTMLElement
+                   ? element.refs[ref]
+                   : ReactDOM.findDOMNode(element.refs[ref]);
+        }
+
+        return React.findDOMNode(element);
     };
 
 

@@ -25,7 +25,8 @@ class UIPopover extends UIView {
 
         // this is bad, don't do this anywhere else :-x.
         this.refs = {};
-        this.refs.dialog = ReactDOM.findDOMNode(this.renderDialog());
+        this.refs.dialog = this.renderDialog();
+        this.node = ReactDOM.findDOMNode(this.refs.dialog);
 
         this.align = this.align.bind(this);
         this.align();
@@ -148,15 +149,15 @@ class UIPopover extends UIView {
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        let x = this.getNextXPosition(anchor, this.refs.dialog);
-        let y = this.getNextYPosition(anchor, this.refs.dialog);
+        let x = this.getNextXPosition(anchor, this.node);
+        let y = this.getNextYPosition(anchor, this.node);
 
-        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.refs.dialog, x, y);
+        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
 
         if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
             this.setState(alignmentCorrection);
         } else {
-            this.applyTranslation(this.refs.dialog, x, y);
+            this.applyTranslation(this.node, x, y);
         }
     }
 

@@ -122,4 +122,47 @@ describe('UIPopover', () => {
             expect(node.classList.contains('ui-popover-self-y-end')).to.be.true;
         });
     });
+
+    describe('passthrough to UIDialog', () => {
+        let element;
+
+        beforeEach(() => {
+            element = render(<UIPopover {...baseProps}
+                                        header='foo'
+                                        headerAttrs={{className: 'foo'}}
+                                        body='bar'
+                                        bodyAttrs={{className: 'foo'}}
+                                        footer='baz'
+                                        footerAttrs={{className: 'foo'}} />);
+        });
+
+        it('should correctly pass down props.header', () => {
+            expect(element.refs.dialog.refs.header.textContent).to.contain('foo');
+        });
+
+        it('should correctly pass down props.headerAttrs', () => {
+            expect(element.refs.dialog.refs.header.classList.contains('foo')).to.be.true;
+        });
+
+        it('should correctly pass down props.body', () => {
+            expect(element.refs.dialog.refs.body.textContent).to.contain('bar');
+        });
+
+        it('should correctly pass down props.bodyAttrs', () => {
+            expect(element.refs.dialog.refs.body.classList.contains('foo')).to.be.true;
+        });
+
+        it('should correctly pass down props.footer', () => {
+            expect(element.refs.dialog.refs.footer.textContent).to.contain('baz');
+        });
+
+        it('should correctly pass down props.footerAttrs', () => {
+            expect(element.refs.dialog.refs.footer.classList.contains('foo')).to.be.true;
+        });
+
+        it('should correctly pass down nested children', () => {
+            element = render(<UIPopover {...baseProps}>foo</UIPopover>);
+            expect(React.findDOMNode(element.refs.dialog).textContent).to.contain('foo');
+        });
+    });
 });
