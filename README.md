@@ -27,7 +27,7 @@ There are a number of ways you can consume UIKit in your project.
 
 ##### without a bundling system
 
-You can simply include the `dist/uikit.js` file in your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
+You can simply include the `dist/uikit-standalone.js` file in your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
 ###### If you don't want to use Babel
 
@@ -93,7 +93,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-##### ES5 (`dist/uikit.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+##### ES5 (`dist/uikit-standalone.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -108,7 +108,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-##### ES5 (`dist/uikit.js` dropped into the page)
+##### ES5 (`dist/uikit-standalone.js` dropped into the page)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;

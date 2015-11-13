@@ -3,6 +3,7 @@
  * @class UINotification
  */
 
+import React from 'react';
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 

@@ -3,6 +3,7 @@
  * @class UICheckboxGroup
  */
 
+import React from 'react';
 import UIView from '../UIView';
 import UICheckbox from '../UICheckbox';
 import cx from 'classnames';

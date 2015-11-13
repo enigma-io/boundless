@@ -3,6 +3,8 @@
  * @class UINotification
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import transformProp from '../UIUtils/transform';

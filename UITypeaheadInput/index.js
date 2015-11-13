@@ -3,6 +3,7 @@
  * @class UITypeaheadInput
  */
 
+import React from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';

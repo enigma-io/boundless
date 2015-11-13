@@ -24,6 +24,7 @@
     "esdoc": "^0.4.3",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "*",
+    "exposify": "^0.5.0",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "jsdoc-react": "^0.3.2",
     "karma": "^0.13.0",
@@ -63,6 +64,7 @@
     "start": "watchify $(npm run -s browserify_config) -o dist/uikit.js --iw --verbose --colors --debug",
     "build": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -o dist/uikit.js --debug",
     "build_release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -t eslintify | uglifyjs -mc drop_console > dist/uikit.min.js",
-    "all": "npm run build && npm run build_release"
+    "build_standalone": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) -o dist/uikit-standalone.js",
+    "all": "npm run build && npm run build_standalone"
   }
 }

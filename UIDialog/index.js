@@ -3,6 +3,8 @@
  * @class UIDialog
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';

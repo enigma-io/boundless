@@ -3,6 +3,8 @@
  * @class UITable
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import UIView from '../UIView';
 import Row from './row';
 import transformProp from '../UIUtils/transform';

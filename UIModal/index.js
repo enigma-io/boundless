@@ -3,6 +3,7 @@
  * @class UIModal
  */
 
+import React from 'react';
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import cx from 'classnames';

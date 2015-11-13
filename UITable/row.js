@@ -1,3 +1,4 @@
+import React from 'react';
 import UIView from '../UIView';
 import Cell from './cell';
 import transformProp from '../UIUtils/transform';

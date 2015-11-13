@@ -3,6 +3,7 @@
  * @class UIProgress
  */
 
+import React from 'react';
 import UIButton from '../UIButton';
 import UIView from '../UIView';
 import cx from 'classnames';

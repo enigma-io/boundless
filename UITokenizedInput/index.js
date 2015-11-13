@@ -3,6 +3,7 @@
  * @class UITokenizedInput
  */
 
+import React from 'react';
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 import cx from 'classnames';
