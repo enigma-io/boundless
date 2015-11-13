@@ -52,6 +52,11 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
   "scripts": {
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
