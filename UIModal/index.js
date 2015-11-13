@@ -26,8 +26,11 @@ class UIModal extends UIView {
                         'ui-modal-mask': true,
                         [this.props.maskAttrs.className]: !!this.props.maskAttrs.className,
                      })} />
-                <UIDialog attrs={this.props.modalAttrs}
+                <UIDialog {...this.props}
+                          attrs={this.props.modalAttrs}
                           ref='dialog'
+                          id={undefined}
+                          style={undefined}
                           className={cx({
                             'ui-modal': true,
                             [this.props.modalAttrs.className]: !!this.props.modalAttrs.className,
