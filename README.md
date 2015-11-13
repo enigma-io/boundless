@@ -17,12 +17,14 @@ There are a number of ways you can consume UIKit in your project.
 ##### via a bundling system like Browserify or Webpack
 
 1. Install UIKit as a dependency:
-   `npm i --save enigma-uikit@git@github.com:enigma-platform/uikit.gitgit@github.com:enigma-platform/uikit.git`
+   ```bash
+   npm i --save enigma-uikit@git+git@github.com:enigma-platform/uikit.git
+   ```
 
-1. Install Babel if you do not already have it, and follow the setup instructions*
-    - browserify: [babelify](https://github.com/babel/babelify)
+1. Install Babel if you do not already have it, and follow the setup instructions
+    - browserify: [babelify](https://github.com/babel/babelify)<br />
     `npm i --save-dev babelify`
-    - webpack: [babel-loader](https://github.com/babel/babel-loader)
+    - webpack: [babel-loader](https://github.com/babel/babel-loader)<br />
     `npm i --save-dev babel-loader`
 
 ##### without a bundling system
