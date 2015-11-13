@@ -9,12 +9,12 @@ The library intentionally does not come with styles to remain lightweight, but s
 
 #### Usage
 
-Each component is independently requireable / importable using the `UIKit/` namespace:
+Each component is importable with a standard bundling system like Browserify + Babel:
 
 ```jsx
-import UIList from 'UIKit/UIList';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {UIList} from 'enigma-uikit';
 
 function MyUI() {
     return (
@@ -24,6 +24,9 @@ function MyUI() {
 
 ReactDOM.render(<MyUI />, document.body);
 ```
+
+Or alternatively, each component is also exported to window like so: `window.UIKit.UIButton`. Note that you need `React` globally exposed for the window method to work correctly.
+
 
 #### "Kitchen Sink" & Demos
 

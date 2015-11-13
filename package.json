@@ -2,10 +2,11 @@
   "name": "enigma-uikit",
   "description": "Intuitive, accessible solutions for common UI needs in React.",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.0-beta",
   "contributors": [
     "Evan Jacobs <evan.jacobs@enigma.io>"
   ],
+  "main": "exports.js",
   "dependencies": {
     "classnames": "^2.1.5",
     "lodash.first": "^3.0.0",
@@ -50,45 +51,27 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
+  "browser": {
+    "enigma-uikit": "./exports.js"
+  },
   "browserify": {
     "transform": [
       "eslintify",
       "babelify"
     ]
   },
-  "exports": [
-    "./UIButton/index.js:UIKit/UIButton",
-    "./UICheckbox/index.js:UIKit/UICheckbox",
-    "./UICheckboxGroup/index.js:UIKit/UICheckboxGroup",
-    "./UIDialog/index.js:UIKit/UIDialog",
-    "./UIFittedText/index.js:UIKit/UIFittedText",
-    "./UIImage/index.js:UIKit/UIImage",
-    "./UIList/index.js:UIKit/UIList",
-    "./UIModal/index.js:UIKit/UIModal",
-    "./UIPopover/index.js:UIKit/UIPopover",
-    "./UIProgress/index.js:UIKit/UIProgress",
-    "./UIProgressiveDisclosure/index.js:UIKit/UIProgressiveDisclosure",
-    "./UIRadio/index.js:UIKit/UIRadio",
-    "./UITable/index.js:UIKit/UITable",
-    "./UITokenizedInput/index.js:UIKit/UITokenizedInput",
-    "./UITypeaheadInput/index.js:UIKit/UITypeaheadInput",
-    "./UIView/index.js:UIKit/UIView"
-  ],
   "scripts": {
     "test": "karma start",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './dist/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
-    "demo-css": "pleeease-watch",
-    "demo-js": "budo demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug",
-    "demo": "sh parallelize.sh \"npm run demo-css\" \"npm run demo-js\"",
-    "export-classes": "echo $(node -p \"'-r ' + require('./package').exports.join(' -r ')\")",
-    "exclude-peer-deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
-    "browserify-config": "echo $(npm run -s export-classes) $(npm run -s exclude-peer-deps)",
-    "browserify-standalone-config": "echo $(npm run -s export-classes)",
-    "build": "browserify --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
+    "demo_css": "pleeease-watch",
+    "demo_js": "budo demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug",
+    "demo": "sh parallelize.sh \"npm run demo_css\" \"npm run demo_js\"",
+    "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
+    "browserify_config": "echo ./exports.js -r enigma-uikit",
     "start": "watchify --iw --verbose --colors --debug $(npm run -s browserify-config) -o dist/uikit.js",
-    "release": "NODE_ENV=production browserify --colors $(npm run -s browserify-config) | uglifyjs -mc drop_console > dist/uikit.min.js",
-    "standalone": "NODE_ENV=production browserify --colors $(npm run -s browserify-standalone-config) | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
-    "all": "npm run build && npm run release && npm run standalone"
+    "build": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -o dist/uikit.js --debug",
+    "build-release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "all": "npm run build && npm run build-release"
   }
 }
