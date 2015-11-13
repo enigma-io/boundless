@@ -5,8 +5,6 @@
 
 import UIView from '../UIView';
 import Row from './row';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import transformProp from '../UIUtils/transform';
 import noop from '../UIUtils/noop';
 import cx from 'classnames';

@@ -1,6 +1,5 @@
 import UIView from '../UIView';
 import Cell from './cell';
-import React from 'react';
 import transformProp from '../UIUtils/transform';
 
 class UITableRow extends UIView {

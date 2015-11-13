@@ -4,7 +4,6 @@
  */
 
 import UIView from '../UIView';
-import React from 'react';
 import cx from 'classnames';
 
 class UIList extends UIView {

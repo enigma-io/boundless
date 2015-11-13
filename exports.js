@@ -3,6 +3,9 @@
  * and directly use a component like: `require('enigma-uikit').UIButton`
  */
 
+global.React = global.React || require('react');
+global.ReactDOM = global.ReactDOM || require('react-dom');
+
 global.UIKit = {};
 
 module.exports = {

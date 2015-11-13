@@ -1,5 +1,4 @@
 import UIView from '../UIView';
-import React from 'react';
 
 class UITableCell extends UIView {
     constructor(...args) {

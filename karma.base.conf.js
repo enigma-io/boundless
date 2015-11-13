@@ -29,7 +29,8 @@ module.exports = {
     },
 
     browserify: {
-        debug: true
+        debug: true,
+        transform: ['babelify']
     },
 
     reportSlowerThan: 10

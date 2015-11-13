@@ -5,7 +5,6 @@
 
 import UIButton from '../UIButton';
 import UIView from '../UIView';
-import React from 'react';
 import cx from 'classnames';
 
 class UIProgress extends UIView {
