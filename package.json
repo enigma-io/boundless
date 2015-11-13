@@ -53,7 +53,6 @@
   },
   "browserify": {
     "transform": [
-      "eslintify",
       "babelify"
     ]
   },
@@ -67,8 +66,8 @@
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify_config": "echo -r ./exports.js:enigma-uikit",
     "start": "watchify $(npm run -s browserify_config) -o dist/uikit.js --iw --verbose --colors --debug",
-    "build": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -o dist/uikit.js --debug",
-    "build_release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "build": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -t eslintify -o dist/uikit.js --debug",
+    "build_release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -t eslintify | uglifyjs -mc drop_console > dist/uikit.min.js",
     "all": "npm run build && npm run build_release"
   }
 }
