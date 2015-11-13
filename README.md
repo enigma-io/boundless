@@ -1,5 +1,5 @@
 # Enigma Platform Team
-### UIKit
+## UIKit
 
 **Intuitive, accessible solutions for common UI needs in React.**
 
@@ -9,12 +9,17 @@ The library intentionally does not come with styles to remain lightweight, but s
 
 UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+).
 
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. ["Kitchen Sink" & Demos](#kitchen-sink--demos)
 
-#### Installation
+---
+
+### Installation
 
 There are a number of ways you can consume UIKit in your project.
 
-##### via a bundling system like Browserify or Webpack
+#### via a bundling system like Browserify or Webpack
 
 1. Install UIKit as a dependency:
    ```bash
@@ -27,11 +32,11 @@ There are a number of ways you can consume UIKit in your project.
     - webpack: [babel-loader](https://github.com/babel/babel-loader)<br />
     `npm i --save-dev babel-loader`
 
-##### without a bundling system
+#### without a bundling system
 
 You can simply include the `dist/uikit-standalone.js` file in your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
-###### If you don't want to use Babel
+##### If you don't want to use Babel
 
 You can set up an alias for `enigma-uikit` to the `dist/uikit.js` file, which is already transpiled and ready for ES5 use.
 
@@ -61,9 +66,10 @@ __Webpack:__
 }
 ```
 
+---
 
-#### Usage
-##### ES6 (bundled with Babel, etc.)
+### Usage
+#### ES6 (bundled with Babel, etc.)
 
 ```jsx
 import React from 'react';
@@ -79,7 +85,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-##### ES5 (bundled)
+#### ES5 (bundled)
 
 ```jsx
 var React = require('react');
@@ -95,7 +101,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-##### ES5 (`dist/uikit-standalone.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+#### ES5 (`dist/uikit-standalone.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -110,7 +116,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-##### ES5 (`dist/uikit-standalone.js` dropped into the page)
+#### ES5 (`dist/uikit-standalone.js` dropped into the page)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -125,8 +131,9 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
+---
 
-#### "Kitchen Sink" & Demos
+### "Kitchen Sink" & Demos
 
 To access the full set of demos, you'll need to clone the repo to your local projects folder:
 
