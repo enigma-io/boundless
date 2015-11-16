@@ -18,6 +18,7 @@ module.exports = {
     UIProgress: (global.UIKit.UIProgress = require('./UIProgress')),
     UIProgressiveDisclosure: (global.UIKit.UIProgressiveDisclosure = require('./UIProgressiveDisclosure')),
     UIRadio: (global.UIKit.UIRadio = require('./UIRadio')),
+    UISegmentedControl: (global.UIKit.UISegmentedControl = require('./UISegmentedControl')),
     UITable: (global.UIKit.UITable = require('./UITable')),
     UITokenizedInput: (global.UIKit.UITokenizedInput = require('./UITokenizedInput')),
     UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput')),

@@ -1,0 +1,17 @@
+{
+  "name": "engima-uikit-UISegmentedControl",
+  "description": "A control containing multiple buttons, only one of which can be active at a time.",
+  "version": "1.0.0",
+  "contributors": [
+    "Abe Rubenstein <abe.rubenstein@enigma.io>"
+  ],
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  }
+}
