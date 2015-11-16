@@ -126,6 +126,20 @@ describe('UIImage', () => {
         });
     });
 
+    describe('on props.src change (receiving a new image URL)', () => {
+        let element;
+
+        beforeEach(() => element = render(<UIImage {...baseProps} />);
+
+        it('should reset the preloader element', () => {
+            const oldLoader = element.loader;
+
+            element = render(<UIImage src='http://www.bing.com/az/hprichbg/rb/BlackGrouse_EN-US10927406226_1920x1080.jpg' />)
+
+            expect(element.loader).to.not.equal(oldLoader);
+        });
+    });
+
     describe('on image status change', () => {
         let element;
 

@@ -17,6 +17,7 @@ class UIImage extends UIView {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.src !== this.props.src) {
+            this.resetPreloader();
             this.setState({status: UIImage.status.LOADING});
         }
     }
@@ -25,7 +26,7 @@ class UIImage extends UIView {
         this.preload();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.preload();
     }
 
@@ -40,14 +41,12 @@ class UIImage extends UIView {
     }
 
     preload() {
-        if (this.loader) {
-            this.resetPreloader();
-        }
+        if (this.loader) { return; }
 
         this.loader = document.createElement('img');
 
-        this.loader.onload = () => { this.setState({status: UIImage.status.LOADED}); };
-        this.loader.onerror = () => { this.setState({status: UIImage.status.ERROR}); };
+        this.loader.onload = () => this.setState({status: UIImage.status.LOADED});
+        this.loader.onerror = () => this.setState({status: UIImage.status.ERROR});
 
         this.loader.src = this.props.src;
     }
