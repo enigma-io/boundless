@@ -58,7 +58,7 @@
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './dist/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "demo_css": "pleeease-watch",
-    "demo_js": "budo demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug -- -t babelify",
+    "demo_js": "budo demo.js:dist/demo.js -H localhost --colors --live --open --index=demo.html --iw --debug -- -t babelify",
     "demo": "sh parallelize.sh \"npm run demo_css\" \"npm run demo_js\"",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t babelify",
