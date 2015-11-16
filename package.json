@@ -65,11 +65,12 @@
     "demo_js": "budo demo.js:dist/demo.js --colors --live --open --index=demo.html --iw --debug -- -t babelify",
     "demo": "sh parallelize.sh \"npm run demo_css\" \"npm run demo_js\"",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
-    "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t eslintify -t babelify",
-    "start": "watchify $(npm run -s browserify_config) -o dist/uikit.js --iw --verbose --colors --debug",
+    "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t babelify",
+    "start": "watchify $(npm run -s browserify_config) -t eslintify -o dist/uikit.js --iw --verbose --colors --debug",
     "build": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -o dist/uikit.js --debug",
-    "build_release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -t eslintify | uglifyjs -mc drop_console > dist/uikit.min.js",
-    "build_standalone": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) -o dist/uikit-standalone.js",
-    "all": "npm run build && npm run build_standalone"
+    "build_release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console > dist/uikit.min.js",
+    "build_standalone": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit-standalone.js",
+    "build_standalone_release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console > dist/uikit-standalone.min.js",
+    "all": "npm run build && npm run build_release && npm run build_standalone && npm run build_standalone_release"
   }
 }
