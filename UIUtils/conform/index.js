@@ -42,7 +42,7 @@ export default function verifyConformance(render, Constructor, baseProps, ref) {
                    : ReactDOM.findDOMNode(element.refs[ref]);
         }
 
-        return React.findDOMNode(element);
+        return ReactDOM.findDOMNode(element);
     };
 
 

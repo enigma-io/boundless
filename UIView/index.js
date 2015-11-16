@@ -1,5 +1,5 @@
 import React from 'react';
-import isEqual from 'lodash.isequal';
+import shallowEqual from '../UIUtils/shallowEqual';
 
 /**
  * An augmented version of `React.Component` with some helpful abstractions added to smooth
@@ -53,7 +53,7 @@ class UIView extends React.Component {
      * }
      */
     shouldComponentUpdate(nextProps, nextState) {
-        return !isEqual(nextProps, this.props) || !isEqual(nextState, this.state);
+        return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state);
     }
 
     /**

@@ -6,7 +6,6 @@
  */
 
 export default (function detectTransformProperty() {
-    let availableProp;
     let props = [
         'transform',
         'WebkitTransform',
@@ -16,11 +15,10 @@ export default (function detectTransformProperty() {
     ];
 
     for (let i = 0, len = props.length; i < len; i++) {
-        if (props[i] in document.body.style) {
-            availableProp = props[i];
-            break;
+        if (props[i] in document.documentElement.style) {
+            return props[i];
         }
     }
 
-    return availableProp;
+    return false;
 })();

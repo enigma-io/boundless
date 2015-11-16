@@ -8,9 +8,20 @@ import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
-import first from 'lodash.first';
-import last from 'lodash.last';
-import without from 'lodash.without';
+
+const first = function getFirstArrayItem(array) {
+    return array[0];
+};
+
+const last = function getLastArrayItem(array) {
+    return array[array.length - 1];
+};
+
+const without = function rejectSomeArrayItems(baseArray, ...toBeExcluded) {
+    return baseArray.filter(function rejectSome(item) {
+        return toBeExcluded.indexOf(item) === -1;
+    });
+};
 
 class UITokenizedInput extends UIView {
     initialState() {
