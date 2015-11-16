@@ -129,7 +129,7 @@ describe('UIImage', () => {
     describe('on props.src change (receiving a new image URL)', () => {
         let element;
 
-        beforeEach(() => element = render(<UIImage {...baseProps} />);
+        beforeEach(() => element = render(<UIImage {...baseProps} />));
 
         it('should reset the preloader element', () => {
             const oldLoader = element.loader;
