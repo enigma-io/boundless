@@ -4,7 +4,8 @@
   "private": true,
   "version": "1.0.0-beta",
   "contributors": [
-    "Evan Jacobs <evan.jacobs@enigma.io>"
+    "Evan Jacobs <evan.jacobs@enigma.io>",
+    "Abe Rubenstein <abe.rubenstein@enigma.io>"
   ],
   "main": "exports.js",
   "dependencies": {
