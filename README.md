@@ -32,13 +32,9 @@ There are a number of ways you can consume UIKit in your project.
     - webpack: [babel-loader](https://github.com/babel/babel-loader)<br />
     `npm i --save-dev babel-loader`
 
-#### without a bundling system
-
-You can simply include the `dist/uikit-standalone.js` file in your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
-
 ##### If you don't want to use Babel
 
-You can set up an alias for `enigma-uikit` to the `dist/uikit.js` file, which is already transpiled and ready for ES5 use.
+You can set up an alias for `enigma-uikit` to the `dist/uikit.min.js` file, which is already transpiled and ready for ES5 use.
 
 __Browserify (via [aliasify](https://github.com/benbria/aliasify)):__
 
@@ -47,7 +43,7 @@ __Browserify (via [aliasify](https://github.com/benbria/aliasify)):__
 {
     browserify: {
         aliasify: {
-            "enigma-uikit": "./node_modules/enigma-uikit/uikit.js"
+            "enigma-uikit": "./node_modules/enigma-uikit/uikit.min.js"
         }
     }
 }
@@ -60,10 +56,31 @@ __Webpack:__
 {
     resolve: {
         alias: {
-            'enigma-uikit': './node_modules/enigma-uikit/uikit.js'
+            'enigma-uikit': './node_modules/enigma-uikit/uikit.min.js'
         }
     }
 }
+```
+
+#### without a bundling system
+
+You can simply include the `dist/uikit-standalone.min.js` file in your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
+
+In this case, your HTML page would probably resemble the following:
+```html
+<html>
+    <head>
+        <title>...</title>
+    </head>
+    <body>
+        <!-- some content or a root container -->
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.min.js"></script>
+        <script src="js/uikit-standalone.min.js"></script>
+        <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
+    </body>
+</html>
 ```
 
 ---
@@ -101,7 +118,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-#### ES5 (`dist/uikit-standalone.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+#### ES5 (`dist/uikit-standalone.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -116,7 +133,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-#### ES5 (`dist/uikit-standalone.js` dropped into the page)
+#### ES5 (`dist/uikit-standalone.min.js` dropped into the page)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -130,6 +147,8 @@ function MyUI() {
 
 ReactDOM.render(<MyUI />, document.body);
 ```
+
+An unminified version with bundled sourcemapping for easy debugging during the development process is available: [dist/uikit-standalone.js](dist/uikit-standalone.js)
 
 ---
 
