@@ -5,3 +5,6 @@ check:
 
 install:
 	npm i
+
+release: install
+	npm run all
