@@ -1,6 +1,6 @@
 /**
  * A non-blocking container positioned to a specific anchor element.
- * @class UINotification
+ * @class UIPopover
  */
 
 import React from 'react';
