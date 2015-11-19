@@ -1,4 +1,6 @@
-@import "../../_globals";
+// Skin-specific styles go here. Demo-specific styles go in demo/style.scss.
+
+@import "../_globals";
 
 .ui-modal-wrapper {
     display: flex;
@@ -23,17 +25,4 @@
     left: 0;
     right: 0;
     bottom: 0;
-}
-
-.cancel-button,
-.cancel-button:hover,
-.cancel-button:focus {
-    background: $color-accent;
-    border-color: transparent;
-    color: white;
-}
-
-.cancel-button:hover,
-.cancel-button:focus {
-    opacity: 0.8;
 }
