@@ -17,6 +17,7 @@ import UIRadioDemo from './UIRadio/demo';
 import UISegmentedControlDemo from './UISegmentedControl/demo';
 import UITableDemo from './UITable/demo';
 import UITokenizedInputDemo from './UITokenizedInput/demo';
+import UITooltipDemo from './UITooltip/demo';
 import UITypeaheadInputDemo from './UITypeaheadInput/demo';
 
 ReactDOM.render(<UIButtonDemo />, document.getElementById('ui-button'));
@@ -35,4 +36,5 @@ ReactDOM.render(<UIRadioDemo />, document.getElementById('ui-radio'));
 ReactDOM.render(<UISegmentedControlDemo />, document.getElementById('ui-segmented-control'));
 ReactDOM.render(<UITableDemo />, document.getElementById('ui-table'));
 ReactDOM.render(<UITokenizedInputDemo />, document.getElementById('ui-tokenfield'));
+ReactDOM.render(<UITooltipDemo />, document.getElementById('ui-tooltip'));
 ReactDOM.render(<UITypeaheadInputDemo />, document.getElementById('ui-typeahead'));

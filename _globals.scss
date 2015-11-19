@@ -4,3 +4,11 @@ $color-text-header-title: #ccc;
 $color-accent: #006400;
 
 $default-border-radius: 2px;
+
+@function get-foreground-text-color($color) {
+    @if (lightness($color) > 50) {
+        @return #000; // Lighter backgorund, return dark color
+    } @else {
+        @return #FFF; // Darker background, return light color
+    }
+}

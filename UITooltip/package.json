@@ -1,0 +1,17 @@
+{
+  "name": "enigma-uikit-UITooltip",
+  "description": "A simple wrapper that displays provided text on mouseover.",
+  "version": "1.0.0",
+  "contributors": [
+    "Evan Jacobs <evan.jacobs@enigma.io>"
+  ],
+  "peerDependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}

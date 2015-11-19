@@ -21,6 +21,7 @@ module.exports = {
     UISegmentedControl: (global.UIKit.UISegmentedControl = require('./UISegmentedControl')),
     UITable: (global.UIKit.UITable = require('./UITable')),
     UITokenizedInput: (global.UIKit.UITokenizedInput = require('./UITokenizedInput')),
+    UITooltip: (global.UIKit.UITooltip = require('./UITooltip')),
     UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput')),
     UIView: (global.UIKit.UIView = require('./UIView')),
 };

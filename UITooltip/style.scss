@@ -1,0 +1,75 @@
+@import "../_globals";
+
+.ui-tooltip {
+    position: relative;
+}
+
+.ui-tooltip::before {
+    background: $color-accent;
+    color: get-foreground-text-color($color-accent);
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    z-index: 1;
+}
+
+.ui-tooltip::after {
+    border: 5px solid transparent;
+    position: absolute;
+    z-index: 1;
+}
+
+.ui-tooltip:hover::before {
+    content: attr(data-tooltip);
+}
+
+.ui-tooltip:hover::after {
+    content: '';
+}
+
+.ui-tooltip-position-above::before {
+    bottom: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.ui-tooltip-position-above::after {
+    border-top-color: $color-accent;
+    bottom: 100%;
+    left: 10px;
+    margin-bottom: -2px;
+}
+
+.ui-tooltip-position-below::before {
+    top: 100%;
+    margin-top: 0.5rem;
+}
+
+.ui-tooltip-position-below::after {
+    border-bottom-color: $color-accent;
+    top: 100%;
+    left: 10px;
+    margin-top: -2px;
+}
+
+.ui-tooltip-position-before::before {
+    right: 100%;
+    margin-right: 0.5rem;
+}
+
+.ui-tooltip-position-before::after {
+    border-left-color: $color-accent;
+    right: 100%;
+    top: 10px;
+    margin-right: -2px;
+}
+
+.ui-tooltip-position-after::before {
+    left: 100%;
+    margin-left: 0.5rem;
+}
+
+.ui-tooltip-position-after::after {
+    border-right-color: $color-accent;
+    left: 100%;
+    top: 10px;
+    margin-left: -2px;
+}
