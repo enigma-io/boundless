@@ -1,8 +1,6 @@
-@import "../../_globals";
+// Demo-specific styles go here. Skin-specific styles go in ../style.scss.
 
-.ui-progress-wrapper {
-    position: relative;
-}
+@import "../../_globals";
 
 .progress-bar {
     height: 30px;

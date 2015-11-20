@@ -1,4 +1,6 @@
-@import "../../_globals";
+// Skin-specific styles go here. Demo-specific styles go in demo/style.scss.
+
+@import "../_globals";
 
 .ui-popover {
     border-color: $color-accent;
@@ -102,9 +104,4 @@
 
 .ui-popover .ui-dialog-body {
     padding: 0;
-}
-
-.show-help-popover {
-    border-bottom: 1px dotted;
-    cursor: help;
 }
