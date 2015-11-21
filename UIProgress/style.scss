@@ -1,5 +1,42 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.scss.
 
+@import "../_globals";
+
 .ui-progress-wrapper {
+    border: 1px solid $color-accent;
+    border-radius: $default-border-radius;
+    height: 30px;
+    overflow: hidden;
     position: relative;
+}
+
+.ui-progress {
+    background: $color-accent;
+    border-radius: $default-border-radius;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.ui-progress-label {
+    color: #FFF;
+    line-height: 30px;
+    padding-left: 10px;
+    position: relative;
+    text-align: left;
+    z-index: 1;
+}
+
+@keyframes interdeterminate-progress-bar {
+    from { opacity: 0.25; }
+    to { opacity: 0.75; }
+}
+
+.ui-progress-indeterminate {
+    background: $color-accent;
+    border-radius: 0;
+    right: 0;
+    opacity: 0.25;
+    animation: interdeterminate-progress-bar 2s linear infinite;
 }

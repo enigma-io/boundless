@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Simulate} from 'react-addons-test-utils';
 
 import UITokenizedInput from '../../UITokenizedInput';
 import conformanceChecker from '../../UIUtils/conform';
@@ -289,6 +290,22 @@ describe('UITokenizedInput', () => {
             expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
 
             element.handleTokenCloseClick(1);
+            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+        });
+    });
+
+    describe('input focus', () => {
+        it('should clear any token selection', () => {
+            const element = render(<UITokenizedInput entities={entities} />);
+            const typeahead = element.refs.typeahead;
+
+            element.setState({tokenizedEntityIndices: [0, 1]});
+
+            Simulate.focus(typeahead.refs.input);
+            element.handleKeyDown({key: 'ArrowLeft'});
+            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+
+            Simulate.focus(typeahead.refs.input);
             expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
         });
     });

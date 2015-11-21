@@ -1,24 +1,30 @@
-### `UIKit/UIRadio`
-#### An accessible radio form control.
+# UIRadio
+__An accessible radio form control.__
 
 UIRadio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
 
-```jsx
-return (
-    <div>
-        <p>¿Guarda automáticamente?</p>
-        <UIRadio selected={true}
-                 label='Sí'
-                 labelAttributes={{'data-i18n': 'es-ES'}}
-                 name='autosave'
-                 value='1' />
-        <UIRadio selected={false}
-                 label='No'
-                 labelAttributes={{'data-i18n': 'es-ES'}}
-                 name='autosave'
-                 value='0' />
-    </div>
-);
+```js
+import {UIRadio} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <div>
+            <p>¿Guarda automáticamente?</p>
+            <UIRadio selected={true}
+                     label='Sí'
+                     labelProps={{'data-i18n': 'es-ES'}}
+                     name='autosave'
+                     value='1' />
+            <UIRadio selected={false}
+                     label='No'
+                     labelProps={{'data-i18n': 'es-ES'}}
+                     name='autosave'
+                     value='0' />
+        </div>
+    );
+}
 ```
 Renders:
 ```html
@@ -42,16 +48,14 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-radio-selected`
 - `.ui-radio-wrapper`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
 __Keyboard__ | `[Enter, Space]` (not selected) | should trigger `onSelected`
 __Mouse__ | `click` (not selected) | should trigger `onSelected`
 
-<br />
-##### Available `props`
+### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
 
 - __inputProps__ `Object`

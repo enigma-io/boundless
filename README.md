@@ -1,7 +1,7 @@
 # Enigma Platform Team
 ## UIKit
 
-**Intuitive, accessible solutions for common UI needs in React.**
+_Intuitive, accessible solutions for common UI needs in React._
 
 UIKit is a problem-solving component pack, meant to provide implementations for common UI needs that would generally be considered annoying to implement yourself. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader / ARIA support.
 
@@ -27,10 +27,15 @@ There are a number of ways you can consume UIKit in your project.
    ```
 
 1. Install Babel if you do not already have it, and follow the setup instructions
-    - browserify: [babelify](https://github.com/babel/babelify)<br />
-    `npm i --save-dev babelify`
-    - webpack: [babel-loader](https://github.com/babel/babel-loader)<br />
-    `npm i --save-dev babel-loader`
+    - browserify: [babelify](https://github.com/babel/babelify)
+      ```bash
+      npm i --save-dev babelify
+      ```
+
+    - webpack: [babel-loader](https://github.com/babel/babel-loader)
+      ```bash
+      npm i --save-dev babel-loader
+      ```
 
 ##### If you don't want to use Babel
 
@@ -88,9 +93,9 @@ In this case, your HTML page would probably resemble the following:
 ### Usage
 #### ES6 (bundled with Babel, etc.)
 
-```jsx
+```js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-dom';
 import {UIList} from 'enigma-uikit';
 
 function MyUI() {
@@ -99,12 +104,12 @@ function MyUI() {
     );
 }
 
-ReactDOM.render(<MyUI />, document.body);
+render(<MyUI />, document.body);
 ```
 
 #### ES5 (bundled)
 
-```jsx
+```js
 var React = require('react');
 var ReactDOM = require('react-dom');
 var UIList = require('enigma-uikit').UIList;
@@ -119,7 +124,7 @@ ReactDOM.render(<MyUI />, document.body);
 ```
 
 #### ES5 (`dist/uikit-standalone.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
-```jsx
+```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
 var UIList = window.UIKit.UIList;
@@ -134,7 +139,7 @@ ReactDOM.render(<MyUI />, document.body);
 ```
 
 #### ES5 (`dist/uikit-standalone.min.js` dropped into the page)
-```jsx
+```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
 var UIList = window.UIKit.UIList;
@@ -156,7 +161,7 @@ An unminified version with bundled sourcemapping for easy debugging during the d
 
 To access the full set of demos, you'll need to clone the repo to your local projects folder:
 
-```
+```bash
 git clone git@github.com:enigma-platform/uikit.git
 ```
 

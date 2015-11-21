@@ -61,6 +61,15 @@ class UITokenizedInput extends UIView {
         }
     }
 
+    handleInputFocus(event) {
+        this.setState({tokenizedEntityIndicesSelected: []});
+
+        if (typeof this.props.inputProps.onFocus === 'function') {
+            event.persist();
+            this.props.inputProps.onFocus(event);
+        }
+    }
+
     selectPreviousToken(append) {
         let selected = this.state.tokenizedEntityIndicesSelected;
         let indices = this.state.tokenizedEntityIndices;
@@ -213,6 +222,7 @@ class UITokenizedInput extends UIView {
                                   ref='typeahead'
                                   className='ui-tokenfield'
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
+                                  onFocus={this.handleInputFocus.bind(this)}
                                   clearPartialInputOnSelection={true} />
             </div>
         );
@@ -226,6 +236,7 @@ UITokenizedInput.propTypes = {
 };
 
 UITokenizedInput.defaultProps = {
+    ...UITypeaheadInput.defaultProps,
     onTokenChange: noop,
     showTokenClose: true,
 };

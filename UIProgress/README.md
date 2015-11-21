@@ -1,13 +1,17 @@
-### `UIKit/UIProgress`
-#### An unopinionated progress implementation that allows for a variety of shapes and effects.
+# UIProgress
+__An unopinionated progress implementation that allows for a variety of shapes and effects.__
 
-```jsx
-let cancelFunc = () => { endProcess(); };
+```js
+import {UIProgressBar} from 'enigma-uikit';
 
-return (
-    <UIProgressBar progress='45'
-                   onCancel={cancelFunc} />
-);
+// ...
+
+render() {
+    return (
+        <UIProgressBar progress='45'
+                       onCancel={cancelFunc} />
+    );
+}
 ```
 
 Renders:
@@ -27,8 +31,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-progress-label`
 - `.ui-progress-wrapper`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -36,8 +39,7 @@ __Render__ | no `progress` passed | should have the indeterminate class
 __Keyboard__ | `[Enter, Space]` on cancel element | should trigger the onCancel handler
 __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node
 

@@ -1,14 +1,20 @@
-### `UIKit/UIFittedText`
-#### Fit given text inside a parent container, obeying implict and explicit constraints.
+# UIFittedText
+__Fit given text inside a parent container, obeying implict and explicit constraints.__
 
 The most common use case for this class is fitting single-line text of unknown/variable length into a button or heading with finite boundaries.
 
-```jsx
-return (
-    <UIButton onClick={someFunc} attrs={{style: {width: '400px'}}}>
-        <UIFittedText>Testing 123</UIFittedText>
-    </UIButton>
-);
+```js
+import {UIButton, UIFittedText} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <UIButton onClick={someFunc} style={{width: '400px'}}>
+            <UIFittedText>Testing 123</UIFittedText>
+        </UIButton>
+    );
+}
 ```
 
 Renders:
@@ -19,15 +25,15 @@ Renders:
 </button>
 ```
 
-Styling of the element will be provided via the class hook: `.ui-text`
+Styling of the element will be provided via the CSS hook:
 
-<br />
-##### Expected Interactions
+- `.ui-text`
+
+### Expected Interactions
 
 There are no expected user interactions. The component emits normal text and merely changes the presentation; accessibility is not obstructed.
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
 

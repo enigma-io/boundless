@@ -1,29 +1,32 @@
-### `UIKit/UINotification`
-#### Trigger native toasts in supporting browsers.
+# UINotification
+__Trigger native toasts in supporting browsers.__
 
 When this module is loaded, the user will be automatically asked to enable desktop notifications. If they decline, then the `onDismiss` callback will be immediately called on every usage.
 
 Support for this feature is [not universal](http://caniuse.com/#feat=notifications) (as of July 2015.)
 
-> This is a virtual component and does not render HTML.
+```js
+import {UINotification} from 'enigma-uikit';
 
-```jsx
-return (
-    <UINotification header='My Dialog'
-                    body='Testing 123'
-                    icon='foo.jpg'
-                    onClick={handleClick}
-                    onDismiss={handleDismiss} />
-);
+// ...
+
+render() {
+    return (
+        <UINotification header='My Dialog'
+                        body='Testing 123'
+                        icon='foo.jpg'
+                        onClick={handleClick}
+                        onDismiss={handleDismiss} />
+    );
+}
 ```
+___This is a virtual component and does not render HTML.___
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 When the virtual component is unmounted, if the notification is still visible, it will be programmatically dismissed.
 
-<br />
-##### Available `props`
+### Available `props`
 
 - **body** `String`
   up to two lines are displayed in the notification (based on the current browser implementations)

@@ -1,19 +1,25 @@
-### `UIKit/UISegmentedControl`
-#### A control containing multiple buttons, only one of which can be active at a time.
+# UISegmentedControl
+__A control containing multiple buttons, only one of which can be active at a time.__
 
 UISegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.
 
-```jsx
-return (
-    <div>
-        <p>Paper or plastic?</p>
-        <div className='ui-spread-even'>
-            <UISegmentedControl
-                options={this.state.options}
-                onOptionSelected={this.handleOptionSelected.bind(this)} />
+```js
+import {UISegmentedControl} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <div>
+            <p>Paper or plastic?</p>
+            <div className='ui-spread-even'>
+                <UISegmentedControl
+                    options={this.state.options}
+                    onOptionSelected={this.handleOptionSelected.bind(this)} />
+            </div>
         </div>
-    </div>
-);
+    );
+}
 ```
 Renders:
 ```html
@@ -38,8 +44,7 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-segmented-control-option`
 - `.ui-segmented-control-option-selected`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -47,11 +52,9 @@ __Mouse__ | `click` (not selected) | should trigger `onOptionSelected` on clicke
 __Keyboard__ |`[Tab]` | should forward-exit `UISegmentedControl` tabbing context
 __Keyboard__ |`[Shift+Tab]` | should backward-exit `UISegmentedControl` tabbing context
 __Keyboard__ |`['Left', 'Right']` | should move focus to previous/next child; should loop
-__Keyboard__ (*RTL*) | `['Left', 'Right']` | should move focus to next/previous child; should loop
 __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused option
 
-<br />
-##### Available `props`
+### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-segmented-control` node
 
 - __onOptionSelected__ `Function`
