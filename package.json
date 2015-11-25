@@ -13,34 +13,30 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.0.0",
-    "babelify": "^6.0.0",
+    "babel-jest": "^6.0.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-2": "^6.1.18",
+    "babelify": "^7.0.0",
     "browserify": "^12.0.0",
     "budo": "^6.0.0",
-    "chai": "^3.4.0",
     "es6-promise": "^3.0.2",
     "esdoc": "^0.4.3",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "*",
     "exposify": "^0.5.0",
+    "jest": "^0.1.40",
+    "jest-cli": "^0.8.0",
     "jsdoc": "^3.4.0",
-    "karma": "^0.13.0",
-    "karma-browserify": "^4.3.0",
-    "karma-chai-sinon": "^0.1.5",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.0",
-    "karma-phantomjs2-launcher": "^0.3.2",
-    "karma-source-map-support": "^1.1.0",
-    "karma-sourcemap-loader": "^0.3.5",
     "lodash": "^3.10.0",
     "minami": "^1.1.0",
     "mocha": "^2.3.3",
     "pleeease": "^4.0.2",
     "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
     "react": "^0.14.2",
+    "react-addons-test-utils": "^0.14.3",
     "react-dom": "^0.14.2",
     "sinon": "^1.17.2",
-    "sinon-chai": "^2.8.0",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.3"
   },
@@ -48,13 +44,33 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-2"
+    ]
+  },
   "browserify": {
     "transform": [
       "babelify"
     ]
   },
+  "jest": {
+    "scriptPreprocessor": "./jest.preprocessor.js",
+    "testRunner": "./node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
+    "unmockedModulePathPatterns": [
+      "."
+    ],
+    "modulePathIgnorePatterns": [
+      "./node_modules/"
+    ],
+    "preprocessorIgnorePatterns": [
+      "./node_modules/"
+    ]
+  },
   "scripts": {
-    "test": "karma start",
+    "test": "jest --verbose",
     "debug": "karma start karma.debug.conf.js",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path './node_modules/*' -or -path './docs/*' -or -path './dist/*' -or -path './*/demo/*' \\) -not -name 'unit.*' -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "demo_css": "pleeease-watch",

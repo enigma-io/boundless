@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {assert} from 'chai';
+
 /**
  * A testing module to verify that a React element conforms to following prop interface:
  *

@@ -36,31 +36,39 @@ class UIList extends UIView {
         const items = this.props.items;
         const activeItem = this.state.activeItem;
 
-        if (hasType) {
-            if (key === 'ArrowUp') {
-                this.setFocus(this.getPreviousItemIndex(activeItem));
-                event.preventDefault();
-            } else if (key === 'ArrowDown') {
-                this.setFocus(this.getNextItemIndex(activeItem));
-                event.preventDefault();
-            }
-        } else {
-            let activeItemIndex = items.indexOf(activeItem);
+        const next = () => {
+            this.setFocus(this.getNextItemIndex(activeItem));
+            event.preventDefault();
+        };
 
-            if (key === 'ArrowLeft'
-                || (key === 'Tab' && event.shiftKey && activeItemIndex !== 0)) {
-                this.setFocus(this.getPreviousItemIndex(activeItem));
-                event.preventDefault();
-            } else if (key === 'ArrowRight'
-                       || (key === 'Tab' && !event.shiftKey && activeItemIndex !== items.length - 1)) {
-                this.setFocus(this.getNextItemIndex(activeItem));
-                event.preventDefault();
+        const prev = () => {
+            event.preventDefault();
+            this.setFocus(this.getPreviousItemIndex(activeItem));
+        };
+
+        if (key === 'Tab') {
+            const activeItemIndex = items.indexOf(activeItem);
+
+            if (event.shiftKey && activeItemIndex !== 0) {
+                return prev();
+            } else if (!event.shiftKey && activeItemIndex !== items.length - 1) {
+               return next();
             }
+        }
+
+        switch (key) {
+        case 'ArrowUp':
+        case 'ArrowLeft':
+            return prev();
+
+        case 'ArrowDown':
+        case 'ArrowRight':
+            return next();
         }
     }
 
     renderContent() {
-        let nodeType = this.props.type ? 'li' : 'span';
+        const nodeType = this.props.type ? 'li' : 'span';
 
         return this.props.items.map((item, index) => {
             return React.createElement(nodeType, {

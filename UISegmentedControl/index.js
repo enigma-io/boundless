@@ -94,6 +94,7 @@ class UISegmentedControl extends UIView {
     render() {
         return (
             <div {...this.props.attrs}
+                 ref='wrapper'
                  aria-required='radiogroup'
                  className={cx({
                     'ui-segmented-control': true,
