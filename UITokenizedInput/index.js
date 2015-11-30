@@ -129,6 +129,11 @@ class UITokenizedInput extends UIView {
 
             break;
         }
+
+        if (typeof this.props.onKeyDown === 'function') {
+            event.persist();
+            this.props.onKeyDown(event);
+        }
     }
 
     handleTokenCloseClick(index) {
@@ -188,23 +193,23 @@ class UITokenizedInput extends UIView {
     }
 
     render() {
+        const descendants = Object.keys(UITypeaheadInput.propTypes).reduce((props, key) => {
+            props[key] = this.props[key];
+
+            return props;
+        }, {});
+
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
                  ref='wrapper'
                  className={cx({
                      'ui-tokenfield-wrapper': true,
                      [this.props.className]: !!this.props.className,
-                     [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
-                 id={this.props.id || this.props.attrs.id}
-                 onKeyDown={this.handleKeyDown.bind(this)}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 onKeyDown={this.handleKeyDown.bind(this)}>
                 {this.renderTokens()}
 
-                <UITypeaheadInput {...this.props}
-                                  attrs={undefined}
-                                  id={undefined}
-                                  style={undefined}
+                <UITypeaheadInput {...descendants}
                                   ref='typeahead'
                                   className='ui-tokenfield'
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
@@ -216,20 +221,11 @@ class UITokenizedInput extends UIView {
 
 UITokenizedInput.propTypes = {
     ...UITypeaheadInput.propTypes,
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
-    id: React.PropTypes.string,
-    inputAttrs: React.PropTypes.object,
     onTokenChange: React.PropTypes.func,
     showTokenClose: React.PropTypes.bool,
-    style: React.PropTypes.object,
 };
 
 UITokenizedInput.defaultProps = {
-    attrs: {},
-    entities: [],
-    inputAttrs: {},
     onTokenChange: noop,
     showTokenClose: true,
 };

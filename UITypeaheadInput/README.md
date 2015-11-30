@@ -60,15 +60,10 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  - __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
-
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-typeahead-wrapper` element
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 
 - __defaultValue__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
 
 - __offscreenClass__ `String`
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
@@ -79,15 +74,12 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __hint__ `Boolean`
   renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input
 
-- __hintAttrs__ `Object`
-    - __hintAttrs.*__
+- __hintProps__ `Object`
+    - __hintProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-hint` node
 
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-typeahead-wrapper` node
-
-- __inputAttrs__ `Object`
-    - __inputAttrs.*__
+- __inputProps__ `Object`
+    - __inputProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the main input node, `.ui-typeahead`
 
 - __matchFunc__ `Function`
@@ -113,12 +105,12 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
   could be used in conjunction with a custom `matchFunc` to normalize certain unicode characters for easier typing ç -> c
 
-- __matchWrapperAttrs__ `Object`
-    - __matchWrapperAttrs.*__
+- __matchWrapperProps__ `Object`
+    - __matchWrapperProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
 
 - __name__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
 
 - __onEntitySelected__ `Function`
   called with the index of the entity selected by the user
@@ -126,9 +118,5 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __onComplete__ `Function`
   called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
 
-- __style__ `Object`
-  inline styles to be applied to the `.ui-typeahead-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
-
 - __type__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputAttrs` if desired
-
+  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired

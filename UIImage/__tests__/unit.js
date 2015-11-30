@@ -2,93 +2,86 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import conformanceChecker from '../../UIUtils/conform';
 
 import UIImage from '../../UIImage';
-
-import sinon from 'sinon';
-import {assert, expect} from 'chai';
+import conformanceChecker from '../../UIUtils/conform';
 
 describe('UIImage', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
-    const sandbox = sinon.sandbox.create();
     const baseProps = {src: 'http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'};
 
-    afterEach(() => {
-        ReactDOM.unmountComponentAtNode(mountNode);
-        sandbox.restore();
-    });
+    afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIImage, baseProps));
 
     describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes via props.imageAttrs', () => {
-            const element = render(<UIImage {...baseProps} imageAttrs={{'data-id': 'xr1'}} />);
+        it('arbitrary React-supported HTML attributes via props.imageProps', () => {
+            const element = render(<UIImage {...baseProps} imageProps={{'data-id': 'xr1'}} />);
             const node = element.refs.image;
 
-            expect(node.getAttribute('data-id')).to.equal('xr1');
+            expect(node.getAttribute('data-id')).toBe('xr1');
         });
 
-        it('classes via props.imageAttrs.className', () => {
+        it('classes via props.imageProps.className', () => {
             const element = render(
                 <UIImage {...baseProps}
-                         imageAttrs={{
+                         imageProps={{
                             className: 'foo'
                          }} />
             );
 
-            expect(element.refs.image.classList.contains('foo')).to.be.true;
+            expect(element.refs.image.classList.contains('foo')).toBe(true);
         });
 
-        it('classes via props.imageAttrs.className when props.displayAsBackgroundImage is true', () => {
+        it('classes via props.imageProps.className when props.displayAsBackgroundImage is true', () => {
             const element = render(
                 <UIImage {...baseProps}
                          displayAsBackgroundImage={true}
-                         imageAttrs={{
+                         imageProps={{
                             className: 'foo'
                          }} />
             );
 
-            expect(element.refs.image.classList.contains('foo')).to.be.true;
+            expect(element.refs.image.classList.contains('foo')).toBe(true);
         });
 
-        it('inline styles via props.imageAttrs.style when props.displayAsBackgroundImage is true', () => {
+        it('inline styles via props.imageProps.style when props.displayAsBackgroundImage is true', () => {
             const element = render(
                 <UIImage {...baseProps}
                          displayAsBackgroundImage={true}
-                         imageAttrs={{
+                         imageProps={{
                             style: {
                                 textDecoration: 'underline'
                             }
                          }} />
             );
 
-            expect(element.refs.image.style.textDecoration).to.equal('underline');
+            expect(element.refs.image.style.textDecoration).toBe('underline');
         });
 
-        it('arbitrary React-supported HTML attributes via props.statusAttrs', () => {
-            const element = render(<UIImage {...baseProps} statusAttrs={{'data-id': 'xr1'}} />);
+        it('arbitrary React-supported HTML attributes via props.statusProps', () => {
+            const element = render(<UIImage {...baseProps} statusProps={{'data-id': 'xr1'}} />);
 
-            expect(element.refs.status.getAttribute('data-id')).to.equal('xr1');
+            expect(element.refs.status.getAttribute('data-id')).toBe('xr1');
         });
 
-        it('classes via props.statusAttrs.className', () => {
+        it('classes via props.statusProps.className', () => {
             const element = render(
                 <UIImage {...baseProps}
-                         statusAttrs={{
+                         statusProps={{
                             className: 'foo'
                          }} />
             );
 
-            expect(element.refs.status.classList.contains('foo')).to.be.true;
+            expect(element.refs.status.classList.contains('foo')).toBe(true);
         });
 
         it('an additional class as a string without replacing the core hook', () => {
             const element = render(<UIImage {...baseProps} className='hero-image' />);
 
-            ['ui-image-wrapper', 'hero-image'].forEach(cname => assert(element.refs.wrapper.classList.contains(cname)));
+            ['ui-image-wrapper', 'hero-image'].forEach(cname => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
         });
     });
 
@@ -96,19 +89,19 @@ describe('UIImage', () => {
         it('ui-image-wrapper should be rendered', () => {
             const element = render(<UIImage {...baseProps} />);
 
-            assert(element.refs.wrapper.classList.contains('ui-image-wrapper'));
+            expect(element.refs.wrapper.classList.contains('ui-image-wrapper')).toBe(true);
         });
 
         it('ui-image should be rendered', () => {
             const element = render(<UIImage {...baseProps} />);
 
-            assert(element.refs.image.classList.contains('ui-image'));
+            expect(element.refs.image.classList.contains('ui-image')).toBe(true);
         });
 
         it('ui-image-status should be rendered', () => {
             const element = render(<UIImage {...baseProps} />);
 
-            assert(element.refs.status.classList.contains('ui-image-status'));
+            expect(element.refs.status.classList.contains('ui-image-status')).toBe(true);
         });
     });
 
@@ -117,16 +110,16 @@ describe('UIImage', () => {
             const element = render(<UIImage {...baseProps} alt='foo' />);
             const node = element.refs.image;
 
-            expect(node.getAttribute('alt')).to.equal('foo');
-            expect(node.hasAttribute('title')).to.be.false;
+            expect(node.getAttribute('alt')).toBe('foo');
+            expect(node.hasAttribute('title')).toBe(false);
         });
 
         it('should be rendered as the HTML `title` attribute if `props.displayAsBackgroundImage` is `true`', () => {
             const element = render(<UIImage {...baseProps} alt='foo' displayAsBackgroundImage={true} />);
             const node = element.refs.image;
 
-            expect(node.getAttribute('title')).to.equal('foo');
-            expect(node.hasAttribute('alt')).to.be.false;
+            expect(node.getAttribute('title')).toBe('foo');
+            expect(node.hasAttribute('alt')).toBe(false);
         });
     });
 
@@ -140,7 +133,7 @@ describe('UIImage', () => {
 
             element = render(<UIImage src='http://www.bing.com/az/hprichbg/rb/BlackGrouse_EN-US10927406226_1920x1080.jpg' />)
 
-            expect(element.loader).to.not.equal(oldLoader);
+            expect(element.loader).not.toBe(oldLoader);
         });
     });
 
@@ -153,21 +146,21 @@ describe('UIImage', () => {
 
         it('should return the correct class hook for error', (done) => {
             element.setState({ status: UIImage.status.ERROR }, () => {
-                assert(element.refs.status.classList.contains('ui-image-error'));
+                expect(element.refs.status.classList.contains('ui-image-error')).toBe(true);
                 done();
             });
         });
 
         it('should return the correct class hook for loading', (done) => {
             element.setState({ status: UIImage.status.LOADING }, () => {
-                assert(element.refs.status.classList.contains('ui-image-loading'));
+                expect(element.refs.status.classList.contains('ui-image-loading')).toBe(true);
                 done();
             });
         });
 
         it('should return the correct class hook for loaded', (done) => {
             element.setState({ status: UIImage.status.LOADED }, () => {
-                assert(element.refs.status.classList.contains('ui-image-loaded'));
+                expect(element.refs.status.classList.contains('ui-image-loaded')).toBe(true);
                 done();
             });
         });

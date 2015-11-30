@@ -62,9 +62,13 @@ class UIDialog extends UIView {
     }
 
     handleKeyDown(event) {
-        if (this.props.closeOnEscKey
-            && event.key === 'Escape') {
+        if (this.props.closeOnEscKey && event.key === 'Escape') {
             this.props.onClose();
+        }
+
+        if (typeof this.props.onKeyDown === 'function') {
+            event.persist();
+            this.props.onKeyDown(event);
         }
     }
 
@@ -77,12 +81,12 @@ class UIDialog extends UIView {
     renderBody() {
         if (this.props.body) {
             return (
-                <div {...this.props.bodyAttrs}
+                <div {...this.props.bodyProps}
                      ref='body'
                      id={this.state.bodyUUID}
                      className={cx({
                         'ui-dialog-body': true,
-                        [this.props.bodyAttrs.className]: !!this.props.bodyAttrs.className,
+                        [this.props.bodyProps.className]: !!this.props.bodyProps.className,
                      })}>
                     {this.props.body}
                 </div>
@@ -93,11 +97,11 @@ class UIDialog extends UIView {
     renderFooter() {
         if (this.props.footer) {
             return (
-                <footer {...this.props.footerAttrs}
+                <footer {...this.props.footerProps}
                         ref='footer'
                         className={cx({
                             'ui-dialog-footer': true,
-                            [this.props.footerAttrs.className]: !!this.props.footerAttrs.className,
+                            [this.props.footerProps.className]: !!this.props.footerProps.className,
                         })}>
                     {this.props.footer}
                 </footer>
@@ -108,12 +112,12 @@ class UIDialog extends UIView {
     renderHeader() {
         if (this.props.header) {
             return (
-                <header {...this.props.headerAttrs}
+                <header {...this.props.headerProps}
                         ref='header'
                         id={this.state.headerUUID}
                         className={cx({
                             'ui-dialog-header': true,
-                            [this.props.headerAttrs.className]: !!this.props.headerAttrs.className,
+                            [this.props.headerProps.className]: !!this.props.headerProps.className,
                         })}>
                     {this.props.header}
                 </header>
@@ -123,20 +127,16 @@ class UIDialog extends UIView {
 
     render() {
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
                  ref='dialog'
                  className={cx({
                     'ui-dialog': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
-                 id={this.props.id || this.props.attrs.id}
-                 onDragEnd={this.handleDrop}
                  onKeyDown={this.handleKeyDown.bind(this)}
                  role='dialog'
                  aria-labelledby={this.state.headerUUID}
                  aria-describedby={this.state.bodyUUID}
-                 style={{...this.props.style, ...this.props.attrs.style}}
                  tabIndex='0'>
                 {this.renderHeader()}
                 {this.props.children || this.renderBody()}
@@ -147,29 +147,24 @@ class UIDialog extends UIView {
 }
 
 UIDialog.propTypes = {
-    attrs: React.PropTypes.object,
     body: React.PropTypes.node,
-    bodyAttrs: React.PropTypes.object,
+    bodyProps: React.PropTypes.object,
     captureFocus: React.PropTypes.bool,
     children: React.PropTypes.node,
-    className: React.PropTypes.string,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
     footer: React.PropTypes.node,
-    footerAttrs: React.PropTypes.object,
+    footerProps: React.PropTypes.object,
     header: React.PropTypes.node,
-    headerAttrs: React.PropTypes.object,
-    id: React.PropTypes.string,
+    headerProps: React.PropTypes.object,
     onClose: React.PropTypes.func,
-    style: React.PropTypes.object,
 };
 
 UIDialog.defaultProps = {
-    attrs: {},
-    bodyAttrs: {},
+    bodyProps: {},
     captureFocus: true,
-    footerAttrs: {},
-    headerAttrs: {},
+    footerProps: {},
+    headerProps: {},
     onClose: noop,
 };
 

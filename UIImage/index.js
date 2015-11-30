@@ -54,26 +54,26 @@ class UIImage extends UIView {
     renderImage() {
         if (this.props.displayAsBackgroundImage) {
             return (
-                <div {...this.props.imageAttrs}
+                <div {...this.props.imageProps}
                      ref='image'
                      className={cx({
                          'ui-image': true,
-                         [this.props.imageAttrs.className]: !!this.props.imageAttrs.className,
+                         [this.props.imageProps.className]: !!this.props.imageProps.className,
                      })}
                      title={this.props.alt}
                      style={{
-                         ...this.props.imageAttrs.style,
+                         ...this.props.imageProps.style,
                          backgroundImage: `url(${this.props.src})`,
                      }} />
             );
         }
 
         return (
-            <img {...this.props.imageAttrs}
+            <img {...this.props.imageProps}
                  ref='image'
                  className={cx({
                     'ui-image': true,
-                    [this.props.imageAttrs.className]: !!this.props.imageAttrs.className,
+                    [this.props.imageProps.className]: !!this.props.imageProps.className,
                  })}
                  src={this.props.src}
                  alt={this.props.alt}
@@ -84,14 +84,14 @@ class UIImage extends UIView {
 
     renderStatus() {
         return (
-            <div {...this.props.statusAttrs}
+            <div {...this.props.statusProps}
                  ref='status'
                  className={cx({
                     'ui-image-status': true,
                     'ui-image-loading': this.state.status === UIImage.status.LOADING,
                     'ui-image-loaded': this.state.status === UIImage.status.LOADED,
                     'ui-image-error': this.state.status === UIImage.status.ERROR,
-                    [this.props.statusAttrs.className]: !!this.props.statusAttrs.className,
+                    [this.props.statusProps.className]: !!this.props.statusProps.className,
                  })}
                  role='presentation' />
         );
@@ -99,15 +99,14 @@ class UIImage extends UIView {
 
     render() {
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
+                 alt={null}
+                 src={null}
                  ref='wrapper'
                  className={cx({
                     'ui-image-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className,
-                 })}
-                 id={this.props.id || this.props.attrs.id}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 })}>
                 {this.renderImage()}
                 {this.renderStatus()}
             </div>
@@ -122,19 +121,16 @@ UIImage.status = {
 };
 
 UIImage.propTypes = {
-    attrs: React.PropTypes.object,
     alt: React.PropTypes.string,
-    className: React.PropTypes.string,
     displayAsBackgroundImage: React.PropTypes.bool,
-    imageAttrs: React.PropTypes.object,
+    imageProps: React.PropTypes.object,
     src: React.PropTypes.string.isRequired,
-    statusAttrs: React.PropTypes.object,
+    statusProps: React.PropTypes.object,
 };
 
 UIImage.defaultProps = {
-    attrs: {},
-    imageAttrs: {},
-    statusAttrs: {},
+    imageProps: {},
+    statusProps: {},
 };
 
 export default UIImage;

@@ -9,10 +9,6 @@ import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 class UISegmentedControl extends UIView {
-    handleClick(option) {
-        this.props.onOptionSelected(option.value);
-    }
-
     currentValue() {
         let value;
 
@@ -43,14 +39,33 @@ class UISegmentedControl extends UIView {
         return previous < 0 ? this.props.options.length - 1 : previous;
     }
 
-    handleBlur(option) {
+    handleBlur(option, event) {
         if (this.state.indexOfOptionInFocus === option) {
             this.setState({indexOfOptionInFocus: null})
         }
+
+        if (typeof option.onBlur === 'function') {
+            event.persist();
+            option.onBlur(event);
+        }
     }
 
-    handleFocus(option) {
+    handleClick(option, event) {
+        this.props.onOptionSelected(option.value);
+
+        if (typeof option.onClick === 'function') {
+            event.persist();
+            option.onClick(event);
+        }
+    }
+
+    handleFocus(option, event) {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
+
+        if (typeof option.onFocus === 'function') {
+            event.persist();
+            option.onFocus(event);
+        }
     }
 
     handleKeyDown(event) {
@@ -66,6 +81,11 @@ class UISegmentedControl extends UIView {
         } else if (key === 'Enter') {
             this.handleClick(this.props.options[activeItemIndex])
             event.preventDefault();
+        }
+
+        if (typeof this.props.onKeyDown === 'function') {
+            event.persist();
+            this.props.onKeyDown(event);
         }
     }
 
@@ -93,17 +113,14 @@ class UISegmentedControl extends UIView {
 
     render() {
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
                  ref='wrapper'
                  aria-required='radiogroup'
                  className={cx({
                     'ui-segmented-control': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}
-                 id={this.props.id || this.props.attrs.id}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 onKeyDown={this.handleKeyDown.bind(this)}>
                  {this.renderOptions()}
             </div>
         );
@@ -111,9 +128,6 @@ class UISegmentedControl extends UIView {
 }
 
 UISegmentedControl.propTypes = {
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     onOptionSelected: React.PropTypes.func,
     options: function(props, propName, componentName) {
         if (props.options.length < 2) {
@@ -158,7 +172,6 @@ UISegmentedControl.propTypes = {
 };
 
 UISegmentedControl.defaultProps = {
-    attrs: {},
     options: [],
     onOptionSelected: noop
 };

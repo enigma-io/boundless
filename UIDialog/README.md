@@ -54,22 +54,17 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
 
 - __body__ `any renderable content`
   text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
 
-- __bodyAttrs__ `Object`
-    - __bodyAttrs.*__
+- __bodyProps__ `Object`
+    - __bodyProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
 
 - __captureFocus__ `Boolean` (default `true`)
   determines if focus is allowed to move away from the dialog
-
-- __className__ `[String|Array<String>]`
-  additional CSS class(es) to be added to the rendered `.ui-dialog` node
 
 - __closeOnEscKey__ `Boolean`
   enable detection of "Escape" keypresses to trigger `props.onClose`
@@ -80,22 +75,16 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 - __footer__ `any renderable content`
   text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
 
-- __footerAttrs__ `Object`
-    - __footerAttrs.*__
+- __footerProps__ `Object`
+    - __footerProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
 
 - __header__ `any renderable content`
   text, ReactElements, etc. to represent the "title bar" area of the dialog
 
-- __headerAttrs__ `Object`
-    - __headerAttrs.*__
+- __headerProps__ `Object`
+    - __headerProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-dialog` node
 
 - __onClose__ `Function`
   a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-dialog` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

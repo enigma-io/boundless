@@ -39,9 +39,7 @@ __Mouse__ | `click` | should toggle the `checked` state
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
 
 - __checked__ `Boolean`
   determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
@@ -55,15 +53,15 @@ __Mouse__ | `click` | should toggle the `checked` state
 - __indeterminate__ `Boolean`
   enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
 
-- __inputAttrs__ `Object`
-    - __inputAttrs.*__
+- __inputProps__ `Object`
+    - __inputProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
 - __label__ `Node`
   any React-renderable content, most commonly a simple string
 
-- __labelAttrs__ `Object`
-    - __labelAttrs.*__
+- __labelProps__ `Object`
+    - __labelProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
 
 - __name__ `String`

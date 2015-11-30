@@ -615,9 +615,9 @@ class UITable extends UIView {
             break;
         }
 
-        if (this.props.handleKeyDown) {
+        if (typeof this.props.onKeyDown === 'function') {
             event.persist();
-            this.props.handleKeyDown(event);
+            this.props.onKeyDown(event);
         }
     }
 
@@ -633,20 +633,17 @@ class UITable extends UIView {
 
     render() {
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
                  ref='wrapper'
                  className={cx({
                     'ui-table-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
-                 id={this.props.id || this.props.attrs.id}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
                  onWheel={this.handleMoveIntent}
-                 tabIndex='0'
-                 style={{...this.props.style, ...this.props.attrs.style}}>
+                 tabIndex='0'>
                 <div {...this.props.attrs}
                      ref='table'
                      className='ui-table'>
@@ -661,8 +658,6 @@ class UITable extends UIView {
 }
 
 UITable.propTypes = {
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
     columns: React.PropTypes.arrayOf(
         React.PropTypes.shape({
             mapping: React.PropTypes.string,
@@ -672,17 +667,13 @@ UITable.propTypes = {
         })
     ),
     getRow: React.PropTypes.func,
-    handleKeyDown: React.PropTypes.func,
-    id: React.PropTypes.string,
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
     totalRows: React.PropTypes.number,
-    style: React.PropTypes.object,
 };
 
 UITable.defaultProps = {
-    attrs: {},
     columns: [],
     getRow: noop,
     offscreenClass: 'ui-offscreen',

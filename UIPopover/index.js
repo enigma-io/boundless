@@ -190,11 +190,9 @@ class UIPopover extends UIView {
                         [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                         [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
                         [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className,
                       })}
                       style={{
                           ...this.props.style,
-                          ...this.props.attrs.style,
                           position: 'absolute',
                           top: '0px',
                           left: '0px',
@@ -217,7 +215,6 @@ UIPopover.position = {
 
 UIPopover.propTypes = {
     ...UIDialog.propTypes,
-    attrs: React.PropTypes.object,
     anchor: React.PropTypes.oneOfType([
         React.PropTypes.instanceOf(HTMLElement),
         React.PropTypes.shape({
@@ -236,8 +233,6 @@ UIPopover.propTypes = {
         UIPopover.position.END,
     ]),
     autoReposition: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     selfXAlign: React.PropTypes.oneOf([
         UIPopover.position.START,
         UIPopover.position.MIDDLE,
@@ -248,11 +243,9 @@ UIPopover.propTypes = {
         UIPopover.position.MIDDLE,
         UIPopover.position.END,
     ]),
-    style: React.PropTypes.object,
 };
 
 UIPopover.defaultProps = {
-    attrs: {},
     anchorXAlign: UIPopover.position.START,
     anchorYAlign: UIPopover.position.END,
     autoReposition: true,

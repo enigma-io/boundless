@@ -29,23 +29,23 @@ describe('UIDialog', () => {
             element = render(
                 <UIDialog className='foo'
                           body='foo'
-                          bodyAttrs={{'data-id': 'foo'}}
+                          bodyProps={{'data-id': 'foo'}}
                           footer='foo'
-                          footerAttrs={{'data-id': 'foo'}}
+                          footerProps={{'data-id': 'foo'}}
                           header='foo'
-                          headerAttrs={{'data-id': 'foo'}}  />
+                          headerProps={{'data-id': 'foo'}}  />
             )
         });
 
-        it('arbitrary React-supported HTML attributes via props.bodyAttrs', () => {
+        it('arbitrary React-supported HTML attributes via props.bodyProps', () => {
             expect(element.refs.body.getAttribute('data-id')).toBe('foo');
         });
 
-        it('arbitrary React-supported HTML attributes via props.footerAttrs', () => {
+        it('arbitrary React-supported HTML attributes via props.footerProps', () => {
             expect(element.refs.footer.getAttribute('data-id')).toBe('foo');
         });
 
-        it('arbitrary React-supported HTML attributes via props.headerAttrs', () => {
+        it('arbitrary React-supported HTML attributes via props.headerProps', () => {
             expect(element.refs.header.getAttribute('data-id')).toBe('foo');
         });
 

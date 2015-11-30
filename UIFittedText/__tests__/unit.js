@@ -6,18 +6,11 @@ import ReactDOM from 'react-dom';
 import UIFittedText from '../../UIFittedText';
 import conformanceChecker from '../../UIUtils/conform';
 
-import sinon from 'sinon';
-
 describe('UIFittedText', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
-    const sandbox = sinon.sandbox.create();
-
-    afterEach(() => {
-        ReactDOM.unmountComponentAtNode(mountNode);
-        sandbox.restore();
-    });
+    afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIFittedText));
 
@@ -53,7 +46,7 @@ describe('UIFittedText', () => {
     });
 
     /*
-        This won't work in JSDOM because they haven't implemented a full layout engine.
+        This won't work in JSDOM because they haven't implemented a layout engine.
         https://github.com/tmpvar/jsdom/issues/135
     */
 
