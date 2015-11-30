@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
@@ -19,7 +18,7 @@ class UIDialog extends UIView {
 
     componentDidMount() {
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
-            ReactDOM.findDOMNode(this).focus();
+            this.refs.dialog.focus();
         }
 
         if (this.props.closeOnOutsideClick) {
@@ -42,7 +41,7 @@ class UIDialog extends UIView {
     }
 
     isPartOfDialog(node) {
-        return ReactDOM.findDOMNode(this).contains(node);
+        return this.refs.dialog.contains(node);
     }
 
     handleFocus(nativeEvent) {
@@ -53,6 +52,8 @@ class UIDialog extends UIView {
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
+        return previous;
+
         if (   this.isPartOfDialog(previous)
             && !this.isPartOfDialog(nativeEvent.target)) {
             nativeEvent.preventDefault();
@@ -60,7 +61,7 @@ class UIDialog extends UIView {
         }
     }
 
-    handleKeydown(event) {
+    handleKeyDown(event) {
         if (this.props.closeOnEscKey
             && event.key === 'Escape') {
             this.props.onClose();
@@ -131,7 +132,7 @@ class UIDialog extends UIView {
                  })}
                  id={this.props.id || this.props.attrs.id}
                  onDragEnd={this.handleDrop}
-                 onKeyDown={this.handleKeydown.bind(this)}
+                 onKeyDown={this.handleKeyDown.bind(this)}
                  role='dialog'
                  aria-labelledby={this.state.headerUUID}
                  aria-describedby={this.state.bodyUUID}

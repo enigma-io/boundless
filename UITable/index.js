@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import UIView from '../UIView';
 import Row from './row';
 import transformProp from '../UIUtils/transform';
@@ -98,10 +97,10 @@ class UITable extends UIView {
 
     componentDidUpdate() {
         if (this.refs.head && typeof this.minimumColumnWidth === 'undefined') {
-            let node = ReactDOM.findDOMNode(this).querySelector('.ui-table-header-cell');
+            const node = this.refs.wrapper.getElementsByClassName('ui-table-header-cell')[0];
 
             if (node) {
-                let nodeStyle = window.getComputedStyle(node);
+                const nodeStyle = window.getComputedStyle(node);
 
                 // will be NaN if not a pixel value
                 this.maximumColumnWidth = parseInt(nodeStyle.maxWidth, 10);
@@ -111,34 +110,39 @@ class UITable extends UIView {
     }
 
     calculateXScrollerNubSize() {
-        let px = this.containerWidth - Math.abs(this.xMaximumTranslation);
+        const px = this.containerWidth - Math.abs(this.xMaximumTranslation);
 
         return px < 12 ? 12 : px;
     }
 
     calculateYScrollerNubSize() {
-        let px = this.rowEndIndex / this.props.totalRows;
+        const px = this.rowEndIndex / this.props.totalRows;
 
         return px < 12 ? 12 : px;
     }
 
     captureDimensions() {
-        let firstRow = this.refs.body.getElementsByClassName('ui-table-row')[0];
-        let firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
-        let container = ReactDOM.findDOMNode(this);
+        const firstRow = this.refs.body.getElementsByClassName('ui-table-row')[0];
+        const firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
+        const container = this.refs.wrapper;
 
-        this.cellHeight = firstRowCells[0].clientHeight;
-        this.containerHeight = container.clientHeight;
-        this.containerWidth = container.clientWidth;
+        /* The fallback amounts are for unit testing, the browser will always have
+        an actual number. */
+
+        this.cellHeight = firstRowCells[0].clientHeight || 40;
+        this.containerHeight = container.clientHeight || 150;
+        this.containerWidth = container.clientWidth || 500;
 
         this.nRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
         this.rowStartIndex = 0;
         this.rowEndIndex = this.nRowsToRender;
 
-        let tableWidth = firstRow.clientWidth;
+        const tableWidth = firstRow.clientWidth || 500;
 
-        this.xMaximumTranslation = this.containerWidth > tableWidth ? 0 : this.containerWidth - tableWidth;
+        this.xMaximumTranslation =   this.containerWidth > tableWidth
+                                   ? 0
+                                   : this.containerWidth - tableWidth;
 
         this.yUpperBound = 0;
         this.yLowerBound = this.containerHeight - (this.nRowsToRender * this.cellHeight);
@@ -462,10 +466,15 @@ class UITable extends UIView {
 
     handleRowClick(event, clickedRowData) {
         if (this.props.onRowInteract) {
+            event.persist();
             this.props.onRowInteract(event, clickedRowData);
         }
 
-        this.setState({currentActiveRowIndex: findWhere(this.state.rows, 'data', clickedRowData).setIndex});
+        this.setState({
+            currentActiveRowIndex: findWhere(
+                this.state.rows, 'data', clickedRowData
+            ).setIndex
+        });
     }
 
     renderRows() {
