@@ -157,7 +157,7 @@ An unminified version with bundled sourcemapping for easy debugging during the d
 
 ---
 
-### "Kitchen Sink" & Demos
+### UIKit Website & Component Demos
 
 To access the full set of demos, you'll need to clone the repo to your local projects folder:
 
@@ -169,5 +169,5 @@ Then `cd` into it and run the following commands:
 
 ```bash
 npm install
-npm run demo
+npm run site
 ```
