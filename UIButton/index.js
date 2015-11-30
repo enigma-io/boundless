@@ -26,24 +26,26 @@ class UIButton extends UIView {
                 this.props.onClick();
             }
         }
+
+        if (typeof this.props.onKeyDown === 'function') {
+            event.persist();
+            this.props.onKeyDown(event);
+        }
     }
 
     render() {
         return (
-            <button {...this.props.attrs}
+            <button {...this.props}
                     ref='button'
-                    id={this.props.id || this.props.attrs.id}
                     className={cx({
                         'ui-button': true,
                         'ui-button-pressable': typeof this.props.pressed !== 'undefined',
                         'ui-button-pressed': this.props.pressed,
                         [this.props.className]: !!this.props.className,
-                        [this.props.attrs.className]: !!this.props.attrs.className,
                     })}
                     aria-pressed={this.props.pressed}
                     onKeyDown={this.handleKeyDown.bind(this)}
-                    onClick={this.handleClick.bind(this)}
-                    style={{...this.props.style, ...this.props.attrs.style}}>
+                    onClick={this.handleClick.bind(this)}>
                 {this.props.children}
             </button>
         );
@@ -51,19 +53,14 @@ class UIButton extends UIView {
 }
 
 UIButton.propTypes = {
-    attrs: React.PropTypes.object,
     children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     onClick: React.PropTypes.func,
     onPressed: React.PropTypes.func,
     onUnpressed: React.PropTypes.func,
     pressed: React.PropTypes.bool,
-    style: React.PropTypes.object,
 };
 
 UIButton.defaultProps = {
-    attrs: {},
     onClick: noop,
     onPressed: noop,
     onUnpressed: noop,

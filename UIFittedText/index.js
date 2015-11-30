@@ -50,14 +50,11 @@ class UIFittedText extends UIView {
 
     render() {
         return (
-            <span {...this.props.attrs}
+            <span {...this.props}
                   className={cx({
                       'ui-text': true,
                       [this.props.className]: !!this.props.className,
-                      [this.props.attrs.className]: !!this.props.attrs.className,
-                  })}
-                  id={this.props.id || this.props.attrs.id}
-                  style={{...this.props.style, ...this.props.attrs.style}}>
+                  })}>
                 {this.props.children}
             </span>
         );
@@ -65,20 +62,15 @@ class UIFittedText extends UIView {
 }
 
 UIFittedText.defaultProps = {
-    attrs: {},
     maxFontSize: Number.MAX_VALUE,
 };
 
 UIFittedText.propTypes = {
-    attrs: React.PropTypes.object,
     children: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number,
     ]),
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     maxFontSize: React.PropTypes.number,
-    style: React.PropTypes.object,
 };
 
 export default UIFittedText;

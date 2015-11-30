@@ -65,33 +65,12 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 <br />
 ##### Available `props`
-> See the props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
-- __attrs__ `Object`
-    - __attrs.*__
-    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
-
-- __className__ `string`
-  applied to the `.ui-tokenfield-wrapper` node
-
-- __defaultValue__ `String`
-  passed through to the main input node, `.ui-tokenfield` -- may alternatively be set in `props.inputAttrs` if desired
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-tokenfield-wrapper` node
-
-- __inputAttrs__ `Object`
-    - __inputAttrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield` node
+- all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
 
 - __onTokenChange__ `Function`
   triggered when an action has been taken to add or remove a token to the UI
 
 - __showTokenClose__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-tokenfield-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
-
-- __tokens__ `Array<Object>`
-  object references to the entities that have been added as tokens

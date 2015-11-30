@@ -2,12 +2,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import conformanceChecker from '../../UIUtils/conform';
 
 import UIProgress from '../../UIProgress';
+import conformanceChecker from '../../UIUtils/conform';
 
 import sinon from 'sinon';
-import {assert, expect} from 'chai';
 
 describe('UIProgress', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -27,58 +26,58 @@ describe('UIProgress', () => {
             const element = render(<UIProgress className='foo bar' />);
             const node = element.refs.wrapper;
 
-            ['ui-progress-wrapper', 'foo', 'bar'].forEach(cname => assert(node.classList.contains(cname)));
+            ['ui-progress-wrapper', 'foo', 'bar'].forEach(cname => expect(node.classList.contains(cname)).toBe(true));
         });
 
         it('a specific style property to tween', () => {
             const element = render(<UIProgress progress='0%' tweenProperty='height' />);
 
-            expect(element.refs.progress.getAttribute('style')).to.equal('height:0%;');
+            expect(element.refs.progress.getAttribute('style')).toBe('height:0%;');
         });
 
-        it('arbitrary HTML attributes via props.progressAttrs', () => {
-            const element = render(<UIProgress progressAttrs={{'data-foo': 'bar'}} />);
+        it('arbitrary HTML attributes via props.progressProps', () => {
+            const element = render(<UIProgress progressProps={{'data-foo': 'bar'}} />);
             const node = element.refs.progress;
 
-            expect(node.hasAttribute('data-foo')).to.be.true;
-            expect(node.getAttribute('data-foo')).to.equal('bar');
+            expect(node.hasAttribute('data-foo')).toBe(true);
+            expect(node.getAttribute('data-foo')).toBe('bar');
         });
 
-        it('an additional class via props.progressAttrs.className', () => {
-            const element = render(<UIProgress progressAttrs={{className: 'foo'}} />);
+        it('an additional class via props.progressProps.className', () => {
+            const element = render(<UIProgress progressProps={{className: 'foo'}} />);
             const node = element.refs.progress;
 
-            expect(node.classList.contains('foo')).to.be.true;
+            expect(node.classList.contains('foo')).toBe(true);
         });
 
-        it('arbitrary HTML attributes via props.labelAttrs', () => {
-            const element = render(<UIProgress label='hi' labelAttrs={{'data-foo': 'bar'}} />);
+        it('arbitrary HTML attributes via props.labelProps', () => {
+            const element = render(<UIProgress label='hi' labelProps={{'data-foo': 'bar'}} />);
             const node = element.refs.label;
 
-            expect(node.hasAttribute('data-foo')).to.be.true;
-            expect(node.getAttribute('data-foo')).to.equal('bar');
+            expect(node.hasAttribute('data-foo')).toBe(true);
+            expect(node.getAttribute('data-foo')).toBe('bar');
         });
 
-        it('an additional class via props.labelAttrs.className', () => {
-            const element = render(<UIProgress label='hi' labelAttrs={{className: 'foo'}} />);
+        it('an additional class via props.labelProps.className', () => {
+            const element = render(<UIProgress label='hi' labelProps={{className: 'foo'}} />);
             const node = element.refs.label;
 
-            expect(node.classList.contains('foo')).to.be.true;
+            expect(node.classList.contains('foo')).toBe(true);
         });
 
-        it('arbitrary HTML attributes via props.cancelAttrs', () => {
-            const element = render(<UIProgress onCancel={sandbox.stub()} cancelAttrs={{'data-foo': 'bar'}} />);
+        it('arbitrary HTML attributes via props.cancelProps', () => {
+            const element = render(<UIProgress onCancel={sandbox.stub()} cancelProps={{'data-foo': 'bar'}} />);
             const node = ReactDOM.findDOMNode(element.refs.cancel);
 
-            expect(node.hasAttribute('data-foo')).to.be.true;
-            expect(node.getAttribute('data-foo')).to.equal('bar');
+            expect(node.hasAttribute('data-foo')).toBe(true);
+            expect(node.getAttribute('data-foo')).toBe('bar');
         });
 
-        it('an additional class via props.cancelAttrs.className', () => {
-            const element = render(<UIProgress onCancel={sandbox.stub()} cancelAttrs={{className: 'foo'}} />);
+        it('an additional class via props.cancelProps.className', () => {
+            const element = render(<UIProgress onCancel={sandbox.stub()} cancelProps={{className: 'foo'}} />);
             const node = ReactDOM.findDOMNode(element.refs.cancel);
 
-            expect(node.classList.contains('foo')).to.be.true;
+            expect(node.classList.contains('foo')).toBe(true);
         });
     });
 
@@ -90,23 +89,23 @@ describe('UIProgress', () => {
         });
 
         it('ui-progress-wrapper should be rendered', () => {
-            assert(element.refs.wrapper.classList.contains('ui-progress-wrapper'));
+            expect(element.refs.wrapper.classList.contains('ui-progress-wrapper')).toBe(true);
         });
 
         it('ui-progress should be rendered', () => {
-            assert(element.refs.progress.classList.contains('ui-progress'));
+            expect(element.refs.progress.classList.contains('ui-progress')).toBe(true);
         });
 
         it('ui-progress-indeterminate should be rendered', () => {
-            assert(element.refs.progress.classList.contains('ui-progress-indeterminate'));
+            expect(element.refs.progress.classList.contains('ui-progress-indeterminate')).toBe(true);
         });
 
         it('ui-progress-cancel should be rendered', () => {
-            assert(ReactDOM.findDOMNode(element.refs.cancel).classList.contains('ui-progress-cancel'));
+            expect(ReactDOM.findDOMNode(element.refs.cancel).classList.contains('ui-progress-cancel')).toBe(true);
         });
 
         it('ui-progress-label should be rendered', () => {
-            assert(element.refs.label.classList.contains('ui-progress-label'));
+            expect(element.refs.label.classList.contains('ui-progress-label')).toBe(true);
         });
     });
 
@@ -115,17 +114,17 @@ describe('UIProgress', () => {
             const element = render(<UIProgress progress='0%' />);
             const node = element.refs.progress;
 
-            expect(node.getAttribute('style')).to.equal('width:0%;');
+            expect(node.getAttribute('style')).toBe('width:0%;');
 
             render(<UIProgress progress='10%' />);
 
-            expect(node.getAttribute('style')).to.equal('width: 10%;');
+            expect(node.getAttribute('style')).toBe('width: 10%;');
         });
 
         it('should not show as indeterminate if `progress` is passed', () => {
             const element = render(<UIProgress progress='0%' />);
 
-            assert(element.refs.progress.classList.contains('ui-progress-indeterminate') === false);
+            expect(element.refs.progress.classList.contains('ui-progress-indeterminate')).toBe(false);
         });
     });
 
@@ -134,7 +133,7 @@ describe('UIProgress', () => {
             const stub = sandbox.stub();
             const element = render(<UIProgress onCancel={stub} />);
 
-            expect(element.refs.cancel).to.not.be.undefined;
+            expect(element.refs.cancel).not.toBe(undefined);
         });
 
         it('should call the cancel handler on click', () => {
@@ -144,7 +143,7 @@ describe('UIProgress', () => {
 
             node.click();
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
     });
 
@@ -152,7 +151,7 @@ describe('UIProgress', () => {
         it('should render if provided', () => {
             const element = render(<UIProgress label='50%' />);
 
-            expect(element.refs.label).to.not.be.undefined;
+            expect(element.refs.label).not.toBe(undefined);
         });
     });
 });

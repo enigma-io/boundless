@@ -46,22 +46,14 @@ Refer to [UIDialog](../UIDialog/README.md)
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
 
 - all supported [UIDialog props](../UIDialog/README.md)
 
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-modal-wrapper` node
-
-- __maskAttrs__ `Object`
-    - __maskAttrs.*__
+- __maskProps__ `Object`
+    - __maskProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-mask` node
 
-- __modalAttrs__ `Object`
-    - __modalAttrs.*__
+- __modalProps__ `Object`
+    - __modalProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-modal-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

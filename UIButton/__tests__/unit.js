@@ -8,7 +8,6 @@ import UIButton from '../../UIButton';
 import noop from '../../UIUtils/noop';
 
 import sinon from 'sinon';
-import {assert, expect} from 'chai';
 
 describe('UIButton', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -28,21 +27,21 @@ describe('UIButton', () => {
             const element = render(<UIButton />);
             const node = element.refs.button;
 
-            assert(node.classList.contains('ui-button'));
+            expect(node.classList.contains('ui-button')).toBe(true);
         });
 
         it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
             const element = render(<UIButton pressed={false} />);
             const node = element.refs.button;
 
-            assert(node.classList.contains('ui-button-pressable'));
+            expect(node.classList.contains('ui-button-pressable')).toBe(true);
         });
 
         it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
             const element = render(<UIButton pressed={true} />);
             const node = element.refs.button;
 
-            assert(node.classList.contains('ui-button-pressed'));
+            expect(node.classList.contains('ui-button-pressed')).toBe(true);
         });
     });
 
@@ -51,21 +50,21 @@ describe('UIButton', () => {
             const element = render(<UIButton pressed={true} />);
             const node = element.refs.button;
 
-            expect(node.getAttribute('aria-pressed')).to.equal('true');
+            expect(node.getAttribute('aria-pressed')).toBe('true');
         });
 
         it('should be "false" if `props.pressed` is `false`', () => {
             const element = render(<UIButton pressed={false} />);
             const node = element.refs.button;
 
-            expect(node.getAttribute('aria-pressed')).to.equal('false');
+            expect(node.getAttribute('aria-pressed')).toBe('false');
         });
 
         it('should not be applied if `props.pressed` is not provided', () => {
             const element = render(<UIButton />);
             const node = element.refs.button;
 
-            expect(node.hasAttribute('aria-pressed')).to.be.false;
+            expect(node.hasAttribute('aria-pressed')).toBe(false);
         });
     });
 
@@ -78,7 +77,7 @@ describe('UIButton', () => {
 
             element.handleClick(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
@@ -87,7 +86,7 @@ describe('UIButton', () => {
 
             element.handleClick(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
@@ -96,7 +95,7 @@ describe('UIButton', () => {
 
             element.handleClick(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
@@ -106,8 +105,8 @@ describe('UIButton', () => {
 
             element.handleClick(eventStub);
 
-            expect(pressedStub).to.not.have.been.called;
-            expect(unpressedStub).to.not.have.been.called;
+            expect(pressedStub.called).toBe(false);
+            expect(unpressedStub.called).toBe(false);
         });
     });
 
@@ -120,7 +119,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
@@ -129,7 +128,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
@@ -138,7 +137,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
@@ -148,8 +147,8 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(pressedStub).to.not.have.been.called;
-            expect(unpressedStub).to.not.have.been.called;
+            expect(pressedStub.called).toBe(false);
+            expect(unpressedStub.called).toBe(false);
         });
     });
 
@@ -162,7 +161,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
@@ -171,7 +170,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should trigger `onClick` if `props.pressed` is not provided', () => {
@@ -180,7 +179,7 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(stub).to.have.been.calledOnce;
+            expect(stub.calledOnce).toBe(true);
         });
 
         it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
@@ -190,8 +189,8 @@ describe('UIButton', () => {
 
             element.handleKeyDown(eventStub);
 
-            expect(pressedStub).to.not.have.been.called;
-            expect(unpressedStub).to.not.have.been.called;
+            expect(pressedStub.called).toBe(false);
+            expect(unpressedStub.called).toBe(false);
         });
     });
 });

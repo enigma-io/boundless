@@ -39,9 +39,7 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
 
 - __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-button` node

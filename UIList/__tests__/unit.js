@@ -7,9 +7,6 @@ import {Simulate} from 'react-addons-test-utils';
 import UIList from '../../UIList';
 import conformanceChecker from '../../UIUtils/conform';
 
-import sinon from 'sinon';
-import {assert, expect} from 'chai';
-
 describe('UIList', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
@@ -33,36 +30,36 @@ describe('UIList', () => {
 
     describe('accepts', () => {
         it('items passed via props.items', () => {
-            expect(node.children[0].textContent).to.equal('apple');
-            expect(node.children[1].textContent).to.equal('orange');
+            expect(node.children[0].textContent).toBe('apple');
+            expect(node.children[1].textContent).toBe('orange');
         });
     });
 
     describe('CSS hook', () => {
         it('ui-list should be rendered', () => {
-            assert(node.classList.contains('ui-list'));
+            expect(node.classList.contains('ui-list')).toBe(true);
         });
 
         it('ui-list-plain should be rendered for a plain list container', () => {
-            assert(node.classList.contains('ui-list-plain'));
+            expect(node.classList.contains('ui-list-plain')).toBe(true);
         });
 
         it('ui-list-bulleted should be rendered for a bulleted list container', () => {
             element = render(<UIList type='bullet' items={['apple', 'orange']} />);
             node = element.refs.list;
 
-            assert(node.classList.contains('ui-list-bulleted'));
+            expect(node.classList.contains('ui-list-bulleted')).toBe(true);
         });
 
         it('ui-list-numbered should be rendered for a numbered list container', () => {
             element = render(<UIList type='number' items={['apple', 'orange']} />);
             node = element.refs.list;
 
-            assert(node.classList.contains('ui-list-numbered'));
+            expect(node.classList.contains('ui-list-numbered')).toBe(true);
         });
 
         it('ui-list-item should be rendered for each list item', () => {
-            expect(node.querySelectorAll('.ui-list-item')).to.have.length(2);
+            expect(node.querySelectorAll('.ui-list-item').length).toBe(2);
         });
     });
 
@@ -74,7 +71,7 @@ describe('UIList', () => {
                 key: 'Tab'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_1']);
+            expect(document.activeElement).toBe(element.refs['item_1']);
         });
 
         it('should not loop when tabbing from the last child', () => {
@@ -84,7 +81,7 @@ describe('UIList', () => {
                 key: 'Tab'
             });
 
-            expect(document.activeElement).to.not.equal(element.refs['item_0']);
+            expect(document.activeElement).not.toBe(element.refs['item_0']);
         });
     });
 
@@ -97,7 +94,7 @@ describe('UIList', () => {
                 shiftKey: true
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_0']);
+            expect(document.activeElement).toBe(element.refs['item_0']);
         });
 
         it('should not reverse loop when shift-tabbing from the first child', () => {
@@ -108,7 +105,7 @@ describe('UIList', () => {
                 shiftKey: true
             });
 
-            expect(document.activeElement).to.not.equal(element.refs['item_1']);
+            expect(document.activeElement).not.toBe(element.refs['item_1']);
         });
     });
 
@@ -120,7 +117,7 @@ describe('UIList', () => {
                 key: 'ArrowLeft'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_0']);
+            expect(document.activeElement).toBe(element.refs['item_0']);
         });
 
         it('should move focus to the end if on the first child (reverse loop)', () => {
@@ -130,7 +127,7 @@ describe('UIList', () => {
                 key: 'ArrowLeft'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_1']);
+            expect(document.activeElement).toBe(element.refs['item_1']);
         });
     });
 
@@ -142,7 +139,7 @@ describe('UIList', () => {
                 key: 'ArrowRight'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_1']);
+            expect(document.activeElement).toBe(element.refs['item_1']);
         });
 
         it('should move focus to the beginning if on the last child (loop)', () => {
@@ -152,7 +149,7 @@ describe('UIList', () => {
                 key: 'ArrowRight'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_0']);
+            expect(document.activeElement).toBe(element.refs['item_0']);
         });
     });
 
@@ -168,7 +165,7 @@ describe('UIList', () => {
                 key: 'ArrowUp'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_0']);
+            expect(document.activeElement).toBe(element.refs['item_0']);
         });
 
         it('should loop back to the last item if on the first item', () => {
@@ -178,7 +175,7 @@ describe('UIList', () => {
                 key: 'ArrowUp'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_1']);
+            expect(document.activeElement).toBe(element.refs['item_1']);
         });
     });
 
@@ -194,7 +191,7 @@ describe('UIList', () => {
                 key: 'ArrowDown'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_1']);
+            expect(document.activeElement).toBe(element.refs['item_1']);
         });
 
         it('should loop back to the first item if on the last item', () => {
@@ -204,7 +201,7 @@ describe('UIList', () => {
                 key: 'ArrowDown'
             });
 
-            expect(document.activeElement).to.equal(element.refs['item_0']);
+            expect(document.activeElement).toBe(element.refs['item_0']);
         });
     });
 });

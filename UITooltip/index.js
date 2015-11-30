@@ -13,8 +13,7 @@ class UITooltip extends UIView {
         const position = this.props.position;
 
         return (
-            <div {...this.props.attrs}
-                 id={this.props.id || this.props.attrs.id}
+            <div {...this.props}
                  className={cx({
                      'ui-tooltip': true,
                      'ui-tooltip-position-above': position === UITooltip.position.ABOVE,
@@ -22,11 +21,9 @@ class UITooltip extends UIView {
                      'ui-tooltip-position-before': position === UITooltip.position.BEFORE,
                      'ui-tooltip-position-after': position === UITooltip.position.AFTER,
                      [this.props.className]: !!this.props.className,
-                     [this.props.attrs.className]: !!this.props.attrs.className,
                  })}
-                 style={{...this.props.style, ...this.props.attrs.style}}
                  data-tooltip={this.props.text}
-                 aria-label={this.props.text}>
+                 aria-label={this.props['aria-label'] || this.props.text}>
                 {this.props.children}
             </div>
         );
@@ -41,16 +38,11 @@ UITooltip.position = {
 };
 
 UITooltip.propTypes = {
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     position: React.PropTypes.oneOf(Object.keys(UITooltip.position)),
     text: React.PropTypes.string,
-    style: React.PropTypes.object,
 };
 
 UITooltip.defaultProps = {
-    attrs: {},
     position: UITooltip.position.ABOVE,
 };
 

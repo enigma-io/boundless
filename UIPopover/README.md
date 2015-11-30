@@ -75,9 +75,7 @@ Refer to [UIDialog](../UIDialog/README.md)
 
 - all supported [UIDialog props](../UIDialog/README.md)
 
-- __attrs__ `Object`
-    - __attrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node
 
 - __anchor__ `[ReactElement, HTMLElement]`
   a DOM element or React reference to one for positioning purposes
@@ -107,9 +105,6 @@ Refer to [UIDialog](../UIDialog/README.md)
 - __autoReposition__ `Boolean`
   if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
 
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-popover` node
-
 - __selfXAlign__ `Constant`
   (default `UIPopover.position.START`) location on the popover X-axis to use for alignment calculations
     - __selfXAlign__ `UIPopover.position.START`
@@ -131,6 +126,3 @@ Refer to [UIDialog](../UIDialog/README.md)
 
     - __selfYAlign__ `UIPopover.position.END`
       equates to `{?, 100}` on a 100x100 cartesian plane
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-popover` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

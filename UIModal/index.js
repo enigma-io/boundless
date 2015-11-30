@@ -10,30 +10,31 @@ import cx from 'classnames';
 
 class UIModal extends UIView {
     render() {
+        const dialogSpecificProps = Object.keys(UIDialog.propTypes).reduce((props, key) => {
+            props[key] = this.props[key];
+
+            return props;
+        }, {});
+
         return (
-            <div {...this.props.attrs}
+            <div {...this.props}
                  ref='wrapper'
                  className={cx({
                     'ui-modal-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                    [this.props.attrs.className]: !!this.props.attrs.className,
-                 })}
-                 id={this.props.id || this.props.attrs.id}
-                 style={{...this.props.style, ...this.props.attrs.style}}>
-                <div {...this.props.maskAttrs}
+                 })}>
+                <div {...this.props.maskProps}
                      ref='mask'
                      className={cx({
                         'ui-modal-mask': true,
-                        [this.props.maskAttrs.className]: !!this.props.maskAttrs.className,
+                        [this.props.maskProps.className]: !!this.props.maskProps.className,
                      })} />
-                <UIDialog {...this.props}
-                          attrs={this.props.modalAttrs}
+                <UIDialog {...dialogSpecificProps}
+                          {...this.props.modalProps}
                           ref='dialog'
-                          id={undefined}
-                          style={undefined}
                           className={cx({
                             'ui-modal': true,
-                            [this.props.modalAttrs.className]: !!this.props.modalAttrs.className,
+                            [this.props.modalProps.className]: !!this.props.modalProps.className,
                           })} />
             </div>
         );
@@ -42,18 +43,13 @@ class UIModal extends UIView {
 
 UIModal.propTypes = {
     ...UIDialog.propTypes,
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
-    maskAttrs: React.PropTypes.object,
-    modalAttrs: React.PropTypes.object,
-    style: React.PropTypes.object,
+    maskProps: React.PropTypes.object,
+    modalProps: React.PropTypes.object,
 };
 
 UIModal.defaultProps = {
-    attrs: {},
-    maskAttrs: {},
-    modalAttrs: {},
+    maskProps: {},
+    modalProps: {},
 };
 
 export default UIModal;

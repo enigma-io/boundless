@@ -78,9 +78,7 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
 
 - __className__ `String`
   additional CSS class(es) to be added to the rendered `.ui-checkbox-group` node
@@ -106,8 +104,8 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 - __selectAll__ `Boolean`
   renders a master checkbox that can manipulate the values of all children simultaneously
 
-- __selectAllAttrs__ `Object`
-    - __selectAllAttrs.*__
+- __selectAllProps__ `Object`
+    - __selectAllProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group-selectall` node
 
 - __selectAllLabel__ `String`

@@ -33,18 +33,10 @@ Below are helper classes for each possible position:
 <br />
 ##### Available `props`
 
-- __attrs__ `Object`
-    - __attrs.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tooltip` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tooltip` node
 
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-tooltip` node
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-tooltip` node
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-tooltip` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
+- __position__ `UITooltip.position['ABOVE'|'BELOW'|'BEFORE'|'AFTER']` _default: `'ABOVE'`_
+  determines the correct class to apply to position the tooltip
 
 - __text__ `String`
   the content to be shown in the tooltip

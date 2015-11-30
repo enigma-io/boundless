@@ -50,20 +50,27 @@ class UIList extends UIView {
             const activeItemIndex = items.indexOf(activeItem);
 
             if (event.shiftKey && activeItemIndex !== 0) {
-                return prev();
+                prev();
             } else if (!event.shiftKey && activeItemIndex !== items.length - 1) {
-               return next();
+                next();
+            }
+        } else {
+            switch (key) {
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                prev();
+                break;
+
+            case 'ArrowDown':
+            case 'ArrowRight':
+                next();
+                break;
             }
         }
 
-        switch (key) {
-        case 'ArrowUp':
-        case 'ArrowLeft':
-            return prev();
-
-        case 'ArrowDown':
-        case 'ArrowRight':
-            return next();
+        if (typeof this.props.onKeyDown === 'function') {
+            event.persist();
+            this.props.onKeyDown(event);
         }
     }
 
@@ -97,7 +104,7 @@ class UIList extends UIView {
         }
 
         return React.createElement(nodeType, {
-            ...this.props.attrs,
+            ...this.props,
             ref: 'list',
             className: cx({
                 'ui-list': true,
@@ -105,27 +112,19 @@ class UIList extends UIView {
                 'ui-list-numbered': this.props.type === 'number',
                 'ui-list-plain': this.props.type !== 'bullet' && this.props.type !== 'number',
                 [this.props.className]: !!this.props.className,
-                [this.props.attrs.className]: !!this.props.attrs.className,
             }),
-            id: this.props.id || this.props.attrs.id,
             onKeyDown: this.handleKeyDown.bind(this),
-            style: {...this.props.style, ...this.props.attrs.style},
             children: this.renderContent(),
         });
     }
 }
 
 UIList.propTypes = {
-    attrs: React.PropTypes.object,
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
     items: React.PropTypes.arrayOf(React.PropTypes.node),
     type: React.PropTypes.oneOf(['bullet', 'number']),
-    style: React.PropTypes.object,
 };
 
 UIList.defaultProps = {
-    attrs: {},
     items: [],
 };
 

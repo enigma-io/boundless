@@ -27,34 +27,15 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-image-error`
 
 <br />
-##### Expected Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | `[Enter, Space]` | should trigger the onClick handler
-__Mouse__ | `click` | should trigger the onClick handler
-
-<br />
 ##### Available `props`
 
-- __attrs__ `Object`
-  __attrs.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image-wrapper` node
 
 - __alt__ `String`
   a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.ui-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
 
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-image-wrapper` node
-
 - __displayAsBackgroundImage__ `Boolean`
   emits the image as a `<div>` with `background-image` css property set instead of `<img>`
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-image-wrapper` node
-
-- __onClick__ `Function`
-  called when the element is single-clicked
 
 - __onError__ `Function`
   called if the image fails to load
@@ -62,13 +43,10 @@ __Mouse__ | `click` | should trigger the onClick handler
 - __src__ `String`
   a valid path to the desired image
 
-- __style__ `Object`
-  inline styles to be applied to the `.ui-image-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
-
-- __statusAttrs__ `Object`
-    - __statusAttrs.*__
+- __statusProps__ `Object`
+    - __statusProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-status` node
 
-- __imageAttrs__ `Object`
-    - __imageAttrs.*__
+- __imageProps__ `Object`
+    - __imageProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image` node

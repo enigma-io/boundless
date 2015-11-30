@@ -24,28 +24,28 @@ describe('UIRadio', () => {
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIRadio, baseProps));
 
     describe('accepts', () => {
-        it('arbitrary HTML attributes via props.inputAttrs', () => {
-            const element = render(<UIRadio {...baseProps} inputAttrs={{'data-id': 'foo'}} />);
+        it('arbitrary HTML attributes via props.inputProps', () => {
+            const element = render(<UIRadio {...baseProps} inputProps={{'data-id': 'foo'}} />);
             const node = element.refs.input;
 
             expect(node.getAttribute('data-id')).toBe('foo');
         });
 
-        it('additional classes via props.inputAttrs.className', () => {
-            const element = render(<UIRadio {...baseProps} inputAttrs={{className: 'foo'}} />);
+        it('additional classes via props.inputProps.className', () => {
+            const element = render(<UIRadio {...baseProps} inputProps={{className: 'foo'}} />);
             const node = element.refs.input;
 
             expect(node.classList.contains('foo')).toBe(true);
         });
 
-        it('arbitrary HTML attributes via props.labelAttrs', () => {
-            const element = render(<UIRadio {...baseProps} label='foo' labelAttrs={{'data-id': 'foo'}} />);
+        it('arbitrary HTML attributes via props.labelProps', () => {
+            const element = render(<UIRadio {...baseProps} label='foo' labelProps={{'data-id': 'foo'}} />);
 
             expect(element.refs.label.getAttribute('data-id')).toBe('foo');
         });
 
-        it('additional classes via props.labelAttrs.className', () => {
-            const element = render(<UIRadio {...baseProps} label='foo' labelAttrs={{className: 'foo'}} />);
+        it('additional classes via props.labelProps.className', () => {
+            const element = render(<UIRadio {...baseProps} label='foo' labelProps={{className: 'foo'}} />);
             const node = element.refs.label;
 
             expect(node.classList.contains('foo')).toBe(true);
@@ -100,7 +100,11 @@ describe('UIRadio', () => {
         });
     });
 
-    describe('onSelected', () => {
+    /*
+        Needs this issue to be resolved in JSDOM to work:
+        https://github.com/tmpvar/jsdom/issues/1079#issuecomment-159754855
+     */
+    xdescribe('onSelected', () => {
         it('should be called with the proper value', () => {
             const stub = sandbox.stub();
             const element = render(<UIRadio {...baseProps} onSelected={stub} />);
@@ -112,7 +116,11 @@ describe('UIRadio', () => {
         });
     });
 
-    describe('clicking on the label', () => {
+    /*
+        Needs this issue to be resolved in JSDOM to work:
+        https://github.com/tmpvar/jsdom/issues/1079#issuecomment-159754855
+     */
+    xdescribe('clicking on the label', () => {
         it('should trigger `onSelected` if `props.selected` is falsy', () => {
             const stub = sandbox.stub();
             const element = render(<UIRadio {...baseProps} label='test' onSelected={stub} />);

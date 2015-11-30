@@ -52,25 +52,17 @@ __Mouse__ | `click` (not selected) | should trigger `onSelected`
 
 <br />
 ##### Available `props`
-- __attrs__ `Object`
-    - __attrs.*__
-    any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
 
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-radio-wrapper` node
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-radio-wrapper` node
-
-- __inputAttrs__ `Object`
-    - __inputAttrs.*__
+- __inputProps__ `Object`
+    - __inputProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
 
 - __label__ `Node`
   any React-renderable content, most commonly a simple string
 
-- __labelAttrs__ `Object`
-    - __labelAttrs.*__
+- __labelProps__ `Object`
+    - __labelProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
 
 - __name__ `String`
@@ -81,9 +73,6 @@ __Mouse__ | `click` (not selected) | should trigger `onSelected`
 
 - __selected__ `Boolean`
   determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-radio-wrapper` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference
 
 - __value__ `String`
   passthrough to the HTML `value` attribute on the `.ui-radio` node
