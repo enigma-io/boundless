@@ -1,14 +1,20 @@
-### `UIKit/UITooltip`
-#### A simple wrapper that displays provided text on mouseover.
+# UITooltip
+__A simple wrapper that displays provided text on mouseover.__
 
 Nest any React-renderable content inside the `UITooltip` wrapper as you would a simple `<div>`.
 
-```jsx
-return (
-    <UITooltip text='100% relevance'>
-        Margaret Drabble (8 May 2014). "Submarine dreams: Jules Verne's Twenty Thousand Leagues Under the Seas". New Statesman. Retrieved 2014-05-09.
-    </UITooltip>
-);
+```js
+import {UITooltip} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <UITooltip text='100% relevance'>
+            Margaret Drabble (8 May 2014). "Submarine dreams: Jules Verne's Twenty Thousand Leagues Under the Seas". New Statesman. Retrieved 2014-05-09.
+        </UITooltip>
+    );
+}
 ```
 
 Renders:
@@ -30,8 +36,7 @@ Below are helper classes for each possible position:
 - `.ui-tooltip-position-before`
 - `.ui-tooltip-position-after`
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tooltip` node
 

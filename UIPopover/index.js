@@ -3,6 +3,12 @@
  * @class UIPopover
  */
 
+/*
+    A nuance about this component: since it only renders a simple <div>, the main render() function
+    never changes. Therefore, we need to manually call `componentDidUpdate` after `setState` to trigger
+    a full re-render of the child dialog.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import UIDialog from '../UIDialog';
@@ -78,9 +84,9 @@ class UIPopover extends UIView {
     getNextYPosition(anchor, dialog) {
         const state = this.state;
         const position = UIPopover.position;
+        const anchorY = anchor.getBoundingClientRect().top + document.body.scrollTop;
+        const anchorHeight = anchor.offsetHeight;
 
-        let anchorY = anchor.getBoundingClientRect().top + document.body.scrollTop;
-        let anchorHeight = anchor.offsetHeight;
         let nextY = anchorY + anchorHeight;
 
         switch (state.anchorYAlign) {
@@ -111,12 +117,12 @@ class UIPopover extends UIView {
             return false;
         }
 
-        let corrections = {};
+        const corrections = {};
 
-        let width = node.clientWidth;
-        let height = node.clientHeight;
-        let xMax = document.body.scrollWidth;
-        let yMax = document.body.scrollHeight;
+        const width = node.clientWidth;
+        const height = node.clientHeight;
+        const xMax = document.body.scrollWidth;
+        const yMax = document.body.scrollHeight;
 
         if (x + width > xMax) { // overflowing off to the right
             corrections.anchorXAlign = UIPopover.position.END;
@@ -129,7 +135,9 @@ class UIPopover extends UIView {
             corrections.selfYAlign = UIPopover.position.END;
         } else if (y < 0) { // overflowing above
             corrections.anchorYAlign = UIPopover.position.END;
+            corrections.anchorXAlign = UIPopover.position.MIDDLE;
             corrections.selfYAlign = UIPopover.position.START;
+            corrections.selfXAlign = UIPopover.position.MIDDLE;
         }
 
         return corrections;
@@ -145,24 +153,24 @@ class UIPopover extends UIView {
     }
 
     align() {
-        const anchor = this.props.anchor instanceof HTMLElement
+        const anchor =   this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        let x = this.getNextXPosition(anchor, this.node);
-        let y = this.getNextYPosition(anchor, this.node);
+        const x = this.getNextXPosition(anchor, this.node);
+        const y = this.getNextYPosition(anchor, this.node);
 
-        let alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
+        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
 
         if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
-            this.setState(alignmentCorrection);
-        } else {
-            this.applyTranslation(this.node, x, y);
+            return this.setState(alignmentCorrection, () => this.componentDidUpdate());
         }
+
+        this.applyTranslation(this.node, x, y);
     }
 
     getClassAlignmentFragment(constant) {
-        let position = UIPopover.position;
+        const position = UIPopover.position;
 
         switch (constant) {
         case position.START:
@@ -177,8 +185,8 @@ class UIPopover extends UIView {
     }
 
     renderDialog() {
-        let state = this.state;
-        let getFrag = this.getClassAlignmentFragment;
+        const state = this.state;
+        const getFrag = this.getClassAlignmentFragment;
 
         return ReactDOM.render(
             <UIDialog {...this.props}
@@ -246,6 +254,7 @@ UIPopover.propTypes = {
 };
 
 UIPopover.defaultProps = {
+    ...UIDialog.defaultProps,
     anchorXAlign: UIPopover.position.START,
     anchorYAlign: UIPopover.position.END,
     autoReposition: true,

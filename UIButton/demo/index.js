@@ -23,7 +23,7 @@ export default class UIButtonDemo extends UIView {
                 </UIButton>
 
                 <UIButton onClick={this.handleClick}
-                          attrs={{disabled: true}}>
+                          disabled={true}>
                     Disabled
                 </UIButton>
             </div>

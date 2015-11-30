@@ -1,0 +1,239 @@
+@import "_globals";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*:last-child {
+    margin-bottom: 0;
+}
+
+html {
+    font-family: San Francisco, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background: #FFF;
+    color: $color-text-body;
+    line-height: 1.4;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0 0 0 20em;
+}
+
+figure {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 1em 0 0.5rem;
+
+    + h1, + h2, + h3, + h4, + h5, + h6 {
+        margin-top: 0.5rem;
+    }
+
+    a::before {
+        content: ' ';
+    }
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+li {
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > p:last-child {
+        margin-bottom: 0;
+    }
+}
+
+li strong + code::after {
+    content: '';
+    display: block;
+}
+
+li p + pre code,
+li p + code {
+    margin-top: 0;
+}
+
+li p + ul,
+li p + ol {
+    margin-top: -1em;
+    padding-left: 0;
+
+    li {
+        list-style-type: none;
+    }
+}
+
+li pre,
+li code {
+    margin: 0;
+
+    + p {
+        margin-top: 1em;
+    }
+}
+
+li :not(pre) > code {
+    display: inline-block;
+}
+
+table {
+    text-align: left;
+    width: 100%;
+}
+
+th {
+    padding-bottom: 0.5rem;
+}
+
+pre {
+    background: #FFF;
+    border-radius: $default-border-radius;
+    color: get-foreground-text-color($color-accent);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    padding: 0;
+
+    > code {
+        background: transparent;
+        border-radius: 0;
+        display: block;
+        font-size: 0.8em;
+        line-height: 1.5;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+code {
+    background: rgba($color-accent, 0.05);
+    border-radius: $default-border-radius;
+    font-size: 0.9em;
+    margin-bottom: 0;
+    padding: 0.1em 0.5em;
+}
+
+ul, ol, table, figure {
+    margin-bottom: 2rem;
+}
+
+td {
+    padding-bottom: 0.5rem;
+
+    tr:last-child & {
+        padding-bottom: 0;
+    }
+}
+
+::selection {
+    background-color: invert($color-accent);
+}
+
+.ui-demo-header {
+    background: $color-accent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20em;
+    padding: 2em;
+    bottom: 0;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    a {
+        color: #FFF;
+        text-decoration: none;
+    }
+}
+
+.ui-demo-header-title,
+.ui-demo-header-desc {
+    margin-bottom: 1rem;
+}
+
+.ui-demo-header-desc {
+    color: lighten($color-accent, 30%);
+}
+
+.ui-demo-nav {
+    margin-top: 2rem;
+}
+
+.ui-demo-nav-item {
+    color: invert($color-accent);
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+}
+
+.ui-demo-nav-item::after {
+    content: ' →';
+}
+
+.ui-demo-nav-item:hover {
+    color: darken(invert($color-accent), 15%);
+    text-decoration: underline;
+}
+
+.ui-demo-section {
+    margin: 0;
+    padding: 2em;
+}
+
+.ui-demo-section-example {
+    background: rgba($color-accent, 0.05);
+    margin: -2em -2em 2em;
+    padding: 2em;
+}
+
+.ui-demo-section-example > *,
+.ui-demo-section-example .ui-spread-even > * {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.ui-offscreen {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+.ui-spread-even {
+    display: flex;
+    align-items: flex-start;
+}
+
+// .ui-spread-stretch > * {
+//     align-self: stretch;
+// }
+
+.ui-spread-even > * {
+    flex: 100% 1 1;
+}
+
+.ui-align-end {
+    align-items: flex-end;
+}
+
+.ui-center {
+    text-align: center;
+}

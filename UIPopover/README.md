@@ -1,21 +1,27 @@
-### `UIKit/UIPopover`
-#### A non-blocking container positioned to a specific anchor element.
+# UIPopover
+__A non-blocking container positioned to a specific anchor element.__
 
 A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
-```jsx
-return (
-    <UIPopover anchor={this.refs.content}
-               body={[
-                   <strong>tran·scen·den·tal</strong>,
-                   <em>adjective</em>,
-                   <UIList type='number'
-                           items={[
-                               'of or relating to a spiritual or nonphysical realm.',
-                               '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
-                           ]} />
-               ]} />
-);
+```js
+import {UIPopover} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <UIPopover anchor={this.refs.content}
+                   body={[
+                       <strong>tran·scen·den·tal</strong>,
+                       <em>adjective</em>,
+                       <UIList type='number'
+                               items={[
+                                   'of or relating to a spiritual or nonphysical realm.',
+                                   '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
+                               ]} />,
+                   ]} />
+    );
+}
 ```
 
 Renders:
@@ -65,13 +71,11 @@ Below are helper classes for each position combination; helpful for aligning UI 
 - `.ui-popover-self-y-middle`
 - `.ui-popover-self-y-end`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Refer to [UIDialog](../UIDialog/README.md)
 
-<br />
-##### Available `props`
+### Available `props`
 
 - all supported [UIDialog props](../UIDialog/README.md)
 

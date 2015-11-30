@@ -1,25 +1,27 @@
-### `UIKit/UITypeaheadInput`
-#### Intelligently recommend entities via customizable, fuzzy recognition.
+# UITypeaheadInput
+__Intelligently recommend entities via customizable, fuzzy recognition.__
 
-```jsx
-let list = [{
-    content: 'orange'
-}, {
-    content: 'apple'
-}, {
-    content: 'banana'
-}];
+```js
+import {UITypeaheadInput} from 'enigma-uikit';
 
-return (
-    <UITypeaheadInput
-        name='my-typeahead'
-        attrs={{
-            'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.'
-        }}
-        defaultValue='or'
-        entities={list}
-        provideHint={true} />
-);
+const list = [
+    {content: 'orange'},
+    {content: 'apple'},
+    {content: 'banana'},
+];
+
+// ...
+
+render() {
+    return (
+        <UITypeaheadInput
+            name='my-typeahead'
+            aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.'
+            defaultValue='or'
+            entities={list}
+            provideHint={true} />
+    );
+}
 ```
 
 Renders:
@@ -45,8 +47,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-typeahead-match-selected`
 - `.ui-typeahead-match-highlight`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -57,8 +58,7 @@ __Keyboard__ | `[Enter]` | select the current typeahead match if one exists; if 
 __Keyboard__ | `[Escape]` | clear typeahead matches if they exist
 __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 

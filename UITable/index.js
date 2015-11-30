@@ -644,8 +644,7 @@ class UITable extends UIView {
                  onMouseUp={this.handleDragEnd}
                  onWheel={this.handleMoveIntent}
                  tabIndex='0'>
-                <div {...this.props.attrs}
-                     ref='table'
+                <div ref='table'
                      className='ui-table'>
                     {this.renderHead()}
                     {this.renderBody()}

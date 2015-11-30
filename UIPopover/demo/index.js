@@ -67,7 +67,7 @@ export default class UIPopoverDemo extends UIView {
         return (
             <div>
                 <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
-                <div className='ui-spread-even ui-center'>
+                <div className='ui-spread-even'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <div key={definition.word}>

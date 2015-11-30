@@ -1,11 +1,17 @@
-### `UIKit/UIImage`
-#### An image block with placeholder support for loading and fallback scenarios.
+# UIImage
+__An image block with placeholder support for loading and fallback scenarios.__
 
-```jsx
-return (
-    <UIImage src='http://i.imgur.com/BymoMze.jpg'
-             alt='A Corgi wielding Google Glass.' />
-);
+```js
+import {UIImage} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <UIImage src='http://i.imgur.com/BymoMze.jpg'
+                 alt='A Corgi wielding Google Glass.' />
+    );
+}
 ```
 
 Renders:
@@ -26,8 +32,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-image-loaded`
 - `.ui-image-error`
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image-wrapper` node
 

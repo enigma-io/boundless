@@ -1,25 +1,29 @@
-### `UIKit/UITokenizedInput`
-#### Distill rich entity data matched via typeahead input into simple visual abstractions.
+# UITokenizedInput
+__Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
 Usage of this tool is identical to that of [`UITypeaheadInput`](../UITypeaheadInput).
 
-```jsx
-let list = [{
-    content: 'orange'
-}, {
-    content: 'apple'
-}, {
-    content: 'banana'
-}];
+```js
+import {UITokenizedInput} from 'enigma-uikit';
 
-return (
-    <UITokenizedInput name='my-typeahead'
-                      attrs={{'aria-label': "An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available."}}
-                      defaultValue='ap'
-                      entities={list}
-                      provideHint={true}
-                      tokens={[list[0]]} />
-);
+const list = [
+    {content: 'orange'},
+    {content: 'apple'},
+    {content: 'banana'},
+];
+
+// ...
+
+render() {
+    return (
+        <UITokenizedInput name='my-typeahead'
+                          aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
+                          defaultValue='ap'
+                          entities={list}
+                          provideHint={true}
+                          tokens={[list[0]]} />
+    );
+}
 ```
 
 Renders:
@@ -51,8 +55,7 @@ Styling of the element will be provided via the CSS hooks:
 
 In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput) will be present.
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -63,8 +66,7 @@ __Keyboard__ | `[Right]` | cycle right through tokens if there are more than one
 __Mouse__ | `[Click]` on token | focus token, add "selected" class
 __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
-<br />
-##### Available `props`
+### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)

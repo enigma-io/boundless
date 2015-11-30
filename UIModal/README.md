@@ -1,19 +1,23 @@
-### `UIKit/UIModal`
-#### A blocking, focus-stealing container.
+# UIModal
+__A blocking, focus-stealing container.__
 
 A modal is an enhancement upon a [dialog](../UIDialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
-```jsx
-let footerButtons = [
-  <UIButton onClick={this.handleConfirm}>Confirm</UIButton>,
-  <UIButton onClick={this.handleCancel}>Cancel</UIButton>
-];
+```js
+import {UIButton, UIModal} from 'enigma-uikit';
 
-return (
-    <UIModal header='My Dialog'
-             body='Testing 123'
-             footer={footerButtons} />
-);
+// ...
+
+render() {
+    return (
+        <UIModal header='My Dialog'
+                 body='Testing 123'
+                 footer={[
+                    <UIButton onClick={this.handleConfirm}>Confirm</UIButton>,
+                    <UIButton onClick={this.handleCancel}>Cancel</UIButton>,
+                 ]} />
+    );
+}
 ```
 
 Renders:
@@ -38,17 +42,15 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-modal-mask`
 - `.ui-modal-wrapper`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Refer to [UIDialog](../UIDialog/README.md)
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
 
-- all supported [UIDialog props](../UIDialog/README.md)
+- all supported [UIDialog props](../UIDialog/README.md#available-props)
 
 - __maskProps__ `Object`
     - __maskProps.*__

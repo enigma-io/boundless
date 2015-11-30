@@ -1,16 +1,23 @@
-### `UIKit/UIButton`
-#### A clickable control with "pressed" state support.
+# UIButton
 
-```jsx
-return (
-    <UIButton attrs={{'aria-label': 'Press to activate bolding on the selected text and new input.'}}
-              className='text-bolder'
-              onPressed={this.activateBolding}
-              onUnpressed={this.deactivateBolding}
-              pressed={this.isBold}>
-        <i className='icon-bold' />
-    </UIButton>
-);
+__A clickable control with "pressed" state support.__
+
+```js
+import {UIButton} from 'enigma-uikit';
+
+// ...
+
+render() {
+    return (
+        <UIButton aria-label='Press to activate bolding on the selected text and new input.'
+                  className='text-bolder'
+                  onPressed={this.activateBolding}
+                  onUnpressed={this.deactivateBolding}
+                  pressed={this.isBold}>
+            <i className='icon-bold' />
+        </UIButton>
+    );
+}
 ```
 Renders:
 ```html
@@ -25,8 +32,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-button-pressable`
 - `.ui-button-pressed`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -36,16 +42,9 @@ __Mouse__ | `click` | trigger the `onClicked` handler
 __Mouse__ | `click` (unpressed) | trigger the `onPressed` handler
 __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-button` node
-
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-button` node
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-button` node
 
 - __onClick__ `Function`
   called when the element receives a mouse click
@@ -58,6 +57,3 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 
 - __pressed__ `Boolean`
   enables "pressed" support and adds the `aria-pressed` attribute to the `.ui-button` node
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-button` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

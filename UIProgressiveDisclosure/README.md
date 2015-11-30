@@ -1,20 +1,26 @@
-### `UIKit/UIProgressiveDisclosure`
-#### Hide content until it's needed.
+# UIProgressiveDisclosure
+__Hide content until it's needed.__
 
-```jsx
-return (
-    <div>
-        Save?
+```js
+import {UIButton, UIProgressiveDisclosure} from 'enigma-uikit';
 
-        <UIProgressiveDisclosure teaser='Advanced Options'>
-            <label htmlFor='filename-field'>Save as a different name?</label>
-            <input id='filename-field' name='filename' type='text' placeholder='untitled.txt' />
-        </UIProgressiveDisclosure>
+// ...
 
-        <UIButton onClick={doSave}>Yes</UIButton>
-        <UIButton onClick={doCancel}>No</UIButton>
-    </div>
-);
+render() {
+    return (
+        <div>
+            Save?
+
+            <UIProgressiveDisclosure teaser='Advanced Options'>
+                <label htmlFor='filename-field'>Save as a different name?</label>
+                <input id='filename-field' name='filename' type='text' placeholder='untitled.txt' />
+            </UIProgressiveDisclosure>
+
+            <UIButton onClick={doSave}>Yes</UIButton>
+            <UIButton onClick={doCancel}>No</UIButton>
+        </div>
+    );
+}
 ```
 Renders:
 ```html
@@ -39,16 +45,14 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-disclosure-content`
 - `.ui-disclosure-expanded`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
 __Mouse__ | `click` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
 __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
 
-<br />
-##### Available `props`
+### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
 
 - __expanded__ `Boolean`

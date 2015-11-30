@@ -1,21 +1,26 @@
-### `UIKit/UICheckboxGroup`
-#### A controller view for managing the aggregate state of multiple, related checkboxes.
+# UICheckboxGroup
+__A controller view for managing the aggregate state of multiple, related checkboxes.__
 
 Content to render is given to `UICheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [UICheckbox spec](../UICheckbox/README.md) for more details.
 
 The most common use case for `UICheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `selectAll` prop.
 
 ```js
-{
-    autoFocus: "Boolean (optional)",
-    checked: "Boolean",
-    label: "String (optional)",
-    name: "String",
-    value: "String (optional)"
-}
-```
-```jsx
-let boxes = [{
+import {UICheckboxGroup} from 'enigma-uikit';
+
+/*
+    items{} spec
+
+    {
+        autoFocus: "Boolean (optional)",
+        checked: "Boolean",
+        label: "String (optional)",
+        name: "String",
+        value: "String (optional)",
+    }
+ */
+
+const items = [{
     label: 'ABC',
     value: 'DEF',
     name: 'GHI',
@@ -32,9 +37,13 @@ let boxes = [{
     checked: false
 }];
 
-return (
-    <UICheckboxGroup items={boxes} selectAll={true} />
-);
+// ...
+
+render() {
+    return (
+        <UICheckboxGroup items={items} selectAll={true} />
+    );
+}
 ```
 
 Renders:
@@ -65,8 +74,7 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-checkbox-group`
 - `.ui-checkbox-group-selectall`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -75,16 +83,9 @@ __Keyboard__ | `[Enter, Space]` on child | should trigger indeterminate state on
 __Mouse__ | `click` on "Select All" | should toggle the `checked` state for all children
 __Mouse__ | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
-
-- __className__ `String`
-  additional CSS class(es) to be added to the rendered `.ui-checkbox-group` node
-
-- __id__ `String`
-  a valid HTML `id` to be passed-though to the `.ui-checkbox-group` node
 
 - __items__ `Array<Object>`
   the data wished to be rendered, each item must conform to the [UICheckbox prop spec](../UICheckbox/README.md)
@@ -113,6 +114,3 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 
 - __selectAllPosition__ `Constant` (see [the implementation](index.js))
   the rendering position of the "select all" checkbox, defaults to "before"
-
-- __style__ `Object`
-  inline styles to be applied to the `.ui-checkbox-group` node; see [React Inline Styles](https://facebook.github.io/react/tips/inline-styles.html) for reference

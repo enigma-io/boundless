@@ -48,6 +48,7 @@ UIModal.propTypes = {
 };
 
 UIModal.defaultProps = {
+    ...UIDialog.defaultProps,
     maskProps: {},
     modalProps: {},
 };

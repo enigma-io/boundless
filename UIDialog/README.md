@@ -1,24 +1,28 @@
-### `UIKit/UIDialog`
-#### A non-blocking, focus-stealing container.
+# UIDialog
+__A non-blocking, focus-stealing container.__
 
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page) and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 
 Specific areas (header, body, footer) are defined to provide easy conformance to the [WAI-ARIA spec](http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby` and `aria-describedby` (screen reader accessibility).
 
-```jsx
-let footerButtons = [
-  <UIButton onClick={this.handleConfirm}>Confirm</UIButton>,
-  <UIButton onClick={this.handleCancel}>Cancel</UIButton>
-];
+```js
+import {UIDialog} from 'enigma-uikit';
 
-return (
-    <UIDialog header='My Dialog'
-              body='Testing 123'
-              footer={footerButtons}
-              closeOnEscKey={true}
-              closeOnOutsideClick={true}
-              onClose={this.handleCancel} />
-);
+// ...
+
+render() {
+    return (
+        <UIDialog header='My Dialog'
+                  body='Testing 123'
+                  footer={[
+                      <UIButton onClick={this.handleConfirm.bind(this)}>Confirm</UIButton>,
+                      <UIButton onClick={this.handleCancel.bind(this)}>Cancel</UIButton>,
+                  ]}
+                  closeOnEscKey={true}
+                  closeOnOutsideClick={true}
+                  onClose={this.handleCancel} />
+    );
+}
 ```
 
 Renders:
@@ -41,8 +45,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-dialog-body`
 - `.ui-dialog-footer`
 
-<br />
-##### Expected Interactions
+### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -51,8 +54,7 @@ __Event__ | window `focus` | should be cancelled if moving inside -> outside dia
 __Keyboard__ | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
 __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
 
-<br />
-##### Available `props`
+### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
 

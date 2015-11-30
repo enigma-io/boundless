@@ -2,6 +2,8 @@ import UITable from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 
+const json = require('./fixture.json');
+
 export default class UITableDemo extends UIView {
     initialState() {
         return {
@@ -43,27 +45,8 @@ export default class UITableDemo extends UIView {
                 mapping: 'country_code',
                 resizable: true,
             }],
-            rows: [],
+            rows: json,
         };
-    }
-
-    componentDidMount() {
-        // fetch data
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('GET', './UITable/demo/fixture.json');
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4
-                && xhr.status > 199
-                && xhr.status < 399) {
-                this.setState({
-                    rows: JSON.parse(xhr.responseText),
-                });
-            }
-        };
-
-        xhr.send();
     }
 
     handleRowRequest(index) {
