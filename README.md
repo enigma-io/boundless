@@ -26,46 +26,6 @@ There are a number of ways you can consume UIKit in your project.
    npm i --save enigma-uikit@git+git@github.com:enigma-platform/uikit.git
    ```
 
-1. Install Babel if you do not already have it, and follow the setup instructions
-    - browserify: [babelify](https://github.com/babel/babelify)
-      ```bash
-      npm i --save-dev babelify
-      ```
-
-    - webpack: [babel-loader](https://github.com/babel/babel-loader)
-      ```bash
-      npm i --save-dev babel-loader
-      ```
-
-##### If you don't want to use Babel
-
-You can set up an alias for `enigma-uikit` to the `dist/uikit.min.js` file, which is already transpiled and ready for ES5 use.
-
-__Browserify (via [aliasify](https://github.com/benbria/aliasify)):__
-
-```js
-// package.json
-{
-    browserify: {
-        aliasify: {
-            "enigma-uikit": "./node_modules/enigma-uikit/uikit.min.js"
-        }
-    }
-}
-```
-
-__Webpack:__
-
-```js
-// in webpack.config.js
-{
-    resolve: {
-        alias: {
-            'enigma-uikit': './node_modules/enigma-uikit/uikit.min.js'
-        }
-    }
-}
-```
 
 #### without a bundling system
 
@@ -80,8 +40,8 @@ In this case, your HTML page would probably resemble the following:
     <body>
         <!-- some content or a root container -->
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.min.js"></script>
         <script src="js/uikit-standalone.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
     </body>
