@@ -61,13 +61,13 @@ __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused optio
   called when a child element becomes selected; backing data must be updated to persist the state change
 
 - __options__ `Array<Object>`
-  the backing data for the segments of the rendered control, validation parameters:
+  the backing data for the segments of the rendered control
 
-  1. There must be at least two `options` (a segmented control with one button is not allowed)
-
-  1. There must only be one `option` whose `selected` attribute is `true` (multiple selections are not allowed)
-
-  1. Each `value` attribute must be unique across the set of `options`
+  > __Validation Criteria:__
+  >
+  > 1. There must be at least two `options` (a segmented control with one button is not allowed)
+  > 1. There must only be one `option` whose `selected` attribute is `true` (multiple selections are not allowed)
+  > 1. Each `value` attribute must be unique across the set of `options`
 
   - __options[].selected__ `Boolean`
   - __options[].value__ `String`
