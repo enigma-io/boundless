@@ -1,12 +1,19 @@
 ---
-- hosts: all
+- hosts: platform-uikit
   vars:
     user: uikit
     home_dir: /home/{{ user }}
     app_dir: "{{ home_dir }}/app"
 
   tasks:
-    - name: Install the nginx config with vhost for buildbot
+    - name: Install bigboard dependencies
+      sudo: yes
+      pkgng: name={{ item }}
+      with_items:
+        - nginx
+        - rsync
+
+    - name: Install the nginx config with vhost for uikit
       sudo: true
       template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf mode="u=r,g=r"
 
@@ -17,7 +24,6 @@
         line="nginx_enable=\"YES\""
         state=present
         insertafter=EOF
-      when: ansible_os_family == "FreeBSD"
 
     - name: Start nginx
       sudo: true
@@ -29,7 +35,7 @@
 
     - name: Copy over the uikit source
       sudo: true
-      synchronize: src=../site/dist dest={{ app_dir }}
+      synchronize: src=../site/dist/ dest={{ app_dir }}
 
     - name: Change owner of uikit source
       sudo: true
