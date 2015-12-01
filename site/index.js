@@ -28,8 +28,9 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router, Route, Link} from 'react-router';
 
 const injectorRegex = /([#]+\s?)(.*?)\n/g;
-const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
 const githubRemapperRegex = /(\[.*?\])\(((?!http|#).*?)\)/gi;
+const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
+const propDescriptorRegex = /(__.*?__\s?`.*?`)/g;
 
 function sanitizeHeaderName(name = '') {
     return name.trim()
@@ -45,6 +46,10 @@ function injectHeaderLinks(mkdown = '') {
             return `${captures[1]}${captures[2]}<a id="${sanitizeHeaderName(captures[2])}" href="#${sanitizeHeaderName(captures[2])}"></a>\n`;
         }
     );
+}
+
+function breakLineAfterPropDescriptor(mkdown = '') {
+    return mkdown.replace(propDescriptorRegex, '$1<br />');
 }
 
 function remapRelativeREADMELinks(mkdown = '') {
@@ -64,7 +69,12 @@ function remapRelativeLinksToGithub(mkdown = '') {
 }
 
 function prepareMarkdown(mkdown = '') {
-    return remapRelativeREADMELinks(remapRelativeLinksToGithub(injectHeaderLinks(mkdown)));
+    return [
+        injectHeaderLinks,
+        breakLineAfterPropDescriptor,
+        remapRelativeLinksToGithub,
+        remapRelativeREADMELinks,
+    ].reduce((content, transform) => transform(content), mkdown);
 }
 
 const fs = require('fs');
@@ -204,6 +214,24 @@ class Container extends UIView {
         Prism.highlightAll();
     }
 
+    handleClick(event) {
+        /*
+            markdown-created links don't use React Router's <Link /> mechanism, so we have to programmatically
+            trigger the route to avoid a page refresh
+         */
+        if (event.target.tagName.toLowerCase() === 'a') {
+            event.preventDefault();
+
+            if (   event.target.hostname === window.location.hostname
+                && event.target.pathname[0] === '/') {
+                this.context.history.pushState(null, event.target.pathname);
+                document.body.scrollTop = 0;
+            } else {
+                window.open(event.target.href);
+            }
+        }
+    }
+
     renderHeader() {
         return (
             <header className='ui-demo-header'>
@@ -244,13 +272,17 @@ class Container extends UIView {
 
     render() {
         return (
-            <div>
+            <div onClick={this.handleClick.bind(this)}>
                 {this.renderHeader()}
                 {this.renderMain()}
             </div>
         );
     }
 }
+
+Container.contextTypes = {
+    history: React.PropTypes.object
+};
 
 render(
     <Router history={createBrowserHistory()}>
