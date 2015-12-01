@@ -1,0 +1,36 @@
+---
+- hosts: all
+  vars:
+    user: uikit
+    home_dir: /home/{{ user }}
+    app_dir: "{{ home_dir }}/app"
+
+  tasks:
+    - name: Install the nginx config with vhost for buildbot
+      sudo: true
+      template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf mode="u=r,g=r"
+
+    - name: Enable nginx
+      sudo: true
+      lineinfile:
+        dest=/etc/rc.conf
+        line="nginx_enable=\"YES\""
+        state=present
+        insertafter=EOF
+      when: ansible_os_family == "FreeBSD"
+
+    - name: Start nginx
+      sudo: true
+      service: name=nginx enabled=yes state=started
+
+    - name: Create the uikit user
+      sudo: true
+      user: name={{ user }} shell=/sbin/nologin
+
+    - name: Copy over the uikit source
+      sudo: true
+      synchronize: src=../site/dist dest={{ app_dir }}
+
+    - name: Change owner of uikit source
+      sudo: true
+      file: path={{ app_dir }} owner={{ user }} recurse=yes
