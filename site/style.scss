@@ -60,18 +60,18 @@ li {
     }
 }
 
-li strong + code::after {
+li > strong + code::after {
     content: '';
     display: block;
 }
 
-li p + pre code,
-li p + code {
+li > p + pre code,
+li > p + code {
     margin-top: 0;
 }
 
-li p + ul,
-li p + ol {
+li > p + ul,
+li > p + ol {
     margin-top: -1em;
     padding-left: 0;
 
@@ -80,8 +80,8 @@ li p + ol {
     }
 }
 
-li pre,
-li code {
+li > pre,
+li > code {
     margin: 0;
 
     + p {
@@ -91,6 +91,19 @@ li code {
 
 li :not(pre) > code {
     display: inline-block;
+}
+
+blockquote {
+    background: rgba(gold, 0.1);
+    margin: 0 0 1rem;
+    padding: 1rem;
+
+    > ul,
+    > ol {
+        list-style-position: inside;
+        margin-left: 0;
+        padding-left: 0;
+    }
 }
 
 table {
