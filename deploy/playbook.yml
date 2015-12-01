@@ -6,7 +6,7 @@
     app_dir: "{{ home_dir }}/app"
 
   tasks:
-    - name: Install bigboard dependencies
+    - name: Install server dependencies
       sudo: yes
       pkgng: name={{ item }}
       with_items:
