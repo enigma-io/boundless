@@ -22,6 +22,7 @@ There are a number of ways you can consume UIKit in your project.
 #### via a bundling system like Browserify or Webpack
 
 1. Install UIKit as a dependency:
+
    ```bash
    npm i --save enigma-uikit@git+git@github.com:enigma-platform/uikit.git
    ```
