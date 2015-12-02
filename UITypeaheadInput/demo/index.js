@@ -296,7 +296,7 @@ export default class UITypeaheadInputDemo extends UIView {
 
         while (++i < threshold) {
             if (frags[i].toLowerCase() === normalizedUserText) {
-                frags[i] = <mark className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
+                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
             }
         }
 
