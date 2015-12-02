@@ -31,7 +31,7 @@ export default class UISegmentedControlDemo extends UIView {
     }
 
     getSelectedOptionValue() {
-        return this.state.options.filter(option => option.selected === true)[0].value;
+        return this.state.options.find(option => option.selected === true).value;
     }
 
     renderContent() {
