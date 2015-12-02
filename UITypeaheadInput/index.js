@@ -112,7 +112,7 @@ class UITypeaheadInput extends UIView {
                                      'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
                                      [entity.className]: !!entity.className,
                                  })}
-                                 key={this.createHashedKey(entity.content)}
+                                 key={entity.content}
                                  onClick={this.handleMatchClick.bind(this, index)}>
                                 {this.markMatchSubstring(entity.content, this.state.userInput)}
                             </div>
