@@ -14,23 +14,24 @@ class UITypeaheadInput extends UIView {
             entityMatchIndices: [],
             selectedEntityIndex: -1,
             id: this.uuid(),
+            userInput: this.props.defaultValue,
         };
     }
 
     componentWillMount() {
         if (this.props.defaultValue) {
-            this.computeMatches(this.props.defaultValue);
+            this.computeMatches();
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.entities !== this.props.entities) {
-            this.computeMatches(this.state.userInput, nextProps.entities);
+            this.computeMatches(nextProps.entities);
         }
     }
 
     getSelectedEntityContent() {
-        let entity = this.props.entities[this.state.selectedEntityIndex];
+        const entity = this.props.entities[this.state.selectedEntityIndex];
 
         return entity ? entity.content : '';
     }
@@ -48,8 +49,8 @@ class UITypeaheadInput extends UIView {
 
     renderHint() {
         if (this.props.hint) {
-            let userText = this.state.userInput;
-            let raw = this.getSelectedEntityContent();
+            const userText = this.state.userInput;
+            const raw = this.getSelectedEntityContent();
             let processed = '';
 
             if (   raw
@@ -81,9 +82,9 @@ class UITypeaheadInput extends UIView {
             return this.props.markFunc(entityContent, userInput);
         }
 
-        let seekValue = userInput.toLowerCase();
-        let indexStart = entityContent.toLowerCase().indexOf(seekValue);
-        let indexEnd = indexStart + seekValue.length;
+        const seekValue = userInput.toLowerCase();
+        const indexStart = entityContent.toLowerCase().indexOf(seekValue);
+        const indexEnd = indexStart + seekValue.length;
 
         return [
             <span key='0'>{entityContent.slice(0, indexStart)}</span>,
@@ -102,7 +103,7 @@ class UITypeaheadInput extends UIView {
                          [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
                      })}>
                     {this.state.entityMatchIndices.map(index => {
-                        let entity = this.props.entities[index];
+                        const entity = this.props.entities[index];
 
                         return (
                             <div {...entity}
@@ -123,8 +124,8 @@ class UITypeaheadInput extends UIView {
     }
 
     selectMatch(delta) {
-        let matches = this.state.entityMatchIndices;
-        let totalMatches = matches.length;
+        const matches = this.state.entityMatchIndices;
+        const totalMatches = matches.length;
         let nextIndex = matches.indexOf(this.state.selectedEntityIndex) + delta;
 
         if (totalMatches) {
@@ -162,7 +163,7 @@ class UITypeaheadInput extends UIView {
     }
 
     cursorAtEndOfInput() {
-        let node = this.getInputNode();
+        const node = this.getInputNode();
 
         return node.selectionStart === node.selectionEnd && node.selectionEnd === node.value.length;
     }
@@ -241,25 +242,25 @@ class UITypeaheadInput extends UIView {
             return this.props.matchFunc(currentValue, entities);
         }
 
-        let seekValue = currentValue.toLowerCase();
+        const seekValue = currentValue.toLowerCase();
 
         return entities.reduce(function seekMatch(result, entity, index) {
             return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
         }, []);
     }
 
-    computeMatches(currentValue, entities = this.props.entities) {
-        let matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
+    computeMatches(entities = this.props.entities) {
+        const currentValue = this.state.userInput;
+        const matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
 
         this.setState({
-            userInput: currentValue,
             selectedEntityIndex: matches.length ? matches[0] : -1,
             entityMatchIndices: matches,
         });
     }
 
     handleInput(event) {
-        this.computeMatches(event.target.value);
+        this.setState({userInput: event.target.value}, () => this.computeMatches());
 
         if (this.props.onInput) {
             event.persist();
@@ -329,6 +330,7 @@ UITypeaheadInput.propTypes = {
 
 UITypeaheadInput.defaultProps = {
     clearPartialInputOnSelection: false,
+    defaultValue: '',
     entities: [],
     hintProps: {},
     inputProps: {},
