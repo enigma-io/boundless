@@ -30,10 +30,10 @@ class UITypeaheadInput extends UIView {
         }
     }
 
-    getSelectedEntityContent() {
+    getSelectedEntityText() {
         const entity = this.props.entities[this.state.selectedEntityIndex];
 
-        return entity ? entity.content : '';
+        return entity ? entity.text : '';
     }
 
     renderNotification() {
@@ -42,7 +42,7 @@ class UITypeaheadInput extends UIView {
                  id={this.state.id}
                  className={this.props.offscreenClass}
                  aria-live='polite'>
-                {this.getSelectedEntityContent()}
+                {this.getSelectedEntityText()}
             </div>
         );
     }
@@ -50,7 +50,7 @@ class UITypeaheadInput extends UIView {
     renderHint() {
         if (this.props.hint) {
             const userText = this.state.userInput;
-            const raw = this.getSelectedEntityContent();
+            const raw = this.getSelectedEntityText();
             let processed = '';
 
             if (   raw
@@ -112,9 +112,9 @@ class UITypeaheadInput extends UIView {
                                      'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
                                      [entity.className]: !!entity.className,
                                  })}
-                                 key={entity.content}
+                                 key={entity.text}
                                  onClick={this.handleMatchClick.bind(this, index)}>
-                                {this.markMatchSubstring(entity.content, this.state.userInput)}
+                                {this.markMatchSubstring(entity.text, this.state.userInput)}
                             </div>
                         );
                     })}
@@ -174,7 +174,7 @@ class UITypeaheadInput extends UIView {
         if (this.props.clearPartialInputOnSelection) {
             this.setValue('');
         } else {
-            this.setValue(this.getSelectedEntityContent());
+            this.setValue(this.getSelectedEntityText());
         }
     }
 
@@ -245,7 +245,7 @@ class UITypeaheadInput extends UIView {
         const seekValue = currentValue.toLowerCase();
 
         return entities.reduce(function seekMatch(result, entity, index) {
-            return entity.content.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
+            return entity.text.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
         }, []);
     }
 
@@ -276,9 +276,6 @@ class UITypeaheadInput extends UIView {
     render() {
         return (
             <div {...this.props}
-                 defaultValue={undefined}
-                 name={undefined}
-                 type={undefined}
                  ref='wrapper'
                  className={cx({
                     'ui-typeahead-wrapper': true,
@@ -311,7 +308,7 @@ UITypeaheadInput.propTypes = {
     defaultValue: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(
         React.PropTypes.shape({
-            content: React.PropTypes.string,
+            text: React.PropTypes.string,
         })
     ),
     hint: React.PropTypes.bool,

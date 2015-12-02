@@ -5,9 +5,9 @@ __Intelligently recommend entities via customizable, fuzzy recognition.__
 import {UITypeaheadInput} from 'enigma-uikit';
 
 const list = [
-    {content: 'orange'},
-    {content: 'apple'},
-    {content: 'banana'},
+    {text: 'orange'},
+    {text: 'apple'},
+    {text: 'banana'},
 ];
 
 // ...
@@ -69,7 +69,10 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
 
 - __entities__ `Array<Object>`
-  a list of objects containing the property `content`; any additional [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) will be applied to the appropriate `.ui-typeahead-match` node
+    - __entities[].*__ `*`
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.ui-typeahead-match` node
+    - __entities[].text__ `String`
+      the text to be used to do string comparison and match against
 
 - __hint__ `Boolean`
   renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input

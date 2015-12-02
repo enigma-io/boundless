@@ -7,9 +7,9 @@ Usage of this tool is identical to that of [`UITypeaheadInput`](../UITypeaheadIn
 import {UITokenizedInput} from 'enigma-uikit';
 
 const list = [
-    {content: 'orange'},
-    {content: 'apple'},
-    {content: 'banana'},
+    {text: 'orange'},
+    {text: 'apple'},
+    {text: 'banana'},
 ];
 
 // ...
