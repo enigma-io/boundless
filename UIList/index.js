@@ -81,7 +81,7 @@ class UIList extends UIView {
             return React.createElement(nodeType, {
                 className: 'ui-list-item',
                 ref: `item_${index}`,
-                key: this.createHashedKey(item) + index, // in case 2 pieces of content are identical
+                key: index,
                 tabIndex: 0,
                 onBlur: () => this.state.activeItem === item && this.setState({activeItem: null}),
                 onFocus: () => this.setState({activeItem: item}),

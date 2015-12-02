@@ -20,26 +20,6 @@ class UIView extends React.Component {
     }
 
     /**
-     * In any type of list, unique keys are required to keep React re-renders efficient. This
-     * method consumes a list item's content and returns an appropriate key to be used.
-     *
-     * Based on the implementation by esmiralha {@link http://stackoverflow.com/a/7616484/1141611 on StackOverflow}
-     *
-     * @example
-     * this.createHashedKey('abcd'); // 2987074
-     *
-     * @param  {string} baseString The content to be hashed into a consistent key.
-     * @return {string} The built, unique hash.
-     */
-    createHashedKey(baseString) {
-        return baseString.split('').reduce(function hasher(a, b) {
-            let c = ((a << 5) - a) + b.charCodeAt(0);
-
-            return c & c;
-        }, 0);
-    }
-
-    /**
      * Approximates the @link{PureRenderMixin https://facebook.github.io/react/docs/pure-render-mixin.html} from ES5 React. Implement shouldComponentUpdate in your subclass to override this functionality.
      *
      * @param  {Object} nextProps the incoming props definition, may differ from current props
