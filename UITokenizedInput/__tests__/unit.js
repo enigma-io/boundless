@@ -13,9 +13,9 @@ describe('UITokenizedInput', () => {
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
     const entities = [
-        { content: 'apple' },
-        { content: 'apricot' },
-        { content: 'grape' }
+        { text: 'apple' },
+        { text: 'apricot' },
+        { text: 'grape' }
     ];
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));

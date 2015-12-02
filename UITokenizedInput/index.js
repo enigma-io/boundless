@@ -192,7 +192,7 @@ class UITokenizedInput extends UIView {
                              onClick={this.selectSingleToken.bind(this, index)}
                              onKeyDown={this.handleTokenKeyDown.bind(this, index)}
                              tabIndex='0'>
-                            {this.props.entities[index].content}
+                            {this.props.entities[index].text}
                             {this.renderTokenClose(index)}
                         </div>
                     );

@@ -15,9 +15,9 @@ describe('UITypeaheadInput', () => {
 
     const sandbox = sinon.sandbox.create();
     const entities = [
-        { content: 'apple' },
-        { content: 'apricot' },
-        { content: 'grape' }
+        { text: 'apple' },
+        { text: 'apricot' },
+        { text: 'grape' }
     ];
 
     afterEach(() => {
@@ -145,7 +145,7 @@ describe('UITypeaheadInput', () => {
             const element = render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} matchFunc={stub} />);
 
             expect(element.refs.hint.value).toBe('');
-            expect(element.getSelectedEntityContent()).toBe('grape');
+            expect(element.getSelectedEntityText()).toBe('grape');
         });
     });
 
@@ -327,10 +327,10 @@ describe('UITypeaheadInput', () => {
             expect(element.getInputNode()).toBe(node);
         });
 
-        it('getSelectedEntityContent should return the full entity name', () => {
+        it('getSelectedEntityText should return the full entity name', () => {
             const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
 
-            expect(element.getSelectedEntityContent()).toBe('apple');
+            expect(element.getSelectedEntityText()).toBe('apple');
         });
     });
 });
