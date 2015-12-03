@@ -1,6 +1,11 @@
 # UIButton
-
 __A clickable control with "pressed" state support.__
+
+> The Platform team recommends reviewing the [Button](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIButton` in your project.
+
+---
+
+### Example Usage
 
 ```js
 import {UIButton} from 'enigma-uikit';
@@ -32,6 +37,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-button-pressable`
 - `.ui-button-pressed`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -41,6 +48,8 @@ __Keyboard__ | `[Enter, Space]` (pressed) | trigger the `onUnpressed` handler
 __Mouse__ | `click` | trigger the `onClicked` handler
 __Mouse__ | `click` (unpressed) | trigger the `onPressed` handler
 __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
+
+---
 
 ### Available `props`
 

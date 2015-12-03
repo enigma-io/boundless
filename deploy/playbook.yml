@@ -5,6 +5,11 @@
     home_dir: /home/{{ user }}
     app_dir: "{{ home_dir }}/app"
 
+  handlers:
+    - name: Restart NGINX
+      sudo: true
+      service: name=nginx enabled=yes state=restarted
+
   tasks:
     - name: Install server dependencies
       sudo: yes
@@ -13,11 +18,12 @@
         - nginx
         - rsync
 
-    - name: Install the nginx config with vhost for uikit
+    - name: Install the NGINX config with vhost for uikit
       sudo: true
       template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf mode="u=r,g=r"
+      notify: Restart NGINX
 
-    - name: Enable nginx
+    - name: Enable NGINX
       sudo: true
       lineinfile:
         dest=/etc/rc.conf
@@ -25,7 +31,7 @@
         state=present
         insertafter=EOF
 
-    - name: Start nginx
+    - name: Start NGINX
       sudo: true
       service: name=nginx enabled=yes state=started
 

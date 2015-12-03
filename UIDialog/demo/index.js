@@ -37,25 +37,24 @@ export default class UIDialogDemo extends UIView {
 
     renderDialog() {
         if (this.state.showDialog) {
-            let closeButton = <UIButton onClick={this.toggleDialog}>Close</UIButton>;
-
             return (
-                <UIDialog body={
-                            <iframe className='video-frame'
-                                    width='560'
-                                    height='315'
-                                    src='https://www.youtube.com/embed/jtnKv7GrOz0?autoplay=1&showinfo=0&autohide=1'
-                                    frameBorder='0'
-                                    allowFullScreen />
-                          }
-                          footer={closeButton}
-                          closeOnEscKey={true}
+                <UIDialog closeOnEscKey={true}
                           closeOnOutsideClick={true}
                           onClose={this.toggleDialog}
                           style={{
                                   left: this.state.leftPosition,
                                   top: this.state.topPosition,
-                          }} />
+                          }}>
+                    <iframe className='dialog-demo-video-frame'
+                            width='560'
+                            height='315'
+                            src='https://www.youtube.com/embed/jtnKv7GrOz0?autoplay=1&showinfo=0&autohide=1'
+                            frameBorder='0'
+                            allowFullScreen />
+                    <UIButton className='dialog-demo-close-button'
+                              title='Close'
+                              onClick={this.toggleDialog} />
+                </UIDialog>
             );
         }
     }

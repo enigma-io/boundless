@@ -1,6 +1,8 @@
 # UITable
 __A high-performance, infinite table view.__
 
+> The Platform team recommends reviewing the [Table View](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW4) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITable` in your project.
+
 Styling of the element will be provided via the CSS hooks:
 
 - `.ui-table`
@@ -17,6 +19,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-table-x-scroller-nub`
 - `.ui-table-y-scroller`
 - `.ui-table-y-scroller-nub`
+
+---
 
 ### Expected Interactions
 
@@ -36,6 +40,8 @@ __contextmenu__ | table cell | block browser menu, launch custom menu
 __dblclick__ | column header cell drag handle | recalculate column width with currently visible values & apply new sizing
 __dragEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
 __touchEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
+
+---
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
@@ -62,6 +68,7 @@ __touchEnd__ | column header cell drag handle | recalculate column width with en
 - __onRowInteract__ `Function`
   invoked when a cell in a row is interacted with
 
+---
 
 ### Note
 

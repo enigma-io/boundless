@@ -1,6 +1,12 @@
 # UITypeaheadInput
 __Intelligently recommend entities via customizable, fuzzy recognition.__
 
+> The Platform team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITypeaheadInput` in your project.
+
+---
+
+### Example Usage
+
 ```js
 import {UITypeaheadInput} from 'enigma-uikit';
 
@@ -47,6 +53,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-typeahead-match-selected`
 - `.ui-typeahead-match-highlight`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -57,6 +65,8 @@ __Keyboard__ | `[Right, Tab]` | fill the currently-selected typeahead text into 
 __Keyboard__ | `[Enter]` | select the current typeahead match if one exists; if no typeahead match, call `onComplete` if supplied
 __Keyboard__ | `[Escape]` | clear typeahead matches if they exist
 __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
+
+---
 
 ### Available `props`
 

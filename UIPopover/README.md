@@ -3,6 +3,12 @@ __A non-blocking container positioned to a specific anchor element.__
 
 A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
+> The Platform team recommends reviewing the [Popover](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIPopover` in your project.
+
+---
+
+### Example Usage
+
 ```js
 import {UIPopover} from 'enigma-uikit';
 
@@ -71,9 +77,13 @@ Below are helper classes for each position combination; helpful for aligning UI 
 - `.ui-popover-self-y-middle`
 - `.ui-popover-self-y-end`
 
+---
+
 ### Expected Interactions
 
 Refer to [UIDialog](../UIDialog/README.md)
+
+---
 
 ### Available `props`
 

@@ -1,15 +1,21 @@
 # UIProgress
 __An unopinionated progress implementation that allows for a variety of shapes and effects.__
 
+> The Platform team recommends reviewing the [Progress Indicator](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsIndicators.html#//apple_ref/doc/uid/20000957-CH50-SW2) and [User Feedback](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/Feedback.html#//apple_ref/doc/uid/20000957-CH9-SW1) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIProgress` in your project.
+
+---
+
+### Example Usage
+
 ```js
-import {UIProgressBar} from 'enigma-uikit';
+import {UIProgress} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIProgressBar progress='45'
-                       onCancel={cancelFunc} />
+        <UIProgress progress='45'
+                    onCancel={cancelFunc} />
     );
 }
 ```
@@ -31,6 +37,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-progress-label`
 - `.ui-progress-wrapper`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -38,6 +46,8 @@ Type | Context | Expectation
 __Render__ | no `progress` passed | should have the indeterminate class
 __Keyboard__ | `[Enter, Space]` on cancel element | should trigger the onCancel handler
 __Mouse__ | `click` on cancel element | should trigger the onCancel handler
+
+---
 
 ### Available `props`
 

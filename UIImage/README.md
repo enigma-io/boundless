@@ -1,6 +1,10 @@
 # UIImage
 __An image block with placeholder support for loading and fallback scenarios.__
 
+---
+
+### Example Usage
+
 ```js
 import {UIImage} from 'enigma-uikit';
 
@@ -31,6 +35,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-image-loading`
 - `.ui-image-loaded`
 - `.ui-image-error`
+
+---
 
 ### Available `props`
 

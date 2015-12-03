@@ -1,7 +1,13 @@
 # UITokenizedInput
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
-Usage of this tool is identical to that of [`UITypeaheadInput`](../UITypeaheadInput).
+Usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput).
+
+> The Platform team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITokenizedInput` in your project.
+
+---
+
+### Example Usage
 
 ```js
 import {UITokenizedInput} from 'enigma-uikit';
@@ -55,6 +61,8 @@ Styling of the element will be provided via the CSS hooks:
 
 In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput) will be present.
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -65,6 +73,8 @@ __Keyboard__ | `[Left]` | cycle left through tokens if a token is already select
 __Keyboard__ | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
 __Mouse__ | `[Click]` on token | focus token, add "selected" class
 __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
+
+---
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node

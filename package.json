@@ -21,7 +21,7 @@
     "babelify": "^7.0.0",
     "brfs": "^1.4.1",
     "browserify": "^12.0.0",
-    "budo": "^6.0.0",
+    "budo": "^7.0.0",
     "es6-promise": "^3.0.2",
     "esdoc": "^0.4.3",
     "eslint-plugin-react": "^3.0.0",
@@ -71,7 +71,6 @@
     ]
   },
   "scripts": {
-    "prepublish": "npm run es5",
     "es5": "find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' -or -path '*/site/*' -or -path '*/es5/*' \\) -not -name 'jest*.js' | xargs babel --out-dir es5/ --source-maps inline",
     "test": "jest --verbose",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' \\) -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",

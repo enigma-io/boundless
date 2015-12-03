@@ -10,8 +10,6 @@ export default class UIProgressDemo extends UIView {
         return {
             barProgress: 0,
             meterProgress: 0,
-            forestProgress: 0,
-            trees: this.generateTrees(),
         };
     }
 
@@ -21,8 +19,9 @@ export default class UIProgressDemo extends UIView {
 
     render() {
         return (
-            <div className='ui-spread-even ui-align-end ui-center'>
+            <div className='progress-demo ui-spread-even ui-align-end'>
                 <figure>
+                    <h5>Horizontal Progress Bar</h5>
                     <UIProgress ref='bar'
                                 label={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`} />
@@ -32,6 +31,7 @@ export default class UIProgressDemo extends UIView {
                     </UIButton>
                 </figure>
                 <figure>
+                    <h5>Filling Progress Meter</h5>
                     <UIProgress ref='meter'
                                 id='progress-meter'
                                 label={`${this.state.meterProgress}%`}
@@ -43,6 +43,7 @@ export default class UIProgressDemo extends UIView {
                     </UIButton>
                 </figure>
                 <figure>
+                    <h5>Indeterminate Progress Bar</h5>
                     <UIProgress ref='indeterminate'
                                 indeterminate={true} />
                     <UIButton disabled={true}
@@ -53,35 +54,6 @@ export default class UIProgressDemo extends UIView {
                 </figure>
             </div>
         );
-    }
-
-    randomNumberControlled(seed) {
-        return (Math.random() * seed * (Math.random() > 0.5 ? -1 : 1)).toFixed(2);
-    }
-
-    randomPosition(seed1, seed2) {
-        return [this.randomNumberControlled(seed1 || 5) + 'em', this.randomNumberControlled(seed2 || 3) + 'em'].join(',');
-    }
-
-    generateTrees() {
-        let trees = [];
-        let i = 0;
-
-        while (++i <= 100) {
-            trees.push(
-                <div key={i}
-                     className='progress-forest-tree'
-                     style={{
-                        borderBottomColor: `hsl(97.8, 35.5%, ${(Math.random() * (55 - 25) + 25).toFixed(4)}%)`,
-                        [transformProp]: `scale(${(Math.random() * 0.3 + 0.9).toFixed(3)}) translate(${this.randomPosition(...(i < 70 ? [3, 2] : []))})`,
-                        zIndex: i,
-                     }}>
-                    |
-                </div>
-            );
-        }
-
-        return trees;
     }
 
     updateProgress(type) {
@@ -96,10 +68,6 @@ export default class UIProgressDemo extends UIView {
 
     resetProgress(type) {
         window.clearTimeout(this[`${type}timerHandle`]);
-
-        if (type === 'forest') {
-            this.setState({ trees: this.generateTrees() });
-        }
 
         this.setState({ [`${type}Progress`]: 0 }, () => { this.updateProgress(type); });
     }

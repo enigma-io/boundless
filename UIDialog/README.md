@@ -5,6 +5,10 @@ A dialog differs from a modal in that it does not come with a masking layer (to 
 
 Specific areas (header, body, footer) are defined to provide easy conformance to the [WAI-ARIA spec](http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby` and `aria-describedby` (screen reader accessibility).
 
+---
+
+### Example Usage
+
 ```js
 import {UIDialog} from 'enigma-uikit';
 
@@ -45,6 +49,8 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-dialog-body`
 - `.ui-dialog-footer`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -53,6 +59,8 @@ __Render__ | `N/A` | focus on dialog
 __Event__ | window `focus` | should be cancelled if moving inside -> outside dialog if `props.captureFocus` is `true`
 __Keyboard__ | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
 __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
+
+---
 
 ### Available `props`
 

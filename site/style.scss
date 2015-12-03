@@ -93,6 +93,12 @@ li :not(pre) > code {
     display: inline-block;
 }
 
+hr {
+    border: 0;
+    border-top: 1px solid #CCC;
+    margin: 2rem -2rem;
+}
+
 blockquote {
     background: rgba(gold, 0.1);
     margin: 0 0 1rem;
@@ -120,7 +126,7 @@ pre {
     border-radius: $default-border-radius;
     color: get-foreground-text-color($color-accent);
     overflow-x: auto;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     padding: 0;
 
     > code {

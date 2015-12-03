@@ -1,6 +1,10 @@
 # UIList
 __A generic list view, supporting unstyled, bulleted and numbered output.__
 
+---
+
+### Example Usage
+
 ```js
 import {UIList} from 'enigma-uikit';
 
@@ -31,6 +35,8 @@ Styling of the list will be provided via CSS hooks:
 - `.ui-list-plain`
 - `.ui-list-item`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -39,6 +45,8 @@ __Keyboard__ |`[Tab]` | should move focus to the next child, exit `UIList` tabbi
 __Keyboard__ |`[Shift+Tab]` | should move focus to the previous child, exit `UIList` tabbing context if at the first child
 __Keyboard__ |`['Left', 'Right']` | should move focus to previous/next child if `props.type` is not set; should loop
 __Keyboard__ |`['Top', 'Bottom']` | should move focus to previous/next child if `props.type` is set; should loop
+
+---
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-list` node
