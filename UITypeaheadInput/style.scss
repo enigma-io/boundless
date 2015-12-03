@@ -3,20 +3,20 @@
 @import "../_globals";
 
 .ui-typeahead-wrapper {
+    font-size: $input-font-size;
     position: relative;
 }
 
 .ui-typeahead,
 .ui-typeahead-hint {
+    background: #FFF;
     border: 1px solid #333;
-    padding: 0.5em 0.75em;
+    border-radius: $default-border-radius;
+    padding: 0.75em;
     width: 100%;
 }
 
 .ui-typeahead {
-    background: transparent;
-    border: 1px solid #333;
-    border-radius: $default-border-radius;
     position: relative;
     z-index: 1;
 

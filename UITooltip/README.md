@@ -3,6 +3,10 @@ __A simple wrapper that displays provided text on mouseover.__
 
 Nest any React-renderable content inside the `UITooltip` wrapper as you would a simple `<div>`.
 
+---
+
+### Example Usage
+
 ```js
 import {UITooltip} from 'enigma-uikit';
 
@@ -35,6 +39,8 @@ Below are helper classes for each possible position:
 - `.ui-tooltip-position-below`
 - `.ui-tooltip-position-before`
 - `.ui-tooltip-position-after`
+
+---
 
 ### Available `props`
 

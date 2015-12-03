@@ -3,6 +3,12 @@ __A control containing multiple buttons, only one of which can be active at a ti
 
 UISegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.
 
+> The Platform team recommends reviewing the [Segmented Control](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsSelection.html#//apple_ref/doc/uid/20000957-CH49-SW5) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UISegmentedControl` in your project.
+
+---
+
+### Example Usage
+
 ```js
 import {UISegmentedControl} from 'enigma-uikit';
 
@@ -44,6 +50,8 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-segmented-control-option`
 - `.ui-segmented-control-option-selected`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
@@ -53,6 +61,8 @@ __Keyboard__ |`[Tab]` | should forward-exit `UISegmentedControl` tabbing context
 __Keyboard__ |`[Shift+Tab]` | should backward-exit `UISegmentedControl` tabbing context
 __Keyboard__ |`['Left', 'Right']` | should move focus to previous/next child; should loop
 __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused option
+
+---
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-segmented-control` node

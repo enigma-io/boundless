@@ -118,15 +118,19 @@ An unminified version with bundled sourcemapping for easy debugging during the d
 
 ---
 
-### UIKit Website & Component Demos
+### Website, Component Demos and Reference Styles
 
-To access the full set of demos, you'll need to clone the repo to your local projects folder:
+Clone the repository to your local machine:
 
 ```bash
 git clone git@github.com:enigma-platform/uikit.git
 ```
 
-Then `cd` into it and run the following commands:
+Each component folder includes a functional demo and some reference styles in `style.scss`. UIKit will ship with a recommended (fully-compiled) CSS skin file for the full `1.0.0` release, but `1.0.0-beta` comes unskinned.
+
+#### Running the Website Locally
+
+Run the following commands inside the cloned UIKit repository (assumes Node 4+ is installed):
 
 ```bash
 npm install

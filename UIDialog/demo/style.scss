@@ -1,1 +1,30 @@
 // Demo-specific styles go here. Skin-specific styles go in ../style.scss.
+
+@import "../../_globals";
+
+.dialog-demo-close-button {
+    background: none !important;
+    border: 0;
+    color: #CCC;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    transition: color 200ms ease;
+
+    &:hover,
+    &:focus {
+        color: #555;
+    }
+
+    &:active {
+        color: $color-text-body;
+    }
+}
+
+.dialog-demo-close-button::before {
+    content: 'X';
+}

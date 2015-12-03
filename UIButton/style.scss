@@ -30,9 +30,9 @@
 }
 
 .ui-button:active,
-.ui-button-pressed {
+.ui-button.ui-button-pressed {
     background: $color-accent;
-    color: #FFF !important;
+    color: #FFF;
 }
 
 .ui-button + .ui-button {

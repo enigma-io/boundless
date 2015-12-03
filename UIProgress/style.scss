@@ -12,7 +12,6 @@
 
 .ui-progress {
     background: $color-accent;
-    border-radius: $default-border-radius;
     position: absolute;
     top: 0;
     left: 0;
@@ -21,7 +20,7 @@
 
 .ui-progress-label {
     color: #FFF;
-    line-height: 30px;
+    line-height: 28px;
     padding-left: 10px;
     position: relative;
     text-align: left;

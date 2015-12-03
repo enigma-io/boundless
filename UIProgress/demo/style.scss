@@ -2,9 +2,18 @@
 
 @import "../../_globals";
 
-#progress-meter {
-    // height: 100px;
-    margin: 0 1em;
+.progress-demo {
+    > * {
+        margin: 0 1em;
+    }
+
+    > :first-child {
+        margin-left: 0;
+    }
+
+    > :last-child {
+        margin-right: 0;
+    }
 }
 
 #progress-meter .ui-progress {

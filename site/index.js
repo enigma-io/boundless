@@ -30,7 +30,7 @@ import {Router, Route, Link} from 'react-router';
 const injectorRegex = /([#]+\s?)(.*?)\n/g;
 const githubRemapperRegex = /(\[.*?\])\(((?!http|#).*?)\)/gi;
 const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
-const propDescriptorRegex = /(__.*?__\s?`.*?`)/g;
+const propDescriptorRegex = /((__|\*\*).*?(__|\*\*)\s?`.*?`)/g;
 
 function sanitizeHeaderName(name = '') {
     return name.trim()

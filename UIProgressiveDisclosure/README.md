@@ -1,6 +1,12 @@
 # UIProgressiveDisclosure
 __Hide content until it's needed.__
 
+> The Platform team recommends reviewing the [Disclosure](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW12) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIProgressiveDisclosure` in your project.
+
+---
+
+### Example Usage
+
 ```js
 import {UIButton, UIProgressiveDisclosure} from 'enigma-uikit';
 
@@ -45,12 +51,16 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-disclosure-content`
 - `.ui-disclosure-expanded`
 
+---
+
 ### Expected Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
 __Mouse__ | `click` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
 __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
+
+---
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
