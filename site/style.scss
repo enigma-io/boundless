@@ -44,13 +44,27 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+h2 {
+    font-weight: 400;
+}
+
 p {
     margin: 0 0 1em;
 }
 
-li {
-    margin-bottom: 1rem;
+ol ol {
+    margin-top: 0.5rem;
+}
 
+ol li {
+    margin-bottom: 0.5rem;
+}
+
+ul li {
+    margin-bottom: 1rem;
+}
+
+li {
     &:last-child {
         margin-bottom: 0;
     }
@@ -192,24 +206,31 @@ td {
     color: lighten($color-accent, 30%);
 }
 
-.ui-demo-nav {
-    margin-top: 2rem;
-}
-
 .ui-demo-nav-item {
+    border-bottom: 1px dotted invert($color-accent);
     color: invert($color-accent);
-    display: block;
+    display: inline;
     margin-bottom: 0.5em;
     text-decoration: none;
 }
 
 .ui-demo-nav-item::after {
-    content: ' →';
+    content: '\a';
+    white-space: pre;
 }
 
 .ui-demo-nav-item:hover {
+    border-bottom-color: darken(invert($color-accent), 15%);
     color: darken(invert($color-accent), 15%);
-    text-decoration: underline;
+}
+
+.ui-demo-nav-section {
+    line-height: 1.75;
+    margin-top: 1.5rem;
+}
+
+.ui-demo-nav-section-title {
+    color: lighten($color-accent, 20%);
 }
 
 .ui-demo-section {
@@ -240,10 +261,6 @@ td {
     display: flex;
     align-items: flex-start;
 }
-
-// .ui-spread-stretch > * {
-//     align-self: stretch;
-// }
 
 .ui-spread-even > * {
     flex: 100% 1 1;

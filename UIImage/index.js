@@ -26,7 +26,7 @@ class UIImage extends UIView {
         this.preload();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         this.preload();
     }
 

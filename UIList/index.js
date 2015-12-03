@@ -32,7 +32,6 @@ class UIList extends UIView {
 
     handleKeyDown(event) {
         const key = event.key;
-        const hasType = !!this.props.type;
         const items = this.props.items;
         const activeItem = this.state.activeItem;
 
