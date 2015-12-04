@@ -1,0 +1,36 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.scss.
+
+@import "../_globals";
+
+.ui-paginated-view-controls > .ui-segmented-control-option {
+    margin: 0;
+    margin-left: -1px;
+    border-radius: 0;
+}
+
+.ui-paginated-view-controls > .ui-segmented-control-option:first-of-type {
+    margin: 0;
+    border-bottom-left-radius: $default-border-radius;
+    border-top-left-radius: $default-border-radius;
+}
+
+.ui-paginated-view-controls > .ui-segmented-control-option:last-of-type {
+    border-bottom-right-radius: $default-border-radius;
+    border-top-right-radius: $default-border-radius;
+}
+
+.ui-paginated-view-controls > .ui-segmented-control-option:focus {
+    background: rgba($color-accent, 0.1);
+}
+
+.ui-paginated-view-controls > .ui-segmented-control-option-selected:focus {
+    background: $color-accent;
+}
+
+.ui-paginated-view .ui-list-item {
+    display: block;
+}
+
+.ui-paginated-view .ui-list-item:after {
+    content: none;
+}
