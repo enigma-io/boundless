@@ -75,7 +75,6 @@ class UISegmentedControl extends UIView {
         const activeItemIndex = this.state.indexOfOptionInFocus;
 
         if (key === 'ArrowLeft') {
-            console.log(this.getPreviousOptionIndex(activeItemIndex))
             this.setFocus(this.getPreviousOptionIndex(activeItemIndex));
             event.preventDefault();
         } else if (key === 'ArrowRight') {
@@ -103,7 +102,7 @@ class UISegmentedControl extends UIView {
                      className={cx({
                         'ui-segmented-control-option': true,
                         'ui-segmented-control-option-selected': definition.selected,
-                        [definition.className]: !!definition.className
+                        [definition.className]: !!definition.className,
                      })}
                      tabIndex={definition.selected ? 0 : -1}
                      onBlur={this.handleBlur.bind(this, definition)}
