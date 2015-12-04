@@ -13,6 +13,7 @@ import UIImageDemo from '../UIImage/demo';
 import UIListDemo from '../UIList/demo';
 import UIModalDemo from '../UIModal/demo';
 import UINotificationDemo from '../UINotification/demo';
+import UIPaginatedViewDemo from '../UIPaginatedView/demo';
 import UIPopoverDemo from '../UIPopover/demo';
 import UIProgressDemo from '../UIProgress/demo';
 import UIProgressiveDisclosureDemo from '../UIProgressiveDisclosure/demo';
@@ -174,6 +175,12 @@ const components = {
         readme: prepareMarkdown(
             fs.readFileSync(__dirname + '/../UINotification/README.md', 'utf8')
         ),
+    },
+    UIPaginatedView: {
+        component: UIPaginatedViewDemo,
+        readme: prepareMarkdown(
+            fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8')
+        )
     },
     UIPopover: {
         component: UIPopoverDemo,

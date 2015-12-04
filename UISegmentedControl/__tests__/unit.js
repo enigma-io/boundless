@@ -42,35 +42,33 @@ describe('UISegmentedControl', () => {
         beforeEach(() => element = render(<UISegmentedControl {...baseProps} />));
 
         it('ui-segmented-control should be rendered', () => {
-            expect(hasClass(element.refs.wrapper, 'ui-segmented-control')).toBe(true);
+            expect(element.refs.wrapper.className).toContain('ui-segmented-control');
         });
 
         it('ui-segmented-control-option should be rendered for child node', () => {
-            expect(hasClass(element.refs['option_$0'], 'ui-segmented-control-option')).toBe(true);
-
-            expect(hasClass(element.refs['option_$1'], 'ui-segmented-control-option')).toBe(true);
+            expect(element.refs['option_$0'].props.className).toContain('ui-segmented-control-option');
         });
 
         it('ui-segmented-control-option-selected should be rendered for child node when `props.selected` is `true`', () => {
-            expect(hasClass(element.refs['option_$0'], 'ui-segmented-control-option-selected')).toBe(true);
+            expect(element.refs['option_$0'].props.className).toContain('ui-segmented-control-option');
         });
 
         it('ui-segmented-control-option-selected should not be rendered for child node when `props.selected` is falsy', () => {
-            expect(hasClass(element.refs['option_$1'], 'ui-segmented-control-option-selected')).toBe(false);
+            expect(element.refs['option_$1'].props.className).not.toContain('ui-segmented-control-option-selected');
         });
     });
 
     describe('Keyboard navigation', () => {
         it('selected option should have tabIndex=0', () => {
             const element = render(<UISegmentedControl {...baseProps} name='foo' />);
-            const node = element.refs['option_$0'];
+            const node = ReactDOM.findDOMNode(element.refs['option_$0']);
 
             expect(node.getAttribute('tabIndex')).toBe('0');
         });
 
         it('unselected option should have tabIndex=-1', () => {
             const element = render(<UISegmentedControl {...baseProps} name='foo' />);
-            const node = element.refs['option_$1'];
+            const node = ReactDOM.findDOMNode(element.refs['option_$1']);
 
             expect(node.getAttribute('tabIndex')).toBe('-1');
         });
@@ -78,19 +76,19 @@ describe('UISegmentedControl', () => {
         it('right arrow on last child should send focus to first child', () => {
             const element = render(<UISegmentedControl {...baseProps} name='foo' />);
 
-            Simulate.focus(element.refs['option_$1']);
+            Simulate.focus(ReactDOM.findDOMNode(element.refs['option_$1']));
 
             element.handleKeyDown({...eventBase, key: 'ArrowRight'});
-            expect(document.activeElement).toBe(element.refs['option_$0']);
+            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs['option_$0']));
         });
 
         it('left arrow on first child should send focus to last child', () => {
             const element = render(<UISegmentedControl {...baseProps} name='foo' />);
 
-            Simulate.focus(element.refs['option_$0']);
+            Simulate.focus(ReactDOM.findDOMNode(element.refs['option_$0']));
 
             element.handleKeyDown({...eventBase, key: 'ArrowLeft'});
-            expect(document.activeElement).toBe(element.refs['option_$1']);
+            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs['option_$1']));
         });
     });
 
@@ -98,7 +96,7 @@ describe('UISegmentedControl', () => {
         it('should be called on a `change` event when `props.selected` is falsy', () => {
             const stub = sandbox.stub();
             const element = render(<UISegmentedControl {...baseProps} name='foo' onOptionSelected={stub} />);
-            const node = element.refs['option_$1'];
+            const node = ReactDOM.findDOMNode(element.refs['option_$1']);
 
             Simulate.click(node);
 

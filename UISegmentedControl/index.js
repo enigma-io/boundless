@@ -4,7 +4,9 @@
  */
 
 import UIView from '../UIView';
+import UIButton from '../UIButton';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
@@ -24,7 +26,7 @@ class UISegmentedControl extends UIView {
     }
 
     setFocus(index) {
-        this.refs['option_$' + index].focus();
+        findDOMNode(this.refs['option_$' + index]).focus();
     }
 
     getNextOptionIndex(currentOptionIndex) {
@@ -92,7 +94,7 @@ class UISegmentedControl extends UIView {
     renderOptions() {
         return this.props.options.map((definition, index) => {
             return (
-                <div {...definition}
+                <UIButton {...definition}
                      role='radio'
                      aria-checked={String(definition.selected)}
                      ref={'option_$' + index}
@@ -100,13 +102,14 @@ class UISegmentedControl extends UIView {
                      className={cx({
                         'ui-segmented-control-option': true,
                         'ui-segmented-control-option-selected': definition.selected,
+                        [definition.className]: !!definition.className,
                      })}
                      tabIndex={definition.selected ? 0 : -1}
                      onBlur={this.handleBlur.bind(this, definition)}
                      onClick={this.handleClick.bind(this, definition)}
                      onFocus={this.handleFocus.bind(this, definition)}>
                 {definition.content}
-                </div>
+                </UIButton>
             );
         });
     }
