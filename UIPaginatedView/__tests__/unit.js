@@ -219,6 +219,12 @@ describe('UIPaginatedView', () => {
 
             expect(element.currentPage()).toEqual(10);
         });
+
+        it('clicking a toggle should focus the first item in the resulting content list', () => {
+            Simulate.click(ReactDOM.findDOMNode(element.refs.segmentedControlAbove.refs['option_$3']));
+
+            expect(document.activeElement).toEqual(element.refs.itemList.refs.item_0);
+        });
     });
 
     describe('pagerPosition', () => {

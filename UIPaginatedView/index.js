@@ -26,6 +26,12 @@ class UIPaginatedView extends UIView {
         }
     }
 
+    componentDidUpdate(oldProps, oldState) {
+        if (oldState.currentPage !== this.state.currentPage) {
+            this.refs.itemList.refs['item_0'].focus();
+        }
+    }
+
     componentDidMount() {
         this.setState({shownItems: this.generateItems(this.state.currentPage)});
     }
