@@ -52,8 +52,6 @@ class UIDialog extends UIView {
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
-        return previous;
-
         if (   this.isPartOfDialog(previous)
             && !this.isPartOfDialog(nativeEvent.target)) {
             nativeEvent.preventDefault();

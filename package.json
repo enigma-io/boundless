@@ -72,6 +72,7 @@
   },
   "scripts": {
     "es5": "find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' -or -path '*/site/*' -or -path '*/es5/*' \\) -not -name 'jest*.js' | xargs babel --out-dir es5/ --source-maps inline",
+    "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' \\) -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "site_css": "pleeease-watch",

@@ -41,7 +41,7 @@ class UISegmentedControl extends UIView {
 
     handleBlur(option, event) {
         if (this.state.indexOfOptionInFocus === option) {
-            this.setState({indexOfOptionInFocus: null})
+            this.setState({indexOfOptionInFocus: null});
         }
 
         if (typeof option.onBlur === 'function') {
@@ -79,7 +79,7 @@ class UISegmentedControl extends UIView {
             this.setFocus(this.getNextOptionIndex(activeItemIndex));
             event.preventDefault();
         } else if (key === 'Enter') {
-            this.handleClick(this.props.options[activeItemIndex])
+            this.handleClick(this.props.options[activeItemIndex]);
             event.preventDefault();
         }
 
@@ -99,7 +99,7 @@ class UISegmentedControl extends UIView {
                      key={definition.value}
                      className={cx({
                         'ui-segmented-control-option': true,
-                        'ui-segmented-control-option-selected': definition.selected
+                        'ui-segmented-control-option-selected': definition.selected,
                      })}
                      tabIndex={definition.selected ? 0 : -1}
                      onBlur={this.handleBlur.bind(this, definition)}
@@ -129,7 +129,7 @@ class UISegmentedControl extends UIView {
 
 UISegmentedControl.propTypes = {
     onOptionSelected: React.PropTypes.func,
-    options: function(props, propName, componentName) {
+    options: function(props) {
         if (props.options.length < 2) {
             return new Error('Must provide at least two options.');
         }
@@ -168,12 +168,12 @@ UISegmentedControl.propTypes = {
         if (multipleSelected) {
             return new Error('Encountered multiple options with `selected: true`. There can be only one.');
         }
-    }
+    },
 };
 
 UISegmentedControl.defaultProps = {
     options: [],
-    onOptionSelected: noop
+    onOptionSelected: noop,
 };
 
 export default UISegmentedControl;

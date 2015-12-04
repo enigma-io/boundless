@@ -473,7 +473,7 @@ class UITable extends UIView {
         this.setState({
             currentActiveRowIndex: findWhere(
                 this.state.rows, 'data', clickedRowData
-            ).setIndex
+            ).setIndex,
         });
     }
 
