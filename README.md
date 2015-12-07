@@ -123,7 +123,7 @@ function MyUI() {
     });
 }
 
-ReactDOM.render(<MyUI />, document.body);
+ReactDOM.render(MyUI(), document.body);
 ```
 
 An unminified version with bundled sourcemapping for easy debugging during the development process is available: [dist/uikit-standalone.js](dist/uikit-standalone.js)
