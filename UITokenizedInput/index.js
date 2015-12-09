@@ -38,9 +38,7 @@ class UITokenizedInput extends UIView {
         let currentSelectedIndices = this.state.tokenizedEntityIndicesSelected;
 
         if (previousIndices !== currentIndices) {
-            this.props.onTokenChange(
-                currentSelectedIndices.map(index => this.props.entities[index])
-            );
+            this.props.onTokenChange(currentIndices);
         }
 
         if (previousSelectedIndices !== currentSelectedIndices) { // move focus
@@ -55,10 +53,45 @@ class UITokenizedInput extends UIView {
         }
     }
 
-    handleEntitySelected(index) {
-        if (this.state.tokenizedEntityIndices.indexOf(index) === -1) {
-            this.setState({tokenizedEntityIndices: this.state.tokenizedEntityIndices.concat(index)});
-        }
+    /**
+     * Create a token based on an entity's array index.
+     *
+     * @param {Number|Array<Number>}  index         the array index of the desired entity to be tokenized
+     * @param {Boolean}               [focusInput]  determines if the input should be focused after the
+     *                                              token changes are applied
+     * @param {Boolean}               [clearInput]  determines if the input should be cleared after the
+     *                                              token changes are applied
+     */
+    addToken(index, focusInput, clearInput) {
+        const indices = (Array.isArray(index) ? index : [index]).filter(index => {
+            return this.state.tokenizedEntityIndices.indexOf(index) === -1;
+        });
+
+        this.setState({tokenizedEntityIndices: this.state.tokenizedEntityIndices.concat(indices)});
+
+        focusInput && this.refs.typeahead.focusInput();
+        clearInput && this.refs.typeahead.setValue('');
+    }
+
+    /**
+     * Remove a token based on an entity's array index. If no index is given, all tokens are removed.
+     *
+     * @param {Number|Array<Number>}  index         the array index of the desired entity to be tokenized
+     * @param {Boolean}               [focusInput]  determines if the input should be focused after the
+     *                                              token changes are applied
+     * @param {Boolean}               [clearInput]  determines if the input should be cleared after the
+     *                                              token changes are applied
+     */
+    removeToken(index = this.state.tokenizedEntityIndicesSelected, focusInput, clearInput) {
+        const indices = Array.isArray(index) ? index : [index];
+
+        this.setState({
+            tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, ...indices),
+            tokenizedEntityIndicesSelected: without(this.state.tokenizedEntityIndicesSelected, ...indices),
+        });
+
+        focusInput && this.refs.typeahead.focusInput();
+        clearInput && this.refs.typeahead.setValue('');
     }
 
     handleInputFocus(event) {
@@ -128,10 +161,7 @@ class UITokenizedInput extends UIView {
         case 'Backspace':
             if (this.state.tokenizedEntityIndicesSelected.length) {
                 event.preventDefault();
-                this.setState({
-                    tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, ...this.state.tokenizedEntityIndicesSelected),
-                    tokenizedEntityIndicesSelected: [],
-                });
+                this.removeToken();
 
                 this.refs.typeahead.focusInput();
             }
@@ -146,10 +176,7 @@ class UITokenizedInput extends UIView {
     }
 
     handleTokenCloseClick(index) {
-        this.setState({
-            tokenizedEntityIndices: without(this.state.tokenizedEntityIndices, index),
-            tokenizedEntityIndicesSelected: without(this.state.tokenizedEntityIndicesSelected, index),
-        });
+        this.removeToken(index);
     }
 
     renderTokenClose(index) {
@@ -221,7 +248,7 @@ class UITokenizedInput extends UIView {
                 <UITypeaheadInput {...descendants}
                                   ref='typeahead'
                                   className='ui-tokenfield'
-                                  onEntitySelected={this.handleEntitySelected.bind(this)}
+                                  onEntitySelected={this.addToken.bind(this)}
                                   onFocus={this.handleInputFocus.bind(this)}
                                   clearPartialInputOnSelection={true} />
             </div>
