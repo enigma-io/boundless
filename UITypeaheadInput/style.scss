@@ -16,6 +16,10 @@
     width: 100%;
 }
 
+.ui-typeahead-hint + .ui-typeahead {
+    background: transparent;
+}
+
 .ui-typeahead {
     position: relative;
     z-index: 1;
@@ -35,6 +39,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
 }
 
 .ui-typeahead-match-wrapper {

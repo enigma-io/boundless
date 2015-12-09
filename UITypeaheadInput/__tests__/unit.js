@@ -120,24 +120,23 @@ describe('UITypeaheadInput', () => {
             expect(node.value).toBe('apple');
         });
 
-        /* Needs https://github.com/tmpvar/jsdom/pull/804 */
 
-        // it('should clear on a successful autocomplete', () => {
-        //     const element = render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />);
-        //     const inputNode = element.getInputNode();
+        it('should clear on a successful autocomplete', () => {
+            const element = render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />);
+            const inputNode = element.getInputNode();
 
-        //     inputNode.setSelectionRange(inputNode.value.length, inputNode.value.length);
-        //     element.handleKeyDown({
-        //         key: 'ArrowRight',
-        //         target: inputNode,
-        //         nativeEvent: {
-        //             preventDefault: noop
-        //         },
-        //         stopPropagation: noop
-        //     });
+            inputNode.setSelectionRange(inputNode.value.length, inputNode.value.length);
+            element.handleKeyDown({
+                key: 'ArrowRight',
+                target: inputNode,
+                nativeEvent: {
+                    preventDefault: noop
+                },
+                stopPropagation: noop
+            });
 
-        //     expect(element.refs.hint.value).toBe('');
-        // });
+            expect(element.refs.hint.value).toBe('');
+        });
 
         it('should clear if the matched substring is not at the beginning of the user input', () => {
             // emulating a weighted fuzzy search that assigns "grape" higher value
@@ -187,61 +186,59 @@ describe('UITypeaheadInput', () => {
         });
     });
 
-    /* Needs https://github.com/tmpvar/jsdom/pull/804 */
+    describe('right arrow', () => {
+        it('should autocomplete the currently selected entity to the input field', () => {
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
+            const node = element.getInputNode();
 
-    // describe('right arrow', () => {
-    //     it('should autocomplete the currently selected entity to the input field', () => {
-    //         const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
-    //         const node = element.getInputNode();
+            node.setSelectionRange(node.value.length, node.value.length);
+            element.handleKeyDown({
+                key: 'ArrowRight',
+                nativeEvent: {preventDefault: noop},
+                stopPropagation: noop,
+                target: node
+            });
 
-    //         node.setSelectionRange(node.value.length, node.value.length);
-    //         element.handleKeyDown({
-    //             key: 'ArrowRight',
-    //             nativeEvent: {preventDefault: noop},
-    //             stopPropagation: noop,
-    //             target: node
-    //         });
+            expect(node.value).toBe('apple');
+        });
 
-    //         expect(node.value).toBe('apple');
-    //     });
+        it('should not autocomplete if the cursor is not at the end of the input field', () => {
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
+            const node = element.getInputNode();
 
-    //     it('should not autocomplete if the cursor is not at the end of the input field', () => {
-    //         const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
-    //         const node = element.getInputNode();
+            node.setSelectionRange(0, 0); // reset to beginning
+            element.handleKeyDown({
+                key: 'ArrowRight',
+                nativeEvent: {preventDefault: noop},
+                stopPropagation: noop,
+                target: node
+            });
 
-    //         node.setSelectionRange(0, 0); // reset to beginning
-    //         element.handleKeyDown({
-    //             key: 'ArrowRight',
-    //             nativeEvent: {preventDefault: noop},
-    //             stopPropagation: noop,
-    //             target: node
-    //         });
+            expect(node.value).toBe('ap');
+        });
+    });
 
-    //         expect(node.value).toBe('ap');
-    //     });
-    // });
+    describe('tab', () => {
+        it('should autocomplete the currently selected entity to the input field', () => {
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
+            const node = element.getInputNode();
 
-    // describe('tab', () => {
-    //     it('should autocomplete the currently selected entity to the input field', () => {
-    //         const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
-    //         const node = element.getInputNode();
+            node.setSelectionRange(node.value.length, node.value.length);
+            element.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: noop}});
 
-    //         node.setSelectionRange(node.value.length, node.value.length);
-    //         element.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: noop}});
+            expect(node.value).toBe('apple');
+        });
 
-    //         expect(node.value).toBe('apple');
-    //     });
+        it('should not autocomplete if the cursor is not at the end of the input field', () => {
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
+            const node = element.getInputNode();
 
-    //     it('should not autocomplete if the cursor is not at the end of the input field', () => {
-    //         const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
-    //         const node = element.getInputNode();
+            node.setSelectionRange(0, 0); // reset to beginning
+            element.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: noop}});
 
-    //         node.setSelectionRange(0, 0); // reset to beginning
-    //         element.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: noop}});
-
-    //         expect(node.value).toBe('ap');
-    //     });
-    // });
+            expect(node.value).toBe('ap');
+        });
+    });
 
     describe('enter', () => {
         it('should select the current entity match, if one exists', () => {

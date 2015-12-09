@@ -26,8 +26,8 @@ render() {
                           aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
                           defaultValue='ap'
                           entities={list}
-                          provideHint={true}
-                          tokens={[list[0]]} />
+                          hint={true}
+                          defaultTokenizedEntityIndexes={[0]} />
     );
 }
 ```
@@ -81,8 +81,23 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
 
+- __defaultTokenizedEntityIndexes__ `Array[Number]`
+  indexes of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
+
 - __onTokenChange__ `Function`
-  triggered when an action has been taken to add or remove a token to the UI
+  triggered when an action has been taken to add or remove a token to the UI, returns an array of entity indexes
 
 - __showTokenClose__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
+
+---
+
+### Available Methods
+
+- `addToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
+  accepts an entity index or array of entity indexes to create new tokens, with optional additional side effects via
+  the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`
+
+- `removeToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
+  accepts an entity index or array of entity indexes to remove tokens, with optional additional side effects via
+  the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`

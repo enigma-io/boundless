@@ -28,6 +28,8 @@ import UIView from '../UIView';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router, Route, Link} from 'react-router';
 
+const history = createBrowserHistory();
+
 const injectorRegex = /([#]+\s?)(.*?)\n/g;
 const githubRemapperRegex = /(\[.*?\])\(((?!http|#).*?)\)/gi;
 const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
@@ -355,7 +357,7 @@ Container.contextTypes = {
 };
 
 render(
-    <Router history={createBrowserHistory()}>
+    <Router history={history}>
         <Route path='/' component={Container} readme={readme}>
             {Object.keys(pages).map(page => {
                 return <Route {...pages[page]} key={page} path={page} />;
