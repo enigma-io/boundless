@@ -72,7 +72,7 @@ describe('UITokenizedInput', () => {
         it('ui-tokenfield-token should be rendered', () => {
             const element = render(<UITokenizedInput entities={entities} />);
 
-            element.setState({tokenizedEntityIndices: [0]});
+            element.setState({tokenizedEntityIndexes: [0]});
 
             const node = element.refs.wrapper.querySelector('.ui-tokenfield-token');
 
@@ -83,8 +83,8 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} />);
 
             element.setState({
-                tokenizedEntityIndices: [0],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-selected');
@@ -96,8 +96,8 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} />);
 
             element.setState({
-                tokenizedEntityIndices: [0],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
@@ -109,8 +109,8 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput showTokenClose={false} entities={entities} />);
 
             element.setState({
-                tokenizedEntityIndices: [0],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
@@ -120,9 +120,9 @@ describe('UITokenizedInput', () => {
     });
 
     describe('default tokens', () => {
-        it('should be accepted via entity indexes fed to defaultTokenizedEntityIndicies', () => {
+        it('should be accepted via entity indexes fed to defaultTokenizedEntityIndexes', () => {
             const element = render(
-                <UITokenizedInput entities={entities} defaultTokenizedEntityIndicies={[0, 1]} />
+                <UITokenizedInput entities={entities} defaultTokenizedEntityIndexes={[0, 1]} />
             );
 
             expect(element.refs['token_0'].textContent).toBe('apple');
@@ -136,16 +136,16 @@ describe('UITokenizedInput', () => {
 
             element.addToken(0);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
         });
 
-        it('should accept multiple indices', () => {
+        it('should accept multiple indexes', () => {
             const element = render(<UITokenizedInput defaultValue='ap' entities={entities} />);
 
             element.addToken([0, 1]);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices).toContain(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes).toContain(1);
         });
 
         it('should not duplicate if the same token already exists', () => {
@@ -154,8 +154,8 @@ describe('UITokenizedInput', () => {
             element.addToken(0);
             element.addToken(0);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(1);
         });
 
         it('should focus the input if passed `true` for `focusInput` (2nd arg)', () => {
@@ -179,8 +179,8 @@ describe('UITokenizedInput', () => {
 
             element.addToken(0, false);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(1);
 
             expect(document.activeElement).not.toBe(element.refs.typeahead.refs.input);
         });
@@ -190,8 +190,8 @@ describe('UITokenizedInput', () => {
 
             element.addToken(0, true, true);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(1);
 
             expect(element.refs.typeahead.refs.input.value).toBe('');
         });
@@ -201,8 +201,8 @@ describe('UITokenizedInput', () => {
 
             element.addToken(0, false, false);
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(1);
 
             expect(element.refs.typeahead.refs.input.value).toBe('ap');
         });
@@ -211,33 +211,33 @@ describe('UITokenizedInput', () => {
     describe('removeToken()', () => {
         it('should accept a single index', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0]} entities={entities} />
             );
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
 
             element.removeToken(0);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
         });
 
-        it('should accept multiple indices', () => {
+        it('should accept multiple indexes', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0, 1]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0, 1]} entities={entities} />
             );
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
-            expect(element.state.tokenizedEntityIndices).toContain(1);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
+            expect(element.state.tokenizedEntityIndexes).toContain(1);
 
             element.removeToken([0, 1]);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
-            expect(element.state.tokenizedEntityIndices).not.toContain(1);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(1);
         });
 
         it('should focus the input if passed `true` for `focusInput` (2nd arg)', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0]} entities={entities} />
             );
 
             document.body.focus();
@@ -246,15 +246,15 @@ describe('UITokenizedInput', () => {
 
             element.removeToken(0, true);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(0);
 
             expect(document.activeElement).toBe(element.refs.typeahead.refs.input);
         });
 
         it('should not focus the input if passed `false` for `focusInput` (2nd arg)', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0]} entities={entities} />
             );
 
             document.body.focus();
@@ -263,34 +263,34 @@ describe('UITokenizedInput', () => {
 
             element.removeToken(0, false);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(0);
 
             expect(document.activeElement).not.toBe(element.refs.typeahead.refs.input);
         });
 
         it('should clear the input if `clearInput` is passed `true` (3rd arg)', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0]} entities={entities} />
             );
 
             element.removeToken(0, true, true);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(0);
 
             expect(element.refs.typeahead.refs.input.value).toBe('');
         });
 
         it('should not clear the input if `clearInput` is passed `false` (3rd arg)', () => {
             const element = render(
-                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndicies={[0]} entities={entities} />
+                <UITokenizedInput defaultValue='ap' defaultTokenizedEntityIndexes={[0]} entities={entities} />
             );
 
             element.removeToken(0, false, false);
 
-            expect(element.state.tokenizedEntityIndices).not.toContain(0);
-            expect(element.state.tokenizedEntityIndices.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexes).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexes.length).toBe(0);
 
             expect(element.refs.typeahead.refs.input.value).toBe('ap');
         });
@@ -307,7 +307,7 @@ describe('UITokenizedInput', () => {
                 target: typeahead.getInputNode()
             });
 
-            expect(element.state.tokenizedEntityIndices).toContain(0);
+            expect(element.state.tokenizedEntityIndexes).toContain(0);
         });
     });
 
@@ -316,14 +316,14 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} />);
             const typeahead = element.refs.typeahead;
 
-            element.setState({tokenizedEntityIndices: [0, 1]});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            element.setState({tokenizedEntityIndexes: [0, 1]});
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
 
             typeahead.focusInput();
             element.handleKeyDown({key: 'ArrowLeft'});
 
-            expect(element.state.tokenizedEntityIndicesSelected).not.toContain(0);
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(1);
+            expect(element.state.tokenizedEntityIndexesSelected).not.toContain(0);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(1);
         });
 
         it('should not change if pressing the left arrow key with the only token already selected', () => {
@@ -331,15 +331,15 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.setState({
-                tokenizedEntityIndices: [0],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             typeahead.focusInput();
             element.handleKeyDown({key: 'ArrowLeft'});
 
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(0);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(0);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(1);
         });
 
         it('should deselect if pressing the right arrow key with the only token already selected and focus the input', () => {
@@ -347,14 +347,14 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.setState({
-                tokenizedEntityIndices: [0],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
             element.handleKeyDown({key: 'ArrowRight'});
 
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
             expect(document.activeElement).toBe(typeahead.getInputNode());
         });
 
@@ -363,15 +363,15 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.setState({
-                tokenizedEntityIndices: [0, 1],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0, 1],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
             element.handleKeyDown({key: 'ArrowRight'});
 
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(1);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(1);
         });
     });
 
@@ -381,8 +381,8 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.setState({
-                tokenizedEntityIndices: [0, 1],
-                tokenizedEntityIndicesSelected: [1]
+                tokenizedEntityIndexes: [0, 1],
+                tokenizedEntityIndexesSelected: [1]
             });
 
             typeahead.focusInput();
@@ -391,9 +391,9 @@ describe('UITokenizedInput', () => {
                 shiftKey: true
             });
 
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(0);
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(1);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(2);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(0);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(2);
         });
 
         it('should occur when pressing the shift and right arrow keys', () => {
@@ -401,8 +401,8 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.setState({
-                tokenizedEntityIndices: [0, 1],
-                tokenizedEntityIndicesSelected: [0]
+                tokenizedEntityIndexes: [0, 1],
+                tokenizedEntityIndexesSelected: [0]
             });
 
             typeahead.focusInput();
@@ -411,9 +411,9 @@ describe('UITokenizedInput', () => {
                 shiftKey: true
             });
 
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(0);
-            expect(element.state.tokenizedEntityIndicesSelected).toContain(1);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(2);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(0);
+            expect(element.state.tokenizedEntityIndexesSelected).toContain(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(2);
         });
     });
 
@@ -422,32 +422,32 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} />);
             const typeahead = element.refs.typeahead;
 
-            element.setState({tokenizedEntityIndices: [0, 1]});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            element.setState({tokenizedEntityIndexes: [0, 1]});
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
 
             typeahead.focusInput();
 
             element.handleKeyDown({key: 'ArrowLeft'});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(1);
 
             element.handleKeyDown({key: 'Backspace', preventDefault: noop});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
         });
 
         it('should occur when clicking a token\'s "close" handle', () => {
             const element = render(<UITokenizedInput entities={entities} />);
             const typeahead = element.refs.typeahead;
 
-            element.setState({tokenizedEntityIndices: [0, 1]});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            element.setState({tokenizedEntityIndexes: [0, 1]});
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
 
             typeahead.focusInput();
 
             element.handleKeyDown({key: 'ArrowLeft'});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(1);
 
             element.handleTokenCloseClick(1);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
         });
     });
 
@@ -456,14 +456,14 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} />);
             const typeahead = element.refs.typeahead;
 
-            element.setState({tokenizedEntityIndices: [0, 1]});
+            element.setState({tokenizedEntityIndexes: [0, 1]});
 
             Simulate.focus(typeahead.refs.input);
             element.handleKeyDown({key: 'ArrowLeft'});
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(1);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(1);
 
             Simulate.focus(typeahead.refs.input);
-            expect(element.state.tokenizedEntityIndicesSelected.length).toBe(0);
+            expect(element.state.tokenizedEntityIndexesSelected.length).toBe(0);
         });
     });
 

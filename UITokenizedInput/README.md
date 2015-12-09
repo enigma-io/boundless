@@ -27,7 +27,7 @@ render() {
                           defaultValue='ap'
                           entities={list}
                           hint={true}
-                          defaultTokenizedEntityIndicies={[0]} />
+                          defaultTokenizedEntityIndexes={[0]} />
     );
 }
 ```
@@ -81,8 +81,8 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
 
-- __defaultTokenizedEntityIndicies__ `Array[Number]`
-  indices of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
+- __defaultTokenizedEntityIndexes__ `Array[Number]`
+  indexes of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
 
 - __onTokenChange__ `Function`
   triggered when an action has been taken to add or remove a token to the UI, returns an array of entity indexes
@@ -95,9 +95,9 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 ### Available Methods
 
 - `addToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
-  accepts an entity index or array of entity indicies to create new tokens, with optional additional side effects via
+  accepts an entity index or array of entity indexes to create new tokens, with optional additional side effects via
   the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`
 
 - `removeToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
-  accepts an entity index or array of entity indicies to remove tokens, with optional additional side effects via
+  accepts an entity index or array of entity indexes to remove tokens, with optional additional side effects via
   the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`

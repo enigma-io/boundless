@@ -263,7 +263,7 @@ export default class UITokenizedInputDemo extends UIView {
             <div>
                 <p>Enter a country you'd like to visit:</p>
                     <UITokenizedInput entities={this.state.countries}
-                                      defaultTokenizedEntityIndicies={[11, 55, 211]}
+                                      defaultTokenizedEntityIndexes={[11, 55, 211]}
                                       hint={true} />
             </div>
         );
