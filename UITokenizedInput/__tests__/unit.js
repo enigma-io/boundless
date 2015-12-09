@@ -117,6 +117,17 @@ describe('UITokenizedInput', () => {
         });
     });
 
+    describe('default tokens', () => {
+        it('should be accepted via entity indexes fed to defaultTokenizedEntityIndicies', () => {
+            const element = render(
+                <UITokenizedInput entities={entities} defaultTokenizedEntityIndicies={[0, 1]} />
+            );
+
+            expect(element.refs['token_0'].textContent).toBe('apple');
+            expect(element.refs['token_1'].textContent).toBe('apricot');
+        });
+    });
+
     describe('token creation', () => {
         it('should occur upon entity selection', () => {
             const element = render(<UITokenizedInput defaultValue='ap' entities={entities} />);

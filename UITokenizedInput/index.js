@@ -27,7 +27,7 @@ class UITokenizedInput extends UIView {
     initialState() {
         return {
             tokenizedEntityIndicesSelected: [],
-            tokenizedEntityIndices: [],
+            tokenizedEntityIndices: [].concat(this.props.defaultTokenizedEntityIndicies),
         };
     }
 
@@ -231,12 +231,14 @@ class UITokenizedInput extends UIView {
 
 UITokenizedInput.propTypes = {
     ...UITypeaheadInput.propTypes,
+    defaultTokenizedEntityIndicies: React.PropTypes.arrayOf(React.PropTypes.number),
     onTokenChange: React.PropTypes.func,
     showTokenClose: React.PropTypes.bool,
 };
 
 UITokenizedInput.defaultProps = {
     ...UITypeaheadInput.defaultProps,
+    defaultTokenizedEntityIndicies: [],
     onTokenChange: noop,
     showTokenClose: true,
 };

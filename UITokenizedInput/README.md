@@ -26,8 +26,8 @@ render() {
                           aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
                           defaultValue='ap'
                           entities={list}
-                          provideHint={true}
-                          tokens={[list[0]]} />
+                          hint={true}
+                          defaultTokenizedEntityIndicies={[0]} />
     );
 }
 ```
@@ -80,6 +80,9 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
+
+- __defaultTokenizedEntityIndicies__ `Array[Number]`
+  indices of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
 
 - __onTokenChange__ `Function`
   triggered when an action has been taken to add or remove a token to the UI
