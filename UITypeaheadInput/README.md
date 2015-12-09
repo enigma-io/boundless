@@ -25,7 +25,7 @@ render() {
             aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.'
             defaultValue='or'
             entities={list}
-            provideHint={true} />
+            hint={true} />
     );
 }
 ```
