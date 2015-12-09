@@ -91,7 +91,7 @@ class UITableRow extends UIView {
         return (
             <div className={this.getClasses()}
                  style={{
-                    [transformProp]: this.props.y && `translate3d(0px, ${this.props.y}px, 0px)`,
+                    [transformProp]: `translate3d(0px, ${this.props.y}px, 0px)`,
                  }}
                  onClick={this.handleClick}>
                 {this.renderCells()}
