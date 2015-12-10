@@ -689,6 +689,7 @@ UITable.defaultProps = {
     columns: [],
     getRow: noop,
     offscreenClass: 'ui-offscreen',
+    totalRows: 0,
 };
 
 export default UITable;
