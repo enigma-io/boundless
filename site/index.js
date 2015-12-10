@@ -238,6 +238,12 @@ const components = {
             fs.readFileSync(__dirname + '/../UITypeaheadInput/README.md', 'utf8')
         ),
     },
+    UIView: {
+        component: NullComponent,
+        readme: prepareMarkdown(
+            fs.readFileSync(__dirname + '/../UIView/README.md', 'utf8')
+        ),
+    },
 };
 
 class Sidebar extends UIView {
