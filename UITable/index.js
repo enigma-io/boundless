@@ -402,7 +402,11 @@ class UITable extends UIView {
     handleColumnDragStart(event) {
         if (event.button === 0) {
             this.lastColumnX = event.clientX;
+
             this.manuallyResizingColumn = this.state.columns[event.target.getAttribute('data-column-index')];
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
@@ -501,6 +505,16 @@ class UITable extends UIView {
         );
     }
 
+    renderColumnResizeHandle(column, index) {
+        if (column.resizable) {
+            return (
+                <div className='ui-table-header-cell-resize-handle'
+                     data-column-index={index}
+                     onMouseDown={this.handleColumnDragStart} />
+            );
+        }
+    }
+
     renderHead() {
         if (!this.state.chokeRender) {
             return (
@@ -514,9 +528,8 @@ class UITable extends UIView {
                                     <div className='ui-table-cell-inner'>
                                         <span className='ui-table-cell-inner-text'>{column.title}</span>
                                     </div>
-                                    <div className='ui-table-header-cell-resize-handle'
-                                         data-column-index={index}
-                                         onMouseDown={this.handleColumnDragStart} />
+
+                                    {this.renderColumnResizeHandle(column, index)}
                                 </div>
                             );
                         })}
@@ -676,6 +689,7 @@ UITable.defaultProps = {
     columns: [],
     getRow: noop,
     offscreenClass: 'ui-offscreen',
+    totalRows: 0,
 };
 
 export default UITable;

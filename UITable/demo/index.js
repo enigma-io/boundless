@@ -23,7 +23,7 @@ export default class UITableDemo extends UIView {
             }, {
                 title: 'Phone',
                 mapping: 'phone',
-                resizable: true,
+                resizable: false,
             }, {
                 title: 'Email Address',
                 mapping: 'email',

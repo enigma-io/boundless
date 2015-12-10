@@ -41,6 +41,7 @@ $cell-x-padding: 0.75em;
     top: 0;
     left: 0;
     backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .ui-table-row-even {
