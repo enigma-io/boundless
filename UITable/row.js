@@ -44,24 +44,11 @@ class UITableRow extends UIView {
         this.waitForContentIfNecessary();
     }
 
-    getClasses() {
-        let classes = 'ui-table-row';
-
-        if (this.props.even) {
-            classes += ' ui-table-row-even';
-        } else {
-            classes += ' ui-table-row-odd';
+    handleClick(event) {
+        if (this.props.onInteract) {
+            event.persist();
+            this.props.onInteract(event, this.state.data);
         }
-
-        if (this.state.data instanceof Promise) {
-            classes += ' ui-table-row-loading';
-        }
-
-        if (this.props.active) {
-            classes += ' ui-table-row-active';
-        }
-
-        return classes;
     }
 
     renderCells() {
@@ -80,11 +67,24 @@ class UITableRow extends UIView {
         }
     }
 
-    handleClick(event) {
-        if (this.props.onInteract) {
-            event.persist();
-            this.props.onInteract(event, this.state.data);
+    getClasses() {
+        let classes = 'ui-table-row';
+
+        if (this.props.even) {
+            classes += ' ui-table-row-even';
+        } else {
+            classes += ' ui-table-row-odd';
         }
+
+        if (this.state.data instanceof Promise) {
+            classes += ' ui-table-row-loading';
+        }
+
+        if (this.props.active) {
+            classes += ' ui-table-row-active';
+        }
+
+        return classes;
     }
 
     render() {
