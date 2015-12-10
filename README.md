@@ -142,7 +142,7 @@ Clone the repository to your local machine:
 git clone git@github.com:bibliotech/uikit.git
 ```
 
-Each component folder includes a functional demo and some reference styles in `style.scss`. UIKit will ship with a recommended (fully-compiled) CSS skin file for the full `1.0.0` release, but `1.0.0-beta` comes unskinned.
+Each component folder includes a functional demo and some reference styles in `style.scss`. These styles are all rolled up into `dist/style.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
 
 #### Running the Website Locally
 

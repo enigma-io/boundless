@@ -35,7 +35,7 @@
     "minami": "^1.1.0",
     "mocha": "^2.3.3",
     "pleeease": "^4.0.2",
-    "pleeease-cli": "yaycmyk/pleeease-cli#fix-ignore",
+    "pleeease-cli": "yaycmyk/pleeease-cli#specify-configuration-file",
     "prismjs": "^1.3.0",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
@@ -96,9 +96,9 @@
     "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -path './UI*/*' -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
-    "site:css": "pleeease-watch",
+    "site:css": "pleeease watch -c .pleeeaserc-site",
     "site:js": "budo site/index.js:dist/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t [ brfs --transformer site/prepare.js ]",
-    "site:release": "mkdir -p site/dist/assets && pleeease-compile && mv site/dist/style.css site/dist/assets/style.css && browserify site/index.js -t babelify -t [ brfs --transformer site/prepare.js ] | uglifyjs -mc drop_console --screw-ie8 > site/dist/assets/bundle.min.js && sed -e 's/bundle.js/bundle.min.js/g' -e 's/dist/assets/g' < site/index.html > site/dist/index.html",
+    "site:release": "mkdir -p site/dist/assets && pleeease compile -c .pleeeaserc-site && mv site/dist/style.css site/dist/assets/style.css && browserify site/index.js -t babelify -t [ brfs --transformer site/prepare.js ] | uglifyjs -mc drop_console --screw-ie8 > site/dist/assets/bundle.min.js && sed -e 's/bundle.js/bundle.min.js/g' -e 's/dist/assets/g' < site/index.html > site/dist/index.html",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
     "site": "sh parallelize.sh \"npm run site:css\" \"npm run site:js\"",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
@@ -108,6 +108,9 @@
     "build:release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
     "standalone": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit-standalone.js",
     "standalone:release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit-standalone.min.js",
-    "all": "npm run es5 && npm run build && npm run build:release && npm run standalone && npm run standalone:release"
+    "skin:dev": "pleeease compile -c .pleeeaserc-skin",
+    "skin:release": "pleeease compile -c .pleeeaserc-skin-release",
+    "skin": "npm run skin:dev && npm run skin:release",
+    "all": "npm run es5 && npm run skin && npm run build && npm run build:release && npm run standalone && npm run standalone:release"
   }
 }
