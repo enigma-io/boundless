@@ -404,6 +404,9 @@ class UITable extends UIView {
             this.lastColumnX = event.clientX;
 
             this.manuallyResizingColumn = this.state.columns[event.target.getAttribute('data-column-index')];
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
