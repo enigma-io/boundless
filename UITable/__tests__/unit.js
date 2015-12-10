@@ -238,7 +238,7 @@ describe('UITable', () => {
 
     describe('row rotation', () => {
         it('should occur when scrolled down', () => {
-            const element = render(<UITable {...baseProps} style={{height: '90px'}} />);
+            const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
             const firstRowData = element.state.rows[0].data;
 
             element.handleMoveIntent({
@@ -251,7 +251,7 @@ describe('UITable', () => {
         });
 
         it('should occur when scrolled up', () => {
-            const element = render(<UITable {...baseProps} style={{height: '90px'}} />);
+            const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
 
             element.handleMoveIntent({
                 deltaX: 0,
@@ -271,7 +271,7 @@ describe('UITable', () => {
         });
 
         it('should occur on left-click drag of the y scroll nub', () => {
-            const element = render(<UITable {...baseProps} style={{height: '90px'}} />);
+            const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
             const firstRowData = element.state.rows[0].data;
 
             // simulate drag cascade
@@ -280,6 +280,26 @@ describe('UITable', () => {
             element.handleDragEnd();
 
             expect(element.state.rows[0].data).not.toBe(firstRowData);
+        });
+    });
+
+    describe('scroll nub sizing', () => {
+        it('y nub should calculate height correctly', () => {
+            const element = render(<UITable {...baseProps} />);
+            const ynub = element.refs.yScrollerNub;
+
+            // rendering 4 rows, 150px container height, so 150 * (5 rendered rows / 10 total rows)
+            // it's hardcoded to 150px height in the component as a fallback since JSDOM doesn't have a layout engine
+            expect(ynub.style.height).toBe('75px');
+        });
+
+        it('x nub should calculate height correctly', () => {
+            const element = render(<UITable {...baseProps} />);
+            const xnub = element.refs.xScrollerNub;
+
+            // rendering 4 rows, 500px container width, all the columns fit inside, so it should be max width
+            // it's hardcoded to 500px width in the component as a fallback since JSDOM doesn't have a layout engine
+            expect(xnub.style.width).toBe('500px');
         });
     });
 });

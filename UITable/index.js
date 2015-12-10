@@ -116,7 +116,7 @@ class UITable extends UIView {
     }
 
     calculateYScrollerNubSize() {
-        const px = this.rowEndIndex / this.props.totalRows;
+        const px = this.containerHeight * (this.nRowsToRender / this.props.totalRows);
 
         return px < 12 ? 12 : px;
     }
