@@ -414,6 +414,9 @@ class UITable extends UIView {
         if (event.button === 0) {
             this.lastXScroll = event.clientX;
             this.manuallyScrollingX = true;
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
@@ -421,6 +424,9 @@ class UITable extends UIView {
         if (event.button === 0) {
             this.lastYScroll = event.clientY;
             this.manuallyScrollingY = true;
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
