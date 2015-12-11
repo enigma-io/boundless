@@ -275,7 +275,7 @@ describe('UITable', () => {
             const firstRowData = element.state.rows[0].data;
 
             // simulate drag cascade
-            element.handleYScrollerDragStart({button: 0, clientY: 0});
+            element.handleYScrollerDragStart({button: 0, clientY: 0, nativeEvent: {preventDefault: noop}});
             element.handleDragMove({button: 0, clientY: 200});
             element.handleDragEnd();
 

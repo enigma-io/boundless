@@ -8,6 +8,7 @@ class UITableRow extends UIView {
         super(...args);
 
         this.handleClick = this.handleClick.bind(this);
+        this.cache_style = {[transformProp]: null};
     }
 
     initialState() {
@@ -16,14 +17,18 @@ class UITableRow extends UIView {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return    nextProps.data !== this.props.data
+               || nextState.data !== this.state.data
+               || nextProps.even !== this.props.even
+               || nextProps.columns !== this.props.columns
+               || nextProps.y !== this.props.y;
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             this.setState({ data: nextProps.data });
         }
-    }
-
-    shouldComponentUpdate() {
-        return true;
     }
 
     waitForContentIfNecessary() {
@@ -52,13 +57,11 @@ class UITableRow extends UIView {
     }
 
     renderCells() {
-        let data = this.state.data instanceof Promise ? {} : this.state.data;
-
-        if (data) {
-            return this.props.columns.map((definition, index) => {
+        if (this.state.data instanceof Promise === false) {
+            return this.props.columns.map((definition) => {
                 return (
-                    <Cell key={index}
-                          content={data[definition.mapping]}
+                    <Cell key={definition.mapping}
+                          content={this.state.data[definition.mapping]}
                           width={definition.width}
                           onInteract={this.props.onCellInteract}
                           row={this.state.data} />
@@ -67,32 +70,15 @@ class UITableRow extends UIView {
         }
     }
 
-    getClasses() {
-        let classes = 'ui-table-row';
-
-        if (this.props.even) {
-            classes += ' ui-table-row-even';
-        } else {
-            classes += ' ui-table-row-odd';
-        }
-
-        if (this.state.data instanceof Promise) {
-            classes += ' ui-table-row-loading';
-        }
-
-        if (this.props.active) {
-            classes += ' ui-table-row-active';
-        }
-
-        return classes;
-    }
-
     render() {
         return (
-            <div className={this.getClasses()}
-                 style={{
-                    [transformProp]: `translate3d(0px, ${this.props.y}px, 0px)`,
-                 }}
+            <div className={
+                      'ui-table-row'
+                    + (this.props.even ? ' ui-table-row-even' : ' ui-table-row-odd')
+                    + (this.state.data instanceof Promise ? ' ui-table-row-loading' : '')
+                    + (this.props.active ? ' ui-table-row-active' : '')
+                 }
+                 style={{[transformProp]: 'translate3d(0px, ' + this.props.y + 'px, 0px)'}}
                  onClick={this.handleClick}>
                 {this.renderCells()}
             </div>
