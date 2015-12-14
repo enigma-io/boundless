@@ -154,6 +154,10 @@ class UITable extends UIView {
 
         this.nRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
+        if (this.nRowsToRender > this.props.totalRows) {
+            this.nRowsToRender = this.props.totalRows;
+        } // rendering more rows than we have content is not constructive.
+
         this.rowStartIndex = 0;
         this.rowEndIndex = this.nRowsToRender;
 
