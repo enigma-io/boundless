@@ -34,6 +34,8 @@ $cell-x-padding: 0.75em;
     position: absolute;
     top: $cell-height;
     backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
 .ui-table-row {
@@ -41,7 +43,8 @@ $cell-x-padding: 0.75em;
     top: 0;
     left: 0;
     backface-visibility: hidden;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
 .ui-table-row-even {
@@ -69,6 +72,7 @@ $cell-x-padding: 0.75em;
     padding: 0 $cell-x-padding;
     position: relative;
     user-select: none;
+    will-change: contents;
 }
 
 .ui-table-cell-inner {
@@ -78,6 +82,7 @@ $cell-x-padding: 0.75em;
     right: $cell-x-padding;
     overflow: hidden;
     text-overflow: ellipsis;
+    will-change: contents;
 }
 
 .ui-table-header-cell {

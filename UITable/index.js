@@ -8,7 +8,6 @@ import UIView from '../UIView';
 import Row from './row';
 import transformProp from '../UIUtils/transform';
 import noop from '../UIUtils/noop';
-import cx from 'classnames';
 
 /**
  * FOR FUTURE EYES
@@ -28,16 +27,18 @@ import cx from 'classnames';
  * 4. render pass 2 w/ column heads and the rest of the cells
  */
 
+let cache_findWhereIndex = null;
+
 /** @ignore */
 const findWhere = function findWhere(array, property, value) {
-    let index = array.length - 1;
+    cache_findWhereIndex = array.length - 1;
 
-    while (index > -1) {
-        if (array[index][property] === value) {
-            return array[index];
+    while (cache_findWhereIndex > -1) {
+        if (array[cache_findWhereIndex][property] === value) {
+            return array[cache_findWhereIndex];
         }
 
-        index -= 1;
+        cache_findWhereIndex -= 1;
     }
 }; // optimized specifically to only look for a single key:value match
 
@@ -87,6 +88,21 @@ class UITable extends UIView {
         this.cache_shiftDelta = null;
         this.cache_targetIndex = null;
 
+        this.cache_calculateXScrollerNubSize = null;
+        this.cache_calculateYScrollerNubSize = null;
+
+        this.cache_componentDidUpdate_node = null;
+        this.cache_componentDidUpdate_nodeStyle = null;
+
+        this.cache_captureDimensions_firstRow = null;
+        this.cache_captureDimensions_firstRowCells = null;
+        this.cache_captureDimensions_container = null;
+        this.cache_captureDimensions_tableWidth = null;
+        this.cache_captureDimensions_generatedRows = null;
+        this.cache_captureDimensions_rowsOrderedByY = null;
+
+        this.cache_ariaExposeFullRowData = null;
+
         this.captureDimensions();
     }
 
@@ -96,82 +112,80 @@ class UITable extends UIView {
     }
 
     componentDidUpdate() {
-        if (this.refs.head && typeof this.minimumColumnWidth === 'undefined') {
-            const node = this.refs.wrapper.getElementsByClassName('ui-table-header-cell')[0];
+        if (this.refs.head && this.minimumColumnWidth !== undefined) {
+            this.cache_componentDidUpdate_node = this.refs.wrapper.getElementsByClassName('ui-table-header-cell')[0];
 
-            if (node) {
-                const nodeStyle = window.getComputedStyle(node);
+            if (this.cache_componentDidUpdate_node) {
+                this.cache_componentDidUpdate_nodeStyle = window.getComputedStyle(this.cache_componentDidUpdate_node);
 
                 // will be NaN if not a pixel value
-                this.maximumColumnWidth = parseInt(nodeStyle.maxWidth, 10);
-                this.minimumColumnWidth = parseInt(nodeStyle.minWidth, 10);
+                this.maximumColumnWidth = parseInt(this.cache_componentDidUpdate_nodeStyle.maxWidth, 10);
+                this.minimumColumnWidth = parseInt(this.cache_componentDidUpdate_nodeStyle.minWidth, 10);
             }
         }
     }
 
     calculateXScrollerNubSize() {
-        const px = this.containerWidth - Math.abs(this.xMaximumTranslation);
+        this.cache_calculateXScrollerNubSize = this.containerWidth - Math.abs(this.xMaximumTranslation);
 
-        return px < 12 ? 12 : px;
+        return this.cache_calculateXScrollerNubSize < 12 ? 12 : this.cache_calculateXScrollerNubSize;
     }
 
     calculateYScrollerNubSize() {
-        const px = this.rowEndIndex / this.props.totalRows;
+        this.cache_calculateYScrollerNubSize = this.containerHeight * (this.nRowsToRender / this.props.totalRows);
 
-        return px < 12 ? 12 : px;
+        return this.cache_calculateYScrollerNubSize < 12 ? 12 : this.cache_calculateYScrollerNubSize;
     }
 
     captureDimensions() {
-        const firstRow = this.refs.body.getElementsByClassName('ui-table-row')[0];
-        const firstRowCells = firstRow.getElementsByClassName('ui-table-cell');
-        const container = this.refs.wrapper;
+        this.cache_captureDimensions_firstRow = this.refs.body.getElementsByClassName('ui-table-row')[0];
+        this.cache_captureDimensions_firstRowCells = this.cache_captureDimensions_firstRow.getElementsByClassName('ui-table-cell');
+        this.cache_captureDimensions_container = this.refs.wrapper;
 
         /* The fallback amounts are for unit testing, the browser will always have
         an actual number. */
 
-        this.cellHeight = firstRowCells[0].clientHeight || 40;
-        this.containerHeight = container.clientHeight || 150;
-        this.containerWidth = container.clientWidth || 500;
+        this.cellHeight = this.cache_captureDimensions_firstRowCells[0].clientHeight || 40;
+        this.containerHeight = this.cache_captureDimensions_container.clientHeight || 150;
+        this.containerWidth = this.cache_captureDimensions_container.clientWidth || 500;
 
         this.nRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
         this.rowStartIndex = 0;
         this.rowEndIndex = this.nRowsToRender;
 
-        const tableWidth = firstRow.clientWidth || 500;
+        this.cache_captureDimensions_tableWidth = this.cache_captureDimensions_firstRow.clientWidth || 500;
 
-        this.xMaximumTranslation =   this.containerWidth > tableWidth
+        this.xMaximumTranslation =   this.containerWidth > this.cache_captureDimensions_tableWidth
                                    ? 0
-                                   : this.containerWidth - tableWidth;
+                                   : this.containerWidth - this.cache_captureDimensions_tableWidth;
 
         this.yUpperBound = 0;
         this.yLowerBound = this.containerHeight - (this.nRowsToRender * this.cellHeight);
 
-        const adjustedColumns = this.state.columns.map(function discoverWidth(column, index) {
-            return {
-                ...column,
-                width: Math.ceil(firstRowCells[index].getBoundingClientRect().width),
-            };
-        });
+        this.cache_captureDimensions_generatedRows = [];
+        this.cache_captureDimensions_rowsOrderedByY = [];
 
-        const generatedRows = [];
-        const rowsOrderedByY = [];
-
-        for (let i = 0; i < this.nRowsToRender; i += 1) {
-            generatedRows.push({
-                data: this.props.getRow(i),
-                setIndex: i,
-                y: this.cellHeight * i,
+        for (this.cache_iterator = 0; this.cache_iterator < this.nRowsToRender; this.cache_iterator += 1) {
+            this.cache_captureDimensions_generatedRows.push({
+                data: this.props.getRow(this.cache_iterator),
+                setIndex: this.cache_iterator,
+                y: this.cellHeight * this.cache_iterator,
             });
 
-            rowsOrderedByY.push(i);
+            this.cache_captureDimensions_rowsOrderedByY.push(this.cache_iterator);
         }
 
         this.setState({
             chokeRender: false,
-            columns: adjustedColumns,
-            rows: generatedRows,
-            rowsOrderedByY: rowsOrderedByY,
+            columns: this.state.columns.map(function discoverWidth(column, index) {
+                return {
+                    ...column,
+                    width: Math.ceil(this.cache_captureDimensions_firstRowCells[index].getBoundingClientRect().width),
+                };
+            }, this),
+            rows: this.cache_captureDimensions_generatedRows,
+            rowsOrderedByY: this.cache_captureDimensions_rowsOrderedByY,
             xScrollerNubSize: this.calculateXScrollerNubSize(),
             yScrollerNubSize: this.calculateYScrollerNubSize(),
         });
@@ -322,14 +336,14 @@ class UITable extends UIView {
         }
 
         if (this.xNext !== this.xCurrent) {
-            this.refs.head.style[transformProp] = `translate3d(${this.xNext}px, 0px, 0px)`;
+            this.refs.head.style[transformProp] = 'translate3d(' + this.xNext + 'px, 0px, 0px)';
         }
 
         /* Move wrapper */
-        this.refs.body.style[transformProp] = `translate3d(${this.xNext}px, ${this.yNext}px, 0px)`;
+        this.refs.body.style[transformProp] = 'translate3d(' + this.xNext + 'px, ' + this.yNext + 'px, 0px)';
 
         /* move scrollbar nubs */
-        this.refs.xScrollerNub.style[transformProp] = `translate3d(${Math.abs(this.xNext)}px, 0px, 0px)`;
+        this.refs.xScrollerNub.style[transformProp] = 'translate3d(' + Math.abs(this.xNext) + 'px, 0px, 0px)';
 
         this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
 
@@ -337,7 +351,7 @@ class UITable extends UIView {
             this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
         }
 
-        this.refs.yScrollerNub.style[transformProp] = `translate3d(0px, ${this.yScrollNubPosition}px, 0px)`;
+        this.refs.yScrollerNub.style[transformProp] = 'translate3d(0px, ' + this.yScrollNubPosition + 'px, 0px)';
 
         this.xCurrent = this.xNext;
         this.yCurrent = this.yNext;
@@ -414,6 +428,9 @@ class UITable extends UIView {
         if (event.button === 0) {
             this.lastXScroll = event.clientX;
             this.manuallyScrollingX = true;
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
@@ -421,6 +438,9 @@ class UITable extends UIView {
         if (event.button === 0) {
             this.lastYScroll = event.clientY;
             this.manuallyScrollingY = true;
+
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.nativeEvent.preventDefault();
         }
     }
 
@@ -445,7 +465,9 @@ class UITable extends UIView {
             if (this.manuallyScrollingY) {
                 this.handleMoveIntent({
                     deltaX: 0,
-                    deltaY: ((event.clientY - this.lastYScroll) / this.containerHeight) * this.props.totalRows * this.cellHeight,
+                    deltaY: ((event.clientY - this.lastYScroll) / this.containerHeight)
+                            * this.props.totalRows
+                            * this.cellHeight,
                     preventDefault: noop,
                 });
 
@@ -488,7 +510,7 @@ class UITable extends UIView {
                      active={row.setIndex === this.state.currentActiveRowIndex}
                      columns={this.state.columns}
                      data={row.data}
-                     even={(row.setIndex) % 2 === 0}
+                     even={row.setIndex % 2 === 0}
                      y={row.y}
                      onInteract={this.handleRowClick}
                      onCellInteract={this.props.onCellInteract} />
@@ -601,12 +623,12 @@ class UITable extends UIView {
     }
 
     ariaExposeFullRowData() {
-        let row = findWhere(this.state.rows, 'setIndex', this.state.currentActiveRowIndex);
+        this.cache_ariaExposeFullRowData = findWhere(this.state.rows, 'setIndex', this.state.currentActiveRowIndex);
 
-        if (row) {
+        if (this.cache_ariaExposeFullRowData) {
             this.setState({
                 ariaSpokenOutput: this.state.columns.map(column => {
-                    return `${column.title}: ${row.data[column.mapping]}`;
+                    return `${column.title}: ${this.cache_ariaExposeFullRowData.data[column.mapping]}`;
                 }).join('\n'),
             });
         }
@@ -648,10 +670,7 @@ class UITable extends UIView {
         return (
             <div {...this.props}
                  ref='wrapper'
-                 className={cx({
-                    'ui-table-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                 })}
+                 className={'ui-table-wrapper ' + this.props.className}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
                  onMouseUp={this.handleDragEnd}
@@ -686,6 +705,7 @@ UITable.propTypes = {
 };
 
 UITable.defaultProps = {
+    className: '',
     columns: [],
     getRow: noop,
     offscreenClass: 'ui-offscreen',

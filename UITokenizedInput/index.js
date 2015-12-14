@@ -63,8 +63,8 @@ class UITokenizedInput extends UIView {
      *                                              token changes are applied
      */
     addToken(index, focusInput, clearInput) {
-        const indexes = (Array.isArray(index) ? index : [index]).filter(index => {
-            return this.state.tokenizedEntityIndexes.indexOf(index) === -1;
+        const indexes = (Array.isArray(index) ? index : [index]).filter(idx => {
+            return this.state.tokenizedEntityIndexes.indexOf(idx) === -1;
         });
 
         this.setState({tokenizedEntityIndexes: this.state.tokenizedEntityIndexes.concat(indexes)});
