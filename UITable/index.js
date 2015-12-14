@@ -214,9 +214,9 @@ class UITable extends UIView {
             Math.abs(this.yNext - this.yLowerBound) / this.cellHeight
         );
 
-        if (this.cache_nRowsToShift + this.rowEndIndex > this.props.totalRows) {
+        if (this.cache_nRowsToShift + this.rowEndIndex + 1 > this.props.totalRows) {
             /* more rows than there is data available, truncate */
-            this.cache_nRowsToShift = this.props.totalRows - this.rowEndIndex;
+            this.cache_nRowsToShift = this.props.totalRows - this.rowEndIndex + 1;
         }
 
         if (this.cache_nRowsToShift > 0) {
@@ -346,7 +346,8 @@ class UITable extends UIView {
             this.yNext = this.yLowerBound;
         }
 
-        this.xScrollNubPosition = (Math.abs(this.xNext) / (this.rowWidth - this.containerWidth)) * (this.xScrollerWidth - this.state.xScrollerNubSize);
+        this.xScrollNubPosition =   (Math.abs(this.xNext) / (this.rowWidth - this.containerWidth))
+                                  * (this.xScrollerWidth - this.state.xScrollerNubSize);
 
         if (this.xScrollNubPosition + this.state.xScrollerNubSize > this.xScrollerWidth) {
             this.xScrollNubPosition = this.xScrollerWidth - this.state.xScrollerNubSize;
