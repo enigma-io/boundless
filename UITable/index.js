@@ -449,6 +449,9 @@ class UITable extends UIView {
 
             this.manuallyResizingColumn = this.state.columns[event.target.getAttribute('data-column-index')];
 
+            // If the mouseup happens outside the table, it won't be detected without this listener
+            window.addEventListener('mouseup', this.handleDragEnd, true);
+
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.nativeEvent.preventDefault();
         }
@@ -459,6 +462,9 @@ class UITable extends UIView {
             this.lastXScroll = event.clientX;
             this.manuallyScrollingX = true;
 
+            // If the mouseup happens outside the table, it won't be detected without this listener
+            window.addEventListener('mouseup', this.handleDragEnd, true);
+
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.nativeEvent.preventDefault();
         }
@@ -468,6 +474,9 @@ class UITable extends UIView {
         if (event.button === 0) {
             this.lastYScroll = event.clientY;
             this.manuallyScrollingY = true;
+
+            // If the mouseup happens outside the table, it won't be detected without this listener
+            window.addEventListener('mouseup', this.handleDragEnd, true);
 
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.nativeEvent.preventDefault();
@@ -507,17 +516,10 @@ class UITable extends UIView {
     }
 
     handleDragEnd() {
-        if (this.manuallyResizingColumn) {
-            this.manuallyResizingColumn = null;
-        }
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.removeEventListener('mouseup', this.handleDragEnd, true);
 
-        if (this.manuallyScrollingX) {
-            this.manuallyScrollingX = false;
-        }
-
-        if (this.manuallyScrollingY) {
-            this.manuallyScrollingY = false;
-        }
+        this.manuallyScrollingX = this.manuallyScrollingY = this.manuallyResizingColumn = false;
     }
 
     handleRowClick(event, clickedRowData) {
@@ -704,7 +706,6 @@ class UITable extends UIView {
                  className={'ui-table-wrapper ' + this.props.className}
                  onKeyDown={this.handleKeyDown}
                  onMouseMove={this.handleDragMove}
-                 onMouseUp={this.handleDragEnd}
                  onWheel={this.handleMoveIntent}
                  tabIndex='0'>
                 <div ref='table'
