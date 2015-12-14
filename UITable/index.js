@@ -154,6 +154,11 @@ class UITable extends UIView {
         this.performTranslations();
     }
 
+    calculateXAxisConsiderations() {
+        this._rowWidth = this.refs.body.getElementsByClassName('ui-table-row')[0].clientWidth || 500;
+        this._xMaximumTranslation = this._containerWidth > this._rowWidth ? 0 : this._containerWidth - this._rowWidth;
+    }
+
     captureConstraints() {
         this.resetInternalCaches();
 
@@ -165,7 +170,6 @@ class UITable extends UIView {
         an actual number. */
 
         this._cellHeight = this._captureConstraints_firstRowCells[0].clientHeight || 40;
-        this._rowWidth = this._captureConstraints_firstRow.clientWidth || 500;
 
         this._containerHeight = this._captureConstraints_container.clientHeight || 150;
         this._containerWidth = this._captureConstraints_container.clientWidth || 500;
@@ -180,7 +184,7 @@ class UITable extends UIView {
         this._rowStartIndex = 0;
         this._rowEndIndex = this.nRowsToRender;
 
-        this._xMaximumTranslation =  this._containerWidth > this._rowWidth ? 0 : this._containerWidth - this._rowWidth;
+        this.calculateXAxisConsiderations();
 
         this._yUpperBound = 0;
         this._yLowerBound = this._containerHeight - (this.nRowsToRender * this._cellHeight);
@@ -430,7 +434,7 @@ class UITable extends UIView {
             columns: copy,
             xScrollerNubSize: this.calculateXScrollerNubSize(),
         }, () => {
-            this._rowWidth = this.refs.body.getElementsByClassName('ui-table-row')[0].clientWidth;
+            this.calculateXAxisConsiderations();
 
             /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
             we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
