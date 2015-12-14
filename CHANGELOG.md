@@ -3,6 +3,22 @@
 
 ---
 
+### 1.0.0-beta-4 (12/14/2015)
+
+- UITable: fix x-axis translation boundary not updating after column resizing (199b7ff)
+- UITable: handle window resize (6bbdb38)
+- UITable: catch external mouseup events to end dragging sequences (12eec53)
+- UITable: blank out a line if there's no data to put in it (1618a1c)
+- UITable: fix last row sometimes not being displayed (ee22eb5)
+- UITable: add new prop 'name' (fd4fc32)
+- UITable: prevent creation of more rows than data is available (e224425); transitioning from a large set to a small one
+- UITable: fix x-axis sizing for very wide datasets (2f6bd9d)
+- UITable: try out some bleeding-edge CSS stuff to test perf (f20ec6a); `will-change` property
+
+#### Misc
+- [Chore] Minify generated ES5 files (419a0ee)
+
+
 ### 1.0.0-beta-3 (12/10/2015)
 
 - UITable: Fix first row disappearing on scroll (d010001ea7865c51d0a072114f7bc26a118b0bb4)
