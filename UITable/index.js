@@ -77,7 +77,8 @@ class UITable extends UIView {
     componentDidMount() {
         this.xCurrent = this.yCurrent = 0;
         this.xNext = this.yNext = null;
-        this.yScrollNubPosition = 0;
+        this.lastXScrollNubPosition = this.xScrollNubPosition = 0;
+        this.lastYScrollNubPosition = this.yScrollNubPosition = 0;
 
         // temporary variables in various calculations
         this.cache_iterator = null;
@@ -146,8 +147,10 @@ class UITable extends UIView {
         an actual number. */
 
         this.cellHeight = this.cache_captureDimensions_firstRowCells[0].clientHeight || 40;
+        this.rowWidth = this.cache_captureDimensions_firstRow.clientWidth;
         this.containerHeight = this.cache_captureDimensions_container.clientHeight || 150;
         this.containerWidth = this.cache_captureDimensions_container.clientWidth || 500;
+        this.xScrollerWidth = this.refs.xScroller.clientWidth;
 
         this.nRowsToRender = Math.ceil((this.containerHeight * 1.3) / this.cellHeight);
 
@@ -335,15 +338,11 @@ class UITable extends UIView {
             this.yNext = this.yLowerBound;
         }
 
-        if (this.xNext !== this.xCurrent) {
-            this.refs.head.style[transformProp] = 'translate3d(' + this.xNext + 'px, 0px, 0px)';
+        this.xScrollNubPosition = (Math.abs(this.xNext) / (this.rowWidth - this.containerWidth)) * this.xScrollerWidth;
+
+        if (this.xScrollNubPosition + this.state.xScrollerNubSize > this.xScrollerWidth) {
+            this.xScrollNubPosition = this.xScrollerWidth - this.state.xScrollerNubSize;
         }
-
-        /* Move wrapper */
-        this.refs.body.style[transformProp] = 'translate3d(' + this.xNext + 'px, ' + this.yNext + 'px, 0px)';
-
-        /* move scrollbar nubs */
-        this.refs.xScrollerNub.style[transformProp] = 'translate3d(' + Math.abs(this.xNext) + 'px, 0px, 0px)';
 
         this.yScrollNubPosition = (this.rowStartIndex / this.props.totalRows) * this.containerHeight;
 
@@ -351,7 +350,27 @@ class UITable extends UIView {
             this.yScrollNubPosition = this.containerHeight - this.state.yScrollerNubSize;
         }
 
-        this.refs.yScrollerNub.style[transformProp] = 'translate3d(0px, ' + this.yScrollNubPosition + 'px, 0px)';
+        /* Do all transforms grouped together */
+
+        // Header
+        if (this.xNext !== this.xCurrent) {
+            this.refs.head.style[transformProp] = 'translate3d(' + this.xNext + 'px, 0px, 0px)';
+        }
+
+        // Wrapper
+        this.refs.body.style[transformProp] = 'translate3d(' + this.xNext + 'px, ' + this.yNext + 'px, 0px)';
+
+        // X-Nub
+        if (this.xScrollNubPosition !== this.lastXScrollNubPosition) {
+            this.refs.xScrollerNub.style[transformProp] = 'translate3d(' + this.xScrollNubPosition + 'px, 0px, 0px)';
+            this.lastXScrollNubPosition = this.xScrollNubPosition;
+        }
+
+        // Y-nub
+        if (this.yScrollNubPosition !== this.lastYScrollNubPosition) {
+            this.refs.yScrollerNub.style[transformProp] = 'translate3d(0px, ' + this.yScrollNubPosition + 'px, 0px)';
+            this.lastYScrollNubPosition = this.yScrollNubPosition;
+        }
 
         this.xCurrent = this.xNext;
         this.yCurrent = this.yNext;
@@ -564,7 +583,8 @@ class UITable extends UIView {
     renderScrollbars() {
         return (
             <div>
-                <div className='ui-table-x-scroller'
+                <div ref='xScroller'
+                     className='ui-table-x-scroller'
                      onMouseDown={this.handleXScrollerDragStart}>
                     <div ref='xScrollerNub'
                          className='ui-table-x-scroller-nub'
