@@ -157,6 +157,9 @@ __touchEnd__ | column header cell drag handle | recalculate column width with en
 - __onRowInteract__ `Function`
   invoked when a cell in a row is interacted with
 
+- __name__ `String`
+  a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
+
 - __totalRows__ `Number`
   the total length of the data set, necessary for smart scrollbar calculations
 

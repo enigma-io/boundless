@@ -57,7 +57,7 @@ class UITableRow extends UIView {
     }
 
     renderCells() {
-        if (this.state.data instanceof Promise === false) {
+        if (this.state.data && this.state.data instanceof Promise === false) {
             return this.props.columns.map((definition) => {
                 return (
                     <Cell key={definition.mapping}
