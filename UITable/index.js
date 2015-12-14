@@ -346,7 +346,7 @@ class UITable extends UIView {
             this.yNext = this.yLowerBound;
         }
 
-        this.xScrollNubPosition = (Math.abs(this.xNext) / (this.rowWidth - this.containerWidth)) * this.xScrollerWidth;
+        this.xScrollNubPosition = (Math.abs(this.xNext) / (this.rowWidth - this.containerWidth)) * (this.xScrollerWidth - this.state.xScrollerNubSize);
 
         if (this.xScrollNubPosition + this.state.xScrollerNubSize > this.xScrollerWidth) {
             this.xScrollNubPosition = this.xScrollerWidth - this.state.xScrollerNubSize;
@@ -428,6 +428,8 @@ class UITable extends UIView {
             columns: copy,
             xScrollerNubSize: this.calculateXScrollerNubSize(),
         }, () => {
+            this.rowWidth = this.refs.body.getElementsByClassName('ui-table-row')[0].clientWidth;
+
             /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
             we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
             if (adjustedDelta < 0) {
