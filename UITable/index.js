@@ -107,6 +107,10 @@ class UITable extends UIView {
         this.captureDimensions();
     }
 
+    componentWillReceiveProps() {
+        this.setState(this.initialState(), () => this.captureDimensions());
+    }
+
     shouldComponentUpdate() {
         /* so we can reuse state.rows to avoid extra array allocations in the scroll handlers - in this case a few more CPU cycles are far cheaper than running up against the GC */
         return true;
@@ -725,6 +729,7 @@ UITable.propTypes = {
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
+    name: React.PropTypes.string,
     totalRows: React.PropTypes.number,
 };
 

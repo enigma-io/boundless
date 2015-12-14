@@ -20,6 +20,10 @@ const rows = [{"id":1,"first_name":"Louise","last_name":"Fernandez","job_title":
 // index 3 is for the ui-row-loading css hook test
 const rowGetter = index => index === 3 ? new Promise(noop) : rows[index];
 
+const rowsAlt = [{"id":1,"first_name":"Lana","last_name":"Fernandez","job_title":"Database Administrator I","phone":"6-(697)972-8601","email":"lfernandez1@opera.com","address1":"5049 Barnett Road","city":"Nglengkir","country":"Indonesia","country_code":"ID"}];
+
+const altRowGetter = index => rowsAlt[index];
+
 const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{defaultWidth:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code',resizable:true}];
 
 const baseProps = {
@@ -300,6 +304,20 @@ describe('UITable', () => {
             // rendering 4 rows, 500px container width, all the columns fit inside, so it should be max width
             // it's hardcoded to 500px width in the component as a fallback since JSDOM doesn't have a layout engine
             expect(xnub.style.width).toBe('500px');
+        });
+    });
+
+    describe('props.name', () => {
+        it('should fully reset the table when changed', () => {
+            let element = render(<UITable {...baseProps} />);
+            let firstCell = element.refs.body.querySelector('.ui-table-cell');
+
+            expect(firstCell.textContent).toBe('Louise');
+
+            element = render(<UITable {...baseProps} name='alternate' totalRows={rowsAlt.length} getRow={altRowGetter} />);
+            firstCell = element.refs.body.querySelector('.ui-table-cell');
+
+            expect(firstCell.textContent).toBe('Lana');
         });
     });
 });
