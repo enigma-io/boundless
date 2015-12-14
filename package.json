@@ -34,7 +34,7 @@
     "minami": "^1.1.0",
     "mocha": "^2.3.3",
     "pleeease": "^4.0.2",
-    "pleeease-cli": "git+https://github.com/yaycmyk/pleeease-cli.git#fix-ignore",
+    "pleeease-cli": "yaycmyk/pleeease-cli#fix-ignore",
     "prismjs": "^1.3.0",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
