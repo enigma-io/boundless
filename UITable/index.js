@@ -46,6 +46,8 @@ class UITable extends UIView {
     constructor(...args) {
         super(...args);
 
+        this.captureConstraints = this.captureConstraints.bind(this);
+
         this.handleRowClick = this.handleRowClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleDragMove = this.handleDragMove.bind(this);
@@ -74,39 +76,10 @@ class UITable extends UIView {
         };
     }
 
-    resetInternalCaches() {
-        this._xCurrent = this._yCurrent = 0;
-        this._xNext = this._yNext = 0;
-        this._lastXScrollNubPosition = this._xScrollNubPosition = 0;
-        this._lastYScrollNubPosition = this._yScrollNubPosition = 0;
-
-        // temporary variables in various calculations
-        this._iterator = null;
-        this._nextActiveRow = null;
-        this._nRowsToShift = null;
-        this._orderedYArrayTargetIndex = null;
-        this._rowPointer = null;
-        this._shiftDelta = null;
-        this._targetIndex = null;
-
-        this._calculateXScrollerNubSize = null;
-        this._calculateYScrollerNubSize = null;
-
-        this._componentDidUpdate_node = null;
-        this._componentDidUpdate_nodeStyle = null;
-
-        this._captureConstraints_firstRow = null;
-        this._captureConstraints_firstRowCells = null;
-        this._captureConstraints_container = null;
-        this._captureConstraints_tableWidth = null;
-        this._captureConstraints_generatedRows = null;
-        this._captureConstraints_rowsOrderedByY = null;
-
-        this._ariaExposeFullRowData = null;
-    }
-
     componentDidMount() {
         this.captureConstraints();
+
+        window.addEventListener('resize', this.captureConstraints, true);
     }
 
     componentWillReceiveProps() {
@@ -132,6 +105,10 @@ class UITable extends UIView {
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.captureConstraints, true);
+    }
+
     calculateXScrollerNubSize() {
         this._calculateXScrollerNubSize = this._containerWidth - Math.abs(this._xMaximumTranslation);
 
@@ -142,6 +119,39 @@ class UITable extends UIView {
         this._calculateYScrollerNubSize = this._containerHeight * (this.nRowsToRender / this.props.totalRows);
 
         return this._calculateYScrollerNubSize < 12 ? 12 : this._calculateYScrollerNubSize;
+    }
+
+    resetInternalCaches() {
+        this._xCurrent = this._yCurrent = 0;
+        this._xNext = this._yNext = 0;
+        this._xCurrentScrollNubPosition = this._xScrollNubPosition = 0;
+        this._yCurrentScrollNubPosition = this._yScrollNubPosition = 0;
+
+        // temporary variables in various calculations
+        this._iterator = null;
+        this._nextActiveRow = null;
+        this._nRowsToShift = null;
+        this._orderedYArrayTargetIndex = null;
+        this._rowPointer = null;
+        this._shiftDelta = null;
+        this._targetIndex = null;
+
+        this._calculateXScrollerNubSize = null;
+        this._calculateYScrollerNubSize = null;
+
+        this._componentDidUpdate_node = null;
+        this._componentDidUpdate_nodeStyle = null;
+
+        this._captureConstraints_firstRow = null;
+        this._captureConstraints_firstRowCells = null;
+        this._captureConstraints_container = null;
+        this._captureConstraints_generatedRows = null;
+        this._captureConstraints_rowsOrderedByY = null;
+
+        this._ariaExposeFullRowData = null;
+
+        // reset!
+        this.performTranslations();
     }
 
     captureConstraints() {
@@ -155,7 +165,8 @@ class UITable extends UIView {
         an actual number. */
 
         this._cellHeight = this._captureConstraints_firstRowCells[0].clientHeight || 40;
-        this._rowWidth = this._captureConstraints_firstRow.clientWidth;
+        this._rowWidth = this._captureConstraints_firstRow.clientWidth || 500;
+
         this._containerHeight = this._captureConstraints_container.clientHeight || 150;
         this._containerWidth = this._captureConstraints_container.clientWidth || 500;
         this._xScrollerWidth = this.refs.xScroller.clientWidth;
@@ -169,11 +180,7 @@ class UITable extends UIView {
         this._rowStartIndex = 0;
         this._rowEndIndex = this.nRowsToRender;
 
-        this._captureConstraints_tableWidth = this._captureConstraints_firstRow.clientWidth || 500;
-
-        this._xMaximumTranslation =   this._containerWidth > this._captureConstraints_tableWidth
-                                   ? 0
-                                   : this._containerWidth - this._captureConstraints_tableWidth;
+        this._xMaximumTranslation =  this._containerWidth > this._rowWidth ? 0 : this._containerWidth - this._rowWidth;
 
         this._yUpperBound = 0;
         this._yLowerBound = this._containerHeight - (this.nRowsToRender * this._cellHeight);
@@ -318,6 +325,14 @@ class UITable extends UIView {
         }
     }
 
+    performTranslations() {
+        this.refs.head && (this.refs.head.style[transformProp] = 'translate3d(' + this._xNext + 'px, 0px, 0px)');
+
+        this.refs.body.style[transformProp] = 'translate3d(' + this._xNext + 'px, ' + this._yNext + 'px, 0px)';
+        this.refs.xScrollerNub.style[transformProp] = 'translate3d(' + this._xScrollNubPosition + 'px, 0px, 0px)';
+        this.refs.yScrollerNub.style[transformProp] = 'translate3d(0px, ' + this._yScrollNubPosition + 'px, 0px)';
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
 
@@ -363,30 +378,12 @@ class UITable extends UIView {
             this._yScrollNubPosition = this._containerHeight - this.state.yScrollerNubSize;
         }
 
-        /* Do all transforms grouped together */
-
-        // Header
-        if (this._xNext !== this._xCurrent) {
-            this.refs.head.style[transformProp] = 'translate3d(' + this._xNext + 'px, 0px, 0px)';
-        }
-
-        // Wrapper
-        this.refs.body.style[transformProp] = 'translate3d(' + this._xNext + 'px, ' + this._yNext + 'px, 0px)';
-
-        // X-Nub
-        if (this._xScrollNubPosition !== this._lastXScrollNubPosition) {
-            this.refs.xScrollerNub.style[transformProp] = 'translate3d(' + this._xScrollNubPosition + 'px, 0px, 0px)';
-            this._lastXScrollNubPosition = this._xScrollNubPosition;
-        }
-
-        // Y-nub
-        if (this._yScrollNubPosition !== this._lastYScrollNubPosition) {
-            this.refs.yScrollerNub.style[transformProp] = 'translate3d(0px, ' + this._yScrollNubPosition + 'px, 0px)';
-            this._lastYScrollNubPosition = this._yScrollNubPosition;
-        }
+        this.performTranslations(); // Do all transforms grouped together
 
         this._xCurrent = this._xNext;
         this._yCurrent = this._yNext;
+        this._xCurrentScrollNubPosition = this._xScrollNubPosition;
+        this._yCurrentScrollNubPosition = this._yScrollNubPosition;
     }
 
     handleColumnResize(delta) {
