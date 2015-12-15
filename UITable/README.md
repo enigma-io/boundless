@@ -26,7 +26,8 @@ const rowGetter = index => rows[index];
 
 render() {
     return (
-        <UITable getRow={rowGetter}
+        <UITable identifier='foo'
+                 getRow={rowGetter}
                  totalRows={rows.length}
                  columns={columns} />
     );
@@ -34,7 +35,7 @@ render() {
 ```
 renders:
 ```html
-<div class="ui-table-wrapper" tabindex="0">
+<div class="ui-table-wrapper" tabindex="0" data-set-identifier="foo">
     <div class="ui-table">
         <div class="ui-table-header">
             <div class="ui-table-row ui-table-header-row">
@@ -79,11 +80,11 @@ renders:
     </div>
     <div class="ui-offscreen" aria-live="polite"></div>
     <div>
-        <div class="ui-table-x-scroller">
-            <div class="ui-table-x-scroller-nub" style="width: 947px;"></div>
+        <div class="ui-table-x-scroll-track">
+            <div class="ui-table-x-scroll-handle" style="width: 947px;"></div>
         </div>
-        <div class="ui-table-y-scroller">
-            <div class="ui-table-y-scroller-nub" style="height: 12px;"></div>
+        <div class="ui-table-y-scroll-track">
+            <div class="ui-table-y-scroll-handle" style="height: 12px;"></div>
         </div>
     </div>
 </div>
@@ -101,10 +102,10 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-table-cell`
 - `.ui-table-header-cell`
 - `.ui-table-header-cell-resize-handle`
-- `.ui-table-x-scroller`
-- `.ui-table-x-scroller-nub`
-- `.ui-table-y-scroller`
-- `.ui-table-y-scroller-nub`
+- `.ui-table-x-scroll-track`
+- `.ui-table-x-scroll-handle`
+- `.ui-table-y-scroll-track`
+- `.ui-table-y-scroll-handle`
 
 ---
 
@@ -148,17 +149,17 @@ __touchEnd__ | column header cell drag handle | recalculate column width with en
 - __getRow__ `Function`
   called with a desired item index when that row number will come into view, accepts a `Promise` if you need to fetch the row asynchronously
 
+- __identifier__ `String`
+  a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
+
 - __offscreenClass__ `String`
   (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
 - __onCellInteract__ `Function`
-  invoked when a cell is interacted with
+  invoked when a cell is interacted with; returns (event, rowIndex, fieldName)
 
 - __onRowInteract__ `Function`
-  invoked when a cell in a row is interacted with
-
-- __name__ `String`
-  a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
+  invoked when a cell in a row is interacted with; returns (event, rowIndex)
 
 - __totalRows__ `Number`
   the total length of the data set, necessary for smart scrollbar calculations
