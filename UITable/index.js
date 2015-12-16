@@ -883,8 +883,10 @@ class UITable extends UIView {
             break;
         case 'Enter':
             if (this._activeRow !== -1) {
+                let row = findWhere(this._rows, 'setIndex', this._activeRow).data;
+
                 this.setAriaText(this._columns.map(column => {
-                    return `${column.title}: ${this._rows[this._activeRow].data[column.mapping]}`;
+                    return `${column.title}: ${row[column.mapping]}`;
                 }).join('\n'));
             }
             event.preventDefault();
