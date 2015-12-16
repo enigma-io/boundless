@@ -3,6 +3,12 @@
 
 ---
 
+### 1.0.0-beta-5 (12/16/2015)
+
+- UITable: add tests, fix an x-scroll track NaN condition (75e5828)
+- UISegmentedControl: add "content" to prop list, fix alignment (84015d3)
+- UITable: rework internals to only use React for the container (ec1bc4c)
+
 ### 1.0.0-beta-4 (12/14/2015)
 
 - UITable: fix x-axis translation boundary not updating after column resizing (199b7ff)
@@ -17,7 +23,6 @@
 
 #### Misc
 - [Chore] Minify generated ES5 files (419a0ee)
-
 
 ### 1.0.0-beta-3 (12/10/2015)
 
