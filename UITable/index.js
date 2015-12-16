@@ -484,7 +484,8 @@ class UITable extends UIView {
 
         this._container_h = this.refs.wrapper.clientHeight || 150;
         this._container_w = this.refs.wrapper.clientWidth || 500;
-        this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth;
+
+        this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
 
         this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
 
@@ -657,11 +658,15 @@ class UITable extends UIView {
                 this._nextY = this._yLowerBound;
             }
 
-            this._xScrollHandlePosition =   (Math.abs(this._nextX) / (this._row_w - this._container_w))
-                                          * (this._xScrollTrack_w - this._xScrollHandleSize);
+            if (this._nextX === 0) {
+                this._xScrollHandlePosition = 0;
+            } else {
+                this._xScrollHandlePosition =   (Math.abs(this._nextX) / (this._row_w - this._container_w))
+                                              * (this._xScrollTrack_w - this._xScrollHandleSize);
 
-            if (this._xScrollHandlePosition + this._xScrollHandleSize > this._xScrollTrack_w) {
-                this._xScrollHandlePosition = this._xScrollTrack_w - this._xScrollHandleSize;
+                if (this._xScrollHandlePosition + this._xScrollHandleSize > this._xScrollTrack_w) {
+                    this._xScrollHandlePosition = this._xScrollTrack_w - this._xScrollHandleSize;
+                }
             }
 
             this._yScrollHandlePosition = (this._rowStartIndex / this.props.totalRows) * this._container_h;

@@ -290,23 +290,159 @@ describe('UITable', () => {
         });
     });
 
-    describe('scroll handle sizing', () => {
-        it('y scroll handle should calculate height correctly', () => {
+    describe('scroll event handling', () => {
+        it('should scroll literal amounts of pixels for deltaMode 0 (pixel mode)', () => {
             const element = render(<UITable {...baseProps} />);
-            const ynub = element.refs['y-scroll-handle'];
 
-            // rendering 4 rows, 150px container height, so 150 * (5 rendered rows / 10 total rows)
-            // it's hardcoded to 150px height in the component as a fallback since JSDOM doesn't have a layout engine
-            expect(ynub.style.height).toBe('75px');
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, 0px, 0px)');
+
+            element.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 5,
+                deltaMode: 0,
+                preventDefault: noop
+            });
+
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, -5px, 0px)');
         });
 
-        it('x scroll handle should calculate height correctly', () => {
+        it('should scroll n * cellheight pixels at a time for deltaMode 1 (line mode)', () => {
             const element = render(<UITable {...baseProps} />);
-            const xnub = element.refs['x-scroll-handle'];
+
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, 0px, 0px)');
+
+            element.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 1,
+                deltaMode: 1,
+                preventDefault: noop
+            });
+
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, -40px, 0px)');
+        });
+    });
+
+    describe('x-axis scroll handle', () => {
+        it('should calculate width correctly', () => {
+            const element = render(<UITable {...baseProps} />);
+            const x = element.refs['x-scroll-handle'];
 
             // rendering 4 rows, 500px container width, all the columns fit inside, so it should be max width
             // it's hardcoded to 500px width in the component as a fallback since JSDOM doesn't have a layout engine
-            expect(xnub.style.width).toBe('500px');
+            expect(x.style.width).toBe('500px');
+        });
+
+        it('should not translate beyond the bounds of the x-axis scroll track', () => {
+            const element = render(<UITable {...baseProps} />);
+            const x = element.refs['x-scroll-handle'];
+            const width = window.getComputedStyle(element.refs.wrapper)['width'] || 500;
+
+            element.handleMoveIntent({
+                deltaX: 10000,
+                deltaY: 0,
+                preventDefault: noop
+            });
+
+            expect(x.style.WebkitTransform).toBe(
+                `translate3d(${parseInt(width, 10) - parseInt(x.style.width, 10)}px, 0px, 0px)`
+            );
+        });
+
+        /* Can be uncommented when JSDOM implements a layout engine. */
+        // it('should change if a column is resized', () => {
+        //     const element = render(<UITable {...baseProps} />);
+        //     const cell = element.refs.header.querySelector('.ui-table-header-cell');
+        //     const previousWidth = cell.style.width;
+        //     const resizer = cell.querySelector('.ui-table-header-cell-resize-handle');
+        //     const x = element.refs['x-scroll-handle'];
+        //     const previousXWidth = x.style.width;
+
+        //     element.handleColumnDragStart({
+        //         button: 0, // left mouse button
+        //         target: resizer,
+        //         clientX: parseInt(previousWidth, 10),
+        //         preventDefault: noop,
+        //     });
+
+        //     element.handleColumnResize(300);
+        //     element.handleDragEnd();
+
+        //     expect(x.style.width).not.toBe(previousXWidth);
+        // });
+    });
+
+    describe('y-axis scroll handle', () => {
+        it('should calculate height correctly', () => {
+            const element = render(<UITable {...baseProps} />);
+            const y = element.refs['y-scroll-handle'];
+
+            // rendering 4 rows, 150px container height, so 150 * (5 rendered rows / 10 total rows)
+            // it's hardcoded to 150px height in the component as a fallback since JSDOM doesn't have a layout engine
+            expect(y.style.height).toBe('75px');
+        });
+
+        it('should not translate beyond the bounds of the y-axis scroll track', () => {
+            const element = render(<UITable {...baseProps} />);
+            const y = element.refs['y-scroll-handle'];
+            const height = window.getComputedStyle(element.refs.wrapper)['height'] || 150;
+
+            element.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 10000,
+                preventDefault: noop
+            });
+
+            expect(y.style.WebkitTransform).toBe(
+                `translate3d(0px, ${parseInt(height, 10) - parseInt(y.style.height, 10)}px, 0px)`
+            );
+        });
+    });
+
+    describe('column resizing', () => {
+        it('should adjust the width of the appropriate column cell', () => {
+            const element = render(<UITable {...baseProps} />);
+            const cell = element.refs.header.querySelector('.ui-table-header-cell');
+            const previousWidth = cell.style.width;
+            const resizer = cell.querySelector('.ui-table-header-cell-resize-handle');
+
+            element.handleColumnDragStart({
+                button: 0, // left mouse button
+                target: resizer,
+                clientX: parseInt(previousWidth, 10),
+                preventDefault: noop,
+            });
+
+            element.handleColumnResize(20);
+            element.handleDragEnd();
+
+            expect(cell.style.width).toBe(`${parseInt(previousWidth, 10) + 20}px`);
+        });
+
+        it('should adjust the width of the appropriate row cells', () => {
+            const element = render(<UITable {...baseProps} />);
+            const headerCell = element.refs.header.querySelector('.ui-table-header-cell:nth-child(2)');
+            const previousWidth = headerCell.style.width;
+            const resizer = headerCell.querySelector('.ui-table-header-cell-resize-handle');
+
+            element.handleColumnDragStart({
+                button: 0, // left mouse button
+                target: resizer,
+                clientX: parseInt(previousWidth, 10),
+                preventDefault: noop,
+            });
+
+            element.handleColumnResize(20);
+            element.handleDragEnd();
+
+            const newWidth = `${parseInt(previousWidth, 10) + 20}px`;
+
+            expect(headerCell.style.width).toBe(newWidth);
+
+            const rowCells = Array.prototype.slice.call(
+                element.refs.body.querySelectorAll('.ui-table-cell:nth-child(2)')
+            );
+
+            rowCells.forEach(node => expect(node.style.width).toBe(newWidth));
         });
     });
 
