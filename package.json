@@ -70,7 +70,7 @@
     ]
   },
   "scripts": {
-    "es5": "find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' -or -path '*/site/*' -or -path '*/es5/*' \\) -not -name 'jest*.js' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; babel ${p} | uglifyjs -c --screw-ie8 -o es5/${p}'",
+    "es5": "rm -rf es5/* && find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' -or -path '*/site/*' -or -path '*/es5/*' \\) -not -name 'jest*.js' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} | uglifyjs -c --screw-ie8 -o es5/`echo ${p} | cut -c 3-`'",
     "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' \\) -mindepth 2 | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
