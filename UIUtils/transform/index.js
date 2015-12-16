@@ -12,6 +12,7 @@ export default (function detectTransformProperty() {
         'MozTransform',
         'OTransform',
         'msTransform',
+        'webkit-transform', // used in JSDOM
     ];
 
     for (let i = 0, len = props.length; i < len; i++) {

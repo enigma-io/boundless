@@ -95,19 +95,20 @@ class UISegmentedControl extends UIView {
         return this.props.options.map((definition, index) => {
             return (
                 <UIButton {...definition}
-                     role='radio'
-                     aria-checked={String(definition.selected)}
-                     ref={'option_$' + index}
-                     key={definition.value}
-                     className={cx({
-                        'ui-segmented-control-option': true,
-                        'ui-segmented-control-option-selected': definition.selected,
-                        [definition.className]: !!definition.className,
-                     })}
-                     tabIndex={definition.selected ? 0 : -1}
-                     onBlur={this.handleBlur.bind(this, definition)}
-                     onClick={this.handleClick.bind(this, definition)}
-                     onFocus={this.handleFocus.bind(this, definition)}>
+                          selected={null}
+                          role='radio'
+                          aria-checked={String(definition.selected)}
+                          ref={'option_$' + index}
+                          key={definition.value}
+                          className={cx({
+                             'ui-segmented-control-option': true,
+                             'ui-segmented-control-option-selected': definition.selected,
+                             [definition.className]: !!definition.className,
+                          })}
+                          tabIndex={definition.selected ? 0 : -1}
+                          onBlur={this.handleBlur.bind(this, definition)}
+                          onClick={this.handleClick.bind(this, definition)}
+                          onFocus={this.handleFocus.bind(this, definition)}>
                 {definition.content}
                 </UIButton>
             );

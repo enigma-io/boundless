@@ -81,3 +81,5 @@ __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused optio
 
   - __options[].selected__ `Boolean`
   - __options[].value__ `String`
+  - __options[].content__ `*`
+    the content to go inside the button
