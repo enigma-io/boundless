@@ -9,6 +9,10 @@
 - UISegmentedControl: add "content" to prop list, fix alignment (84015d3)
 - UITable: rework internals to only use React for the container (ec1bc4c)
 
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-4 (12/14/2015)
 
 - UITable: fix x-axis translation boundary not updating after column resizing (199b7ff)
@@ -24,6 +28,10 @@
 #### Misc
 - [Chore] Minify generated ES5 files (419a0ee)
 
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-3 (12/10/2015)
 
 - UITable: Fix first row disappearing on scroll (d010001ea7865c51d0a072114f7bc26a118b0bb4)
@@ -34,6 +42,10 @@
 - UITable: clean up unused prop types, add missing information to README (910cca8d9857d2ad7c47f4e3f152c79a33ea4e8b)
 - UIView: add README and site page (4e650cd2ed3a900e4ba5babb015df782fdd316eb)
 
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-2 (12/9/2015)
 
 - Added support for [default tokens in UITokenizedInput](3b2e48144f15b62121ccab1c7d5e6bf92f6f005a)
@@ -41,6 +53,12 @@
 - Updated the READMEs for UITokenizedInput and UITypeaheadInput - the prop name for `hint` was incorrect in the usage
   examples (previously was `provideHint`)
 
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta (12/4/2015)
 
 Hey, it's our initial company-wide release!
+
+[back to top](#uikit-changelog)

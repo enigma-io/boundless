@@ -166,12 +166,12 @@ ul, ol, table, figure {
     margin-bottom: 2rem;
 }
 
-td {
-    padding-bottom: 0.5rem;
+tbody td {
+    padding: 0.5rem;
+}
 
-    tr:last-child & {
-        padding-bottom: 0;
-    }
+tbody tr:nth-child(odd) {
+    background-color: rgba($color-accent, 0.05);
 }
 
 ::selection {
