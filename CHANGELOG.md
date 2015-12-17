@@ -3,6 +3,45 @@
 
 ---
 
+### 1.0.0-beta-6 (12/17/2015)
+
+#### Breaking Change
+
+__UITypeaheadInput's algorithm handling has been changed.__
+
+Previously you could directly supply `props.matchFunc` and `props.markFunc` to do custom handling of your entity matching and display. This was revised to happen inside a new `props.algorithm` object, due to the addition of a new built-in algorithm: "fuzzy".
+
+So to do custom matching etc. again you'd pass the following instead:
+
+```js
+// beta-5
+<UITypeaheadInput
+    matchFunc={{yourMatchFunc}}
+    markFunc={{yourMatchFunc}} />
+
+// beta-6
+<UITypeaheadInput
+    algorithm={{
+        matchFunc: yourMatchFunc,
+        markFunc: yourMarkFunc,
+    }} />
+```
+
+Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [UITypeaheadInput readme](UITypeaheadInput/README.md) for more information.
+
+#### Commits
+
+- UITable: add loading graphic for async rows (8945d9d)
+- Site: reword the master README slightly, break up the changelog visually (82e3610)
+- Site: Improve table look for better readability (1287997)
+- UITypeaheadInput: algorithm modes + fuzzy option built-in (ec3fb86)
+- UIProgressiveDisclosure: add optional `teaserExpanded` prop (74b1dce)
+- UITypeaheadInput: fix moving selected match out of the field of view (a976dff)
+
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-5 (12/16/2015)
 
 - UITable: add tests, fix an x-scroll track NaN condition (75e5828)
