@@ -38,6 +38,12 @@ $cell-x-padding: 0.75em;
     will-change: transform;
 }
 
+.ui-table-row,
+.ui-table-cell {
+    height: $cell-height;
+    line-height: $cell-height;
+}
+
 .ui-table-row {
     position: absolute;
     top: 0;
@@ -104,8 +110,6 @@ $cell-x-padding: 0.75em;
 .ui-table-cell {
     display: inline-block;
     vertical-align: top;
-    height: $cell-height;
-    line-height: $cell-height;
     min-width: 75px;
     padding: 0 $cell-x-padding;
     position: relative;
