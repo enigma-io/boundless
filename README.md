@@ -3,11 +3,13 @@
 
 ---
 
-UIKit is a problem-solving component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
+UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
-The library intentionally does not come with styles to remain lightweight, but see the `demo/` folder of each component for reference and inspiration when writing your own.
+During the beta releases, UIKit will not come with a compiled CSS "skin". Each component in the Github repository does have styles that can be copied and used in your project, though.
 
-> UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+).
+__UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+).__
+
+---
 
 1. [Installation](#installation)
     1. [via a bundling system like Browserify or Webpack](#via-a-bundling-system-like-browserify-or-webpack)
@@ -36,7 +38,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 }
 ```
 
-> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta`.
+> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-6`.
 
 #### without a bundling system
 
