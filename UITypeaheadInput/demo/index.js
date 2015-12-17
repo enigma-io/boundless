@@ -1,7 +1,6 @@
 import UITypeaheadInput from '../index';
 import UIView from '../../UIView';
 import React from 'react';
-import _ from 'lodash';
 
 export default class UITypeaheadInputDemo extends UIView {
     initialState() {
@@ -271,35 +270,11 @@ export default class UITypeaheadInputDemo extends UIView {
                 <div style={{marginLeft: '1em'}}>
                     <h5>Fuzzy matching</h5>
                     <p>Please enter your country of origin:</p>
-                    <UITypeaheadInput entities={this.state.countries}
-                                      hint={true}
-                                      matchFunc={this.fuzzyMatch.bind(this)}
-                                      markFunc={this.markAllSubstringMatches.bind(this)} />
+                    <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
+                                      entities={this.state.countries}
+                                      hint={true} />
                 </div>
             </div>
         );
-    }
-
-    fuzzyMatch(userText, entities) {
-        let normalized = userText.toLowerCase();
-
-        return entities.reduce(function findIndices(result, entity, index) {
-            return entity.text.toLowerCase().indexOf(normalized) !== -1 ? (result.push(index) && result) : result;
-        }, []);
-    }
-
-    markAllSubstringMatches(entityContent, userText) {
-        let frags = entityContent.split(new RegExp('(' + _.escapeRegExp(userText) + ')', 'ig'));
-        let normalizedUserText = userText.toLowerCase();
-        let threshold = frags.length;
-        let i = -1;
-
-        while (++i < threshold) {
-            if (frags[i].toLowerCase() === normalizedUserText) {
-                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
-            }
-        }
-
-        return frags;
     }
 }

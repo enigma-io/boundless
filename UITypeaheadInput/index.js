@@ -5,13 +5,14 @@
 
 import React from 'react';
 import UIView from '../UIView';
-import cx from 'classnames';
 import noop from '../UIUtils/noop';
+import cx from 'classnames';
+import escaper from 'escape-string-regexp';
 
 class UITypeaheadInput extends UIView {
     initialState() {
         return {
-            entityMatchIndices: [],
+            entityMatchIndexes: [],
             selectedEntityIndex: -1,
             id: this.uuid(),
             userInput: this.props.defaultValue,
@@ -31,7 +32,7 @@ class UITypeaheadInput extends UIView {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.entityMatchIndices.length && !prevState.entityMatchIndices.length) {
+        if (this.state.entityMatchIndexes.length && !prevState.entityMatchIndexes.length) {
             this.refs.matches.scrollTop = 0;
         } // fix an odd bug in FF where it initializes the element with an incorrect scrollTop
     }
@@ -46,24 +47,8 @@ class UITypeaheadInput extends UIView {
         this.setState({selectedEntityIndex: index}, () => this.setValueWithSelectedEntity());
     }
 
-    markMatchSubstring(entityContent, userInput) {
-        if (this.props.markFunc) {
-            return this.props.markFunc(entityContent, userInput);
-        }
-
-        const seekValue = userInput.toLowerCase();
-        const indexStart = entityContent.toLowerCase().indexOf(seekValue);
-        const indexEnd = indexStart + seekValue.length;
-
-        return [
-            <span key='0'>{entityContent.slice(0, indexStart)}</span>,
-            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
-            <span key='2'>{entityContent.slice(indexEnd)}</span>,
-        ];
-    }
-
     selectMatch(delta) {
-        const matches = this.state.entityMatchIndices;
+        const matches = this.state.entityMatchIndexes;
         const totalMatches = matches.length;
         let nextIndex = matches.indexOf(this.state.selectedEntityIndex) + delta;
 
@@ -95,7 +80,7 @@ class UITypeaheadInput extends UIView {
     resetMatches() {
         this.setState({
             selectedEntityIndex: -1,
-            entityMatchIndices: [],
+            entityMatchIndexes: [],
         });
     }
 
@@ -128,6 +113,109 @@ class UITypeaheadInput extends UIView {
             this.setValue('');
         } else {
             this.setValue(this.getSelectedEntityText());
+        }
+    }
+
+    markFuzzyMatchSubstring(entityContent, userText) {
+        const frags = entityContent.split(new RegExp('(' + escaper(userText) + ')', 'ig'));
+        const normalizedUserText = userText.toLowerCase();
+        const threshold = frags.length;
+        let i = -1;
+
+        while (++i < threshold) {
+            if (frags[i].toLowerCase() === normalizedUserText) {
+                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
+            }
+        }
+
+        return frags;
+    }
+
+    markStartsWithMatchSubstring(entityContent, userInput) {
+        const seekValue = userInput.toLowerCase();
+        const indexStart = entityContent.toLowerCase().indexOf(seekValue);
+        const indexEnd = indexStart + seekValue.length;
+
+        return [
+            <span key='0'>{entityContent.slice(0, indexStart)}</span>,
+            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+            <span key='2'>{entityContent.slice(indexEnd)}</span>,
+        ];
+    }
+
+    markMatchSubstring(...args) {
+        switch (this.props.algorithm) {
+        case UITypeaheadInput.mode.STARTS_WITH:
+            return this.markStartsWithMatchSubstring(...args);
+
+        case UITypeaheadInput.mode.FUZZY:
+            return this.markFuzzyMatchSubstring(...args);
+        }
+
+        if (typeof this.props.algorithm.markFunc === 'function') {
+            return this.props.algorithm.markFunc(...args);
+        }
+
+        console.warn('No `props.algorithm.markFunc` was provided to UITypeaheadInput; falling back to the default marking algorithm.');
+
+        return this.markStartsWithMatchSubstring(...args);
+    }
+
+    getFuzzyMatchIndexes(userText, entities) {
+        const normalized = userText.toLowerCase();
+
+        return entities.reduce(function findIndexes(result, entity, index) {
+            return entity.text.toLowerCase().indexOf(normalized) !== -1 ? (result.push(index) && result) : result;
+        }, []);
+    }
+
+    getStartsWithMatchIndexes(userText, entities) {
+        const seekValue = userText.toLowerCase();
+
+        return entities.reduce(function seekMatch(result, entity, index) {
+            return entity.text.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
+        }, []);
+    }
+
+    getMatchIndexes(...args) {
+        switch (this.props.algorithm) {
+        case UITypeaheadInput.mode.STARTS_WITH:
+            return this.getStartsWithMatchIndexes(...args);
+
+        case UITypeaheadInput.mode.FUZZY:
+            return this.getFuzzyMatchIndexes(...args);
+        }
+
+        if (typeof this.props.algorithm.matchFunc === 'function') {
+            return this.props.algorithm.matchFunc(...args);
+        }
+
+        console.warn('No `props.algorithm.matchFunc` was provided to UITypeaheadInput; falling back to the default matching algorithm.');
+
+        return this.getStartsWithMatchIndexes(...args);
+    }
+
+    computeMatches(entities = this.props.entities) {
+        const currentValue = this.state.userInput;
+        const matches = currentValue === '' ? [] : this.getMatchIndexes(currentValue, entities);
+
+        this.setState({
+            selectedEntityIndex: matches.length ? matches[0] : -1,
+            entityMatchIndexes: matches,
+        });
+    }
+
+    handleInput(event) {
+        this.setState({userInput: event.target.value}, () => this.computeMatches());
+
+        if (this.props.onInput) {
+            event.persist();
+            this.props.onInput(event);
+        }
+
+        if (typeof this.props.inputProps.onInput === 'function') {
+            event.persist();
+            this.props.inputProps.onInput(event);
         }
     }
 
@@ -189,43 +277,6 @@ class UITypeaheadInput extends UIView {
         }
     }
 
-    // The default implementation is a simple "starts-with" search
-    getMatchIndices(currentValue, entities) {
-        if (this.props.matchFunc) {
-            return this.props.matchFunc(currentValue, entities);
-        }
-
-        const seekValue = currentValue.toLowerCase();
-
-        return entities.reduce(function seekMatch(result, entity, index) {
-            return entity.text.toLowerCase().indexOf(seekValue) === 0 ? (result.push(index) && result) : result;
-        }, []);
-    }
-
-    computeMatches(entities = this.props.entities) {
-        const currentValue = this.state.userInput;
-        const matches = currentValue === '' ? [] : this.getMatchIndices(currentValue, entities);
-
-        this.setState({
-            selectedEntityIndex: matches.length ? matches[0] : -1,
-            entityMatchIndices: matches,
-        });
-    }
-
-    handleInput(event) {
-        this.setState({userInput: event.target.value}, () => this.computeMatches());
-
-        if (this.props.onInput) {
-            event.persist();
-            this.props.onInput(event);
-        }
-
-        if (typeof this.props.inputProps.onInput === 'function') {
-            event.persist();
-            this.props.inputProps.onInput(event);
-        }
-    }
-
     renderNotification() {
         return (
             <div ref='aria'
@@ -264,7 +315,7 @@ class UITypeaheadInput extends UIView {
     }
 
     renderMatches() {
-        if (this.state.entityMatchIndices.length) {
+        if (this.state.entityMatchIndexes.length) {
             return (
                 <div {...this.props.matchWrapperProps}
                      ref='matches'
@@ -272,7 +323,7 @@ class UITypeaheadInput extends UIView {
                          'ui-typeahead-match-wrapper': true,
                          [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
                      })}>
-                    {this.state.entityMatchIndices.map(index => {
+                    {this.state.entityMatchIndexes.map(index => {
                         const entity = this.props.entities[index];
 
                         return (
@@ -325,7 +376,22 @@ class UITypeaheadInput extends UIView {
     }
 }
 
+UITypeaheadInput.mode = {
+    'STARTS_WITH': 'STARTS_WITH',
+    'FUZZY': 'FUZZY',
+};
+
 UITypeaheadInput.propTypes = {
+    algorithm: React.PropTypes.oneOfType([
+        React.PropTypes.oneOf([
+            UITypeaheadInput.mode.STARTS_WITH,
+            UITypeaheadInput.mode.FUZZY,
+        ]),
+        React.PropTypes.shape({
+            markFunc: React.PropTypes.func,
+            matchFunc: React.PropTypes.func,
+        }),
+    ]),
     clearPartialInputOnSelection: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
     entities: React.PropTypes.arrayOf(
@@ -336,8 +402,6 @@ UITypeaheadInput.propTypes = {
     hint: React.PropTypes.bool,
     hintProps: React.PropTypes.object,
     inputProps: React.PropTypes.object,
-    markFunc: React.PropTypes.func,
-    matchFunc: React.PropTypes.func,
     matchWrapperProps: React.PropTypes.object,
     name: React.PropTypes.string,
     offscreenClass: React.PropTypes.string,
@@ -348,6 +412,7 @@ UITypeaheadInput.propTypes = {
 };
 
 UITypeaheadInput.defaultProps = {
+    algorithm: UITypeaheadInput.mode.STARTS_WITH,
     clearPartialInputOnSelection: false,
     defaultValue: '',
     entities: [],

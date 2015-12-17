@@ -5,6 +5,27 @@ __Intelligently recommend entities via customizable, fuzzy recognition.__
 
 ---
 
+UITypeaheadInput offers two built-in matching algorithms: "starts-with" (the default) and "fuzzy". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="ui-typeahead-match-highlight"></div>`;
+
+1. __"Starts-with" matching & marking__ `algorithm={UITypeahead.mode.STARTS_WITH}`
+   For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
+
+   Matched: `["apple", "apricot"]`<br/>
+   Marked: `["<a>pple", "<a>pricot"]`<br/><br/>
+
+1. __"Fuzzy" matching & marking__ `algorithm={UITypeahead.mode.FUZZY}`
+   For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
+
+   Matched: `["apple", "grape", "apricot"]`<br/>
+   Marked: `["<a>pple", "gr<a>pe", "<a>pricot"]`<br/><br/>
+
+1. __Custom matching & marking__ `algorithm={{matchFunc: yourMatchFunc, markFunc: yourMarkFunc}}`
+   Optionally, you can provide your own combination of matching and marking functions. For example, loosening the matching to include unicode variants of characters could be useful, e.g. ç &rarr; c
+
+   Follow the guide in the [props summary for algorithm](#available-props).
+
+---
+
 ### Example Usage
 
 ```js
@@ -72,6 +93,30 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 
+- __algorithm__ `UITypeaheadInput.mode.STARTS_WITH, UITypeaheadInput.mode.FUZZY, Object{Function, Function}`
+  (default `UITypeaheadInput.mode.STARTS_WITH`) the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
+
+    - __algorithm.matchFunc__ `Function`
+      provide a custom matching algorithm, adhering to this format:
+
+      ```js
+      myMatchFunc(currentText, suppliedEntities) {
+          // ...
+          return [match1Index, match2Index, /* ... */];
+      }
+      ```
+
+      the index is stored instead of the entire entity to conserve memory and reduce data duplication
+
+    - __algorithm.markFunc__ `Function`
+      provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks, adhering to this format:
+
+      ```js
+      myMarkFunc(entityString, userInputString) {
+          return /* desired JSX templating */];
+      }
+      ```
+
 - __defaultValue__ `String`
   passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
 
@@ -94,29 +139,6 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __inputProps__ `Object`
     - __inputProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the main input node, `.ui-typeahead`
-
-- __matchFunc__ `Function`
-  provide a custom matching algorithm, adhering to this format:
-
-  ```js
-  myMatchFunc(currentText, suppliedEntities) {
-      // ...
-      return [match1Index, match2Index, /* ... */];
-  }
-  ```
-
-  the index is stored instead of the entire entity to conserve memory and reduce data duplication
-
-- __markFunc__ `Function`
-  provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks
-
-  ```js
-  myMarkFunc(entityString, userInputString) {
-      return /* desired JSX templating */];
-  }
-  ```
-
-  could be used in conjunction with a custom `matchFunc` to normalize certain unicode characters for easier typing ç -> c
 
 - __matchWrapperProps__ `Object`
     - __matchWrapperProps.*__
