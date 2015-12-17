@@ -206,6 +206,10 @@ td {
     color: lighten($color-accent, 30%);
 }
 
+.ui-demo-header-search {
+    margin-top: 1.5rem;
+}
+
 .ui-demo-nav-item {
     border-bottom: 1px dotted invert($color-accent);
     color: invert($color-accent);

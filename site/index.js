@@ -1,6 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+import {findWhere, escapeRegExp} from 'lodash';
+
 import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
 
@@ -23,6 +25,8 @@ import UITableDemo from '../UITable/demo';
 import UITokenizedInputDemo from '../UITokenizedInput/demo';
 import UITooltipDemo from '../UITooltip/demo';
 import UITypeaheadInputDemo from '../UITypeaheadInput/demo';
+
+import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
@@ -247,6 +251,44 @@ const components = {
 };
 
 class Sidebar extends UIView {
+    createSubEntities(path, text, entities, readme) {
+        const headerTextRegex = /#+\s?([^<]+)/;
+        const headerHashRegex = /#+\s?.*?href="(.*?)"/;
+
+        readme.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
+            if (line.match(headerHashRegex)) {
+                entities.push({
+                    path: `${path}${line.match(headerHashRegex)[1]}`,
+                    text: `${text} - ${line.match(headerTextRegex)[1]}`,
+                });
+            }
+        });
+    }
+
+    initialState() {
+        const entities = [];
+
+        Object.keys(components).forEach(path => {
+            entities.push({
+                path: path,
+                text: path,
+            });
+
+            this.createSubEntities(path, path, entities, components[path].readme);
+        });
+
+        Object.keys(pages).forEach(page => {
+            entities.push({
+                path: page,
+                text: pages[page].displayName,
+            });
+
+            this.createSubEntities(page, pages[page].displayName, entities, pages[page].readme);
+        });
+
+        return {entities};
+    }
+
     preventOverScroll(event) {
         const top = event.currentTarget.scrollTop;
 
@@ -264,6 +306,45 @@ class Sidebar extends UIView {
         );
     }
 
+    handleEntitySelected(index) {
+        this.context.history.pushState(null, this.state.entities[index].path);
+    }
+
+    handleComplete(value) {
+        if (!value) {
+            return this.context.history.pushState(null, '/');
+        }
+
+        const found = findWhere(this.state.entities, {text: value});
+
+        if (found) {
+            this.context.history.pushState(null, found.path);
+        }
+    }
+
+    fuzzyMatch(userText, entities) {
+        let normalized = userText.toLowerCase();
+
+        return entities.reduce(function findIndices(result, entity, index) {
+            return entity.text.toLowerCase().indexOf(normalized) !== -1 ? (result.push(index) && result) : result;
+        }, []);
+    }
+
+    markAllSubstringMatches(entityContent, userText) {
+        let frags = entityContent.split(new RegExp('(' + escapeRegExp(userText) + ')', 'ig'));
+        let normalizedUserText = userText.toLowerCase();
+        let threshold = frags.length;
+        let i = -1;
+
+        while (++i < threshold) {
+            if (frags[i].toLowerCase() === normalizedUserText) {
+                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
+            }
+        }
+
+        return frags;
+    }
+
     render() {
         return (
             <header ref='sidebar'
@@ -274,6 +355,20 @@ class Sidebar extends UIView {
                 </h1>
 
                 <sub className='ui-demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
+
+                <UITypeaheadInput className='ui-demo-header-search'
+                                  entities={this.state.entities}
+                                  onEntitySelected={this.handleEntitySelected.bind(this)}
+                                  onComplete={this.handleComplete.bind(this)}
+                                  inputProps={{
+                                    autoFocus: true,
+                                    placeholder: 'Search for a page...',
+                                    type: 'search',
+                                  }}
+                                  matchFunc={this.fuzzyMatch.bind(this)}
+                                  markFunc={this.markAllSubstringMatches.bind(this)}
+                                  hint={true} />
+
                 <nav className='ui-demo-nav'>
                     <div className='ui-demo-nav-section'>
                         {Object.keys(pages).map(page => {
@@ -292,21 +387,31 @@ class Sidebar extends UIView {
     }
 }
 
+Sidebar.contextTypes = {
+    history: React.PropTypes.object
+};
+
 class Container extends UIView {
     componentDidMount() {
         Prism.highlightAll();
-
-        if (window.location.hash.length > 1) {
-            const node = document.getElementById(window.location.hash.slice(1));
-
-            if (node) {
-                node.scrollIntoView();
-            }
-        } // autoscroll to the anchor node
+        this.autoscroll();
     }
 
     componentDidUpdate() {
         Prism.highlightAll();
+        this.autoscroll();
+    }
+
+    autoscroll() {
+        if (window.location.hash.length > 1) {
+            const node = document.getElementById(window.location.hash.slice(1));
+
+            if (node) {
+                return node.scrollIntoView();
+            }
+        } // autoscroll to the anchor node
+
+        document.body.scrollTop = 0;
     }
 
     handleClick(event) {
