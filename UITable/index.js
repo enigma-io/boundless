@@ -486,6 +486,7 @@ class UITable extends UIView {
         this._container_w = this.refs.wrapper.clientWidth || 500;
 
         this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
+        this._yScrollTrack_h = this.refs['y-scroll-track'].clientHeight || 150;
 
         this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
 
@@ -671,10 +672,15 @@ class UITable extends UIView {
                 }
             }
 
-            this._yScrollHandlePosition = (this._rowStartIndex / this.props.totalRows) * this._container_h;
+            if (this.nextY === 0) {
+                this._yScrollHandlePosition = 0;
+            } else {
+                this._yScrollHandlePosition =   (Math.abs(this._nextY) / ((this.props.totalRows * this._cell_h) - this._container_h))
+                                              * (this._yScrollTrack_h - this._yScrollHandleSize);
 
-            if (this._yScrollHandlePosition + this._yScrollHandleSize > this._container_h) {
-                this._yScrollHandlePosition = this._container_h - this._yScrollHandleSize;
+                if (this._yScrollHandlePosition + this._yScrollHandleSize > this._yScrollTrack_h) {
+                    this._yScrollHandlePosition = this._yScrollTrack_h - this._yScrollHandleSize;
+                }
             }
 
             this.performTranslations(); // Do all transforms grouped together
@@ -952,7 +958,7 @@ class UITable extends UIView {
                     <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
                         <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
                     </div>
-                    <div className='ui-table-y-scroll-track'>
+                    <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
                         <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
                     </div>
                 </div>
