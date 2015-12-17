@@ -30,6 +30,12 @@ class UITypeaheadInput extends UIView {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.entityMatchIndices.length && !prevState.entityMatchIndices.length) {
+            this.refs.matches.scrollTop = 0;
+        } // fix an odd bug in FF where it initializes the element with an incorrect scrollTop
+    }
+
     getSelectedEntityText() {
         const entity = this.props.entities[this.state.selectedEntityIndex];
 
@@ -61,7 +67,7 @@ class UITypeaheadInput extends UIView {
             return (
                 <input {...this.props.hintProps}
                        ref='hint'
-                       type='text'
+                       type={this.props.type || this.props.inputProps.type || 'text'}
                        className={cx({
                            'ui-typeahead-hint': true,
                            [this.props.hintProps.className]: !!this.props.hintProps.className,
@@ -107,6 +113,7 @@ class UITypeaheadInput extends UIView {
 
                         return (
                             <div {...entity}
+                                 ref={`match_$${index}`}
                                  className={cx({
                                      'ui-typeahead-match': true,
                                      'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
@@ -135,7 +142,21 @@ class UITypeaheadInput extends UIView {
                 nextIndex = 0; // loop
             }
 
-            this.setState({ selectedEntityIndex: matches[nextIndex] });
+            const matchIndex = matches[nextIndex];
+            const matchesNode = this.refs.matches;
+            const matchesNodeYEnd = matchesNode.scrollTop + matchesNode.clientHeight;
+            const matchNode = this.refs[`match_$${matchIndex}`];
+            const matchNodeYStart = matchNode.offsetTop;
+            const matchNodeYEnd = matchNodeYStart + matchNode.clientHeight;
+
+            // bring into view if necessary
+            if (matchNodeYEnd >= matchesNodeYEnd) { // below
+                matchesNode.scrollTop += matchNodeYEnd - matchesNodeYEnd;
+            } else if (matchNodeYStart <= matchesNode.scrollTop) { // above
+                matchesNode.scrollTop = matchNodeYStart;
+            }
+
+            this.setState({selectedEntityIndex: matchIndex});
         }
     }
 
@@ -276,6 +297,7 @@ class UITypeaheadInput extends UIView {
     render() {
         return (
             <div {...this.props}
+                 type={null}
                  ref='wrapper'
                  className={cx({
                     'ui-typeahead-wrapper': true,
