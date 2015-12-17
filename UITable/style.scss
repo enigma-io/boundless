@@ -55,8 +55,46 @@ $cell-x-padding: 0.75em;
     background: rgba($cell-color-base, 0.075);
 }
 
-.ui-table-row-loading {
-    opacity: 0.5;
+.ui-table-row-loading::before,
+.ui-table-row-loading::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   margin-top: -5px;
+   left: 50%;
+   margin-left: -5px;
+   height: 10px;
+   width: 10px;
+   border-radius: 100%;
+   background-color: #AAA;
+}
+
+.ui-table-row-loading::before {
+    animation: loaderBefore 0.7s ease-in-out alternate infinite;
+}
+
+.ui-table-row-loading::after {
+    animation: loaderAfter 0.7s ease-in-out alternate infinite;
+}
+
+@keyframes loaderBefore {
+    from {
+        left: 50%;
+    }
+
+    to {
+        left: 49%;
+    }
+}
+
+@keyframes loaderAfter {
+    from {
+        left: 50%;
+  }
+
+    to {
+        left: 51%;
+    }
 }
 
 .ui-table-row-active {
