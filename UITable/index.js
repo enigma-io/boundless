@@ -546,6 +546,7 @@ class UITable extends UIView {
                     this._rowPointer.data = this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
 
                     this._rowsOrderedByY.push(this._rowsOrderedByY.shift());
                 }
@@ -604,6 +605,7 @@ class UITable extends UIView {
                     this._rowPointer.data = this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
 
                     this._rowsOrderedByY.unshift(this._rowsOrderedByY.pop());
                 }
