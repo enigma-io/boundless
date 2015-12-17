@@ -42,43 +42,6 @@ class UITypeaheadInput extends UIView {
         return entity ? entity.text : '';
     }
 
-    renderNotification() {
-        return (
-            <div ref='aria'
-                 id={this.state.id}
-                 className={this.props.offscreenClass}
-                 aria-live='polite'>
-                {this.getSelectedEntityText()}
-            </div>
-        );
-    }
-
-    renderHint() {
-        if (this.props.hint) {
-            const userText = this.state.userInput;
-            const raw = this.getSelectedEntityText();
-            let processed = '';
-
-            if (   raw
-                && raw.toLowerCase().indexOf(userText.toLowerCase()) === 0) {
-                processed = raw.replace(new RegExp(userText, 'i'), userText);
-            }
-
-            return (
-                <input {...this.props.hintProps}
-                       ref='hint'
-                       type={this.props.type || this.props.inputProps.type || 'text'}
-                       className={cx({
-                           'ui-typeahead-hint': true,
-                           [this.props.hintProps.className]: !!this.props.hintProps.className,
-                       })}
-                       value={processed}
-                       disabled={true}
-                       tabIndex='-1' />
-            );
-        }
-    }
-
     handleMatchClick(index) {
         this.setState({selectedEntityIndex: index}, () => this.setValueWithSelectedEntity());
     }
@@ -97,37 +60,6 @@ class UITypeaheadInput extends UIView {
             <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
             <span key='2'>{entityContent.slice(indexEnd)}</span>,
         ];
-    }
-
-    renderMatches() {
-        if (this.state.entityMatchIndices.length) {
-            return (
-                <div {...this.props.matchWrapperProps}
-                     ref='matches'
-                     className={cx({
-                         'ui-typeahead-match-wrapper': true,
-                         [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
-                     })}>
-                    {this.state.entityMatchIndices.map(index => {
-                        const entity = this.props.entities[index];
-
-                        return (
-                            <div {...entity}
-                                 ref={`match_$${index}`}
-                                 className={cx({
-                                     'ui-typeahead-match': true,
-                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
-                                     [entity.className]: !!entity.className,
-                                 })}
-                                 key={entity.text}
-                                 onClick={this.handleMatchClick.bind(this, index)}>
-                                {this.markMatchSubstring(entity.text, this.state.userInput)}
-                            </div>
-                        );
-                    })}
-                </div>
-            );
-        }
     }
 
     selectMatch(delta) {
@@ -291,6 +223,74 @@ class UITypeaheadInput extends UIView {
         if (typeof this.props.inputProps.onInput === 'function') {
             event.persist();
             this.props.inputProps.onInput(event);
+        }
+    }
+
+    renderNotification() {
+        return (
+            <div ref='aria'
+                 id={this.state.id}
+                 className={this.props.offscreenClass}
+                 aria-live='polite'>
+                {this.getSelectedEntityText()}
+            </div>
+        );
+    }
+
+    renderHint() {
+        if (this.props.hint) {
+            const userText = this.state.userInput;
+            const raw = this.getSelectedEntityText();
+            let processed = '';
+
+            if (   raw
+                && raw.toLowerCase().indexOf(userText.toLowerCase()) === 0) {
+                processed = raw.replace(new RegExp(userText, 'i'), userText);
+            }
+
+            return (
+                <input {...this.props.hintProps}
+                       ref='hint'
+                       type={this.props.type || this.props.inputProps.type || 'text'}
+                       className={cx({
+                           'ui-typeahead-hint': true,
+                           [this.props.hintProps.className]: !!this.props.hintProps.className,
+                       })}
+                       value={processed}
+                       disabled={true}
+                       tabIndex='-1' />
+            );
+        }
+    }
+
+    renderMatches() {
+        if (this.state.entityMatchIndices.length) {
+            return (
+                <div {...this.props.matchWrapperProps}
+                     ref='matches'
+                     className={cx({
+                         'ui-typeahead-match-wrapper': true,
+                         [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
+                     })}>
+                    {this.state.entityMatchIndices.map(index => {
+                        const entity = this.props.entities[index];
+
+                        return (
+                            <div {...entity}
+                                 ref={`match_$${index}`}
+                                 className={cx({
+                                     'ui-typeahead-match': true,
+                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
+                                     [entity.className]: !!entity.className,
+                                 })}
+                                 key={entity.text}
+                                 onClick={this.handleMatchClick.bind(this, index)}>
+                                {this.markMatchSubstring(entity.text, this.state.userInput)}
+                            </div>
+                        );
+                    })}
+                </div>
+            );
         }
     }
 
