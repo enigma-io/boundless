@@ -31,6 +31,9 @@ Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WIT
 
 #### Commits
 
+- UITable: classList -> className (IE9 support) (b98ad3f)
+- UITable: fix y-axis scroll handle sensitivity (77f8098)
+- UITable: preserve active row when scrolled out of view (3c34961)
 - UITable: add loading graphic for async rows (8945d9d)
 - Site: reword the master README slightly, break up the changelog visually (82e3610)
 - Site: Improve table look for better readability (1287997)
