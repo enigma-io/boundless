@@ -9,7 +9,8 @@
   ],
   "main": "es5/exports.js",
   "dependencies": {
-    "classnames": "^2.1.5"
+    "classnames": "^2.1.5",
+    "escape-string-regexp": "^1.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",

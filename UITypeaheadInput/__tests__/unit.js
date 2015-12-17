@@ -27,32 +27,57 @@ describe('UITypeaheadInput', () => {
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UITypeaheadInput));
 
-    describe('accepts', () => {
-        it('an additional class as a string without replacing the core hook', () => {
-            const element = render(<UITypeaheadInput className='foo bar' />);
+    it('should accept an additional class as a string without replacing the core hook', () => {
+        const element = render(<UITypeaheadInput className='foo bar' />);
 
-            ['ui-typeahead-wrapper', 'foo', 'bar'].forEach(cname => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
-        });
+        ['ui-typeahead-wrapper', 'foo', 'bar'].forEach(cname => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
+    });
 
-        it('a custom offscreen class for the ARIA notification element', () => {
-            const element = render(<UITypeaheadInput offscreenClass='offscreen' />);
+    it('should accept a custom offscreen class for the ARIA notification element', () => {
+        const element = render(<UITypeaheadInput offscreenClass='offscreen' />);
 
-            expect(element.refs.aria.classList.contains('offscreen')).toBe(true);
-        });
+        expect(element.refs.aria.classList.contains('offscreen')).toBe(true);
+    });
 
-        it('a custom entity matching function', () => {
-            const stub = sandbox.stub().returns([]);
+    it('should accept a custom entity matching algorithm', () => {
+        sandbox.stub(console, 'warn');
 
-            render(<UITypeaheadInput defaultValue='ap' entities={entities} matchFunc={stub} />);
-            expect(stub.calledOnce).toBe(true);
-        });
+        const stub = sandbox.stub().returns([0]);
 
-        it('a custom match marking function', () => {
-            const stub = sandbox.stub().returns([]);
+        render(<UITypeaheadInput defaultValue='ap' entities={entities} algorithm={{matchFunc: stub}} />);
+        expect(stub.calledOnce).toBe(true);
 
-            render(<UITypeaheadInput defaultValue='ap' entities={entities} markFunc={stub} />);
-            expect(stub.calledTwice).toBe(true);
-        });
+        expect(console.warn.calledOnce).toBe(true);
+        expect(console.warn.calledWithMatch('props.algorithm.markFunc')).toBe(true);
+    });
+
+    it('should accept a custom match marking algorithm', () => {
+        sandbox.stub(console, 'warn');
+
+        const stub = sandbox.stub().returns([]);
+
+        render(<UITypeaheadInput defaultValue='ap' entities={entities} algorithm={{markFunc: stub}} />);
+        expect(stub.calledTwice).toBe(true);
+
+        expect(console.warn.calledOnce).toBe(true);
+        expect(console.warn.calledWithMatch('props.algorithm.matchFunc')).toBe(true);
+    });
+
+    it('should accept a custom matching and marking algorithm', () => {
+        const matchStub = sandbox.stub().returns([0, 1]);
+        const markStub = sandbox.stub().returns([]);
+
+        render(
+            <UITypeaheadInput defaultValue='ap'
+                              entities={entities}
+                              algorithm={{
+                                  matchFunc: matchStub,
+                                  markFunc: markStub,
+                              }} />
+        );
+
+        expect(matchStub.calledOnce).toBe(true);
+        expect(markStub.calledTwice).toBe(true);
     });
 
     describe('CSS hook', () => {
@@ -141,7 +166,16 @@ describe('UITypeaheadInput', () => {
         it('should clear if the matched substring is not at the beginning of the user input', () => {
             // emulating a weighted fuzzy search that assigns "grape" higher value
             const stub = sandbox.stub().returns([2]);
-            const element = render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} matchFunc={stub} />);
+            const stub2 = sandbox.stub().returns([]);
+            const element = render(
+                <UITypeaheadInput hint={true}
+                                  defaultValue='ap'
+                                  entities={entities}
+                                  algorithm={{
+                                      matchFunc: stub,
+                                      markFunc: stub2,
+                                  }} />
+            );
 
             expect(element.refs.hint.value).toBe('');
             expect(element.getSelectedEntityText()).toBe('grape');
@@ -302,6 +336,29 @@ describe('UITypeaheadInput', () => {
             document.querySelector('.ui-typeahead-match-selected').click();
 
             expect(node.value).toBe('');
+        });
+    });
+
+    describe('fuzzy match mode', () => {
+        it('should match all entities containing the substring', () => {
+            const element = render(
+                <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
+                                  defaultValue='ap'
+                                  entities={entities} />
+            );
+
+            expect(element.state.entityMatchIndexes.length).toBe(entities.length);
+        });
+
+        it('should mark all instances of the substring in the entity text', () => {
+            const element = render(
+                <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
+                                  defaultValue='a'
+                                  entities={[{text: 'grappa'}]} />
+            );
+
+            expect(element.refs['match_$0'].textContent).toBe('grappa');
+            expect(element.refs['match_$0'].querySelectorAll('.ui-typeahead-match-highlight').length).toBe(2);
         });
     });
 

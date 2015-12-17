@@ -322,29 +322,6 @@ class Sidebar extends UIView {
         }
     }
 
-    fuzzyMatch(userText, entities) {
-        let normalized = userText.toLowerCase();
-
-        return entities.reduce(function findIndices(result, entity, index) {
-            return entity.text.toLowerCase().indexOf(normalized) !== -1 ? (result.push(index) && result) : result;
-        }, []);
-    }
-
-    markAllSubstringMatches(entityContent, userText) {
-        let frags = entityContent.split(new RegExp('(' + escapeRegExp(userText) + ')', 'ig'));
-        let normalizedUserText = userText.toLowerCase();
-        let threshold = frags.length;
-        let i = -1;
-
-        while (++i < threshold) {
-            if (frags[i].toLowerCase() === normalizedUserText) {
-                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
-            }
-        }
-
-        return frags;
-    }
-
     render() {
         return (
             <header ref='sidebar'
@@ -356,7 +333,8 @@ class Sidebar extends UIView {
 
                 <sub className='ui-demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
 
-                <UITypeaheadInput className='ui-demo-header-search'
+                <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
+                                  className='ui-demo-header-search'
                                   entities={this.state.entities}
                                   onEntitySelected={this.handleEntitySelected.bind(this)}
                                   onComplete={this.handleComplete.bind(this)}
@@ -365,8 +343,6 @@ class Sidebar extends UIView {
                                     placeholder: 'Search for a page...',
                                     type: 'search',
                                   }}
-                                  matchFunc={this.fuzzyMatch.bind(this)}
-                                  markFunc={this.markAllSubstringMatches.bind(this)}
                                   hint={true} />
 
                 <nav className='ui-demo-nav'>
