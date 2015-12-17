@@ -38,6 +38,13 @@ import noop from '../UIUtils/noop';
  * trying to diff.
  */
 
+const cellClassRegex = /\s?ui-table-cell\b/g;
+const rowClassRegex = /\s?ui-table-row\b/g;
+const activeClassRegex = /\s?ui-table-row-active/g;
+const loadingClassRegex = /\s?ui-table-row-loading/g;
+const evenClassRegex = /\s?ui-table-row-even/g;
+const oddClassRegex = /\s?ui-table-row-odd/g;
+
 /** @ignore */
 let _findWhereIndex = null;
 const findWhere = function findWhere(array, property, value) {
@@ -171,16 +178,7 @@ const createCell = function createCell(content, mapping, width) {
 const createDOMRow = function createDOMRow(setIndex, y) {
     const row = document.createElement('div');
           row.className = 'ui-table-row';
-
-    if (setIndex % 2 === 0) {
-        row.classList.add('ui-table-row-even');
-        row.classList.remove('ui-table-row-odd');
-    } else {
-        row.classList.add('ui-table-row-odd');
-        row.classList.remove('ui-table-row-even');
-    }
-
-    row.style[transformProp] = translate3d(0, y);
+          row.style[transformProp] = translate3d(0, y);
 
     return row;
 };
@@ -204,27 +202,32 @@ const createRow = function createRow(metadata, columns) {
     const rowObj = {
         node: row,
         cells: cells,
+        '_iterator': null,
         '_active': false,
         get active() { return this._active; },
         set active(val) {
             if (val !== this._active) {
                 this._active = val;
 
-                this.node.classList[val ? 'add' : 'remove']('ui-table-row-active');
+                if (val) {
+                    this.node.className += ' ui-table-row-active';
+                } else {
+                    this.node.className = this.node.className.replace(activeClassRegex, '');
+                }
             }
         },
-        '_setIndex': metadata.setIndex,
+        '_setIndex': null,
         get setIndex() { return this._setIndex; },
         set setIndex(val) {
             if (val !== this._setIndex) {
                 this._setIndex = val;
 
                 if (this._setIndex % 2 === 0) {
-                    this.node.classList.add('ui-table-row-even');
-                    this.node.classList.remove('ui-table-row-odd');
+                    this.node.className = this.node.className.replace(oddClassRegex, '');
+                    this.node.className += ' ui-table-row-even';
                 } else {
-                    this.node.classList.add('ui-table-row-odd');
-                    this.node.classList.remove('ui-table-row-even');
+                    this.node.className = this.node.className.replace(evenClassRegex, '');
+                    this.node.className += ' ui-table-row-odd';
                 }
             }
         },
@@ -232,7 +235,11 @@ const createRow = function createRow(metadata, columns) {
         '_waitingForResolution': false,
         set _waitingForResolution(val) {
             if (val !== this._waitingForResolution) {
-                this.node.classList[val ? 'add' : 'remove']('ui-table-row-loading');
+                if (val) {
+                    this.node.className += ' ui-table-row-loading';
+                } else {
+                    this.node.className = this.node.className.replace(loadingClassRegex, '');
+                }
             }
         },
         get data() { return this._data; },
@@ -247,13 +254,22 @@ const createRow = function createRow(metadata, columns) {
                         }
                     }.bind(this, this._data));
 
-                    this.cells.forEach((cell, index) => cell.content = '');
+                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                        this.cells[this._iterator].content = '';
+                    }
+
                     this._waitingForResolution = true;
                 } else if (this._data) {
-                    this.cells.forEach((cell, index) => cell.content = this._data[columns[index].mapping]);
+                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                        this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                    }
+
                     this._waitingForResolution = false;
                 } else {
-                    this.cells.forEach((cell, index) => cell.content = '');
+                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                        this.cells[this._iterator].content = '';
+                    }
+
                     this._waitingForResolution = false;
                 }
             }
@@ -267,6 +283,9 @@ const createRow = function createRow(metadata, columns) {
             }
         },
     };
+
+    // Setting it separately to have the classes added automatically
+    rowObj.setIndex = metadata.setIndex;
 
     // Setting it separately so the Promise handling can take place if needed...
     rowObj.data = metadata.data;
@@ -486,6 +505,7 @@ class UITable extends UIView {
         this._container_w = this.refs.wrapper.clientWidth || 500;
 
         this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
+        this._yScrollTrack_h = this.refs['y-scroll-track'].clientHeight || 150;
 
         this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
 
@@ -546,6 +566,7 @@ class UITable extends UIView {
                     this._rowPointer.data = this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
 
                     this._rowsOrderedByY.push(this._rowsOrderedByY.shift());
                 }
@@ -604,6 +625,7 @@ class UITable extends UIView {
                     this._rowPointer.data = this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
 
                     this._rowsOrderedByY.unshift(this._rowsOrderedByY.pop());
                 }
@@ -669,10 +691,15 @@ class UITable extends UIView {
                 }
             }
 
-            this._yScrollHandlePosition = (this._rowStartIndex / this.props.totalRows) * this._container_h;
+            if (this.nextY === 0) {
+                this._yScrollHandlePosition = 0;
+            } else {
+                this._yScrollHandlePosition =   (Math.abs(this._nextY) / ((this.props.totalRows * this._cell_h) - this._container_h))
+                                              * (this._yScrollTrack_h - this._yScrollHandleSize);
 
-            if (this._yScrollHandlePosition + this._yScrollHandleSize > this._container_h) {
-                this._yScrollHandlePosition = this._container_h - this._yScrollHandleSize;
+                if (this._yScrollHandlePosition + this._yScrollHandleSize > this._yScrollTrack_h) {
+                    this._yScrollHandlePosition = this._yScrollTrack_h - this._yScrollHandleSize;
+                }
             }
 
             this.performTranslations(); // Do all transforms grouped together
@@ -755,7 +782,7 @@ class UITable extends UIView {
     }
 
     handleColumnDragStart(event) {
-        if (event.button === 0 && event.target.classList.contains('ui-table-header-cell-resize-handle')) {
+        if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.preventDefault();
 
@@ -902,14 +929,14 @@ class UITable extends UIView {
         let node = target;
         let nodeMap = {};
 
-        if (node.classList.contains('ui-table-row')) {
+        if (node.className.match(rowClassRegex)) {
             return {row: node};
         }
 
         while ((!nodeMap.cell || !nodeMap.row) && node) {
-            if (node.classList.contains('ui-table-cell')) {
+            if (node.className.match(cellClassRegex)) {
                 nodeMap.cell = node;
-            } else if (node.classList.contains('ui-table-row')) {
+            } else if (node.className.match(rowClassRegex)) {
                 nodeMap.row = node;
             }
 
@@ -950,7 +977,7 @@ class UITable extends UIView {
                     <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
                         <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
                     </div>
-                    <div className='ui-table-y-scroll-track'>
+                    <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
                         <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
                     </div>
                 </div>

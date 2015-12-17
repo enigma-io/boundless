@@ -257,6 +257,33 @@ describe('UITable', () => {
             expect(element.refs.body.querySelector('.ui-table-row .ui-table-cell').textContent).not.toBe('Louise');
         });
 
+        it('should preserve the active row', () => {
+            const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
+
+            element.handleKeyDown({
+                key: 'ArrowDown',
+                preventDefault: noop
+            });
+
+            expect(element.refs.body.querySelector('.ui-table-row-active .ui-table-cell').textContent).toBe('Louise');
+
+            element.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 10000,
+                preventDefault: noop
+            });
+
+            expect(element.refs.body.querySelector('.ui-table-row-active')).toBe(null);
+
+            element.handleMoveIntent({
+                deltaX: 0,
+                deltaY: -10000,
+                preventDefault: noop
+            });
+
+            expect(element.refs.body.querySelector('.ui-table-row-active .ui-table-cell').textContent).toBe('Louise');
+        });
+
         it('should occur when scrolled up', () => {
             const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
 
