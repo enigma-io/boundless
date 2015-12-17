@@ -77,6 +77,9 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 - __teaser__ `Node`
   content to be shown next to the expansion toggle, e.g. "Advanced Options"
 
+- __teaserExpanded__ `Node`
+  content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
+
 - __toggleProps__ `Object`
   __toggleProps.*__
   any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure-toggle` node

@@ -65,7 +65,7 @@ export default class UIProgressiveDisclosure extends UIView {
                      onClick={this.handleClick.bind(this)}
                      onKeyDown={this.handleKeyDown.bind(this)}
                      tabIndex='0'>
-                    {this.props.teaser}
+                    {this.state.expanded ? this.props.teaserExpanded || this.props.teaser : this.props.teaser}
                 </div>
                 <div ref='content'
                      className='ui-disclosure-content'>
@@ -82,6 +82,7 @@ UIProgressiveDisclosure.propTypes = {
     onExpand: React.PropTypes.func,
     onHide: React.PropTypes.func,
     teaser: React.PropTypes.node,
+    teaserExpanded: React.PropTypes.node,
     toggleProps: React.PropTypes.object,
 };
 
