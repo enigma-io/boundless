@@ -85,6 +85,50 @@ describe('UIProgressiveDisclosure', () => {
         });
     });
 
+    describe('teaser', () => {
+        it('should render the content in props.teaser while unexpanded', () => {
+            const element = render(<UIProgressiveDisclosure teaser='foo' />);
+
+            expect(element.refs.toggle.textContent).toBe('foo');
+        });
+
+        it('should accept JSX', () => {
+            const element = render(<UIProgressiveDisclosure teaser={<p>foo</p>} teaserExpanded={<p>bar</p>} />);
+            const node = element.refs.wrapper;
+
+            expect(element.refs.toggle.textContent).toBe('foo');
+
+            element.handleClick();
+
+            expect(element.refs.toggle.textContent).toBe('bar');
+            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+        });
+
+        it('should render the content in props.teaserExpanded while expanded', () => {
+            const element = render(<UIProgressiveDisclosure teaser='foo' teaserExpanded='bar' />);
+            const node = element.refs.wrapper;
+
+            expect(element.refs.toggle.textContent).toBe('foo');
+
+            element.handleClick();
+
+            expect(element.refs.toggle.textContent).toBe('bar');
+            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+        });
+
+        it('should render the content in props.teaser while expanded if props.teaserExpanded is not provided', () => {
+            const element = render(<UIProgressiveDisclosure teaser='foo' />);
+            const node = element.refs.wrapper;
+
+            expect(element.refs.toggle.textContent).toBe('foo');
+
+            element.handleClick();
+
+            expect(element.refs.toggle.textContent).toBe('foo');
+            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+        });
+    });
+
     describe('click on the toggle', () => {
         it('should should show and hide the content', () => {
             const element = render(<UIProgressiveDisclosure />);
