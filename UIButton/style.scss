@@ -3,6 +3,7 @@
 @import "../_globals";
 
 .ui-button {
+    appearance: none;
     background: transparent;
     border: 1px solid $color-text-body;
     border-radius: $default-border-radius;
