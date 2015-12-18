@@ -14,7 +14,6 @@ import UIFittedTextDemo from '../UIFittedText/demo';
 import UIImageDemo from '../UIImage/demo';
 import UIListDemo from '../UIList/demo';
 import UIModalDemo from '../UIModal/demo';
-import UINotificationDemo from '../UINotification/demo';
 import UIPaginatedViewDemo from '../UIPaginatedView/demo';
 import UIPopoverDemo from '../UIPopover/demo';
 import UIProgressDemo from '../UIProgress/demo';
@@ -25,6 +24,8 @@ import UITableDemo from '../UITable/demo';
 import UITokenizedInputDemo from '../UITokenizedInput/demo';
 import UITooltipDemo from '../UITooltip/demo';
 import UITypeaheadInputDemo from '../UITypeaheadInput/demo';
+
+import NotifyDemo from '../UIUtils/notify/demo';
 
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
@@ -176,12 +177,6 @@ const components = {
             fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8')
         ),
     },
-    UINotification: {
-        component: UINotificationDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UINotification/README.md', 'utf8')
-        ),
-    },
     UIPaginatedView: {
         component: UIPaginatedViewDemo,
         readme: prepareMarkdown(
@@ -250,6 +245,16 @@ const components = {
     },
 };
 
+const utilities = {
+    'notify': {
+        component: NotifyDemo,
+        displayName: 'UIUtils/notify',
+        readme: prepareMarkdown(
+            fs.readFileSync(__dirname + '/../UIUtils/notify/README.md', 'utf8')
+        ),
+    },
+};
+
 class Sidebar extends UIView {
     createSubEntities(path, text, entities, readme) {
         const headerTextRegex = /#+\s?([^<]+)/;
@@ -269,21 +274,38 @@ class Sidebar extends UIView {
         const entities = [];
 
         Object.keys(components).forEach(path => {
+            const name = components[path].displayName || path;
+
             entities.push({
                 path: path,
-                text: path,
+                text: name,
             });
 
-            this.createSubEntities(path, path, entities, components[path].readme);
+            this.createSubEntities(path, name, entities, components[path].readme);
         });
 
         Object.keys(pages).forEach(page => {
+            const path = pages;
+            const name = pages[page].displayName || page;
+
             entities.push({
-                path: page,
-                text: pages[page].displayName,
+                path: path,
+                text: name,
             });
 
-            this.createSubEntities(page, pages[page].displayName, entities, pages[page].readme);
+            this.createSubEntities(path, name, entities, pages[page].readme);
+        });
+
+        Object.keys(utilities).forEach(utility => {
+            const path = utility;
+            const name = utilities[utility].displayName || utility;
+
+            entities.push({
+                path: path,
+                text: name,
+            });
+
+            this.createSubEntities(path, name, entities, utilities[utility].readme);
         });
 
         return {entities};
@@ -355,6 +377,12 @@ class Sidebar extends UIView {
                         <h5 className='ui-demo-nav-section-title'>Documentation & Demos</h5>
                         {Object.keys(components).map(component => {
                             return this.renderLink(component, components[component].displayName || component);
+                        })}
+                    </div>
+                    <div className='ui-demo-nav-section'>
+                        <h5 className='ui-demo-nav-section-title'>Utilities</h5>
+                        {Object.keys(utilities).map(utility => {
+                            return this.renderLink(utility, utilities[utility].displayName || utility);
                         })}
                     </div>
                 </nav>
@@ -451,6 +479,9 @@ render(
             })}
             {Object.keys(components).map(component => {
                 return <Route {...components[component]} key={component} path={component} />;
+            })}
+            {Object.keys(utilities).map(utility => {
+                return <Route {...utilities[utility]} key={utility} path={utility} />;
             })}
         </Route>
     </Router>, document.getElementById('root')

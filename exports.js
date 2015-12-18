@@ -23,5 +23,8 @@ module.exports = {
     UITokenizedInput: (global.UIKit.UITokenizedInput = require('./UITokenizedInput').default),
     UITooltip: (global.UIKit.UITooltip = require('./UITooltip').default),
     UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput').default),
+    UIUtils: {
+        notify: (global.UIKit.UIUtils.notify = require('./UIUtils/notify').default),
+    },
     UIView: (global.UIKit.UIView = require('./UIView').default),
 };
