@@ -308,7 +308,10 @@ class UITable extends UIView {
         this.handleClick = this.handleClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
 
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleMoveIntent = this.handleMoveIntent.bind(this);
+
         this.handleXScrollHandleDragStart = this.handleXScrollHandleDragStart.bind(this);
         this.handleYScrollHandleDragStart = this.handleYScrollHandleDragStart.bind(this);
         this.handleDragMove = this.handleDragMove.bind(this);
@@ -328,6 +331,9 @@ class UITable extends UIView {
 
         this.refs.wrapper.addEventListener('wheel', this.handleMoveIntent);
         this.refs.wrapper.addEventListener('mousemove', this.handleDragMove);
+        this.refs.wrapper.addEventListener('touchstart', this.handleTouchStart);
+        this.refs.wrapper.addEventListener('touchmove', this.handleTouchMove);
+
         this.refs.wrapper.addEventListener('keydown', this.handleKeyDown);
 
         this._header.addEventListener('mousedown', this.handleColumnDragStart);
@@ -340,6 +346,9 @@ class UITable extends UIView {
     componentWillUnmount() {
         this.refs.wrapper.removeEventListener('wheel', this.handleMoveIntent);
         this.refs.wrapper.removeEventListener('mousemove', this.handleDragMove);
+        this.refs.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+        this.refs.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+
         this.refs.wrapper.removeEventListener('keydown', this.handleKeyDown);
 
         this._header.removeEventListener('mousedown', this.handleColumnDragStart);
@@ -359,8 +368,7 @@ class UITable extends UIView {
     resetInternals() {
         this._x = this._y = 0;
         this._nextX = this._nextY = 0;
-        this._xScrollHandlePosition = 0;
-        this._yScrollHandlePosition = 0;
+        this._xScrollHandlePosition = this._yScrollHandlePosition = 0;
 
         this._activeRow = -1;
         this._nextActiveRow = null;
@@ -373,8 +381,13 @@ class UITable extends UIView {
         this._shiftDelta = null;
         this._targetIndex = null;
 
-        this._xScrollHandleSize = null;
-        this._yScrollHandleSize = null;
+        this._dragEvent = {preventDefault: noop};
+
+        this._touchEvent = {preventDefault: noop};
+        this._touch = null;
+        this._lastTouchPageX = this._lastTouchPageY = 0;
+
+        this._xScrollHandleSize = this._yScrollHandleSize = null;
 
         // reset!
         this.performTranslations();
@@ -641,6 +654,29 @@ class UITable extends UIView {
         this._rowPointer = null;
     }
 
+    handleTouchStart(event) {
+        this._touch = event.touches.item(0);
+        this._lastTouchPageX = this._touch.pageX;
+        this._lastTouchPageY = this._touch.pageY;
+    }
+
+    handleTouchMove(event) {
+        event.preventDefault();
+
+        /* we handle touchmove by detecting the delta of pageX/Y and forwarding
+        it to handleMoveIntent() */
+
+        this._touch = event.touches.item(0);
+
+        this._touchEvent.deltaX = this._lastTouchPageX - this._touch.pageX;
+        this._touchEvent.deltaY = this._lastTouchPageY - this._touch.pageY;
+
+        this._lastTouchPageX = this._touch.pageX;
+        this._lastTouchPageY = this._touch.pageY;
+
+        this.handleMoveIntent(this._touchEvent);
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
 
@@ -751,23 +787,21 @@ class UITable extends UIView {
             }
 
             if (this._manuallyScrollingX) {
-                this.handleMoveIntent({
-                    deltaX: event.clientX - this._lastXScroll,
-                    deltaY: 0,
-                    preventDefault: noop,
-                });
+                this._dragEvent.deltaX = event.clientX - this._lastXScroll;
+                this._dragEvent.deltaY = 0;
+
+                this.handleMoveIntent(this._dragEvent);
 
                 this._lastXScroll = event.clientX;
             }
 
             if (this._manuallyScrollingY) {
-                this.handleMoveIntent({
-                    deltaX: 0,
-                    deltaY: ((event.clientY - this._lastYScroll) / this._container_h)
-                            * this.props.totalRows
-                            * this._cell_h,
-                    preventDefault: noop,
-                });
+                this._dragEvent.deltaX = 0;
+                this._dragEvent.deltaY = ((event.clientY - this._lastYScroll) / this._container_h)
+                                         * this.props.totalRows
+                                         * this._cell_h;
+
+                this.handleMoveIntent(this._dragEvent);
 
                 this._lastYScroll = event.clientY;
             }
@@ -824,11 +858,10 @@ class UITable extends UIView {
         /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
         we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
         if (adjustedDelta < 0) {
-            this.handleMoveIntent({
-                deltaX: adjustedDelta,
-                deltaY: 0,
-                preventDefault: noop,
-            });
+            this._dragEvent.deltaX = adjustedDelta;
+            this._dragEvent.deltaY = 0;
+
+            this.handleMoveIntent(this._dragEvent);
         }
     }
 
@@ -867,11 +900,10 @@ class UITable extends UIView {
                    (delta === -1 && this._nextActiveRow.y * -1 > this._y)
                 || (delta === 1 && this._nextActiveRow.y * -1 - this._cell_h < this._y - this._container_h + this._cell_h) // 1 unit of cellHeight is removed to compensate for the header row
             ) { // Destination row is outside the viewport, so simulate a scroll
-                this.handleMoveIntent({
-                    deltaX: 0,
-                    deltaY: this._cell_h * delta,
-                    preventDefault: noop,
-                });
+                this._dragEvent.deltaX = 0;
+                this._dragEvent.deltaY = this._cell_h * delta;
+
+                this.handleMoveIntent(this._dragEvent);
             }
         } else if (   (delta === -1 && this._activeRow > 0)
                    || (delta === 1 && this._activeRow < this.props.totalRows)) {
@@ -879,15 +911,14 @@ class UITable extends UIView {
                 The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
                 in the viewport.
              */
-            this.handleMoveIntent({
-                deltaX: 0,
-                deltaY: (   (    this._rowStartIndex > this._activeRow
-                              && this._activeRow - this._rowStartIndex)
-                         || (    this._rowStartIndex < this._activeRow
-                              && this._activeRow - this._rowStartIndex)
-                         + delta) * this._cell_h,
-                preventDefault: noop,
-            });
+            this._dragEvent.deltaX = 0;
+            this._dragEvent.deltaY = (   (    this._rowStartIndex > this._activeRow
+                                          && this._activeRow - this._rowStartIndex)
+                                     || (    this._rowStartIndex < this._activeRow
+                                          && this._activeRow - this._rowStartIndex)
+                                     + delta) * this._cell_h;
+
+            this.handleMoveIntent(this._dragEvent);
 
             // start the process again, now that the row is available
             window.requestAnimationFrame(() => this.changeActiveRow(delta));
