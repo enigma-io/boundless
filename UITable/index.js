@@ -59,6 +59,10 @@ const findWhere = function findWhere(array, property, value) {
     }
 }; // optimized specifically to only look for a single key:value match
 
+const translate3d = function translate3D(x = 0, y = 0) {
+    return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
+}; // z is never used
+
 const reparentCellText = function reparentCellText(node, content) {
     if (node.childNodes.length && node.childNodes[0].nodeType === 3) {
         node.removeChild(node.childNodes[0]);
@@ -291,11 +295,7 @@ const createRow = function createRow(metadata, columns) {
     rowObj.data = metadata.data;
 
     return rowObj;
-}
-
-const translate3d = function translate3D(x = 0, y = 0) {
-    return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
-}; // z is never used
+};
 
 class UITable extends UIView {
     constructor(...args) {
@@ -404,7 +404,7 @@ class UITable extends UIView {
     buildColumns() {
         this.emptyHeader();
 
-        this.props.columns.forEach((column, index) => this._columns.push(createHeaderCell(column)));
+        this.props.columns.forEach(column => this._columns.push(createHeaderCell(column)));
     }
 
     injectHeaderCells() {
@@ -690,7 +690,7 @@ class UITable extends UIView {
         this._deltaX = event.deltaX;
 
         // deltaMode 0 === pixels, 1 === lines
-        this._deltaY = event.deltaMode === 1 ? parseInt(event.deltaY) * this._cell_h : event.deltaY;
+        this._deltaY = event.deltaMode === 1 ? parseInt(event.deltaY, 10) * this._cell_h : event.deltaY;
 
         /* lock the translation axis if the user is manipulating the synthetic scrollbars */
         this._nextX = this._manuallyScrollingY ? 0 : this._x - this._deltaX;
@@ -866,7 +866,7 @@ class UITable extends UIView {
     }
 
     getKeyFromKeyCode(code) {
-        switch (event.keyCode) {
+        switch (code) {
         case 40:
             return 'ArrowDown';
 

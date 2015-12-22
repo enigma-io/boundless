@@ -1,6 +1,7 @@
 all: install check
 
 check:
+	npm run lint
 	npm run test
 
 deploy: install

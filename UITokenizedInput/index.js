@@ -69,8 +69,8 @@ class UITokenizedInput extends UIView {
 
         this.setState({tokenizedEntityIndexes: this.state.tokenizedEntityIndexes.concat(indexes)});
 
-        focusInput && this.refs.typeahead.focusInput();
-        clearInput && this.refs.typeahead.setValue('');
+        if (focusInput) { this.refs.typeahead.focusInput(); }
+        if (clearInput) { this.refs.typeahead.setValue(''); }
     }
 
     /**
@@ -90,8 +90,8 @@ class UITokenizedInput extends UIView {
             tokenizedEntityIndexesSelected: without(this.state.tokenizedEntityIndexesSelected, ...indexes),
         });
 
-        focusInput && this.refs.typeahead.focusInput();
-        clearInput && this.refs.typeahead.setValue('');
+        if (focusInput) { this.refs.typeahead.focusInput(); }
+        if (clearInput) { this.refs.typeahead.setValue(''); }
     }
 
     handleInputFocus(event) {
