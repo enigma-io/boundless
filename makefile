@@ -4,7 +4,8 @@ check:
 	npm run test
 
 deploy: install
-	npm run site_release
+	npm run site:release
+	npm run site:deploy
 
 install:
 	npm i
