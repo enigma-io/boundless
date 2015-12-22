@@ -58,17 +58,9 @@
     ]
   },
   "jest": {
-    "scriptPreprocessor": "./jest.preprocessor.js",
-    "testRunner": "./node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
-    "unmockedModulePathPatterns": [
-      "."
-    ],
-    "modulePathIgnorePatterns": [
-      "./node_modules/"
-    ],
-    "preprocessorIgnorePatterns": [
-      "./node_modules/"
-    ]
+    "setupEnvScriptFile": "jest.setup.js",
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js"
   },
   "scripts": {
     "es5": "rm -rf es5/* && find . -type f -name '*.js' -not \\( -path '*/node_modules/*' -or -path '*/docs/*' -or -path '*/dist/*' -or -path '*/demo/*' -or -path '*/__tests__/*' -or -path '*/site/*' -or -path '*/es5/*' \\) -not -name 'jest*.js' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} | uglifyjs -c --screw-ie8 -o es5/`echo ${p} | cut -c 3-`'",
@@ -78,7 +70,7 @@
     "site:css": "pleeease-watch",
     "site:js": "budo site/index.js:dist/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t brfs",
     "site:release": "mkdir -p site/dist/assets && pleeease-compile && mv site/dist/style.css site/dist/assets/style.css && browserify site/index.js -t babelify -t brfs | uglifyjs -mc drop_console --screw-ie8 > site/dist/assets/bundle.min.js && sed -e 's/bundle.js/bundle.min.js/g' -e 's/dist/assets/g' < site/index.html > site/dist/index.html",
-    "site:deploy": "ansible-playbook <rootDir>/playbook.yml -i /etc/ansible/hosts",
+    "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
     "site": "sh parallelize.sh \"npm run site:css\" \"npm run site:js\"",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t babelify",
