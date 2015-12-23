@@ -61,6 +61,7 @@
     "setupEnvScriptFile": "jest.setup.js",
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
+    "collectCoverage": true,
     "collectCoverageOnlyFrom": {
         "UIButton/index.js": true,
         "UICheckbox/index.js": true,
@@ -93,7 +94,6 @@
     "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} | uglifyjs -c --screw-ie8 -o es5/`echo ${p} | cut -c 3-`'",
     "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
-    "test:coverage": "jest --coverage",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -path './UI*/*' -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "site:css": "pleeease-watch",
     "site:js": "budo site/index.js:dist/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t brfs",
