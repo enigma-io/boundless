@@ -5,6 +5,7 @@ node_modules/
 .sass-cache/
 
 # build things
+coverage/
 site/dist
 docs/sdk
 
