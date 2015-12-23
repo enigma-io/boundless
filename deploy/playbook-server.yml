@@ -1,0 +1,41 @@
+---
+- hosts: platform-docs
+  vars:
+    nginx_dir: "/usr/local/etc/nginx"
+
+  handlers:
+    - name: Restart NGINX
+      sudo: true
+      service: name=nginx enabled=yes state=restarted
+
+  tasks:
+    - name: Install server dependencies
+      sudo: yes
+      pkgng: name={{ item }}
+      with_items:
+        - nginx
+
+    - name: Install the NGINX config
+      sudo: true
+      template: src=server.conf dest={{ nginx_dir }}/nginx.conf mode=0774
+      notify: Restart NGINX
+
+    - name: Create vhost sites-available directory
+      sudo: true
+      file: path={{ nginx_dir }}/sites-available state=directory mode=0774
+
+    - name: Create vhost sites-enabled directory
+      sudo: true
+      file: path={{ nginx_dir }}/sites-enabled state=directory mode=0774
+
+    - name: Enable NGINX
+      sudo: true
+      lineinfile:
+        dest=/etc/rc.conf
+        line="nginx_enable=\"YES\""
+        state=present
+        insertafter=EOF
+
+    - name: Start NGINX
+      sudo: true
+      service: name=nginx enabled=yes state=started
