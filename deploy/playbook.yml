@@ -1,9 +1,10 @@
 ---
-- hosts: platform-uikit
+- hosts: platform-docs
   vars:
     user: uikit
     home_dir: /home/{{ user }}
     app_dir: "{{ home_dir }}/app"
+    nginx_dir: "/usr/local/etc/nginx"
 
   handlers:
     - name: Restart NGINX
@@ -18,23 +19,6 @@
         - nginx
         - rsync
 
-    - name: Install the NGINX config with vhost for uikit
-      sudo: true
-      template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf mode="u=r,g=r"
-      notify: Restart NGINX
-
-    - name: Enable NGINX
-      sudo: true
-      lineinfile:
-        dest=/etc/rc.conf
-        line="nginx_enable=\"YES\""
-        state=present
-        insertafter=EOF
-
-    - name: Start NGINX
-      sudo: true
-      service: name=nginx enabled=yes state=started
-
     - name: Create the uikit user
       sudo: true
       user: name={{ user }} shell=/sbin/nologin
@@ -46,3 +30,12 @@
     - name: Change owner of uikit source
       sudo: true
       file: path={{ app_dir }} owner={{ user }} recurse=yes
+
+    - name: Install the NGINX vhost config for uikit
+      sudo: true
+      template: src=vhost.conf dest={{ nginx_dir }}/sites-available/uikit.conf mode=0774 owner={{ user }}
+
+    - name: Symlink vhost
+      sudo: true
+      file: src={{ nginx_dir }}/sites-available/uikit.conf dest={{ nginx_dir }}/sites-enabled/uikit.conf mode=0774 owner={{ user }} state=link force=yes
+      notify: Restart NGINX
