@@ -59,8 +59,8 @@
   },
   "jest": {
     "setupEnvScriptFile": "jest.setup.js",
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "testRunner": "<rootDir>/node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
         "UIButton/index.js": true,
