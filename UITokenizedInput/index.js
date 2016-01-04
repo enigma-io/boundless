@@ -9,37 +9,13 @@ import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-const first = function getFirstArrayItem(array) {
-    return array[0];
-};
-
-const last = function getLastArrayItem(array) {
-    return array[array.length - 1];
-};
-
-const without = function rejectSomeArrayItems(baseArray, ...toBeExcluded) {
-    return baseArray.filter(function rejectSome(item) {
-        return toBeExcluded.indexOf(item) === -1;
-    });
-};
+const first = array => array[0];
+const last = array => array[array.length - 1];
 
 class UITokenizedInput extends UIView {
-    initialState() {
-        return {
-            tokenizedEntityIndexesSelected: [],
-            tokenizedEntityIndexes: [].concat(this.props.defaultTokenizedEntityIndexes),
-        };
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        let previousIndexes = prevState.tokenizedEntityIndexes;
-        let previousSelectedIndexes = prevState.tokenizedEntityIndexesSelected;
-        let currentIndexes = this.state.tokenizedEntityIndexes;
-        let currentSelectedIndexes = this.state.tokenizedEntityIndexesSelected;
-
-        if (previousIndexes !== currentIndexes) {
-            this.props.onTokenChange(currentIndexes);
-        }
+    componentDidUpdate(prevProps) {
+        const previousSelectedIndexes = prevProps.tokensSelected;
+        const currentSelectedIndexes = this.props.tokensSelected;
 
         if (previousSelectedIndexes !== currentSelectedIndexes) { // move focus
             if (currentSelectedIndexes.length === 0) {
@@ -53,59 +29,29 @@ class UITokenizedInput extends UIView {
         }
     }
 
-    /**
-     * Create a token based on an entity's array index.
-     *
-     * @param {Number|Array<Number>}  index         the array index of the desired entity to be tokenized
-     * @param {Boolean}               [focusInput]  determines if the input should be focused after the
-     *                                              token changes are applied
-     * @param {Boolean}               [clearInput]  determines if the input should be cleared after the
-     *                                              token changes are applied
-     */
-    addToken(index, focusInput, clearInput) {
+    add(index) {
+        if (this.props.tokens.indexOf(index) === -1) { this.props.handleAddToken(index); }
+    }
+
+    remove(index) {
         const indexes = (Array.isArray(index) ? index : [index]).filter(idx => {
-            return this.state.tokenizedEntityIndexes.indexOf(idx) === -1;
+            return this.props.tokens.indexOf(idx) !== -1;
         });
 
-        this.setState({tokenizedEntityIndexes: this.state.tokenizedEntityIndexes.concat(indexes)});
-
-        if (focusInput) { this.refs.typeahead.focusInput(); }
-        if (clearInput) { this.refs.typeahead.setValue(''); }
+        if (indexes.length) { this.props.handleRemoveTokens(indexes); }
     }
 
-    /**
-     * Remove a token based on an entity's array index. If no index is given, all tokens are removed.
-     *
-     * @param {Number|Array<Number>}  index         the array index of the desired entity to be tokenized
-     * @param {Boolean}               [focusInput]  determines if the input should be focused after the
-     *                                              token changes are applied
-     * @param {Boolean}               [clearInput]  determines if the input should be cleared after the
-     *                                              token changes are applied
-     */
-    removeToken(index = this.state.tokenizedEntityIndexesSelected, focusInput, clearInput) {
-        const indexes = Array.isArray(index) ? index : [index];
-
-        this.setState({
-            tokenizedEntityIndexes: without(this.state.tokenizedEntityIndexes, ...indexes),
-            tokenizedEntityIndexesSelected: without(this.state.tokenizedEntityIndexesSelected, ...indexes),
-        });
-
-        if (focusInput) { this.refs.typeahead.focusInput(); }
-        if (clearInput) { this.refs.typeahead.setValue(''); }
+    selectToken(index) {
+        this.props.handleNewSelection([index]);
     }
 
-    handleInputFocus(event) {
-        this.setState({tokenizedEntityIndexesSelected: []});
-
-        if (typeof this.props.inputProps.onFocus === 'function') {
-            event.persist();
-            this.props.inputProps.onFocus(event);
-        }
+    selectTokens(indexes) {
+        this.props.handleNewSelection(indexes);
     }
 
     selectPreviousToken(append) {
-        let selected = this.state.tokenizedEntityIndexesSelected;
-        let indexes = this.state.tokenizedEntityIndexes;
+        const selected = this.props.tokensSelected;
+        const indexes = this.props.tokens;
 
         if (   selected.length === 1
             && first(selected) === first(indexes)) {
@@ -113,38 +59,42 @@ class UITokenizedInput extends UIView {
         }
 
         if (selected.length === 0) { // pick the rightmost
-            this.setState({
-                tokenizedEntityIndexesSelected: [last(indexes)],
-            });
+            this.selectToken(last(indexes));
         } else { // add the next leftmost to a reconstructed "selected" array
-            let previousToken = indexes[indexes.indexOf(first(selected)) - 1];
+            const previousToken = indexes[indexes.indexOf(first(selected)) - 1];
 
-            this.setState({
-                tokenizedEntityIndexesSelected: append ? [previousToken].concat(selected) : [previousToken],
-            });
+            this.selectTokens(append ? [previousToken].concat(selected) : [previousToken]);
         }
     }
 
     selectNextToken(append) {
-        let selected = this.state.tokenizedEntityIndexesSelected;
-        let indexes = this.state.tokenizedEntityIndexes;
+        const selected = this.props.tokensSelected;
+        const indexes = this.props.tokens;
 
         if (selected.length === 0) {
             return;
         }
 
         if (last(selected) === last(indexes)) {
-            this.setState({
-                tokenizedEntityIndexesSelected: [],
-            });
-
+            this.clearSelection();
             this.refs.typeahead.focusInput();
         } else {
-            let nextToken = indexes[indexes.indexOf(last(selected)) + 1];
+            const nextToken = indexes[indexes.indexOf(last(selected)) + 1];
 
-            this.setState({
-                tokenizedEntityIndexesSelected: append ? selected.concat(nextToken) : [nextToken],
-            });
+            this.selectTokens(append ? selected.concat(nextToken) : [nextToken]);
+        }
+    }
+
+    clearSelection() {
+        this.props.handleNewSelection([]);
+    }
+
+    handleInputFocus(event) {
+        this.clearSelection();
+
+        if (typeof this.props.inputProps.onFocus === 'function') {
+            event.persist();
+            this.props.inputProps.onFocus(event);
         }
     }
 
@@ -159,9 +109,9 @@ class UITokenizedInput extends UIView {
             break;
 
         case 'Backspace':
-            if (this.state.tokenizedEntityIndexesSelected.length) {
+            if (this.props.tokensSelected.length) {
                 event.preventDefault();
-                this.removeToken();
+                this.remove(this.props.tokensSelected);
 
                 this.refs.typeahead.focusInput();
             }
@@ -176,7 +126,7 @@ class UITokenizedInput extends UIView {
     }
 
     handleTokenCloseClick(index) {
-        this.removeToken(index);
+        this.remove(index);
     }
 
     renderTokenClose(index) {
@@ -188,35 +138,26 @@ class UITokenizedInput extends UIView {
         }
     }
 
-    selectSingleToken(index) {
-        if (   this.state.tokenizedEntityIndexesSelected.indexOf(index) === -1
-            || this.state.tokenizedEntityIndexesSelected.length > 1) {
-            this.setState({
-                tokenizedEntityIndexesSelected: [index],
-            });
-        }
-    }
-
     handleTokenKeyDown(index, event) {
         switch (event.key) {
         case 'Enter':
         case 'Space':
-            this.selectSingleToken(index);
+            this.selectToken(index);
         }
     }
 
     renderTokens() {
         return (
             <div className='ui-tokenfield-tokens'>
-                {this.state.tokenizedEntityIndexes.map(index => {
+                {this.props.tokens.map(index => {
                     return (
                         <div ref={`token_${index}`}
                              key={index}
                              className={cx({
                                 'ui-tokenfield-token': true,
-                                'ui-tokenfield-token-selected': this.state.tokenizedEntityIndexesSelected.indexOf(index) !== -1,
+                                'ui-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
                              })}
-                             onClick={this.selectSingleToken.bind(this, index)}
+                             onClick={this.selectToken.bind(this, index)}
                              onKeyDown={this.handleTokenKeyDown.bind(this, index)}
                              tabIndex='0'>
                             {this.props.entities[index].text}
@@ -248,7 +189,7 @@ class UITokenizedInput extends UIView {
                 <UITypeaheadInput {...descendants}
                                   ref='typeahead'
                                   className='ui-tokenfield'
-                                  onEntitySelected={this.addToken.bind(this)}
+                                  onEntitySelected={this.add.bind(this)}
                                   onFocus={this.handleInputFocus.bind(this)}
                                   clearPartialInputOnSelection={true} />
             </div>
@@ -258,15 +199,21 @@ class UITokenizedInput extends UIView {
 
 UITokenizedInput.propTypes = {
     ...UITypeaheadInput.propTypes,
-    defaultTokenizedEntityIndexes: React.PropTypes.arrayOf(React.PropTypes.number),
-    onTokenChange: React.PropTypes.func,
+    handleAddToken: React.PropTypes.func,
+    handleRemoveTokens: React.PropTypes.func,
+    handleNewSelection: React.PropTypes.func,
+    tokens: React.PropTypes.arrayOf(React.PropTypes.number),
+    tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
     showTokenClose: React.PropTypes.bool,
 };
 
 UITokenizedInput.defaultProps = {
     ...UITypeaheadInput.defaultProps,
-    defaultTokenizedEntityIndexes: [],
-    onTokenChange: noop,
+    handleAddToken: noop,
+    handleRemoveTokens: noop,
+    handleNewSelection: noop,
+    tokens: [],
+    tokensSelected: [],
     showTokenClose: true,
 };
 

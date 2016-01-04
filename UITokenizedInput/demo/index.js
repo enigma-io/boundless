@@ -2,6 +2,8 @@ import UITokenizedInput from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 
+const without = (baseArray, ...toBeExcluded) => baseArray.filter(item => toBeExcluded.indexOf(item) === -1);
+
 export default class UITokenizedInputDemo extends UIView {
     initialState() {
         return {
@@ -255,16 +257,38 @@ export default class UITokenizedInputDemo extends UIView {
                 {text: 'Zambia'},
                 {text: 'Zimbabwe'},
             ],
+            tokens: [11, 55, 211],
+            tokensSelected: [],
         };
+    }
+
+    addTokenByEntityIndex(index) {
+        this.setState({tokens: this.state.tokens.concat(index)});
+    }
+
+    removeTokensByEntityIndexes(indexes) {
+        this.setState({
+            tokens: without(this.state.tokens, ...indexes),
+            tokensSelected: without(this.state.tokensSelected, ...indexes),
+        });
+    }
+
+    handleSelectionByEntityIndexes(indexes) {
+        this.setState({tokensSelected: indexes});
     }
 
     render() {
         return (
             <div>
                 <p>Enter a country you'd like to visit:</p>
-                    <UITokenizedInput entities={this.state.countries}
-                                      defaultTokenizedEntityIndexes={[11, 55, 211]}
-                                      hint={true} />
+                <UITokenizedInput entities={this.state.countries}
+                                  handleAddToken={this.addTokenByEntityIndex.bind(this)}
+                                  handleRemoveTokens={this.removeTokensByEntityIndexes.bind(this)}
+                                  handleNewSelection={this.handleSelectionByEntityIndexes.bind(this)}
+                                  hint={true}
+                                  showTokenClose={true}
+                                  tokens={this.state.tokens}
+                                  tokensSelected={this.state.tokensSelected} />
             </div>
         );
     }
