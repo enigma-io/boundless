@@ -3,8 +3,36 @@
 
 ---
 
-### 1.0.0-beta-6 (12/17/2015)
+### 1.0.0-beta-7 (1/4/2016)
+#### Breaking Changes
 
+__UITokenizedInput is now operated as a "controlled" component.__
+
+This essentially means that the component no longer manages its own state and relies on the consuming developer to provide what tokens to render and their selection state. When a user interacts with UITokenizedInput, certain functions will be triggered to notify the stateful wrapper that it should add/remove token(s) or move the selection.
+
+Learn more in the [UITokenizedInput documentation](UITokenizedInput/README.md)!
+
+__UINotification -> UIUtils/notify__
+
+We recently discovered that the lifecycle functionality of web notifications is completely unreliable, so the "manager" aspect of this component was removed and the whole thing has been converted into a utility, rather than a React component.
+
+Learn more in the [UIUtils/notify documentation](UIUtils/notify/README.md)!
+
+#### Relevant Commits
+
+- UITokenizedInput: Refactor to a "controlled" system (130b328)
+- Fix links to UITypeaheadInput from UITokenizedInput (d1c408f)
+- Add tests to verify the contents of exports.js (1d780ac)
+- Add missing export line for UIPaginatedView (f07e4bb)
+- UITable: baseline touch support (c28b45a)
+- UINotification -> UIUtils/notify (5cf5f0c)
+- Site: mobile styles (d5c92f5)
+- UITable: classList -> className (IE9 support) (b98ad3f)
+- UITable: fix y-axis scroll handle sensitivity (77f8098)
+- UITable: preserve active row when scrolled out of view (3c34961)
+- UITable: lock row + cell to the same height (e48124a)
+
+### 1.0.0-beta-6 (12/17/2015)
 #### Breaking Change
 
 __UITypeaheadInput's algorithm handling has been changed.__
@@ -29,7 +57,7 @@ So to do custom matching etc. again you'd pass the following instead:
 
 Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [UITypeaheadInput readme](UITypeaheadInput/README.md) for more information.
 
-#### Commits
+#### Relevant Commits
 
 - UITable: classList -> className (IE9 support) (b98ad3f)
 - UITable: fix y-axis scroll handle sensitivity (77f8098)
