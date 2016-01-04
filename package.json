@@ -88,7 +88,8 @@
         "UIUtils/shallowEqual/index.js": true,
         "UIUtils/transform/index.js": true,
         "UIView/index.js": true
-    }
+    },
+    "preprocessorIgnorePatterns": ["node_modules"]
   },
   "scripts": {
     "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} | uglifyjs -c --screw-ie8 -o es5/`echo ${p} | cut -c 3-`'",
