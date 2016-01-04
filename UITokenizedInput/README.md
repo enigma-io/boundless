@@ -1,7 +1,7 @@
 # UITokenizedInput
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
-Usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput).
+Usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput/README.md).
 
 > The Platform team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITokenizedInput` in your project.
 
@@ -59,7 +59,7 @@ Styling of the element will be provided via the CSS hooks:
 - `.ui-tokenfield-token-close`
 - `.ui-tokenfield-token-selected`
 
-In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput) will be present.
+In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput/README.md) will be present.
 
 ---
 
@@ -79,7 +79,7 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
-- all props accepted by [`UITypeaheadInput`](../UITypeaheadInput)
+- all props accepted by [`UITypeaheadInput`](../UITypeaheadInput/README.md)
 
 - __defaultTokenizedEntityIndexes__ `Array[Number]`
   indexes of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
