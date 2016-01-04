@@ -1,7 +1,7 @@
 # UITokenizedInput
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
-Usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput/README.md).
+Basic usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput/README.md). Additional props are available to take advantage of the tokenization functionality.
 
 > The Platform team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITokenizedInput` in your project.
 
@@ -67,12 +67,12 @@ In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput/REA
 
 Type | Context | Expectation
 ---- | ------- | -----------
-__Keyboard__ | `[Enter]` | select the current typeahead match if one exists, trigger `onTokenChange` with token data
-__Keyboard__ | `[Backspace]` on token | trigger `onTokenChange` with token data
+__Keyboard__ | `[Enter]` | select the current typeahead match if one exists, trigger `handleAddToken` with the entity index
+__Keyboard__ | `[Backspace]` on token | trigger `handleRemoveTokens` with the entity index(es)
 __Keyboard__ | `[Left]` | cycle left through tokens if a token is already selected or cursor is at the start of the typeahead
 __Keyboard__ | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
-__Mouse__ | `[Click]` on token | focus token, add "selected" class
-__Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
+__Mouse__ | `[Click]` on token | focus token, calls `handleSelection` with the token's entity index
+__Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the token's entity index
 
 ---
 
@@ -81,23 +81,22 @@ __Mouse__ | `[Click]` on token close | trigger `onTokenChange` with token data
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput/README.md)
 
-- __defaultTokenizedEntityIndexes__ `Array[Number]`
-  indexes of items in the `entities` list to be pre-existing tokens (the user can then add to or remove them)
+- __handleAddToken(`Number`)__ `Function`
+  function handler that is called when an entity is selected by the user and a token should be created
 
-- __onTokenChange__ `Function`
-  triggered when an action has been taken to add or remove a token to the UI, returns an array of entity indexes
+- __handleRemoveTokens(`Array<Number>`)__ `Function`
+  function handler that is called when one or more tokens are removed by the user via clicking the "close" button or
+  pressing the `Backspace` key while tokens are selected
+
+- __handleNewSelection(`Array<Number>`)__ `Function`
+  function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with
+  what the new selection should be
 
 - __showTokenClose__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
 
----
+- __tokens__ `Array<Number>`
+  the indexes of entities that should be rendered as "tokens" in the component UI
 
-### Available Methods
-
-- `addToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
-  accepts an entity index or array of entity indexes to create new tokens, with optional additional side effects via
-  the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`
-
-- `removeToken(index, focusInput, clearInput)` (index=Number|Array<Number>, focusInput=Boolean, clearInput=Boolean)
-  accepts an entity index or array of entity indexes to remove tokens, with optional additional side effects via
-  the `focusInput` and `clearInput` boolean arguments; does trigger `onTokenChange`
+- __tokensSelected__ `Array<Number>`
+  the indexes of entities that should have a selected or highlighted state
