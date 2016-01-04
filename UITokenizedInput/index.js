@@ -202,8 +202,8 @@ UITokenizedInput.propTypes = {
     handleAddToken: React.PropTypes.func,
     handleRemoveTokens: React.PropTypes.func,
     handleNewSelection: React.PropTypes.func,
-    tokens: React.PropTypes.array,
-    tokensSelected: React.PropTypes.array,
+    tokens: React.PropTypes.arrayOf(React.PropTypes.number),
+    tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
     showTokenClose: React.PropTypes.bool,
 };
 
