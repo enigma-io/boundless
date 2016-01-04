@@ -1,15 +1,12 @@
 import React from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
-import transformProp from '../UIUtils/transform';
 
 class UIPaginatedViewItem extends UIView {
-    constructor(...args) {
-        super(...args);
-    }
-
     initialState() {
-        return {data: this.props.data};
+        return {
+            data: this.props.data,
+        };
     }
 
     componentWillReceiveProps(nextProps) {
