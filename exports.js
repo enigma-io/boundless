@@ -4,6 +4,7 @@
  */
 
 global.UIKit = {};
+global.UIKit.UIUtils = {};
 
 module.exports = {
     UIButton: (global.UIKit.UIButton = require('./UIButton').default),
@@ -14,6 +15,7 @@ module.exports = {
     UIImage: (global.UIKit.UIImage = require('./UIImage').default),
     UIList: (global.UIKit.UIList = require('./UIList').default),
     UIModal: (global.UIKit.UIModal = require('./UIModal').default),
+    UIPaginatedView: (global.UIKit.UIPaginatedView = require('./UIPaginatedView').default),
     UIPopover: (global.UIKit.UIPopover = require('./UIPopover').default),
     UIProgress: (global.UIKit.UIProgress = require('./UIProgress').default),
     UIProgressiveDisclosure: (global.UIKit.UIProgressiveDisclosure = require('./UIProgressiveDisclosure').default),
