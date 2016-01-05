@@ -37,6 +37,7 @@ const history = createBrowserHistory();
 
 const injectorRegex = /([#]+\s?)(.*?)\n/g;
 const githubRemapperRegex = /(\[.*?\])\(((?!http|#).*?)\)/gi;
+const shaRemapperRegex = /\(([A-Z0-9]{7,})\)/gi;
 const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
 const propDescriptorRegex = /((__|\*\*).*?(__|\*\*)\s?`.*?`)/g;
 
@@ -64,6 +65,10 @@ function remapRelativeREADMELinks(mkdown = '') {
     return mkdown.replace(readmeRemapperRegex, '$1(/$3$4)');
 }
 
+function remapCommitSHAsToGithub(mkdown = '') {
+    return mkdown.replace(shaRemapperRegex, '([$1](https://github.com/bibliotech/uikit/commit/$1))');
+}
+
 function remapRelativeLinksToGithub(mkdown = '') {
     return mkdown.replace(
         githubRemapperRegex, (...captures) => {
@@ -84,6 +89,7 @@ function prepareMarkdown(mkdown = '') {
                 breakLineAfterPropDescriptor,
                 remapRelativeLinksToGithub,
                 remapRelativeREADMELinks,
+                remapCommitSHAsToGithub,
             ].reduce((content, transform) => transform(content), block);
         }
 
