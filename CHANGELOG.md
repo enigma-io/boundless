@@ -10,13 +10,11 @@ __UITokenizedInput is now operated as a "controlled" component.__
 
 This essentially means that the component no longer manages its own state and relies on the consuming developer to provide what tokens to render and their selection state. When a user interacts with UITokenizedInput, certain functions will be triggered to notify the stateful wrapper that it should add/remove token(s) or move the selection.
 
-Learn more in the [UITokenizedInput documentation](UITokenizedInput/README.md)!
+Learn more in the [UITokenizedInput documentation](./UITokenizedInput/README.md)!
 
 __UINotification -> UIUtils/notify__
 
 We recently discovered that the lifecycle functionality of web notifications is completely unreliable, so the "manager" aspect of this component was removed and the whole thing has been converted into a utility, rather than a React component.
-
-Learn more in the [UIUtils/notify documentation](UIUtils/notify/README.md)!
 
 #### Relevant Commits
 
@@ -59,7 +57,7 @@ So to do custom matching etc. again you'd pass the following instead:
     }} />
 ```
 
-Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [UITypeaheadInput readme](UITypeaheadInput/README.md) for more information.
+Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [UITypeaheadInput readme](./UITypeaheadInput/README.md) for more information.
 
 #### Relevant Commits
 
