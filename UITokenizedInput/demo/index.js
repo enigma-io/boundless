@@ -1,4 +1,5 @@
 import UITokenizedInput from '../index';
+import UITypeahead from '../../UITypeaheadInput';
 import UIView from '../../UIView';
 import React from 'react';
 
@@ -281,7 +282,8 @@ export default class UITokenizedInputDemo extends UIView {
         return (
             <div>
                 <p>Enter a country you'd like to visit:</p>
-                <UITokenizedInput entities={this.state.countries}
+                <UITokenizedInput algorithm={UITypeahead.mode.FUZZY}
+                                  entities={this.state.countries}
                                   handleAddToken={this.addTokenByEntityIndex.bind(this)}
                                   handleRemoveTokens={this.removeTokensByEntityIndexes.bind(this)}
                                   handleNewSelection={this.handleSelectionByEntityIndexes.bind(this)}
