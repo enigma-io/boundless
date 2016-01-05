@@ -30,6 +30,8 @@ class UITokenizedInput extends UIView {
             } else if (last(currentSelectedIndexes) !== last(previousSelectedIndexes) /* multi selection, rightward */) {
                 this.refs[`token_${last(currentSelectedIndexes)}`].focus();
             }
+
+            this.refs[`token_${currentSelectedIndexes[0]}`].focus();
         }
     }
 

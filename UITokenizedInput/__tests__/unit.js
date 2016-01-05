@@ -98,6 +98,48 @@ describe('UITokenizedInput', () => {
         });
     });
 
+    describe('add()', () => {
+        it('should call handleAddToken with a valid index', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} handleAddToken={stub} />);
+
+            element.add(0);
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(0)).toBe(true);
+        });
+
+        it('should not call handleAddToken for an already tokenized index', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0]} handleAddToken={stub} />);
+
+            element.add(0);
+
+            expect(stub.called).toBe(false);
+        });
+    });
+
+    describe('remove()', () => {
+        it('should call handleRemoveTokens with valid indexes', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0]} handleRemoveTokens={stub} />);
+
+            element.remove(0);
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch([0])).toBe(true);
+        });
+
+        it('should not call handleRemoveTokens with invalid indexes', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0]} handleRemoveTokens={stub} />);
+
+            element.remove(12);
+
+            expect(stub.called).toBe(false);
+        });
+    });
+
     describe('props.tokens', () => {
         it('should be rendered to the UI as token children', () => {
             const element = render(
@@ -189,6 +231,28 @@ describe('UITokenizedInput', () => {
             expect(stub.calledWithMatch([1])).toBe(true);
         });
 
+        it('should occur if pressing `Enter` on a focused token', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleNewSelection={stub} />);
+            const typeahead = element.refs.typeahead;
+
+            element.handleTokenKeyDown(0, {key: 'Enter'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch([0])).toBe(true);
+        });
+
+        it('should occur if pressing `Space` on a focused token', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleNewSelection={stub} />);
+            const typeahead = element.refs.typeahead;
+
+            element.handleTokenKeyDown(0, {key: 'Space'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch([0])).toBe(true);
+        });
+
         it('should not change if pressing the left arrow key with the only token already selected', () => {
             const stub = sinon.stub();
             const element = render(<UITokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} handleNewSelection={stub} />);
@@ -223,6 +287,106 @@ describe('UITokenizedInput', () => {
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
+        });
+
+        it('should focus the token as well', () => {
+            let element = render(
+                <UITokenizedInput entities={entities}
+                                  tokens={[0, 1]}
+                                  tokensSelected={[]} />
+            );
+
+            const modifySelection = indexes => {
+                element = render(
+                    <UITokenizedInput entities={entities}
+                                      tokens={[0, 1]}
+                                      tokensSelected={indexes} />
+                );
+            };
+
+            const typeahead = element.refs.typeahead;
+                  typeahead.focusInput();
+
+            expect(document.activeElement).toBe(typeahead.refs.input);
+
+            modifySelection([1]);
+
+            expect(document.activeElement).toBe(element.refs.token_1);
+        });
+
+        it('should not modify focus if all tokens are removed', () => {
+            let element = render(
+                <UITokenizedInput entities={entities}
+                                  tokens={[0, 1]}
+                                  tokensSelected={[1]} />
+            );
+
+            const modifySelection = indexes => {
+                element = render(
+                    <UITokenizedInput entities={entities}
+                                      tokens={[0, 1]}
+                                      tokensSelected={indexes} />
+                );
+            };
+
+            const typeahead = element.refs.typeahead;
+                  typeahead.focusInput();
+
+            expect(document.activeElement).toBe(typeahead.refs.input);
+
+            modifySelection([]);
+
+            expect(document.activeElement).toBe(typeahead.refs.input);
+        });
+
+        it('should move focus to the leftmost token of the selection when mass selecting after shift + left arrow', () => {
+            let element;
+
+            const modifySelection = indexes => {
+                element = render(
+                    <UITokenizedInput entities={entities}
+                                      tokens={[0, 1]}
+                                      tokensSelected={indexes}
+                                      handleNewSelection={modifySelection} />
+                );
+            };
+
+            element = render(
+                <UITokenizedInput entities={entities}
+                                  tokens={[0, 1]}
+                                  tokensSelected={[1]}
+                                  handleNewSelection={modifySelection} />
+            );
+
+            element.refs.token_1.focus();
+            element.handleKeyDown({key: 'ArrowLeft', shiftKey: true});
+
+            expect(document.activeElement).toBe(element.refs.token_0);
+        });
+
+        it('should move focus to the rightmost token of the selection when mass selecting after shift + right arrow', () => {
+            let element;
+
+            const modifySelection = indexes => {
+                element = render(
+                    <UITokenizedInput entities={entities}
+                                      tokens={[0, 1]}
+                                      tokensSelected={indexes}
+                                      handleNewSelection={modifySelection} />
+                );
+            };
+
+            element = render(
+                <UITokenizedInput entities={entities}
+                                  tokens={[0, 1]}
+                                  tokensSelected={[0]}
+                                  handleNewSelection={modifySelection} />
+            );
+
+            element.refs.token_0.focus();
+            element.handleKeyDown({key: 'ArrowRight', shiftKey: true});
+
+            expect(document.activeElement).toBe(element.refs.token_1);
         });
     });
 
@@ -268,6 +432,39 @@ describe('UITokenizedInput', () => {
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
+        });
+
+        it('should proxy up the focus event if inputProps.onFocus is provided', () => {
+            const stub = sinon.stub();
+            const element = render(
+                <UITokenizedInput entities={entities}
+                                  tokens={[0, 1]}
+                                  tokensSelected={[1]}
+                                  inputProps={{onFocus: stub}} />
+            );
+
+            const typeahead = element.refs.typeahead;
+
+            Simulate.focus(typeahead.refs.input);
+
+            expect(stub.called).toBe(true);
+        });
+    });
+
+    describe('input keydown', () => {
+        it('should be forwarded if onKeyDown is provided', () => {
+            const stub = sinon.stub();
+            const element = render(
+                <UITokenizedInput entities={entities}
+                                  onKeyDown={stub} />
+            );
+
+            element.handleKeyDown({
+                key: 'Enter',
+                persist: noop,
+            });
+
+            expect(stub.called).toBe(true);
         });
     });
 });
