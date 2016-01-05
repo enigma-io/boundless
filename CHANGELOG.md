@@ -32,6 +32,10 @@ Learn more in the [UIUtils/notify documentation](UIUtils/notify/README.md)!
 - UITable: preserve active row when scrolled out of view (3c34961)
 - UITable: lock row + cell to the same height (e48124a)
 
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-6 (12/17/2015)
 #### Breaking Change
 
