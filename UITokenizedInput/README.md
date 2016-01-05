@@ -18,16 +18,27 @@ const list = [
     {text: 'banana'},
 ];
 
+const tokens = [0];         // these are indexes of entities in "list" above
+const tokensSelected = [];  // indexes are added to this array when the user tries to select a token
+
+const addEntityIndexToTokens = index => tokens.push(index);
+const removeEntityIndexesFromTokens = indexes => tokens.filter(index => indexes.indexOf(index) === -1);
+const modifyTokenSelectionArray = indexes => tokensSelected = indexes;
+
 // ...
 
 render() {
     return (
-        <UITokenizedInput name='my-typeahead'
+        <UITokenizedInput name='my-tokenfield'
                           aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
                           defaultValue='ap'
                           entities={list}
+                          handleAddToken={addEntityIndexToTokens}
+                          handleRemoveTokens={removeEntityIndexesFromTokens}
+                          handleSelection={modifyTokenSelectionArray}
                           hint={true}
-                          defaultTokenizedEntityIndexes={[0]} />
+                          tokens={tokens}
+                          tokensSelected={tokensSelected} />
     );
 }
 ```
@@ -42,7 +53,7 @@ Renders:
     <div class="ui-typeahead-wrapper">
         <div role="region" id="{uuid}" aria-live="polite">apple</div>
         <input type="text" class="ui-typeahead-hint" role="presentation" tabindex='-1' disabled />
-        <input name="my-typeahead" type="text" class="ui-tokenfield ui-typeahead" aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available." aria-controls="{uuid}" /> <!-- initializes to "or" -->
+        <input name="my-tokenfield" type="text" class="ui-tokenfield ui-typeahead" aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available." aria-controls="{uuid}" /> <!-- initializes to "or" -->
         <div class="ui-typeahead-match-wrapper" role="presentation">
             <div class="ui-typeahead-match" data-match="orange"><mark class="ui-typeahead-match-highlight">ap</mark>ple</div>
         </div>
@@ -67,7 +78,7 @@ In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput/REA
 
 Type | Context | Expectation
 ---- | ------- | -----------
-__Keyboard__ | `[Enter]` | select the current typeahead match if one exists, trigger `handleAddToken` with the entity index
+__Keyboard__ | `[Enter]` | select the current typeahead match if one exists, trigger `handleAddToken` with the entity index and clear out the input field
 __Keyboard__ | `[Backspace]` on token | trigger `handleRemoveTokens` with the entity index(es)
 __Keyboard__ | `[Left]` | cycle left through tokens if a token is already selected or cursor is at the start of the typeahead
 __Keyboard__ | `[Right]` | cycle right through tokens if there are more than one tokens and the rightmost one is not selected
@@ -99,4 +110,4 @@ __Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the tok
   the indexes of entities that should be rendered as "tokens" in the component UI
 
 - __tokensSelected__ `Array<Number>`
-  the indexes of entities that should have a selected or highlighted state
+  the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`

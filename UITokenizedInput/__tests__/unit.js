@@ -107,6 +107,32 @@ describe('UITokenizedInput', () => {
             expect(element.refs['token_0'].textContent).toBe('apple');
             expect(element.refs['token_1'].textContent).toBe('apricot');
         });
+
+        it('should clear the input when a new token is added', () => {
+            let element = render(
+                <UITokenizedInput entities={entities} tokens={[0, 1]} />
+            );
+
+            element.refs.typeahead.setValue('blue');
+            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+
+            element = render(<UITokenizedInput entities={entities} tokens={[0, 1, 2]} />);
+
+            expect(element.refs.typeahead.refs.input.value).toBe('');
+        });
+
+        it('should not clear the input when a token is removed', () => {
+            let element = render(
+                <UITokenizedInput entities={entities} tokens={[0, 1]} />
+            );
+
+            element.refs.typeahead.setValue('blue');
+            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+
+            element = render(<UITokenizedInput entities={entities} tokens={[0]} />);
+
+            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+        });
     });
 
     describe('interactive token creation', () => {

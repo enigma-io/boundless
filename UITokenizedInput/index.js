@@ -17,6 +17,10 @@ class UITokenizedInput extends UIView {
         const previousSelectedIndexes = prevProps.tokensSelected;
         const currentSelectedIndexes = this.props.tokensSelected;
 
+        if (this.props.tokens.length > prevProps.tokens.length) {
+            this.refs.typeahead.setValue('');
+        }
+
         if (previousSelectedIndexes !== currentSelectedIndexes) { // move focus
             if (currentSelectedIndexes.length === 0) {
                 return;
