@@ -3,6 +3,23 @@
 
 ---
 
+### 1.0.0-beta-8 (1/5/2016)
+
+- UITokenizedInput: focus a token when it becomes selected, tests (68ecf18)
+- UITokenizedInput: clear input when tokens are added (2298596)
+
+#### Misc
+
+- Site: prepare markdown modifications at build time (cdee94e)
+- [Site] Auto-link detected commit SHAs back to github (fb579b9)
+- Fix changelog links (6905c97)
+- Fix changelog formatting (3646590)
+- Fix typo in the site search bar functionality (4dcbf3d)
+
+[back to top](#uikit-changelog)
+
+---
+
 ### 1.0.0-beta-7 (1/4/2016)
 #### Breaking Changes
 
