@@ -285,7 +285,7 @@ class Sidebar extends UIView {
         });
 
         Object.keys(pages).forEach(page => {
-            const path = pages;
+            const path = page;
             const name = pages[page].displayName || page;
 
             entities.push({
