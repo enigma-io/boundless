@@ -34,74 +34,9 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import {Router, Route, Link} from 'react-router';
 
 const history = createBrowserHistory();
-
-const injectorRegex = /([#]+\s?)(.*?)\n/g;
-const githubRemapperRegex = /(\[.*?\])\(((?!http|#).*?)\)/gi;
-const shaRemapperRegex = /\(([A-Z0-9]{7,})\)/gi;
-const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
-const propDescriptorRegex = /((__|\*\*).*?(__|\*\*)\s?`.*?`)/g;
-
-function sanitizeHeaderName(name = '') {
-    return name.trim()
-               .toLowerCase()
-               .replace(/[^\w\s]/gi, '')  // remove all punctuation/non-ASCII
-               .replace(/\s/g, '-');      // spaces to dashes
-};
-
-function injectHeaderLinks(mkdown = '') {
-    return mkdown.replace(
-        injectorRegex, (...captures) => {
-            // captures[0] is the full match
-            return `${captures[1]}${captures[2]}<a id="${sanitizeHeaderName(captures[2])}" href="#${sanitizeHeaderName(captures[2])}"></a>\n`;
-        }
-    );
-}
-
-function breakLineAfterPropDescriptor(mkdown = '') {
-    return mkdown.replace(propDescriptorRegex, '$1<br />');
-}
-
-function remapRelativeREADMELinks(mkdown = '') {
-    return mkdown.replace(readmeRemapperRegex, '$1(/$3$4)');
-}
-
-function remapCommitSHAsToGithub(mkdown = '') {
-    return mkdown.replace(shaRemapperRegex, '([$1](https://github.com/bibliotech/uikit/commit/$1))');
-}
-
-function remapRelativeLinksToGithub(mkdown = '') {
-    return mkdown.replace(
-        githubRemapperRegex, (...captures) => {
-            if (captures[0].indexOf('README.md') === -1) {
-                return `${captures[1]}(https://github.com/bibliotech/uikit/blob/master/${captures[2]})`
-            } // exclude READMEs, those are handled by `remapRelativeREADMELinks`
-
-            return captures[0];
-        }
-    );
-}
-
-function prepareMarkdown(mkdown = '') {
-    return mkdown.split(/(```[^`]*?```)/g).map(block => {
-        if (block.indexOf('```') === -1) {
-            return [
-                injectHeaderLinks,
-                breakLineAfterPropDescriptor,
-                remapRelativeLinksToGithub,
-                remapRelativeREADMELinks,
-                remapCommitSHAsToGithub,
-            ].reduce((content, transform) => transform(content), block);
-        }
-
-        return block;
-    }).join(''); // ignore fenced code blocks
-}
-
 const fs = require('fs');
 
-const readme = prepareMarkdown(
-    fs.readFileSync(__dirname + '/../README.md', 'utf8')
-);
+const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
 
 // Pages using NullComponent do not render the demo area
 const NullComponent = () => <div />;
@@ -114,140 +49,96 @@ const pages = {
     changelog: {
         component: NullComponent,
         displayName: 'Changelog',
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../CHANGELOG.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../CHANGELOG.md', 'utf8'),
     },
     changelog_policy: {
         component: NullComponent,
         displayName: 'Changelog Policy',
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../CHANGELOG_policy.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../CHANGELOG_policy.md', 'utf8'),
     },
     contributing: {
         component: NullComponent,
         displayName: 'Contributor Policy',
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../CONTRIBUTING.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../CONTRIBUTING.md', 'utf8'),
     },
 };
 
 const components = {
     UIButton: {
         component: UIButtonDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIButton/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIButton/README.md', 'utf8'),
     },
     UICheckbox: {
         component: UICheckboxDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UICheckbox/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UICheckbox/README.md', 'utf8'),
     },
     UICheckboxGroup: {
         component: UICheckboxGroupDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UICheckboxGroup/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UICheckboxGroup/README.md', 'utf8'),
     },
     UIDialog: {
         component: UIDialogDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIDialog/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIDialog/README.md', 'utf8'),
     },
     UIFittedText: {
         component: UIFittedTextDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIFittedText/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIFittedText/README.md', 'utf8'),
     },
     UIImage: {
         component: UIImageDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIImage/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIImage/README.md', 'utf8'),
     },
     UIList: {
         component: UIListDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIList/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIList/README.md', 'utf8'),
     },
     UIModal: {
         component: UIModalDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8'),
     },
     UIPaginatedView: {
         component: UIPaginatedViewDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8')
-        )
+        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8')
     },
     UIPopover: {
         component: UIPopoverDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIPopover/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIPopover/README.md', 'utf8'),
     },
     UIProgress: {
         component: UIProgressDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIProgress/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIProgress/README.md', 'utf8'),
     },
     UIProgressiveDisclosure: {
         component: UIProgressiveDisclosureDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIProgressiveDisclosure/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIProgressiveDisclosure/README.md', 'utf8'),
     },
     UIRadio: {
         component: UIRadioDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIRadio/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIRadio/README.md', 'utf8'),
     },
     UISegmentedControl: {
         component: UISegmentedControlDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UISegmentedControl/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UISegmentedControl/README.md', 'utf8'),
     },
     UITable: {
         component: UITableDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UITable/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UITable/README.md', 'utf8'),
     },
     UITokenizedInput: {
         component: UITokenizedInputDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UITokenizedInput/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UITokenizedInput/README.md', 'utf8'),
     },
     UITooltip: {
         component: UITooltipDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UITooltip/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UITooltip/README.md', 'utf8'),
     },
     UITypeaheadInput: {
         component: UITypeaheadInputDemo,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UITypeaheadInput/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UITypeaheadInput/README.md', 'utf8'),
     },
     UIView: {
         component: NullComponent,
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIView/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIView/README.md', 'utf8'),
     },
 };
 
@@ -255,9 +146,7 @@ const utilities = {
     'notify': {
         component: NotifyDemo,
         displayName: 'UIUtils/notify',
-        readme: prepareMarkdown(
-            fs.readFileSync(__dirname + '/../UIUtils/notify/README.md', 'utf8')
-        ),
+        readme: fs.readFileSync(__dirname + '/../UIUtils/notify/README.md', 'utf8'),
     },
 };
 
@@ -447,9 +336,7 @@ class Container extends UIView {
     renderDemo() {
         if (   this.props.children
             && this.props.children.type !== NullComponent) {
-            return (
-                <article className='ui-demo-section-example'>{this.props.children}</article>
-            );
+            return               <article className='ui-demo-section-example'>{this.props.children}</article>;
         } // don't render if not a composite
     }
 
