@@ -1,0 +1,10 @@
+{
+  "in": [
+    "./*.scss",
+    "./!(node_modules|site)/*.scss"
+  ],
+  "out": "dist/skin.min.css",
+  "browsers": ["> 1% in US"],
+  "sass": true,
+  "sourcemaps": false
+}

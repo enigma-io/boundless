@@ -1,11 +1,5 @@
 @import "_globals";
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
 *:last-child {
     margin-bottom: 0;
 }
