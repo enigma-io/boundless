@@ -110,7 +110,6 @@ const createDOMHeaderCell = function createDOMHeaderCell(column, width) {
 
 const createHeaderCell = function createHeaderCell(metadata, width) {
     const node = createDOMHeaderCell(metadata, metadata.width || width);
-    const cs = window.getComputedStyle(node);
 
     return {
         '_textNode':   node.childNodes[0].nodeType === 3
@@ -140,8 +139,6 @@ const createHeaderCell = function createHeaderCell(metadata, width) {
             }
         },
         mapping: metadata.mapping,
-        minWidth: parseInt(cs['min-width'], 10),
-        maxWidth: parseInt(cs['max-width'], 10),
         node: node,
     };
 };
@@ -407,11 +404,26 @@ class UITable extends UIView {
         this.props.columns.forEach(column => this._columns.push(createHeaderCell(column)));
     }
 
+    computeMinMaxHeaderCellDimensions() {
+        let cs;
+
+        this._columns.forEach(column => {
+            cs = window.getComputedStyle(column.node);
+
+            column.minWidth = parseInt(cs['min-width'], 10);
+            column.maxWidth = parseInt(cs['max-width'], 10);
+        });
+    }
+
     injectHeaderCells() {
         this._fragment = document.createDocumentFragment();
         this._columns.forEach(column => this._fragment.appendChild(column.node));
 
         this._header.appendChild(this._fragment);
+
+        // must be done after they have been injected into the DOM
+        this.computeMinMaxHeaderCellDimensions();
+
         this._fragment = null; // prevent memleak
     }
 
@@ -834,8 +846,8 @@ class UITable extends UIView {
             return;
         }
 
+        const index = this._columns.indexOf(this._manuallyResizingColumn);
         let adjustedDelta = delta;
-        let index = this._columns.indexOf(this._manuallyResizingColumn);
 
         if (   adjustedDelta < 0
             && !isNaN(this._manuallyResizingColumn.minWidth)
