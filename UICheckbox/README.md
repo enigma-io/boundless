@@ -48,7 +48,7 @@ Styling of the element is provided via the CSS hooks:
 Type | Context | Expectation
 ---- | ------- | -----------
 __Keyboard__ | `[Enter, Space]` | should toggle the `checked` state
-__Mouse__ | `click` | should toggle the `checked` state
+__Mouse__ | `click` | should toggle the `checked` state, focus the checkbox
 
 ---
 

@@ -172,7 +172,7 @@ class UIPaginatedView extends UIView {
                     [this.props.toggleWrapperProps.className]: !!this.props.toggleWrapperProps.className,
                 })}
                 options={this.createPageButtonOptions()}
-                onOptionSelected={this.handleClick.bind(this)}/>
+                onOptionSelected={this.handleClick.bind(this)} />
         );
     }
 

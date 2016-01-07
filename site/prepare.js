@@ -18,7 +18,7 @@ function sanitizeHeaderName(name) {
 function injectHeaderLinks(mkdown) {
     return mkdown.replace(
         injectorRegex, (fullMatch, text, href) => {
-            return `${text}${href}<a id="${sanitizeHeaderName(href)}" href="#${sanitizeHeaderName(href)}"></a>\n`;
+            return `${text}${href}<a class="anchor" id="${sanitizeHeaderName(href)}" href="#${sanitizeHeaderName(href)}"></a>\n`;
         }
     );
 }

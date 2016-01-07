@@ -166,6 +166,27 @@ describe('UICheckbox', () => {
         });
     });
 
+    describe('click event', () => {
+        it('should be proxied if `props.onClick` is provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...baseProps} onClick={stub} />);
+
+            element.refs.input.click();
+
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('should move focus to the input', () => {
+            const element = render(<UICheckbox {...baseProps} />);
+
+            expect(document.activeElement).not.toBe(element.refs.input);
+
+            element.refs.input.click();
+
+            expect(document.activeElement).toBe(element.refs.input);
+        }); // patching a browser inconsistency between webkit & gecko
+    });
+
     /*
         Needs this issue to be resolved in JSDOM to work:
         https://github.com/tmpvar/jsdom/issues/1079#issuecomment-159754855
