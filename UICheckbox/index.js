@@ -39,6 +39,15 @@ class UICheckbox extends UIView {
         this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
     }
 
+    handleClick(event) {
+        this.refs.input.focus();
+
+        if (typeof this.props.handleClick === 'function') {
+            event.persist();
+            this.props.handleClick(event);
+        }
+    }
+
     renderInput() {
         return (
             <input {...this.props.inputProps}
@@ -56,6 +65,7 @@ class UICheckbox extends UIView {
                    checked={this.props.checked}
                    aria-checked={this.ariaState()}
                    onChange={this.handleChange.bind(this)}
+                   onClick={this.handleClick.bind(this)}
                    value={this.props.value} />
         );
     }

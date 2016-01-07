@@ -105,7 +105,7 @@ class UISegmentedControl extends UIView {
                              'ui-segmented-control-option-selected': definition.selected,
                              [definition.className]: !!definition.className,
                           })}
-                          tabIndex={definition.selected ? 0 : -1}
+                          tabIndex={definition.selected ? '0' : '-1'}
                           onBlur={this.handleBlur.bind(this, definition)}
                           onClick={this.handleClick.bind(this, definition)}
                           onFocus={this.handleFocus.bind(this, definition)}>
