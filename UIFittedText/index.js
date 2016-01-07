@@ -29,12 +29,13 @@ class UIFittedText extends UIView {
     }
 
     rescale() {
-        let node = ReactDOM.findDOMNode(this);
-        let container = node.parentNode;
-        let containerBox = window.getComputedStyle(container);
+        const node = ReactDOM.findDOMNode(this);
+        const container = node.parentNode;
+        const containerBox = window.getComputedStyle(container);
+        const fontSize = toI(window.getComputedStyle(node).fontSize);
+
         let containerHeight = toI(containerBox.height);
         let containerWidth = toI(containerBox.width);
-        let fontSize = toI(window.getComputedStyle(node).fontSize);
 
         if (   containerBox.boxSizing === 'border-box'
             || containerBox.boxSizing === 'padding-box') { // need to account for padding
@@ -42,10 +43,11 @@ class UIFittedText extends UIView {
             containerWidth -= toI(containerBox.paddingLeft) + toI(containerBox.paddingRight);
         }
 
-        let optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * containerHeight);
-        let optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * containerWidth);
+        const optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * containerHeight);
+        const optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * containerWidth);
 
-        node.style.fontSize = Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) + 'px';
+        // the || 1 is a fallback to prevent fontSize from being set to zero, which fubars things
+        node.style.fontSize = (Math.min(this.props.maxFontSize, optimizeForHeight, optimizeForWidth) || 1) + 'px';
     }
 
     render() {
