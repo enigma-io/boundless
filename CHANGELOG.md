@@ -3,6 +3,21 @@
 
 ---
 
+### 1.0.0-beta-9 (1/7/2016)
+
+- UIButton: remove default margin (comes from user-agent) (5590353)
+- UITable: fix column header cell dimensions not being acquired (62f7f3a)
+- Focus-related fixes for a few components, smoothing an x-browser issue (52d3f51)
+- UIFittedText: prevent fontSize from being set to zero (2605faf)
+- Move .ui-offscreen class into the compiled skin (34ecfe3)
+
+#### Misc
+
+- Chore: compile skin CSS to dist/ (c1affaf)
+- move history dep back to caret selector (2978c4c)
+
+---
+
 ### 1.0.0-beta-8 (1/5/2016)
 
 - UITokenizedInput: focus a token when it becomes selected, tests (68ecf18)
