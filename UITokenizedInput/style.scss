@@ -7,13 +7,14 @@ $color-border-focus: #888;
 $color-border-hover: #444;
 $color-border-active: $color-text-body;
 
+$spacer-size: 0.25rem;
+
 .ui-tokenfield-wrapper {
     background: #FFF;
     border: 1px solid $color-accent;
     border-radius: $default-border-radius;
     display: flex;
     font-size: $input-font-size;
-    padding: 0.25rem 0.5rem;
 }
 
 .ui-tokenfield-wrapper .ui-typeahead-wrapper {
@@ -25,7 +26,7 @@ $color-border-active: $color-text-body;
     align-self: stretch;
     background: transparent;
     border-color: transparent !important;
-    padding: 0.25rem 0;
+    padding: $spacer-size * 2;
 }
 
 .ui-tokenfield {
@@ -35,10 +36,11 @@ $color-border-active: $color-text-body;
 .ui-tokenfield-tokens {
     display: flex;
     flex-shrink: 0;
+    margin: $spacer-size 0 $spacer-size $spacer-size;
 }
 
-.ui-tokenfield-tokens:not(:empty) {
-    margin-left: -0.25rem;
+.ui-tokenfield-tokens:empty {
+    margin: 0;
 }
 
 .ui-tokenfield-token {
@@ -50,9 +52,8 @@ $color-border-active: $color-text-body;
     display: flex;
     line-height: 1;
 
-    margin-right: 5px;
-    outline: none;
-    padding: 0.25rem 0.5rem;
+    margin-right: $spacer-size;
+    padding: $spacer-size ($spacer-size * 2);
 
     white-space: nowrap;
 
@@ -77,6 +78,10 @@ $color-border-active: $color-text-body;
 
     &:active {
         border-color: $color-border-active;
+    }
+
+    &:last-child {
+        margin-right: 0;
     }
 }
 
