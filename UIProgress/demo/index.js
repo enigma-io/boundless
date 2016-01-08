@@ -23,6 +23,7 @@ export default class UIProgressDemo extends UIView {
                 <figure>
                     <h5>Horizontal Progress Bar</h5>
                     <UIProgress ref='bar'
+                                aria-label={`${this.state.barProgress}% complete`}
                                 label={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`} />
                     <UIButton onClick={this.resetProgress.bind(this, 'bar')}
@@ -34,6 +35,7 @@ export default class UIProgressDemo extends UIView {
                     <h5>Filling Progress Meter</h5>
                     <UIProgress ref='meter'
                                 id='progress-meter'
+                                aria-label={`${this.state.meterProgress}% complete`}
                                 label={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
                                 tweenProperty='height' />
@@ -45,7 +47,8 @@ export default class UIProgressDemo extends UIView {
                 <figure>
                     <h5>Indeterminate Progress Bar</h5>
                     <UIProgress ref='indeterminate'
-                                indeterminate={true} />
+                                indeterminate={true}
+                                aria-label={`Processing...`} />
                     <UIButton disabled={true}
                               onClick={this.resetProgress.bind(this, 'indeterminate')}
                               style={{marginTop: '1rem'}}>

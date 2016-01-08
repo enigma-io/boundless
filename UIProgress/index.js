@@ -58,6 +58,7 @@ class UIProgress extends UIView {
     render() {
         return (
             <div {...this.props}
+                 label={null}
                  ref='wrapper'
                  className={cx({
                     'ui-progress-wrapper': true,
