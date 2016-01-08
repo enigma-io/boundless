@@ -177,7 +177,7 @@ describe('UITokenizedInput', () => {
         });
     });
 
-    describe('interactive token creation', () => {
+    describe('token creation', () => {
         it('should occur upon entity selection', () => {
             const stub = sinon.stub();
             const element = render(<UITokenizedInput defaultValue='ap' entities={entities} handleAddToken={stub} />);
@@ -194,16 +194,27 @@ describe('UITokenizedInput', () => {
         });
     });
 
-    describe('interactive token removal', () => {
+    describe('token removal', () => {
         it('should occur when pressing the Backspace key with a selected token', () => {
             const stub = sinon.stub();
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} tokensSelected={[1]} handleRemoveTokens={stub} />);
             const typeahead = element.refs.typeahead;
 
-            element.handleKeyDown({key: 'Backspace', preventDefault: noop});
+            element.handleKeyDown({which: 8, preventDefault: noop});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
+        });
+
+        it('should occur when pressing the Backspace key on a focused token', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleRemoveTokens={stub} />);
+            const typeahead = element.refs.typeahead;
+
+            element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch([0])).toBe(true);
         });
 
         it('should occur when clicking a token\'s "close" handle', () => {
@@ -224,8 +235,8 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            typeahead.focusInput();
-            element.handleKeyDown({key: 'ArrowLeft'});
+            typeahead.focus();
+            element.handleKeyDown({which: 37});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
@@ -236,7 +247,7 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            element.handleTokenKeyDown(0, {key: 'Enter'});
+            element.handleTokenKeyDown(0, {which: 13, preventDefault: noop});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
@@ -247,7 +258,7 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            element.handleTokenKeyDown(0, {key: 'Space'});
+            element.handleTokenKeyDown(0, {which: 32, preventDefault: noop});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
@@ -258,8 +269,8 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            typeahead.focusInput();
-            element.handleKeyDown({key: 'ArrowLeft'});
+            typeahead.focus();
+            element.handleKeyDown({which: 37});
 
             expect(stub.called).toBe(false);
         });
@@ -270,7 +281,7 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
-            element.handleKeyDown({key: 'ArrowRight'});
+            element.handleKeyDown({which: 39});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
@@ -283,7 +294,7 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
 
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
-            element.handleKeyDown({key: 'ArrowRight'});
+            element.handleKeyDown({which: 39});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
@@ -359,7 +370,7 @@ describe('UITokenizedInput', () => {
             );
 
             element.refs.token_1.focus();
-            element.handleKeyDown({key: 'ArrowLeft', shiftKey: true});
+            element.handleKeyDown({which: 37, shiftKey: true});
 
             expect(document.activeElement).toBe(element.refs.token_0);
         });
@@ -384,7 +395,7 @@ describe('UITokenizedInput', () => {
             );
 
             element.refs.token_0.focus();
-            element.handleKeyDown({key: 'ArrowRight', shiftKey: true});
+            element.handleKeyDown({which: 39, shiftKey: true});
 
             expect(document.activeElement).toBe(element.refs.token_1);
         });
@@ -398,7 +409,7 @@ describe('UITokenizedInput', () => {
 
             typeahead.focus();
             element.handleKeyDown({
-                key: 'ArrowLeft',
+                which: 37,
                 shiftKey: true
             });
 
@@ -411,10 +422,26 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} tokensSelected={[0]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            typeahead.focusInput();
+            typeahead.focus();
             element.handleKeyDown({
-                key: 'ArrowRight',
+                which: 39,
                 shiftKey: true
+            });
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch([0, 1])).toBe(true);
+        });
+
+        it('should occur when pressing the cmd + a keys', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} tokensSelected={[0]} handleNewSelection={stub} />);
+            const typeahead = element.refs.typeahead;
+
+            typeahead.focus();
+            element.handleKeyDown({
+                which: 65,              // letter "a"
+                metaKey: true,          // "cmd"
+                preventDefault: noop
             });
 
             expect(stub.calledOnce).toBe(true);
@@ -449,6 +476,37 @@ describe('UITokenizedInput', () => {
 
             expect(stub.called).toBe(true);
         });
+
+        it('should be returned when a token is removed', () => {
+            const stub = sinon.stub();
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} />);
+            const typeahead = element.refs.typeahead;
+
+            element.refs.token_0.focus();
+            expect(document.activeElement).toBe(element.refs.token_0);
+
+            element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
+
+            expect(document.activeElement).toBe(typeahead.refs.input);
+        });
+
+        it('should be returned after pressing the cmd + a keys', () => {
+            /* if you don't do this and the focus is elsewhere, the user may have to hit backspace twice
+               to fully clear the typeahead, which is gross. */
+
+            const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} />);
+            const typeahead = element.refs.typeahead;
+
+            element.refs.token_0.focus();
+
+            element.handleKeyDown({
+                which: 65,              // letter "a"
+                metaKey: true,          // "cmd"
+                preventDefault: noop
+            });
+
+            expect(document.activeElement).toBe(typeahead.refs.input);
+        });
     });
 
     describe('input keydown', () => {
@@ -460,7 +518,7 @@ describe('UITokenizedInput', () => {
             );
 
             element.handleKeyDown({
-                key: 'Enter',
+                which: 13,
                 persist: noop,
             });
 

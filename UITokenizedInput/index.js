@@ -110,16 +110,16 @@ class UITokenizedInput extends UIView {
     }
 
     handleKeyDown(event) {
-        switch (event.key) {
-        case 'ArrowLeft':
+        switch (event.which) {
+        case 37:    // left arrow
             this.selectPreviousToken(event.shiftKey);
             break;
 
-        case 'ArrowRight':
+        case 39:    // right arrow
             this.selectNextToken(event.shiftKey);
             break;
 
-        case 'Backspace':
+        case 8:     // backspace
             if (this.props.tokensSelected.length) {
                 event.preventDefault();
                 this.remove(this.props.tokensSelected);
@@ -128,6 +128,19 @@ class UITokenizedInput extends UIView {
             }
 
             break;
+
+        case 65:    // letter "a"
+            if (event.metaKey) {
+                event.preventDefault();
+
+                this.refs.typeahead.focus();
+                this.refs.typeahead.select();
+
+                // hacky, but the only way unless we move selection management internal again
+                this._suppressNextTokenSelection = true;
+
+                this.props.handleNewSelection(this.props.tokens);
+            } // "cmd"
         }
 
         if (typeof this.props.onKeyDown === 'function') {
@@ -151,10 +164,17 @@ class UITokenizedInput extends UIView {
     }
 
     handleTokenKeyDown(index, event) {
-        switch (event.key) {
-        case 'Enter':
-        case 'Space':
+        switch (event.which) {
+        case 13: // enter
+        case 32: // space
             this.selectToken(index);
+            event.preventDefault();
+            break;
+
+        case 8: // backspace
+            this.handleTokenCloseClick(index);
+            event.preventDefault();
+            break;
         }
     }
 
