@@ -21,18 +21,23 @@ class UITokenizedInput extends UIView {
             this.refs.typeahead.value('');
         }
 
-        if (previousSelectedIndexes !== currentSelectedIndexes) { // move focus
-            if (currentSelectedIndexes.length === 0) {
-                return;
-            } else if (   currentSelectedIndexes.length === 1
+        if (this._suppressNextTokenSelection) {
+            this._suppressNextTokenSelection = false;
+
+            return;
+        }
+
+        if (   previousSelectedIndexes !== currentSelectedIndexes
+            && currentSelectedIndexes.length !== 0) {
+            if (   currentSelectedIndexes.length === 1
                        || currentSelectedIndexes[0] !== previousSelectedIndexes[0] /* multi selection, leftward */) {
-                this.refs[`token_${currentSelectedIndexes[0]}`].focus();
+                return this.refs[`token_${currentSelectedIndexes[0]}`].focus();
             } else if (last(currentSelectedIndexes) !== last(previousSelectedIndexes) /* multi selection, rightward */) {
-                this.refs[`token_${last(currentSelectedIndexes)}`].focus();
+                return this.refs[`token_${last(currentSelectedIndexes)}`].focus();
             }
 
             this.refs[`token_${currentSelectedIndexes[0]}`].focus();
-        }
+        } // move focus
     }
 
     add(index) {
