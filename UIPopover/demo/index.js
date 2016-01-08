@@ -63,6 +63,12 @@ export default class UIPopoverDemo extends UIView {
         };
     }
 
+    handleKeyDown(index, event) {
+        if (event.key === 'Enter') {
+            this.togglePopover(index);
+        }
+    }
+
     render() {
         return (
             <div>
@@ -73,7 +79,9 @@ export default class UIPopoverDemo extends UIView {
                             <div key={definition.word}>
                                 <abbr ref={'word' + index}
                                       className='show-help-popover'
-                                      onClick={this.togglePopover.bind(this, index)}>
+                                      onClick={this.togglePopover.bind(this, index)}
+                                      onKeyDown={this.handleKeyDown.bind(this, index)}
+                                      tabIndex='0'>
                                     {definition.word}
                                 </abbr>
                             </div>
@@ -105,6 +113,7 @@ export default class UIPopoverDemo extends UIView {
                            body={this.renderBody(definition)}
                            closeOnEscKey={true}
                            closeOnOutsideClick={true}
+                           closeOnOutsideFocus={true}
                            onClose={this.togglePopover.bind(this, index)}
                            selfXAlign={definition.selfXAlign}
                            selfYAlign={definition.selfYAlign} />
