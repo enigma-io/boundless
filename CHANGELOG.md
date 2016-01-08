@@ -3,18 +3,41 @@
 
 ---
 
-### 1.0.0-beta-9 (1/7/2016)
+### 1.0.0-beta-9 (1/8/2016)
 
-- UIButton: remove default margin (comes from user-agent) (5590353)
-- UITable: fix column header cell dimensions not being acquired (62f7f3a)
+- UITokenizedInput: cmd + a support to select all tokens (f0afa0d) - Also selects input text if the focus is on
+  the input at that time.
+- UITypeaheadInput: prevent selection of entity on ArrowRight + Shift (c430e40)
+- UITypeaheadInput: clear the input on Backspace (37d4fcc) - This behavior is used in conjunction with Cmd + A
+  to select all text and tokens and use one Backspace to remove the lot.
+- UITokenizedTypeahead: correctly handle token focus changes on selection (76688cb)
+- UITokenizedInput, UITypeaheadInput: rewrite CSS for better focus support (2ecf4c6)
+- UITypeaheadInput: focusInput -> focus, setValue -> value (65c81cd) - The old methods now have a deprecation warning.
+- UIDialog: add prop "closeOnOutsideFocus" (b7c7b68) - In a `captureFocus: false` scenario, this prop can prevent
+  multiple popovers from existing at the same time. Up to the consuming developer's discretion.
+- UIDialog: focus ring (6d3203d)
+- UIProgressiveDisclosure: bring back focus ring (78fc25c)
+- UIButton: remove default margin (comes from user-agent) (5590353) - A related visual bug was reported that is a
+  combo of this happening and some other unrelated styles interacting.
+- UITable: fix column header cell dimensions not being acquired (62f7f3a) - If you use `getComputedStyle` on an
+  unmounted node, it will not have any information on it. TIL!
 - Focus-related fixes for a few components, smoothing an x-browser issue (52d3f51)
-- UIFittedText: prevent fontSize from being set to zero (2605faf)
-- Move .ui-offscreen class into the compiled skin (34ecfe3)
+    - 1. Bring back focus rings on UIButtons
+    - 2. Fix Firefox not focusing checkboxes on click (no hard & fast rules about it)
+    - 3. Fix tabIndex assignment for UISegmentedView
+- UIFittedText: prevent fontSize from being set to zero (2605faf) - If this happens, rescaling back up will not work since
+  the calculation will try to multiply by zero.
+
+#### Demos
+
+- UIProgess demo: add aria labels to each bar (3247788)
+- UIPopover demo: make the triggers focusable and handle Enter presses (83ed15a)
 
 #### Misc
 
-- Chore: compile skin CSS to dist/ (c1affaf)
-- move history dep back to caret selector (2978c4c)
+- move history dep back to caret selector (2978c4c) - Fixes the npm warning
+- Move .ui-offscreen class into the compiled skin (34ecfe3) - Also switched the target for pleeease-cli to a new branch.
+- Chore: compile skin CSS to dist/ (c1affaf) - It's happening! Keep in mind these are not final styles.
 
 ---
 
