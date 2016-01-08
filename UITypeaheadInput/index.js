@@ -236,6 +236,10 @@ class UITypeaheadInput extends UIView {
 
     handleKeyDown(event) {
         switch (event.key) {
+        case 'Backspace':
+            this.value('');
+            break;
+
         case 'ArrowLeft':
             if (event.target.selectionStart > 1) {
                 event.stopPropagation();
