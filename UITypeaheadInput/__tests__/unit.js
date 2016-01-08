@@ -363,13 +363,13 @@ describe('UITypeaheadInput', () => {
     });
 
     describe('misc internals', () => {
-        it('focusInput should focus the correct node', () => {
+        it('focus should focus the correct node', () => {
             const element = render(<UITypeaheadInput />);
             const node = element.getInputNode();
 
             expect(document.activeElement).not.toBe(node);
 
-            element.focusInput();
+            element.focus();
 
             expect(document.activeElement).toBe(node);
         });

@@ -155,7 +155,7 @@ describe('UITokenizedInput', () => {
                 <UITokenizedInput entities={entities} tokens={[0, 1]} />
             );
 
-            element.refs.typeahead.setValue('blue');
+            element.refs.typeahead.value('blue');
             expect(element.refs.typeahead.refs.input.value).toBe('blue');
 
             element = render(<UITokenizedInput entities={entities} tokens={[0, 1, 2]} />);
@@ -168,7 +168,7 @@ describe('UITokenizedInput', () => {
                 <UITokenizedInput entities={entities} tokens={[0, 1]} />
             );
 
-            element.refs.typeahead.setValue('blue');
+            element.refs.typeahead.value('blue');
             expect(element.refs.typeahead.refs.input.value).toBe('blue');
 
             element = render(<UITokenizedInput entities={entities} tokens={[0]} />);
@@ -305,7 +305,7 @@ describe('UITokenizedInput', () => {
             };
 
             const typeahead = element.refs.typeahead;
-                  typeahead.focusInput();
+                  typeahead.focus();
 
             expect(document.activeElement).toBe(typeahead.refs.input);
 
@@ -330,7 +330,7 @@ describe('UITokenizedInput', () => {
             };
 
             const typeahead = element.refs.typeahead;
-                  typeahead.focusInput();
+                  typeahead.focus();
 
             expect(document.activeElement).toBe(typeahead.refs.input);
 
@@ -396,7 +396,7 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} tokensSelected={[1]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            typeahead.focusInput();
+            typeahead.focus();
             element.handleKeyDown({
                 key: 'ArrowLeft',
                 shiftKey: true

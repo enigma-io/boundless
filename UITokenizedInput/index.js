@@ -18,7 +18,7 @@ class UITokenizedInput extends UIView {
         const currentSelectedIndexes = this.props.tokensSelected;
 
         if (this.props.tokens.length > prevProps.tokens.length) {
-            this.refs.typeahead.setValue('');
+            this.refs.typeahead.value('');
         }
 
         if (previousSelectedIndexes !== currentSelectedIndexes) { // move focus
@@ -83,7 +83,7 @@ class UITokenizedInput extends UIView {
 
         if (last(selected) === last(indexes)) {
             this.clearSelection();
-            this.refs.typeahead.focusInput();
+            this.refs.typeahead.focus();
         } else {
             const nextToken = indexes[indexes.indexOf(last(selected)) + 1];
 
@@ -119,7 +119,7 @@ class UITokenizedInput extends UIView {
                 event.preventDefault();
                 this.remove(this.props.tokensSelected);
 
-                this.refs.typeahead.focusInput();
+                this.refs.typeahead.focus();
             }
 
             break;
@@ -133,6 +133,7 @@ class UITokenizedInput extends UIView {
 
     handleTokenCloseClick(index) {
         this.remove(index);
+        this.refs.typeahead.focus();
     }
 
     renderTokenClose(index) {

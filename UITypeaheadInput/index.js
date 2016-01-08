@@ -88,16 +88,31 @@ class UITypeaheadInput extends UIView {
         return this.refs.input;
     }
 
-    focusInput() {
+    select() {
+        this.refs.input.selectionStart = 0;
+        this.refs.input.selectionEnd = this.refs.input.value.length;
+    }
+
+    focus() {
         this.getInputNode().focus();
     }
 
-    setValue(newValue) {
+    focusInput() {
+        console.warn('UITypeaheadInput.focusInput is deprecated and will be removed in a future release. Please use UITypeaheadInput.focus() instead.');
+        this.focus();
+    }
+
+    value(newValue) {
         this.getInputNode().value = newValue;
 
         this.setState({ userInput: newValue });
         this.resetMatches();
-        this.focusInput();
+        this.focus();
+    }
+
+    setValue(newValue) {
+        console.warn('UITypeaheadInput.setValue is deprecated and will be removed in a future release. Please use UITypeaheadInput.value(text) instead.');
+        this.value(newValue);
     }
 
     cursorAtEndOfInput() {
@@ -110,9 +125,9 @@ class UITypeaheadInput extends UIView {
         this.props.onEntitySelected(this.state.selectedEntityIndex);
 
         if (this.props.clearPartialInputOnSelection) {
-            this.setValue('');
+            this.value('');
         } else {
-            this.setValue(this.getSelectedEntityText());
+            this.value(this.getSelectedEntityText());
         }
     }
 
@@ -242,13 +257,13 @@ class UITypeaheadInput extends UIView {
         case 'ArrowUp':
             event.nativeEvent.preventDefault(); // block cursor movement
             this.selectMatch(-1);
-            this.focusInput();
+            this.focus();
             break;
 
         case 'ArrowDown':
             event.nativeEvent.preventDefault(); // block cursor movement
             this.selectMatch(1);
-            this.focusInput();
+            this.focus();
             break;
 
         case 'Escape':
