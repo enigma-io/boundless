@@ -153,7 +153,7 @@ describe('UIDialog', () => {
             const stub = sandbox.stub();
             const element = render(<UIDialog closeOnOutsideClick={true} onClose={stub} />);
 
-             mountNode.click();
+            element.handleOutsideClick({target: mountNode});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -162,7 +162,38 @@ describe('UIDialog', () => {
             const stub = sandbox.stub();
             const element = render(<UIDialog onClose={stub} />);
 
-            mountNode.click();
+            element.handleOutsideClick({target: mountNode});
+
+            expect(stub.notCalled).toBe(true);
+        });
+    });
+
+    describe('closeOnOutsideFocus', () => {
+        it('should trigger `props.onClose` if truthy and `props.captureFocus` is falsy', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIDialog captureFocus={false} closeOnOutsideFocus={true} onClose={stub} />);
+
+            expect(document.activeElement).not.toBe(element.refs.dialog);
+
+            element.handleFocus({target: mountNode});
+
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('should not trigger `props.onClose` if `props.captureFocus` is truthy', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIDialog captureFocus={true} closeOnOutsideFocus={true} onClose={stub} />);
+
+            element.handleFocus({target: mountNode});
+
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('should not trigger `props.onClose` if falsy or not provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIDialog onClose={stub} />);
+
+            element.handleFocus({target: mountNode});
 
             expect(stub.notCalled).toBe(true);
         });

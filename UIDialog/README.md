@@ -82,6 +82,9 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 - __closeOnOutsideClick__ `Boolean`
   enable detection of clicks outside the dialog area to trigger `props.onClose`
 
+- __closeOnOutsideFocus__ `Boolean`
+  enable detection of focus outside the dialog area to trigger `props.onClose`
+
 - __footer__ `any renderable content`
   text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
 

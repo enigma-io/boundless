@@ -21,22 +21,15 @@ class UIDialog extends UIView {
             this.refs.dialog.focus();
         }
 
-        if (this.props.closeOnOutsideClick) {
-            this.handleOutsideClick = this.handleOutsideClick.bind(this);
-
-            window.addEventListener('click', this.handleOutsideClick, true);
-        }
-
         this.handleFocus = this.handleFocus.bind(this);
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
 
         window.addEventListener('focus', this.handleFocus, true);
+        window.addEventListener('click', this.handleOutsideClick, true);
     }
 
     componentWillUnmount() {
-        if (this.props.closeOnOutsideClick) {
-            window.removeEventListener('click', this.handleOutsideClick, true);
-        }
-
+        window.removeEventListener('click', this.handleOutsideClick, true);
         window.removeEventListener('focus', this.handleFocus, true);
     }
 
@@ -46,6 +39,12 @@ class UIDialog extends UIView {
 
     handleFocus(nativeEvent) {
         if (!this.props.captureFocus) {
+            if (this.props.closeOnOutsideFocus) {
+                if (!this.isPartOfDialog(nativeEvent.target)) {
+                    return this.props.onClose();
+                }
+            }
+
             return;
         }
 
@@ -71,7 +70,7 @@ class UIDialog extends UIView {
     }
 
     handleOutsideClick(nativeEvent) {
-        if (!this.isPartOfDialog(nativeEvent.target)) {
+        if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
             this.props.onClose();
         }
     }
@@ -151,6 +150,7 @@ UIDialog.propTypes = {
     children: React.PropTypes.node,
     closeOnEscKey: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    closeOnOutsideFocus: React.PropTypes.bool,
     footer: React.PropTypes.node,
     footerProps: React.PropTypes.object,
     header: React.PropTypes.node,
