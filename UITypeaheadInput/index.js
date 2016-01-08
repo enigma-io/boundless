@@ -251,7 +251,8 @@ class UITypeaheadInput extends UIView {
         case 'ArrowRight':
             if (   this.state.selectedEntityIndex !== -1
                 && this.cursorAtEndOfInput()
-                && this.getInputNode() === event.target) {
+                && this.getInputNode() === event.target
+                && !event.shiftKey) {
                 event.nativeEvent.preventDefault();
                 this.setValueWithSelectedEntity();
             }
