@@ -34,7 +34,7 @@ class UIDialog extends UIView {
     }
 
     isPartOfDialog(node) {
-        return this.refs.dialog.contains(node.nodeType === 3 ? node.parentNode : node);
+        return node && this.refs.dialog.contains(node.nodeType === 3 ? node.parentNode : node);
     }
 
     handleFocus(nativeEvent) {
