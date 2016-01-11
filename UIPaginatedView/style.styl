@@ -1,0 +1,65 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+@import "../_globals"
+
+.ui-paginated-view-controls > .ui-segmented-control-option:focus {
+    background: rgba(color-accent, 0.1);
+}
+
+.ui-paginated-view-controls > .ui-segmented-control-option-selected:focus {
+    background: color-accent;
+}
+
+.ui-paginated-view .ui-list-item {
+    display: block;
+}
+
+.ui-paginated-view .ui-list-item:after {
+    content: none;
+}
+
+.ui-paginated-view-item-loading {
+    position: relative;
+}
+
+.ui-paginated-view-item-loading::before,
+.ui-paginated-view-item-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    margin-top: -5px;
+    left: 50%;
+    margin-left: -5px;
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    background-color: #AAA;
+}
+
+.ui-paginated-view-item-loading::before {
+    animation: loaderBefore 0.7s ease-in-out alternate infinite;
+}
+
+.ui-paginated-view-item-loading::after {
+    animation: loaderAfter 0.7s ease-in-out alternate infinite;
+}
+
+@keyframes loaderBefore {
+    from {
+        left: 50%;
+    }
+
+    to {
+        left: 49%;
+    }
+}
+
+@keyframes loaderAfter {
+    from {
+        left: 50%;
+    }
+
+    to {
+        left: 51%;
+    }
+}

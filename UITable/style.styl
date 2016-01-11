@@ -1,0 +1,205 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+@import "../_globals"
+
+cell-color-base = color-accent
+cell-height = 40px
+cell-x-padding = 0.75em
+
+.ui-table-wrapper,
+.ui-table-wrapper * {
+    box-sizing: border-box;
+}
+
+.ui-table-wrapper {
+    overflow: hidden;
+    position: relative;
+    height: 500px;
+    width: 100%;
+    transform: translateZ(0);
+}
+
+.ui-table {
+    border-spacing: 0;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.ui-table-header {
+    position: relative;
+    z-index: 1;
+}
+
+.ui-table-body {
+    position: absolute;
+    top: cell-height;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+.ui-table-row,
+.ui-table-cell {
+    height: cell-height;
+    line-height: cell-height;
+}
+
+.ui-table-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+.ui-table-row-even {
+    background: #fff;
+}
+
+.ui-table-row-odd {
+    background: rgba(cell-color-base, 0.075);
+}
+
+.ui-table-row-loading::before,
+.ui-table-row-loading::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   margin-top: -5px;
+   left: 50%;
+   margin-left: -5px;
+   height: 10px;
+   width: 10px;
+   border-radius: 100%;
+   background-color: #AAA;
+}
+
+.ui-table-row-loading::before {
+    animation: loaderBefore 0.7s ease-in-out alternate infinite;
+}
+
+.ui-table-row-loading::after {
+    animation: loaderAfter 0.7s ease-in-out alternate infinite;
+}
+
+@keyframes loaderBefore {
+    from {
+        left: 50%;
+    }
+
+    to {
+        left: 49%;
+    }
+}
+
+@keyframes loaderAfter {
+    from {
+        left: 50%;
+  }
+
+    to {
+        left: 51%;
+    }
+}
+
+.ui-table-row-active {
+    background: rgba(cell-color-base, 0.25);
+}
+
+.ui-table-cell {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 75px;
+    padding: 0 cell-x-padding;
+    position: relative;
+    user-select: none;
+    will-change: contents;
+}
+
+.ui-table-cell-inner {
+    position: absolute;
+    top: 0;
+    left: cell-x-padding;
+    right: cell-x-padding;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    will-change: contents;
+}
+
+.ui-table-header-cell {
+    background: #333;
+    color: #FFF;
+}
+
+.ui-table-header-cell .ui-table-cell-inner {
+    right: cell-x-padding + 0.5em;
+}
+
+.ui-table-header-cell:hover .ui-table-header-cell-resize-handle {
+    opacity: 1;
+}
+
+.ui-table-header-cell-resize-handle {
+    border-right: 2px dotted #FFF;
+    cursor: col-resize;
+    opacity: 0;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    right: 5px;
+    width: 5px;
+    transition: opacity 200ms ease;
+}
+
+.ui-table-x-scroll-track,
+.ui-table-y-scroll-track {
+    background: #CCC;
+    cursor: move;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition-duration: 200ms;
+    transition-timing: ease;
+    z-index: 2;
+}
+
+.ui-table-x-scroll-track {
+    height: 8px;
+    margin-right: 8px;
+    top: auto;
+    transition-property: height;
+}
+
+.ui-table-x-scroll-track:hover {
+    height: 12px;
+}
+
+.ui-table-y-scroll-track {
+    width: 8px;
+    left: auto;
+    transition-property: width;
+}
+
+.ui-table-y-scroll-track:hover {
+    width: 12px;
+}
+
+.ui-table-x-scroll-handle,
+.ui-table-y-scroll-handle {
+    backface-visibility: hidden;
+    background-color: black;
+    position: absolute;
+}
+
+.ui-table-x-scroll-handle {
+    top: 0;
+    bottom: 0;
+}
+
+.ui-table-y-scroll-handle {
+    left: 0;
+    right: 0;
+}
