@@ -1,0 +1,16 @@
+@import "_globals"
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.ui-offscreen {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+@import "UI*/*.styl"

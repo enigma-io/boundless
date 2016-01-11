@@ -1,0 +1,16 @@
+color-bg-body = #fff
+color-text-body = #111
+color-text-header-title = #ccc
+color-accent = #333
+
+default-border-radius = 2px
+
+input-font-size = 0.75rem
+
+get-foreground-text-color($color) {
+    if (lightness($color) > 50) {
+        return #000; // Lighter backgorund, return dark color
+    } else {
+        return #FFF; // Darker background, return light color
+    }
+}

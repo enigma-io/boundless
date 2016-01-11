@@ -1,0 +1,30 @@
+// Demo-specific styles go here. Skin-specific styles go in ../style.styl.
+
+@import "../../_globals"
+
+.ui-paginated-view-item {
+    padding: 1rem;
+    height: 7em;
+    display: flex;
+}
+
+.ui-paginated-view-item-odd {
+    background: rgba(color-accent, 0.1);
+}
+
+.ui-paginated-view .ui-list-item {
+    margin: 0;
+}
+
+.ui-paginated-view-item > .card-left {
+    flex-basis: 50%;
+}
+
+.ui-paginated-view-item > .card-right {
+    flex-basis: 50%;
+    font-size: 11pt;
+}
+
+.ui-paginated-view-item > .card-left > strong {
+    font-size: 18pt;
+}

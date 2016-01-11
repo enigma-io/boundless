@@ -1,0 +1,36 @@
+// Demo-specific styles go here. Skin-specific styles go in ../style.styl.
+
+@import "../../_globals"
+
+.progress-demo {
+    > * {
+        margin: 0 1em;
+    }
+
+    > :first-child {
+        margin-left: 0;
+    }
+
+    > :last-child {
+        margin-right: 0;
+    }
+}
+
+#progress-meter .ui-progress {
+    background: color-accent;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: auto;
+}
+
+#progress-meter .ui-progress-label {
+    color: #FFF;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+

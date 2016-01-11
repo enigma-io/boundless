@@ -68,7 +68,7 @@
         "no-unreachable": 2,
         "use-isnan": 2,
         "block-scoped-var": 2,
-        "consistent-return": 2,
+        "consistent-return": 0,
         "curly": [2, "all"],
         "default-case": 0,
         "dot-notation": [2, {"allowKeywords": true}],
