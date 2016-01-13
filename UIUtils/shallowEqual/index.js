@@ -22,6 +22,6 @@ export default function checkShallowEquality(a, b) {
         return Object.keys(a).every(compareObjectKeys, b) && Object.keys(b).every(compareObjectKeys, a);
     }
 
-    return    a.every(function(item) { return b.indexOf(item) !== -1; })
-           && b.every(function(item) { return a.indexOf(item) !== -1; });
+    return    a.every(function validateArrayItemExists(item) { return b.indexOf(item) !== -1; })
+           && b.every(function validateArrayItemExists(item) { return a.indexOf(item) !== -1; });
 }

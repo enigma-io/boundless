@@ -133,7 +133,7 @@ class UISegmentedControl extends UIView {
 
 UISegmentedControl.propTypes = {
     onOptionSelected: React.PropTypes.func,
-    options: function(props) {
+    options: function validateOptions(props) {
         if (props.options.length < 2) {
             return new Error('Must provide at least two options.');
         }

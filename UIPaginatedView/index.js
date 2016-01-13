@@ -232,7 +232,7 @@ UIPaginatedView.propTypes = {
     jumpToLastControlText: React.PropTypes.string,
     listWrapperProps: React.PropTypes.object,
     nextPageControlText: React.PropTypes.string,
-    numItemsPerPage: function(props) {
+    numItemsPerPage: function validateNumItemsPerPage(props) {
         if (!Number.isInteger(props.numItemsPerPage)) {
             return new Error('`numItemsPerPage` must be an integer.');
         }
@@ -242,7 +242,7 @@ UIPaginatedView.propTypes = {
         }
     },
     numPageToggles: React.PropTypes.number,
-    pagerPosition: function(props) {
+    pagerPosition: function validatePagerPosition(props) {
         if (!Number.isInteger(props.pagerPosition)) {
             return new Error('`pagerPosition` must be an integer.');
         }

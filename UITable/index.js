@@ -112,9 +112,7 @@ const createHeaderCell = function createHeaderCell(metadata, width) {
     const node = createDOMHeaderCell(metadata, metadata.width || width);
 
     return {
-        '_textNode':   node.childNodes[0].nodeType === 3
-                     ? node.childNodes[0]
-                     : node.children[0].childNodes[0],
+        '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
         '_metadata': metadata,
         '_title': metadata.title,
         get title() { return this._title; },
@@ -147,9 +145,7 @@ const createCell = function createCell(content, mapping, width) {
     const node = createDOMCell(content, mapping, width);
 
     return {
-        '_textNode':   node.childNodes[0].nodeType === 3
-                     ? node.childNodes[0]
-                     : node.children[0].childNodes[0],
+        '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
         '_content': content,
         get content() { return this._content; },
         set content(val) {
