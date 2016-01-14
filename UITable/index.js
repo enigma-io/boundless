@@ -7,6 +7,7 @@ import React from 'react';
 import UIView from '../UIView';
 import transformProp from '../UIUtils/transform';
 import noop from '../UIUtils/noop';
+import findWhere from '../UIUtils/findWhere';
 
 /**
  * FOR FUTURE EYES
@@ -44,20 +45,6 @@ const activeClassRegex = /\s?ui-table-row-active/g;
 const loadingClassRegex = /\s?ui-table-row-loading/g;
 const evenClassRegex = /\s?ui-table-row-even/g;
 const oddClassRegex = /\s?ui-table-row-odd/g;
-
-/** @ignore */
-let _findWhereIndex = null;
-const findWhere = function findWhere(array, property, value) {
-    _findWhereIndex = array.length - 1;
-
-    while (_findWhereIndex > -1) {
-        if (array[_findWhereIndex][property] === value) {
-            return array[_findWhereIndex];
-        }
-
-        _findWhereIndex -= 1;
-    }
-}; // optimized specifically to only look for a single key:value match
 
 const translate3d = function translate3D(x = 0, y = 0) {
     return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
