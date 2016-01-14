@@ -25,9 +25,10 @@ export default class UIProgressiveDisclosure extends UIView {
         }
     }
 
-    handleClick() {
+    handleClick(event) {
         this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
 
+        /* istanbul ignore else */
         if (typeof this.props.toggleProps.onClick === 'function') {
             event.persist();
             this.props.toggleProps.onClick(event);
@@ -41,6 +42,7 @@ export default class UIProgressiveDisclosure extends UIView {
             this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
         }
 
+        /* istanbul ignore else */
         if (typeof this.props.toggleProps.onKeyDown === 'function') {
             event.persist();
             this.props.toggleProps.onKeyDown(event);

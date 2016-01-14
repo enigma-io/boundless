@@ -12,6 +12,7 @@ import sinon from 'sinon';
 describe('UIProgressiveDisclosure', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
+    const fakeEvent = {persist: noop, preventDefault: noop};
 
     const sandbox = sinon.sandbox.create();
 
@@ -140,6 +141,16 @@ describe('UIProgressiveDisclosure', () => {
             element.handleClick();
             expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
         });
+
+        it('should proxy the event to `props.toggleProps.onClick` if provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIProgressiveDisclosure toggleProps={{onClick: stub}} />);
+
+            element.handleClick(fakeEvent);
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(fakeEvent)).toBe(true);
+        });
     });
 
     describe('enter key on the toggle', () => {
@@ -152,6 +163,48 @@ describe('UIProgressiveDisclosure', () => {
 
             element.handleKeyDown({key: 'Enter', preventDefault: noop});
             expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+        });
+
+        it('should proxy the event to `props.toggleProps.onKeyDown` if provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIProgressiveDisclosure toggleProps={{onKeyDown: stub}} />);
+
+            element.handleKeyDown(fakeEvent);
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(fakeEvent)).toBe(true);
+        });
+    });
+
+    describe('rerendering with a changed `props.expanded`', () => {
+        it('should should show and hide the content', () => {
+            let element = render(<UIProgressiveDisclosure />);
+            const node = element.refs.wrapper;
+
+            expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+
+            element = render(<UIProgressiveDisclosure expanded />);
+            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+        });
+
+        it('should call `props.onExpand` if `props.expanded` is now true', () => {
+            const stub = sandbox.stub();
+            let element = render(<UIProgressiveDisclosure onExpand={stub} />);
+
+            expect(stub.called).toBe(false);
+
+            element = render(<UIProgressiveDisclosure onExpand={stub} expanded />);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('should call `props.onHide` if `props.expanded` is now false', () => {
+            const stub = sandbox.stub();
+            let element = render(<UIProgressiveDisclosure onHide={stub} expanded />);
+
+            expect(stub.called).toBe(false);
+
+            element = render(<UIProgressiveDisclosure onHide={stub} />);
+            expect(stub.calledOnce).toBe(true);
         });
     });
 
