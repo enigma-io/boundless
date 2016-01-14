@@ -20,6 +20,7 @@ class UIRadio extends UIView {
             this.props.onSelected(event.target.value);
         }
 
+        /* istanbul ignore else */
         if (typeof this.props.inputProps.onChange === 'function') {
             event.persist();
             this.props.inputProps.onChange(event);
