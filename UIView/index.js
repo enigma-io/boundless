@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import shallowEqual from '../UIUtils/shallowEqual';
 
 /**
@@ -9,7 +9,7 @@ import shallowEqual from '../UIUtils/shallowEqual';
  *
  * @augments {React.Component}
  */
-class UIView extends React.Component {
+class UIView extends Component {
     /**
      * @param {object} props data passed on to the end component
      */
