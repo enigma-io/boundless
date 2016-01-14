@@ -11,10 +11,17 @@ import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 class UISegmentedControl extends UIView {
+    initialState() {
+        return {
+            indexOfOptionInFocus: null
+        };
+    }
+
     currentValue() {
         let value;
 
         this.props.options.some(option => {
+            /* istanbul ignore else */
             if (option.selected) {
                 value = option.value;
 
@@ -42,10 +49,11 @@ class UISegmentedControl extends UIView {
     }
 
     handleBlur(option, event) {
-        if (this.state.indexOfOptionInFocus === option) {
+        if (this.state.indexOfOptionInFocus === this.props.options.indexOf(option)) {
             this.setState({indexOfOptionInFocus: null});
         }
 
+        /* istanbul ignore else */
         if (typeof option.onBlur === 'function') {
             event.persist();
             option.onBlur(event);
@@ -55,6 +63,7 @@ class UISegmentedControl extends UIView {
     handleClick(option, event) {
         this.props.onOptionSelected(option.value);
 
+        /* istanbul ignore else */
         if (typeof option.onClick === 'function') {
             event.persist();
             option.onClick(event);
@@ -64,6 +73,7 @@ class UISegmentedControl extends UIView {
     handleFocus(option, event) {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
 
+        /* istanbul ignore else */
         if (typeof option.onFocus === 'function') {
             event.persist();
             option.onFocus(event);
@@ -135,7 +145,7 @@ UISegmentedControl.propTypes = {
     onOptionSelected: React.PropTypes.func,
     options: function validateOptions(props) {
         if (props.options.length < 2) {
-            return new Error('Must provide at least two options.');
+            throw new Error('Must provide at least two options.');
         }
 
         let missingSelected = props.options.some(option => {
@@ -145,17 +155,7 @@ UISegmentedControl.propTypes = {
         });
 
         if (missingSelected) {
-            return new Error('Must provide a `selected` prop for each option.');
-        }
-
-        let missingValue = props.options.some(option => {
-            if (!('value' in option)) {
-                return true;
-            }
-        });
-
-        if (missingValue) {
-            return new Error('Must provide a `value` prop for each option.');
+            throw new Error('Must provide a `selected` prop for each option.');
         }
 
         let seenSelected = false;
@@ -170,7 +170,11 @@ UISegmentedControl.propTypes = {
         });
 
         if (multipleSelected) {
-            return new Error('Encountered multiple options with `selected: true`. There can be only one.');
+            throw new Error('Encountered multiple options with `selected: true`. There can be only one.');
+        }
+
+        if (props.options.some(option => typeof option.value === 'undefined')) {
+            throw new Error('Must provide a `value` prop for each option.');
         }
     },
 };
