@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import UIRadio from '../../UIRadio';
 import conformanceChecker from '../../UIUtils/conform';
+import noop from '../../UIUtils/noop';
 
 import sinon from 'sinon';
 
@@ -13,6 +14,7 @@ describe('UIRadio', () => {
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
     const baseProps = {name: 'foo', value: 'bar'};
+    const fakeEvent = {persist: noop, preventDefault: noop};
 
     const sandbox = sinon.sandbox.create();
 
@@ -97,6 +99,28 @@ describe('UIRadio', () => {
             const node = element.refs.wrapper;
 
             expect(hasClass(element.refs.input, 'ui-radio-selected')).toBe(false);
+        });
+    });
+
+    describe('change events', () => {
+        it('should call `props.onSelected` with the target\'s value if the target is `checked`', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIRadio {...baseProps} onSelected={stub} />);
+
+            element.handleChange({...fakeEvent, target: {checked: true, value: 'x'}});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch('x')).toBe(true);
+        });
+
+        it('should proxy to `props.inputProps.onChange` if provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIRadio {...baseProps} inputProps={{onChange: stub}} />);
+
+            element.handleChange({...fakeEvent, target: element.refs.input});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(fakeEvent)).toBe(true);
         });
     });
 
