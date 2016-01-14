@@ -13,7 +13,7 @@ import noop from '../UIUtils/noop';
 class UISegmentedControl extends UIView {
     initialState() {
         return {
-            indexOfOptionInFocus: null
+            indexOfOptionInFocus: null,
         };
     }
 

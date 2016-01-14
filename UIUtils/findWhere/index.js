@@ -22,4 +22,4 @@ export default function findWhere(array, property, value) {
 
         _findWhereIndex -= 1;
     }
-}; // optimized specifically to only look for a single key:value match
+} // optimized specifically to only look for a single key:value match
