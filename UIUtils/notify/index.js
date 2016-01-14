@@ -100,6 +100,7 @@ export default function notify(config) {
                     icon: config.icon,
                 });
 
+                /* istanbul ignore next */
                 if (config.onClick) {
                     notification.addEventListener('click', config.onClick);
                 }
