@@ -51,18 +51,18 @@ The CHANGELOG format is as follows:
 
 1. ...
 
-### New Functionality
+#### New Functionality
 1. Prose-style explanation of the functionality
    [<issue or PR title>](<issue or PR link>) <commit SHA>
 
 1. ...
 
-### Bugfixes
+#### Bugfixes
 - [<issue or PR title>](<issue or PR link>) <commit SHA>
 - ...
 ```
 
-A `###` header may be omitted if there are no relevant changes in the release.
+A `####` header may be omitted if there are no relevant changes in the release.
 
 [back to top](#uikit-changelog-policy)
 

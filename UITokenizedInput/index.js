@@ -121,9 +121,7 @@ class UITokenizedInput extends UIView {
 
         case 8:     // backspace
             if (this.props.tokensSelected.length) {
-                event.preventDefault();
                 this.remove(this.props.tokensSelected);
-
                 this.refs.typeahead.focus();
             }
 

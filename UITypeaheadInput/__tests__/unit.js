@@ -298,20 +298,6 @@ describe('UITypeaheadInput', () => {
         });
     });
 
-    describe('backspace', () => {
-        it('should clear the input', () => {
-            const element = render(<UITypeaheadInput entities={entities} defaultValue='ap' />);
-
-            element.handleKeyDown({
-                key: 'Backspace',
-                target: element.getInputNode(),
-                nativeEvent: {preventDefault: noop}
-            });
-
-            expect(element.state.userInput).toBe('');
-        });
-    });
-
     describe('entity matches', () => {
         it('should autocomplete on click', () => {
             const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} />);
