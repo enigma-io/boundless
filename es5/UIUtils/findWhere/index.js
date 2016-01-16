@@ -1,0 +1,1 @@
+"use strict";function findWhere(array,property,value){for(_findWhereIndex=array.length-1;_findWhereIndex>-1;){if(array[_findWhereIndex][property]===value)return array[_findWhereIndex];_findWhereIndex-=1}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=findWhere;var _findWhereIndex=null;
