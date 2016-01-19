@@ -142,7 +142,7 @@ Clone the repository to your local machine:
 git clone git@github.com:bibliotech/uikit.git
 ```
 
-Each component folder includes a functional demo and some reference styles in `style.scss`. These styles are all rolled up into `dist/style.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
+Each component folder includes a functional demo and some reference styles in `style.styl`. These styles are all rolled up into `dist/skin.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
 
 #### Running the Website Locally
 
@@ -150,7 +150,7 @@ Run the following commands inside the cloned UIKit repository (assumes Node 4+ i
 
 ```bash
 npm install
-npm run site
+npm start
 ```
 
 [back to top](#uikit)
