@@ -150,7 +150,7 @@ Run the following commands inside the cloned UIKit repository (assumes Node 4+ i
 
 ```bash
 npm install
-npm run site
+npm start
 ```
 
 [back to top](#uikit)
