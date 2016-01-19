@@ -297,6 +297,8 @@ class UITable extends UIView {
         this.handleDragMove = this.handleDragMove.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.handleColumnDragStart = this.handleColumnDragStart.bind(this);
+
+        this.handleWindowResize = this.handleWindowResize.bind(this);
     }
 
     componentDidMount() {
@@ -321,6 +323,8 @@ class UITable extends UIView {
 
         this.refs['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
         this.refs['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
+
+        window.addEventListener('resize', this.handleWindowResize);
     }
 
     componentWillUnmount() {
@@ -336,6 +340,8 @@ class UITable extends UIView {
 
         this.refs['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
         this.refs['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
+
+        window.removeEventListener('resize', this.handleWindowResize);
 
         this.emptyHeader();
         this.emptyBody();
@@ -452,6 +458,10 @@ class UITable extends UIView {
         this._fragment = null; // prevent memleak
     }
 
+    calculateCellHeight() {
+        this._cell_h = this._rows[0].cells[0].node.clientHeight || 40;
+    }
+
     calculateCellWidths() {
         this._rows[0].cells.forEach((cell, index) => {
             this._columns[index].width = this._columns[index].width || cell.node.getBoundingClientRect().width;
@@ -492,28 +502,37 @@ class UITable extends UIView {
     }
 
     initializeScrollBars() {
+        this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
+        this._yScrollTrack_h = this.refs['y-scroll-track'].clientHeight || 150;
         this._xScrollHandle_s.width = this.calculateXScrollHandleSize() + 'px';
         this._yScrollHandle_s.height = this.calculateYScrollHandleSize() + 'px';
     }
 
-    regenerate() {
-        this.resetInternals();
-
-        this.buildColumns();
-
-        this.injectFirstRow();
-        this.calculateCellWidths();
-
+    calculateContainerDimensions() {
         /* The fallback amounts are for unit testing, the browser will always have
         an actual number. */
-
-        this._cell_h = this._rows[0].cells[0].node.clientHeight || 40;
-
         this._container_h = this.refs.wrapper.clientHeight || 150;
         this._container_w = this.refs.wrapper.clientWidth || 500;
+    }
 
-        this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
-        this._yScrollTrack_h = this.refs['y-scroll-track'].clientHeight || 150;
+    handleWindowResize() {
+        if (this.refs.wrapper.clientHeight !== this._container_h) {
+            /* more rows may be needed to display the data, so we need to rebuild */
+            return this.regenerate();
+        }
+
+        this.calculateContainerDimensions();
+        this.initializeScrollBars();
+    }
+
+    regenerate() {
+        this.resetInternals();
+        this.calculateContainerDimensions();
+
+        this.buildColumns();
+        this.injectFirstRow();
+        this.calculateCellWidths();
+        this.calculateCellHeight();
 
         this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
 

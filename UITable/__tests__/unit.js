@@ -489,4 +489,38 @@ describe('UITable', () => {
             expect(element.refs.body.querySelector('.ui-table-cell').textContent).toBe('Lana');
         });
     });
+
+    describe('window resize', () => {
+        it('should rebuild the table if the new container height differs from the previous cached height', () => {
+            const element = render(<UITable {...baseProps} />);
+
+            sandbox.stub(element, 'regenerate');
+
+            element._container_h -= 1;
+
+            element.handleWindowResize();
+            expect(element.regenerate.calledOnce).toBe(true);
+
+        });
+
+        it('should cause a recompute of the container dimensions', () => {
+            const element = render(<UITable {...baseProps} />);
+
+            sandbox.stub(element, 'calculateContainerDimensions');
+
+            element.handleWindowResize();
+            expect(element.calculateContainerDimensions.calledOnce).toBe(true);
+
+        });
+
+        it('should cause a recompute of the scrollbars', () => {
+            const element = render(<UITable {...baseProps} />);
+
+            sandbox.stub(element, 'initializeScrollBars');
+
+            element.handleWindowResize();
+            expect(element.initializeScrollBars.calledOnce).toBe(true);
+
+        });
+    });
 });

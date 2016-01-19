@@ -127,6 +127,7 @@ __contextmenu__ | table cell | block browser menu, launch custom menu
 __dblclick__ | column header cell drag handle | recalculate column width with currently visible values & apply new sizing
 __dragEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
 __touchEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
+__resize__ | window | recompute scrollbar sizing; if the height of the table changes, rebuild it
 
 ---
 
