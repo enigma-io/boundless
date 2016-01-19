@@ -23,7 +23,7 @@
     "babelify": "^7.0.0",
     "brfs": "yaycmyk/brfs#enhancement/file-stream-transforms",
     "browserify": "^12.0.0",
-    "budo": "^7.0.0",
+    "budo": "^8.0.0",
     "es6-promise": "^3.0.2",
     "esdoc": "^0.4.3",
     "eslint-plugin-react": "^3.0.0",
