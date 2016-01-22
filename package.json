@@ -32,7 +32,7 @@
     "history": "^1.17.0",
     "jest-cli": "^0.8.1",
     "jsdoc": "^3.4.0",
-    "lodash": "^3.10.0",
+    "lodash": "^4.0.0",
     "minami": "^1.1.0",
     "mocha": "^2.3.3",
     "prismjs": "^1.3.0",
@@ -58,7 +58,7 @@
     ]
   },
   "jest": {
-    "setupEnvScriptFile": "jest.setup.js",
+    "setupEnvScriptFile": "setup.jest.js",
     "scriptPreprocessor": "node_modules/babel-jest",
     "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "collectCoverage": true,
@@ -88,7 +88,8 @@
       "UIUtils/notify/index.js": true,
       "UIUtils/shallowEqual/index.js": true,
       "UIUtils/transform/index.js": true,
-      "UIView/index.js": true
+      "UIView/index.js": true,
+      "exports.js": true
     },
     "preprocessorIgnorePatterns": [
       "node_modules"
