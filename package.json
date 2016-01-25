@@ -99,7 +99,7 @@
     "postinstall": "mkdir -p site/dist/assets",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t babelify",
-    "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} | uglifyjs -c --screw-ie8 -o es5/`echo ${p} | cut -c 3-`'",
+    "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} --source-maps inline --out-file es5/`echo ${p} | cut -c 3-`'",
     "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
     "coverage": "jest",
