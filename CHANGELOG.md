@@ -3,12 +3,58 @@
 
 ---
 
+### 1.0.0-beta-10 (1/26/2016)
+#### New Component(s)
+
+1. __UIArrowKeyNavigation__
+
+   A higher-order component that adds arrow key navigation to a grouping of children. Learn more in the [UIArrowKeyNavigation docs](./UIArrowKeyNavigation/README.md)!
+
+#### Breaking Changes
+
+1. __UIList has been removed in favor of UIArrowKeyNavigation.__
+
+   With the keyboard functionality isolated into a separate component, UIList was no longer bringing anything unique to the table and has subsequently been removed.
+
+   UIPaginatedView was modified to directly use UIArrowKeyNavigation, as it previously used UIList internally. The `.ui-list`, `.ui-list-item`, etc classes are removed, so please modify your code to use the appropriate [UIPaginatedView class](./UIPaginatedView/README.md#example-usage) if you haven't already.
+
+#### Commits
+
+- Remove UIList; migrate other components to use UIArrowKeyNavigation (29b1489)
+- UIList: switch internals to use UIArrowKeyNavigation (acd4f8e)
+- Add UIArrowKeyNavigation (ac496e1) - This could probably replace UIList in the long run. It's a more general implementation that allows for any base component / child structure.
+- UITable: Removed double click note (3569e76)
+- UITable: recompute scrollbar concerns on window resize (aaf51b6) - This fixes the X/Y scrollbar being out of sync. If the height of the table changes, we need to do a full regeneration.
+- UITypeaheadInput: revert programmatic Backspace input clearing (83d0c7c) - It was overaggressive and broke some use cases.
+- UIUtils/notify: ignore untestable line (c9f5048)
+- UIView: directly import Component from React (a1854e8) - Allows for better tree-shaking when the module bundlers get there.
+- Add UIUtils/findWhere (7d0da1b) - Isolated from its original implementation in UITable.
+- UIRadio: improve code coverage (e3d86b6)
+- UIProgressiveDisclosure: improve test coverage, fixed bug in onClick proxy (fbaf974)
+- UISegmentedControl: improve code coverage, fix a bug related to onBlur (ad32887)
+
+#### Misc
+
+- Chore: site styling adjustments (9b57216)
+- Chore: add sourcemaps to es5/ files and don't minify them (0685453) - Allows for easier development and the end user can minify them as desired. The release builds are still available in dist/ for a completely ready and minified solution.
+- Chore: update dep, collect coverage for exports.js (baec1e9)
+- Chore: update README language regarding reference styles (68f3357) - scss -> styl and the name of the file
+- Chore: autocreate directories needed for site compilation (e10f036)
+- Chore: adjust README (dc63720) - Closes #109
+- Chore: add missing autoprefixer plugin to website builder (4a02f1e) - Tis why some things looked odd on `npm start`.
+- Disable eslint consistent-return rule (91bb4e8) - Unnecessary.
+- Fix changelog policy template example (0c5942b)
+- Update budo to 8.x (6b14f0c)
+- Update to "forever" license (315f053)
+
+---
+
 ### 1.0.0-beta-9 (1/8/2016)
 #### Deprecations
 
-__UITypeaheadInput methods `focusInput` and `setValue` were renamed to `focus` and `value`.__
+1. __UITypeaheadInput methods `focusInput` and `setValue` were renamed to `focus` and `value`.__
 
-Console warnings are in place and the old method will be removed at a later date. It will continue to work in the meantime.
+   Console warnings are in place and the old method will be removed at a later date. It will continue to work in the meantime.
 
 #### Commits
 
@@ -70,15 +116,15 @@ Console warnings are in place and the old method will be removed at a later date
 ### 1.0.0-beta-7 (1/4/2016)
 #### Breaking Changes
 
-__UITokenizedInput is now operated as a "controlled" component.__
+1. __UITokenizedInput is now operated as a "controlled" component.__
 
-This essentially means that the component no longer manages its own state and relies on the consuming developer to provide what tokens to render and their selection state. When a user interacts with UITokenizedInput, certain functions will be triggered to notify the stateful wrapper that it should add/remove token(s) or move the selection.
+   This essentially means that the component no longer manages its own state and relies on the consuming developer to provide what tokens to render and their selection state. When a user interacts with UITokenizedInput, certain functions will be triggered to notify the stateful wrapper that it should add/remove token(s) or move the selection.
 
-Learn more in the [UITokenizedInput documentation](./UITokenizedInput/README.md)!
+   Learn more in the [UITokenizedInput documentation](./UITokenizedInput/README.md)!
 
-__UINotification -> UIUtils/notify__
+1. __UINotification -> UIUtils/notify__
 
-We recently discovered that the lifecycle functionality of web notifications is completely unreliable, so the "manager" aspect of this component was removed and the whole thing has been converted into a utility, rather than a React component.
+   We recently discovered that the lifecycle functionality of web notifications is completely unreliable, so the "manager" aspect of this component was removed and the whole thing has been converted into a utility, rather than a React component.
 
 #### Relevant Commits
 
@@ -101,27 +147,27 @@ We recently discovered that the lifecycle functionality of web notifications is 
 ### 1.0.0-beta-6 (12/17/2015)
 #### Breaking Change
 
-__UITypeaheadInput's algorithm handling has been changed.__
+1. __UITypeaheadInput's algorithm handling has been changed.__
 
-Previously you could directly supply `props.matchFunc` and `props.markFunc` to do custom handling of your entity matching and display. This was revised to happen inside a new `props.algorithm` object, due to the addition of a new built-in algorithm: "fuzzy".
+   Previously you could directly supply `props.matchFunc` and `props.markFunc` to do custom handling of your entity matching and display. This was revised to happen inside a new `props.algorithm` object, due to the addition of a new built-in algorithm: "fuzzy".
 
-So to do custom matching etc. again you'd pass the following instead:
+   So to do custom matching etc. again you'd pass the following instead:
 
-```js
-// beta-5
-<UITypeaheadInput
-    matchFunc={{yourMatchFunc}}
-    markFunc={{yourMatchFunc}} />
+   ```js
+   // beta-5
+   <UITypeaheadInput
+       matchFunc={{yourMatchFunc}}
+       markFunc={{yourMatchFunc}} />
 
-// beta-6
-<UITypeaheadInput
-    algorithm={{
-        matchFunc: yourMatchFunc,
-        markFunc: yourMarkFunc,
-    }} />
-```
+   // beta-6
+   <UITypeaheadInput
+       algorithm={{
+           matchFunc: yourMatchFunc,
+           markFunc: yourMarkFunc,
+       }} />
+   ```
 
-Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [UITypeaheadInput readme](./UITypeaheadInput/README.md) for more information.
+   Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [   UITypeaheadInput readme](./UITypeaheadInput/README.md) for more information.
 
 #### Relevant Commits
 
