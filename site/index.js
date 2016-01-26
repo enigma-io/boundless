@@ -6,6 +6,7 @@ import {findWhere, escapeRegExp} from 'lodash';
 import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
 
+import UIArrowKeyNavigationDemo from '../UIArrowKeyNavigation/demo';
 import UIButtonDemo from '../UIButton/demo';
 import UICheckboxDemo from '../UICheckbox/demo';
 import UICheckboxGroupDemo from '../UICheckboxGroup/demo';
@@ -64,6 +65,10 @@ const pages = {
 };
 
 const components = {
+    UIArrowKeyNavigation: {
+        component: UIArrowKeyNavigationDemo,
+        readme: fs.readFileSync(__dirname + '/../UIArrowKeyNavigation/README.md', 'utf8'),
+    },
     UIButton: {
         component: UIButtonDemo,
         readme: fs.readFileSync(__dirname + '/../UIButton/README.md', 'utf8'),

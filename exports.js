@@ -7,6 +7,7 @@ global.UIKit = {};
 global.UIKit.UIUtils = {};
 
 module.exports = {
+    UIArrowKeyNavigation: (global.UIKit.UIArrowKeyNavigation = require('./UIArrowKeyNavigation').default),
     UIButton: (global.UIKit.UIButton = require('./UIButton').default),
     UICheckbox: (global.UIKit.UICheckbox = require('./UICheckbox').default),
     UICheckboxGroup: (global.UIKit.UICheckboxGroup = require('./UICheckboxGroup').default),
