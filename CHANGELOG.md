@@ -20,6 +20,7 @@
 
 #### Commits
 
+- UITypeaheadInput: reduce frequency of console warnings (791d100) - They will now be emitted once each per component instance.
 - Remove UIList; migrate other components to use UIArrowKeyNavigation (29b1489)
 - UIList: switch internals to use UIArrowKeyNavigation (acd4f8e)
 - Add UIArrowKeyNavigation (ac496e1) - This could probably replace UIList in the long run. It's a more general implementation that allows for any base component / child structure.
