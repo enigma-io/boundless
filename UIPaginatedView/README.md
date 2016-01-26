@@ -47,16 +47,10 @@ Renders:
       <button class="ui-button ui-segmented-control-option ui-paginated-view-controls-next">Next</button>
       <button class="ui-button ui-segmented-control-option ui-paginated-view-controls-last">Last</button>
     </div>
-    <div class="ui-list ui-list-plain ui-paginated-view-item-list">
-      <span class="ui-list-item">
+    <div class="ui-paginated-view-item-list">
         <div class="ui-paginated-view-item ui-paginated-view-item-even">Alice</div>
-      </span>
-      <span class="ui-list-item">
         <div class="ui-paginated-view-item ui-paginated-view-item-odd">Bob</div>
-      </span>
-      <span class="ui-list-item">
         <div class="ui-paginated-view-item ui-paginated-view-item-even">Charlie</div>
-      </span>
     </div>
   </div>
 </div>
@@ -86,7 +80,8 @@ Styling of the element is provided via the CSS hooks:
 Type | Context | Expectation
 ---- | ------- | -----------
 __Mouse__ | `click` (not selected) | should trigger `onClick` on clicked control
-__Keyboard__ |`['Left', 'Right']` | should move focus to next/previous toggle; should loop
+__Keyboard__ | page toggles `['Left', 'Right']` | should move focus to next/previous toggle; should loop
+__Keyboard__ | list items `['Up', 'Down']` | should move focus to next/previous toggle; should loop
 __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for focused toggle
 
 ---
@@ -102,7 +97,7 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 - __listWrapperProps__ `Object`
     - __listWrapperProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the UIList node, `.ui-paginated-view-item-list`
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-paginated-view-item-list` node
 
 - __nextPageControlText__ `String`
   (default `'Next ›'`) text to be displayed inside of the "Next page" control button

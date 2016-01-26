@@ -53,8 +53,8 @@ In this case, your HTML page would probably resemble the following:
     <body>
         <!-- some content or a root container -->
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"></script>
         <script src="js/uikit-standalone.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
     </body>
@@ -71,11 +71,11 @@ In this case, your HTML page would probably resemble the following:
 ```js
 import React from 'react';
 import {render} from 'react-dom';
-import {UIList} from 'enigma-uikit';
+import {UIButton} from 'enigma-uikit';
 
 function MyUI() {
     return (
-        <UIList items={['red', 'green', 'blue']} />
+        <UIButton onClick={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -87,11 +87,11 @@ render(<MyUI />, document.body);
 ```js
 var React = require('react');
 var ReactDOM = require('react-dom');
-var UIList = require('enigma-uikit').UIList;
+var UIButton = require('enigma-uikit').UIButton;
 
 function MyUI() {
     return (
-        <UIList items={['red', 'green', 'blue']} />
+        <UIButton onClick={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -102,11 +102,11 @@ ReactDOM.render(<MyUI />, document.body);
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
-var UIList = window.UIKit.UIList;
+var UIButton = window.UIKit.UIButton;
 
 function MyUI() {
     return (
-        <UIList items={['red', 'green', 'blue']} />
+        <UIButton onClick={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -117,12 +117,10 @@ ReactDOM.render(<MyUI />, document.body);
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
-var UIList = window.UIKit.UIList;
+var UIButton = window.UIKit.UIButton;
 
 function MyUI() {
-    return React.createElement(UIList, {
-        items: ['red', 'green', 'blue']
-    });
+    return React.createElement(UIButton, {onClick: doSomething}, 'Click me!');
 }
 
 ReactDOM.render(MyUI(), document.body);

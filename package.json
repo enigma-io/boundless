@@ -70,7 +70,6 @@
       "UIDialog/index.js": true,
       "UIFittedText/index.js": true,
       "UIImage/index.js": true,
-      "UIList/index.js": true,
       "UIModal/index.js": true,
       "UIPaginatedView/index.js": true,
       "UIPaginatedView/item.js": true,

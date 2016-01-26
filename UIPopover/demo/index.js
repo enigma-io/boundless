@@ -1,4 +1,4 @@
-import UIList from '../../UIList';
+import UIArrowKeyNavigation from '../../UIArrowKeyNavigation';
 import UIPopover from '../index';
 import UIView from '../../UIView';
 import React from 'react';
@@ -93,13 +93,25 @@ export default class UIPopoverDemo extends UIView {
         );
     }
 
+    renderSecondaryDefinitions(definitions = []) {
+        return definitions.length ? (
+            <UIArrowKeyNavigation key='secondary' component='ol'>
+                {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
+            </UIArrowKeyNavigation>
+        ) : null;
+    }
+
+    renderPrimaryDefinition(definition) {
+        return definition ?  <p key='primary'>{definition}</p> : null;
+    }
+
     renderBody(definition) {
         return [
             <strong key='syllabic'>{definition.syllabicRepresentation}</strong>,
             <br key='break' />,
             <em key='type'>{definition.type}</em>,
-            definition.primaryDefinition.length ? <p key='primary'>{definition.primaryDefinition}</p> : null,
-            definition.secondaryDefinitions.length ? <UIList key='secondary' type='number' items={definition.secondaryDefinitions} /> : null,
+            this.renderPrimaryDefinition(definition.primaryDefinition),
+            this.renderSecondaryDefinitions(definition.secondaryDefinitions),
         ];
     }
 
