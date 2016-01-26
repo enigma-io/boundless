@@ -61,46 +61,34 @@ cell-x-padding = 0.75em
     background: rgba(cell-color-base, 0.075);
 }
 
-.ui-table-row-loading::before,
-.ui-table-row-loading::after {
+.ui-table-row-loading::before {
    content: '';
    position: absolute;
    top: 50%;
-   margin-top: -5px;
-   left: 50%;
-   margin-left: -5px;
-   height: 10px;
-   width: 10px;
-   border-radius: 100%;
-   background-color: #AAA;
+   margin-top: -1px;
+   left: 0;
+   height: 2px;
+   width: 100%;
+   background-color: #BBB;
 }
 
 .ui-table-row-loading::before {
-    animation: loaderBefore 0.7s ease-in-out alternate infinite;
+    animation: indeterminate 2s linear infinite;
 }
 
-.ui-table-row-loading::after {
-    animation: loaderAfter 0.7s ease-in-out alternate infinite;
-}
-
-@keyframes loaderBefore {
-    from {
-        left: 50%;
-    }
-
-    to {
-        left: 49%;
-    }
-}
-
-@keyframes loaderAfter {
-    from {
-        left: 50%;
-  }
-
-    to {
-        left: 51%;
-    }
+@keyframes indeterminate {
+  0% {transform: translateX(-100%) scaleX(0.2) }
+  20% {transform: translateX(-40%) scaleX(0.2) }
+  30% {transform: translateX(0%) scaleX(0.5) }
+  55% {transform: translateX(100%) scaleX(0.7) }
+  55.99% {transform: scaleX(0) }
+  56% {transform: translateX(-100%) scaleX(0) }
+  56.99% {transform: translateX(-100%) scaleX(0.6) }
+  75% {transform: translateX(-5%) scaleX(0.6) }
+  85% {transform: translateX(30%) scaleX(0.3) }
+  98% {transform: translateX(100%) scaleX(0.2)}
+  99.99% {transform: scaleX(0) }
+  100% {transform: translateX(-100%)}
 }
 
 .ui-table-row-active {
