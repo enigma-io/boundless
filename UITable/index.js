@@ -479,7 +479,7 @@ class UITable extends UIView {
     calculateYBound() {
         this._yUpperBound = 0;
         this._yLowerBound = this._container_h - (this._nRowsToRender * this._cell_h);
-    }
+    } // do not run this unless rebuilding the table, does not preserve current min/max thresholds
 
     calculateXScrollHandleSize() {
         this._xScrollHandleSize = this._container_w - Math.abs(this._xMaximum);
@@ -502,9 +502,6 @@ class UITable extends UIView {
     }
 
     initializeScrollBars() {
-        this.calculateXBound();
-        this.calculateYBound();
-
         this._xScrollTrack_w = this.refs['x-scroll-track'].clientWidth || 500;
         this._yScrollTrack_h = this.refs['y-scroll-track'].clientHeight || 150;
         this._xScrollHandle_s.width = this.calculateXScrollHandleSize() + 'px';
@@ -525,6 +522,7 @@ class UITable extends UIView {
         }
 
         this.calculateContainerDimensions();
+        this.calculateXBound();
         this.initializeScrollBars();
     }
 
@@ -548,6 +546,9 @@ class UITable extends UIView {
 
         this.injectHeaderCells();
         this.injectRestOfRows();
+
+        this.calculateXBound();
+        this.calculateYBound();
 
         this.initializeScrollBars();
     }
@@ -866,6 +867,7 @@ class UITable extends UIView {
         // Adjust the corresponding row cells
         this._rows.forEach(row => row.cells[index].width = this._manuallyResizingColumn.width);
 
+        this.calculateXBound();
         this.initializeScrollBars();
 
         /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
