@@ -5,8 +5,7 @@
 
 ### 1.0.0-beta-12 (1/26/2016)
 
-- __UITable: change the row loading animation__ (43349a1) Since the line length can vary considerably, it's now using a more
-horizontally-oblivious animation.
+- __UITable: change the row loading animation__ (43349a1) Since the line length can vary considerably, it's now using a more horizontally-oblivious animation.
 
 - __UITable: don't run calculateYBound() on resize__ (cb26a6f) If the height of the table changes, the whole thing has to be rebuilt anyway because the number of rotated rows may change, so running the `calculateYBound()` function will mess up the rotation if only X-size was modified.
 
