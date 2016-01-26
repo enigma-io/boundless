@@ -10,7 +10,12 @@ A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide 
 ### Example Usage
 
 ```js
-import {UIPopover} from 'enigma-uikit';
+import {UIArrowKeyNavigation, UIPopover} from 'enigma-uikit';
+
+const definitions = [
+    'of or relating to a spiritual or nonphysical realm.',
+    '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
+];
 
 // ...
 
@@ -20,11 +25,9 @@ render() {
                    body={[
                        <strong>tran·scen·den·tal</strong>,
                        <em>adjective</em>,
-                       <UIList type='number'
-                               items={[
-                                   'of or relating to a spiritual or nonphysical realm.',
-                                   '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
-                               ]} />,
+                       <UIArrowKeyNavigation component='ul'>
+                            {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
+                        </UIArrowKeyNavigation>,
                    ]} />
     );
 }
@@ -38,9 +41,9 @@ Renders:
     <div id="{uniqueId}" class="ui-dialog-body">
         <strong>tran·scen·den·tal</strong>,
         <em>adjective</em>
-        <ol class="ui-list ui-list-numbered">
-            <li class="ui-list-item">of or relating to a spiritual or nonphysical realm.</li>
-            <li class="ui-list-item">(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.</li>
+        <ol>
+            <li tabindex="0">of or relating to a spiritual or nonphysical realm.</li>
+            <li tabindex="0">(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.</li>
         </ol>
     </div>
     <footer class="ui-dialog-footer"></footer>

@@ -13,7 +13,6 @@ import UICheckboxGroupDemo from '../UICheckboxGroup/demo';
 import UIDialogDemo from '../UIDialog/demo';
 import UIFittedTextDemo from '../UIFittedText/demo';
 import UIImageDemo from '../UIImage/demo';
-import UIListDemo from '../UIList/demo';
 import UIModalDemo from '../UIModal/demo';
 import UIPaginatedViewDemo from '../UIPaginatedView/demo';
 import UIPopoverDemo from '../UIPopover/demo';
@@ -92,10 +91,6 @@ const components = {
     UIImage: {
         component: UIImageDemo,
         readme: fs.readFileSync(__dirname + '/../UIImage/README.md', 'utf8'),
-    },
-    UIList: {
-        component: UIListDemo,
-        readme: fs.readFileSync(__dirname + '/../UIList/README.md', 'utf8'),
     },
     UIModal: {
         component: UIModalDemo,

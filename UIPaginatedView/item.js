@@ -44,10 +44,10 @@ class UIPaginatedViewItem extends UIView {
 
     cloneWithClasses(element) {
         if (element instanceof Promise) {
-            return (<div className={this.getClasses()}></div>);
+            return (<div {...this.props} className={this.getClasses()}></div>);
         }
 
-        return React.cloneElement(element, {className: this.getClasses(this.state.data.props.className)});
+        return React.cloneElement(element, {...this.props, className: this.getClasses(this.state.data.props.className)});
     }
 
     render() {

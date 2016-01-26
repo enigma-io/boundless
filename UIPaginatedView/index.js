@@ -4,9 +4,10 @@
  */
 
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import UIView from '../UIView';
 import UISegmentedControl from '../UISegmentedControl';
-import UIList from '../UIList';
+import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
 import Item from './item';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
@@ -26,7 +27,7 @@ class UIPaginatedView extends UIView {
 
     componentDidUpdate(oldProps, oldState) {
         if (oldState.currentPage !== this.state.currentPage) {
-            this.refs.itemList.refs.item_0.focus();
+            findDOMNode(this.refs.item_0).focus();
         }
     }
 
@@ -131,31 +132,23 @@ class UIPaginatedView extends UIView {
         });
     }
 
-    itemsToArray() {
-        let items = [];
-
-        this.state.shownItems.map((item, index) => {
-            items.push(
-                <Item
-                    key={index}
-                    data={item.data}
-                    even={index % 2 === 0} />
-            );
-        });
-
-        return items;
-    }
-
     renderItems() {
         return (
-            <UIList
-                {...this.props.listWrapperProps}
-                ref='itemList'
-                className={cx({
-                    'ui-paginated-view-item-list': true,
-                    [this.props.listWrapperProps.className]: !!this.props.listWrapperProps.className,
+            <UIArrowKeyNavigation {...this.props.listWrapperProps}
+                                  ref='itemList'
+                                  className={cx({
+                                      'ui-paginated-view-item-list': true,
+                                      [this.props.listWrapperProps.className]: !!this.props.listWrapperProps.className,
+                                  })}>
+                {this.state.shownItems.map((item, index) => {
+                    return (
+                        <Item ref={`item_${index}`}
+                              key={index}
+                              data={item.data}
+                              even={index % 2 === 0} />
+                    );
                 })}
-                items={this.itemsToArray()} />
+            </UIArrowKeyNavigation>
         );
     }
 

@@ -14,7 +14,6 @@ module.exports = {
     UIDialog: (global.UIKit.UIDialog = require('./UIDialog').default),
     UIFittedText: (global.UIKit.UIFittedText = require('./UIFittedText').default),
     UIImage: (global.UIKit.UIImage = require('./UIImage').default),
-    UIList: (global.UIKit.UIList = require('./UIList').default),
     UIModal: (global.UIKit.UIModal = require('./UIModal').default),
     UIPaginatedView: (global.UIKit.UIPaginatedView = require('./UIPaginatedView').default),
     UIPopover: (global.UIKit.UIPopover = require('./UIPopover').default),

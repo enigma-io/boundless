@@ -52,23 +52,23 @@ describe('UIPaginatedView', () => {
         });
 
         it('ui-paginated-view-item-list should be rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).className).toContain('ui-paginated-view-item-list');
+            expect(ReactDOM.findDOMNode(element.refs.itemList).className).toContain('ui-paginated-view-item-list');
         });
 
         it('ui-paginated-view-item should be rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[0].children[0].className).toContain('ui-paginated-view-item');
+            expect(ReactDOM.findDOMNode(element.refs.item_0).className).toContain('ui-paginated-view-item');
         });
 
         it('ui-paginated-view-item-even should be rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[0].children[0].className).toContain('ui-paginated-view-item-even');
+            expect(ReactDOM.findDOMNode(element.refs.item_0).className).toContain('ui-paginated-view-item-even');
         });
 
         it('ui-paginated-view-item-loading should be rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[3].children[0].className).toContain('ui-paginated-view-item-loading');
+            expect(ReactDOM.findDOMNode(element.refs.item_3).className).toContain('ui-paginated-view-item-loading');
         });
 
         it('ui-paginated-view-item-odd should be rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[1].children[0].className).toContain('ui-paginated-view-item-odd');
+            expect(ReactDOM.findDOMNode(element.refs.item_1).className).toContain('ui-paginated-view-item-odd');
         });
 
         it('ui-paginated-view-controls should be rendered', () => {
@@ -116,16 +116,21 @@ describe('UIPaginatedView', () => {
     describe('items', () => {
         let element;
 
-        beforeEach(() => element = render(<UIPaginatedView {...baseProps} toggleWrapperProps={{className:'test-wrapper-class'}} listWrapperProps={{className:'test-list-class'}} />));
+        beforeEach(() => element = render(
+                <UIPaginatedView {...baseProps}
+                                 toggleWrapperProps={{className:'test-wrapper-class'}}
+                                 listWrapperProps={{className:'test-list-class'}} />
+            )
+        );
 
         it('items should be rendered properly with the correct text', () => {
-            let name = element.refs.itemList.refs['item_0'].textContent;
+            let name = ReactDOM.findDOMNode(element.refs.item_0).textContent;
 
             expect(name).toBe('Louise Fernandez');
         });
 
         it('items should not lose original props', () => {
-            let className = element.refs.itemList.refs['item_0'].children[0].className;
+            let className = ReactDOM.findDOMNode(element.refs.item_0).className;
 
             expect(className).toContain('test-class');
         });
@@ -143,7 +148,7 @@ describe('UIPaginatedView', () => {
         });
 
         it('items should not lose original event handlers', () => {
-            Simulate.click(ReactDOM.findDOMNode(element.refs.itemList.refs['item_0'].children[0]));
+            Simulate.click(ReactDOM.findDOMNode(element.refs.item_0));
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -151,8 +156,10 @@ describe('UIPaginatedView', () => {
 
     describe('currentPage', () => {
         it('should return the number of the currently visible page', () => {
-            let element = render(<UIPaginatedView {...baseProps} numItemsPerPage={2} pagerPosition={2} />);
+            const element = render(<UIPaginatedView {...baseProps} numItemsPerPage={2} pagerPosition={2} />);
+
             element.handleClick(3);
+
             expect(element.currentPage()).toEqual(3);
         });
     });
@@ -223,7 +230,7 @@ describe('UIPaginatedView', () => {
         it('clicking a toggle should focus the first item in the resulting content list', () => {
             Simulate.click(ReactDOM.findDOMNode(element.refs.segmentedControlAbove.refs['option_$3']));
 
-            expect(document.activeElement).toEqual(element.refs.itemList.refs.item_0);
+            expect(document.activeElement).toEqual(ReactDOM.findDOMNode(element.refs.item_0));
         });
     });
 
@@ -263,7 +270,7 @@ describe('UIPaginatedView', () => {
         beforeEach(() => element = render(<UIPaginatedView {...baseProps} numItemsPerPage={2} />));
 
         it('number of items displayed per page should equal numItemsPerPage', () => {
-            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children.length).toEqual(2);
+            expect(ReactDOM.findDOMNode(element.refs.itemList).children.length).toEqual(2);
         });
     });
 
