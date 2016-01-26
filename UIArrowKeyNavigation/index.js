@@ -22,7 +22,7 @@ class UIArrowKeyNavigation extends UIView {
                                 : 0;
 
             if (numChildren === 0) {
-                this.setState(this.initialState());
+                this.setState(this.initialState()); // eslint-disable-line react/no-did-update-set-state
             } else if (this.state.activeChildIndex >= numChildren) {
                 this.setFocus(numChildren - 1);
             }
