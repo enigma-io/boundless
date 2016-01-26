@@ -98,7 +98,11 @@ class UITypeaheadInput extends UIView {
     }
 
     focusInput() {
-        console.warn('UITypeaheadInput.focusInput is deprecated and will be removed in a future release. Please use UITypeaheadInput.focus() instead.');
+        if (!this.warned_focusInput) {
+            this.warned_focusInput = true;
+            console.warn('UITypeaheadInput: `focusInput()` is deprecated and will be removed in a future release. Please use UITypeaheadInput.focus() instead.');
+        }
+
         this.focus();
     }
 
@@ -111,7 +115,11 @@ class UITypeaheadInput extends UIView {
     }
 
     setValue(newValue) {
-        console.warn('UITypeaheadInput.setValue is deprecated and will be removed in a future release. Please use UITypeaheadInput.value(text) instead.');
+        if (!this.warned_setValue) {
+            this.warned_setValue = true;
+            console.warn('UITypeaheadInput: `setValue(text)` is deprecated and will be removed in a future release. Please use UITypeaheadInput.value(text) instead.');
+        }
+
         this.value(newValue);
     }
 
@@ -171,7 +179,10 @@ class UITypeaheadInput extends UIView {
             return this.props.algorithm.markFunc(...args);
         }
 
-        console.warn('No `props.algorithm.markFunc` was provided to UITypeaheadInput; falling back to the default marking algorithm.');
+        if (!this.warned_markFunc) {
+            this.warned_markFunc = true;
+            console.warn('UITypeaheadInput: no `props.algorithm.markFunc` was provided; falling back to the default marking algorithm.');
+        }
 
         return this.markStartsWithMatchSubstring(...args);
     }
@@ -205,7 +216,10 @@ class UITypeaheadInput extends UIView {
             return this.props.algorithm.matchFunc(...args);
         }
 
-        console.warn('No `props.algorithm.matchFunc` was provided to UITypeaheadInput; falling back to the default matching algorithm.');
+        if (!this.warned_matchFunc) {
+            this.warned_matchFunc = true;
+            console.warn('UITypeaheadInput: no `props.algorithm.matchFunc` was provided; falling back to the default matching algorithm.');
+        }
 
         return this.getStartsWithMatchIndexes(...args);
     }
