@@ -63,6 +63,7 @@
     "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
+      "UIArrowKeyNavigation/index.js": true,
       "UIButton/index.js": true,
       "UICheckbox/index.js": true,
       "UICheckboxGroup/index.js": true,

@@ -52,23 +52,23 @@ describe('UIPaginatedView', () => {
         });
 
         it('ui-paginated-view-item-list should be rendered', () => {
-            expect(element.refs.itemList.refs.list.className).toContain('ui-paginated-view-item-list');
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).className).toContain('ui-paginated-view-item-list');
         });
 
         it('ui-paginated-view-item should be rendered', () => {
-            expect(element.refs.itemList.refs.list.children[0].children[0].className).toContain('ui-paginated-view-item');
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[0].children[0].className).toContain('ui-paginated-view-item');
         });
 
         it('ui-paginated-view-item-even should be rendered', () => {
-            expect(element.refs.itemList.refs.list.children[0].children[0].className).toContain('ui-paginated-view-item-even');
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[0].children[0].className).toContain('ui-paginated-view-item-even');
         });
 
         it('ui-paginated-view-item-loading should be rendered', () => {
-            expect(element.refs.itemList.refs.list.children[3].children[0].className).toContain('ui-paginated-view-item-loading');
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[3].children[0].className).toContain('ui-paginated-view-item-loading');
         });
 
         it('ui-paginated-view-item-odd should be rendered', () => {
-            expect(element.refs.itemList.refs.list.children[1].children[0].className).toContain('ui-paginated-view-item-odd');
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children[1].children[0].className).toContain('ui-paginated-view-item-odd');
         });
 
         it('ui-paginated-view-controls should be rendered', () => {
@@ -263,7 +263,7 @@ describe('UIPaginatedView', () => {
         beforeEach(() => element = render(<UIPaginatedView {...baseProps} numItemsPerPage={2} />));
 
         it('number of items displayed per page should equal numItemsPerPage', () => {
-            expect(element.refs.itemList.refs.list.children.length).toEqual(2);
+            expect(ReactDOM.findDOMNode(element.refs.itemList.refs.list).children.length).toEqual(2);
         });
     });
 
