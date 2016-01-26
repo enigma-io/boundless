@@ -3,6 +3,12 @@
 
 ---
 
+### 1.0.0-beta-11 (1/26/2016)
+
+- __UITable: recompute translation boundaries on window resize__ (93d2773) Otherwise the scroll tracks will not properly resize themselves.
+
+---
+
 ### 1.0.0-beta-10 (1/26/2016)
 #### New Component(s)
 
