@@ -31,10 +31,20 @@ class UITypeaheadInput extends UIView {
         }
     }
 
+    componentDidMount() {
+        if (this.state.selectedEntityIndex >= 0) {
+            this.props.onEntityHighlighted(this.state.selectedEntityIndex);
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.state.entityMatchIndexes.length && !prevState.entityMatchIndexes.length) {
             this.refs.matches.scrollTop = 0;
         } // fix an odd bug in FF where it initializes the element with an incorrect scrollTop
+
+        if (this.state.selectedEntityIndex !== prevState.selectedEntityIndex && this.state.selectedEntityIndex >= 0) {
+            this.props.onEntityHighlighted(this.state.selectedEntityIndex);
+        }
     }
 
     getSelectedEntityText() {
@@ -439,6 +449,7 @@ UITypeaheadInput.propTypes = {
     offscreenClass: React.PropTypes.string,
     onComplete: React.PropTypes.func,
     onInput: React.PropTypes.func,
+    onEntityHighlighted: React.PropTypes.func,
     onEntitySelected: React.PropTypes.func,
     type: React.PropTypes.string,
 };
@@ -453,6 +464,7 @@ UITypeaheadInput.defaultProps = {
     matchWrapperProps: {},
     offscreenClass: 'ui-offscreen',
     onComplete: noop,
+    onEntityHighlighted: noop,
     onEntitySelected: noop,
 };
 

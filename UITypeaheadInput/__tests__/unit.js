@@ -362,6 +362,37 @@ describe('UITypeaheadInput', () => {
         });
     });
 
+    describe('props.onEntityHighlighted', () => {
+        it('should be fired when arrowing through the list', () => {
+            const stub = sinon.stub();
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} onEntityHighlighted={stub} />);
+
+            expect(stub.calledOnce).toBe(true);
+
+            element.handleKeyDown({
+                key: 'ArrowDown',
+                nativeEvent: {preventDefault: noop}
+            });
+
+            expect(stub.calledTwice).toBe(true);
+        })
+    });
+
+    describe('props.onEntitySelected', () => {
+        it('should be fired on Enter', () => {
+            const stub = sinon.stub();
+            const element = render(<UITypeaheadInput defaultValue='ap' entities={entities} onEntitySelected={stub} />);
+
+            element.handleKeyDown({
+                key: 'Enter',
+                nativeEvent: {preventDefault: noop},
+                target: element.getInputNode()
+            });
+
+            expect(stub.calledOnce).toBe(true);
+        })
+    });
+
     describe('misc internals', () => {
         it('focus should focus the correct node', () => {
             const element = render(<UITypeaheadInput />);
