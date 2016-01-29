@@ -42,7 +42,8 @@ class UITypeaheadInput extends UIView {
             this.refs.matches.scrollTop = 0;
         } // fix an odd bug in FF where it initializes the element with an incorrect scrollTop
 
-        if (this.state.selectedEntityIndex !== prevState.selectedEntityIndex && this.state.selectedEntityIndex >= 0) {
+        if (   this.state.selectedEntityIndex >= 0
+            && this.props.entities[this.state.selectedEntityIndex] !== prevProps.entities[prevState.selectedEntityIndex]) {
             this.props.onEntityHighlighted(this.state.selectedEntityIndex);
         }
     }
