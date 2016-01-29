@@ -147,6 +147,9 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 - __name__ `String`
   passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
 
+- __onEntityHighlighted__ `Function`
+  called with the index of the highlighted entity due to keyboard selection
+
 - __onEntitySelected__ `Function`
   called with the index of the entity selected by the user
 
