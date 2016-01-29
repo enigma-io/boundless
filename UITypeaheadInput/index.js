@@ -139,9 +139,10 @@ class UITypeaheadInput extends UIView {
         }
     }
 
-    markFuzzyMatchSubstring(entityContent, userText) {
-        const frags = entityContent.split(new RegExp('(' + escaper(userText) + ')', 'ig'));
-        const normalizedUserText = userText.toLowerCase();
+    markFuzzyMatchSubstring(input, entity) {
+        const entityContent = entity.text;
+        const frags = entityContent.split(new RegExp('(' + escaper(input) + ')', 'ig'));
+        const normalizedUserText = input.toLowerCase();
         const threshold = frags.length;
         let i = -1;
 
@@ -154,8 +155,9 @@ class UITypeaheadInput extends UIView {
         return frags;
     }
 
-    markStartsWithMatchSubstring(entityContent, userInput) {
-        const seekValue = userInput.toLowerCase();
+    markStartsWithMatchSubstring(input, entity) {
+        const entityContent = entity.text;
+        const seekValue = input.toLowerCase();
         const indexStart = entityContent.toLowerCase().indexOf(seekValue);
         const indexEnd = indexStart + seekValue.length;
 
@@ -366,7 +368,7 @@ class UITypeaheadInput extends UIView {
                                  })}
                                  key={entity.text}
                                  onClick={this.handleMatchClick.bind(this, index)}>
-                                {this.markMatchSubstring(entity.text, this.state.userInput)}
+                                {this.markMatchSubstring(this.state.userInput, entity)}
                             </div>
                         );
                     })}
