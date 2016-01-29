@@ -100,7 +100,7 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
       provide a custom matching algorithm, adhering to this format:
 
       ```js
-      myMatchFunc(currentText, suppliedEntities) {
+      myMatchFunc(inputText, entities) {
           // ...
           return [match1Index, match2Index, /* ... */];
       }
@@ -112,7 +112,7 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
       provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks, adhering to this format:
 
       ```js
-      myMarkFunc(entityString, userInputString) {
+      myMarkFunc(inputText, entity) {
           return /* desired JSX templating */];
       }
       ```
