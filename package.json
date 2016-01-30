@@ -115,10 +115,8 @@
     "css": "stylus -m -u autoprefixer-stylus style.styl -o dist/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o dist/skin.min.css",
     "css:watch": "npm run css -- -w",
-    "js": "browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) -o dist/uikit.js --debug",
-    "js:release": "NODE_ENV=production browserify $(npm run -s browserify_config) $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
-    "js:standalone": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit-standalone.js",
-    "js:standalone:release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit-standalone.min.js",
-    "all": "npm run es5 && npm run css && npm run css:release && npm run js && npm run js:release && npm run js:standalone && npm run js:standalone:release"
+    "js": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit.js",
+    "js:release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
+    "all": "npm run es5 && npm run css && npm run css:release && npm run js && npm run js:release"
   }
 }
