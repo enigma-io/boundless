@@ -53,9 +53,9 @@ In this case, your HTML page would probably resemble the following:
     <body>
         <!-- some content or a root container -->
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/polyfills/polyfill.js+promise"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js"></script>
+        <script src="//cdn.jsdelivr.net/polyfills/polyfill.js+promise"></script>
         <script src="js/uikit.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
     </body>
