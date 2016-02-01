@@ -7,7 +7,7 @@ UIKit is a problem-solving [React JS](https://facebook.github.io/react/) compone
 
 During the beta releases, UIKit will not come with a compiled CSS "skin". Each component in the Github repository does have styles that can be copied and used in your project, though.
 
-__UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+).__
+__UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+). You will also need to provide a `window.Promise` polyfill if your browser support matrix includes IE (non-Edge) and/or some mobile browsers: http://caniuse.com/#search=Promise.__
 
 ---
 
@@ -55,6 +55,7 @@ In this case, your HTML page would probably resemble the following:
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/polyfills/polyfill.js+promise"></script>
         <script src="js/uikit.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
     </body>
