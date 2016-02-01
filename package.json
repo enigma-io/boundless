@@ -24,8 +24,6 @@
     "brfs": "yaycmyk/brfs#enhancement/file-stream-transforms",
     "browserify": "^12.0.0",
     "budo": "^8.0.0",
-    "es6-promise": "^3.0.2",
-    "esdoc": "^0.4.3",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "^1.0.0",
     "exposify": "^0.5.0",
@@ -34,7 +32,6 @@
     "jsdoc": "^3.4.0",
     "lodash": "^4.0.0",
     "minami": "^1.1.0",
-    "mocha": "^2.3.3",
     "prismjs": "^1.3.0",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
@@ -115,6 +112,6 @@
     "css:watch": "npm run css -- -w",
     "js": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit.js",
     "js:release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
-    "all": "npm run es5 && npm run css && npm run css:release && npm run js && npm run js:release"
+    "all": "npm run css && npm run css:release && npm run es5 && npm run js && npm run js:release"
   }
 }
