@@ -8,6 +8,7 @@
     "Abe Rubenstein <abe.rubenstein@enigma.io>"
   ],
   "main": "es5/exports.js",
+  "jsnext:main": "exports.js",
   "dependencies": {
     "classnames": "^2.1.5",
     "escape-string-regexp": "^1.0.3"
