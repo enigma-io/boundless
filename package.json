@@ -95,9 +95,6 @@
   },
   "scripts": {
     "postinstall": "mkdir -p site/dist/assets",
-    "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
-    "browserify_config": "echo ./exports.js -r ./exports.js:enigma-uikit -t babelify",
-    "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} --source-maps inline --out-file es5/`echo ${p} | cut -c 3-`'",
     "lint": "browserify exports.js -t eslintify -t babelify --colors > /dev/null",
     "test": "jest --verbose",
     "coverage": "jest",
@@ -111,8 +108,10 @@
     "css": "stylus -m -u autoprefixer-stylus style.styl -o dist/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o dist/skin.min.css",
     "css:watch": "npm run css -- -w",
-    "js": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit.js",
-    "js:release": "NODE_ENV=production browserify $(npm run -s browserify_config) -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
+    "es5": "rm -rf es5/* && find . -type f -name '*.js' \\( -path './UI*/*' -or -path './exports.js' \\) -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs -I {} sh -c 'export p=\"{}\"; echo $p; mkdir -p ./es5/`dirname ${p}`; babel ${p} --source-maps inline --out-file es5/`echo ${p} | cut -c 3-`'",
+    "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
+    "js": "browserify exports.js -t babelify -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) --debug -o dist/uikit.js",
+    "js:release": "NODE_ENV=production browserify exports.js -t babelify -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) | uglifyjs -mc drop_console --screw-ie8 > dist/uikit.min.js",
     "all": "npm run css && npm run css:release && npm run es5 && npm run js && npm run js:release"
   }
 }
