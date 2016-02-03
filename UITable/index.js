@@ -278,9 +278,7 @@ const createRow = function createRow(metadata, columns) {
 };
 
 class UITable extends UIView {
-    constructor(...args) {
-        super(...args);
-
+    componentWillMount() {
         this._columns = [];
         this._rows = [];
         this._rowsOrderedByY = [];
@@ -768,58 +766,58 @@ class UITable extends UIView {
     }
 
     handleXScrollHandleDragStart(event) {
-        if (event.button === 0) {
-            // Fixes dragStart occasionally happening and breaking the simulated drag
-            event.preventDefault();
+        if (event.button !== 0) { return; }
 
-            this._lastXScroll = event.clientX;
-            this._manuallyScrollingX = true;
+        // Fixes dragStart occasionally happening and breaking the simulated drag
+        event.preventDefault();
 
-            // If the mouseup happens outside the table, it won't be detected without this listener
-            window.addEventListener('mouseup', this.handleDragEnd, true);
-        }
+        this._lastXScroll = event.clientX;
+        this._manuallyScrollingX = true;
+
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.addEventListener('mouseup', this.handleDragEnd, true);
     }
 
     handleYScrollHandleDragStart(event) {
-        if (event.button === 0) {
-            // Fixes dragStart occasionally happening and breaking the simulated drag
-            event.preventDefault();
+        if (event.button !== 0) { return; }
 
-            this._lastYScroll = event.clientY;
-            this._manuallyScrollingY = true;
+        // Fixes dragStart occasionally happening and breaking the simulated drag
+        event.preventDefault();
 
-            // If the mouseup happens outside the table, it won't be detected without this listener
-            window.addEventListener('mouseup', this.handleDragEnd, true);
-        }
+        this._lastYScroll = event.clientY;
+        this._manuallyScrollingY = true;
+
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.addEventListener('mouseup', this.handleDragEnd, true);
     }
 
     handleDragMove(event) {
-        if (event.button === 0) {
-            if (this._manuallyResizingColumn) {
-                this.handleColumnResize(event.clientX - this._lastColumnX);
+        if (event.button !== 0) { return; }
 
-                this._lastColumnX = event.clientX;
-            }
+        if (this._manuallyScrollingY) {
+            this._dragEvent.deltaX = 0;
+            this._dragEvent.deltaY = ((event.clientY - this._lastYScroll) / this._container_h)
+                                     * this.props.totalRows
+                                     * this._cell_h;
 
-            if (this._manuallyScrollingX) {
-                this._dragEvent.deltaX = event.clientX - this._lastXScroll;
-                this._dragEvent.deltaY = 0;
+            this.handleMoveIntent(this._dragEvent);
 
-                this.handleMoveIntent(this._dragEvent);
+            this._lastYScroll = event.clientY;
 
-                this._lastXScroll = event.clientX;
-            }
+        } else if (this._manuallyScrollingX) {
 
-            if (this._manuallyScrollingY) {
-                this._dragEvent.deltaX = 0;
-                this._dragEvent.deltaY = ((event.clientY - this._lastYScroll) / this._container_h)
-                                         * this.props.totalRows
-                                         * this._cell_h;
+            this._dragEvent.deltaX = event.clientX - this._lastXScroll;
+            this._dragEvent.deltaY = 0;
 
-                this.handleMoveIntent(this._dragEvent);
+            this.handleMoveIntent(this._dragEvent);
 
-                this._lastYScroll = event.clientY;
-            }
+            this._lastXScroll = event.clientX;
+
+        } else if (this._manuallyResizingColumn) {
+
+            this.handleColumnResize(event.clientX - this._lastColumnX);
+
+            this._lastColumnX = event.clientX;
         }
     }
 
@@ -845,9 +843,7 @@ class UITable extends UIView {
     }
 
     handleColumnResize(delta) {
-        if (delta === 0) {
-            return;
-        }
+        if (delta === 0) { return; }
 
         const index = this._columns.indexOf(this._manuallyResizingColumn);
         let adjustedDelta = delta;
@@ -943,25 +939,28 @@ class UITable extends UIView {
     }
 
     handleKeyDown(event) {
-        let key = event.key || this.getKeyFromKeyCode(event.keyCode);
+        const key = event.key || this.getKeyFromKeyCode(event.keyCode);
 
         switch (key) {
         case 'ArrowDown':
             this.changeActiveRow(1);
             event.preventDefault();
             break;
+
         case 'ArrowUp':
             this.changeActiveRow(-1);
             event.preventDefault();
             break;
+
         case 'Enter':
             if (this._activeRow !== -1) {
-                let row = findWhere(this._rows, 'setIndex', this._activeRow).data;
+                const row = findWhere(this._rows, 'setIndex', this._activeRow).data;
 
                 this.setAriaText(this._columns.map(column => {
                     return `${column.title}: ${row[column.mapping]}`;
                 }).join('\n'));
             }
+
             event.preventDefault();
             break;
         }
@@ -973,7 +972,7 @@ class UITable extends UIView {
 
     discoverCellAndRowNodes(target) {
         let node = target;
-        let nodeMap = {};
+        const nodeMap = {};
 
         if (node.className.match(rowClassRegex)) {
             return {row: node};
@@ -993,10 +992,10 @@ class UITable extends UIView {
     }
 
     handleClick(event) {
-        let map = this.discoverCellAndRowNodes(event.target);
+        const map = this.discoverCellAndRowNodes(event.target);
 
         if (map.row) {
-            let row = findWhere(this._rows, 'node', map.row);
+            const row = findWhere(this._rows, 'node', map.row);
 
             this.setActiveRow(row.setIndex);
 
