@@ -25,6 +25,7 @@
     "brfs": "yaycmyk/brfs#enhancement/file-stream-transforms",
     "browserify": "^12.0.0",
     "budo": "^8.0.0",
+    "bundle-collapser": "^1.2.1",
     "eslint-plugin-react": "^3.0.0",
     "eslintify": "^1.0.0",
     "exposify": "^0.5.0",
@@ -56,7 +57,7 @@
     ]
   },
   "jest": {
-    "setupEnvScriptFile": "setup.jest.js",
+    "setupEnvScriptFile": "jest.setup.js",
     "scriptPreprocessor": "node_modules/babel-jest",
     "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "collectCoverage": true,
