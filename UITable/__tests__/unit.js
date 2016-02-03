@@ -324,7 +324,7 @@ describe('UITable', () => {
         it('should scroll literal amounts of pixels for deltaMode 0 (pixel mode)', () => {
             const element = render(<UITable {...baseProps} />);
 
-            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, 0px, 0px)');
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px,0px,0px)');
 
             element.handleMoveIntent({
                 deltaX: 0,
@@ -333,13 +333,13 @@ describe('UITable', () => {
                 preventDefault: noop
             });
 
-            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, -5px, 0px)');
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px,-5px,0px)');
         });
 
         it('should scroll n * cellheight pixels at a time for deltaMode 1 (line mode)', () => {
             const element = render(<UITable {...baseProps} />);
 
-            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, 0px, 0px)');
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px,0px,0px)');
 
             element.handleMoveIntent({
                 deltaX: 0,
@@ -348,7 +348,7 @@ describe('UITable', () => {
                 preventDefault: noop
             });
 
-            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px, -40px, 0px)');
+            expect(element.refs.body.style.WebkitTransform).toBe('translate3d(0px,-40px,0px)');
         });
     });
 
@@ -374,7 +374,7 @@ describe('UITable', () => {
             });
 
             expect(x.style.WebkitTransform).toBe(
-                `translate3d(${parseInt(width, 10) - parseInt(x.style.width, 10)}px, 0px, 0px)`
+                `translate3d(${parseInt(width, 10) - parseInt(x.style.width, 10)}px,0px,0px)`
             );
         });
 
@@ -423,7 +423,7 @@ describe('UITable', () => {
             });
 
             expect(y.style.WebkitTransform).toBe(
-                `translate3d(0px, ${parseInt(height, 10) - parseInt(y.style.height, 10)}px, 0px)`
+                `translate3d(0px,${parseInt(height, 10) - parseInt(y.style.height, 10)}px,0px)`
             );
         });
     });
