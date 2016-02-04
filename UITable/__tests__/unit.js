@@ -307,14 +307,18 @@ describe('UITable', () => {
         });
 
         it('should occur on left-click drag of the y scroll nub', () => {
+            sandbox.useFakeTimers();
+
             const element = render(<UITable {...baseProps} style={{height: '150px'}} />);
 
             expect(element.refs.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Louise');
 
             // simulate drag cascade
             element.handleYScrollHandleDragStart({button: 0, clientY: 0, preventDefault: noop});
-            element.handleDragMove({button: 0, clientY: 200});
+            element.handleDragMove({clientY: 200});
             element.handleDragEnd();
+
+            sandbox.clock.tick(301);
 
             expect(element.refs.body.querySelector('.ui-table-row .ui-table-cell').textContent).not.toBe('Louise');
         });

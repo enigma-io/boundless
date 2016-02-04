@@ -231,31 +231,39 @@ const createRow = function createRow(metadata, columns) {
             if (val !== this._data) {
                 this._data = val;
 
-                if (this._data instanceof Promise) {
-                    this._data.then(function cautiouslySetRowData(promise, resolvedVal) {
-                        if (this._data === promise) {
-                            this.data = resolvedVal;
-                        }
-                    }.bind(this, this._data));
-
+                if (this._data instanceof Promise || this._data === null) {
                     for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
                         this.cells[this._iterator].content = '';
                     }
 
+                    if (this._data instanceof Promise) {
+                        this._data.then(function cautiouslySetRowData(promise, resolvedVal) {
+                            if (this._data === promise) {
+                                this.data = resolvedVal;
+                            }
+                        }.bind(this, this._data));
+                    }
+
                     this._waitingForResolution = true;
-                } else if (this._data) {
+
+                    return;
+                }
+
+                if (this._data) {
                     for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
                         this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
                     }
 
                     this._waitingForResolution = false;
-                } else {
-                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
-                        this.cells[this._iterator].content = '';
-                    }
 
-                    this._waitingForResolution = false;
+                    return;
                 }
+
+                for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                    this.cells[this._iterator].content = '';
+                }
+
+                this._waitingForResolution = false;
             }
         },
         '_y': metadata.y,
@@ -374,6 +382,8 @@ class UITable extends UIView {
         this._rowPointer = null;
         this._shiftDelta = null;
         this._targetIndex = null;
+
+        this._dragTimer = null;
 
         this._fauxEvent = {preventDefault: noop};
 
@@ -598,7 +608,7 @@ class UITable extends UIView {
                     /* move the lowest Y-value rows to the bottom of the ordering array */
                     this._rowPointer = this._rows[this._rowsOrderedByY[0]];
 
-                    this._rowPointer.data = this.props.getRow(this._targetIndex);
+                    this._rowPointer.data = this._dragTimer ? null : this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
                     this._rowPointer.active = this._targetIndex === this._activeRow;
@@ -657,7 +667,7 @@ class UITable extends UIView {
                         this._rowsOrderedByY[this._orderedYArrayTargetIndex]
                     ];
 
-                    this._rowPointer.data = this.props.getRow(this._targetIndex);
+                    this._rowPointer.data = this._dragTimer ? null : this.props.getRow(this._targetIndex);
                     this._rowPointer.setIndex = this._targetIndex;
                     this._rowPointer.y = this._targetIndex * this._cell_h;
                     this._rowPointer.active = this._targetIndex === this._activeRow;
@@ -801,6 +811,8 @@ class UITable extends UIView {
     handleXScrollHandleDragStart(event) {
         if (event.button !== 0) { return; }
 
+        this._leftButtonPressed = true;
+
         // Fixes dragStart occasionally happening and breaking the simulated drag
         event.preventDefault();
 
@@ -814,6 +826,8 @@ class UITable extends UIView {
     handleYScrollHandleDragStart(event) {
         if (event.button !== 0) { return; }
 
+        this._leftButtonPressed = true;
+
         // Fixes dragStart occasionally happening and breaking the simulated drag
         event.preventDefault();
 
@@ -825,7 +839,20 @@ class UITable extends UIView {
     }
 
     handleDragMove(event) {
-        if (event.button !== 0) { return; }
+        if (!this._leftButtonPressed) { return; }
+
+        if (this._dragTimer) { window.clearTimeout(this._dragTimer); }
+
+        this._dragTimer = window.setTimeout(() => {
+            this._dragTimer = null;
+
+            /* Now fetch, once drag has ceased for long enough. */
+            this._rows.forEach(row => {
+                if (row.data === null) {
+                    row.data = this.props.getRow(row.setIndex);
+                }
+            });
+        }, this.props.throttleInterval);
 
         if (this._manuallyScrollingY) {
             this._fauxEvent.deltaX = 0;
@@ -855,6 +882,8 @@ class UITable extends UIView {
     }
 
     handleDragEnd() {
+        this._leftButtonPressed = false;
+
         // If the mouseup happens outside the table, it won't be detected without this listener
         window.removeEventListener('mouseup', this.handleDragEnd, true);
 
@@ -865,6 +894,8 @@ class UITable extends UIView {
         if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.preventDefault();
+
+            this._leftButtonPressed = true;
 
             this._lastColumnX = event.clientX;
 
@@ -1079,6 +1110,7 @@ UITable.propTypes = {
     offscreenClass: React.PropTypes.string,
     onCellInteract: React.PropTypes.func,
     onRowInteract: React.PropTypes.func,
+    throttleInterval: React.PropTypes.number,
     totalRows: React.PropTypes.number,
 };
 
@@ -1089,6 +1121,7 @@ UITable.defaultProps = {
     offscreenClass: 'ui-offscreen',
     onCellInteract: noop,
     onRowInteract: noop,
+    throttleInterval: 300,
     totalRows: 0,
 };
 
