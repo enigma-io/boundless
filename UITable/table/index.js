@@ -891,25 +891,29 @@ class TableView {
     handleAdvanceToXScrollTrackLocation(event) {
         if (event.target.className !== 'ui-table-x-scroll-track') { return; }
 
-        this._fauxEvent.deltaX = event.pageX - this.c.wrapper.offsetLeft - this._lastXScroll;
+        const x = event.pageX - this.c.wrapper.offsetLeft;
+
+        this._fauxEvent.deltaX = x - this._lastXScroll;
         this._fauxEvent.deltaY = 0;
 
         this.handleMoveIntent(this._fauxEvent);
 
-        this._lastXScroll = event.layerX;
+        this._lastXScroll = x;
     }
 
     handleAdvanceToYScrollTrackLocation(event) {
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
+        const y = event.pageY - this.c.wrapper.offsetTop;
+
         this._fauxEvent.deltaX = 0;
-        this._fauxEvent.deltaY = ((event.pageY - this.c.wrapper.offsetTop - this._lastYScroll) / this._container_h)
+        this._fauxEvent.deltaY = ((y - this._lastYScroll) / this._container_h)
                                  * this.c.totalRows
                                  * this._cell_h;
 
         this.handleMoveIntent(this._fauxEvent);
 
-        this._lastYScroll = event.layerY;
+        this._lastYScroll = y;
     }
 
     handleXScrollHandleDragStart(event) {
