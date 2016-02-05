@@ -118,15 +118,11 @@ Type | Context | Expectation
 __scroll__ | any | move the viewfinder (should handle diagonals)
 __click__ | row | call `onRowInteract` with the row object reference
 __keydown__ `[Enter]` | row | call `onRowInteract` with the row object reference
-__touchend__ (delta X/Y change <= 10) | row | call `onRowInteract` with the row object reference
 __click__ | table cell | call `onCellInteract` with the row object reference and cell property name
 __keydown__ `[Enter]` | table cell | call `onCellInteract` with the row object reference and cell property name
-__touchend__ (delta X/Y change <= 10) | table cell | call `onCellInteract` with the row object reference and cell property name
 __keydown__ `[Up, Down]` | table cell | move focus and apply `active` class to row
-__contextmenu__ | table cell | block browser menu, launch custom menu
-__dragEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
-__touchEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
-__doubleClick__ | column header cell drag handle | automatically resize the column cells to fit the longest rendered content
+__drag__ | column header cell resize handle | recalculate column width with end X value & apply new sizing
+__doubleClick__ | column header cell resize handle | automatically resize the column cells to fit the longest rendered content
 __resize__ | window | recompute scrollbar sizing; if the height of the table changes, rebuild it
 
 ---
