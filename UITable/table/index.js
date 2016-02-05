@@ -38,8 +38,6 @@ const cellClassRegex = /\s?ui-table-cell\b/g;
 const rowClassRegex = /\s?ui-table-row\b/g;
 const activeClassRegex = /\s?ui-table-row-active/g;
 const loadingClassRegex = /\s?ui-table-row-loading/g;
-const evenClassRegex = /\s?ui-table-row-even/g;
-const oddClassRegex = /\s?ui-table-row-odd/g;
 
 const translate3d = function translate3D(x = 0, y = 0) {
     return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
@@ -218,15 +216,17 @@ const createRow = function createRow(metadata, columns) {
         get setIndex() { return this._setIndex; },
         set setIndex(val) {
             if (val !== this._setIndex) {
-                this._setIndex = val;
-
-                if (this._setIndex % 2 === 0) {
-                    this.node.className = this.node.className.replace(oddClassRegex, '');
-                    this.node.className += ' ui-table-row-even';
+                if (val % 2 === 0) {
+                    this.node.className =   this._setIndex === null
+                                          ? 'ui-table-row ui-table-row-even'
+                                          : this.node.className.replace('ui-table-row-odd', 'ui-table-row-even');
                 } else {
-                    this.node.className = this.node.className.replace(evenClassRegex, '');
-                    this.node.className += ' ui-table-row-odd';
+                    this.node.className =   this._setIndex === null
+                                          ? 'ui-table-row ui-table-row-odd'
+                                          : this.node.className.replace('ui-table-row-even', 'ui-table-row-odd');
                 }
+
+                this._setIndex = val;
             }
         },
         '_data': null,
