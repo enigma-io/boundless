@@ -1,0 +1,1196 @@
+/**
+ * A high-performance, infinite table view.
+ * @class TableView
+ */
+
+import transformProp from '../../UIUtils/transform';
+import findWhere from '../../UIUtils/findWhere';
+import noop from '../../UIUtils/noop';
+
+/**
+ * FOR FUTURE EYES
+ *
+ * Scroll performance is a tricky beast -- moreso when trying to maintain 50+ FPS and pumping a lot of data
+ * to the DOM. There are a lot of choices in this component that may seem odd at first blush, but let it
+ * be known that we tried to do it the React Way™ and it was not performant enough.
+ *
+ * The combination that was settled upon is a React shell with native DOM guts. This combination yields the
+ * best performance, while still being perfectly interoperable with the rest of UIKit and React use cases.
+ *
+ * __Important Note__
+ *
+ * Any time you create a document fragment, make sure you release it after by setting its variable to `null`.
+ * If you don't, it'll create a memory leak. Also, make sure all generated DOM is removed on componentWillUnmount.
+ */
+
+/**
+ * ORDER OF OPERATIONS
+ *
+ * 1. render one row of cells
+ * 2. capture table & cell sizing metrics
+ * 3. render column heads and the rest of the cells
+ *
+ * If the component updates due to new props, just blow away everything and start over. It's cheaper than
+ * trying to diff.
+ */
+
+const cellClassRegex = /\s?ui-table-cell\b/g;
+const rowClassRegex = /\s?ui-table-row\b/g;
+const activeClassRegex = /\s?ui-table-row-active/g;
+const loadingClassRegex = /\s?ui-table-row-loading/g;
+const evenClassRegex = /\s?ui-table-row-even/g;
+const oddClassRegex = /\s?ui-table-row-odd/g;
+
+const translate3d = function translate3D(x = 0, y = 0) {
+    return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
+}; // z is never used
+
+const reparentCellText = function reparentCellText(node, content) {
+    if (node.childNodes.length && node.childNodes[0].nodeType === 3) {
+        node.removeChild(node.childNodes[0]);
+    }
+
+    const text = document.createElement('div');
+          text.className = 'ui-table-cell-inner';
+
+    const textNode = document.createTextNode(content);
+          text.appendChild(textNode);
+
+    node.appendChild(text);
+
+    return textNode;
+};
+
+const createDOMCell = function createDOMCell(content, mapping, width) {
+    const cell = document.createElement('div');
+          cell.className = 'ui-table-cell';
+          cell.setAttribute('title', content);
+          cell.setAttribute('data-column', mapping);
+          cell.appendChild(document.createTextNode(content));
+
+    if (width) {
+        cell.style.width = width + 'px';
+        reparentCellText(cell, content);
+    }
+
+    return cell;
+};
+
+const createDOMHeaderCell = function createDOMHeaderCell(column, width) {
+    const cell = createDOMCell(column.title, column.mapping, width);
+          cell.className += ' ui-table-header-cell';
+
+    if (column.resizable) {
+        const handle = document.createElement('div');
+              handle.className = 'ui-table-header-cell-resize-handle';
+
+        cell.appendChild(handle);
+    }
+
+    return cell;
+};
+
+const createHeaderCell = function createHeaderCell(metadata, width) {
+    const node = createDOMHeaderCell(metadata, metadata.width || width);
+
+    return {
+        '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
+        '_metadata': metadata,
+        '_title': metadata.title,
+        get title() { return this._title; },
+        set title(val) {
+            if (val !== this._title) {
+                this._title = val;
+
+                this.node.setAttribute('title', this._title);
+                this._textNode.nodeValue = this._title;
+            }
+        },
+        '_width': metadata.width || width,
+        get width() { return this._width; },
+        set width(val) {
+            if (val !== this._width) {
+                this._width = val;
+                this.node.style.width = this._width + 'px';
+
+                if (this.node.childNodes[0].nodeType === 3) {
+                    this._textNode = reparentCellText(this.node, this._title);
+                }
+            }
+        },
+        mapping: metadata.mapping,
+        node: node,
+    };
+};
+
+const createCell = function createCell(content, mapping, width) {
+    const node = createDOMCell(content, mapping, width);
+
+    return {
+        '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
+        '_content': content,
+        get content() { return this._content; },
+        set content(val) {
+            if (val !== this._content) {
+                this._content = val;
+
+                this.node.setAttribute('title', this._content);
+                this._textNode.nodeValue = this._content;
+            }
+        },
+        '_width': width,
+        get width() { return this._width; },
+        set width(val) {
+            if (val !== this._width) {
+                this._width = val;
+                this.node.style.width = this._width + 'px';
+
+                if (this.node.childNodes[0].nodeType === 3) {
+                    this._textNode = reparentCellText(this.node, this._content);
+                }
+            }
+        },
+        trueWidth: function trueWidth() {
+            const style = this.node.getAttribute('style');
+            const childClasses = this.node.children[0].className;
+
+            this.node.setAttribute('style', '');
+
+            // take off the inner class which is what causes the sizing constraint
+            this.node.children[0].className = '';
+
+            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns
+            an integer value, rather than the _actual_ width. SMH. */
+            const newWidth = this.node.getBoundingClientRect().width;
+
+            // Put everything back
+            this.node.setAttribute('style', style);
+            this.node.children[0].className = childClasses;
+
+            return newWidth;
+        },
+        node: node,
+    };
+};
+
+const createDOMRow = function createDOMRow(setIndex, y) {
+    const row = document.createElement('div');
+          row.className = 'ui-table-row';
+          row.style[transformProp] = translate3d(0, y);
+
+    return row;
+};
+
+const createRow = function createRow(metadata, columns) {
+    /* IMPORTANT NOTE: metadata.data might be a promise. Plan accordingly. */
+
+    const row = createDOMRow(metadata.setIndex, metadata.y);
+    const cells = [];
+
+    let fragment = document.createDocumentFragment();
+
+    columns.forEach((column, index) => {
+        cells.push(createCell('', column.mapping, column.width));
+        fragment.appendChild(cells[index].node);
+    });
+
+    row.appendChild(fragment);
+    fragment = null;
+
+    const rowObj = {
+        node: row,
+        cells: cells,
+        '_iterator': null,
+        '_active': false,
+        get active() { return this._active; },
+        set active(val) {
+            if (val !== this._active) {
+                this._active = val;
+
+                if (val) {
+                    this.node.className += ' ui-table-row-active';
+                } else {
+                    this.node.className = this.node.className.replace(activeClassRegex, '');
+                }
+            }
+        },
+        '_setIndex': null,
+        get setIndex() { return this._setIndex; },
+        set setIndex(val) {
+            if (val !== this._setIndex) {
+                this._setIndex = val;
+
+                if (this._setIndex % 2 === 0) {
+                    this.node.className = this.node.className.replace(oddClassRegex, '');
+                    this.node.className += ' ui-table-row-even';
+                } else {
+                    this.node.className = this.node.className.replace(evenClassRegex, '');
+                    this.node.className += ' ui-table-row-odd';
+                }
+            }
+        },
+        '_data': null,
+        '_waitingForResolution': false,
+        set _waitingForResolution(val) {
+            if (val !== this._waitingForResolution) {
+                if (val) {
+                    this.node.className += ' ui-table-row-loading';
+                } else {
+                    this.node.className = this.node.className.replace(loadingClassRegex, '');
+                }
+            }
+        },
+        get data() { return this._data; },
+        set data(val) {
+            if (val !== this._data) {
+                this._data = val;
+
+                if (this._data instanceof Promise || this._data === null) {
+                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                        this.cells[this._iterator].content = '';
+                    }
+
+                    if (this._data instanceof Promise) {
+                        this._data.then(function cautiouslySetRowData(promise, resolvedVal) {
+                            if (this._data === promise) {
+                                this.data = resolvedVal;
+                            }
+                        }.bind(this, this._data));
+                    }
+
+                    this._waitingForResolution = true;
+
+                    return;
+                }
+
+                if (this._data) {
+                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                        this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                    }
+
+                    this._waitingForResolution = false;
+
+                    return;
+                }
+
+                for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                    this.cells[this._iterator].content = '';
+                }
+
+                this._waitingForResolution = false;
+            }
+        },
+        '_y': metadata.y,
+        get y() { return this._y; },
+        set y(val) {
+            if (val !== this._y) {
+                this._y = val;
+                this.node.style[transformProp] = translate3d(0, this._y);
+            }
+        },
+    };
+
+    // Setting it separately to have the classes added automatically
+    rowObj.setIndex = metadata.setIndex;
+
+    // Setting it separately so the Promise handling can take place if needed...
+    rowObj.data = metadata.data;
+
+    return rowObj;
+};
+
+class TableView {
+    validateColumnShape(column) {
+        return    typeof column.mapping === 'string'
+               && typeof column.resizable === 'boolean'
+               && typeof column.title === 'string'
+               && typeof column.width !== 'undefined' ? typeof column.width === 'number' : true;
+    }
+
+    validateConfiguration(config) {
+        if (!(config.wrapper instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `wrapper` element.');
+        }
+
+        if (!(config.header instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `header` element.');
+        }
+
+        if (!(config.body instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `body` element.');
+        }
+
+        if (!(config['x-scroll-track'] instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `x-scroll-track` element.');
+        }
+
+        if (!(config['y-scroll-track'] instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `y-scroll-track` element.');
+        }
+
+        if (!(config['x-scroll-handle'] instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `x-scroll-handle` element.');
+        }
+
+        if (!(config['y-scroll-handle'] instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `y-scroll-handle` element.');
+        }
+
+        if (!(config.aria instanceof HTMLElement)) {
+            throw Error('TableView was not passed a valid `aria` element.');
+        }
+
+        if (!config.columns.every(this.validateColumnShape)) {
+            throw Error(`TableView was not passed valid \`columns\`. They should be objects conforming to: {
+                mapping: string,
+                resizable: bool,
+                title: string,
+                width: number,
+            }`);
+        }
+
+        if (typeof config.throttleInterval !== 'number') {
+            throw Error('TableView was not passed a valid `throttleInterval`; it should be a Number.');
+        }
+
+        if (typeof config.totalRows !== 'number') {
+            throw Error('TableView was not passed a valid `totalRows`; it should be a Number.');
+        }
+
+        if (typeof config.getRow !== 'function') {
+            throw Error('TableView was not passed a valid `getRow`; it should be a function.');
+        }
+
+        if (typeof config.rowClickFunc !== 'function') {
+            throw Error('TableView was not passed a valid `rowClickFunc`; it should be a function.');
+        }
+
+        if (typeof config.cellClickFunc !== 'function') {
+            throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
+        }
+    }
+
+    constructor(config) {
+        this.c = {...config};
+
+        // fallback values
+        this.c.columns = this.c.columns || [];
+        this.c.getRow = this.c.getRow || noop;
+        this.c.rowClickFunc = this.c.rowClickFunc || noop;
+        this.c.cellClickFunc = this.c.cellClickFunc || noop;
+        this.c.throttleInterval = this.c.throttleInterval || 300;
+        this.c.totalRows = this.c.totalRows || 0;
+
+        this.validateConfiguration(this.c);
+
+        this._columns = [];
+        this._rows = [];
+        this._rowsOrderedByY = [];
+
+        this.handleClick = this.handleClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleMoveIntent = this.handleMoveIntent.bind(this);
+
+        this.handleXScrollHandleDragStart = this.handleXScrollHandleDragStart.bind(this);
+        this.handleYScrollHandleDragStart = this.handleYScrollHandleDragStart.bind(this);
+        this.handleAdvanceToXScrollTrackLocation = this.handleAdvanceToXScrollTrackLocation.bind(this);
+        this.handleAdvanceToYScrollTrackLocation = this.handleAdvanceToYScrollTrackLocation.bind(this);
+
+        this.handleDragMove = this.handleDragMove.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleColumnDragStart = this.handleColumnDragStart.bind(this);
+        this.handleColumnAutoExpand = this.handleColumnAutoExpand.bind(this);
+
+        this.handleWindowResize = this.handleWindowResize.bind(this);
+
+        this._body = this.c.body;
+        this._body_s = this._body.style;
+        this._header = this.c.header;
+        this._header_s = this._header.style;
+        this._xScrollHandle_s = this.c['x-scroll-handle'].style;
+        this._yScrollHandle_s = this.c['y-scroll-handle'].style;
+
+        this.regenerate();
+
+        this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
+        this.c.wrapper.addEventListener('mousemove', this.handleDragMove);
+        this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
+        this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
+
+        this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
+
+        this._header.addEventListener('mousedown', this.handleColumnDragStart);
+        this._header.addEventListener('dblclick', this.handleColumnAutoExpand);
+
+        this._body.addEventListener('click', this.handleClick);
+
+        this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
+        this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
+
+        this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+        this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    destroy() {
+        this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
+        this.c.wrapper.removeEventListener('mousemove', this.handleDragMove);
+        this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+        this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+
+        this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
+
+        this._header.removeEventListener('mousedown', this.handleColumnDragStart);
+        this._header.removeEventListener('dblclick', this.handleColumnAutoExpand);
+
+        this._body.removeEventListener('click', this.handleClick);
+
+        this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
+        this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
+
+        this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+        this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+
+        window.removeEventListener('resize', this.handleWindowResize);
+
+        this.emptyHeader();
+        this.emptyBody();
+
+        // release nodes
+        Object.keys(this.c).forEach(key => {
+            if (this.c[key] instanceof HTMLElement) {
+                this.c[key] = null;
+            }
+        });
+    }
+
+    resetInternals() {
+        this._x = this._y = 0;
+        this._nextX = this._nextY = 0;
+        this._lastXScroll = this._lastYScroll = 0;
+        this._xScrollHandlePosition = this._yScrollHandlePosition = 0;
+
+        this._activeRow = -1;
+        this._nextActiveRow = null;
+
+        // temporary variables in various calculations
+        this._iterator = null;
+        this._nRowsToShift = null;
+        this._orderedYArrayTargetIndex = null;
+        this._rowPointer = null;
+        this._shiftDelta = null;
+        this._targetIndex = null;
+
+        this._dragTimer = null;
+
+        this._fauxEvent = {preventDefault: noop};
+
+        this._touch = null;
+        this._lastTouchPageX = this._lastTouchPageY = 0;
+
+        this._xScrollHandleSize = this._yScrollHandleSize = null;
+
+        // reset!
+        this.performTranslations();
+    }
+
+    emptyHeader() {
+        this._columns.length = 0;
+
+        while (this._header.firstChild) {
+            this._header.removeChild(this._header.firstChild);
+        }
+    }
+
+    buildColumns() {
+        this.emptyHeader();
+
+        this.c.columns.forEach(column => this._columns.push(createHeaderCell(column)));
+    }
+
+    computeMinMaxHeaderCellDimensions() {
+        let cs;
+
+        this._columns.forEach(column => {
+            cs = window.getComputedStyle(column.node);
+
+            column.minWidth = parseInt(cs['min-width'], 10);
+            column.maxWidth = parseInt(cs['max-width'], 10);
+        });
+    }
+
+    injectHeaderCells() {
+        this._fragment = document.createDocumentFragment();
+        this._columns.forEach(column => this._fragment.appendChild(column.node));
+
+        this._header.appendChild(this._fragment);
+
+        // must be done after they have been injected into the DOM
+        this.computeMinMaxHeaderCellDimensions();
+
+        this._fragment = null; // prevent memleak
+    }
+
+    emptyBody() {
+        this._rows.length = 0;
+        this._rowsOrderedByY.length = 0;
+
+        while (this._body.firstChild) {
+            this._body.removeChild(this._body.firstChild);
+        }
+    }
+
+    injectFirstRow() {
+        this.emptyBody();
+
+        this._rows.push(createRow({
+            data: this.c.getRow(0),
+            setIndex: 0,
+            y: 0,
+        }, this._columns));
+
+        this._rowsOrderedByY.push(0);
+
+        this._body.appendChild(this._rows[0].node);
+    }
+
+    injectRestOfRows() {
+        this._fragment = document.createDocumentFragment();
+
+        for (this._iterator = 1; this._iterator < this._nRowsToRender; this._iterator += 1) {
+            this._rows.push(createRow({
+                data: this.c.getRow(this._iterator),
+                setIndex: this._iterator,
+                y: this._cell_h * this._iterator,
+            }, this._columns));
+
+            this._rowsOrderedByY.push(this._iterator);
+
+            this._fragment.appendChild(this._rows[this._iterator].node);
+        }
+
+        this._body.appendChild(this._fragment);
+        this._fragment = null; // prevent memleak
+    }
+
+    calculateCellHeight() {
+        this._cell_h = this._rows[0].cells[0].node.clientHeight || 40;
+    }
+
+    calculateCellWidths() {
+        this._rows[0].cells.forEach((cell, index) => {
+            this._columns[index].width = this._columns[index].width || cell.node.getBoundingClientRect().width;
+            cell.width = this._columns[index].width;
+        });
+    }
+
+    calculateXBound() {
+        this._row_w = this._rows[0].node.clientWidth || 500;
+        this._xMaximum =   this._container_w <= this._row_w
+                         ? this._container_w - this._row_w
+                         : 0;
+    }
+
+    calculateYBound() {
+        this._yUpperBound = 0;
+        this._yLowerBound = this._container_h - (this._nRowsToRender * this._cell_h);
+    } // do not run this unless rebuilding the table, does not preserve current min/max thresholds
+
+    calculateXScrollHandleSize() {
+        this._xScrollHandleSize = this._container_w - Math.abs(this._xMaximum);
+
+        if (this._xScrollHandleSize < 12) {
+            this._xScrollHandleSize = 12;
+        }
+
+        return this._xScrollHandleSize;
+    }
+
+    calculateYScrollHandleSize() {
+        this._yScrollHandleSize = this._container_h * (this._nRowsToRender / this.c.totalRows);
+
+        if (this._yScrollHandleSize < 12) {
+            this._yScrollHandleSize = 12;
+        }
+
+        return this._yScrollHandleSize;
+    }
+
+    initializeScrollBars() {
+        this._xScrollTrack_w = this.c['x-scroll-track'].clientWidth || 500;
+        this._yScrollTrack_h = this.c['y-scroll-track'].clientHeight || 150;
+        this._xScrollHandle_s.width = this.calculateXScrollHandleSize() + 'px';
+        this._yScrollHandle_s.height = this.calculateYScrollHandleSize() + 'px';
+    }
+
+    calculateContainerDimensions() {
+        /* The fallback amounts are for unit testing, the browser will always have
+        an actual number. */
+        this._container_h = this.c.wrapper.clientHeight || 150;
+        this._container_w = this.c.wrapper.clientWidth || 500;
+    }
+
+    handleWindowResize() {
+        if (this.c.wrapper.clientHeight !== this._container_h) {
+            /* more rows may be needed to display the data, so we need to rebuild */
+            return this.regenerate();
+        }
+
+        this.calculateContainerDimensions();
+        this.calculateXBound();
+        this.initializeScrollBars();
+    }
+
+    regenerate(config = this.c) {
+        this.c = {...config};
+
+        this.resetInternals();
+        this.calculateContainerDimensions();
+
+        this.buildColumns();
+        this.injectFirstRow();
+        this.calculateCellWidths();
+        this.calculateCellHeight();
+
+        this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
+
+        if (this._nRowsToRender > this.c.totalRows) {
+            this._nRowsToRender = this.c.totalRows;
+        }
+
+        this._rowStartIndex = 0;
+        this._rowEndIndex = this._nRowsToRender;
+
+        this.injectHeaderCells();
+        this.injectRestOfRows();
+
+        this.calculateXBound();
+        this.calculateYBound();
+
+        this.initializeScrollBars();
+    }
+
+    handleScrollDown() {
+        if (   this._rowEndIndex === this.c.totalRows
+            || this._nextY >= this._yLowerBound) {
+            return;
+        }
+
+        /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+
+        this._nRowsToShift = Math.ceil(
+            Math.abs(this._nextY - this._yLowerBound) / this._cell_h
+        );
+
+        if (this._nRowsToShift + this._rowEndIndex + 1 > this.c.totalRows) {
+            /* more rows than there is data available, truncate */
+            this._nRowsToShift = this.c.totalRows - this._rowEndIndex + 1;
+        }
+
+        if (this._nRowsToShift > 0) {
+            if (this._nRowsToShift > this._nRowsToRender) {
+                /* a very large scroll delta, calculate where the boundaries should be */
+                this._shiftDelta = this._nRowsToShift - this._nRowsToRender;
+
+                this._yUpperBound -= this._shiftDelta * this._cell_h;
+                this._yLowerBound -= this._shiftDelta * this._cell_h;
+
+                this._rowStartIndex += this._shiftDelta;
+                this._rowEndIndex += this._shiftDelta;
+
+                this._nRowsToShift = this._nRowsToRender;
+            }
+
+            if (this._nRowsToShift > 0) {
+                for (this._iterator = 0; this._iterator < this._nRowsToShift; this._iterator += 1) {
+                    this._targetIndex = this._rowEndIndex + this._iterator;
+
+                    /* move the lowest Y-value rows to the bottom of the ordering array */
+                    this._rowPointer = this._rows[this._rowsOrderedByY[0]];
+
+                    this._rowPointer.data = this._dragTimer ? null : this.c.getRow(this._targetIndex);
+                    this._rowPointer.setIndex = this._targetIndex;
+                    this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
+
+                    this._rowsOrderedByY.push(this._rowsOrderedByY.shift());
+                }
+
+                this._rowStartIndex += this._nRowsToShift;
+                this._rowEndIndex += this._nRowsToShift;
+
+                this._yUpperBound -= this._nRowsToShift * this._cell_h;
+                this._yLowerBound -= this._nRowsToShift * this._cell_h;
+            }
+        }
+
+        this._rowPointer = null;
+    }
+
+    handleScrollUp() {
+        if (this._rowStartIndex === 0 || this._nextY <= this._yUpperBound) {
+            return;
+        }
+
+        /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+
+        this._nRowsToShift = Math.ceil(
+            Math.abs(this._nextY - this._yUpperBound) / this._cell_h
+        );
+
+        if (this._rowStartIndex - this._nRowsToShift < 0) {
+            this._nRowsToShift = this._rowStartIndex;
+        }
+
+        if (this._nRowsToShift > 0) {
+            if (this._nRowsToShift > this._nRowsToRender) {
+                /* a very large scroll delta, calculate where the boundaries should be */
+                this._shiftDelta = this._nRowsToShift - this._nRowsToRender;
+
+                this._yUpperBound += this._shiftDelta * this._cell_h;
+                this._yLowerBound += this._shiftDelta * this._cell_h;
+
+                this._rowStartIndex -= this._shiftDelta;
+                this._rowEndIndex -= this._shiftDelta;
+
+                this._nRowsToShift = this._nRowsToRender;
+            }
+
+            if (this._nRowsToShift > 0) {
+                /* move the highest Y-value rows to the top of the ordering array */
+                this._orderedYArrayTargetIndex = this._rowsOrderedByY.length - 1;
+
+                for (this._iterator = 0; this._iterator < this._nRowsToShift; this._iterator += 1) {
+                    this._targetIndex = this._rowStartIndex - this._iterator - 1;
+
+                    this._rowPointer = this._rows[
+                        this._rowsOrderedByY[this._orderedYArrayTargetIndex]
+                    ];
+
+                    this._rowPointer.data = this._dragTimer ? null : this.c.getRow(this._targetIndex);
+                    this._rowPointer.setIndex = this._targetIndex;
+                    this._rowPointer.y = this._targetIndex * this._cell_h;
+                    this._rowPointer.active = this._targetIndex === this._activeRow;
+
+                    this._rowsOrderedByY.unshift(this._rowsOrderedByY.pop());
+                }
+
+                this._rowStartIndex -= this._nRowsToShift;
+                this._rowEndIndex -= this._nRowsToShift;
+
+                this._yUpperBound += this._nRowsToShift * this._cell_h;
+                this._yLowerBound += this._nRowsToShift * this._cell_h;
+            }
+        }
+
+        this._rowPointer = null;
+    }
+
+    handleTouchStart(event) {
+        this._touch = event.touches.item(0);
+        this._lastTouchPageX = this._touch.pageX;
+        this._lastTouchPageY = this._touch.pageY;
+    }
+
+    handleTouchMove(event) {
+        event.preventDefault();
+
+        /* we handle touchmove by detecting the delta of pageX/Y and forwarding
+        it to handleMoveIntent() */
+
+        this._touch = event.touches.item(0);
+
+        this._fauxEvent.deltaX = this._lastTouchPageX - this._touch.pageX;
+        this._fauxEvent.deltaY = this._lastTouchPageY - this._touch.pageY;
+
+        this._lastTouchPageX = this._touch.pageX;
+        this._lastTouchPageY = this._touch.pageY;
+
+        this.handleMoveIntent(this._fauxEvent);
+    }
+
+    handleMoveIntent(event) {
+        event.preventDefault();
+
+        if ((event.deltaX === 0 && event.deltaY === 0)
+            || this._manuallyScrollingY && event.deltaY === 0
+            || this._manuallyScrollingX && event.deltaX === 0) {
+            return;
+        }
+
+        // minimum translation should be one row height
+        this._deltaX = event.deltaX;
+
+        // deltaMode 0 === pixels, 1 === lines
+        this._deltaY = event.deltaMode === 1 ? parseInt(event.deltaY, 10) * this._cell_h : event.deltaY;
+
+        /* lock the translation axis if the user is manipulating the synthetic scrollbars */
+        this._nextX = this._manuallyScrollingY ? 0 : this._x - this._deltaX;
+
+        if (this._nextX > 0) {
+            this._nextX = 0;
+        } else if (this._nextX < this._xMaximum) {
+            this._nextX = this._xMaximum;
+        }
+
+        this._nextY = this._manuallyScrollingX ? 0 : this._y - this._deltaY;
+
+        window.requestAnimationFrame(() => {
+            if (this._nextY < this._y) {
+                this.handleScrollDown();
+            } else if (this._nextY > this._y) {
+                this.handleScrollUp();
+            }
+
+            if (this._nextY > 0) {
+                this._nextY = 0;
+            } else if (this._nextY < this._yLowerBound) {
+                this._nextY = this._yLowerBound;
+            }
+
+            if (this._nextX === 0) {
+                this._xScrollHandlePosition = 0;
+            } else {
+                this._xScrollHandlePosition =   (Math.abs(this._nextX) / (this._row_w - this._container_w))
+                                              * (this._xScrollTrack_w - this._xScrollHandleSize);
+
+                if (this._xScrollHandlePosition + this._xScrollHandleSize > this._xScrollTrack_w) {
+                    this._xScrollHandlePosition = this._xScrollTrack_w - this._xScrollHandleSize;
+                }
+            }
+
+            if (this.nextY === 0) {
+                this._yScrollHandlePosition = 0;
+            } else {
+                this._yScrollHandlePosition =   (Math.abs(this._nextY) / ((this.c.totalRows * this._cell_h) - this._container_h))
+                                              * (this._yScrollTrack_h - this._yScrollHandleSize);
+
+                if (this._yScrollHandlePosition + this._yScrollHandleSize > this._yScrollTrack_h) {
+                    this._yScrollHandlePosition = this._yScrollTrack_h - this._yScrollHandleSize;
+                }
+            }
+
+            this.performTranslations(); // Do all transforms grouped together
+
+            this._x = this._nextX;
+            this._y = this._nextY;
+        });
+    }
+
+    performTranslations() {
+        this._header_s[transformProp] = translate3d(this._nextX);
+        this._body_s[transformProp] = translate3d(this._nextX, this._nextY);
+        this._xScrollHandle_s[transformProp] = translate3d(this._xScrollHandlePosition);
+        this._yScrollHandle_s[transformProp] = translate3d(0, this._yScrollHandlePosition);
+    }
+
+    handleAdvanceToXScrollTrackLocation(event) {
+        if (event.target.className !== 'ui-table-x-scroll-track') { return; }
+
+        this._fauxEvent.deltaX = event.pageX - this.c.wrapper.offsetLeft - this._lastXScroll;
+        this._fauxEvent.deltaY = 0;
+
+        this.handleMoveIntent(this._fauxEvent);
+
+        this._lastXScroll = event.layerX;
+    }
+
+    handleAdvanceToYScrollTrackLocation(event) {
+        if (event.target.className !== 'ui-table-y-scroll-track') { return; }
+
+        this._fauxEvent.deltaX = 0;
+        this._fauxEvent.deltaY = ((event.pageY - this.c.wrapper.offsetTop - this._lastYScroll) / this._container_h)
+                                 * this.c.totalRows
+                                 * this._cell_h;
+
+        this.handleMoveIntent(this._fauxEvent);
+
+        this._lastYScroll = event.layerY;
+    }
+
+    handleXScrollHandleDragStart(event) {
+        if (event.button !== 0) { return; }
+
+        this._leftButtonPressed = true;
+
+        // Fixes dragStart occasionally happening and breaking the simulated drag
+        event.preventDefault();
+
+        this._lastXScroll = event.clientX;
+        this._manuallyScrollingX = true;
+
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.addEventListener('mouseup', this.handleDragEnd, true);
+    }
+
+    handleYScrollHandleDragStart(event) {
+        if (event.button !== 0) { return; }
+
+        this._leftButtonPressed = true;
+
+        // Fixes dragStart occasionally happening and breaking the simulated drag
+        event.preventDefault();
+
+        this._lastYScroll = event.clientY;
+        this._manuallyScrollingY = true;
+
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.addEventListener('mouseup', this.handleDragEnd, true);
+    }
+
+    handleDragMove(event) {
+        if (!this._leftButtonPressed) { return; }
+
+        if (this._dragTimer) { window.clearTimeout(this._dragTimer); }
+
+        this._dragTimer = window.setTimeout(() => {
+            this._dragTimer = null;
+
+            /* Now fetch, once drag has ceased for long enough. */
+            this._rows.forEach(row => {
+                if (row.data === null) {
+                    row.data = this.c.getRow(row.setIndex);
+                }
+            });
+        }, this.c.throttleInterval);
+
+        if (this._manuallyScrollingY) {
+            this._fauxEvent.deltaX = 0;
+            this._fauxEvent.deltaY = ((event.clientY - this._lastYScroll) / this._container_h)
+                                     * this.c.totalRows
+                                     * this._cell_h;
+
+            this.handleMoveIntent(this._fauxEvent);
+
+            this._lastYScroll = event.clientY;
+
+        } else if (this._manuallyScrollingX) {
+
+            this._fauxEvent.deltaX = event.clientX - this._lastXScroll;
+            this._fauxEvent.deltaY = 0;
+
+            this.handleMoveIntent(this._fauxEvent);
+
+            this._lastXScroll = event.clientX;
+
+        } else if (this._manuallyResizingColumn) {
+
+            this.handleColumnResize(event.clientX - this._lastColumnX);
+
+            this._lastColumnX = event.clientX;
+        }
+    }
+
+    handleDragEnd() {
+        this._leftButtonPressed = false;
+
+        // If the mouseup happens outside the table, it won't be detected without this listener
+        window.removeEventListener('mouseup', this.handleDragEnd, true);
+
+        this._manuallyScrollingX = this._manuallyScrollingY = this._manuallyResizingColumn = false;
+    }
+
+    handleColumnDragStart(event) {
+        if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
+            // Fixes dragStart occasionally happening and breaking the simulated drag
+            event.preventDefault();
+
+            this._leftButtonPressed = true;
+
+            this._lastColumnX = event.clientX;
+
+            this._manuallyResizingColumn = findWhere(this._columns, 'mapping', event.target.parentNode.getAttribute('data-column'));
+
+            // If the mouseup happens outside the table, it won't be detected without this listener
+            window.addEventListener('mouseup', this.handleDragEnd, true);
+        }
+    }
+
+    applyNewColumnWidth(index, width) {
+        this._columns[index].width = width;
+        this._rows.forEach(row => row.cells[index].width = width);
+
+        this.calculateXBound();
+        this.initializeScrollBars();
+    }
+
+    handleColumnResize(delta) {
+        if (delta === 0) { return; }
+
+        const index = this._columns.indexOf(this._manuallyResizingColumn);
+        let adjustedDelta = delta;
+
+        if (   adjustedDelta < 0
+            && !isNaN(this._manuallyResizingColumn.minWidth)
+            && this._manuallyResizingColumn.width + adjustedDelta < this._manuallyResizingColumn.minWidth) {
+                adjustedDelta = this._manuallyResizingColumn.minWidth - this._manuallyResizingColumn.width;
+        } else if (!isNaN(this._manuallyResizingColumn.maxWidth)
+                   && this._manuallyResizingColumn.width + adjustedDelta > this._manuallyResizingColumn.maxWidth) {
+            adjustedDelta = this._manuallyResizingColumn.maxWidth - this._manuallyResizingColumn.width;
+        }
+
+        this.applyNewColumnWidth(index, this._manuallyResizingColumn.width + adjustedDelta);
+
+        /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
+        we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
+        if (adjustedDelta < 0) {
+            this._fauxEvent.deltaX = adjustedDelta;
+            this._fauxEvent.deltaY = 0;
+
+            this.handleMoveIntent(this._fauxEvent);
+        }
+    }
+
+    handleColumnAutoExpand(event) {
+        if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
+            const mapping = event.target.parentNode.getAttribute('data-column');
+            const column = findWhere(this._columns, 'mapping', mapping);
+            const columnIndex = this._columns.indexOf(column);
+
+            let width = column.width;
+            let cellWidth;
+
+            this._rows.forEach(row => {
+                if (!(row.data instanceof Promise) && row.data !== null) {
+                    cellWidth = row.cells[columnIndex].trueWidth();
+                    width = width < cellWidth ? cellWidth : width;
+                }
+            }); /* find the rendered row with the longest content entry */
+
+            this.applyNewColumnWidth(columnIndex, width);
+        }
+    }
+
+    getKeyFromKeyCode(code) {
+        switch (code) {
+        case 40:
+            return 'ArrowDown';
+
+        case 38:
+            return 'ArrowUp';
+
+        case 13:
+            return 'Enter';
+        }
+
+        return null;
+    }
+
+    setAriaText(text) {
+        this.c.aria.innerText = text;
+    }
+
+    setActiveRow(setIndex) {
+        this._activeRow = setIndex;
+        this._rows.forEach(row => row.active = row.setIndex === setIndex);
+    }
+
+    changeActiveRow(delta) {
+        this._nextActiveRow = findWhere(this._rows, 'setIndex', this._activeRow + delta);
+
+        if (this._nextActiveRow) {
+            this.setActiveRow(this._nextActiveRow.setIndex);
+            this.setAriaText(this._nextActiveRow.data[this._columns[0].mapping]);
+
+            if (
+                   (delta === -1 && this._nextActiveRow.y * -1 > this._y)
+                || (delta === 1 && this._nextActiveRow.y * -1 - this._cell_h < this._y - this._container_h + this._cell_h) // 1 unit of cellHeight is removed to compensate for the header row
+            ) { // Destination row is outside the viewport, so simulate a scroll
+                this._fauxEvent.deltaX = 0;
+                this._fauxEvent.deltaY = this._cell_h * delta;
+
+                this.handleMoveIntent(this._fauxEvent);
+            }
+        } else if (   (delta === -1 && this._activeRow > 0)
+                   || (delta === 1 && this._activeRow < this.c.totalRows)) {
+            /*
+                The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
+                in the viewport.
+             */
+            this._fauxEvent.deltaX = 0;
+            this._fauxEvent.deltaY = (   (    this._rowStartIndex > this._activeRow
+                                          && this._activeRow - this._rowStartIndex)
+                                     || (    this._rowStartIndex < this._activeRow
+                                          && this._activeRow - this._rowStartIndex)
+                                     + delta) * this._cell_h;
+
+            this.handleMoveIntent(this._fauxEvent);
+
+            // start the process again, now that the row is available
+            window.requestAnimationFrame(() => this.changeActiveRow(delta));
+        }
+
+        this._nextActiveRow = null;
+    }
+
+    handleKeyDown(event) {
+        const key = event.key || this.getKeyFromKeyCode(event.keyCode);
+
+        switch (key) {
+        case 'ArrowDown':
+            this.changeActiveRow(1);
+            event.preventDefault();
+            break;
+
+        case 'ArrowUp':
+            this.changeActiveRow(-1);
+            event.preventDefault();
+            break;
+
+        case 'Enter':
+            if (this._activeRow !== -1) {
+                const row = findWhere(this._rows, 'setIndex', this._activeRow).data;
+
+                this.setAriaText(this._columns.map(column => {
+                    return `${column.title}: ${row[column.mapping]}`;
+                }).join('\n'));
+            }
+
+            event.preventDefault();
+            break;
+        }
+    }
+
+    discoverCellAndRowNodes(target) {
+        let node = target;
+        const nodeMap = {};
+
+        if (node.className.match(rowClassRegex)) {
+            return {row: node};
+        }
+
+        while ((!nodeMap.cell || !nodeMap.row) && node) {
+            if (node.className.match(cellClassRegex)) {
+                nodeMap.cell = node;
+            } else if (node.className.match(rowClassRegex)) {
+                nodeMap.row = node;
+            }
+
+            node = node.parentNode;
+        }
+
+        return nodeMap;
+    }
+
+    handleClick(event) {
+        const map = this.discoverCellAndRowNodes(event.target);
+
+        if (map.row) {
+            const row = findWhere(this._rows, 'node', map.row);
+
+            this.setActiveRow(row.setIndex);
+
+            if (map.cell) {
+                this.c.cellClickFunc(event, row.setIndex, map.cell.getAttribute('data-column'));
+            }
+
+            this.c.rowClickFunc(event, row.setIndex);
+        }
+    }
+}
+
+export default TableView;

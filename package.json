@@ -78,6 +78,7 @@
       "UIRadio/index.js": true,
       "UISegmentedControl/index.js": true,
       "UITable/index.js": true,
+      "UITable/table/index.js": true,
       "UITokenizedInput/index.js": true,
       "UITooltip/index.js": true,
       "UITypeaheadInput/index.js": true,
