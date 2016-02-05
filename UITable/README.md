@@ -126,6 +126,7 @@ __keydown__ `[Up, Down]` | table cell | move focus and apply `active` class to r
 __contextmenu__ | table cell | block browser menu, launch custom menu
 __dragEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
 __touchEnd__ | column header cell drag handle | recalculate column width with end X value & apply new sizing
+__doubleClick__ | column header cell drag handle | automatically resize the column cells to fit the longest rendered content
 __resize__ | window | recompute scrollbar sizing; if the height of the table changes, rebuild it
 
 ---

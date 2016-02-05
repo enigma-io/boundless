@@ -155,6 +155,25 @@ const createCell = function createCell(content, mapping, width) {
                 }
             }
         },
+        trueWidth: function trueWidth() {
+            const style = this.node.getAttribute('style');
+            const childClasses = this.node.children[0].className;
+
+            this.node.setAttribute('style', '');
+
+            // take off the inner class which is what causes the sizing constraint
+            this.node.children[0].className = '';
+
+            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns
+            an integer value, rather than the _actual_ width. SMH. */
+            const newWidth = this.node.getBoundingClientRect().width;
+
+            // Put everything back
+            this.node.setAttribute('style', style);
+            this.node.children[0].className = childClasses;
+
+            return newWidth;
+        },
         node: node,
     };
 };
@@ -306,6 +325,7 @@ class UITable extends UIView {
         this.handleDragMove = this.handleDragMove.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.handleColumnDragStart = this.handleColumnDragStart.bind(this);
+        this.handleColumnAutoExpand = this.handleColumnAutoExpand.bind(this);
 
         this.handleWindowResize = this.handleWindowResize.bind(this);
     }
@@ -328,6 +348,8 @@ class UITable extends UIView {
         this.refs.wrapper.addEventListener('keydown', this.handleKeyDown);
 
         this._header.addEventListener('mousedown', this.handleColumnDragStart);
+        this._header.addEventListener('dblclick', this.handleColumnAutoExpand);
+
         this._body.addEventListener('click', this.handleClick);
 
         this.refs['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
@@ -348,6 +370,8 @@ class UITable extends UIView {
         this.refs.wrapper.removeEventListener('keydown', this.handleKeyDown);
 
         this._header.removeEventListener('mousedown', this.handleColumnDragStart);
+        this._header.removeEventListener('dblclick', this.handleColumnAutoExpand);
+
         this._body.removeEventListener('click', this.handleClick);
 
         this.refs['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
@@ -906,6 +930,14 @@ class UITable extends UIView {
         }
     }
 
+    applyNewColumnWidth(index, width) {
+        this._columns[index].width = width;
+        this._rows.forEach(row => row.cells[index].width = width);
+
+        this.calculateXBound();
+        this.initializeScrollBars();
+    }
+
     handleColumnResize(delta) {
         if (delta === 0) { return; }
 
@@ -921,14 +953,7 @@ class UITable extends UIView {
             adjustedDelta = this._manuallyResizingColumn.maxWidth - this._manuallyResizingColumn.width;
         }
 
-        // Adjust the column header cell
-        this._manuallyResizingColumn.width = this._manuallyResizingColumn.width + adjustedDelta;
-
-        // Adjust the corresponding row cells
-        this._rows.forEach(row => row.cells[index].width = this._manuallyResizingColumn.width);
-
-        this.calculateXBound();
-        this.initializeScrollBars();
+        this.applyNewColumnWidth(index, this._manuallyResizingColumn.width + adjustedDelta);
 
         /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
         we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
@@ -937,6 +962,26 @@ class UITable extends UIView {
             this._fauxEvent.deltaY = 0;
 
             this.handleMoveIntent(this._fauxEvent);
+        }
+    }
+
+    handleColumnAutoExpand(event) {
+        if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
+            const mapping = event.target.parentNode.getAttribute('data-column');
+            const column = findWhere(this._columns, 'mapping', mapping);
+            const columnIndex = this._columns.indexOf(column);
+
+            let width = column.width;
+            let cellWidth;
+
+            this._rows.forEach(row => {
+                if (!(row.data instanceof Promise) && row.data !== null) {
+                    cellWidth = row.cells[columnIndex].trueWidth();
+                    width = width < cellWidth ? cellWidth : width;
+                }
+            }); /* find the rendered row with the longest content entry */
+
+            this.applyNewColumnWidth(columnIndex, width);
         }
     }
 
