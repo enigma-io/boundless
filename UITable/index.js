@@ -811,7 +811,7 @@ class UITable extends UIView {
     handleAdvanceToXScrollTrackLocation(event) {
         if (event.target.className !== 'ui-table-x-scroll-track') { return; }
 
-        this._fauxEvent.deltaX = event.layerX - this._lastXScroll;
+        this._fauxEvent.deltaX = event.pageX - this.refs.wrapper.offsetLeft - this._lastXScroll;
         this._fauxEvent.deltaY = 0;
 
         this.handleMoveIntent(this._fauxEvent);
@@ -823,7 +823,7 @@ class UITable extends UIView {
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
         this._fauxEvent.deltaX = 0;
-        this._fauxEvent.deltaY = ((event.layerY - this._lastYScroll) / this._container_h)
+        this._fauxEvent.deltaY = ((event.pageY - this.refs.wrapper.offsetTop - this._lastYScroll) / this._container_h)
                                  * this.props.totalRows
                                  * this._cell_h;
 
