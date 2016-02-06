@@ -881,9 +881,6 @@ class TableView {
             // Do all transforms grouped together
             this.performTranslations(nextX, nextY);
 
-            this.last_pageX = this.x_scroll_handle_position + this.distance_from_left;
-            this.last_pageY = this.y_scroll_handle_position + this.distance_from_top;
-
         }.bind(this, this.next_x, this.x, this.next_y, this.y));
 
         this.x = this.next_x;
