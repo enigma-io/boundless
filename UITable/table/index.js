@@ -370,7 +370,7 @@ class TableView {
         }
     }
 
-    constructor(config) {
+    processConfiguration(config) {
         this.c = {...config};
 
         // fallback values
@@ -382,11 +382,10 @@ class TableView {
         this.c.totalRows = this.c.totalRows || 0;
 
         this.validateConfiguration(this.c);
+    }
 
-        this.columns = [];
-        this.rows = [];
-        this.rows_ordered_by_y = [];
-        this.n_padding_rows = 1;
+    constructor(config) {
+        this.processConfiguration(config);
 
         this.handleClick = this.handleClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -470,6 +469,11 @@ class TableView {
     }
 
     resetInternals() {
+        this.columns = [];
+        this.rows = [];
+        this.rows_ordered_by_y = [];
+        this.n_padding_rows = 1;
+
         this.x = this.y = 0;
         this.next_x = this.next_y = 0;
         this.distance_from_left = this.last_pageX = this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset;
@@ -487,7 +491,7 @@ class TableView {
         this.shift_delta = null;
         this.target_index = null;
 
-        this.dragTimer = null;
+        this.drag_timer = null;
 
         this.evt = {preventDefault: noop};
 
@@ -597,7 +601,8 @@ class TableView {
 
     calculateYBound() {
         this.y_min = 0;
-        this.y_max = this.container_h - (this.n_rows_to_render * this.cell_h);
+        this.y_max = this.container_h - this.n_rows_to_render * this.cell_h;
+        this.y_max = this.y_max > 0 ? 0 : this.y_max;
     } // do not run this unless rebuilding the table, does not preserve current min/max thresholds
 
     calculateXScrollHandleSize() {
@@ -650,7 +655,9 @@ class TableView {
     }
 
     regenerate(config = this.c) {
-        this.c = {...config};
+        if (config !== this.c) {
+            this.processConfiguration(config);
+        }
 
         this.resetInternals();
         this.calculateContainerDimensions();
@@ -679,7 +686,14 @@ class TableView {
     }
 
     scrollDown() {
-        if (this.row_end_index === this.c.totalRows || this.next_y >= this.y_max) { return; }
+        /* ignore the y translation if it's irrelevant */
+        if (this.row_end_index === this.c.totalRows) {
+            this.next_y = this.y;
+
+            return;
+        }
+
+        if (this.next_y >= this.y_max) { return; }
 
         /* Scrolling down, so we want to move the lowest Y value to the y_max and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
@@ -711,7 +725,7 @@ class TableView {
                     /* move the lowest Y-value rows to the bottom of the ordering array */
                     this.ptr = this.rows[this.rows_ordered_by_y[0]];
 
-                    this.ptr.data = this.dragTimer ? null : this.c.getRow(this.target_index);
+                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
                     this.ptr.setIndex = this.target_index;
                     this.ptr.y = this.target_index * this.cell_h;
                     this.ptr.active = this.target_index === this.active_row;
@@ -731,6 +745,7 @@ class TableView {
     }
 
     scrollUp() {
+        /* ignore the y translation if it's irrelevant */
         if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
         /* Scrolling up, so we want to move the highest Y value to the y_min and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
@@ -768,7 +783,7 @@ class TableView {
                         this.rows_ordered_by_y[this.ordered_y_array_index]
                     ];
 
-                    this.ptr.data = this.dragTimer ? null : this.c.getRow(this.target_index);
+                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
                     this.ptr.setIndex = this.target_index;
                     this.ptr.y = this.target_index * this.cell_h;
                     this.ptr.active = this.target_index === this.active_row;
@@ -819,7 +834,6 @@ class TableView {
             return;
         }
 
-        // minimum translation should be one row height
         this.delta_x = event.deltaX;
 
         // deltaMode 0 === pixels, 1 === lines
@@ -852,8 +866,6 @@ class TableView {
         /* queue up translations and the browser will execute them as able, need to pass in the values
         that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
         window.requestAnimationFrame(function rAF(nextX, currX, nextY, currY) {
-            if (nextY === currY) { return; }
-
             if (nextX === 0) {
                 this.x_scroll_handle_position = 0;
             } else {
@@ -876,9 +888,6 @@ class TableView {
 
             // Do all transforms grouped together
             this.performTranslations(nextX, nextY);
-
-            this.last_pageX = this.x_scroll_handle_position + this.distance_from_left;
-            this.last_pageY = this.y_scroll_handle_position + this.distance_from_top;
 
         }.bind(this, this.next_x, this.x, this.next_y, this.y));
 
@@ -946,18 +955,20 @@ class TableView {
     handleDragMove(event) {
         if (!this.left_button_pressed) { return; }
 
-        if (this.dragTimer) { window.clearTimeout(this.dragTimer); }
+        if (this.y_scroll_locked) {
+            if (this.drag_timer) { window.clearTimeout(this.drag_timer); }
 
-        this.dragTimer = window.setTimeout(() => {
-            this.dragTimer = null;
+            this.drag_timer = window.setTimeout(() => {
+                this.drag_timer = null;
 
-            /* Now fetch, once drag has ceased for long enough. */
-            this.rows.forEach(row => {
-                if (row.data === null) {
-                    row.data = this.c.getRow(row.setIndex);
-                }
-            });
-        }, this.c.throttleInterval);
+                /* Now fetch, once drag has ceased for long enough. */
+                this.rows.forEach(row => {
+                    if (row.data === null) {
+                        row.data = this.c.getRow(row.setIndex);
+                    }
+                });
+            }, this.c.throttleInterval);
+        } /* x-axis doesn't need throttle protection since it doesn't cause an API fetch */
 
         if (this.y_scroll_locked) {
             this.evt.deltaX = 0;
@@ -976,7 +987,6 @@ class TableView {
             this.last_pageX = event.pageX;
 
         } else if (this.column_is_resizing) {
-
             this.handleColumnResize(event.pageX - this.last_column_x);
 
             this.last_column_x = event.pageX;
