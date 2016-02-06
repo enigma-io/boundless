@@ -601,7 +601,8 @@ class TableView {
 
     calculateYBound() {
         this.y_min = 0;
-        this.y_max = this.container_h - (this.n_rows_to_render * this.cell_h);
+        this.y_max = this.container_h - this.n_rows_to_render * this.cell_h;
+        this.y_max = this.y_max > 0 ? 0 : this.y_max;
     } // do not run this unless rebuilding the table, does not preserve current min/max thresholds
 
     calculateXScrollHandleSize() {
@@ -685,7 +686,14 @@ class TableView {
     }
 
     scrollDown() {
-        if (this.row_end_index === this.c.totalRows || this.next_y >= this.y_max) { return; }
+        /* ignore the y translation if it's irrelevant */
+        if (this.row_end_index === this.c.totalRows) {
+            this.next_y = this.y;
+
+            return;
+        }
+
+        if (this.next_y >= this.y_max) { return; }
 
         /* Scrolling down, so we want to move the lowest Y value to the y_max and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
@@ -737,6 +745,7 @@ class TableView {
     }
 
     scrollUp() {
+        /* ignore the y translation if it's irrelevant */
         if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
         /* Scrolling up, so we want to move the highest Y value to the y_min and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
@@ -825,7 +834,6 @@ class TableView {
             return;
         }
 
-        // minimum translation should be one row height
         this.delta_x = event.deltaX;
 
         // deltaMode 0 === pixels, 1 === lines
