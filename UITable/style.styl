@@ -6,6 +6,9 @@ cell-color-base = color-accent
 cell-height = 40px
 cell-x-padding = 0.75em
 
+track-size = 8px
+track-size-expanded = 12px
+
 .ui-table-wrapper,
 .ui-table-wrapper * {
     box-sizing: border-box;
@@ -33,6 +36,7 @@ cell-x-padding = 0.75em
 .ui-table-body {
     position: absolute;
     top: cell-height;
+    bottom: 0;
     backface-visibility: hidden;
     transform: translate3d(0, 0, 0);
     will-change: transform;
@@ -156,24 +160,24 @@ cell-x-padding = 0.75em
 }
 
 .ui-table-x-scroll-track {
-    height: 8px;
-    margin-right: 8px;
+    height: track-size;
+    margin-right: track-size;
     top: auto;
     transition-property: height;
 }
 
 .ui-table-x-scroll-track:hover {
-    height: 12px;
+    height: track-size-expanded;
 }
 
 .ui-table-y-scroll-track {
-    width: 8px;
+    width: track-size;
     left: auto;
     transition-property: width;
 }
 
 .ui-table-y-scroll-track:hover {
-    width: 12px;
+    width: track-size-expanded;
 }
 
 .ui-table-x-scroll-handle,
