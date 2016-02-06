@@ -250,8 +250,8 @@ describe('UITable/TableView', () => {
             expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Louise');
 
             // simulate drag cascade
-            table.handleYScrollHandleDragStart({button: 0, clientY: 0, preventDefault: noop});
-            table.handleDragMove({clientY: 200});
+            table.handleYScrollHandleDragStart({button: 0, pageY: 0, preventDefault: noop});
+            table.handleDragMove({pageY: 200});
             table.handleDragEnd();
 
             sandbox.clock.tick(301);
@@ -269,8 +269,8 @@ describe('UITable/TableView', () => {
             expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Louise');
 
             // simulate drag cascade
-            table.handleYScrollHandleDragStart({button: 0, clientY: 0, preventDefault: noop});
-            table.handleDragMove({clientY: 200});
+            table.handleYScrollHandleDragStart({button: 0, pageY: 0, preventDefault: noop});
+            table.handleDragMove({pageY: 200});
             table.handleDragEnd();
 
             sandbox.clock.tick(100);

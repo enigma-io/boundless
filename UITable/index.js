@@ -51,14 +51,15 @@ class UITable extends UIView {
                     <div ref='header' className='ui-table-header' />
                     <div ref='body' className='ui-table-body' />
                 </div>
-                <div>
-                    <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
-                        <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
-                    </div>
-                    <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
-                        <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
-                    </div>
+
+                <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
+                    <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
                 </div>
+
+                <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
+                    <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
+                </div>
+
                 <div ref='aria' className={this.props.offscreenClass || 'ui-offscreen'} aria-live='polite' />
             </div>
         );

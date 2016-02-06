@@ -383,9 +383,10 @@ class TableView {
 
         this.validateConfiguration(this.c);
 
-        this._columns = [];
-        this._rows = [];
-        this._rowsOrderedByY = [];
+        this.columns = [];
+        this.rows = [];
+        this.rows_ordered_by_y = [];
+        this.n_padding_rows = 1;
 
         this.handleClick = this.handleClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -406,56 +407,56 @@ class TableView {
 
         this.handleWindowResize = this.handleWindowResize.bind(this);
 
-        this._body = this.c.body;
-        this._body_s = this._body.style;
-        this._header = this.c.header;
-        this._header_s = this._header.style;
-        this._xScrollHandle_s = this.c['x-scroll-handle'].style;
-        this._yScrollHandle_s = this.c['y-scroll-handle'].style;
+        this.body = this.c.body;
+        this.body_s = this.body.style;
+        this.header = this.c.header;
+        this.header_s = this.header.style;
+        this.x_scroll_handle_style = this.c['x-scroll-handle'].style;
+        this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
 
         this.regenerate();
 
+        window.addEventListener('resize', this.handleWindowResize);
+        window.addEventListener('mousemove', this.handleDragMove);
+
         this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.addEventListener('mousemove', this.handleDragMove);
         this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
         this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
 
         this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
 
-        this._header.addEventListener('mousedown', this.handleColumnDragStart);
-        this._header.addEventListener('dblclick', this.handleColumnAutoExpand);
+        this.header.addEventListener('mousedown', this.handleColumnDragStart);
+        this.header.addEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this._body.addEventListener('click', this.handleClick);
+        this.body.addEventListener('click', this.handleClick);
 
         this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
         this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
 
         this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
         this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
-
-        window.addEventListener('resize', this.handleWindowResize);
     }
 
     destroy() {
+        window.removeEventListener('resize', this.handleWindowResize);
+        window.removeEventListener('mousemove', this.handleDragMove);
+
         this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.removeEventListener('mousemove', this.handleDragMove);
         this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
         this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
 
         this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
 
-        this._header.removeEventListener('mousedown', this.handleColumnDragStart);
-        this._header.removeEventListener('dblclick', this.handleColumnAutoExpand);
+        this.header.removeEventListener('mousedown', this.handleColumnDragStart);
+        this.header.removeEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this._body.removeEventListener('click', this.handleClick);
+        this.body.removeEventListener('click', this.handleClick);
 
         this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
         this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
 
         this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
         this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
-
-        window.removeEventListener('resize', this.handleWindowResize);
 
         this.emptyHeader();
         this.emptyBody();
@@ -469,53 +470,54 @@ class TableView {
     }
 
     resetInternals() {
-        this._x = this._y = 0;
-        this._nextX = this._nextY = 0;
-        this._lastXScroll = this._lastYScroll = 0;
-        this._xScrollHandlePosition = this._yScrollHandlePosition = 0;
+        this.x = this.y = 0;
+        this.next_x = this.next_y = 0;
+        this.distance_from_left = this.last_pageX = this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset;
+        this.distance_from_top = this.last_pageY = this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset;
+        this.x_scroll_handle_position = this.y_scroll_handle_position = 0;
 
-        this._activeRow = -1;
-        this._nextActiveRow = null;
+        this.active_row = -1;
+        this.next_active_row = null;
 
         // temporary variables in various calculations
-        this._iterator = null;
-        this._nRowsToShift = null;
-        this._orderedYArrayTargetIndex = null;
-        this._rowPointer = null;
-        this._shiftDelta = null;
-        this._targetIndex = null;
+        this.iterator = null;
+        this.n_rows_to_shift = null;
+        this.ordered_y_array_index = null;
+        this.ptr = null;
+        this.shift_delta = null;
+        this.target_index = null;
 
-        this._dragTimer = null;
+        this.dragTimer = null;
 
-        this._fauxEvent = {preventDefault: noop};
+        this.evt = {preventDefault: noop};
 
-        this._touch = null;
-        this._lastTouchPageX = this._lastTouchPageY = 0;
+        this.touch = null;
+        this.last_touch_pageX = this.last_touch_pageY = 0;
 
-        this._xScrollHandleSize = this._yScrollHandleSize = null;
+        this.x_scroll_handle_size = this.y_scroll_handle_size = null;
 
         // reset!
         this.performTranslations();
     }
 
     emptyHeader() {
-        this._columns.length = 0;
+        this.columns.length = 0;
 
-        while (this._header.firstChild) {
-            this._header.removeChild(this._header.firstChild);
+        while (this.header.firstChild) {
+            this.header.removeChild(this.header.firstChild);
         }
     }
 
     buildColumns() {
         this.emptyHeader();
 
-        this.c.columns.forEach(column => this._columns.push(createHeaderCell(column)));
+        this.c.columns.forEach(column => this.columns.push(createHeaderCell(column)));
     }
 
     computeMinMaxHeaderCellDimensions() {
         let cs;
 
-        this._columns.forEach(column => {
+        this.columns.forEach(column => {
             cs = window.getComputedStyle(column.node);
 
             column.minWidth = parseInt(cs['min-width'], 10);
@@ -524,118 +526,120 @@ class TableView {
     }
 
     injectHeaderCells() {
-        this._fragment = document.createDocumentFragment();
-        this._columns.forEach(column => this._fragment.appendChild(column.node));
+        this.fragment = document.createDocumentFragment();
+        this.columns.forEach(column => this.fragment.appendChild(column.node));
 
-        this._header.appendChild(this._fragment);
+        this.header.appendChild(this.fragment);
 
         // must be done after they have been injected into the DOM
         this.computeMinMaxHeaderCellDimensions();
 
-        this._fragment = null; // prevent memleak
+        this.fragment = null; // prevent memleak
     }
 
     emptyBody() {
-        this._rows.length = 0;
-        this._rowsOrderedByY.length = 0;
+        this.rows.length = 0;
+        this.rows_ordered_by_y.length = 0;
 
-        while (this._body.firstChild) {
-            this._body.removeChild(this._body.firstChild);
+        while (this.body.firstChild) {
+            this.body.removeChild(this.body.firstChild);
         }
     }
 
     injectFirstRow() {
         this.emptyBody();
 
-        this._rows.push(createRow({
+        this.rows.push(createRow({
             data: this.c.getRow(0),
             setIndex: 0,
             y: 0,
-        }, this._columns));
+        }, this.columns));
 
-        this._rowsOrderedByY.push(0);
+        this.rows_ordered_by_y.push(0);
 
-        this._body.appendChild(this._rows[0].node);
+        this.body.appendChild(this.rows[0].node);
     }
 
     injectRestOfRows() {
-        this._fragment = document.createDocumentFragment();
+        this.fragment = document.createDocumentFragment();
 
-        for (this._iterator = 1; this._iterator < this._nRowsToRender; this._iterator += 1) {
-            this._rows.push(createRow({
-                data: this.c.getRow(this._iterator),
-                setIndex: this._iterator,
-                y: this._cell_h * this._iterator,
-            }, this._columns));
+        for (this.iterator = 1; this.iterator < this.n_rows_to_render; this.iterator += 1) {
+            this.rows.push(createRow({
+                data: this.c.getRow(this.iterator),
+                setIndex: this.iterator,
+                y: this.cell_h * this.iterator,
+            }, this.columns));
 
-            this._rowsOrderedByY.push(this._iterator);
+            this.rows_ordered_by_y.push(this.iterator);
 
-            this._fragment.appendChild(this._rows[this._iterator].node);
+            this.fragment.appendChild(this.rows[this.iterator].node);
         }
 
-        this._body.appendChild(this._fragment);
-        this._fragment = null; // prevent memleak
+        this.body.appendChild(this.fragment);
+        this.fragment = null; // prevent memleak
     }
 
     calculateCellHeight() {
-        this._cell_h = this._rows[0].cells[0].node.clientHeight || 40;
+        this.cell_h = this.rows[0].cells[0].node.clientHeight || 40;
     }
 
     calculateCellWidths() {
-        this._rows[0].cells.forEach((cell, index) => {
-            this._columns[index].width = this._columns[index].width || cell.node.getBoundingClientRect().width;
-            cell.width = this._columns[index].width;
+        this.rows[0].cells.forEach((cell, index) => {
+            this.columns[index].width = this.columns[index].width || cell.node.getBoundingClientRect().width;
+            cell.width = this.columns[index].width;
         });
     }
 
     calculateXBound() {
-        this._row_w = this._rows[0].node.clientWidth || 500;
-        this._xMaximum =   this._container_w <= this._row_w
-                         ? this._container_w - this._row_w
-                         : 0;
+        this.row_w = this.rows[0].node.clientWidth || 500;
+        this.x_max = this.container_w <= this.row_w ? this.container_w - this.row_w : 0;
     }
 
     calculateYBound() {
-        this._yUpperBound = 0;
-        this._yLowerBound = this._container_h - (this._nRowsToRender * this._cell_h);
+        this.y_min = 0;
+        this.y_max = this.container_h - (this.n_rows_to_render * this.cell_h);
     } // do not run this unless rebuilding the table, does not preserve current min/max thresholds
 
     calculateXScrollHandleSize() {
-        this._xScrollHandleSize = this._container_w - Math.abs(this._xMaximum);
+        this.x_scroll_handle_size = this.container_w - Math.abs(this.x_max);
 
-        if (this._xScrollHandleSize < 12) {
-            this._xScrollHandleSize = 12;
+        if (this.x_scroll_handle_size < 12) {
+            this.x_scroll_handle_size = 12;
         }
 
-        return this._xScrollHandleSize;
+        return this.x_scroll_handle_size;
     }
 
     calculateYScrollHandleSize() {
-        this._yScrollHandleSize = this._container_h * (this._nRowsToRender / this.c.totalRows);
+        this.y_scroll_handle_size = this.container_h * (this.n_rows_to_render / this.c.totalRows);
 
-        if (this._yScrollHandleSize < 12) {
-            this._yScrollHandleSize = 12;
+        if (this.y_scroll_handle_size < 12) {
+            this.y_scroll_handle_size = 12;
         }
 
-        return this._yScrollHandleSize;
+        return this.y_scroll_handle_size;
     }
 
     initializeScrollBars() {
-        this._xScrollTrack_w = this.c['x-scroll-track'].clientWidth || 500;
-        this._yScrollTrack_h = this.c['y-scroll-track'].clientHeight || 150;
-        this._xScrollHandle_s.width = this.calculateXScrollHandleSize() + 'px';
-        this._yScrollHandle_s.height = this.calculateYScrollHandleSize() + 'px';
+        this.x_scroll_track_size = this.c['x-scroll-track'].clientWidth || 500;
+        this.y_scroll_track_size = this.c['y-scroll-track'].clientHeight || 150;
+        this.x_scroll_handle_style.width = this.calculateXScrollHandleSize() + 'px';
+        this.y_scroll_handle_style.height = this.calculateYScrollHandleSize() + 'px';
+
+        /* total translatable space / scrollbar track size = relative value of a scrollbar pixel */
+        this.x_pixel_ratio = Math.abs(this.x_max) / (this.x_scroll_track_size - this.x_scroll_handle_size);
+        this.y_pixel_ratio = ((this.c.totalRows + this.n_padding_rows ) * this.cell_h - this.container_h) / (this.y_scroll_track_size - this.y_scroll_handle_size);
     }
 
     calculateContainerDimensions() {
         /* The fallback amounts are for unit testing, the browser will always have
         an actual number. */
-        this._container_h = this.c.wrapper.clientHeight || 150;
-        this._container_w = this.c.wrapper.clientWidth || 500;
+        this.container_h = this.c.wrapper.clientHeight || 150;
+        this.container_w = this.c.wrapper.clientWidth || 500;
     }
 
     handleWindowResize() {
-        if (this.c.wrapper.clientHeight !== this._container_h) {
+        if (this.c.wrapper.clientHeight !== this.container_h) {
             /* more rows may be needed to display the data, so we need to rebuild */
             return this.regenerate();
         }
@@ -656,14 +660,14 @@ class TableView {
         this.calculateCellWidths();
         this.calculateCellHeight();
 
-        this._nRowsToRender = Math.ceil((this._container_h * 1.3) / this._cell_h);
+        this.n_rows_to_render = Math.ceil(this.container_h / this.cell_h) + this.n_padding_rows;
 
-        if (this._nRowsToRender > this.c.totalRows) {
-            this._nRowsToRender = this.c.totalRows;
+        if (this.n_rows_to_render > this.c.totalRows) {
+            this.n_rows_to_render = this.c.totalRows;
         }
 
-        this._rowStartIndex = 0;
-        this._rowEndIndex = this._nRowsToRender;
+        this.row_start_index = 0;
+        this.row_end_index = this.n_rows_to_render;
 
         this.injectHeaderCells();
         this.injectRestOfRows();
@@ -674,126 +678,119 @@ class TableView {
         this.initializeScrollBars();
     }
 
-    handleScrollDown() {
-        if (   this._rowEndIndex === this.c.totalRows
-            || this._nextY >= this._yLowerBound) {
-            return;
-        }
+    scrollDown() {
+        if (this.row_end_index === this.c.totalRows || this.next_y >= this.y_max) { return; }
 
-        /* Scrolling down, so we want to move the lowest Y value to the yLowerBound and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        /* Scrolling down, so we want to move the lowest Y value to the y_max and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-        this._nRowsToShift = Math.ceil(
-            Math.abs(this._nextY - this._yLowerBound) / this._cell_h
-        );
+        this.n_rows_to_shift = Math.ceil(Math.abs(this.next_y - this.y_max) / this.cell_h);
 
-        if (this._nRowsToShift + this._rowEndIndex + 1 > this.c.totalRows) {
+        if (this.n_rows_to_shift + this.row_end_index + 1 > this.c.totalRows) {
             /* more rows than there is data available, truncate */
-            this._nRowsToShift = this.c.totalRows - this._rowEndIndex + 1;
+            this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
         }
 
-        if (this._nRowsToShift > 0) {
-            if (this._nRowsToShift > this._nRowsToRender) {
+        if (this.n_rows_to_shift > 0) {
+            if (this.n_rows_to_shift > this.n_rows_to_render) {
                 /* a very large scroll delta, calculate where the boundaries should be */
-                this._shiftDelta = this._nRowsToShift - this._nRowsToRender;
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
 
-                this._yUpperBound -= this._shiftDelta * this._cell_h;
-                this._yLowerBound -= this._shiftDelta * this._cell_h;
+                this.y_min -= this.shift_delta * this.cell_h;
+                this.y_max -= this.shift_delta * this.cell_h;
 
-                this._rowStartIndex += this._shiftDelta;
-                this._rowEndIndex += this._shiftDelta;
+                this.row_start_index += this.shift_delta;
+                this.row_end_index += this.shift_delta;
 
-                this._nRowsToShift = this._nRowsToRender;
+                this.n_rows_to_shift = this.n_rows_to_render;
             }
 
-            if (this._nRowsToShift > 0) {
-                for (this._iterator = 0; this._iterator < this._nRowsToShift; this._iterator += 1) {
-                    this._targetIndex = this._rowEndIndex + this._iterator;
+            if (this.n_rows_to_shift > 0) {
+                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                    this.target_index = this.row_end_index + this.iterator;
 
                     /* move the lowest Y-value rows to the bottom of the ordering array */
-                    this._rowPointer = this._rows[this._rowsOrderedByY[0]];
+                    this.ptr = this.rows[this.rows_ordered_by_y[0]];
 
-                    this._rowPointer.data = this._dragTimer ? null : this.c.getRow(this._targetIndex);
-                    this._rowPointer.setIndex = this._targetIndex;
-                    this._rowPointer.y = this._targetIndex * this._cell_h;
-                    this._rowPointer.active = this._targetIndex === this._activeRow;
+                    this.ptr.data = this.dragTimer ? null : this.c.getRow(this.target_index);
+                    this.ptr.setIndex = this.target_index;
+                    this.ptr.y = this.target_index * this.cell_h;
+                    this.ptr.active = this.target_index === this.active_row;
 
-                    this._rowsOrderedByY.push(this._rowsOrderedByY.shift());
+                    this.ptr = null;
+
+                    this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
                 }
 
-                this._rowStartIndex += this._nRowsToShift;
-                this._rowEndIndex += this._nRowsToShift;
+                this.row_start_index += this.n_rows_to_shift;
+                this.row_end_index += this.n_rows_to_shift;
 
-                this._yUpperBound -= this._nRowsToShift * this._cell_h;
-                this._yLowerBound -= this._nRowsToShift * this._cell_h;
+                this.y_min -= this.n_rows_to_shift * this.cell_h;
+                this.y_max -= this.n_rows_to_shift * this.cell_h;
             }
         }
-
-        this._rowPointer = null;
     }
 
-    handleScrollUp() {
-        if (this._rowStartIndex === 0 || this._nextY <= this._yUpperBound) {
-            return;
-        }
+    scrollUp() {
+        if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
-        /* Scrolling up, so we want to move the highest Y value to the yUpperBound and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        /* Scrolling up, so we want to move the highest Y value to the y_min and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
-        this._nRowsToShift = Math.ceil(
-            Math.abs(this._nextY - this._yUpperBound) / this._cell_h
+        this.n_rows_to_shift = Math.ceil(
+            Math.abs(this.next_y - this.y_min) / this.cell_h
         );
 
-        if (this._rowStartIndex - this._nRowsToShift < 0) {
-            this._nRowsToShift = this._rowStartIndex;
+        if (this.row_start_index - this.n_rows_to_shift < 0) {
+            this.n_rows_to_shift = this.row_start_index;
         }
 
-        if (this._nRowsToShift > 0) {
-            if (this._nRowsToShift > this._nRowsToRender) {
+        if (this.n_rows_to_shift > 0) {
+            if (this.n_rows_to_shift > this.n_rows_to_render) {
                 /* a very large scroll delta, calculate where the boundaries should be */
-                this._shiftDelta = this._nRowsToShift - this._nRowsToRender;
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
 
-                this._yUpperBound += this._shiftDelta * this._cell_h;
-                this._yLowerBound += this._shiftDelta * this._cell_h;
+                this.y_min += this.shift_delta * this.cell_h;
+                this.y_max += this.shift_delta * this.cell_h;
 
-                this._rowStartIndex -= this._shiftDelta;
-                this._rowEndIndex -= this._shiftDelta;
+                this.row_start_index -= this.shift_delta;
+                this.row_end_index -= this.shift_delta;
 
-                this._nRowsToShift = this._nRowsToRender;
+                this.n_rows_to_shift = this.n_rows_to_render;
             }
 
-            if (this._nRowsToShift > 0) {
+            if (this.n_rows_to_shift > 0) {
                 /* move the highest Y-value rows to the top of the ordering array */
-                this._orderedYArrayTargetIndex = this._rowsOrderedByY.length - 1;
+                this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
-                for (this._iterator = 0; this._iterator < this._nRowsToShift; this._iterator += 1) {
-                    this._targetIndex = this._rowStartIndex - this._iterator - 1;
+                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                    this.target_index = this.row_start_index - this.iterator - 1;
 
-                    this._rowPointer = this._rows[
-                        this._rowsOrderedByY[this._orderedYArrayTargetIndex]
+                    this.ptr = this.rows[
+                        this.rows_ordered_by_y[this.ordered_y_array_index]
                     ];
 
-                    this._rowPointer.data = this._dragTimer ? null : this.c.getRow(this._targetIndex);
-                    this._rowPointer.setIndex = this._targetIndex;
-                    this._rowPointer.y = this._targetIndex * this._cell_h;
-                    this._rowPointer.active = this._targetIndex === this._activeRow;
+                    this.ptr.data = this.dragTimer ? null : this.c.getRow(this.target_index);
+                    this.ptr.setIndex = this.target_index;
+                    this.ptr.y = this.target_index * this.cell_h;
+                    this.ptr.active = this.target_index === this.active_row;
 
-                    this._rowsOrderedByY.unshift(this._rowsOrderedByY.pop());
+                    this.ptr = null;
+
+                    this.rows_ordered_by_y.unshift(this.rows_ordered_by_y.pop());
                 }
 
-                this._rowStartIndex -= this._nRowsToShift;
-                this._rowEndIndex -= this._nRowsToShift;
+                this.row_start_index -= this.n_rows_to_shift;
+                this.row_end_index -= this.n_rows_to_shift;
 
-                this._yUpperBound += this._nRowsToShift * this._cell_h;
-                this._yLowerBound += this._nRowsToShift * this._cell_h;
+                this.y_min += this.n_rows_to_shift * this.cell_h;
+                this.y_max += this.n_rows_to_shift * this.cell_h;
             }
         }
-
-        this._rowPointer = null;
     }
 
     handleTouchStart(event) {
-        this._touch = event.touches.item(0);
-        this._lastTouchPageX = this._touch.pageX;
-        this._lastTouchPageY = this._touch.pageY;
+        this.touch = event.touches.item(0);
+        this.last_touch_pageX = this.touch.pageX;
+        this.last_touch_pageY = this.touch.pageY;
     }
 
     handleTouchMove(event) {
@@ -802,130 +799,132 @@ class TableView {
         /* we handle touchmove by detecting the delta of pageX/Y and forwarding
         it to handleMoveIntent() */
 
-        this._touch = event.touches.item(0);
+        this.touch = event.touches.item(0);
 
-        this._fauxEvent.deltaX = this._lastTouchPageX - this._touch.pageX;
-        this._fauxEvent.deltaY = this._lastTouchPageY - this._touch.pageY;
+        this.evt.deltaX = this.last_touch_pageX - this.touch.pageX;
+        this.evt.deltaY = this.last_touch_pageY - this.touch.pageY;
 
-        this._lastTouchPageX = this._touch.pageX;
-        this._lastTouchPageY = this._touch.pageY;
+        this.last_touch_pageX = this.touch.pageX;
+        this.last_touch_pageY = this.touch.pageY;
 
-        this.handleMoveIntent(this._fauxEvent);
+        this.handleMoveIntent(this.evt);
     }
 
     handleMoveIntent(event) {
         event.preventDefault();
 
         if ((event.deltaX === 0 && event.deltaY === 0)
-            || this._manuallyScrollingY && event.deltaY === 0
-            || this._manuallyScrollingX && event.deltaX === 0) {
+            || this.y_scroll_locked && event.deltaY === 0
+            || this.x_scroll_locked && event.deltaX === 0) {
             return;
         }
 
         // minimum translation should be one row height
-        this._deltaX = event.deltaX;
+        this.delta_x = event.deltaX;
 
         // deltaMode 0 === pixels, 1 === lines
-        this._deltaY = event.deltaMode === 1 ? parseInt(event.deltaY, 10) * this._cell_h : event.deltaY;
+        this.delta_y = event.deltaMode === 1 ? parseInt(event.deltaY, 10) * this.cell_h : event.deltaY;
 
         /* lock the translation axis if the user is manipulating the synthetic scrollbars */
-        this._nextX = this._manuallyScrollingY ? 0 : this._x - this._deltaX;
+        this.next_x = this.y_scroll_locked ? 0 : this.x - this.delta_x;
 
-        if (this._nextX > 0) {
-            this._nextX = 0;
-        } else if (this._nextX < this._xMaximum) {
-            this._nextX = this._xMaximum;
+        if (this.next_x > 0) {
+            this.next_x = 0;
+        } else if (this.next_x < this.x_max) {
+            this.next_x = this.x_max;
         }
 
-        this._nextY = this._manuallyScrollingX ? 0 : this._y - this._deltaY;
+        /* lock the translation axis if the user is manipulating the synthetic scrollbars */
+        this.next_y = this.x_scroll_locked ? 0 : this.y - this.delta_y;
 
-        window.requestAnimationFrame(() => {
-            if (this._nextY < this._y) {
-                this.handleScrollDown();
-            } else if (this._nextY > this._y) {
-                this.handleScrollUp();
-            }
+        if (this.next_y < this.y) {
+            this.scrollDown();
+        } else if (this.next_y > this.y) {
+            this.scrollUp();
+        }
 
-            if (this._nextY > 0) {
-                this._nextY = 0;
-            } else if (this._nextY < this._yLowerBound) {
-                this._nextY = this._yLowerBound;
-            }
+        if (this.next_y > 0) {
+            this.next_y = 0;
+        } else if (this.next_y < this.y_max) {
+            this.next_y = this.y_max;
+        }
 
-            if (this._nextX === 0) {
-                this._xScrollHandlePosition = 0;
+        /* queue up translations and the browser will execute them as able, need to pass in the values
+        that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
+        window.requestAnimationFrame(function rAF(nextX, currX, nextY, currY) {
+            if (nextY === currY) { return; }
+
+            if (nextX === 0) {
+                this.x_scroll_handle_position = 0;
             } else {
-                this._xScrollHandlePosition =   (Math.abs(this._nextX) / (this._row_w - this._container_w))
-                                              * (this._xScrollTrack_w - this._xScrollHandleSize);
+                this.x_scroll_handle_position += ((nextX - currX) / this.x_pixel_ratio) * -1;
 
-                if (this._xScrollHandlePosition + this._xScrollHandleSize > this._xScrollTrack_w) {
-                    this._xScrollHandlePosition = this._xScrollTrack_w - this._xScrollHandleSize;
+                if (this.x_scroll_handle_position + this.x_scroll_handle_size > this.x_scroll_track_size) {
+                    this.x_scroll_handle_position = this.x_scroll_track_size - this.x_scroll_handle_size;
                 }
             }
 
-            if (this.nextY === 0) {
-                this._yScrollHandlePosition = 0;
+            if (nextY === 0) {
+                this.y_scroll_handle_position = 0;
             } else {
-                this._yScrollHandlePosition =   (Math.abs(this._nextY) / ((this.c.totalRows * this._cell_h) - this._container_h))
-                                              * (this._yScrollTrack_h - this._yScrollHandleSize);
+                this.y_scroll_handle_position += ((nextY - currY) / this.y_pixel_ratio) * -1;
 
-                if (this._yScrollHandlePosition + this._yScrollHandleSize > this._yScrollTrack_h) {
-                    this._yScrollHandlePosition = this._yScrollTrack_h - this._yScrollHandleSize;
+                if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_size) {
+                    this.y_scroll_handle_position = this.y_scroll_track_size - this.y_scroll_handle_size;
                 }
             }
 
-            this.performTranslations(); // Do all transforms grouped together
+            // Do all transforms grouped together
+            this.performTranslations(nextX, nextY);
 
-            this._x = this._nextX;
-            this._y = this._nextY;
-        });
+            this.last_pageX = this.x_scroll_handle_position + this.distance_from_left;
+            this.last_pageY = this.y_scroll_handle_position + this.distance_from_top;
+
+        }.bind(this, this.next_x, this.x, this.next_y, this.y));
+
+        this.x = this.next_x;
+        this.y = this.next_y;
     }
 
-    performTranslations() {
-        this._header_s[transformProp] = translate3d(this._nextX);
-        this._body_s[transformProp] = translate3d(this._nextX, this._nextY);
-        this._xScrollHandle_s[transformProp] = translate3d(this._xScrollHandlePosition);
-        this._yScrollHandle_s[transformProp] = translate3d(0, this._yScrollHandlePosition);
+    performTranslations(nextX, nextY) {
+        this.header_s[transformProp] = translate3d(nextX);
+        this.body_s[transformProp] = translate3d(nextX, nextY);
+        this.x_scroll_handle_style[transformProp] = translate3d(this.x_scroll_handle_position);
+        this.y_scroll_handle_style[transformProp] = translate3d(0, this.y_scroll_handle_position);
     }
 
     handleAdvanceToXScrollTrackLocation(event) {
+        if (this.x_scroll_locked) { return; }
         if (event.target.className !== 'ui-table-x-scroll-track') { return; }
 
-        const x = event.pageX - this.c.wrapper.offsetLeft;
+        this.evt.deltaX = (event.pageX - this.last_pageX) * this.x_pixel_ratio;
+        this.evt.deltaY = 0;
 
-        this._fauxEvent.deltaX = x - this._lastXScroll;
-        this._fauxEvent.deltaY = 0;
+        this.handleMoveIntent(this.evt);
 
-        this.handleMoveIntent(this._fauxEvent);
-
-        this._lastXScroll = x;
+        this.last_pageX = event.pageX;
     }
 
     handleAdvanceToYScrollTrackLocation(event) {
+        if (this.y_scroll_locked) { return; }
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
-        const y = event.pageY - this.c.wrapper.offsetTop;
+        this.evt.deltaX = 0;
+        this.evt.deltaY = (event.pageY - this.last_pageY) * this.y_pixel_ratio;
 
-        this._fauxEvent.deltaX = 0;
-        this._fauxEvent.deltaY = ((y - this._lastYScroll) / this._container_h)
-                                 * this.c.totalRows
-                                 * this._cell_h;
+        this.handleMoveIntent(this.evt);
 
-        this.handleMoveIntent(this._fauxEvent);
-
-        this._lastYScroll = y;
+        this.last_pageY = event.pageY;
     }
 
     handleXScrollHandleDragStart(event) {
         if (event.button !== 0) { return; }
 
-        this._leftButtonPressed = true;
-
-        // Fixes dragStart occasionally happening and breaking the simulated drag
         event.preventDefault();
 
-        this._lastXScroll = event.clientX;
-        this._manuallyScrollingX = true;
+        this.last_pageX = event.pageX;
+        this.x_scroll_locked = true;
+        this.left_button_pressed = true;
 
         // If the mouseup happens outside the table, it won't be detected without this listener
         window.addEventListener('mouseup', this.handleDragEnd, true);
@@ -934,68 +933,66 @@ class TableView {
     handleYScrollHandleDragStart(event) {
         if (event.button !== 0) { return; }
 
-        this._leftButtonPressed = true;
-
-        // Fixes dragStart occasionally happening and breaking the simulated drag
         event.preventDefault();
 
-        this._lastYScroll = event.clientY;
-        this._manuallyScrollingY = true;
+        this.last_pageY = event.pageY;
+        this.y_scroll_locked = true;
+        this.left_button_pressed = true;
 
         // If the mouseup happens outside the table, it won't be detected without this listener
         window.addEventListener('mouseup', this.handleDragEnd, true);
     }
 
     handleDragMove(event) {
-        if (!this._leftButtonPressed) { return; }
+        if (!this.left_button_pressed) { return; }
 
-        if (this._dragTimer) { window.clearTimeout(this._dragTimer); }
+        if (this.dragTimer) { window.clearTimeout(this.dragTimer); }
 
-        this._dragTimer = window.setTimeout(() => {
-            this._dragTimer = null;
+        this.dragTimer = window.setTimeout(() => {
+            this.dragTimer = null;
 
             /* Now fetch, once drag has ceased for long enough. */
-            this._rows.forEach(row => {
+            this.rows.forEach(row => {
                 if (row.data === null) {
                     row.data = this.c.getRow(row.setIndex);
                 }
             });
         }, this.c.throttleInterval);
 
-        if (this._manuallyScrollingY) {
-            this._fauxEvent.deltaX = 0;
-            this._fauxEvent.deltaY = ((event.clientY - this._lastYScroll) / this._container_h)
-                                     * this.c.totalRows
-                                     * this._cell_h;
+        if (this.y_scroll_locked) {
+            this.evt.deltaX = 0;
+            this.evt.deltaY = (event.pageY - this.last_pageY) * this.y_pixel_ratio;
 
-            this.handleMoveIntent(this._fauxEvent);
+            this.handleMoveIntent(this.evt);
 
-            this._lastYScroll = event.clientY;
+            this.last_pageY = event.pageY;
 
-        } else if (this._manuallyScrollingX) {
+        } else if (this.x_scroll_locked) {
+            this.evt.deltaX = (event.pageX - this.last_pageX) * this.x_pixel_ratio;
+            this.evt.deltaY = 0;
 
-            this._fauxEvent.deltaX = event.clientX - this._lastXScroll;
-            this._fauxEvent.deltaY = 0;
+            this.handleMoveIntent(this.evt);
 
-            this.handleMoveIntent(this._fauxEvent);
+            this.last_pageX = event.pageX;
 
-            this._lastXScroll = event.clientX;
+        } else if (this.column_is_resizing) {
 
-        } else if (this._manuallyResizingColumn) {
+            this.handleColumnResize(event.pageX - this.last_column_x);
 
-            this.handleColumnResize(event.clientX - this._lastColumnX);
-
-            this._lastColumnX = event.clientX;
+            this.last_column_x = event.pageX;
         }
     }
 
     handleDragEnd() {
-        this._leftButtonPressed = false;
-
-        // If the mouseup happens outside the table, it won't be detected without this listener
         window.removeEventListener('mouseup', this.handleDragEnd, true);
 
-        this._manuallyScrollingX = this._manuallyScrollingY = this._manuallyResizingColumn = false;
+        this.left_button_pressed = false;
+
+        /* the browser fires the mouseup and click events simultaneously, and we don't want our click handler to
+        be executed, so a zero-delay setTimeout works here to let the stack clear before allowing click events again. */
+        window.setTimeout(() => {
+            this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
+        }, 0);
     }
 
     handleColumnDragStart(event) {
@@ -1003,11 +1000,11 @@ class TableView {
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.preventDefault();
 
-            this._leftButtonPressed = true;
+            this.left_button_pressed = true;
 
-            this._lastColumnX = event.clientX;
+            this.last_column_x = event.pageX;
 
-            this._manuallyResizingColumn = findWhere(this._columns, 'mapping', event.target.parentNode.getAttribute('data-column'));
+            this.column_is_resizing = findWhere(this.columns, 'mapping', event.target.parentNode.getAttribute('data-column'));
 
             // If the mouseup happens outside the table, it won't be detected without this listener
             window.addEventListener('mouseup', this.handleDragEnd, true);
@@ -1015,8 +1012,8 @@ class TableView {
     }
 
     applyNewColumnWidth(index, width) {
-        this._columns[index].width = width;
-        this._rows.forEach(row => row.cells[index].width = width);
+        this.columns[index].width = width;
+        this.rows.forEach(row => row.cells[index].width = width);
 
         this.calculateXBound();
         this.initializeScrollBars();
@@ -1025,40 +1022,40 @@ class TableView {
     handleColumnResize(delta) {
         if (delta === 0) { return; }
 
-        const index = this._columns.indexOf(this._manuallyResizingColumn);
-        let adjustedDelta = delta;
+        const index = this.columns.indexOf(this.column_is_resizing);
+        let adjusted_delta = delta;
 
-        if (   adjustedDelta < 0
-            && !isNaN(this._manuallyResizingColumn.minWidth)
-            && this._manuallyResizingColumn.width + adjustedDelta < this._manuallyResizingColumn.minWidth) {
-                adjustedDelta = this._manuallyResizingColumn.minWidth - this._manuallyResizingColumn.width;
-        } else if (!isNaN(this._manuallyResizingColumn.maxWidth)
-                   && this._manuallyResizingColumn.width + adjustedDelta > this._manuallyResizingColumn.maxWidth) {
-            adjustedDelta = this._manuallyResizingColumn.maxWidth - this._manuallyResizingColumn.width;
+        if (   adjusted_delta < 0
+            && !isNaN(this.column_is_resizing.minWidth)
+            && this.column_is_resizing.width + adjusted_delta < this.column_is_resizing.minWidth) {
+                adjusted_delta = this.column_is_resizing.minWidth - this.column_is_resizing.width;
+        } else if (!isNaN(this.column_is_resizing.maxWidth)
+                   && this.column_is_resizing.width + adjusted_delta > this.column_is_resizing.maxWidth) {
+            adjusted_delta = this.column_is_resizing.maxWidth - this.column_is_resizing.width;
         }
 
-        this.applyNewColumnWidth(index, this._manuallyResizingColumn.width + adjustedDelta);
+        this.applyNewColumnWidth(index, this.column_is_resizing.width + adjusted_delta);
 
         /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
         we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
-        if (adjustedDelta < 0) {
-            this._fauxEvent.deltaX = adjustedDelta;
-            this._fauxEvent.deltaY = 0;
+        if (adjusted_delta < 0) {
+            this.evt.deltaX = adjusted_delta;
+            this.evt.deltaY = 0;
 
-            this.handleMoveIntent(this._fauxEvent);
+            this.handleMoveIntent(this.evt);
         }
     }
 
     handleColumnAutoExpand(event) {
         if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
             const mapping = event.target.parentNode.getAttribute('data-column');
-            const column = findWhere(this._columns, 'mapping', mapping);
-            const columnIndex = this._columns.indexOf(column);
+            const column = findWhere(this.columns, 'mapping', mapping);
+            const columnIndex = this.columns.indexOf(column);
 
             let width = column.width;
             let cellWidth;
 
-            this._rows.forEach(row => {
+            this.rows.forEach(row => {
                 if (!(row.data instanceof Promise) && row.data !== null) {
                     cellWidth = row.cells[columnIndex].trueWidth();
                     width = width < cellWidth ? cellWidth : width;
@@ -1089,46 +1086,46 @@ class TableView {
     }
 
     setActiveRow(setIndex) {
-        this._activeRow = setIndex;
-        this._rows.forEach(row => row.active = row.setIndex === setIndex);
+        this.active_row = setIndex;
+        this.rows.forEach(row => row.active = row.setIndex === setIndex);
     }
 
     changeActiveRow(delta) {
-        this._nextActiveRow = findWhere(this._rows, 'setIndex', this._activeRow + delta);
+        this.next_active_row = findWhere(this.rows, 'setIndex', this.active_row + delta);
 
-        if (this._nextActiveRow) {
-            this.setActiveRow(this._nextActiveRow.setIndex);
-            this.setAriaText(this._nextActiveRow.data[this._columns[0].mapping]);
+        if (this.next_active_row) {
+            this.setActiveRow(this.next_active_row.setIndex);
+            this.setAriaText(this.next_active_row.data[this.columns[0].mapping]);
 
             if (
-                   (delta === -1 && this._nextActiveRow.y * -1 > this._y)
-                || (delta === 1 && this._nextActiveRow.y * -1 - this._cell_h < this._y - this._container_h + this._cell_h) // 1 unit of cellHeight is removed to compensate for the header row
+                   (delta === -1 && this.next_active_row.y * -1 > this.y)
+                || (delta === 1 && this.next_active_row.y * -1 - this.cell_h < this.y - this.container_h + this.cell_h) // 1 unit of cellHeight is removed to compensate for the header row
             ) { // Destination row is outside the viewport, so simulate a scroll
-                this._fauxEvent.deltaX = 0;
-                this._fauxEvent.deltaY = this._cell_h * delta;
+                this.evt.deltaX = 0;
+                this.evt.deltaY = this.cell_h * delta;
 
-                this.handleMoveIntent(this._fauxEvent);
+                this.handleMoveIntent(this.evt);
             }
-        } else if (   (delta === -1 && this._activeRow > 0)
-                   || (delta === 1 && this._activeRow < this.c.totalRows)) {
+        } else if (   (delta === -1 && this.active_row > 0)
+                   || (delta === 1 && this.active_row < this.c.totalRows)) {
             /*
                 The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
                 in the viewport.
              */
-            this._fauxEvent.deltaX = 0;
-            this._fauxEvent.deltaY = (   (    this._rowStartIndex > this._activeRow
-                                          && this._activeRow - this._rowStartIndex)
-                                     || (    this._rowStartIndex < this._activeRow
-                                          && this._activeRow - this._rowStartIndex)
-                                     + delta) * this._cell_h;
+            this.evt.deltaX = 0;
+            this.evt.deltaY = (   (    this.row_start_index > this.active_row
+                                          && this.active_row - this.row_start_index)
+                                     || (    this.row_start_index < this.active_row
+                                          && this.active_row - this.row_start_index)
+                                     + delta) * this.cell_h;
 
-            this.handleMoveIntent(this._fauxEvent);
+            this.handleMoveIntent(this.evt);
 
             // start the process again, now that the row is available
             window.requestAnimationFrame(() => this.changeActiveRow(delta));
         }
 
-        this._nextActiveRow = null;
+        this.next_active_row = null;
     }
 
     handleKeyDown(event) {
@@ -1146,10 +1143,10 @@ class TableView {
             break;
 
         case 'Enter':
-            if (this._activeRow !== -1) {
-                const row = findWhere(this._rows, 'setIndex', this._activeRow).data;
+            if (this.active_row !== -1) {
+                const row = findWhere(this.rows, 'setIndex', this.active_row).data;
 
-                this.setAriaText(this._columns.map(column => {
+                this.setAriaText(this.columns.map(column => {
                     return `${column.title}: ${row[column.mapping]}`;
                 }).join('\n'));
             }
@@ -1184,7 +1181,7 @@ class TableView {
         const map = this.discoverCellAndRowNodes(event.target);
 
         if (map.row) {
-            const row = findWhere(this._rows, 'node', map.row);
+            const row = findWhere(this.rows, 'node', map.row);
 
             this.setActiveRow(row.setIndex);
 
