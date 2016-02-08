@@ -655,9 +655,7 @@ class TableView {
     }
 
     regenerate(config = this.c) {
-        if (config !== this.c) {
-            this.processConfiguration(config);
-        }
+        if (config !== this.c) { this.processConfiguration(config); }
 
         this.resetInternals();
         this.calculateContainerDimensions();
@@ -725,7 +723,10 @@ class TableView {
                     /* move the lowest Y-value rows to the bottom of the ordering array */
                     this.ptr = this.rows[this.rows_ordered_by_y[0]];
 
+                    /* setting data to `null` blanks out the row and activates the loading class,
+                    but does not install a Promise */
                     this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+
                     this.ptr.setIndex = this.target_index;
                     this.ptr.y = this.target_index * this.cell_h;
                     this.ptr.active = this.target_index === this.active_row;
@@ -783,7 +784,10 @@ class TableView {
                         this.rows_ordered_by_y[this.ordered_y_array_index]
                     ];
 
+                    /* setting data to `null` blanks out the row and activates the loading class,
+                    but does not install a Promise */
                     this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+
                     this.ptr.setIndex = this.target_index;
                     this.ptr.y = this.target_index * this.cell_h;
                     this.ptr.active = this.target_index === this.active_row;
@@ -802,27 +806,11 @@ class TableView {
         }
     }
 
-    handleTouchStart(event) {
-        this.touch = event.touches.item(0);
-        this.last_touch_pageX = this.touch.pageX;
-        this.last_touch_pageY = this.touch.pageY;
-    }
-
-    handleTouchMove(event) {
-        event.preventDefault();
-
-        /* we handle touchmove by detecting the delta of pageX/Y and forwarding
-        it to handleMoveIntent() */
-
-        this.touch = event.touches.item(0);
-
-        this.evt.deltaX = this.last_touch_pageX - this.touch.pageX;
-        this.evt.deltaY = this.last_touch_pageY - this.touch.pageY;
-
-        this.last_touch_pageX = this.touch.pageX;
-        this.last_touch_pageY = this.touch.pageY;
-
-        this.handleMoveIntent(this.evt);
+    performTranslations(nextX, nextY) {
+        this.header_s[transformProp] = translate3d(nextX);
+        this.body_s[transformProp] = translate3d(nextX, nextY);
+        this.x_scroll_handle_style[transformProp] = translate3d(this.x_scroll_handle_position);
+        this.y_scroll_handle_style[transformProp] = translate3d(0, this.y_scroll_handle_position);
     }
 
     handleMoveIntent(event) {
@@ -895,11 +883,27 @@ class TableView {
         this.y = this.next_y;
     }
 
-    performTranslations(nextX, nextY) {
-        this.header_s[transformProp] = translate3d(nextX);
-        this.body_s[transformProp] = translate3d(nextX, nextY);
-        this.x_scroll_handle_style[transformProp] = translate3d(this.x_scroll_handle_position);
-        this.y_scroll_handle_style[transformProp] = translate3d(0, this.y_scroll_handle_position);
+    handleTouchMove(event) {
+        event.preventDefault();
+
+        /* we handle touchmove by detecting the delta of pageX/Y and forwarding
+        it to handleMoveIntent() */
+
+        this.touch = event.touches.item(0);
+
+        this.evt.deltaX = this.last_touch_pageX - this.touch.pageX;
+        this.evt.deltaY = this.last_touch_pageY - this.touch.pageY;
+
+        this.last_touch_pageX = this.touch.pageX;
+        this.last_touch_pageY = this.touch.pageY;
+
+        this.handleMoveIntent(this.evt);
+    }
+
+    handleTouchStart(event) {
+        this.touch = event.touches.item(0);
+        this.last_touch_pageX = this.touch.pageX;
+        this.last_touch_pageY = this.touch.pageY;
     }
 
     handleAdvanceToXScrollTrackLocation(event) {
