@@ -217,11 +217,11 @@ const createRow = function createRow(metadata, columns) {
                 if (val % 2 === 0) {
                     this.node.className =   this._setIndex === null
                                           ? 'ui-table-row ui-table-row-even'
-                                          : this.node.className.replace('ui-table-row-odd', 'ui-table-row-even').trim();
+                                          : this.node.className.replace('ui-table-row-odd', 'ui-table-row-even');
                 } else {
                     this.node.className =   this._setIndex === null
                                           ? 'ui-table-row ui-table-row-odd'
-                                          : this.node.className.replace('ui-table-row-even', 'ui-table-row-odd').trim();
+                                          : this.node.className.replace('ui-table-row-even', 'ui-table-row-odd');
                 }
 
                 this._setIndex = val;
