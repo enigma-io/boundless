@@ -11,6 +11,10 @@ export default class UITableDemo extends UIView {
         return {
             options: [{
                 columns: [{
+                    title: 'ID',
+                    mapping: 'id',
+                    resizable: true,
+                }, {
                     title: 'First Name',
                     mapping: 'first_name',
                     resizable: true,
