@@ -645,6 +645,16 @@ class TableView {
 
         /* how many scrollbar pixels === one row? */
         this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_to_render);
+
+        /* hide the scrollbars if they are not needed */
+
+        this.c['x-scroll-track'].style.display =   this.x_scroll_handle_size === this.container_w
+                                                 ? 'none'
+                                                 : '';
+
+        this.c['y-scroll-track'].style.display =   this.y_scroll_handle_size === this.container_h
+                                                 ? 'none'
+                                                 : '';
     }
 
     calculateContainerDimensions() {
