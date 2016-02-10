@@ -315,6 +315,18 @@ describe('UITable/TableView', () => {
         });
     });
 
+    describe('x-axis scroll track', () => {
+        it('should hide itself if the calculated handle size is equal to the container width', () => {
+            table = new TableView(baseConfig);
+
+            table.x_max = 0;
+
+            table.initializeScrollBars();
+
+            expect(table.c['x-scroll-track'].style.display).toBe('none');
+        });
+    });
+
     describe('x-axis scroll handle', () => {
         it('should calculate width correctly', () => {
             table = new TableView(baseConfig);
@@ -365,6 +377,14 @@ describe('UITable/TableView', () => {
 
         //     expect(x.style.width).not.toBe(previousXWidth);
         // });
+    });
+
+    describe('y-axis scroll track', () => {
+        it('should hide itself if the calculated handle size is equal to the container height', () => {
+            table = new TableView({...baseConfig, totalRows: 1});
+
+            expect(table.c['y-scroll-track'].style.display).toBe('none');
+        });
     });
 
     describe('y-axis scroll handle', () => {
