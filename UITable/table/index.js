@@ -704,6 +704,42 @@ class TableView {
         this.initializeScrollBars();
     }
 
+    translateHeader(x) {
+        if (x !== this.last_header_x) {
+            this.header_style[transformProp] = translate3d(x);
+            this.last_header_x = x;
+        }
+    }
+
+    translateBody(x, y) {
+        if (x !== this.last_body_x || y !== this.last_body_y) {
+            this.body_style[transformProp] = translate3d(x, y);
+            this.last_body_x = x;
+            this.last_body_y = y;
+        }
+    }
+
+    translateXScrollHandle(x) {
+        if (x !== this.last_x_scroll_handle_x) {
+            this.x_scroll_handle_style[transformProp] = translate3d(x);
+            this.last_x_scroll_handle_x = x;
+        }
+    }
+
+    translateYScrollHandle(y) {
+        if (y !== this.last_y_scroll_handle_y) {
+            this.y_scroll_handle_style[transformProp] = translate3d(0, y);
+            this.last_y_scroll_handle_y = y;
+        }
+    }
+
+    performTranslations(nextX, nextY) {
+        this.translateHeader(nextX);
+        this.translateBody(nextX, nextY);
+        this.translateXScrollHandle(this.x_scroll_handle_position);
+        this.translateYScrollHandle(this.y_scroll_handle_position);
+    }
+
     scrollUp() {
         /* ignore the y translation if it's irrelevant */
         if (this.row_start_index === 0 && this.next_y > this.y_min) {
@@ -848,42 +884,6 @@ class TableView {
                 this.next_y = this.y_max;
             }
         }
-    }
-
-    translateHeader(x) {
-        if (x !== this.last_header_x) {
-            this.header_style[transformProp] = translate3d(x);
-            this.last_header_x = x;
-        }
-    }
-
-    translateBody(x, y) {
-        if (x !== this.last_body_x || y !== this.last_body_y) {
-            this.body_style[transformProp] = translate3d(x, y);
-            this.last_body_x = x;
-            this.last_body_y = y;
-        }
-    }
-
-    translateXScrollHandle(x) {
-        if (x !== this.last_x_scroll_handle_x) {
-            this.x_scroll_handle_style[transformProp] = translate3d(x);
-            this.last_x_scroll_handle_x = x;
-        }
-    }
-
-    translateYScrollHandle(y) {
-        if (y !== this.last_y_scroll_handle_y) {
-            this.y_scroll_handle_style[transformProp] = translate3d(0, y);
-            this.last_y_scroll_handle_y = y;
-        }
-    }
-
-    performTranslations(nextX, nextY) {
-        this.translateHeader(nextX);
-        this.translateBody(nextX, nextY);
-        this.translateXScrollHandle(this.x_scroll_handle_position);
-        this.translateYScrollHandle(this.y_scroll_handle_position);
     }
 
     handleMoveIntent(event) {
