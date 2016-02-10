@@ -611,7 +611,8 @@ class TableView {
 
     calculateYBound() {
         this.y_min = 0;
-        this.y_max = ((this.c['x-scroll-track'].clientHeight || 8) + this.cell_h + this.container_h % this.cell_h) * -1;
+        this.y_max = this.container_h - this.n_rows_to_render * this.cell_h;
+        this.y_max = this.y_max > 0 ? 0 : this.y_max;
     }
 
     calculateXScrollHandleSize() {
@@ -742,13 +743,7 @@ class TableView {
 
     scrollUp() {
         /* ignore the y translation if it's irrelevant */
-        if (this.row_start_index === 0 && this.next_y > this.y_min) {
-            this.next_y = this.y_min;
-
-            return;
-        }
-
-        if (this.next_y <= this.y_min) { return; }
+        if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
         /* Scrolling up, so we want to move the highest Y value to the y_min and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
 
@@ -765,61 +760,49 @@ class TableView {
                 /* a very large scroll delta, calculate where the boundaries should be */
                 this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
 
+                this.y_min += this.shift_delta * this.cell_h;
+                this.y_max += this.shift_delta * this.cell_h;
+
                 this.row_start_index -= this.shift_delta;
                 this.row_end_index -= this.shift_delta;
 
                 this.n_rows_to_shift = this.n_rows_to_render;
-
-                this.next_y -= this.shift_delta * this.cell_h;
             }
 
-            /* in the case of a full shift (all rows being changed), they _all_ need to have their y-values reset */
-            this.len =   this.n_rows_to_shift === this.n_rows_to_render
-                       ? this.n_rows_to_render
-                       : this.n_rows_to_render - this.n_rows_to_shift;
+            if (this.n_rows_to_shift > 0) {
+                /* move the highest Y-value rows to the top of the ordering array */
+                this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
-            for (this.i = 0; this.i < this.len; this.i += 1) {
-                this.rows[this.rows_ordered_by_y[this.i]].y += this.cell_h * this.n_rows_to_shift;
-            }
+                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                    this.target_index = this.row_start_index - this.iterator - 1;
 
-            /* move the highest Y-value rows to the top of the ordering array */
-            this.ordered_y_array_index = this.rows_ordered_by_y_length - 1;
+                    this.ptr = this.rows[
+                        this.rows_ordered_by_y[this.ordered_y_array_index]
+                    ];
 
-            for (this.i = 0; this.i < this.n_rows_to_shift; this.i += 1) {
-                this.target_index = this.row_start_index - this.i - 1;
+                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                    this.ptr.setIndex = this.target_index;
+                    this.ptr.y = this.target_index * this.cell_h;
+                    this.ptr.active = this.target_index === this.active_row;
 
-                this.ptr = this.rows[
-                    this.rows_ordered_by_y[this.ordered_y_array_index]
-                ];
+                    this.ptr = null;
 
-                /* setting data to `null` blanks out the row and activates the loading class,
-                but does not install a Promise */
-                this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                    this.rows_ordered_by_y.unshift(this.rows_ordered_by_y.pop());
+                }
 
-                this.ptr.setIndex = this.target_index;
-                this.ptr.y = this.rows[this.rows_ordered_by_y[0]].y - this.cell_h;
-                this.ptr.active = this.target_index === this.active_row;
+                this.row_start_index -= this.n_rows_to_shift;
+                this.row_end_index -= this.n_rows_to_shift;
 
-                this.ptr = null;
-
-                this.rows_ordered_by_y.unshift(this.rows_ordered_by_y.pop());
-            }
-
-            this.row_start_index -= this.n_rows_to_shift;
-            this.row_end_index -= this.n_rows_to_shift;
-
-            this.next_y -= this.n_rows_to_shift * this.cell_h;
-
-            if (this.row_start_index === 0 && this.next_y > this.y_min) {
-                this.next_y = this.y_min;
+                this.y_min += this.n_rows_to_shift * this.cell_h;
+                this.y_max += this.n_rows_to_shift * this.cell_h;
             }
         }
     }
 
     scrollDown() {
         /* ignore the y translation if it's irrelevant */
-        if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
-            this.next_y = this.y_max;
+        if (this.row_end_index === this.c.totalRows) {
+            this.next_y = this.y;
 
             return;
         }
@@ -840,48 +823,37 @@ class TableView {
                 /* a very large scroll delta, calculate where the boundaries should be */
                 this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
 
+                this.y_min -= this.shift_delta * this.cell_h;
+                this.y_max -= this.shift_delta * this.cell_h;
+
                 this.row_start_index += this.shift_delta;
                 this.row_end_index += this.shift_delta;
 
                 this.n_rows_to_shift = this.n_rows_to_render;
-
-                this.next_y += this.shift_delta * this.cell_h;
             }
 
-            /* in the case of a full shift (all rows being changed), they _all_
-            need to have their y-values reset */
-            this.i = this.n_rows_to_shift === this.n_rows_to_render ? 0 : this.n_rows_to_shift;
+            if (this.n_rows_to_shift > 0) {
+                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                    this.target_index = this.row_end_index + this.iterator;
 
-            for (this.i; this.i < this.rows_ordered_by_y_length; this.i += 1) {
-                this.rows[this.rows_ordered_by_y[this.i]].y -= this.cell_h * this.n_rows_to_shift;
-            } /* y-shift the rows that aren't having their content changed below */
+                    /* move the lowest Y-value rows to the bottom of the ordering array */
+                    this.ptr = this.rows[this.rows_ordered_by_y[0]];
 
-            for (this.i = 0; this.i < this.n_rows_to_shift; this.i += 1) {
-                this.target_index = this.row_end_index + this.i;
+                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                    this.ptr.setIndex = this.target_index;
+                    this.ptr.y = this.target_index * this.cell_h;
+                    this.ptr.active = this.target_index === this.active_row;
 
-                /* move the lowest Y-value rows to the bottom of the ordering array */
-                this.ptr = this.rows[this.rows_ordered_by_y[0]];
+                    this.ptr = null;
 
-                /* setting data to `null` blanks out the row and activates the loading class,
-                but does not install a Promise */
-                this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                    this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
+                }
 
-                this.ptr.setIndex = this.target_index;
-                this.ptr.y = this.rows[this.rows_ordered_by_y[this.rows_ordered_by_y_length - 1]].y + this.cell_h;
-                this.ptr.active = this.target_index === this.active_row;
+                this.row_start_index += this.n_rows_to_shift;
+                this.row_end_index += this.n_rows_to_shift;
 
-                this.ptr = null;
-
-                this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
-            }
-
-            this.row_start_index += this.n_rows_to_shift;
-            this.row_end_index += this.n_rows_to_shift;
-
-            this.next_y += this.n_rows_to_shift * this.cell_h;
-
-            if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
-                this.next_y = this.y_max;
+                this.y_min -= this.n_rows_to_shift * this.cell_h;
+                this.y_max -= this.n_rows_to_shift * this.cell_h;
             }
         }
     }
@@ -917,6 +889,33 @@ class TableView {
         } else if (this.next_y > this.y) {
             this.scrollUp();
         }
+
+        if (this.next_y > 0) {
+            this.next_y = 0;
+        } else if (this.next_y < this.y_max) {
+            this.next_y = this.y_max;
+        }
+
+        // if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
+
+        // this.reset_timer = window.setTimeout(() => {
+        //     this.reset_timer = null;
+
+        //     /* reset row & wrapper Y values toward 0 to prevent overflowing */
+        //     this.shift_delta = this.y > 0 ? this.y : this.y * -1;
+
+        //     /* shift all the cache variables */
+        //     this.y += this.shift_delta;
+        //     this.y_min -= this.shift_delta;
+        //     this.y_max -= this.shift_delta;
+
+        //     /* shift all the rows */
+        //     this.rows.forEach(row => row.y -= Math.abs(this.shift_delta));
+
+        //     /* shift the wrapper */
+        //     this.translateBody(this.x, this.y);
+
+        // }, this.c.throttleInterval);
 
         /* queue up translations and the browser will execute them as able, need to pass in the values
         that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
