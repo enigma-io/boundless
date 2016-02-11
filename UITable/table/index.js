@@ -742,10 +742,19 @@ class TableView {
     }
 
     scrollUp() {
-        /* ignore the y translation if it's irrelevant */
+        /* at the logical start of the table (row index 0) we truncate upward scroll attempts
+           to the upper translation boundary to keep from skipping off into nothingness */
+
+        if (this.row_start_index === 0 && this.next_y > this.y_min) {
+            this.next_y = this.y_min;
+
+            return;
+        }
+
         if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
-        /* Scrolling up, so we want to move the highest Y value to the y_min and request the previous row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        /* Scrolling down, so we want to move the row in the visual bottom position to the top
+           (above the lip of the view) */
 
         this.n_rows_to_shift = Math.ceil(
             Math.abs(this.next_y - this.y_min) / this.cell_h
@@ -755,61 +764,64 @@ class TableView {
             this.n_rows_to_shift = this.row_start_index;
         }
 
+        if (this.n_rows_to_shift > this.n_rows_to_render) {
+            /* when the total movement ends up being larger than the set of rows already rendered,
+               we can safely decrement the "viewable" row range accordingly and the next step where
+               the content is substituted will automatically insert the next logical row into its place */
+
+            this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+
+            this.row_start_index -= this.shift_delta;
+            this.row_end_index -= this.shift_delta;
+
+            /* accomodate for the number of pixels that will not be rendered */
+            this.next_y -= this.shift_delta * this.cell_h;
+
+            this.n_rows_to_shift = this.n_rows_to_render;
+        }
+
         if (this.n_rows_to_shift > 0) {
-            if (this.n_rows_to_shift > this.n_rows_to_render) {
-                /* a very large scroll delta, calculate where the boundaries should be */
-                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+            /* move the highest Y-value rows to the top of the ordering array */
+            this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
-                this.y_min += this.shift_delta * this.cell_h;
-                this.y_max += this.shift_delta * this.cell_h;
+            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                this.target_index = this.row_start_index - this.iterator - 1;
 
-                this.row_start_index -= this.shift_delta;
-                this.row_end_index -= this.shift_delta;
+                this.ptr = this.rows[
+                    this.rows_ordered_by_y[this.ordered_y_array_index]
+                ];
 
-                this.n_rows_to_shift = this.n_rows_to_render;
+                this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                this.ptr.setIndex = this.target_index;
+                this.ptr.y = this.rows[this.rows_ordered_by_y[0]].y - this.cell_h;
+                this.ptr.active = this.target_index === this.active_row;
+
+                this.ptr = null;
+
+                this.rows_ordered_by_y.unshift(this.rows_ordered_by_y.pop());
             }
 
-            if (this.n_rows_to_shift > 0) {
-                /* move the highest Y-value rows to the top of the ordering array */
-                this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
+            this.row_start_index -= this.n_rows_to_shift;
+            this.row_end_index -= this.n_rows_to_shift;
 
-                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
-                    this.target_index = this.row_start_index - this.iterator - 1;
-
-                    this.ptr = this.rows[
-                        this.rows_ordered_by_y[this.ordered_y_array_index]
-                    ];
-
-                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
-                    this.ptr.setIndex = this.target_index;
-                    this.ptr.y = this.target_index * this.cell_h;
-                    this.ptr.active = this.target_index === this.active_row;
-
-                    this.ptr = null;
-
-                    this.rows_ordered_by_y.unshift(this.rows_ordered_by_y.pop());
-                }
-
-                this.row_start_index -= this.n_rows_to_shift;
-                this.row_end_index -= this.n_rows_to_shift;
-
-                this.y_min += this.n_rows_to_shift * this.cell_h;
-                this.y_max += this.n_rows_to_shift * this.cell_h;
-            }
+            this.y_min += this.n_rows_to_shift * this.cell_h;
+            this.y_max += this.n_rows_to_shift * this.cell_h;
         }
     }
 
     scrollDown() {
-        /* ignore the y translation if it's irrelevant */
-        if (this.row_end_index === this.c.totalRows) {
-            this.next_y = this.y;
+        /* at the logical end of the table (row index n) we truncate any scroll attempts
+           to the lower translation boundary to keep from skipping off into nothingness */
+        if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
+            this.next_y = this.y_max;
 
             return;
         }
 
         if (this.next_y >= this.y_max) { return; }
 
-        /* Scrolling down, so we want to move the lowest Y value to the y_max and request the next row. Scale appropriately if a big delta and migrate as many rows as are necessary. */
+        /* Scrolling down, so we want to move the row in the visual top position to the bottom
+           (below the lip of the view) */
 
         this.n_rows_to_shift = Math.ceil(Math.abs(this.next_y - this.y_max) / this.cell_h);
 
@@ -818,43 +830,44 @@ class TableView {
             this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
         }
 
+        if (this.n_rows_to_shift > this.n_rows_to_render) {
+            /* when the total movement ends up being larger than the set of rows already rendered,
+               we can safely increment the "viewable" row range accordingly and the next step where
+               the content is substituted will automatically insert the next logical row into its place */
+
+            this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+
+            this.row_start_index += this.shift_delta;
+            this.row_end_index += this.shift_delta;
+
+            /* accomodate for the number of pixels that will not be rendered */
+            this.next_y += this.shift_delta * this.cell_h;
+
+            this.n_rows_to_shift = this.n_rows_to_render;
+        }
+
         if (this.n_rows_to_shift > 0) {
-            if (this.n_rows_to_shift > this.n_rows_to_render) {
-                /* a very large scroll delta, calculate where the boundaries should be */
-                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+                this.target_index = this.row_end_index + this.iterator;
 
-                this.y_min -= this.shift_delta * this.cell_h;
-                this.y_max -= this.shift_delta * this.cell_h;
+                /* move the lowest Y-value rows to the bottom of the ordering array */
+                this.ptr = this.rows[this.rows_ordered_by_y[0]];
 
-                this.row_start_index += this.shift_delta;
-                this.row_end_index += this.shift_delta;
+                this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
+                this.ptr.setIndex = this.target_index;
+                this.ptr.y = this.rows[this.rows_ordered_by_y[this.rows_ordered_by_y_length - 1]].y + this.cell_h;
+                this.ptr.active = this.target_index === this.active_row;
 
-                this.n_rows_to_shift = this.n_rows_to_render;
+                this.ptr = null;
+
+                this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
             }
 
-            if (this.n_rows_to_shift > 0) {
-                for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
-                    this.target_index = this.row_end_index + this.iterator;
+            this.row_start_index += this.n_rows_to_shift;
+            this.row_end_index += this.n_rows_to_shift;
 
-                    /* move the lowest Y-value rows to the bottom of the ordering array */
-                    this.ptr = this.rows[this.rows_ordered_by_y[0]];
-
-                    this.ptr.data = this.drag_timer ? null : this.c.getRow(this.target_index);
-                    this.ptr.setIndex = this.target_index;
-                    this.ptr.y = this.target_index * this.cell_h;
-                    this.ptr.active = this.target_index === this.active_row;
-
-                    this.ptr = null;
-
-                    this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
-                }
-
-                this.row_start_index += this.n_rows_to_shift;
-                this.row_end_index += this.n_rows_to_shift;
-
-                this.y_min -= this.n_rows_to_shift * this.cell_h;
-                this.y_max -= this.n_rows_to_shift * this.cell_h;
-            }
+            this.y_min -= this.n_rows_to_shift * this.cell_h;
+            this.y_max -= this.n_rows_to_shift * this.cell_h;
         }
     }
 
@@ -890,32 +903,32 @@ class TableView {
             this.scrollUp();
         }
 
-        if (this.next_y > 0) {
-            this.next_y = 0;
-        } else if (this.next_y < this.y_max) {
-            this.next_y = this.y_max;
-        }
+        if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
 
-        // if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
+        this.reset_timer = window.setTimeout(function resetYAxis(instance) {
+            instance.reset_timer = null;
 
-        // this.reset_timer = window.setTimeout(() => {
-        //     this.reset_timer = null;
+            /* reset row & wrapper Y values toward 0 to prevent overflowing */
+            instance.shift_delta = instance.y_min < 0 ? instance.y_min : instance.y_min * -1;
 
-        //     /* reset row & wrapper Y values toward 0 to prevent overflowing */
-        //     this.shift_delta = this.y > 0 ? this.y : this.y * -1;
+            /* shift all the cache variables */
+            if (instance.shift_delta < 0) {
+                instance.y = instance.y < 0 ? instance.y - instance.shift_delta : instance.y + instance.shift_delta;
+                instance.y_min = instance.y_min < 0 ? instance.y_min - instance.shift_delta : instance.y_min + instance.shift_delta;
+                instance.y_max = instance.y_max < 0 ? instance.y_max - instance.shift_delta : instance.y_max + instance.shift_delta;
+            } else {
+                instance.y = instance.y < 0 ? instance.y + instance.shift_delta : instance.y - instance.shift_delta;
+                instance.y_min = instance.y_min < 0 ? instance.y_min + instance.shift_delta : instance.y_min - instance.shift_delta;
+                instance.y_max = instance.y_max < 0 ? instance.y_max + instance.shift_delta : instance.y_max - instance.shift_delta;
+            }
 
-        //     /* shift all the cache variables */
-        //     this.y += this.shift_delta;
-        //     this.y_min -= this.shift_delta;
-        //     this.y_max -= this.shift_delta;
+            /* shift all the rows */
+            instance.rows_ordered_by_y.forEach((position, index) => instance.rows[position].y = index * instance.cell_h);
 
-        //     /* shift all the rows */
-        //     this.rows.forEach(row => row.y -= Math.abs(this.shift_delta));
+            /* shift the wrapper */
+            instance.translateBody(instance.x, instance.y);
 
-        //     /* shift the wrapper */
-        //     this.translateBody(this.x, this.y);
-
-        // }, this.c.throttleInterval);
+        }, this.c.throttleInterval, this);
 
         /* queue up translations and the browser will execute them as able, need to pass in the values
         that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
