@@ -766,23 +766,23 @@ class TableView {
             this.n_rows_to_shift = this.row_start_index;
         }
 
-        if (this.n_rows_to_shift > this.n_rows_to_render) {
-            /* when the total movement ends up being larger than the set of rows already rendered,
-               we can safely decrement the "viewable" row range accordingly and the next step where
-               the content is substituted will automatically insert the next logical row into its place */
-
-            this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
-
-            this.row_start_index -= this.shift_delta;
-            this.row_end_index -= this.shift_delta;
-
-            /* accomodate for the number of pixels that will not be rendered */
-            this.next_y -= this.shift_delta * this.cell_h;
-
-            this.n_rows_to_shift = this.n_rows_to_render;
-        }
-
         if (this.n_rows_to_shift > 0) {
+            if (this.n_rows_to_shift > this.n_rows_to_render) {
+                /* when the total movement ends up being larger than the set of rows already rendered, we can safely decrement the "viewable" row range accordingly and
+                the next step where the content is substituted will automatically insert
+                the next logical row into its place */
+
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+
+                this.row_start_index -= this.shift_delta;
+                this.row_end_index -= this.shift_delta;
+
+                /* accomodate for the number of pixels that will not be rendered */
+                this.next_y -= this.shift_delta * this.cell_h;
+
+                this.n_rows_to_shift = this.n_rows_to_render;
+            }
+
             /* move the highest Y-value rows to the top of the ordering array */
             this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
@@ -833,23 +833,23 @@ class TableView {
             this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
         }
 
-        if (this.n_rows_to_shift > this.n_rows_to_render) {
-            /* when the total movement ends up being larger than the set of rows already rendered,
-               we can safely increment the "viewable" row range accordingly and the next step where
-               the content is substituted will automatically insert the next logical row into its place */
-
-            this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
-
-            this.row_start_index += this.shift_delta;
-            this.row_end_index += this.shift_delta;
-
-            /* accomodate for the number of pixels that will not be rendered */
-            this.next_y += this.shift_delta * this.cell_h;
-
-            this.n_rows_to_shift = this.n_rows_to_render;
-        }
-
         if (this.n_rows_to_shift > 0) {
+            if (this.n_rows_to_shift > this.n_rows_to_render) {
+                /* when the total movement ends up being larger than the set of rows already rendered, we can safely increment the "viewable" row range accordingly and
+                the next step where the content is substituted will automatically insert
+                the next logical row into its place */
+
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+
+                this.row_start_index += this.shift_delta;
+                this.row_end_index += this.shift_delta;
+
+                /* accomodate for the number of pixels that will not be rendered */
+                this.next_y += this.shift_delta * this.cell_h;
+
+                this.n_rows_to_shift = this.n_rows_to_render;
+            }
+
             for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
                 this.target_index = this.row_end_index + this.iterator;
 
@@ -886,7 +886,9 @@ class TableView {
         this.delta_x = event.deltaX;
 
         // deltaMode 0 === pixels, 1 === lines
-        this.delta_y = event.deltaMode === 1 ? parseInt(event.deltaY, 10) * this.cell_h : event.deltaY;
+        this.delta_y =   event.deltaMode === 1
+                       ? parseInt(event.deltaY, 10) * this.cell_h
+                       : event.deltaY;
 
         /* lock the translation axis if the user is manipulating the synthetic scrollbars */
         this.next_x = this.y_scroll_locked ? this.x : this.x - this.delta_x;
@@ -912,21 +914,37 @@ class TableView {
             instance.reset_timer = null;
 
             /* reset row & wrapper Y values toward 0 to prevent overflowing */
-            instance.shift_delta = instance.y_min < 0 ? instance.y_min : instance.y_min * -1;
+            instance.shift_delta =   instance.y_min < 0
+                                   ? instance.y_min
+                                   : instance.y_min * -1;
 
-            /* shift all the cache variables */
+            /* shift all the positioning variables */
             if (instance.shift_delta < 0) {
-                instance.y = instance.y < 0 ? instance.y - instance.shift_delta : instance.y + instance.shift_delta;
-                instance.y_min = instance.y_min < 0 ? instance.y_min - instance.shift_delta : instance.y_min + instance.shift_delta;
-                instance.y_max = instance.y_max < 0 ? instance.y_max - instance.shift_delta : instance.y_max + instance.shift_delta;
+                instance.y =   instance.y < 0
+                             ? instance.y - instance.shift_delta
+                             : instance.y + instance.shift_delta;
+                instance.y_min =   instance.y_min < 0
+                                 ? instance.y_min - instance.shift_delta
+                                 : instance.y_min + instance.shift_delta;
+                instance.y_max = instance.y_max < 0
+                                 ? instance.y_max - instance.shift_delta
+                                 : instance.y_max + instance.shift_delta;
             } else {
-                instance.y = instance.y < 0 ? instance.y + instance.shift_delta : instance.y - instance.shift_delta;
-                instance.y_min = instance.y_min < 0 ? instance.y_min + instance.shift_delta : instance.y_min - instance.shift_delta;
-                instance.y_max = instance.y_max < 0 ? instance.y_max + instance.shift_delta : instance.y_max - instance.shift_delta;
+                instance.y =   instance.y < 0
+                             ? instance.y + instance.shift_delta
+                             : instance.y - instance.shift_delta;
+                instance.y_min =   instance.y_min < 0
+                                 ? instance.y_min + instance.shift_delta
+                                 : instance.y_min - instance.shift_delta;
+                instance.y_max =   instance.y_max < 0
+                                 ? instance.y_max + instance.shift_delta
+                                 : instance.y_max - instance.shift_delta;
             }
 
             /* shift all the rows */
-            instance.rows_ordered_by_y.forEach((position, index) => instance.rows[position].y = index * instance.cell_h);
+            instance.rows_ordered_by_y.forEach((position, index) => {
+                instance.rows[position].y = index * instance.cell_h;
+            });
 
             /* shift the wrapper */
             instance.translateBody(instance.x, instance.y);
@@ -1184,6 +1202,8 @@ class TableView {
     }
 
     changeActiveRow(delta) {
+        if (this.active_row + delta >= this.c.totalRows) { return; }
+
         this.next_active_row = findWhere(this.rows, 'setIndex', this.active_row + delta);
 
         if (this.next_active_row) {
