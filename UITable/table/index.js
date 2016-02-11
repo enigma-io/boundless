@@ -504,7 +504,7 @@ class TableView {
         this.touch = null;
         this.last_touch_pageX = this.last_touch_pageY = 0;
 
-        this.x_scroll_track_w = this.y_scroll_track_h = null;
+        this.x_scroll_track_w = this.x_scroll_track_h = this.y_scroll_track_h = null;
         this.x_scroll_handle_size = this.y_scroll_handle_size = null;
 
         // reset!
@@ -637,6 +637,7 @@ class TableView {
 
     initializeScrollBars() {
         this.x_scroll_track_w = this.c['x-scroll-track'].clientWidth || 500;
+        this.x_scroll_track_h = this.c['x-scroll-track'].clientHeight || 8;
         this.y_scroll_track_h = this.c['y-scroll-track'].clientHeight || 150;
         this.x_scroll_handle_style.width = this.calculateXScrollHandleSize() + 'px';
         this.y_scroll_handle_style.height = this.calculateYScrollHandleSize() + 'px';
@@ -761,6 +762,7 @@ class TableView {
         );
 
         if (this.row_start_index - this.n_rows_to_shift < 0) {
+            this.next_y -= Math.abs(this.row_start_index - this.n_rows_to_shift) * this.cell_h;
             this.n_rows_to_shift = this.row_start_index;
         }
 
@@ -813,7 +815,7 @@ class TableView {
         /* at the logical end of the table (row index n) we truncate any scroll attempts
            to the lower translation boundary to keep from skipping off into nothingness */
         if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
-            this.next_y = this.y_max;
+            this.next_y = this.y_max - this.x_scroll_track_h;
 
             return;
         }
@@ -827,6 +829,7 @@ class TableView {
 
         if (this.n_rows_to_shift + this.row_end_index + 1 > this.c.totalRows) {
             /* more rows than there is data available, truncate */
+            this.next_y += (this.n_rows_to_shift - (this.c.totalRows - this.row_end_index + 1)) * this.cell_h;
             this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
         }
 
