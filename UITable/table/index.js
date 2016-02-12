@@ -471,7 +471,7 @@ class TableView {
         this.rows = [];
         this.rows_ordered_by_y = [];
         this.rows_ordered_by_y_length = 0;
-        this.n_padding_rows = 1;
+        this.n_padding_rows = 3;
 
         this.x = this.y = 0;
         this.next_x = this.next_y = 0;
@@ -754,13 +754,14 @@ class TableView {
 
         if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
-        /* Scrolling down, so we want to move the row in the visual bottom position to the top
+        /* Scrolling up, so we want to move the row in the visual bottom position to the top
            (above the lip of the view) */
 
         this.n_rows_to_shift = Math.ceil(
             Math.abs(this.next_y - this.y_min) / this.cell_h
         );
 
+        /* prevent under-rotating below index zero, the logical start of a data set */
         if (this.row_start_index - this.n_rows_to_shift < 0) {
             this.next_y -= Math.abs(this.row_start_index - this.n_rows_to_shift) * this.cell_h;
             this.n_rows_to_shift = this.row_start_index;
@@ -768,9 +769,7 @@ class TableView {
 
         if (this.n_rows_to_shift > 0) {
             if (this.n_rows_to_shift > this.n_rows_to_render) {
-                /* when the total movement ends up being larger than the set of rows already rendered, we can safely decrement the "viewable" row range accordingly and
-                the next step where the content is substituted will automatically insert
-                the next logical row into its place */
+                /* when the total movement ends up being larger than the set of rows already rendered, we can safely decrement the "viewable" row range accordingly and the next step where the content is substituted will automatically insert the next logical row into its place */
 
                 this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
 
@@ -852,6 +851,13 @@ class TableView {
 
             for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
                 this.target_index = this.row_end_index + this.iterator;
+
+                /* the padding rows will exceed the maximum index for a data set once the user has fully translated to the bottom of the screen */
+                if (this.target_index >= this.c.totalRows) {
+                    this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
+
+                    continue;
+                }
 
                 /* move the lowest Y-value rows to the bottom of the ordering array */
                 this.ptr = this.rows[this.rows_ordered_by_y[0]];
