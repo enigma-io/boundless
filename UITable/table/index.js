@@ -302,7 +302,7 @@ class TableView {
         return    typeof column.mapping === 'string'
                && typeof column.resizable === 'boolean'
                && typeof column.title === 'string'
-               && typeof column.width !== 'undefined' ? typeof column.width === 'number' : true;
+               && (typeof column.width === 'number' || typeof column.width === 'undefined');
     }
 
     validateConfiguration(config) {
@@ -338,12 +338,14 @@ class TableView {
             throw Error('TableView was not passed a valid `aria` element.');
         }
 
-        if (!config.columns.every(this.validateColumnShape)) {
-            throw Error(`TableView was not passed valid \`columns\`. They should be objects conforming to: {
+        if (   !Array.isArray(config.columns)
+            || config.columns.length === 0
+            || !config.columns.every(this.validateColumnShape)) {
+            throw Error(`TableView was not passed valid \`columns\`. It should be an array with at least one object conforming to: {
                 mapping: string,
                 resizable: bool,
                 title: string,
-                width: number,
+                width: number (optional),
             }`);
         }
 
@@ -372,8 +374,6 @@ class TableView {
         this.c = {...config};
 
         // fallback values
-        this.c.columns = this.c.columns || [];
-        this.c.getRow = this.c.getRow || noop;
         this.c.rowClickFunc = this.c.rowClickFunc || noop;
         this.c.cellClickFunc = this.c.cellClickFunc || noop;
         this.c.throttleInterval = this.c.throttleInterval || 300;
