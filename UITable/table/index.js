@@ -958,7 +958,7 @@ class TableView {
             /* shift the wrapper */
             instance.translateBody(instance.x, instance.y);
 
-        }, this.c.throttleInterval, this);
+        }, 100, this);
 
         /* queue up translations and the browser will execute them as able, need to pass in the values
         that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
@@ -1057,6 +1057,9 @@ class TableView {
 
         event.preventDefault();
 
+        /* adjusts for the pixel distance between where the handle is clicked and the top edge of it; the handle is positioned according to its top edge */
+        this.y_scroll_offset = event.offsetY;
+
         this.y_scroll_locked = true;
         this.left_button_pressed = true;
 
@@ -1070,6 +1073,7 @@ class TableView {
         if (this.y_scroll_locked) {
             if (this.drag_timer) { window.clearTimeout(this.drag_timer); }
 
+            /* x-axis doesn't need throttle protection since it doesn't cause a row fetch */
             this.drag_timer = window.setTimeout(() => {
                 this.drag_timer = null;
 
@@ -1080,11 +1084,9 @@ class TableView {
                     }
                 });
             }, this.c.throttleInterval);
-        } /* x-axis doesn't need throttle protection since it doesn't cause an API fetch */
 
-        if (this.y_scroll_locked) {
             this.evt.deltaX = 0;
-            this.evt.deltaY = (Math.ceil((event.pageY - this.distance_from_top) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
+            this.evt.deltaY = (((event.pageY - this.distance_from_top - this.y_scroll_offset) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
 
             this.handleMoveIntent(this.evt);
 
@@ -1103,16 +1105,17 @@ class TableView {
         }
     }
 
+    unlockDragToScroll() {
+        this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
+    }
+
     handleDragEnd() {
         window.removeEventListener('mouseup', this.handleDragEnd, true);
 
         this.left_button_pressed = false;
 
-        /* the browser fires the mouseup and click events simultaneously, and we don't want our click handler to
-        be executed, so a zero-delay setTimeout works here to let the stack clear before allowing click events again. */
-        window.setTimeout(() => {
-            this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
-        }, 0);
+        /* the browser fires the mouseup and click events simultaneously, and we don't want our click handler to be executed, so a zero-delay setTimeout works here to let the stack clear before allowing click events again. */
+        window.setTimeout(() => this.unlockDragToScroll(), 0);
     }
 
     handleColumnDragStart(event) {
