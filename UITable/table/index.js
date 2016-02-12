@@ -814,7 +814,10 @@ class TableView {
         /* at the logical end of the table (row index n) we truncate any scroll attempts
            to the lower translation boundary to keep from skipping off into nothingness */
         if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
-            this.next_y = this.y_max - this.x_scroll_track_h;
+            /* only adjust for the x-axis scrollbar height if the wrapper can be translated far enough for it to potentially obscure a row */
+            this.next_y =   this.n_rows_to_render * this.cell_h > this.container_h
+                          ? this.y_max - this.x_scroll_track_h
+                          : this.y_max;
 
             return;
         }
