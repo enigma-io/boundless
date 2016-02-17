@@ -650,13 +650,21 @@ class TableView {
 
         /* hide the scrollbars if they are not needed */
 
-        this.c['x-scroll-track'].style.display =   this.x_scroll_handle_size === this.container_w
-                                                 ? 'none'
-                                                 : '';
+        if (this.x_scroll_handle_size === this.container_w) {
+            this.c['x-scroll-track'].style.display = 'none';
+            this.x_scroll_track_hidden = true;
+        } else {
+            this.c['x-scroll-track'].style.display = '';
+            this.x_scroll_track_hidden = false;
+        }
 
-        this.c['y-scroll-track'].style.display =   this.y_scroll_handle_size === this.container_h
-                                                 ? 'none'
-                                                 : '';
+        if (this.y_scroll_handle_size === this.container_h) {
+            this.c['y-scroll-track'].style.display = 'none';
+            this.y_scroll_track_hidden = true;
+        } else {
+            this.c['y-scroll-track'].style.display = '';
+            this.y_scroll_track_hidden = false;
+        }
     }
 
     calculateContainerDimensions() {
@@ -816,7 +824,7 @@ class TableView {
         if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
             /* only adjust for the x-axis scrollbar height if the wrapper can be translated far enough for it to potentially obscure a row */
             this.next_y =   this.n_rows_to_render * this.cell_h > this.container_h
-                          ? this.y_max - this.x_scroll_track_h
+                          ? this.y_max - (this.x_scroll_track_hidden ? 0 : this.x_scroll_track_h)
                           : this.y_max;
 
             return;
