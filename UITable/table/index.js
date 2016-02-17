@@ -896,9 +896,9 @@ class TableView {
     applyShiftDelta(shiftDelta, otherValue) {
         if (shiftDelta < 0) {
             return otherValue < 0 ? otherValue - shiftDelta : otherValue + shiftDelta;
-        } else {
-            return otherValue < 0 ? otherValue + shiftDelta : otherValue - shiftDelta;
         }
+
+        return otherValue < 0 ? otherValue + shiftDelta : otherValue - shiftDelta;
     }
 
     handleMoveIntent(event) {
