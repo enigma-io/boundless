@@ -891,6 +891,18 @@ class TableView {
         }
     }
 
+    calculateShiftDelta(int) {
+        return Math.abs(int) * -1;
+    }
+
+    applyShiftDelta(shiftDelta, otherValue) {
+        if (shiftDelta < 0) {
+            return otherValue < 0 ? otherValue - shiftDelta : otherValue + shiftDelta;
+        } else {
+            return otherValue < 0 ? otherValue + shiftDelta : otherValue - shiftDelta;
+        }
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
 
@@ -925,38 +937,26 @@ class TableView {
             this.scrollUp();
         }
 
+        this.top_visible_row_index = this.rows[
+            this.rows_ordered_by_y[
+                Math.floor(Math.abs(
+                    this.applyShiftDelta(this.calculateShiftDelta(this.y_min), this.next_y) / this.cell_h
+                ))
+            ]
+        ].setIndex;
+
         if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
 
         this.reset_timer = window.setTimeout(function resetYAxis(instance) {
             instance.reset_timer = null;
 
             /* reset row & wrapper Y values toward 0 to prevent overflowing */
-            instance.shift_delta =   instance.y_min < 0
-                                   ? instance.y_min
-                                   : instance.y_min * -1;
+            instance.shift_delta = instance.calculateShiftDelta(instance.y_min);
 
             /* shift all the positioning variables */
-            if (instance.shift_delta < 0) {
-                instance.y =   instance.y < 0
-                             ? instance.y - instance.shift_delta
-                             : instance.y + instance.shift_delta;
-                instance.y_min =   instance.y_min < 0
-                                 ? instance.y_min - instance.shift_delta
-                                 : instance.y_min + instance.shift_delta;
-                instance.y_max = instance.y_max < 0
-                                 ? instance.y_max - instance.shift_delta
-                                 : instance.y_max + instance.shift_delta;
-            } else {
-                instance.y =   instance.y < 0
-                             ? instance.y + instance.shift_delta
-                             : instance.y - instance.shift_delta;
-                instance.y_min =   instance.y_min < 0
-                                 ? instance.y_min + instance.shift_delta
-                                 : instance.y_min - instance.shift_delta;
-                instance.y_max =   instance.y_max < 0
-                                 ? instance.y_max + instance.shift_delta
-                                 : instance.y_max - instance.shift_delta;
-            }
+            instance.y = instance.applyShiftDelta(instance.shift_delta, instance.y);
+            instance.y_min = instance.applyShiftDelta(instance.shift_delta, instance.y_min);
+            instance.y_max = instance.applyShiftDelta(instance.shift_delta, instance.y_max);
 
             /* shift all the rows */
             instance.rows_ordered_by_y.forEach((position, index) => {
@@ -970,7 +970,7 @@ class TableView {
 
         /* queue up translations and the browser will execute them as able, need to pass in the values
         that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
-        window.requestAnimationFrame(function rAF(nextX, currX, nextY, index) {
+        window.requestAnimationFrame(function rAF(nextX, currX, nextY, visibleTopRowIndex) {
             if (nextX === 0) {
                 this.x_scroll_handle_position = 0;
             } else {
@@ -981,10 +981,10 @@ class TableView {
                 }
             }
 
-            if (index === this.n_rows_to_render) {
+            if (visibleTopRowIndex === 0) {
                 this.y_scroll_handle_position = 0;
             } else {
-                this.y_scroll_handle_position = index * this.y_scrollbar_pixel_ratio;
+                this.y_scroll_handle_position = visibleTopRowIndex * this.y_scrollbar_pixel_ratio;
 
                 if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
                     this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
@@ -994,7 +994,7 @@ class TableView {
             // Do all transforms grouped together
             this.performTranslations(nextX, nextY);
 
-        }.bind(this, this.next_x, this.x, this.next_y, this.row_start_index));
+        }.bind(this, this.next_x, this.x, this.next_y, this.top_visible_row_index));
 
         this.x = this.next_x;
         this.y = this.next_y;
