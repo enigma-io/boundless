@@ -898,7 +898,17 @@ class TableView {
             return otherValue < 0 ? otherValue - shiftDelta : otherValue + shiftDelta;
         }
 
-        return otherValue < 0 ? otherValue + shiftDelta : otherValue - shiftDelta;
+        return otherValue - shiftDelta;
+    }
+
+    calculateVisibleTopRowIndex(targetY = this.next_y) {
+        return this.rows[
+            this.rows_ordered_by_y[
+                Math.floor(Math.abs(
+                    this.applyShiftDelta(this.y_min, targetY) / this.cell_h
+                ))
+            ]
+        ].setIndex;
     }
 
     handleMoveIntent(event) {
@@ -935,13 +945,7 @@ class TableView {
             this.scrollUp();
         }
 
-        this.top_visible_row_index = this.rows[
-            this.rows_ordered_by_y[
-                Math.floor(Math.abs(
-                    this.applyShiftDelta(this.y_min, this.next_y) / this.cell_h
-                ))
-            ]
-        ].setIndex;
+        this.top_visible_row_index = this.calculateVisibleTopRowIndex();
 
         if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
 
