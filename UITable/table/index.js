@@ -646,7 +646,7 @@ class TableView {
         this.x_table_pixel_ratio = Math.abs(this.x_max) / (this.x_scroll_track_w - this.x_scroll_handle_size);
 
         /* how many scrollbar pixels === one row? */
-        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_to_render);
+        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_to_render + this.n_padding_rows);
 
         /* hide the scrollbars if they are not needed */
 
@@ -703,7 +703,7 @@ class TableView {
         }
 
         this.row_start_index = 0;
-        this.row_end_index = this.n_rows_to_render;
+        this.row_end_index = this.n_rows_to_render - 1;
 
         this.injectHeaderCells();
         this.injectRestOfRows();
@@ -793,8 +793,8 @@ class TableView {
             /* move the highest Y-value rows to the top of the ordering array */
             this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
-            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
-                this.target_index = this.row_start_index - this.iterator - 1;
+            for (this.iterator = 1; this.iterator <= this.n_rows_to_shift; this.iterator += 1) {
+                this.target_index = this.row_start_index - this.iterator;
 
                 this.ptr = this.rows[
                     this.rows_ordered_by_y[this.ordered_y_array_index]
@@ -821,9 +821,9 @@ class TableView {
     scrollDown() {
         /* at the logical end of the table (row index n) we truncate any scroll attempts
            to the lower translation boundary to keep from skipping off into nothingness */
-        if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
+        if (this.row_end_index >= this.c.totalRows && this.next_y <= this.y_max) {
             /* only adjust for the x-axis scrollbar height if the wrapper can be translated far enough for it to potentially obscure a row */
-            this.next_y =   this.n_rows_to_render * this.cell_h > this.container_h
+            this.next_y =   (this.n_rows_to_render - this.n_padding_rows) * this.cell_h > this.container_h
                           ? this.y_max - (this.x_scroll_track_hidden ? 0 : this.x_scroll_track_h)
                           : this.y_max;
 
@@ -835,12 +835,14 @@ class TableView {
         /* Scrolling down, so we want to move the row in the visual top position to the bottom
            (below the lip of the view) */
 
-        this.n_rows_to_shift = Math.ceil(Math.abs(this.next_y - this.y_max) / this.cell_h);
+        this.n_rows_to_shift = Math.ceil(
+            Math.abs(this.next_y - this.y_max) / this.cell_h
+        );
 
-        if (this.n_rows_to_shift + this.row_end_index + 1 > this.c.totalRows) {
+        if (this.n_rows_to_shift + this.row_end_index > this.c.totalRows) {
             /* more rows than there is data available, truncate */
-            this.next_y += (this.n_rows_to_shift - (this.c.totalRows - this.row_end_index + 1)) * this.cell_h;
-            this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
+            this.next_y += (this.n_rows_to_shift - (this.c.totalRows - this.row_end_index)) * this.cell_h;
+            this.n_rows_to_shift = this.c.totalRows - this.row_end_index;
         }
 
         if (this.n_rows_to_shift > 0) {
@@ -860,7 +862,7 @@ class TableView {
                 this.n_rows_to_shift = this.n_rows_to_render;
             }
 
-            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+            for (this.iterator = 1; this.iterator <= this.n_rows_to_shift; this.iterator += 1) {
                 this.target_index = this.row_end_index + this.iterator;
 
                 /* the padding rows will exceed the maximum index for a data set once the user has fully translated to the bottom of the screen */
@@ -889,10 +891,6 @@ class TableView {
             this.y_min -= this.n_rows_to_shift * this.cell_h;
             this.y_max -= this.n_rows_to_shift * this.cell_h;
         }
-    }
-
-    calculateShiftDelta(int) {
-        return Math.abs(int) * -1;
     }
 
     applyShiftDelta(shiftDelta, otherValue) {
@@ -940,7 +938,7 @@ class TableView {
         this.top_visible_row_index = this.rows[
             this.rows_ordered_by_y[
                 Math.floor(Math.abs(
-                    this.applyShiftDelta(this.calculateShiftDelta(this.y_min), this.next_y) / this.cell_h
+                    this.applyShiftDelta(this.y_min, this.next_y) / this.cell_h
                 ))
             ]
         ].setIndex;
@@ -951,7 +949,7 @@ class TableView {
             instance.reset_timer = null;
 
             /* reset row & wrapper Y values toward 0 to prevent overflowing */
-            instance.shift_delta = instance.calculateShiftDelta(instance.y_min);
+            instance.shift_delta = instance.y_min;
 
             /* shift all the positioning variables */
             instance.y = instance.applyShiftDelta(instance.shift_delta, instance.y);
@@ -981,14 +979,10 @@ class TableView {
                 }
             }
 
-            if (visibleTopRowIndex === 0) {
-                this.y_scroll_handle_position = 0;
-            } else {
-                this.y_scroll_handle_position = visibleTopRowIndex * this.y_scrollbar_pixel_ratio;
+            this.y_scroll_handle_position = visibleTopRowIndex * this.y_scrollbar_pixel_ratio;
 
-                if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
-                    this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
-                }
+            if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
+                this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
             }
 
             // Do all transforms grouped together
