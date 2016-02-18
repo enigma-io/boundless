@@ -1228,7 +1228,7 @@ class TableView {
 
             if (
                    (delta === -1 && this.next_active_row.y * -1 > this.y)
-                || (delta === 1 && this.next_active_row.y * -1 - this.cell_h < this.y - this.body_h + this.cell_h) // 1 unit of cellHeight is removed to compensate for the header row
+                || (delta === 1 && this.next_active_row.y * -1 < this.y - this.body_h + this.cell_h)
             ) { // Destination row is outside the viewport, so simulate a scroll
                 this.evt.deltaX = 0;
                 this.evt.deltaY = this.cell_h * delta;
