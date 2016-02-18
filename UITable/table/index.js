@@ -1090,7 +1090,12 @@ class TableView {
             }, this.c.throttleInterval);
 
             this.evt.deltaX = 0;
-            this.evt.deltaY = (((event.pageY - this.distance_from_top - this.y_scroll_offset) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
+            this.evt.deltaY = Math.floor(
+                this.applyDelta(
+                    this.last_y_scroll_handle_y,
+                    event.pageY - this.distance_from_top - this.y_scroll_offset
+                ) / this.y_scrollbar_pixel_ratio
+            ) * this.cell_h;
 
             this.handleMoveIntent(this.evt);
 
