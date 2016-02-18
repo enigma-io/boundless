@@ -644,8 +644,7 @@ class TableView {
         this.x_table_pixel_ratio = Math.abs(this.x_max) / (this.x_scroll_track_w - this.x_scroll_handle_size);
 
         /* how many scrollbar pixels === one row? */
-        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) /
-                                       (this.c.totalRows - this.n_rows_visible);
+        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_visible);
 
         /* hide the scrollbars if they are not needed */
 
@@ -948,13 +947,12 @@ class TableView {
         }
 
         if (this.n_rows_visible >= this.c.totalRows) {
-            this.next_y = this.y; /* negate the vertical movement, not enough rows to fill the body */
-        } else {
-            if (this.next_y < this.y) {
-                this.scrollDown();
-            } else if (this.next_y > this.y) {
-                this.scrollUp();
-            }
+            /* negate the vertical movement, not enough rows to fill the body */
+            this.next_y = this.y;
+        } else if (this.next_y < this.y) {
+            this.scrollDown();
+        } else if (this.next_y > this.y) {
+            this.scrollUp();
         }
 
         if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
