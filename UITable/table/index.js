@@ -7,32 +7,28 @@ import transformProp from '../../UIUtils/transform';
 import findWhere from '../../UIUtils/findWhere';
 import noop from '../../UIUtils/noop';
 
-/**
- * FOR FUTURE EYES
- *
- * Scroll performance is a tricky beast -- moreso when trying to maintain 50+ FPS and pumping a lot of data
- * to the DOM. There are a lot of choices in this component that may seem odd at first blush, but let it
- * be known that we tried to do it the React Way™ and it was not performant enough.
- *
- * The combination that was settled upon is a React shell with native DOM guts. This combination yields the
- * best performance, while still being perfectly interoperable with the rest of UIKit and React use cases.
- *
- * __Important Note__
- *
- * Any time you create a document fragment, make sure you release it after by setting its variable to `null`.
- * If you don't, it'll create a memory leak. Also, make sure all generated DOM is removed on componentWillUnmount.
- */
+/*
 
-/**
- * ORDER OF OPERATIONS
- *
- * 1. render one row of cells
- * 2. capture table & cell sizing metrics
- * 3. render column heads and the rest of the cells
- *
- * If the component updates due to new props, just blow away everything and start over. It's cheaper than
- * trying to diff.
- */
+FOR FUTURE EYES
+
+Scroll performance is a tricky beast -- moreso when trying to maintain 50+ FPS and pumping a lot of data to the DOM. There are a lot of choices in this component that may seem odd at first blush, but let it be known that we tried to do it the React Way™ and it was not performant enough.
+
+The combination that was settled upon is a React shell with native DOM guts. This combination yields the best performance, while still being perfectly interoperable with the rest of UIKit and React use cases.
+
+__Important Note__
+
+Any time you create a document fragment, make sure you release it after by setting its variable to `null`. If you don't, it'll create a memory leak. Also, make sure all generated DOM is removed on componentWillUnmount.
+
+
+ORDER OF OPERATIONS
+
+1. render one row of cells
+2. capture table & cell sizing metrics
+3. render column heads and the rest of the cells
+
+If the component updates due to new props, just blow away everything and start over. It's cheaper than trying to diff.
+
+*/
 
 const cellClassRegex = /\s?ui-table-cell\b/g;
 const rowClassRegex = /\s?ui-table-row\b/g;
@@ -155,8 +151,7 @@ const createCell = function createCell(content, mapping, width) {
             // take off the inner class which is what causes the sizing constraint
             this.node.children[0].className = '';
 
-            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns
-            an integer value, rather than the _actual_ width. SMH. */
+            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns an integer value, rather than the _actual_ width. SMH. */
             const newWidth = this.node.getBoundingClientRect().width;
 
             // Put everything back
@@ -458,7 +453,7 @@ class TableView {
         this.emptyHeader();
         this.emptyBody();
 
-        // release nodes
+        // release cached DOM nodes
         Object.keys(this.c).forEach(key => {
             if (this.c[key] instanceof HTMLElement) {
                 this.c[key] = null;
@@ -974,8 +969,7 @@ class TableView {
 
         this.top_visible_row_index = this.calculateVisibleTopRowIndex();
 
-        /* queue up translations and the browser will execute them as able, need to pass in the values
-        that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
+        /* queue up translations and the browser will execute them as able, need to pass in the values that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
         window.requestAnimationFrame(function rAF(nextX, currX, nextY, visibleTopRowIndex) {
             if (nextX === 0) {
                 this.x_scroll_handle_position = 0;
@@ -1243,10 +1237,7 @@ class TableView {
             }
         } else if (   (delta === -1 && this.active_row > 0)
                    || (delta === 1 && this.active_row < this.c.totalRows)) {
-            /*
-                The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
-                in the viewport.
-             */
+            /* The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown in the viewport. */
             this.evt.deltaX = 0;
             this.evt.deltaY = (   (    this.row_start_index > this.active_row
                                           && this.active_row - this.row_start_index)
