@@ -477,6 +477,8 @@ class TableView {
         this.active_row = -1;
         this.next_active_row = null;
 
+        this.top_visible_row_index = 0;
+
         // temporary variables in various calculations
         this.i = null;
         this.n_rows_to_shift = null;
@@ -632,9 +634,9 @@ class TableView {
     }
 
     initializeScrollBars() {
-        this.x_scroll_track_w = this.c['x-scroll-track'].clientWidth || 500;
+        this.x_scroll_track_w = this.c['x-scroll-track'].clientWidth || this.container_w;
         this.x_scroll_track_h = this.c['x-scroll-track'].clientHeight || 8;
-        this.y_scroll_track_h = this.c['y-scroll-track'].clientHeight || 150;
+        this.y_scroll_track_h = this.c['y-scroll-track'].clientHeight || this.container_h;
         this.x_scroll_handle_style.width = this.calculateXScrollHandleSize() + 'px';
         this.y_scroll_handle_style.height = this.calculateYScrollHandleSize() + 'px';
 
@@ -667,9 +669,9 @@ class TableView {
     calculateContainerDimensions() {
         /* The fallback amounts are for unit testing, the browser will always have
         an actual number. */
-        this.body_h = this.c.body.clientHeight || 110;
         this.container_h = this.c.wrapper.clientHeight || 150;
         this.container_w = this.c.wrapper.clientWidth || 500;
+        this.body_h = this.c.body.clientHeight || 110;
     }
 
     handleWindowResize() {
@@ -842,7 +844,18 @@ class TableView {
 
         if (this.n_rows_to_shift + this.row_end_index + 1 >= this.c.totalRows) {
             /* more rows than there is data available, truncate */
-            this.next_y += (this.n_rows_to_shift - (this.c.totalRows - this.row_end_index - 1)) * this.cell_h;
+            this.next_y += (
+                this.n_rows_to_shift - (this.c.totalRows - this.row_end_index - (this.top_visible_row_index === 0 ? 0 : 1))
+            ) * this.cell_h;
+
+            this.next_y = this.applyDelta(
+                this.applyDelta(this.y_max, this.y) % this.cell_h, this.next_y
+            );
+
+            if (this.x_scroll_track_hidden === false) {
+                this.next_y -= this.x_scroll_track_h;
+            }
+
             this.n_rows_to_shift = this.c.totalRows - this.row_end_index - 1;
         }
 
@@ -1036,9 +1049,11 @@ class TableView {
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
         this.evt.deltaX = 0;
-
-        /* calculated delta from current starting row to destination starting row */
-        this.evt.deltaY = (Math.ceil((event.pageY - this.distance_from_top) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
+        this.evt.deltaY = Math.floor(
+            this.applyDelta(
+                this.last_y_scroll_handle_y, event.pageY - this.distance_from_top
+            ) / this.y_scrollbar_pixel_ratio
+        ) * this.cell_h;
 
         this.handleMoveIntent(this.evt);
     }

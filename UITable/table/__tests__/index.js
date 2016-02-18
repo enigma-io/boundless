@@ -562,7 +562,7 @@ describe('UITable/TableView', () => {
             table = new TableView(baseConfig);
 
             const y = table.c['y-scroll-handle'];
-            const expectedHeight = table.container_h * (table.n_rows_to_render / table.c.totalRows);
+            const expectedHeight = table.container_h * (table.n_rows_visible / table.c.totalRows);
 
             expect(y.style.height).toBe(expectedHeight + 'px');
         });
@@ -572,8 +572,7 @@ describe('UITable/TableView', () => {
 
             expect(table.calculateYScrollHandleSize()).not.toBe(12);
 
-            table.container_h = 150;
-            table.n_rows_to_render = 0;
+            table.n_rows_visible = 0;
 
             expect(table.calculateYScrollHandleSize()).toBe(12);
         });
@@ -581,17 +580,14 @@ describe('UITable/TableView', () => {
         it('should not translate beyond the bounds of the y-axis scroll track', () => {
             table = new TableView(baseConfig);
 
-            const y = table.c['y-scroll-handle'];
-            const height = window.getComputedStyle(table.c.wrapper)['height'] || 150;
-
             table.handleMoveIntent({
                 deltaX: 0,
                 deltaY: 10000,
                 preventDefault: noop
             });
 
-            expect(y.style.WebkitTransform).toBe(
-                `translate3d(0px,${parseInt(height, 10) - parseInt(y.style.height, 10)}px,0px)`
+            expect(table.c['y-scroll-handle'].style.WebkitTransform).toBe(
+                `translate3d(0px,${table.container_h - table.y_scroll_handle_size}px,0px)`
             );
         });
     });
