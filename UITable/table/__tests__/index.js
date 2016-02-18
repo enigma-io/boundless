@@ -19,7 +19,7 @@ describe('UITable/TableView', () => {
 
     const altRowGetter = index => rowsAlt[index];
 
-    const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code',resizable:true}];
+    const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code', resizable: true}];
 
     document.body.innerHTML = `<div class='ui-table-wrapper' tabindex='0'>
         <div class='ui-table'>
@@ -57,6 +57,122 @@ describe('UITable/TableView', () => {
     afterEach(() => {
         sandbox.restore();
         table.destroy();
+    });
+
+    describe('configuration validation', () => {
+        beforeEach(() => table = {destroy: noop});
+
+        it('should throw if wrapper is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, wrapper: null}); }).toThrow();
+        });
+
+        it('should throw if header is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, header: null}); }).toThrow();
+        });
+
+        it('should throw if body is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, body: null}); }).toThrow();
+        });
+
+        it('should throw if x-scroll-track is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, 'x-scroll-track': null}); }).toThrow();
+        });
+
+        it('should throw if y-scroll-track is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, 'y-scroll-track': null}); }).toThrow();
+        });
+
+        it('should throw if x-scroll-handle is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, 'x-scroll-handle': null}); }).toThrow();
+        });
+
+        it('should throw if y-scroll-handle is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, 'y-scroll-handle': null}); }).toThrow();
+        });
+
+        it('should throw if aria is not a DOM node', () => {
+            expect(function() { return new TableView({...baseConfig, aria: null}); }).toThrow();
+        });
+
+        it('should throw if columns is not an array', () => {
+            expect(function() { return new TableView({...baseConfig, columns: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columns: function(){}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columns: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columns: 3}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columns: true}); }).toThrow();
+        });
+
+        it('should throw if columns has no array items', () => {
+            expect(function() { return new TableView({...baseConfig, columns: []}); }).toThrow();
+        });
+
+        it('should throw if columns array items have an improper shape', () => {
+            expect(function() { return new TableView({...baseConfig, columns: [{}]}); }).toThrow();
+        });
+
+        it('should throw if throttleInterval is not a number', () => {
+            expect(function() { return new TableView({...baseConfig, throttleInterval: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, throttleInterval: function(){}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, throttleInterval: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, throttleInterval: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, throttleInterval: true}); }).toThrow();
+        });
+
+        it('should default throttleInterval to 300ms', () => {
+            table = new TableView({...baseConfig, throttleInterval: undefined});
+
+            expect(table.c.throttleInterval).toEqual(300);
+        });
+
+        it('should throw if totalRows is not a number', () => {
+            expect(function() { return new TableView({...baseConfig, totalRows: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, totalRows: function(){}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, totalRows: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, totalRows: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, totalRows: true}); }).toThrow();
+        });
+
+        it('should default totalRows to zero', () => {
+            table = new TableView({...baseConfig, totalRows: undefined});
+
+            expect(table.c.totalRows).toEqual(0);
+        });
+
+        it('should throw if getRow is not a function', () => {
+            expect(function() { return new TableView({...baseConfig, getRow: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, getRow: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, getRow: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, getRow: true}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, getRow: 3}); }).toThrow();
+        });
+
+        it('should throw if rowClickFunc is not a function', () => {
+            expect(function() { return new TableView({...baseConfig, rowClickFunc: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, rowClickFunc: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, rowClickFunc: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, rowClickFunc: true}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, rowClickFunc: 3}); }).toThrow();
+        });
+
+        it('should default rowClickFunc to a noop function', () => {
+            table = new TableView({...baseConfig, rowClickFunc: undefined});
+
+            expect(table.c.rowClickFunc).toEqual(jasmine.any(Function));
+        });
+
+        it('should throw if cellClickFunc is not a function', () => {
+            expect(function() { return new TableView({...baseConfig, cellClickFunc: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, cellClickFunc: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, cellClickFunc: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, cellClickFunc: true}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, cellClickFunc: 3}); }).toThrow();
+        });
+
+        it('should default cellClickFunc to a noop function', () => {
+            table = new TableView({...baseConfig, cellClickFunc: undefined});
+
+            expect(table.c.cellClickFunc).toEqual(jasmine.any(Function));
+        });
     });
 
     describe('click functionality', () => {
@@ -168,6 +284,49 @@ describe('UITable/TableView', () => {
         });
     });
 
+    describe('rows', () => {
+        it('row.active should return `true` if the row is selected', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].active).toBe(false);
+
+            table.changeActiveRow(1);
+            expect(table.rows[0].active).toBe(true);
+        });
+    });
+
+    describe('row cells', () => {
+        it('cell.content should retrieve the text of the cell', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].content).toBe(rows[0][columns[0].mapping]);
+        });
+
+        it('cell.content = `string` should update the cell text', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].content).not.toBe('abc');
+
+            table.rows[0].cells[0].content = 'abc';
+            expect(table.rows[0].cells[0].content).toBe('abc');
+        });
+
+        it('cell.width should retrieve the calculated width', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].width).toEqual(jasmine.any(Number));
+        });
+
+        it('cell.width = `number` should update the cell width', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].width).not.toBe(400);
+
+            table.rows[0].cells[0].width = 400;
+            expect(table.rows[0].cells[0].width).toBe(400);
+        });
+    });
+
     describe('row rotation', () => {
         afterEach(() => baseConfig.wrapper.setAttribute('style', ''));
 
@@ -250,7 +409,7 @@ describe('UITable/TableView', () => {
             expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Louise');
 
             // simulate drag cascade
-            table.handleYScrollHandleDragStart({button: 0, pageY: 0, preventDefault: noop});
+            table.handleYScrollHandleDragStart({button: 0, pageY: 0, offsetY: 0, preventDefault: noop});
             table.handleDragMove({pageY: 200});
             table.handleDragEnd();
 
@@ -269,7 +428,7 @@ describe('UITable/TableView', () => {
             expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Louise');
 
             // simulate drag cascade
-            table.handleYScrollHandleDragStart({button: 0, pageY: 0, preventDefault: noop});
+            table.handleYScrollHandleDragStart({button: 0, pageY: 0, offsetY: 0, preventDefault: noop});
             table.handleDragMove({pageY: 200});
             table.handleDragEnd();
 
@@ -338,6 +497,17 @@ describe('UITable/TableView', () => {
             expect(x.style.width).toBe('500px');
         });
 
+        it('should default to 12px width if would become too small', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.calculateXScrollHandleSize()).not.toBe(12);
+
+            table.container_w = 500;
+            table.x_max = 500;
+
+            expect(table.calculateXScrollHandleSize()).toBe(12);
+        });
+
         it('should not translate beyond the bounds of the x-axis scroll track', () => {
             table = new TableView(baseConfig);
 
@@ -392,17 +562,23 @@ describe('UITable/TableView', () => {
             table = new TableView(baseConfig);
 
             const y = table.c['y-scroll-handle'];
+            const expectedHeight = table.container_h * (table.n_rows_visible / table.c.totalRows);
 
-            // rendering 4 rows, 150px container height, so 150 * (5 rendered rows / 10 total rows)
-            // it's hardcoded to 150px height in the component as a fallback since JSDOM doesn't have a layout engine
-            expect(y.style.height).toBe('75px');
+            expect(y.style.height).toBe(expectedHeight + 'px');
+        });
+
+        it('should default to 12px height if would become too small', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.calculateYScrollHandleSize()).not.toBe(12);
+
+            table.n_rows_visible = 0;
+
+            expect(table.calculateYScrollHandleSize()).toBe(12);
         });
 
         it('should not translate beyond the bounds of the y-axis scroll track', () => {
             table = new TableView(baseConfig);
-
-            const y = table.c['y-scroll-handle'];
-            const height = window.getComputedStyle(table.c.wrapper)['height'] || 150;
 
             table.handleMoveIntent({
                 deltaX: 0,
@@ -410,9 +586,26 @@ describe('UITable/TableView', () => {
                 preventDefault: noop
             });
 
-            expect(y.style.WebkitTransform).toBe(
-                `translate3d(0px,${parseInt(height, 10) - parseInt(y.style.height, 10)}px,0px)`
+            expect(table.c['y-scroll-handle'].style.WebkitTransform).toBe(
+                `translate3d(0px,${table.container_h - table.y_scroll_handle_size}px,0px)`
             );
+        });
+    });
+
+    describe('column cells', () => {
+        it('column.title should retrieve the title property of the column', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.columns[0].title).toBe(table.c.columns[0].title);
+        });
+
+        it('column.title = `string` should update the text', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.columns[0].title).not.toBe('abc');
+
+            table.columns[0].title = 'abc';
+            expect(table.columns[0].title).toBe('abc');
         });
     });
 

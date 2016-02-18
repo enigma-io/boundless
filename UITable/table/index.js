@@ -7,32 +7,28 @@ import transformProp from '../../UIUtils/transform';
 import findWhere from '../../UIUtils/findWhere';
 import noop from '../../UIUtils/noop';
 
-/**
- * FOR FUTURE EYES
- *
- * Scroll performance is a tricky beast -- moreso when trying to maintain 50+ FPS and pumping a lot of data
- * to the DOM. There are a lot of choices in this component that may seem odd at first blush, but let it
- * be known that we tried to do it the React Way™ and it was not performant enough.
- *
- * The combination that was settled upon is a React shell with native DOM guts. This combination yields the
- * best performance, while still being perfectly interoperable with the rest of UIKit and React use cases.
- *
- * __Important Note__
- *
- * Any time you create a document fragment, make sure you release it after by setting its variable to `null`.
- * If you don't, it'll create a memory leak. Also, make sure all generated DOM is removed on componentWillUnmount.
- */
+/*
 
-/**
- * ORDER OF OPERATIONS
- *
- * 1. render one row of cells
- * 2. capture table & cell sizing metrics
- * 3. render column heads and the rest of the cells
- *
- * If the component updates due to new props, just blow away everything and start over. It's cheaper than
- * trying to diff.
- */
+FOR FUTURE EYES
+
+Scroll performance is a tricky beast -- moreso when trying to maintain 50+ FPS and pumping a lot of data to the DOM. There are a lot of choices in this component that may seem odd at first blush, but let it be known that we tried to do it the React Way™ and it was not performant enough.
+
+The combination that was settled upon is a React shell with native DOM guts. This combination yields the best performance, while still being perfectly interoperable with the rest of UIKit and React use cases.
+
+__Important Note__
+
+Any time you create a document fragment, make sure you release it after by setting its variable to `null`. If you don't, it'll create a memory leak. Also, make sure all generated DOM is removed on componentWillUnmount.
+
+
+ORDER OF OPERATIONS
+
+1. render one row of cells
+2. capture table & cell sizing metrics
+3. render column heads and the rest of the cells
+
+If the component updates due to new props, just blow away everything and start over. It's cheaper than trying to diff.
+
+*/
 
 const cellClassRegex = /\s?ui-table-cell\b/g;
 const rowClassRegex = /\s?ui-table-row\b/g;
@@ -155,8 +151,7 @@ const createCell = function createCell(content, mapping, width) {
             // take off the inner class which is what causes the sizing constraint
             this.node.children[0].className = '';
 
-            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns
-            an integer value, rather than the _actual_ width. SMH. */
+            /* Capture the new adjusted size, have to use the hard way because .clientWidth returns an integer value, rather than the _actual_ width. SMH. */
             const newWidth = this.node.getBoundingClientRect().width;
 
             // Put everything back
@@ -302,7 +297,7 @@ class TableView {
         return    typeof column.mapping === 'string'
                && typeof column.resizable === 'boolean'
                && typeof column.title === 'string'
-               && typeof column.width !== 'undefined' ? typeof column.width === 'number' : true;
+               && (typeof column.width === 'number' || typeof column.width === 'undefined');
     }
 
     validateConfiguration(config) {
@@ -338,12 +333,14 @@ class TableView {
             throw Error('TableView was not passed a valid `aria` element.');
         }
 
-        if (!config.columns.every(this.validateColumnShape)) {
-            throw Error(`TableView was not passed valid \`columns\`. They should be objects conforming to: {
+        if (   !Array.isArray(config.columns)
+            || config.columns.length === 0
+            || !config.columns.every(this.validateColumnShape)) {
+            throw Error(`TableView was not passed valid \`columns\`. It should be an array with at least one object conforming to: {
                 mapping: string,
                 resizable: bool,
                 title: string,
-                width: number,
+                width: number (optional),
             }`);
         }
 
@@ -372,8 +369,6 @@ class TableView {
         this.c = {...config};
 
         // fallback values
-        this.c.columns = this.c.columns || [];
-        this.c.getRow = this.c.getRow || noop;
         this.c.rowClickFunc = this.c.rowClickFunc || noop;
         this.c.cellClickFunc = this.c.cellClickFunc || noop;
         this.c.throttleInterval = this.c.throttleInterval || 300;
@@ -458,7 +453,7 @@ class TableView {
         this.emptyHeader();
         this.emptyBody();
 
-        // release nodes
+        // release cached DOM nodes
         Object.keys(this.c).forEach(key => {
             if (this.c[key] instanceof HTMLElement) {
                 this.c[key] = null;
@@ -471,7 +466,7 @@ class TableView {
         this.rows = [];
         this.rows_ordered_by_y = [];
         this.rows_ordered_by_y_length = 0;
-        this.n_padding_rows = 1;
+        this.n_padding_rows = 3;
 
         this.x = this.y = 0;
         this.next_x = this.next_y = 0;
@@ -481,6 +476,8 @@ class TableView {
 
         this.active_row = -1;
         this.next_active_row = null;
+
+        this.top_visible_row_index = 0;
 
         // temporary variables in various calculations
         this.i = null;
@@ -576,7 +573,7 @@ class TableView {
     injectRestOfRows() {
         this.fragment = document.createDocumentFragment();
 
-        for (this.i = 1; this.i < this.n_rows_to_render; this.i += 1) {
+        for (this.i = 1; this.i < this.n_rows_rendered; this.i += 1) {
             this.rows.push(createRow({
                 data: this.c.getRow(this.i),
                 setIndex: this.i,
@@ -611,8 +608,7 @@ class TableView {
 
     calculateYBound() {
         this.y_min = 0;
-        this.y_max = this.container_h - this.n_rows_to_render * this.cell_h;
-        this.y_max = this.y_max > 0 ? 0 : this.y_max;
+        this.y_max = this.body_h - this.n_rows_rendered * this.cell_h;
     }
 
     calculateXScrollHandleSize() {
@@ -626,7 +622,9 @@ class TableView {
     }
 
     calculateYScrollHandleSize() {
-        this.y_scroll_handle_size = this.container_h * (this.n_rows_to_render / this.c.totalRows);
+        this.y_scroll_handle_size =   this.n_rows_visible === this.n_rows_rendered
+                                    ? this.container_h
+                                    : this.container_h * (this.n_rows_visible / this.c.totalRows);
 
         if (this.y_scroll_handle_size < 12) {
             this.y_scroll_handle_size = 12;
@@ -636,9 +634,9 @@ class TableView {
     }
 
     initializeScrollBars() {
-        this.x_scroll_track_w = this.c['x-scroll-track'].clientWidth || 500;
+        this.x_scroll_track_w = this.c['x-scroll-track'].clientWidth || this.container_w;
         this.x_scroll_track_h = this.c['x-scroll-track'].clientHeight || 8;
-        this.y_scroll_track_h = this.c['y-scroll-track'].clientHeight || 150;
+        this.y_scroll_track_h = this.c['y-scroll-track'].clientHeight || this.container_h;
         this.x_scroll_handle_style.width = this.calculateXScrollHandleSize() + 'px';
         this.y_scroll_handle_style.height = this.calculateYScrollHandleSize() + 'px';
 
@@ -646,17 +644,25 @@ class TableView {
         this.x_table_pixel_ratio = Math.abs(this.x_max) / (this.x_scroll_track_w - this.x_scroll_handle_size);
 
         /* how many scrollbar pixels === one row? */
-        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_to_render);
+        this.y_scrollbar_pixel_ratio = (this.y_scroll_track_h - this.y_scroll_handle_size) / (this.c.totalRows - this.n_rows_visible);
 
         /* hide the scrollbars if they are not needed */
 
-        this.c['x-scroll-track'].style.display =   this.x_scroll_handle_size === this.container_w
-                                                 ? 'none'
-                                                 : '';
+        if (this.x_scroll_handle_size === this.container_w) {
+            this.c['x-scroll-track'].style.display = 'none';
+            this.x_scroll_track_hidden = true;
+        } else {
+            this.c['x-scroll-track'].style.display = '';
+            this.x_scroll_track_hidden = false;
+        }
 
-        this.c['y-scroll-track'].style.display =   this.y_scroll_handle_size === this.container_h
-                                                 ? 'none'
-                                                 : '';
+        if (this.y_scroll_handle_size === this.container_h) {
+            this.c['y-scroll-track'].style.display = 'none';
+            this.y_scroll_track_hidden = true;
+        } else {
+            this.c['y-scroll-track'].style.display = '';
+            this.y_scroll_track_hidden = false;
+        }
     }
 
     calculateContainerDimensions() {
@@ -664,6 +670,7 @@ class TableView {
         an actual number. */
         this.container_h = this.c.wrapper.clientHeight || 150;
         this.container_w = this.c.wrapper.clientWidth || 500;
+        this.body_h = this.c.body.clientHeight || 110;
     }
 
     handleWindowResize() {
@@ -688,14 +695,20 @@ class TableView {
         this.calculateCellWidths();
         this.calculateCellHeight();
 
-        this.n_rows_to_render = Math.ceil(this.container_h / this.cell_h) + this.n_padding_rows;
+        this.n_rows_rendered = Math.ceil(this.body_h / this.cell_h) + this.n_padding_rows;
 
-        if (this.n_rows_to_render > this.c.totalRows) {
-            this.n_rows_to_render = this.c.totalRows;
+        if (this.n_rows_rendered > this.c.totalRows) {
+            this.n_rows_rendered = this.c.totalRows;
+        }
+
+        this.n_rows_visible = Math.floor(this.body_h / this.cell_h);
+
+        if (this.n_rows_visible > this.n_rows_rendered) {
+            this.n_rows_visible = this.n_rows_rendered;
         }
 
         this.row_start_index = 0;
-        this.row_end_index = this.n_rows_to_render;
+        this.row_end_index = this.n_rows_rendered - 1;
 
         this.injectHeaderCells();
         this.injectRestOfRows();
@@ -754,25 +767,24 @@ class TableView {
 
         if (this.row_start_index === 0 || this.next_y <= this.y_min) { return; }
 
-        /* Scrolling down, so we want to move the row in the visual bottom position to the top
+        /* Scrolling up, so we want to move the row in the visual bottom position to the top
            (above the lip of the view) */
 
         this.n_rows_to_shift = Math.ceil(
             Math.abs(this.next_y - this.y_min) / this.cell_h
         );
 
+        /* prevent under-rotating below index zero, the logical start of a data set */
         if (this.row_start_index - this.n_rows_to_shift < 0) {
             this.next_y -= Math.abs(this.row_start_index - this.n_rows_to_shift) * this.cell_h;
             this.n_rows_to_shift = this.row_start_index;
         }
 
         if (this.n_rows_to_shift > 0) {
-            if (this.n_rows_to_shift > this.n_rows_to_render) {
-                /* when the total movement ends up being larger than the set of rows already rendered, we can safely decrement the "viewable" row range accordingly and
-                the next step where the content is substituted will automatically insert
-                the next logical row into its place */
+            if (this.n_rows_to_shift > this.n_rows_rendered) {
+                /* when the total movement ends up being larger than the set of rows already rendered, we can safely decrement the "viewable" row range accordingly and the next step where the content is substituted will automatically insert the next logical row into its place */
 
-                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_rendered;
 
                 this.row_start_index -= this.shift_delta;
                 this.row_end_index -= this.shift_delta;
@@ -780,14 +792,14 @@ class TableView {
                 /* accomodate for the number of pixels that will not be rendered */
                 this.next_y -= this.shift_delta * this.cell_h;
 
-                this.n_rows_to_shift = this.n_rows_to_render;
+                this.n_rows_to_shift = this.n_rows_rendered;
             }
 
             /* move the highest Y-value rows to the top of the ordering array */
             this.ordered_y_array_index = this.rows_ordered_by_y.length - 1;
 
-            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
-                this.target_index = this.row_start_index - this.iterator - 1;
+            for (this.iterator = 1; this.iterator <= this.n_rows_to_shift; this.iterator += 1) {
+                this.target_index = this.row_start_index - this.iterator;
 
                 this.ptr = this.rows[
                     this.rows_ordered_by_y[this.ordered_y_array_index]
@@ -812,34 +824,45 @@ class TableView {
     }
 
     scrollDown() {
-        /* at the logical end of the table (row index n) we truncate any scroll attempts
-           to the lower translation boundary to keep from skipping off into nothingness */
-        if (this.row_end_index >= this.c.totalRows && this.next_y < this.y_max) {
-            this.next_y = this.y_max - this.x_scroll_track_h;
+        /* at the logical end of the table (row index n) we truncate any scroll attempts  */
+        if (this.row_end_index >= this.c.totalRows - 1 && this.next_y <= this.y_max) {
+            this.next_y = this.y_max;
+
+            if (this.x_scroll_track_hidden === false) {
+                this.next_y -= this.x_scroll_track_h;
+            }
 
             return;
-        }
 
-        if (this.next_y >= this.y_max) { return; }
+        } else if (this.next_y >= this.y_max) { return; }
 
         /* Scrolling down, so we want to move the row in the visual top position to the bottom
            (below the lip of the view) */
 
         this.n_rows_to_shift = Math.ceil(Math.abs(this.next_y - this.y_max) / this.cell_h);
 
-        if (this.n_rows_to_shift + this.row_end_index + 1 > this.c.totalRows) {
+        if (this.n_rows_to_shift + this.row_end_index + 1 >= this.c.totalRows) {
             /* more rows than there is data available, truncate */
-            this.next_y += (this.n_rows_to_shift - (this.c.totalRows - this.row_end_index + 1)) * this.cell_h;
-            this.n_rows_to_shift = this.c.totalRows - this.row_end_index + 1;
+            this.next_y += (
+                this.n_rows_to_shift - (this.c.totalRows - this.row_end_index - (this.top_visible_row_index === 0 ? 0 : 1))
+            ) * this.cell_h;
+
+            this.next_y = this.applyDelta(
+                this.applyDelta(this.y_max, this.y) % this.cell_h, this.next_y
+            );
+
+            if (this.x_scroll_track_hidden === false) {
+                this.next_y -= this.x_scroll_track_h;
+            }
+
+            this.n_rows_to_shift = this.c.totalRows - this.row_end_index - 1;
         }
 
         if (this.n_rows_to_shift > 0) {
-            if (this.n_rows_to_shift > this.n_rows_to_render) {
-                /* when the total movement ends up being larger than the set of rows already rendered, we can safely increment the "viewable" row range accordingly and
-                the next step where the content is substituted will automatically insert
-                the next logical row into its place */
+            if (this.n_rows_to_shift > this.n_rows_rendered) {
+                /* when the total movement ends up being larger than the set of rows already rendered, we can safely increment the "viewable" row range accordingly and the next step where the content is substituted will automatically insert the next logical row into its place */
 
-                this.shift_delta = this.n_rows_to_shift - this.n_rows_to_render;
+                this.shift_delta = this.n_rows_to_shift - this.n_rows_rendered;
 
                 this.row_start_index += this.shift_delta;
                 this.row_end_index += this.shift_delta;
@@ -847,11 +870,18 @@ class TableView {
                 /* accomodate for the number of pixels that will not be rendered */
                 this.next_y += this.shift_delta * this.cell_h;
 
-                this.n_rows_to_shift = this.n_rows_to_render;
+                this.n_rows_to_shift = this.n_rows_rendered;
             }
 
-            for (this.iterator = 0; this.iterator < this.n_rows_to_shift; this.iterator += 1) {
+            for (this.iterator = 1; this.iterator <= this.n_rows_to_shift; this.iterator += 1) {
                 this.target_index = this.row_end_index + this.iterator;
+
+                /* the padding rows will exceed the maximum index for a data set once the user has fully translated to the bottom of the screen */
+                if (this.target_index >= this.c.totalRows) {
+                    this.rows_ordered_by_y.push(this.rows_ordered_by_y.shift());
+
+                    continue;
+                }
 
                 /* move the lowest Y-value rows to the bottom of the ordering array */
                 this.ptr = this.rows[this.rows_ordered_by_y[0]];
@@ -874,14 +904,30 @@ class TableView {
         }
     }
 
+    applyDelta(delta, num) {
+        if (delta < 0) {
+            return num < 0 ? num - delta : num + delta;
+        }
+
+        return num - delta;
+    }
+
+    calculateVisibleTopRowIndex(targetY = this.next_y) {
+        return this.rows[
+            this.rows_ordered_by_y[
+                Math.ceil(Math.abs(
+                    this.applyDelta(this.y_min, targetY) / this.cell_h
+                ))
+            ]
+        ].setIndex;
+    }
+
     handleMoveIntent(event) {
         event.preventDefault();
 
-        if ((event.deltaX === 0 && event.deltaY === 0)
-            || this.y_scroll_locked && event.deltaY === 0
-            || this.x_scroll_locked && event.deltaX === 0) {
-            return;
-        }
+        if (event.deltaX === 0   && event.deltaY === 0) { return; }
+        if (this.y_scroll_locked && event.deltaY === 0) { return; }
+        if (this.x_scroll_locked && event.deltaX === 0) { return; }
 
         this.delta_x = event.deltaX;
 
@@ -892,6 +938,7 @@ class TableView {
 
         /* lock the translation axis if the user is manipulating the synthetic scrollbars */
         this.next_x = this.y_scroll_locked ? this.x : this.x - this.delta_x;
+        this.next_y = this.x_scroll_locked ? this.y : this.y - this.delta_y;
 
         if (this.next_x > 0) {
             this.next_x = 0;
@@ -899,10 +946,10 @@ class TableView {
             this.next_x = this.x_max;
         }
 
-        /* lock the translation axis if the user is manipulating the synthetic scrollbars */
-        this.next_y = this.x_scroll_locked ? this.y : this.y - this.delta_y;
-
-        if (this.next_y < this.y) {
+        if (this.n_rows_visible >= this.c.totalRows) {
+            /* negate the vertical movement, not enough rows to fill the body */
+            this.next_y = this.y;
+        } else if (this.next_y < this.y) {
             this.scrollDown();
         } else if (this.next_y > this.y) {
             this.scrollUp();
@@ -910,36 +957,16 @@ class TableView {
 
         if (this.reset_timer) { window.clearTimeout(this.reset_timer); }
 
+        /* reset row & wrapper Y values toward 0 to prevent overflowing */
         this.reset_timer = window.setTimeout(function resetYAxis(instance) {
             instance.reset_timer = null;
 
-            /* reset row & wrapper Y values toward 0 to prevent overflowing */
-            instance.shift_delta =   instance.y_min < 0
-                                   ? instance.y_min
-                                   : instance.y_min * -1;
+            instance.reset_delta = instance.y_min;
 
             /* shift all the positioning variables */
-            if (instance.shift_delta < 0) {
-                instance.y =   instance.y < 0
-                             ? instance.y - instance.shift_delta
-                             : instance.y + instance.shift_delta;
-                instance.y_min =   instance.y_min < 0
-                                 ? instance.y_min - instance.shift_delta
-                                 : instance.y_min + instance.shift_delta;
-                instance.y_max = instance.y_max < 0
-                                 ? instance.y_max - instance.shift_delta
-                                 : instance.y_max + instance.shift_delta;
-            } else {
-                instance.y =   instance.y < 0
-                             ? instance.y + instance.shift_delta
-                             : instance.y - instance.shift_delta;
-                instance.y_min =   instance.y_min < 0
-                                 ? instance.y_min + instance.shift_delta
-                                 : instance.y_min - instance.shift_delta;
-                instance.y_max =   instance.y_max < 0
-                                 ? instance.y_max + instance.shift_delta
-                                 : instance.y_max - instance.shift_delta;
-            }
+            instance.y = instance.applyDelta(instance.reset_delta, instance.y);
+            instance.y_min = instance.applyDelta(instance.reset_delta, instance.y_min);
+            instance.y_max = instance.applyDelta(instance.reset_delta, instance.y_max);
 
             /* shift all the rows */
             instance.rows_ordered_by_y.forEach((position, index) => {
@@ -949,11 +976,12 @@ class TableView {
             /* shift the wrapper */
             instance.translateBody(instance.x, instance.y);
 
-        }, this.c.throttleInterval, this);
+        }, 100, this);
 
-        /* queue up translations and the browser will execute them as able, need to pass in the values
-        that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
-        window.requestAnimationFrame(function rAF(nextX, currX, nextY, index) {
+        this.top_visible_row_index = this.calculateVisibleTopRowIndex();
+
+        /* queue up translations and the browser will execute them as able, need to pass in the values that will change due to more handleMoveIntent invocations before this rAF eventually executes. */
+        window.requestAnimationFrame(function rAF(nextX, currX, nextY, visibleTopRowIndex) {
             if (nextX === 0) {
                 this.x_scroll_handle_position = 0;
             } else {
@@ -964,20 +992,16 @@ class TableView {
                 }
             }
 
-            if (index === this.n_rows_to_render) {
-                this.y_scroll_handle_position = 0;
-            } else {
-                this.y_scroll_handle_position = index * this.y_scrollbar_pixel_ratio;
+            this.y_scroll_handle_position = visibleTopRowIndex * this.y_scrollbar_pixel_ratio;
 
-                if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
-                    this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
-                }
+            if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
+                this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
             }
 
             // Do all transforms grouped together
             this.performTranslations(nextX, nextY);
 
-        }.bind(this, this.next_x, this.x, this.next_y, this.row_start_index));
+        }.bind(this, this.next_x, this.x, this.next_y, this.top_visible_row_index));
 
         this.x = this.next_x;
         this.y = this.next_y;
@@ -1023,9 +1047,11 @@ class TableView {
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
         this.evt.deltaX = 0;
-
-        /* calculated delta from current starting row to destination starting row */
-        this.evt.deltaY = (Math.ceil((event.pageY - this.distance_from_top) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
+        this.evt.deltaY = Math.floor(
+            this.applyDelta(
+                this.last_y_scroll_handle_y, event.pageY - this.distance_from_top
+            ) / this.y_scrollbar_pixel_ratio
+        ) * this.cell_h;
 
         this.handleMoveIntent(this.evt);
     }
@@ -1048,6 +1074,9 @@ class TableView {
 
         event.preventDefault();
 
+        /* adjusts for the pixel distance between where the handle is clicked and the top edge of it; the handle is positioned according to its top edge */
+        this.y_scroll_offset = event.offsetY;
+
         this.y_scroll_locked = true;
         this.left_button_pressed = true;
 
@@ -1061,6 +1090,7 @@ class TableView {
         if (this.y_scroll_locked) {
             if (this.drag_timer) { window.clearTimeout(this.drag_timer); }
 
+            /* x-axis doesn't need throttle protection since it doesn't cause a row fetch */
             this.drag_timer = window.setTimeout(() => {
                 this.drag_timer = null;
 
@@ -1071,11 +1101,14 @@ class TableView {
                     }
                 });
             }, this.c.throttleInterval);
-        } /* x-axis doesn't need throttle protection since it doesn't cause an API fetch */
 
-        if (this.y_scroll_locked) {
             this.evt.deltaX = 0;
-            this.evt.deltaY = (Math.ceil((event.pageY - this.distance_from_top) / this.y_scrollbar_pixel_ratio) - this.row_start_index) * this.cell_h;
+            this.evt.deltaY = Math.floor(
+                this.applyDelta(
+                    this.last_y_scroll_handle_y,
+                    event.pageY - this.distance_from_top - this.y_scroll_offset
+                ) / this.y_scrollbar_pixel_ratio
+            ) * this.cell_h;
 
             this.handleMoveIntent(this.evt);
 
@@ -1094,16 +1127,17 @@ class TableView {
         }
     }
 
+    unlockDragToScroll() {
+        this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
+    }
+
     handleDragEnd() {
         window.removeEventListener('mouseup', this.handleDragEnd, true);
 
         this.left_button_pressed = false;
 
-        /* the browser fires the mouseup and click events simultaneously, and we don't want our click handler to
-        be executed, so a zero-delay setTimeout works here to let the stack clear before allowing click events again. */
-        window.setTimeout(() => {
-            this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
-        }, 0);
+        /* the browser fires the mouseup and click events simultaneously, and we don't want our click handler to be executed, so a zero-delay setTimeout works here to let the stack clear before allowing click events again. */
+        window.setTimeout(() => this.unlockDragToScroll(), 0);
     }
 
     handleColumnDragStart(event) {
@@ -1212,7 +1246,7 @@ class TableView {
 
             if (
                    (delta === -1 && this.next_active_row.y * -1 > this.y)
-                || (delta === 1 && this.next_active_row.y * -1 - this.cell_h < this.y - this.container_h + this.cell_h) // 1 unit of cellHeight is removed to compensate for the header row
+                || (delta === 1 && this.next_active_row.y * -1 < this.y - this.body_h + this.cell_h)
             ) { // Destination row is outside the viewport, so simulate a scroll
                 this.evt.deltaX = 0;
                 this.evt.deltaY = this.cell_h * delta;
@@ -1221,10 +1255,7 @@ class TableView {
             }
         } else if (   (delta === -1 && this.active_row > 0)
                    || (delta === 1 && this.active_row < this.c.totalRows)) {
-            /*
-                The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown
-                in the viewport.
-             */
+            /* The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown in the viewport. */
             this.evt.deltaX = 0;
             this.evt.deltaY = (   (    this.row_start_index > this.active_row
                                           && this.active_row - this.row_start_index)
