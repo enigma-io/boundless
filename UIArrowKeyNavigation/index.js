@@ -15,7 +15,7 @@ class UIArrowKeyNavigation extends UIView {
         };
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.activeChildIndex !== null) {
             const numChildren =   this.props.children
                                 ? (Array.prototype.concat(this.props.children)).length
@@ -24,17 +24,23 @@ class UIArrowKeyNavigation extends UIView {
             if (numChildren === 0) {
                 this.setState(this.initialState()); // eslint-disable-line react/no-did-update-set-state
             } else if (this.state.activeChildIndex >= numChildren) {
-                this.setFocus(numChildren - 1);
+                this.setState({activeChildIndex: numChildren - 1}); // eslint-disable-line react/no-did-update-set-state
+            } else if (this.state.activeChildIndex !== prevState.activeChildIndex) {
+                this.setFocus(this.state.activeChildIndex);
             }
         }
     }
 
     setFocus(index) {
-        (
+        const childNode = (
             this.refs.wrapper instanceof HTMLElement
           ? this.refs.wrapper
           : findDOMNode(this.refs.wrapper)
-        ).children[index].focus();
+        ).children[index];
+
+        if (childNode && document.activeElement !== childNode) {
+            childNode.focus();
+        }
     }
 
     moveFocus(delta) {
@@ -50,7 +56,7 @@ class UIArrowKeyNavigation extends UIView {
             nextIndex = numChildren - 1; // reverse loop
         }
 
-        this.setFocus(nextIndex);
+        this.setState({activeChildIndex: nextIndex});
     }
 
     handleKeyDown(event) {
@@ -85,7 +91,7 @@ class UIArrowKeyNavigation extends UIView {
     }
 
     children() {
-        return this.props.children && Array.prototype.concat(this.props.children).map((child, index) => {
+        return React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
                 key: child.key || index,
                 tabIndex: child.tabIndex || 0,

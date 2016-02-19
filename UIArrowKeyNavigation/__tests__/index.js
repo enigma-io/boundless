@@ -29,9 +29,7 @@ describe('UIArrowKeyNavigation', () => {
         node = element.refs.wrapper;
     });
 
-    afterEach(() => {
-        ReactDOM.unmountComponentAtNode(mountNode);
-    });
+    afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIArrowKeyNavigation));
 
@@ -53,6 +51,64 @@ describe('UIArrowKeyNavigation', () => {
         expect(element.state.activeChildIndex).toBe(null);
     });
 
+    it('should not reset internal focus if handleChildBlur is called out of turn', () => {
+        expect(element.state.activeChildIndex).toBe(null);
+
+        element.setState({activeChildIndex: 0});
+        expect(element.state.activeChildIndex).toBe(0);
+
+        element.handleChildBlur(1);
+        expect(element.state.activeChildIndex).toBe(0);
+    });
+
+    describe('setFocus(index)', () => {
+        it('should do nothing if given an invalid index', () => {
+            expect(document.activeElement).toBe(document.body);
+
+            element.setFocus(10000);
+            expect(document.activeElement).toBe(document.body);
+        });
+
+        it('should move focus if given a valid child index', () => {
+            expect(document.activeElement).toBe(document.body);
+
+            element.setFocus(1);
+            expect(document.activeElement.textContent).toBe('orange');
+        });
+
+        it('should work if the wrapper is a composite', () => {
+            class ExampleComponent extends React.Component {
+                render() {
+                    return <div>{this.props.children}</div>;
+                }
+            }
+
+            element = render(
+                <UIArrowKeyNavigation component={ExampleComponent}>
+                    <span>apple</span>
+                    <span>orange</span>
+                </UIArrowKeyNavigation>
+            );
+
+            expect(document.activeElement).toBe(document.body);
+
+            element.setFocus(1);
+            expect(document.activeElement.textContent).toBe('orange');
+        });
+    });
+
+    describe('when `state.activeChildIndex` changes', () => {
+        it('should apply focus to the new active index', () => {
+            expect(document.activeElement).toBe(document.body);
+
+            element.setState({activeChildIndex: 0});
+            expect(document.activeElement.textContent).toBe('apple');
+
+            element.setState({activeChildIndex: 1});
+            expect(document.activeElement.textContent).toBe('orange');
+        });
+    });
+
     describe('when `props.children` changes', () => {
         it('should reset internal focus tracking if there are no children', () => {
             Simulate.focus(node.children[0]);
@@ -62,7 +118,7 @@ describe('UIArrowKeyNavigation', () => {
             expect(element.state.activeChildIndex).toBe(null);
         });
 
-        xit('should move focus to the last child if the previous activeChildIndex is greater than the total number of available children', () => {
+        it('should move focus to the last child if the previous activeChildIndex is greater than the total number of available children', () => {
             element = render(
                 <UIArrowKeyNavigation>
                     <li>apple</li>
