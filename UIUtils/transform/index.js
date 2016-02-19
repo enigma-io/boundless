@@ -6,7 +6,7 @@
  */
 
 export default (function detectTransformProperty() {
-    let props = [
+    const props = [
         'transform',
         'WebkitTransform',
         'MozTransform',
