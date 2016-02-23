@@ -9,6 +9,13 @@ import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 class UICheckbox extends UIView {
+    constructor(...args) {
+        super(...args);
+
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
     initialState() {
         return {
             id: this.props.inputProps.id || this.uuid(),
@@ -35,16 +42,21 @@ class UICheckbox extends UIView {
         return this.props.indeterminate ? 'mixed' : String(this.props.checked);
     }
 
-    handleChange() { // Send the opposite signal from what was passed to toggle the data
+    handleChange(event) { // Send the opposite signal from what was passed to toggle the data
         this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
+
+        if (typeof this.props.inputProps.onChange === 'function') {
+            event.persist();
+            this.props.inputProps.onChange(event);
+        }
     }
 
     handleClick(event) {
         this.refs.input.focus();
 
-        if (typeof this.props.handleClick === 'function') {
+        if (typeof this.props.inputProps.onClick === 'function') {
             event.persist();
-            this.props.handleClick(event);
+            this.props.inputProps.onClick(event);
         }
     }
 
@@ -64,8 +76,8 @@ class UICheckbox extends UIView {
                    name={this.props.name}
                    checked={this.props.checked}
                    aria-checked={this.ariaState()}
-                   onChange={this.handleChange.bind(this)}
-                   onClick={this.handleClick.bind(this)}
+                   onChange={this.handleChange}
+                   onClick={this.handleClick}
                    value={this.props.value} />
         );
     }
