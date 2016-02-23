@@ -76,19 +76,17 @@ class UIDialog extends UIView {
     }
 
     renderBody() {
-        if (this.props.body) {
-            return (
-                <div {...this.props.bodyProps}
-                     ref='body'
-                     id={this.state.bodyUUID}
-                     className={cx({
-                        'ui-dialog-body': true,
-                        [this.props.bodyProps.className]: !!this.props.bodyProps.className,
-                     })}>
-                    {this.props.body}
-                </div>
-            );
-        }
+        return (
+            <div {...this.props.bodyProps}
+                 ref='body'
+                 id={this.state.bodyUUID}
+                 className={cx({
+                    'ui-dialog-body': true,
+                    [this.props.bodyProps.className]: !!this.props.bodyProps.className,
+                 })}>
+                {this.props.children}
+            </div>
+        );
     }
 
     renderFooter() {
@@ -136,7 +134,7 @@ class UIDialog extends UIView {
                  aria-describedby={this.state.bodyUUID}
                  tabIndex='0'>
                 {this.renderHeader()}
-                {this.props.children || this.renderBody()}
+                {this.renderBody()}
                 {this.renderFooter()}
             </div>
         );
@@ -144,7 +142,6 @@ class UIDialog extends UIView {
 }
 
 UIDialog.propTypes = {
-    body: React.PropTypes.node,
     bodyProps: React.PropTypes.object,
     captureFocus: React.PropTypes.bool,
     children: React.PropTypes.node,

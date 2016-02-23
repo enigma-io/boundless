@@ -28,8 +28,8 @@ export default class UIPopoverDemo extends UIView {
                 syllabicRepresentation: 'o·li·o',
                 type: 'noun',
                 primaryDefinition: [
-                    <span>another term for </span>,
-                    <a href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>,
+                    <span key='1'>another term for </span>,
+                    <a key='2' href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>,
                 ],
                 secondaryDefinitions: [
                     'a miscellaneous collection of things',
@@ -69,6 +69,51 @@ export default class UIPopoverDemo extends UIView {
         }
     }
 
+    togglePopover(index) {
+        this.setState({ ['showPopover' + index]: !this.state['showPopover' + index] });
+    }
+
+    renderSecondaryDefinitions(definitions = []) {
+        return definitions.length ? (
+            <UIArrowKeyNavigation key='secondary' component='ol'>
+                {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
+            </UIArrowKeyNavigation>
+        ) : undefined;
+    }
+
+    renderPrimaryDefinition(definition) {
+        return definition ?  <p key='primary'>{definition}</p> : undefined;
+    }
+
+    renderBody(definition) {
+        return [
+            <strong key='syllabic'>{definition.syllabicRepresentation}</strong>,
+            <br key='break' />,
+            <em key='type'>{definition.type}</em>,
+            this.renderPrimaryDefinition(definition.primaryDefinition),
+            this.renderSecondaryDefinitions(definition.secondaryDefinitions),
+        ];
+    }
+
+    renderPopovers() {
+        return this.state.words.map((definition, index) => {
+            return this.state['showPopover' + index] ? (
+                <UIPopover key={definition.word}
+                           anchor={this.refs['word' + index]}
+                           anchorXAlign={definition.anchorXAlign}
+                           anchorYAlign={definition.anchorYAlign}
+                           closeOnEscKey={true}
+                           closeOnOutsideClick={true}
+                           closeOnOutsideFocus={true}
+                           onClose={this.togglePopover.bind(this, index)}
+                           selfXAlign={definition.selfXAlign}
+                           selfYAlign={definition.selfYAlign}>
+                    {this.renderBody(definition)}
+                </UIPopover>
+            ) : undefined;
+        });
+    }
+
     render() {
         return (
             <div>
@@ -91,49 +136,5 @@ export default class UIPopoverDemo extends UIView {
                 {this.renderPopovers()}
             </div>
         );
-    }
-
-    renderSecondaryDefinitions(definitions = []) {
-        return definitions.length ? (
-            <UIArrowKeyNavigation key='secondary' component='ol'>
-                {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
-            </UIArrowKeyNavigation>
-        ) : null;
-    }
-
-    renderPrimaryDefinition(definition) {
-        return definition ?  <p key='primary'>{definition}</p> : null;
-    }
-
-    renderBody(definition) {
-        return [
-            <strong key='syllabic'>{definition.syllabicRepresentation}</strong>,
-            <br key='break' />,
-            <em key='type'>{definition.type}</em>,
-            this.renderPrimaryDefinition(definition.primaryDefinition),
-            this.renderSecondaryDefinitions(definition.secondaryDefinitions),
-        ];
-    }
-
-    renderPopovers() {
-        return this.state.words.map((definition, index) => {
-            return this.state['showPopover' + index] ? (
-                <UIPopover key={definition.word}
-                           anchor={this.refs['word' + index]}
-                           anchorXAlign={definition.anchorXAlign}
-                           anchorYAlign={definition.anchorYAlign}
-                           body={this.renderBody(definition)}
-                           closeOnEscKey={true}
-                           closeOnOutsideClick={true}
-                           closeOnOutsideFocus={true}
-                           onClose={this.togglePopover.bind(this, index)}
-                           selfXAlign={definition.selfXAlign}
-                           selfYAlign={definition.selfYAlign} />
-            ) : null;
-        });
-    }
-
-    togglePopover(index) {
-        this.setState({ ['showPopover' + index]: !this.state['showPopover' + index] });
     }
 }

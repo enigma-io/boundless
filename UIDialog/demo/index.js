@@ -29,7 +29,7 @@ export default class UIDialogDemo extends UIView {
     render() {
         return (
             <div>
-                <UIButton ref='trigger' onClick={this.toggleDialog}>Launch Video</UIButton>
+                <UIButton ref='trigger' onPressed={this.toggleDialog}>Launch Video</UIButton>
                 {this.renderDialog()}
             </div>
         );
@@ -53,7 +53,7 @@ export default class UIDialogDemo extends UIView {
                             allowFullScreen />
                     <UIButton className='dialog-demo-close-button'
                               title='Close'
-                              onClick={this.toggleDialog} />
+                              onPressed={this.toggleDialog} />
                 </UIDialog>
             );
         }

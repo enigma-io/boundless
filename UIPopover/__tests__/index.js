@@ -27,7 +27,7 @@ describe('UIPopover', () => {
         });
     });
 
-    describe('CSS hook', () => {
+    describe('CSS hook(s)', () => {
         it('ui-popover is rendered', () => {
             const popover = render(<UIPopover {...baseProps} />);
             const node = ReactDOM.findDOMNode(popover.renderDialog());
@@ -124,13 +124,16 @@ describe('UIPopover', () => {
         let element;
 
         beforeEach(() => {
-            element = render(<UIPopover {...baseProps}
-                                        header='foo'
-                                        headerProps={{className: 'foo'}}
-                                        body='bar'
-                                        bodyProps={{className: 'foo'}}
-                                        footer='baz'
-                                        footerProps={{className: 'foo'}} />);
+            element = render(
+                <UIPopover {...baseProps}
+                           header='foo'
+                           headerProps={{className: 'foo'}}
+                           bodyProps={{className: 'foo'}}
+                           footer='baz'
+                           footerProps={{className: 'foo'}}>
+                    bar
+                </UIPopover>
+            );
         });
 
         it('should correctly pass down props.header', () => {

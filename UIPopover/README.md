@@ -21,14 +21,13 @@ const definitions = [
 
 render() {
     return (
-        <UIPopover anchor={this.refs.content}
-                   body={[
-                       <strong>tran·scen·den·tal</strong>,
-                       <em>adjective</em>,
-                       <UIArrowKeyNavigation component='ul'>
-                            {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
-                        </UIArrowKeyNavigation>,
-                   ]} />
+        <UIPopover anchor={this.refs.content}>
+            <strong>tran·scen·den·tal</strong>
+            <em>adjective</em>
+            <UIArrowKeyNavigation component='ul'>
+                 {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
+             </UIArrowKeyNavigation>
+        </UIPopover>
     );
 }
 ```

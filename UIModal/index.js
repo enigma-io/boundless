@@ -35,7 +35,9 @@ class UIModal extends UIView {
                           className={cx({
                             'ui-modal': true,
                             [this.props.modalProps.className]: !!this.props.modalProps.className,
-                          })} />
+                          })}>
+                    {this.props.children}
+                </UIDialog>
             </div>
         );
     }
