@@ -13,6 +13,7 @@ describe('UIButton', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
+    const evt = {preventDefault: noop, persist: noop};
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -69,128 +70,138 @@ describe('UIButton', () => {
     });
 
     describe('on click', () => {
-        let eventStub = {preventDefault: noop};
-
-        it('should trigger `onClick`', () => {
+        it('should trigger `props.onClick` if provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onClick={stub} />);
 
-            element.handleClick(eventStub);
+            element.handleClick(evt);
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            element.handleClick(eventStub);
+            element.handleClick(evt);
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            element.handleClick(eventStub);
+            element.handleClick(evt);
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
-            const pressedStub = sandbox.stub();
-            const unpressedStub = sandbox.stub();
-            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
+        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onPressed={stub} />);
 
-            element.handleClick(eventStub);
+            element.handleClick(evt);
 
-            expect(pressedStub.called).toBe(false);
-            expect(unpressedStub.called).toBe(false);
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
     });
 
     describe('on "Enter" key', () => {
-        let eventStub = {key: 'Enter', preventDefault: noop};
+        it('should trigger `props.onKeyDown` if provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onKeyDown={stub} />);
+
+            element.handleKeyDown({...evt, key: 'Enter'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
+        });
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onClick` if `props.pressed` is not provided', () => {
+        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const element = render(<UIButton onClick={stub} />);
+            const element = render(<UIButton onPressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
-        });
-
-        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
-            const pressedStub = sandbox.stub();
-            const unpressedStub = sandbox.stub();
-            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
-
-            element.handleKeyDown(eventStub);
-
-            expect(pressedStub.called).toBe(false);
-            expect(unpressedStub.called).toBe(false);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
     });
 
     describe('on "Space" key', () => {
-        let eventStub = {key: 'Space', preventDefault: noop};
+        it('should trigger `props.onKeyDown` if provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onKeyDown={stub} />);
+
+            element.handleKeyDown({...evt, key: 'Space'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
+        });
 
         it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('should trigger `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onClick` if `props.pressed` is not provided', () => {
+        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const element = render(<UIButton onClick={stub} />);
+            const element = render(<UIButton onPressed={stub} />);
 
-            element.handleKeyDown(eventStub);
+            element.handleKeyDown({...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch(evt)).toBe(true);
         });
+    });
 
-        it('should not trigger `onPressed` or `onUnpressed` if `props.pressed` is not provided', () => {
-            const pressedStub = sandbox.stub();
-            const unpressedStub = sandbox.stub();
-            const element = render(<UIButton onPressed={pressedStub} onUnpressed={unpressedStub} />);
+    it('on non-handled keydown, it should trigger `props.onKeyDown` if provided', () => {
+        const stub = sandbox.stub();
+        const element = render(<UIButton onKeyDown={stub} />);
 
-            element.handleKeyDown(eventStub);
+        element.handleKeyDown({...evt, key: '*'});
 
-            expect(pressedStub.called).toBe(false);
-            expect(unpressedStub.called).toBe(false);
-        });
+        expect(stub.calledOnce).toBe(true);
+        expect(stub.calledWithMatch(evt)).toBe(true);
     });
 });

@@ -4,15 +4,18 @@ import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 class UIButton extends UIView {
-    toggleState() {
-        if (typeof this.props.pressed !== 'undefined') {
-            this.props[this.props.pressed ? 'onUnpressed' : 'onPressed']();
-        }
+    toggleState(event) {
+        event.persist();
+        this.props[this.props.pressed ? 'onUnpressed' : 'onPressed'](event);
     }
 
-    handleClick() {
-        this.toggleState();
-        this.props.onClick();
+    handleClick(event) {
+        this.toggleState(event);
+
+        if (typeof this.props.onClick === 'function') {
+            event.persist();
+            this.props.onClick(event);
+        }
     }
 
     handleKeyDown(event) {
@@ -20,11 +23,7 @@ class UIButton extends UIView {
         case 'Enter':
         case 'Space':
             event.preventDefault();
-            this.toggleState();
-
-            if (typeof this.props.pressed === 'undefined') {
-                this.props.onClick();
-            }
+            this.toggleState(event);
         }
 
         if (typeof this.props.onKeyDown === 'function') {
@@ -61,7 +60,6 @@ UIButton.propTypes = {
 };
 
 UIButton.defaultProps = {
-    onClick: noop,
     onPressed: noop,
     onUnpressed: noop,
 };
