@@ -6,7 +6,7 @@ const json = require('../../UITable/demo/fixture.json');
 
 export default class UIPaginatedViewDemo extends UIView {
     initialState() {
-        return {items: json};
+        return {items: json, identifier: 'rolodex1000'};
     }
 
     handleItemRequest(index) {
@@ -46,6 +46,7 @@ export default class UIPaginatedViewDemo extends UIView {
                 <div>
                     <UIPaginatedView
                         getItem={this.handleItemRequest.bind(this)}
+                        identifier={this.state.identifier}
                         numItemsPerPage={5}
                         totalItems={this.state.items.length} />
                 </div>

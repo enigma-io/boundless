@@ -26,6 +26,7 @@ render() {
             <div>
                 <UIPaginatedView
                     getItem={this.handleItemRequest.bind(this)}
+                    identifier='names'
                     numItemsPerPage={3}
                     numPageToggles={3}
                     totalItems={this.state.items.length} />
@@ -88,6 +89,9 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-paginated-view` node
+
+- __identifier__ `String`
+  a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
 
 - __jumpToFirstControlText__ `String`
   (default `'« First'`) text to be displayed inside of the "First page" control button
