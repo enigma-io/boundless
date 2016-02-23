@@ -19,13 +19,17 @@ describe('UISegmentedControl', () => {
 
     const baseProps = {
         options: [{
-            selected: true,
+            selected: false,
             value: 'foo-val',
             content: 'foo'
         }, {
-            selected: false,
+            selected: true,
             value: 'bar-val',
             content: 'bar'
+        }, {
+            selected: false,
+            value: 'baz-val',
+            content: 'baz'
         }]
     };
 
@@ -51,25 +55,25 @@ describe('UISegmentedControl', () => {
         });
 
         it('ui-segmented-control-option-selected should be rendered for child node when `props.selected` is `true`', () => {
-            expect(element.refs['option_$0'].props.className).toContain('ui-segmented-control-option');
+            expect(element.refs['option_$1'].props.className).toContain('ui-segmented-control-option');
         });
 
         it('ui-segmented-control-option-selected should not be rendered for child node when `props.selected` is falsy', () => {
-            expect(element.refs['option_$1'].props.className).not.toContain('ui-segmented-control-option-selected');
+            expect(element.refs['option_$0'].props.className).not.toContain('ui-segmented-control-option-selected');
         });
     });
 
     describe('keyboard navigation', () => {
         it('selected option should have tabIndex=0', () => {
             const element = render(<UISegmentedControl {...baseProps} />);
-            const node = ReactDOM.findDOMNode(element.refs['option_$0']);
+            const node = ReactDOM.findDOMNode(element.refs['option_$1']);
 
             expect(node.getAttribute('tabIndex')).toBe('0');
         });
 
         it('unselected option should have tabIndex=-1', () => {
             const element = render(<UISegmentedControl {...baseProps} />);
-            const node = ReactDOM.findDOMNode(element.refs['option_$1']);
+            const node = ReactDOM.findDOMNode(element.refs['option_$0']);
 
             expect(node.getAttribute('tabIndex')).toBe('-1');
         });
@@ -86,7 +90,7 @@ describe('UISegmentedControl', () => {
         it('right arrow on last child should send focus to first child', () => {
             const element = render(<UISegmentedControl {...baseProps} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs['option_$1']));
+            Simulate.focus(ReactDOM.findDOMNode(element.refs['option_$2']));
 
             element.handleKeyDown({...fakeEvent, key: 'ArrowRight'});
             expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs['option_$0']));
@@ -107,7 +111,7 @@ describe('UISegmentedControl', () => {
             Simulate.focus(ReactDOM.findDOMNode(element.refs['option_$0']));
 
             element.handleKeyDown({...fakeEvent, key: 'ArrowLeft'});
-            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs['option_$1']));
+            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs['option_$2']));
         });
 
         it('enter should trigger `props.onOptionSelected`', () => {
@@ -125,7 +129,7 @@ describe('UISegmentedControl', () => {
         it('should be called on a `change` event when `props.selected` is falsy', () => {
             const stub = sandbox.stub();
             const element = render(<UISegmentedControl {...baseProps} onOptionSelected={stub} />);
-            const node = ReactDOM.findDOMNode(element.refs['option_$1']);
+            const node = ReactDOM.findDOMNode(element.refs['option_$0']);
 
             Simulate.click(node);
 
@@ -137,7 +141,7 @@ describe('UISegmentedControl', () => {
         it('should return the value of the currently selected option', () => {
             const element = render(<UISegmentedControl {...baseProps} />);
 
-            expect(element.currentValue()).toBe('foo-val');
+            expect(element.currentValue()).toBe('bar-val');
         });
     });
 
@@ -155,8 +159,6 @@ describe('UISegmentedControl', () => {
         };
 
         it('should clear out the internal cache of the option in focus if the target is the focused option', () => {
-            modifiedBaseProps.options[1].onBlur = sandbox.stub();
-
             const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
 
             element.handleFocus(modifiedBaseProps.options[1], fakeEvent);
@@ -166,13 +168,14 @@ describe('UISegmentedControl', () => {
             expect(element.state.indexOfOptionInFocus).toBe(null);
         });
 
-        it('should be proxied if `props.onBlur` is passed', () => {
+        it('should be proxied if `options[].onBlur` is passed', () => {
             modifiedBaseProps.options[1].onBlur = sandbox.stub();
 
-            const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
+            const element = render(
+                <UISegmentedControl {...modifiedBaseProps} name='foo' />
+            );
 
             element.handleBlur(modifiedBaseProps.options[1], fakeEvent);
-
             expect(modifiedBaseProps.options[1].onBlur.calledOnce).toBe(true);
         });
     });
@@ -190,13 +193,14 @@ describe('UISegmentedControl', () => {
             }]
         };
 
-        it('should be proxied if `props.onClick` is passed', () => {
+        it('should be proxied if `options[].onClick` is passed', () => {
             modifiedBaseProps.options[1].onClick = sandbox.stub();
 
-            const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
+            const element = render(
+                <UISegmentedControl {...modifiedBaseProps} name='foo' />
+            );
 
             element.handleClick(modifiedBaseProps.options[1], fakeEvent);
-
             expect(modifiedBaseProps.options[1].onClick.calledOnce).toBe(true);
         });
     });
@@ -215,8 +219,6 @@ describe('UISegmentedControl', () => {
         };
 
         it('should set the internal focused option cache', () => {
-            modifiedBaseProps.options[1].onFocus = sandbox.stub();
-
             const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
 
             expect(element.state.indexOfOptionInFocus).toBe(null);
@@ -225,13 +227,14 @@ describe('UISegmentedControl', () => {
             expect(element.state.indexOfOptionInFocus).toBe(1);
         });
 
-        it('should be proxied if `props.onFocus` is passed', () => {
+        it('should be proxied if `options[].onFocus` is passed', () => {
             modifiedBaseProps.options[1].onFocus = sandbox.stub();
 
-            const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
+            const element = render(
+                <UISegmentedControl {...modifiedBaseProps} name='foo' />
+            );
 
             element.handleFocus(modifiedBaseProps.options[1], fakeEvent);
-
             expect(modifiedBaseProps.options[1].onFocus.calledOnce).toBe(true);
         });
     });
@@ -239,10 +242,11 @@ describe('UISegmentedControl', () => {
     describe('keydown events', () => {
         it('should be proxied if `props.onKeyDown` is passed', () => {
             const stub = sandbox.stub();
-            const element = render(<UISegmentedControl {...baseProps} onKeyDown={stub} />);
+            const element = render(
+                <UISegmentedControl {...baseProps} onKeyDown={stub} />
+            );
 
             element.handleKeyDown(fakeEvent);
-
             expect(stub.calledOnce).toBe(true);
         });
     });

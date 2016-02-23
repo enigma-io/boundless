@@ -21,7 +21,6 @@ class UISegmentedControl extends UIView {
         let value;
 
         this.props.options.some(option => {
-            /* istanbul ignore else */
             if (option.selected) {
                 value = option.value;
 
@@ -53,7 +52,6 @@ class UISegmentedControl extends UIView {
             this.setState({indexOfOptionInFocus: null});
         }
 
-        /* istanbul ignore else */
         if (typeof option.onBlur === 'function') {
             event.persist();
             option.onBlur(event);
@@ -63,7 +61,6 @@ class UISegmentedControl extends UIView {
     handleClick(option, event) {
         this.props.onOptionSelected(option.value);
 
-        /* istanbul ignore else */
         if (typeof option.onClick === 'function') {
             event.persist();
             option.onClick(event);
@@ -73,7 +70,6 @@ class UISegmentedControl extends UIView {
     handleFocus(option, event) {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
 
-        /* istanbul ignore else */
         if (typeof option.onFocus === 'function') {
             event.persist();
             option.onFocus(event);
@@ -117,9 +113,9 @@ class UISegmentedControl extends UIView {
                           })}
                           tabIndex={definition.selected ? '0' : '-1'}
                           onBlur={this.handleBlur.bind(this, definition)}
-                          onClick={this.handleClick.bind(this, definition)}
+                          onPressed={this.handleClick.bind(this, definition)}
                           onFocus={this.handleFocus.bind(this, definition)}>
-                {definition.content}
+                    {definition.content}
                 </UIButton>
             );
         });
@@ -148,7 +144,7 @@ UISegmentedControl.propTypes = {
             throw new Error('Must provide at least two options.');
         }
 
-        let missingSelected = props.options.some(option => {
+        const missingSelected = props.options.some(option => {
             if (!('selected' in option)) {
                 return true;
             }
@@ -159,7 +155,7 @@ UISegmentedControl.propTypes = {
         }
 
         let seenSelected = false;
-        let multipleSelected = props.options.some(option => {
+        const multipleSelected = props.options.some(option => {
             if (option.selected) {
                 if (seenSelected) {
                     return true;
