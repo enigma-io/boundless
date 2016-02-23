@@ -18,8 +18,8 @@ render() {
     return (
         <UIModal header='My Dialog'
                  footer={[
-                    <UIButton onClick={this.handleConfirm}>Confirm</UIButton>,
-                    <UIButton onClick={this.handleCancel}>Cancel</UIButton>,
+                    <UIButton onPressed={this.handleConfirm}>Confirm</UIButton>,
+                    <UIButton onPressed={this.handleCancel}>Cancel</UIButton>,
                  ]}>
             Testing 123
         </UIModal>

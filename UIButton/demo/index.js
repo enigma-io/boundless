@@ -12,7 +12,7 @@ export default class UIButtonDemo extends UIView {
     render() {
         return (
             <div>
-                <UIButton onClick={this.handleClick}>
+                <UIButton onPressed={this.handleClick}>
                     Click Me
                 </UIButton>
 
@@ -22,7 +22,7 @@ export default class UIButtonDemo extends UIView {
                     {this.state.pressed ? 'Pressed' : 'Unpressed'}
                 </UIButton>
 
-                <UIButton onClick={this.handleClick}
+                <UIButton onPressed={this.handleClick}
                           disabled={true}>
                     Disabled
                 </UIButton>

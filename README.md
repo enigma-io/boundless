@@ -76,7 +76,7 @@ import {UIButton} from 'enigma-uikit';
 
 function MyUI() {
     return (
-        <UIButton onClick={doSomething}>Click me!</UIButton>
+        <UIButton onPressed={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -92,7 +92,7 @@ var UIButton = require('enigma-uikit').UIButton;
 
 function MyUI() {
     return (
-        <UIButton onClick={doSomething}>Click me!</UIButton>
+        <UIButton onPressed={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -107,7 +107,7 @@ var UIButton = window.UIKit.UIButton;
 
 function MyUI() {
     return (
-        <UIButton onClick={doSomething}>Click me!</UIButton>
+        <UIButton onPressed={doSomething}>Click me!</UIButton>
     );
 }
 
@@ -121,7 +121,7 @@ var ReactDOM = window.ReactDOM;
 var UIButton = window.UIKit.UIButton;
 
 function MyUI() {
-    return React.createElement(UIButton, {onClick: doSomething}, 'Click me!');
+    return React.createElement(UIButton, {onPressed: doSomething}, 'Click me!');
 }
 
 ReactDOM.render(MyUI(), document.body);
