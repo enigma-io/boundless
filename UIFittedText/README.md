@@ -16,7 +16,7 @@ import {UIButton, UIFittedText} from 'enigma-uikit';
 
 render() {
     return (
-        <UIButton onClick={someFunc} style={{width: '400px'}}>
+        <UIButton onPressed={someFunc} style={{width: '400px'}}>
             <UIFittedText>Testing 123</UIFittedText>
         </UIButton>
     );
