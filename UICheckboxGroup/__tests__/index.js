@@ -113,6 +113,20 @@ describe('UICheckboxGroup', () => {
             expect(node.parentNode.children[3]).toBe(node);
         });
 
+        it('should accept a name passed by `selectAllProps.className`', () => {
+            const element = render(<UICheckboxGroup items={items} selectAll={true} selectAllProps={{className: 'foo'}} />);
+            const node = ReactDOM.findDOMNode(element.refs.select_all);
+
+            expect(node.className).toContain('foo');
+        });
+
+        it('should accept a name passed by `selectAllProps.name`', () => {
+            const element = render(<UICheckboxGroup items={items} selectAll={true} selectAllProps={{name: 'foo'}} />);
+            const node = ReactDOM.findDOMNode(element.refs.select_all);
+
+            expect(node.getAttribute('name')).toBe('foo');
+        });
+
         it('should check all children', () => {
             const stub = sandbox.stub();
             const element = render(

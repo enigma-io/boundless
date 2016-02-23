@@ -20,12 +20,12 @@ class UICheckboxGroup extends UIView {
 
     renderSelectAll() {
         if (this.props.selectAll) {
-            let allChecked = this.allItemsChecked();
+            const allChecked = this.allItemsChecked();
 
             return (
                 <UICheckbox {...this.props.selectAllProps}
                             ref='select_all'
-                            name='cb_select_all'
+                            name={this.props.selectAllProps.name || 'cb_select_all'}
                             key='cb_select_all'
                             checked={allChecked}
                             className={cx({
@@ -44,7 +44,6 @@ class UICheckboxGroup extends UIView {
         return this.props.items.map(item => {
             return (
                 <UICheckbox {...item}
-                            ref={`cb_item.name`}
                             key={item.name}
                             onChecked={this.props.onChildChecked}
                             onUnchecked={this.props.onChildUnchecked} />
@@ -53,7 +52,7 @@ class UICheckboxGroup extends UIView {
     }
 
     renderChildren() {
-        let toBeRendered = [this.renderCheckboxes()];
+        const toBeRendered = [this.renderCheckboxes()];
 
         if (this.props.selectAll && this.props.selectAllPosition) {
             switch (this.props.selectAllPosition) {
