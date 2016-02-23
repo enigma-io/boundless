@@ -80,14 +80,24 @@ class UIArrowKeyNavigation extends UIView {
         }
     }
 
-    handleChildBlur(index) {
+    handleChildBlur(index, child, event) {
         if (this.state.activeChildIndex === index) {
             this.setState({activeChildIndex: null});
         }
+
+        if (typeof child !== 'string' && typeof child.props.onBlur === 'function') {
+            event.persist();
+            child.props.onBlur(event);
+        }
     }
 
-    handleChildFocus(index) {
+    handleChildFocus(index, child, event) {
         this.setState({activeChildIndex: index});
+
+        if (typeof child !== 'string' && typeof child.props.onFocus === 'function') {
+            event.persist();
+            child.props.onFocus(event);
+        }
     }
 
     children() {
@@ -95,8 +105,8 @@ class UIArrowKeyNavigation extends UIView {
             return React.cloneElement(child, {
                 key: child.key || index,
                 tabIndex: child.tabIndex || 0,
-                onBlur: this.handleChildBlur.bind(this, index),
-                onFocus: this.handleChildFocus.bind(this, index),
+                onBlur: this.handleChildBlur.bind(this, index, child),
+                onFocus: this.handleChildFocus.bind(this, index, child),
             });
         });
     }

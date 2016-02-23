@@ -51,13 +51,43 @@ describe('UIArrowKeyNavigation', () => {
         expect(element.state.activeChildIndex).toBe(null);
     });
 
+    it('should forward child focus events to the appropriate handler, if one is provided', () => {
+        const stub = sinon.stub();
+
+        element = render(
+            <UIArrowKeyNavigation>
+                <li onFocus={stub}>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        Simulate.focus(node.children[0]);
+
+        expect(stub.calledOnce).toBe(true);
+    });
+
+    it('should forward child blur events to the appropriate handler, if one is provided', () => {
+        const stub = sinon.stub();
+
+        element = render(
+            <UIArrowKeyNavigation>
+                <li onBlur={stub}>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        Simulate.blur(node.children[0]);
+
+        expect(stub.calledOnce).toBe(true);
+    });
+
     it('should not reset internal focus if handleChildBlur is called out of turn', () => {
         expect(element.state.activeChildIndex).toBe(null);
 
         element.setState({activeChildIndex: 0});
         expect(element.state.activeChildIndex).toBe(0);
 
-        element.handleChildBlur(1);
+        Simulate.blur(node.children[1]);
         expect(element.state.activeChildIndex).toBe(0);
     });
 
