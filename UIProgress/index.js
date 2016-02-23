@@ -33,7 +33,7 @@ class UIProgress extends UIView {
                               'ui-progress-cancel': true,
                               [this.props.cancelProps.className]: !!this.props.cancelProps.className,
                           })}
-                          onClick={this.props.onCancel} />
+                          onPressed={this.props.onCancel} />
             );
         }
     }
