@@ -91,7 +91,7 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-paginated-view` node
 
 - __identifier__ `String`
-  a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
+  a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data
 
 - __jumpToFirstControlText__ `String`
   (default `'« First'`) text to be displayed inside of the "First page" control button
