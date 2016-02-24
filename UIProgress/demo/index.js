@@ -26,7 +26,7 @@ export default class UIProgressDemo extends UIView {
                                 aria-label={`${this.state.barProgress}% complete`}
                                 label={`${this.state.barProgress}%`}
                                 progress={`${this.state.barProgress}%`} />
-                    <UIButton onClick={this.resetProgress.bind(this, 'bar')}
+                    <UIButton onPressed={this.resetProgress.bind(this, 'bar')}
                               style={{marginTop: '1rem'}}>
                         Reset
                     </UIButton>
@@ -39,7 +39,7 @@ export default class UIProgressDemo extends UIView {
                                 label={`${this.state.meterProgress}%`}
                                 progress={`${this.state.meterProgress}%`}
                                 tweenProperty='height' />
-                    <UIButton onClick={this.resetProgress.bind(this, 'meter')}
+                    <UIButton onPressed={this.resetProgress.bind(this, 'meter')}
                               style={{marginTop: '1rem'}}>
                         Reset
                     </UIButton>
@@ -50,7 +50,7 @@ export default class UIProgressDemo extends UIView {
                                 indeterminate={true}
                                 aria-label={`Processing...`} />
                     <UIButton disabled={true}
-                              onClick={this.resetProgress.bind(this, 'indeterminate')}
+                              onPressed={this.resetProgress.bind(this, 'indeterminate')}
                               style={{marginTop: '1rem'}}>
                         Reset
                     </UIButton>

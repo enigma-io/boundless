@@ -30,7 +30,7 @@
     "eslintify": "^1.0.0",
     "exposify": "^0.5.0",
     "history": "^1.17.0",
-    "jest-cli": "^0.8.1",
+    "jest-cli": "yaycmyk/jest#0.8.3",
     "jsdoc": "^3.4.0",
     "lodash": "^4.0.0",
     "minami": "^1.1.0",

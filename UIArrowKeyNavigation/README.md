@@ -1,11 +1,11 @@
 # UIArrowKeyNavigation
-__A higher-order component that adds arrow key navigation to a grouping of children.__
+__A higher-order component for arrow key navigation on a grouping of children.__
 
 ---
 
 ### Example Usage
 
-UIArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass whatever HTML tag you like into `props.component` or even a React component you've made elsewhere.
+UIArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass whatever HTML tag you like into `props.component` or even a React component you've made elsewhere. Additional props passed to `<UIArrowKeyNavigation ...>` will be forwarded on to the component or HTML tag name you've supplied.
 
 The children, similarly, can be any type of component.
 
@@ -47,7 +47,7 @@ __Keyboard__ |`['Right', 'Down']` | move focus to next child
 ---
 
 ### Available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; forwarded to `props.component`
 
 - __component__ `String|Constructor`
-  any valid HTML tag name or a React component factory; basically anything that can be passed as the first argument to `React.createElement`
+  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`

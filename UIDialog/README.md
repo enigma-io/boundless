@@ -3,7 +3,7 @@ __A non-blocking, focus-stealing container.__
 
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page) and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 
-Specific areas (header, body, footer) are defined to provide easy conformance to the [WAI-ARIA spec](http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby` and `aria-describedby` (screen reader accessibility).
+Specific areas (header, body, footer) are defined to provide easy conformance to the [WAI-ARIA spec](http://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby` and `aria-describedby` (screen reader accessibility). Their use is optional, but encouraged.
 
 ---
 
@@ -17,14 +17,15 @@ import {UIDialog} from 'enigma-uikit';
 render() {
     return (
         <UIDialog header='My Dialog'
-                  body='Testing 123'
                   footer={[
-                      <UIButton onClick={this.handleConfirm.bind(this)}>Confirm</UIButton>,
-                      <UIButton onClick={this.handleCancel.bind(this)}>Cancel</UIButton>,
+                      <UIButton onPressed={this.handleConfirm.bind(this)}>Confirm</UIButton>,
+                      <UIButton onPressed={this.handleCancel.bind(this)}>Cancel</UIButton>,
                   ]}
                   closeOnEscKey={true}
                   closeOnOutsideClick={true}
-                  onClose={this.handleCancel} />
+                  onClose={this.handleCancel}>
+            Testing 123
+        </UIDialog>
     );
 }
 ```
@@ -42,7 +43,7 @@ Renders:
 </div>
 ```
 
-Styling of the element will be provided via the CSS hooks:
+Styling of the element will be provided via the CSS hook(s):
 
 - `.ui-dialog`
 - `.ui-dialog-header`
@@ -65,9 +66,6 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 ### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
-
-- __body__ `any renderable content`
-  text, ReactElements, etc. comprising the main area of the dialog, e.g. forms, information, warnings
 
 - __bodyProps__ `Object`
     - __bodyProps.*__

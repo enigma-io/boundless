@@ -23,14 +23,15 @@ export default class UIModalDemo extends UIView {
     renderModal() {
         if (this.state.showModal) {
             let buttons = [
-                <UIButton key='y' onClick={this.toggleModal}>Yes</UIButton>,
-                <UIButton key='n' className='cancel-button' onClick={this.toggleModal}>No</UIButton>,
+                <UIButton key='y' onPressed={this.toggleModal}>Yes</UIButton>,
+                <UIButton key='n' className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</UIButton>,
             ];
 
             return (
                 <UIModal header='Account Deletion'
-                         body='Are you sure you want to remove your account permanently?'
-                         footer={buttons} />
+                         footer={buttons}>
+                    Are you sure you want to remove your account permanently?
+                </UIModal>
             );
         }
     }
@@ -38,7 +39,7 @@ export default class UIModalDemo extends UIView {
     render() {
         return (
             <div>
-                <UIButton ref='trigger' onClick={this.toggleModal}>
+                <UIButton ref='trigger' onPressed={this.toggleModal}>
                     Delete Account
                 </UIButton>
                 {this.renderModal()}

@@ -17,11 +17,12 @@ import {UIButton, UIModal} from 'enigma-uikit';
 render() {
     return (
         <UIModal header='My Dialog'
-                 body='Testing 123'
                  footer={[
-                    <UIButton onClick={this.handleConfirm}>Confirm</UIButton>,
-                    <UIButton onClick={this.handleCancel}>Cancel</UIButton>,
-                 ]} />
+                    <UIButton onPressed={this.handleConfirm}>Confirm</UIButton>,
+                    <UIButton onPressed={this.handleCancel}>Cancel</UIButton>,
+                 ]}>
+            Testing 123
+        </UIModal>
     );
 }
 ```

@@ -22,8 +22,8 @@ render() {
                 <input id='filename-field' name='filename' type='text' placeholder='untitled.txt' />
             </UIProgressiveDisclosure>
 
-            <UIButton onClick={doSave}>Yes</UIButton>
-            <UIButton onClick={doCancel}>No</UIButton>
+            <UIButton onPressed={doSave}>Yes</UIButton>
+            <UIButton onPressed={doCancel}>No</UIButton>
         </div>
     );
 }

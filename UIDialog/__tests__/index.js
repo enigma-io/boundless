@@ -28,12 +28,13 @@ describe('UIDialog', () => {
         beforeEach(() => {
             element = render(
                 <UIDialog className='foo'
-                          body='foo'
                           bodyProps={{'data-id': 'foo'}}
                           footer='foo'
                           footerProps={{'data-id': 'foo'}}
                           header='foo'
-                          headerProps={{'data-id': 'foo'}}  />
+                          headerProps={{'data-id': 'foo'}}>
+                    foo
+                </UIDialog>
             )
         });
 
@@ -58,10 +59,6 @@ describe('UIDialog', () => {
             expect(element.refs.header.textContent).toBe('foo');
         });
 
-        it('renderable body content', () => {
-            expect(element.refs.body.textContent).toBe('foo');
-        });
-
         it('renderable footer content', () => {
             expect(element.refs.footer.textContent).toBe('foo');
         });
@@ -69,19 +66,20 @@ describe('UIDialog', () => {
         it('renderable content as a nested child', () => {
             element = render(<UIDialog>foo</UIDialog>);
 
-            expect(element.refs.dialog.textContent).toBe('foo');
+            expect(element.refs.body.textContent).toBe('foo');
         });
     });
 
-    describe('CSS hook', () => {
+    describe('CSS hook(s)', () => {
         const hasClass = (dom, name) => dom.classList.contains(name);
         let element;
 
         beforeEach(() => {
             element = render(
-                <UIDialog body='foo'
-                          footer='foo'
-                          header='foo' />
+                <UIDialog footer='foo'
+                          header='foo'>
+                    foo
+                </UIDialog>
             )
         });
 
@@ -102,7 +100,7 @@ describe('UIDialog', () => {
         });
     });
 
-    describe('focus', () => {
+    describe('focus event', () => {
         it('should be applied to the dialog on render if `props.captureFocus` is `true`', () => {
             const element = render(<UIDialog />);
 
@@ -125,6 +123,18 @@ describe('UIDialog', () => {
             });
 
             expect(document.activeElement).toBe(element.refs.dialog);
+        });
+    });
+
+    describe('keydown event', () => {
+        it('should be forwarded if `props.onKeyDown` is passed', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIDialog onKeyDown={stub} />);
+
+            element.handleKeyDown({persist: noop});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch({persist: noop})).toBe(true);
         });
     });
 
@@ -183,6 +193,17 @@ describe('UIDialog', () => {
         it('should not trigger `props.onClose` if `props.captureFocus` is truthy', () => {
             const stub = sandbox.stub();
             const element = render(<UIDialog captureFocus={true} closeOnOutsideFocus={true} onClose={stub} />);
+
+            element.handleFocus({target: mountNode});
+
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('should not trigger `props.onClose` if falsy and `props.captureFocus` is falsy', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIDialog captureFocus={false} closeOnOutsideFocus={false} onClose={stub} />);
+
+            expect(document.activeElement).not.toBe(element.refs.dialog);
 
             element.handleFocus({target: mountNode});
 

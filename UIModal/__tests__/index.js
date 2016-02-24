@@ -50,7 +50,7 @@ describe('UIModal', () => {
         });
     });
 
-    describe('CSS hook', () => {
+    describe('CSS hook(s)', () => {
         let element;
 
         beforeEach(() => {
@@ -74,12 +74,15 @@ describe('UIModal', () => {
         let element;
 
         beforeEach(() => {
-            element = render(<UIModal header='foo'
-                                      headerProps={{className: 'foo'}}
-                                      body='bar'
-                                      bodyProps={{className: 'foo'}}
-                                      footer='baz'
-                                      footerProps={{className: 'foo'}} />);
+            element = render(
+                <UIModal header='foo'
+                         headerProps={{className: 'foo'}}
+                         bodyProps={{className: 'foo'}}
+                         footer='baz'
+                         footerProps={{className: 'foo'}}>
+                    bar
+                </UIModal>
+            );
         });
 
         it('should correctly pass down props.header', () => {
@@ -88,10 +91,6 @@ describe('UIModal', () => {
 
         it('should correctly pass down props.headerProps', () => {
             expect(element.refs.dialog.refs.header.classList.contains('foo')).toBe(true);
-        });
-
-        it('should correctly pass down props.body', () => {
-            expect(element.refs.dialog.refs.body.textContent).toContain('bar');
         });
 
         it('should correctly pass down props.bodyProps', () => {

@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import UICheckbox from '../../UICheckbox';
 import conformanceChecker from '../../UIUtils/conform';
+import noop from '../../UIUtils/noop';
 
 import sinon from 'sinon';
 
@@ -34,6 +35,13 @@ describe('UICheckbox', () => {
     });
 
     describe('passes through', () => {
+        it('props.checked to the input node', () => {
+             const element = render(<UICheckbox {...baseProps} checked={true} />);
+             const node = element.refs.input;
+
+             expect(node.checked).toBe(true);
+        });
+
         it('props.name to the input node', () => {
             const element = render(<UICheckbox {...baseProps} />);
             const node = element.refs.input;
@@ -90,21 +98,6 @@ describe('UICheckbox', () => {
             const element = render(<UICheckbox {...baseProps} label={<p>foo</p>} />);
 
             expect(element.refs.label.textContent).toBe('foo');
-        });
-    });
-
-    describe('prop', () => {
-        it('`checked` should be applied to the input node', () => {
-             const element = render(<UICheckbox {...baseProps} checked={true} />);
-
-             expect(element.refs.input.checked).toBe(true);
-        });
-
-        it('`name` should be applied to the input node', () => {
-             const element = render(<UICheckbox {...baseProps} />);
-
-             expect(element.refs.input.hasAttribute('name')).toBe(true);
-             expect(element.refs.input.getAttribute('name')).toBe('foo');
         });
     });
 
@@ -166,12 +159,23 @@ describe('UICheckbox', () => {
         });
     });
 
-    describe('click event', () => {
-        it('should be proxied if `props.onClick` is provided', () => {
+    describe('input change event', () => {
+        it('should be forwarded if `props.inputProps.onChange` is provided', () => {
             const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} onClick={stub} />);
+            const element = render(<UICheckbox {...baseProps} inputProps={{onChange: stub}} />);
 
-            element.refs.input.click();
+            element.handleChange({persist: noop, checked: true});
+
+            expect(stub.calledOnce).toBe(true);
+        });
+    });
+
+    describe('input click event', () => {
+        it('should be forwarded if `props.inputProps.onClick` is provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...baseProps} inputProps={{onClick: stub}} />);
+
+            element.handleClick({persist: noop});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -181,10 +185,27 @@ describe('UICheckbox', () => {
 
             expect(document.activeElement).not.toBe(element.refs.input);
 
-            element.refs.input.click();
-
+            element.handleClick({persist: noop});
             expect(document.activeElement).toBe(element.refs.input);
         }); // patching a browser inconsistency between webkit & gecko
+    });
+
+    describe('props.indeterminate', () => {
+        it('should set the indeterminate property on the raw input', () => {
+            const element = render(<UICheckbox {...baseProps} indeterminate={true} />);
+
+            expect(element.refs.input.indeterminate).toBe(true);
+        });
+
+        it('should update the indeterminate property on the raw input when changed', () => {
+            let element;
+
+            element = render(<UICheckbox {...baseProps} indeterminate={false} />);
+            expect(element.refs.input.indeterminate).toBeFalsy();
+
+            element = render(<UICheckbox {...baseProps} indeterminate={true} />);
+            expect(element.refs.input.indeterminate).toBeTruthy();
+        });
     });
 
     /*
