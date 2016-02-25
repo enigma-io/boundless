@@ -20,7 +20,6 @@ class UIPaginatedView extends UIView {
             numItemsPerPage: this.props.numItemsPerPage,
             numPageToggles: this.props.numPageToggles,
             totalItems: this.props.totalItems,
-            items: [{data: this.props.getItem(0)}],
             shownItems: [{data: this.props.getItem(0)}],
         };
     }
@@ -32,7 +31,18 @@ class UIPaginatedView extends UIView {
     }
 
     componentDidMount() {
-        this.setState({shownItems: this.generateItems(this.state.currentPage)});
+        this.setState({
+            shownItems: this.generateItems(this.state.currentPage),
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.identifier !== this.props.identifier) {
+            this.setState({
+                currentPage: 1,
+                shownItems: this.generateItems(1, nextProps.getItem),
+            });
+        }
     }
 
     createPageButtonOptions() {
@@ -94,13 +104,13 @@ class UIPaginatedView extends UIView {
         return this.state.currentPage;
     }
 
-    generateItems(currentPage) {
+    generateItems(currentPage, getItem = this.props.getItem) {
         const generatedItems = [];
         const firstItemIndex = (currentPage - 1) * this.state.numItemsPerPage;
         const lastItemIndex = Math.min(this.state.totalItems, firstItemIndex + this.state.numItemsPerPage) - 1;
 
         for (let i = firstItemIndex; i <= lastItemIndex; i++) {
-            generatedItems.push({data: this.props.getItem(i)});
+            generatedItems.push({data: getItem(i)});
         }
 
         return generatedItems;
@@ -221,6 +231,7 @@ UIPaginatedView.position = {
 
 UIPaginatedView.propTypes = {
     getItem: React.PropTypes.func,
+    identifier: React.PropTypes.string.isRequired,
     jumpToFirstControlText: React.PropTypes.string,
     jumpToLastControlText: React.PropTypes.string,
     listWrapperProps: React.PropTypes.object,
