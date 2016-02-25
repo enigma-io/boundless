@@ -30,8 +30,9 @@
     "eslintify": "^1.0.0",
     "exposify": "^0.5.0",
     "history": "^1.17.0",
-    "jest-cli": "yaycmyk/jest#0.8.3",
+    "jest-cli": "yaycmyk/jest#provided-jsdom",
     "jsdoc": "^3.4.0",
+    "jsdom": "^8.0.4",
     "lodash": "^4.0.0",
     "minami": "^1.1.0",
     "prismjs": "^1.3.0",
@@ -57,9 +58,6 @@
     ]
   },
   "jest": {
-    "setupEnvScriptFile": "jest.setup.js",
-    "scriptPreprocessor": "node_modules/babel-jest",
-    "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
       "UIArrowKeyNavigation/index.js": true,
@@ -91,9 +89,11 @@
       "UIView/index.js": true,
       "exports.js": true
     },
-    "preprocessorIgnorePatterns": [
-      "node_modules"
-    ]
+    "jsdomModulePath": "node_modules/jsdom",
+    "preprocessorIgnorePatterns": ["node_modules"],
+    "setupEnvScriptFile": "jest.setup.js",
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "testRunner": "node_modules/jest-cli/src/testRunners/jasmine/jasmine2.js"
   },
   "scripts": {
     "postinstall": "mkdir -p site/dist/assets",
