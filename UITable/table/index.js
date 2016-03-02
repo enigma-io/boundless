@@ -1158,7 +1158,9 @@ class TableView {
 
     applyNewColumnWidth(index, width) {
         this.columns[index].width = width;
-        this.rows.forEach(row => row.cells[index].width = width);
+        this.rows.forEach(row => {
+            row.cells[index].width = width;
+        });
 
         this.calculateXBound();
         this.initializeScrollBars();
@@ -1232,7 +1234,9 @@ class TableView {
 
     setActiveRow(setIndex) {
         this.active_row = setIndex;
-        this.rows.forEach(row => row.active = row.setIndex === setIndex);
+        this.rows.forEach(row => {
+            row.active = row.setIndex === setIndex;
+        });
     }
 
     changeActiveRow(delta) {
