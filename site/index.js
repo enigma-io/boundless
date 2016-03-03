@@ -46,6 +46,11 @@ const NullComponent = () => <div />;
  */
 
 const pages = {
+    getting_started: {
+        component: NullComponent,
+        displayName: 'Getting Started',
+        readme: fs.readFileSync(__dirname + '/../GETTING_STARTED.md', 'utf8'),
+    },
     changelog: {
         component: NullComponent,
         displayName: 'Changelog',
