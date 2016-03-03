@@ -222,10 +222,12 @@ const createRow = function createRow(metadata, columns) {
                 this._setIndex = val;
             }
         },
-        '_data': null,
         '_waitingForResolution': false,
-        set _waitingForResolution(val) {
+        get waitingForResolution() { return this._waitingForResolution; },
+        set waitingForResolution(val) {
             if (val !== this._waitingForResolution) {
+                this._waitingForResolution = val;
+
                 if (val && this.node.className.indexOf('ui-table-row-loading') === -1) {
                     this.node.className += ' ui-table-row-loading';
                 } else if (!val && this.node.className.indexOf('ui-table-row-loading') !== -1) {
@@ -233,6 +235,7 @@ const createRow = function createRow(metadata, columns) {
                 }
             }
         },
+        '_data': null,
         get data() { return this._data; },
         set data(val) {
             if (val !== this._data) {
@@ -251,7 +254,7 @@ const createRow = function createRow(metadata, columns) {
                         }.bind(this, this._data));
                     }
 
-                    this._waitingForResolution = true;
+                    this.waitingForResolution = true;
 
                     return;
                 }
@@ -261,7 +264,7 @@ const createRow = function createRow(metadata, columns) {
                         this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
                     }
 
-                    this._waitingForResolution = false;
+                    this.waitingForResolution = false;
 
                     return;
                 }
@@ -270,7 +273,7 @@ const createRow = function createRow(metadata, columns) {
                     this.cells[this._iterator].content = '';
                 }
 
-                this._waitingForResolution = false;
+                this.waitingForResolution = false;
             }
         },
         '_y': metadata.y,
