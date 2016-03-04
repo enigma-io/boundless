@@ -18,7 +18,7 @@ class UIPaginatedViewItem extends UIView {
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
-                if (this.state.data === promise) {
+                if (this._mounted && this.state.data === promise) {
                     this.setState({data: value});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
@@ -26,7 +26,12 @@ class UIPaginatedViewItem extends UIView {
     }
 
     componentDidMount() {
+        this._mounted = true;
         this.waitForContentIfNecessary();
+    }
+
+    componentWillUnmount() {
+        this._mounted = false;
     }
 
     componentDidUpdate() {
