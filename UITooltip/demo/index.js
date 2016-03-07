@@ -1,6 +1,6 @@
+import React from 'react';
 import UITooltip from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UITooltipDemo extends UIView {
     render() {

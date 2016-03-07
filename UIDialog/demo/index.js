@@ -5,20 +5,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default class UIDialogDemo extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.toggleDialog = this.toggleDialog.bind(this);
-    }
-
-    initialState() {
-        return {
-            showDialog: false,
-        };
+    state = {
+        showDialog: false,
     }
 
     componentDidMount() {
-        let node = ReactDOM.findDOMNode(this.refs.trigger);
+        const node = ReactDOM.findDOMNode(this.refs.trigger);
 
         this.setState({
             leftPosition: node.offsetLeft + node.offsetWidth + 10 + 'px',
@@ -26,13 +18,8 @@ export default class UIDialogDemo extends UIView {
         });
     }
 
-    render() {
-        return (
-            <div>
-                <UIButton ref='trigger' onPressed={this.toggleDialog}>Launch Video</UIButton>
-                {this.renderDialog()}
-            </div>
-        );
+    toggleDialog = () => {
+        this.setState({showDialog: !this.state.showDialog});
     }
 
     renderDialog() {
@@ -42,8 +29,8 @@ export default class UIDialogDemo extends UIView {
                           closeOnOutsideClick={true}
                           onClose={this.toggleDialog}
                           style={{
-                                  left: this.state.leftPosition,
-                                  top: this.state.topPosition,
+                              left: this.state.leftPosition,
+                              top: this.state.topPosition,
                           }}>
                     <iframe className='dialog-demo-video-frame'
                             width='560'
@@ -59,7 +46,12 @@ export default class UIDialogDemo extends UIView {
         }
     }
 
-    toggleDialog() {
-        this.setState({showDialog: !this.state.showDialog});
+    render() {
+        return (
+            <div>
+                <UIButton ref='trigger' onPressed={this.toggleDialog}>Launch Video</UIButton>
+                {this.renderDialog()}
+            </div>
+        );
     }
 }

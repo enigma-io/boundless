@@ -161,10 +161,10 @@ describe('UISegmentedControl', () => {
         it('should clear out the internal cache of the option in focus if the target is the focused option', () => {
             const element = render(<UISegmentedControl {...modifiedBaseProps} name='foo' />);
 
-            element.handleFocus(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionFocus(modifiedBaseProps.options[1], fakeEvent);
             expect(element.state.indexOfOptionInFocus).toBe(1);
 
-            element.handleBlur(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionBlur(modifiedBaseProps.options[1], fakeEvent);
             expect(element.state.indexOfOptionInFocus).toBe(null);
         });
 
@@ -175,7 +175,7 @@ describe('UISegmentedControl', () => {
                 <UISegmentedControl {...modifiedBaseProps} name='foo' />
             );
 
-            element.handleBlur(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionBlur(modifiedBaseProps.options[1], fakeEvent);
             expect(modifiedBaseProps.options[1].onBlur.calledOnce).toBe(true);
         });
     });
@@ -200,7 +200,7 @@ describe('UISegmentedControl', () => {
                 <UISegmentedControl {...modifiedBaseProps} name='foo' />
             );
 
-            element.handleClick(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionClick(modifiedBaseProps.options[1], fakeEvent);
             expect(modifiedBaseProps.options[1].onClick.calledOnce).toBe(true);
         });
     });
@@ -223,7 +223,7 @@ describe('UISegmentedControl', () => {
 
             expect(element.state.indexOfOptionInFocus).toBe(null);
 
-            element.handleFocus(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionFocus(modifiedBaseProps.options[1], fakeEvent);
             expect(element.state.indexOfOptionInFocus).toBe(1);
         });
 
@@ -234,7 +234,7 @@ describe('UISegmentedControl', () => {
                 <UISegmentedControl {...modifiedBaseProps} name='foo' />
             );
 
-            element.handleFocus(modifiedBaseProps.options[1], fakeEvent);
+            element.handleOptionFocus(modifiedBaseProps.options[1], fakeEvent);
             expect(modifiedBaseProps.options[1].onFocus.calledOnce).toBe(true);
         });
     });

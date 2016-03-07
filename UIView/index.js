@@ -9,7 +9,7 @@ import shallowEqual from '../UIUtils/shallowEqual';
  *
  * @augments {React.Component}
  */
-class UIView extends Component {
+export default class UIView extends Component {
     /**
      * @param {object} props data passed on to the end component
      */
@@ -64,5 +64,3 @@ class UIView extends Component {
      * }
      */
 }
-
-export default UIView;

@@ -12,16 +12,80 @@ import Item from './item';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UIPaginatedView extends UIView {
-    initialState() {
-        return {
-            currentPage: this.props.pagerPosition,
-            numberOfPages: Math.ceil(this.props.totalItems / this.props.numItemsPerPage),
-            numItemsPerPage: this.props.numItemsPerPage,
-            numPageToggles: this.props.numPageToggles,
-            totalItems: this.props.totalItems,
-            shownItems: [{data: this.props.getItem(0)}],
-        };
+export default class UIPaginatedView extends UIView {
+    static controlValues = {
+        FIRST: 'FIRST',
+        PREVIOUS: 'PREVIOUS',
+        NEXT: 'NEXT',
+        LAST: 'LAST',
+    }
+
+    static position = {
+        ABOVE: 'ABOVE',
+        BELOW: 'BELOW',
+        BOTH: 'BOTH',
+    }
+
+    static propTypes = {
+        getItem: React.PropTypes.func,
+        identifier: React.PropTypes.string.isRequired,
+        jumpToFirstControlText: React.PropTypes.string,
+        jumpToLastControlText: React.PropTypes.string,
+        listWrapperProps: React.PropTypes.object,
+        nextPageControlText: React.PropTypes.string,
+        numItemsPerPage: function validateNumItemsPerPage(props) {
+            if (!Number.isInteger(props.numItemsPerPage)) {
+                return new Error('`numItemsPerPage` must be an integer.');
+            }
+
+            if (props.numItemsPerPage < 1 || props.numItemsPerPage > props.totalItems) {
+                return new Error('`numItemsPerPage` must be between 1 and ' + props.totalItems + '.');
+            }
+        },
+        numPageToggles: React.PropTypes.number,
+        pagerPosition: function validatePagerPosition(props) {
+            if (!Number.isInteger(props.pagerPosition)) {
+                return new Error('`pagerPosition` must be an integer.');
+            }
+
+            const numberOfPages = Math.ceil(props.totalItems / props.numItemsPerPage);
+
+            if (props.pagerPosition < 1 || props.pagerPosition > numberOfPages) {
+                return new Error('`pagerPosition` must be between 1 and ' + numberOfPages + '.');
+            }
+        },
+        position: React.PropTypes.oneOf(Object.keys(UIPaginatedView.position)),
+        previousPageControlText: React.PropTypes.string,
+        showJumpToFirst: React.PropTypes.bool,
+        showJumpToLast: React.PropTypes.bool,
+        toggleWrapperProps: React.PropTypes.object,
+        totalItems: React.PropTypes.number.isRequired,
+    }
+
+    static defaultProps = {
+        options: [],
+        getItem: noop,
+        jumpToFirstControlText: '« First',
+        jumpToLastControlText: 'Last »',
+        listWrapperProps: {},
+        nextPageControlText: 'Next ›',
+        numItemsPerPage: 10,
+        numPageToggles: 5,
+        pagerPosition: 1,
+        position: UIPaginatedView.position.ABOVE,
+        previousPageControlText: '‹ Previous',
+        showJumpToFirst: true,
+        showJumpToLast: true,
+        toggleWrapperProps: {},
+    }
+
+    state = {
+        currentPage: this.props.pagerPosition,
+        numberOfPages: Math.ceil(this.props.totalItems / this.props.numItemsPerPage),
+        numItemsPerPage: this.props.numItemsPerPage,
+        numPageToggles: this.props.numPageToggles,
+        totalItems: this.props.totalItems,
+        shownItems: [{data: this.props.getItem(0)}],
     }
 
     componentDidUpdate(oldProps, oldState) {
@@ -31,9 +95,7 @@ class UIPaginatedView extends UIView {
     }
 
     componentDidMount() {
-        this.setState({
-            shownItems: this.generateItems(this.state.currentPage),
-        });
+        this.setState({shownItems: this.generateItems(this.state.currentPage)});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,7 +108,7 @@ class UIPaginatedView extends UIView {
     }
 
     createPageButtonOptions() {
-        let options = [];
+        const options = [];
         const numberOfPages = this.state.numberOfPages;
         const currentPage = this.state.currentPage;
         const numPageToggles = this.props.numPageToggles;
@@ -116,7 +178,7 @@ class UIPaginatedView extends UIView {
         return generatedItems;
     }
 
-    handleClick(value) {
+    handleClick = (value) => {
         let pageNumber;
 
         switch (value) {
@@ -175,7 +237,7 @@ class UIPaginatedView extends UIView {
                     [this.props.toggleWrapperProps.className]: !!this.props.toggleWrapperProps.className,
                 })}
                 options={this.createPageButtonOptions()}
-                onOptionSelected={this.handleClick.bind(this)} />
+                onOptionSelected={this.handleClick} />
         );
     }
 
@@ -215,71 +277,3 @@ class UIPaginatedView extends UIView {
         );
     }
 }
-
-UIPaginatedView.controlValues = {
-    FIRST: 'FIRST',
-    PREVIOUS: 'PREVIOUS',
-    NEXT: 'NEXT',
-    LAST: 'LAST',
-};
-
-UIPaginatedView.position = {
-    ABOVE: 'ABOVE',
-    BELOW: 'BELOW',
-    BOTH: 'BOTH',
-};
-
-UIPaginatedView.propTypes = {
-    getItem: React.PropTypes.func,
-    identifier: React.PropTypes.string.isRequired,
-    jumpToFirstControlText: React.PropTypes.string,
-    jumpToLastControlText: React.PropTypes.string,
-    listWrapperProps: React.PropTypes.object,
-    nextPageControlText: React.PropTypes.string,
-    numItemsPerPage: function validateNumItemsPerPage(props) {
-        if (!Number.isInteger(props.numItemsPerPage)) {
-            return new Error('`numItemsPerPage` must be an integer.');
-        }
-
-        if (props.numItemsPerPage < 1 || props.numItemsPerPage > props.totalItems) {
-            return new Error('`numItemsPerPage` must be between 1 and ' + props.totalItems + '.');
-        }
-    },
-    numPageToggles: React.PropTypes.number,
-    pagerPosition: function validatePagerPosition(props) {
-        if (!Number.isInteger(props.pagerPosition)) {
-            return new Error('`pagerPosition` must be an integer.');
-        }
-
-        const numberOfPages = Math.ceil(props.totalItems / props.numItemsPerPage);
-
-        if (props.pagerPosition < 1 || props.pagerPosition > numberOfPages) {
-            return new Error('`pagerPosition` must be between 1 and ' + numberOfPages + '.');
-        }
-    },
-    position: React.PropTypes.oneOf(Object.keys(UIPaginatedView.position)),
-    previousPageControlText: React.PropTypes.string,
-    showJumpToFirst: React.PropTypes.bool,
-    showJumpToLast: React.PropTypes.bool,
-    toggleWrapperProps: React.PropTypes.object,
-    totalItems: React.PropTypes.number.isRequired,
-};
-
-UIPaginatedView.defaultProps = {
-    options: [],
-    getItem: noop,
-    jumpToFirstControlText: '« First',
-    jumpToLastControlText: 'Last »',
-    listWrapperProps: {},
-    nextPageControlText: 'Next ›',
-    numItemsPerPage: 10,
-    numPageToggles: 5,
-    pagerPosition: 1,
-    position: UIPaginatedView.position.ABOVE,
-    previousPageControlText: '‹ Previous',
-    showJumpToFirst: true,
-    showJumpToLast: true,
-    toggleWrapperProps: {},
-};
-
-export default UIPaginatedView;

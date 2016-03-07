@@ -12,7 +12,27 @@ import noop from '../UIUtils/noop';
 const first = array => array[0];
 const last = array => array[array.length - 1];
 
-class UITokenizedInput extends UIView {
+export default class UITokenizedInput extends UIView {
+    static propTypes = {
+        ...UITypeaheadInput.propTypes,
+        handleAddToken: React.PropTypes.func,
+        handleRemoveTokens: React.PropTypes.func,
+        handleNewSelection: React.PropTypes.func,
+        tokens: React.PropTypes.arrayOf(React.PropTypes.number),
+        tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
+        showTokenClose: React.PropTypes.bool,
+    }
+
+    static defaultProps = {
+        ...UITypeaheadInput.defaultProps,
+        handleAddToken: noop,
+        handleRemoveTokens: noop,
+        handleNewSelection: noop,
+        tokens: [],
+        tokensSelected: [],
+        showTokenClose: true,
+    }
+
     componentDidUpdate(prevProps) {
         const previousSelectedIndexes = prevProps.tokensSelected;
         const currentSelectedIndexes = this.props.tokensSelected;
@@ -40,7 +60,7 @@ class UITokenizedInput extends UIView {
         } // move focus
     }
 
-    add(index) {
+    add = (index) => {
         if (this.props.tokens.indexOf(index) === -1) { this.props.handleAddToken(index); }
     }
 
@@ -100,7 +120,7 @@ class UITokenizedInput extends UIView {
         this.props.handleNewSelection([]);
     }
 
-    handleInputFocus(event) {
+    handleInputFocus = (event) => {
         this.clearSelection();
 
         if (typeof this.props.inputProps.onFocus === 'function') {
@@ -109,7 +129,7 @@ class UITokenizedInput extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         switch (event.which) {
         case 37:    // left arrow
             this.selectPreviousToken(event.shiftKey);
@@ -213,38 +233,16 @@ class UITokenizedInput extends UIView {
                      'ui-tokenfield-wrapper': true,
                      [this.props.className]: !!this.props.className,
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
+                 onKeyDown={this.handleKeyDown}>
                 {this.renderTokens()}
 
                 <UITypeaheadInput {...descendants}
                                   ref='typeahead'
                                   className='ui-tokenfield'
-                                  onEntitySelected={this.add.bind(this)}
-                                  onFocus={this.handleInputFocus.bind(this)}
+                                  onEntitySelected={this.add}
+                                  onFocus={this.handleInputFocus}
                                   clearPartialInputOnSelection={true} />
             </div>
         );
     }
 }
-
-UITokenizedInput.propTypes = {
-    ...UITypeaheadInput.propTypes,
-    handleAddToken: React.PropTypes.func,
-    handleRemoveTokens: React.PropTypes.func,
-    handleNewSelection: React.PropTypes.func,
-    tokens: React.PropTypes.arrayOf(React.PropTypes.number),
-    tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
-    showTokenClose: React.PropTypes.bool,
-};
-
-UITokenizedInput.defaultProps = {
-    ...UITypeaheadInput.defaultProps,
-    handleAddToken: noop,
-    handleRemoveTokens: noop,
-    handleNewSelection: noop,
-    tokens: [],
-    tokensSelected: [],
-    showTokenClose: true,
-};
-
-export default UITokenizedInput;

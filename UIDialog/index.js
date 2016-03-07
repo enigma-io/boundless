@@ -8,21 +8,38 @@ import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UIDialog extends UIView {
-    initialState() {
-        return {
-            headerUUID: this.uuid(),
-            bodyUUID: this.uuid(),
-        };
+export default class UIDialog extends UIView {
+    static propTypes = {
+        bodyProps: React.PropTypes.object,
+        captureFocus: React.PropTypes.bool,
+        children: React.PropTypes.node,
+        closeOnEscKey: React.PropTypes.bool,
+        closeOnOutsideClick: React.PropTypes.bool,
+        closeOnOutsideFocus: React.PropTypes.bool,
+        footer: React.PropTypes.node,
+        footerProps: React.PropTypes.object,
+        header: React.PropTypes.node,
+        headerProps: React.PropTypes.object,
+        onClose: React.PropTypes.func,
+    }
+
+    static defaultProps = {
+        bodyProps: {},
+        captureFocus: true,
+        footerProps: {},
+        headerProps: {},
+        onClose: noop,
+    }
+
+    state = {
+        headerUUID: this.uuid(),
+        bodyUUID: this.uuid(),
     }
 
     componentDidMount() {
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
             this.refs.dialog.focus();
         }
-
-        this.handleFocus = this.handleFocus.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
 
         window.addEventListener('focus', this.handleFocus, true);
         window.addEventListener('click', this.handleOutsideClick, true);
@@ -37,7 +54,7 @@ class UIDialog extends UIView {
         return node && this.refs.dialog.contains(node.nodeType === 3 ? node.parentNode : node);
     }
 
-    handleFocus(nativeEvent) {
+    handleFocus = (nativeEvent) => {
         if (!this.props.captureFocus) {
             if (this.props.closeOnOutsideFocus) {
                 if (!this.isPartOfDialog(nativeEvent.target)) {
@@ -58,7 +75,7 @@ class UIDialog extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         if (this.props.closeOnEscKey && event.key === 'Escape') {
             this.props.onClose();
         }
@@ -69,7 +86,7 @@ class UIDialog extends UIView {
         }
     }
 
-    handleOutsideClick(nativeEvent) {
+    handleOutsideClick = (nativeEvent) => {
         if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
             this.props.onClose();
         }
@@ -128,7 +145,7 @@ class UIDialog extends UIView {
                     'ui-dialog': true,
                     [this.props.className]: !!this.props.className,
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}
+                 onKeyDown={this.handleKeyDown}
                  role='dialog'
                  aria-labelledby={this.state.headerUUID}
                  aria-describedby={this.state.bodyUUID}
@@ -140,27 +157,3 @@ class UIDialog extends UIView {
         );
     }
 }
-
-UIDialog.propTypes = {
-    bodyProps: React.PropTypes.object,
-    captureFocus: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    closeOnEscKey: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    closeOnOutsideFocus: React.PropTypes.bool,
-    footer: React.PropTypes.node,
-    footerProps: React.PropTypes.object,
-    header: React.PropTypes.node,
-    headerProps: React.PropTypes.object,
-    onClose: React.PropTypes.func,
-};
-
-UIDialog.defaultProps = {
-    bodyProps: {},
-    captureFocus: true,
-    footerProps: {},
-    headerProps: {},
-    onClose: noop,
-};
-
-export default UIDialog;

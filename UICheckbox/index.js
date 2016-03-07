@@ -8,18 +8,30 @@ import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UICheckbox extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+export default class UICheckbox extends UIView {
+    static propTypes = {
+        checked: React.PropTypes.bool,
+        indeterminate: React.PropTypes.bool,
+        inputProps: React.PropTypes.object,
+        label: React.PropTypes.node,
+        labelProps: React.PropTypes.object,
+        name: React.PropTypes.string.isRequired,
+        onChecked: React.PropTypes.func,
+        onUnchecked: React.PropTypes.func,
+        value: React.PropTypes.string,
     }
 
-    initialState() {
-        return {
-            id: this.props.inputProps.id || this.uuid(),
-        };
+    static defaultProps = {
+        checked: false,
+        indeterminate: false,
+        inputProps: {},
+        labelProps: {},
+        onChecked: noop,
+        onUnchecked: noop,
+    }
+
+    state = {
+        id: this.props.inputProps.id || this.uuid(),
     }
 
     componentDidMount() {
@@ -42,7 +54,7 @@ class UICheckbox extends UIView {
         return this.props.indeterminate ? 'mixed' : String(this.props.checked);
     }
 
-    handleChange(event) { // Send the opposite signal from what was passed to toggle the data
+    handleChange = (event) => { // Send the opposite signal from what was passed to toggle the data
         this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
 
         if (typeof this.props.inputProps.onChange === 'function') {
@@ -51,7 +63,7 @@ class UICheckbox extends UIView {
         }
     }
 
-    handleClick(event) {
+    handleClick = (event) => {
         this.refs.input.focus();
 
         if (typeof this.props.inputProps.onClick === 'function') {
@@ -112,26 +124,3 @@ class UICheckbox extends UIView {
         );
     }
 }
-
-UICheckbox.propTypes = {
-    checked: React.PropTypes.bool,
-    indeterminate: React.PropTypes.bool,
-    inputProps: React.PropTypes.object,
-    label: React.PropTypes.node,
-    labelProps: React.PropTypes.object,
-    name: React.PropTypes.string.isRequired,
-    onChecked: React.PropTypes.func,
-    onUnchecked: React.PropTypes.func,
-    value: React.PropTypes.string,
-};
-
-UICheckbox.defaultProps = {
-    checked: false,
-    indeterminate: false,
-    inputProps: {},
-    labelProps: {},
-    onChecked: noop,
-    onUnchecked: noop,
-};
-
-export default UICheckbox;

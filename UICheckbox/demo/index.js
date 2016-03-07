@@ -1,27 +1,29 @@
+import React from 'react';
 import UICheckbox from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UICheckboxDemo extends UIView {
-    initialState() {
-        return {
-            checkboxes: [{
-                checked: false,
-                indeterminate: false,
-                label: 'An unchecked checkbox',
-                name: 'box1',
-            }, {
-                checked: true,
-                indeterminate: false,
-                label: 'A checked checkbox',
-                name: 'box2',
-            }, {
-                checked: false,
-                indeterminate: true,
-                label: 'An indeterminate (mixed) checkbox',
-                name: 'box3',
-            }],
-        };
+    state = {
+        checkboxes: [{
+            checked: false,
+            indeterminate: false,
+            label: 'An unchecked checkbox',
+            name: 'box1',
+        }, {
+            checked: true,
+            indeterminate: false,
+            label: 'A checked checkbox',
+            name: 'box2',
+        }, {
+            checked: false,
+            indeterminate: true,
+            label: 'An indeterminate (mixed) checkbox',
+            name: 'box3',
+        }],
+    }
+
+    handleInteraction(name) {
+        alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 
     render() {
@@ -40,9 +42,5 @@ export default class UICheckboxDemo extends UIView {
                 })}
             </div>
         );
-    }
-
-    handleInteraction(name) {
-        alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 }

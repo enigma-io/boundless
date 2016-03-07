@@ -1,6 +1,6 @@
+import React from 'react';
 import UIProgressiveDisclosure from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UIProgressiveDisclosureDemo extends UIView {
     render() {

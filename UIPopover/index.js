@@ -16,14 +16,59 @@ import UIView from '../UIView';
 import transformProp from '../UIUtils/transformProperty';
 import cx from 'classnames';
 
-class UIPopover extends UIView {
-    initialState() {
-        return {
-            anchorXAlign: this.props.anchorXAlign,
-            anchorYAlign: this.props.anchorYAlign,
-            selfXAlign: this.props.selfXAlign,
-            selfYAlign: this.props.selfYAlign,
-        };
+export default class UIPopover extends UIView {
+    static position = {
+        START: 'START',
+        MIDDLE: 'MIDDLE',
+        END: 'END',
+    }
+
+    static propTypes = {
+        ...UIDialog.propTypes,
+        anchor: React.PropTypes.oneOfType([
+            React.PropTypes.instanceOf(HTMLElement),
+            React.PropTypes.shape({
+                props: React.PropTypes.object,
+                state: React.PropTypes.object,
+            }), // a react element of some fashion, React.PropTypes.element wasn't working
+        ]).isRequired,
+        anchorXAlign: React.PropTypes.oneOf([
+            UIPopover.position.START,
+            UIPopover.position.MIDDLE,
+            UIPopover.position.END,
+        ]),
+        anchorYAlign: React.PropTypes.oneOf([
+            UIPopover.position.START,
+            UIPopover.position.MIDDLE,
+            UIPopover.position.END,
+        ]),
+        autoReposition: React.PropTypes.bool,
+        selfXAlign: React.PropTypes.oneOf([
+            UIPopover.position.START,
+            UIPopover.position.MIDDLE,
+            UIPopover.position.END,
+        ]),
+        selfYAlign: React.PropTypes.oneOf([
+            UIPopover.position.START,
+            UIPopover.position.MIDDLE,
+            UIPopover.position.END,
+        ]),
+    }
+
+    static defaultProps = {
+        ...UIDialog.defaultProps,
+        anchorXAlign: UIPopover.position.START,
+        anchorYAlign: UIPopover.position.END,
+        autoReposition: true,
+        selfXAlign: UIPopover.position.START,
+        selfYAlign: UIPopover.position.START,
+    }
+
+    state = {
+        anchorXAlign: this.props.anchorXAlign,
+        anchorYAlign: this.props.anchorYAlign,
+        selfXAlign: this.props.selfXAlign,
+        selfYAlign: this.props.selfYAlign,
     }
 
     componentWillMount() {
@@ -34,7 +79,6 @@ class UIPopover extends UIView {
         this.refs.dialog = this.renderDialog();
         this.node = ReactDOM.findDOMNode(this.refs.dialog);
 
-        this.align = this.align.bind(this);
         this.align();
 
         window.addEventListener('resize', this.align, true);
@@ -152,7 +196,7 @@ class UIPopover extends UIView {
         }
     }
 
-    align() {
+    align = () => {
         const anchor =   this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
@@ -209,57 +253,6 @@ class UIPopover extends UIView {
     }
 
     render() {
-        return (
-            <div />
-        );
+        return (<div />);
     }
 }
-
-UIPopover.position = {
-    START: 'START',
-    MIDDLE: 'MIDDLE',
-    END: 'END',
-};
-
-UIPopover.propTypes = {
-    ...UIDialog.propTypes,
-    anchor: React.PropTypes.oneOfType([
-        React.PropTypes.instanceOf(HTMLElement),
-        React.PropTypes.shape({
-            props: React.PropTypes.object,
-            state: React.PropTypes.object,
-        }), // a react element of some fashion, React.PropTypes.element wasn't working
-    ]).isRequired,
-    anchorXAlign: React.PropTypes.oneOf([
-        UIPopover.position.START,
-        UIPopover.position.MIDDLE,
-        UIPopover.position.END,
-    ]),
-    anchorYAlign: React.PropTypes.oneOf([
-        UIPopover.position.START,
-        UIPopover.position.MIDDLE,
-        UIPopover.position.END,
-    ]),
-    autoReposition: React.PropTypes.bool,
-    selfXAlign: React.PropTypes.oneOf([
-        UIPopover.position.START,
-        UIPopover.position.MIDDLE,
-        UIPopover.position.END,
-    ]),
-    selfYAlign: React.PropTypes.oneOf([
-        UIPopover.position.START,
-        UIPopover.position.MIDDLE,
-        UIPopover.position.END,
-    ]),
-};
-
-UIPopover.defaultProps = {
-    ...UIDialog.defaultProps,
-    anchorXAlign: UIPopover.position.START,
-    anchorYAlign: UIPopover.position.END,
-    autoReposition: true,
-    selfXAlign: UIPopover.position.START,
-    selfYAlign: UIPopover.position.START,
-};
-
-export default UIPopover;

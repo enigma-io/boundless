@@ -3,18 +3,59 @@
  * @class UISegmentedControl
  */
 
-import UIView from '../UIView';
-import UIButton from '../UIButton';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import UIView from '../UIView';
+import UIButton from '../UIButton';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UISegmentedControl extends UIView {
-    initialState() {
-        return {
-            indexOfOptionInFocus: null,
-        };
+export default class UISegmentedControl extends UIView {
+    static propTypes = {
+        onOptionSelected: React.PropTypes.func,
+        options: function validateOptions(props) {
+            if (props.options.length < 2) {
+                throw new Error('Must provide at least two options.');
+            }
+
+            const missingSelected = props.options.some(option => {
+                if (!('selected' in option)) {
+                    return true;
+                }
+            });
+
+            if (missingSelected) {
+                throw new Error('Must provide a `selected` prop for each option.');
+            }
+
+            let seenSelected = false;
+            const multipleSelected = props.options.some(option => {
+                if (option.selected) {
+                    if (seenSelected) {
+                        return true;
+                    }
+
+                    seenSelected = true;
+                }
+            });
+
+            if (multipleSelected) {
+                throw new Error('Encountered multiple options with `selected: true`. There can be only one.');
+            }
+
+            if (props.options.some(option => typeof option.value === 'undefined')) {
+                throw new Error('Must provide a `value` prop for each option.');
+            }
+        },
+    }
+
+    static defaultProps = {
+        options: [],
+        onOptionSelected: noop,
+    }
+
+    state = {
+        indexOfOptionInFocus: null,
     }
 
     currentValue() {
@@ -47,7 +88,7 @@ class UISegmentedControl extends UIView {
         return previous < 0 ? this.props.options.length - 1 : previous;
     }
 
-    handleBlur(option, event) {
+    handleOptionBlur(option, event) {
         if (this.state.indexOfOptionInFocus === this.props.options.indexOf(option)) {
             this.setState({indexOfOptionInFocus: null});
         }
@@ -58,7 +99,7 @@ class UISegmentedControl extends UIView {
         }
     }
 
-    handleClick(option, event) {
+    handleOptionClick(option, event) {
         this.props.onOptionSelected(option.value);
 
         if (typeof option.onClick === 'function') {
@@ -67,7 +108,7 @@ class UISegmentedControl extends UIView {
         }
     }
 
-    handleFocus(option, event) {
+    handleOptionFocus(option, event) {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
 
         if (typeof option.onFocus === 'function') {
@@ -76,7 +117,7 @@ class UISegmentedControl extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         const key = event.key;
         const activeItemIndex = this.state.indexOfOptionInFocus;
 
@@ -87,7 +128,7 @@ class UISegmentedControl extends UIView {
             this.setFocus(this.getNextOptionIndex(activeItemIndex));
             event.preventDefault();
         } else if (key === 'Enter') {
-            this.handleClick(this.props.options[activeItemIndex]);
+            this.handleOptionClick(this.props.options[activeItemIndex]);
             event.preventDefault();
         }
 
@@ -112,9 +153,9 @@ class UISegmentedControl extends UIView {
                              [definition.className]: !!definition.className,
                           })}
                           tabIndex={definition.selected ? '0' : '-1'}
-                          onBlur={this.handleBlur.bind(this, definition)}
-                          onPressed={this.handleClick.bind(this, definition)}
-                          onFocus={this.handleFocus.bind(this, definition)}>
+                          onBlur={this.handleOptionBlur.bind(this, definition)}
+                          onPressed={this.handleOptionClick.bind(this, definition)}
+                          onFocus={this.handleOptionFocus.bind(this, definition)}>
                     {definition.content}
                 </UIButton>
             );
@@ -130,54 +171,9 @@ class UISegmentedControl extends UIView {
                     'ui-segmented-control': true,
                     [this.props.className]: !!this.props.className,
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
+                 onKeyDown={this.handleKeyDown}>
                  {this.renderOptions()}
             </div>
         );
     }
 }
-
-UISegmentedControl.propTypes = {
-    onOptionSelected: React.PropTypes.func,
-    options: function validateOptions(props) {
-        if (props.options.length < 2) {
-            throw new Error('Must provide at least two options.');
-        }
-
-        const missingSelected = props.options.some(option => {
-            if (!('selected' in option)) {
-                return true;
-            }
-        });
-
-        if (missingSelected) {
-            throw new Error('Must provide a `selected` prop for each option.');
-        }
-
-        let seenSelected = false;
-        const multipleSelected = props.options.some(option => {
-            if (option.selected) {
-                if (seenSelected) {
-                    return true;
-                }
-
-                seenSelected = true;
-            }
-        });
-
-        if (multipleSelected) {
-            throw new Error('Encountered multiple options with `selected: true`. There can be only one.');
-        }
-
-        if (props.options.some(option => typeof option.value === 'undefined')) {
-            throw new Error('Must provide a `value` prop for each option.');
-        }
-    },
-};
-
-UISegmentedControl.defaultProps = {
-    options: [],
-    onOptionSelected: noop,
-};
-
-export default UISegmentedControl;

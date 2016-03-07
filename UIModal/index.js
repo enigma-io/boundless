@@ -8,7 +8,19 @@ import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import cx from 'classnames';
 
-class UIModal extends UIView {
+export default class UIModal extends UIView {
+    static propTypes = {
+        ...UIDialog.propTypes,
+        maskProps: React.PropTypes.object,
+        modalProps: React.PropTypes.object,
+    }
+
+    static defaultProps = {
+        ...UIDialog.defaultProps,
+        maskProps: {},
+        modalProps: {},
+    }
+
     render() {
         const dialogSpecificProps = Object.keys(UIDialog.propTypes).reduce((props, key) => {
             props[key] = this.props[key];
@@ -20,21 +32,21 @@ class UIModal extends UIView {
             <div {...this.props}
                  ref='wrapper'
                  className={cx({
-                    'ui-modal-wrapper': true,
-                    [this.props.className]: !!this.props.className,
+                     'ui-modal-wrapper': true,
+                     [this.props.className]: !!this.props.className,
                  })}>
                 <div {...this.props.maskProps}
                      ref='mask'
                      className={cx({
-                        'ui-modal-mask': true,
-                        [this.props.maskProps.className]: !!this.props.maskProps.className,
+                         'ui-modal-mask': true,
+                         [this.props.maskProps.className]: !!this.props.maskProps.className,
                      })} />
                 <UIDialog {...dialogSpecificProps}
                           {...this.props.modalProps}
                           ref='dialog'
                           className={cx({
-                            'ui-modal': true,
-                            [this.props.modalProps.className]: !!this.props.modalProps.className,
+                              'ui-modal': true,
+                              [this.props.modalProps.className]: !!this.props.modalProps.className,
                           })}>
                     {this.props.children}
                 </UIDialog>
@@ -42,17 +54,3 @@ class UIModal extends UIView {
         );
     }
 }
-
-UIModal.propTypes = {
-    ...UIDialog.propTypes,
-    maskProps: React.PropTypes.object,
-    modalProps: React.PropTypes.object,
-};
-
-UIModal.defaultProps = {
-    ...UIDialog.defaultProps,
-    maskProps: {},
-    modalProps: {},
-};
-
-export default UIModal;

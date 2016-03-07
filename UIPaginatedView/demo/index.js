@@ -1,15 +1,16 @@
+import React from 'react';
 import UIPaginatedView from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 const json = require('../../UITable/demo/fixture.json');
 
 export default class UIPaginatedViewDemo extends UIView {
-    initialState() {
-        return {items: json, identifier: 'rolodex1000'};
+    state = {
+        items: json,
+        identifier: 'rolodex1000',
     }
 
-    handleItemRequest(index) {
+    handleItemRequest = (index) => {
         // this might be async if row must be retrieved remotely
 
         if (index >= 30) {
@@ -23,7 +24,7 @@ export default class UIPaginatedViewDemo extends UIView {
         return this.itemToJsx(this.state.items[index])
     }
 
-    itemToJsx (data) {
+    itemToJsx(data) {
         return (
             <div>
                 <div className="card-left">
@@ -45,7 +46,7 @@ export default class UIPaginatedViewDemo extends UIView {
             return (
                 <div>
                     <UIPaginatedView
-                        getItem={this.handleItemRequest.bind(this)}
+                        getItem={this.handleItemRequest}
                         identifier={this.state.identifier}
                         numItemsPerPage={5}
                         totalItems={this.state.items.length} />

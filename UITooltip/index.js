@@ -7,9 +7,25 @@ import React from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
 
-class UITooltip extends UIView {
+export default class UITooltip extends UIView {
+    static position = {
+        ABOVE: 'ABOVE',
+        BELOW: 'BELOW',
+        BEFORE: 'BEFORE',
+        AFTER: 'AFTER',
+    }
+
+    static propTypes = {
+        position: React.PropTypes.oneOf(Object.keys(UITooltip.position)),
+        text: React.PropTypes.string,
+    }
+
+    static defaultProps = {
+        position: UITooltip.position.ABOVE,
+    }
+
     render() {
-        const position = this.props.position;
+        const {position} = this.props;
 
         return (
             <div {...this.props}
@@ -28,21 +44,3 @@ class UITooltip extends UIView {
         );
     }
 }
-
-UITooltip.position = {
-    ABOVE: 'ABOVE',
-    BELOW: 'BELOW',
-    BEFORE: 'BEFORE',
-    AFTER: 'AFTER',
-};
-
-UITooltip.propTypes = {
-    position: React.PropTypes.oneOf(Object.keys(UITooltip.position)),
-    text: React.PropTypes.string,
-};
-
-UITooltip.defaultProps = {
-    position: UITooltip.position.ABOVE,
-};
-
-export default UITooltip;

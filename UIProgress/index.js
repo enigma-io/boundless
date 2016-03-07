@@ -8,15 +8,35 @@ import UIButton from '../UIButton';
 import UIView from '../UIView';
 import cx from 'classnames';
 
-class UIProgress extends UIView {
+export default class UIProgress extends UIView {
+    static defaultProps = {
+        cancelProps: {},
+        labelProps: {},
+        progressProps: {},
+        tweenProperty: 'width',
+    }
+
+    static propTypes = {
+        cancelProps: React.PropTypes.object,
+        label: React.PropTypes.node,
+        labelProps: React.PropTypes.object,
+        onCancel: React.PropTypes.func,
+        progress: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.number,
+        ]),
+        progressProps: React.PropTypes.object,
+        tweenProperty: React.PropTypes.string,
+    }
+
     renderLabel() {
         if (this.props.label) {
             return (
                 <div {...this.props.labelProps}
                      ref='label'
                      className={cx({
-                        'ui-progress-label': true,
-                        [this.props.labelProps.className]: !!this.props.labelProps.className,
+                         'ui-progress-label': true,
+                         [this.props.labelProps.className]: !!this.props.labelProps.className,
                      })}>
                     {this.props.label}
                 </div>
@@ -43,9 +63,9 @@ class UIProgress extends UIView {
             <div {...this.props.progressProps}
                  ref='progress'
                  className={cx({
-                    'ui-progress': true,
-                    'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
-                    [this.props.progressProps.className]: !!this.props.progressProps.className,
+                     'ui-progress': true,
+                     'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
+                     [this.props.progressProps.className]: !!this.props.progressProps.className,
                  })}
                  role='presentation'
                  style={{
@@ -61,8 +81,8 @@ class UIProgress extends UIView {
                  label={null}
                  ref='wrapper'
                  className={cx({
-                    'ui-progress-wrapper': true,
-                    [this.props.className]: !!this.props.className,
+                     'ui-progress-wrapper': true,
+                     [this.props.className]: !!this.props.className,
                  })}>
                 {this.renderProgress()}
                 {this.renderLabel()}
@@ -71,25 +91,3 @@ class UIProgress extends UIView {
         );
     }
 }
-
-UIProgress.defaultProps = {
-    cancelProps: {},
-    labelProps: {},
-    progressProps: {},
-    tweenProperty: 'width',
-};
-
-UIProgress.propTypes = {
-    cancelProps: React.PropTypes.object,
-    label: React.PropTypes.node,
-    labelProps: React.PropTypes.object,
-    onCancel: React.PropTypes.func,
-    progress: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]),
-    progressProps: React.PropTypes.object,
-    tweenProperty: React.PropTypes.string,
-};
-
-export default UIProgress;

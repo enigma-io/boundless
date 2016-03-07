@@ -1,12 +1,10 @@
+import React from 'react';
 import UIArrowKeyNavigation from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UIArrowKeyNavigationDemo extends UIView {
-    initialState() {
-        return {
-            items: ['lorem', 'ipsum', 'dolor'],
-        };
+    state = {
+        items: ['lorem', 'ipsum', 'dolor'],
     }
 
     render() {

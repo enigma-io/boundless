@@ -1,28 +1,20 @@
+import React from 'react';
 import UIButton from '../../UIButton';
 import UIModal from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UIModalDemo extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.toggleModal = this.toggleModal.bind(this);
+    state = {
+        showModal: false,
     }
 
-    initialState() {
-        return {
-            showModal: false,
-        };
-    }
-
-    toggleModal() {
+    toggleModal = () => {
         this.setState({showModal: !this.state.showModal});
     }
 
     renderModal() {
         if (this.state.showModal) {
-            let buttons = [
+            const buttons = [
                 <UIButton key='y' onPressed={this.toggleModal}>Yes</UIButton>,
                 <UIButton key='n' className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</UIButton>,
             ];
