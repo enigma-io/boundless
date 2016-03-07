@@ -3,7 +3,7 @@
  * @class TableView
  */
 
-import transformProp from '../../UIUtils/transform';
+import transformProp from '../../UIUtils/transformProperty';
 import findWhere from '../../UIUtils/findWhere';
 import noop from '../../UIUtils/noop';
 

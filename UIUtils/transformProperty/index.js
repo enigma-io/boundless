@@ -1,6 +1,6 @@
 /**
  * Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.
- * @module UIKit/utils/transform
+ * @module UIUtils/transformProperty
  *
  * @return {String} the property key (e.g. `WebkitTransform`, `msTransform`)
  */

@@ -86,7 +86,7 @@
       "UIUtils/noop/index.js": true,
       "UIUtils/notify/index.js": true,
       "UIUtils/shallowEqual/index.js": true,
-      "UIUtils/transform/index.js": true,
+      "UIUtils/transformProperty/index.js": true,
       "UIView/index.js": true,
       "exports.js": true
     },

@@ -27,6 +27,7 @@ module.exports = {
     UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput').default),
     UIUtils: {
         notify: (global.UIKit.UIUtils.notify = require('./UIUtils/notify').default),
+        transformProperty: (global.UIKit.UIUtils.transformProperty = require('./UIUtils/transformProperty').default),
     },
     UIView: (global.UIKit.UIView = require('./UIView').default),
 };

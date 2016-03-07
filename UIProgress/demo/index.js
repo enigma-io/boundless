@@ -3,7 +3,7 @@ import UIProgress from '../index';
 import UIView from '../../UIView';
 import React from 'react';
 import {each} from 'lodash';
-import transformProp from '../../UIUtils/transform';
+import transformProp from '../../UIUtils/transformProperty';
 
 export default class UIProgressDemo extends UIView {
     initialState() {
