@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import UIView from '../UIView';
 import cx from 'classnames';
 
@@ -12,9 +12,20 @@ function toI(stringNumber) {
     return parseInt(stringNumber, 10);
 }
 
-class UIFittedText extends UIView {
+export default class UIFittedText extends UIView {
+    static defaultProps = {
+        maxFontSize: Number.MAX_VALUE,
+    }
+
+    static propTypes = {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number,
+        ]),
+        maxFontSize: React.PropTypes.number,
+    }
+
     componentDidMount() {
-        this.rescale = this.rescale.bind(this);
         this.rescale();
 
         window.addEventListener('resize', this.rescale, true);
@@ -28,10 +39,9 @@ class UIFittedText extends UIView {
         window.removeEventListener('resize', this.rescale, true);
     }
 
-    rescale() {
-        const node = ReactDOM.findDOMNode(this);
-        const container = node.parentNode;
-        const containerBox = window.getComputedStyle(container);
+    rescale = () => {
+        const node = findDOMNode(this);
+        const containerBox = window.getComputedStyle(node.parentNode);
         const fontSize = toI(window.getComputedStyle(node).fontSize);
 
         let containerHeight = toI(containerBox.height);
@@ -62,17 +72,3 @@ class UIFittedText extends UIView {
         );
     }
 }
-
-UIFittedText.defaultProps = {
-    maxFontSize: Number.MAX_VALUE,
-};
-
-UIFittedText.propTypes = {
-    children: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number,
-    ]),
-    maxFontSize: React.PropTypes.number,
-};
-
-export default UIFittedText;

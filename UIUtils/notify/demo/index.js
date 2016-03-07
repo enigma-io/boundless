@@ -1,16 +1,14 @@
+import React from 'react';
 import notify from '../index';
 import UIButton from '../../../UIButton';
 import UIView from '../../../UIView';
-import React from 'react';
 
 export default class NotifyDemo extends UIView {
-    initialState() {
-        return {
-            n: 0
-        };
+    state = {
+        n: 0,
     }
 
-    spawnNotification() {
+    spawnNotification = () => {
         notify(this.template(this.state.n + 1)).catch(error => console.warn(error));
 
         this.setState({n: this.state.n + 1});
@@ -28,7 +26,7 @@ export default class NotifyDemo extends UIView {
     render() {
         return (
             <div>
-                <UIButton ref='trigger' onClick={this.spawnNotification.bind(this)}>
+                <UIButton ref='trigger' onClick={this.spawnNotification}>
                     Spawn Notification
                 </UIButton>
             </div>

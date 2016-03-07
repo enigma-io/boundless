@@ -9,7 +9,45 @@ import UICheckbox from '../UICheckbox';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UICheckboxGroup extends UIView {
+export default class UICheckboxGroup extends UIView {
+    static Constants = {
+        SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
+        SELECT_ALL_AFTER: 'SELECT_ALL_AFTER',
+    }
+
+    static propTypes = {
+        items: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                checked: React.PropTypes.bool.isRequired,
+                label: React.PropTypes.string,
+                name: React.PropTypes.string.isRequired,
+                value: React.PropTypes.string,
+            })
+        ).isRequired,
+        onAllChecked: React.PropTypes.func,
+        onAllUnchecked: React.PropTypes.func,
+        onChildChecked: React.PropTypes.func,
+        onChildUnchecked: React.PropTypes.func,
+        selectAll: React.PropTypes.bool,
+        selectAllProps: React.PropTypes.object,
+        selectAllLabel: React.PropTypes.string,
+        selectAllPosition: React.PropTypes.oneOf([
+            UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
+            UICheckboxGroup.Constants.SELECT_ALL_AFTER,
+        ]),
+    }
+
+    static defaultProps = {
+        items: [],
+        onAllChecked: noop,
+        onAllUnchecked: noop,
+        onChildChecked: noop,
+        onChildUnchecked: noop,
+        selectAllProps: {},
+        selectAllLabel: 'Select All',
+        selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
+    }
+
     allItemsChecked() {
         return this.props.items.every(item => item.checked === true);
     }
@@ -82,43 +120,3 @@ class UICheckboxGroup extends UIView {
         );
     }
 }
-
-UICheckboxGroup.Constants = {
-    SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
-    SELECT_ALL_AFTER: 'SELECT_ALL_AFTER',
-};
-
-UICheckboxGroup.propTypes = {
-    items: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            checked: React.PropTypes.bool.isRequired,
-            label: React.PropTypes.string,
-            name: React.PropTypes.string.isRequired,
-            value: React.PropTypes.string,
-        })
-    ).isRequired,
-    onAllChecked: React.PropTypes.func,
-    onAllUnchecked: React.PropTypes.func,
-    onChildChecked: React.PropTypes.func,
-    onChildUnchecked: React.PropTypes.func,
-    selectAll: React.PropTypes.bool,
-    selectAllProps: React.PropTypes.object,
-    selectAllLabel: React.PropTypes.string,
-    selectAllPosition: React.PropTypes.oneOf([
-        UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
-        UICheckboxGroup.Constants.SELECT_ALL_AFTER,
-    ]),
-};
-
-UICheckboxGroup.defaultProps = {
-    items: [],
-    onAllChecked: noop,
-    onAllUnchecked: noop,
-    onChildChecked: noop,
-    onChildUnchecked: noop,
-    selectAllProps: {},
-    selectAllLabel: 'Select All',
-    selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
-};
-
-export default UICheckboxGroup;

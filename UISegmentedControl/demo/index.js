@@ -1,28 +1,26 @@
+import React from 'react';
 import UISegmentedControl from '../index';
 import UIImage from '../../UIImage';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UISegmentedControlDemo extends UIView {
-    initialState() {
-        return {
-            options: [{
-                selected: true,
-                content: 'Planets',
-                value: 'planets'
-            }, {
-                selected: false,
-                content: 'Nebulae',
-                value: 'nebulae'
-            }, {
-                selected: false,
-                content: 'Galaxies',
-                value: 'galaxies'
-            }]
-        };
+    state = {
+        options: [{
+            selected: true,
+            content: 'Planets',
+            value: 'planets'
+        }, {
+            selected: false,
+            content: 'Nebulae',
+            value: 'nebulae'
+        }, {
+            selected: false,
+            content: 'Galaxies',
+            value: 'galaxies'
+        }],
     }
 
-    handleOptionSelected(value) {
+    handleOptionSelected = (value) => {
         this.setState({
             options: this.state.options.map(function transformer(option) {
                 return {...option, selected: option.value === value};
@@ -77,7 +75,7 @@ export default class UISegmentedControlDemo extends UIView {
                 <p>Which astronomical features would you like to view?</p>
                 <UISegmentedControl ref='control'
                                     options={this.state.options}
-                                    onOptionSelected={this.handleOptionSelected.bind(this)} />
+                                    onOptionSelected={this.handleOptionSelected} />
                 <br />
                 {this.renderContent()}
             </div>

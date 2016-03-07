@@ -8,11 +8,28 @@ import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UIImage extends UIView {
-    initialState() {
-        return {
-            status: UIImage.status.LOADING,
-        };
+export default class UIImage extends UIView {
+    static status = {
+        LOADING: 'LOADING',
+        LOADED: 'LOADED',
+        ERROR: 'ERROR',
+    }
+
+    static propTypes = {
+        alt: React.PropTypes.string,
+        displayAsBackgroundImage: React.PropTypes.bool,
+        imageProps: React.PropTypes.object,
+        src: React.PropTypes.string.isRequired,
+        statusProps: React.PropTypes.object,
+    }
+
+    static defaultProps = {
+        imageProps: {},
+        statusProps: {},
+    }
+
+    state = {
+        status: UIImage.status.LOADING,
     }
 
     componentWillReceiveProps(nextProps) {
@@ -113,24 +130,3 @@ class UIImage extends UIView {
         );
     }
 }
-
-UIImage.status = {
-    LOADING: 'LOADING',
-    LOADED: 'LOADED',
-    ERROR: 'ERROR',
-};
-
-UIImage.propTypes = {
-    alt: React.PropTypes.string,
-    displayAsBackgroundImage: React.PropTypes.bool,
-    imageProps: React.PropTypes.object,
-    src: React.PropTypes.string.isRequired,
-    statusProps: React.PropTypes.object,
-};
-
-UIImage.defaultProps = {
-    imageProps: {},
-    statusProps: {},
-};
-
-export default UIImage;

@@ -383,25 +383,6 @@ class TableView {
     constructor(config) {
         this.processConfiguration(config);
 
-        this.handleClick = this.handleClick.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchMove = this.handleTouchMove.bind(this);
-        this.handleMoveIntent = this.handleMoveIntent.bind(this);
-
-        this.handleXScrollHandleDragStart = this.handleXScrollHandleDragStart.bind(this);
-        this.handleYScrollHandleDragStart = this.handleYScrollHandleDragStart.bind(this);
-        this.handleAdvanceToXScrollTrackLocation = this.handleAdvanceToXScrollTrackLocation.bind(this);
-        this.handleAdvanceToYScrollTrackLocation = this.handleAdvanceToYScrollTrackLocation.bind(this);
-
-        this.handleDragMove = this.handleDragMove.bind(this);
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-        this.handleColumnDragStart = this.handleColumnDragStart.bind(this);
-        this.handleColumnAutoExpand = this.handleColumnAutoExpand.bind(this);
-
-        this.handleWindowResize = this.handleWindowResize.bind(this);
-
         this.body = this.c.body;
         this.body_style = this.body.style;
         this.header = this.c.header;
@@ -676,7 +657,7 @@ class TableView {
         this.body_h = this.c.body.clientHeight || 110;
     }
 
-    handleWindowResize() {
+    handleWindowResize = () => {
         if (this.c.wrapper.clientHeight !== this.container_h) {
             /* more rows may be needed to display the data, so we need to rebuild */
             return this.regenerate();
@@ -925,7 +906,7 @@ class TableView {
         ].setIndex;
     }
 
-    handleMoveIntent(event) {
+    handleMoveIntent = (event) => {
         event.preventDefault();
 
         if (event.deltaX === 0   && event.deltaY === 0) { return; }
@@ -1010,7 +991,7 @@ class TableView {
         this.y = this.next_y;
     }
 
-    handleTouchMove(event) {
+    handleTouchMove = (event) => {
         event.preventDefault();
 
         /* we handle touchmove by detecting the delta of pageX/Y and forwarding
@@ -1027,13 +1008,13 @@ class TableView {
         this.handleMoveIntent(this.evt);
     }
 
-    handleTouchStart(event) {
+    handleTouchStart = (event) => {
         this.touch = event.touches.item(0);
         this.last_touch_pageX = this.touch.pageX;
         this.last_touch_pageY = this.touch.pageY;
     }
 
-    handleAdvanceToXScrollTrackLocation(event) {
+    handleAdvanceToXScrollTrackLocation = (event) => {
         if (this.x_scroll_locked) { return; }
         if (event.target.className !== 'ui-table-x-scroll-track') { return; }
 
@@ -1045,7 +1026,7 @@ class TableView {
         this.last_pageX = event.pageX;
     }
 
-    handleAdvanceToYScrollTrackLocation(event) {
+    handleAdvanceToYScrollTrackLocation = (event) => {
         if (this.y_scroll_locked) { return; }
         if (event.target.className !== 'ui-table-y-scroll-track') { return; }
 
@@ -1059,7 +1040,7 @@ class TableView {
         this.handleMoveIntent(this.evt);
     }
 
-    handleXScrollHandleDragStart(event) {
+    handleXScrollHandleDragStart = (event) => {
         if (event.button !== 0) { return; }
 
         event.preventDefault();
@@ -1072,7 +1053,7 @@ class TableView {
         window.addEventListener('mouseup', this.handleDragEnd, true);
     }
 
-    handleYScrollHandleDragStart(event) {
+    handleYScrollHandleDragStart = (event) => {
         if (event.button !== 0) { return; }
 
         event.preventDefault();
@@ -1087,7 +1068,7 @@ class TableView {
         window.addEventListener('mouseup', this.handleDragEnd, true);
     }
 
-    handleDragMove(event) {
+    handleDragMove = (event) => {
         if (!this.left_button_pressed) { return; }
 
         if (this.y_scroll_locked) {
@@ -1134,7 +1115,7 @@ class TableView {
         this.x_scroll_locked = this.y_scroll_locked = this.column_is_resizing = false;
     }
 
-    handleDragEnd() {
+    handleDragEnd = () => {
         window.removeEventListener('mouseup', this.handleDragEnd, true);
 
         this.left_button_pressed = false;
@@ -1143,7 +1124,7 @@ class TableView {
         window.setTimeout(() => this.unlockDragToScroll(), 0);
     }
 
-    handleColumnDragStart(event) {
+    handleColumnDragStart = (event) => {
         if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
             // Fixes dragStart occasionally happening and breaking the simulated drag
             event.preventDefault();
@@ -1196,7 +1177,7 @@ class TableView {
         }
     }
 
-    handleColumnAutoExpand(event) {
+    handleColumnAutoExpand = (event) => {
         if (event.button === 0 && event.target.className === 'ui-table-header-cell-resize-handle') {
             const mapping = event.target.parentNode.getAttribute('data-column');
             const column = findWhere(this.columns, 'mapping', mapping);
@@ -1279,7 +1260,7 @@ class TableView {
         this.next_active_row = null;
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         const key = event.key || this.getKeyFromKeyCode(event.keyCode);
 
         switch (key) {
@@ -1328,7 +1309,7 @@ class TableView {
         return nodeMap;
     }
 
-    handleClick(event) {
+    handleClick = (event) => {
         const map = this.discoverCellAndRowNodes(event.target);
 
         if (map.row) {

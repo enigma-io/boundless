@@ -7,7 +7,30 @@ import React from 'react';
 import UIView from '../UIView';
 import TableView from './table';
 
-class UITable extends UIView {
+export default class UITable extends UIView {
+    static propTypes = {
+        columns: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                mapping: React.PropTypes.string,
+                resizable: React.PropTypes.bool,
+                title: React.PropTypes.string,
+                width: React.PropTypes.number,
+            })
+        ),
+        getRow: React.PropTypes.func,
+        identifier: React.PropTypes.string,
+        offscreenClass: React.PropTypes.string,
+        onCellInteract: React.PropTypes.func,
+        onRowInteract: React.PropTypes.func,
+        throttleInterval: React.PropTypes.number,
+        totalRows: React.PropTypes.number,
+    }
+
+    static defaultProps = {
+        className: '',
+        offscreenClass: 'ui-offscreen',
+    }
+
     getTableViewConfiguration() {
         return {
             wrapper: this.refs.wrapper,
@@ -65,28 +88,3 @@ class UITable extends UIView {
         );
     }
 }
-
-UITable.propTypes = {
-    columns: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            mapping: React.PropTypes.string,
-            resizable: React.PropTypes.bool,
-            title: React.PropTypes.string,
-            width: React.PropTypes.number,
-        })
-    ),
-    getRow: React.PropTypes.func,
-    identifier: React.PropTypes.string,
-    offscreenClass: React.PropTypes.string,
-    onCellInteract: React.PropTypes.func,
-    onRowInteract: React.PropTypes.func,
-    throttleInterval: React.PropTypes.number,
-    totalRows: React.PropTypes.number,
-};
-
-UITable.defaultProps = {
-    className: '',
-    offscreenClass: 'ui-offscreen',
-};
-
-export default UITable;

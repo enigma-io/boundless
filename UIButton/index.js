@@ -1,15 +1,28 @@
-import UIView from '../UIView';
 import React from 'react';
+import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UIButton extends UIView {
+export default class UIButton extends UIView {
+    static propTypes = {
+        children: React.PropTypes.node,
+        onClick: React.PropTypes.func,
+        onPressed: React.PropTypes.func,
+        onUnpressed: React.PropTypes.func,
+        pressed: React.PropTypes.bool,
+    };
+
+    static defaultProps = {
+        onPressed: noop,
+        onUnpressed: noop,
+    };
+
     toggleState(event) {
         event.persist();
         this.props[this.props.pressed ? 'onUnpressed' : 'onPressed'](event);
     }
 
-    handleClick(event) {
+    handleClick = (event) => {
         this.toggleState(event);
 
         if (typeof this.props.onClick === 'function') {
@@ -18,7 +31,7 @@ class UIButton extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         switch (event.key) {
         case 'Enter':
         case 'Space':
@@ -43,25 +56,10 @@ class UIButton extends UIView {
                         [this.props.className]: !!this.props.className,
                     })}
                     aria-pressed={this.props.pressed}
-                    onKeyDown={this.handleKeyDown.bind(this)}
-                    onClick={this.handleClick.bind(this)}>
+                    onKeyDown={this.handleKeyDown}
+                    onClick={this.handleClick}>
                 {this.props.children}
             </button>
         );
     }
 }
-
-UIButton.propTypes = {
-    children: React.PropTypes.node,
-    onClick: React.PropTypes.func,
-    onPressed: React.PropTypes.func,
-    onUnpressed: React.PropTypes.func,
-    pressed: React.PropTypes.bool,
-};
-
-UIButton.defaultProps = {
-    onPressed: noop,
-    onUnpressed: noop,
-};
-
-export default UIButton;

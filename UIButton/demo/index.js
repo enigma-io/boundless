@@ -1,12 +1,22 @@
+import React from 'react';
 import UIButton from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UIButtonDemo extends UIView {
-    initialState() {
-        return {
-            pressed: false,
-        };
+    state = {
+        pressed: false,
+    }
+
+    handleClick = () => {
+        alert('A single-click was detected.');
+    }
+
+    handlePressed = () => {
+        this.setState({pressed: true});
+    }
+
+    handleUnpressed = () => {
+        this.setState({pressed: false});
     }
 
     render() {
@@ -16,8 +26,8 @@ export default class UIButtonDemo extends UIView {
                     Click Me
                 </UIButton>
 
-                <UIButton onPressed={this.handlePressed.bind(this)}
-                          onUnpressed={this.handleUnpressed.bind(this)}
+                <UIButton onPressed={this.handlePressed}
+                          onUnpressed={this.handleUnpressed}
                           pressed={this.state.pressed}>
                     {this.state.pressed ? 'Pressed' : 'Unpressed'}
                 </UIButton>
@@ -28,17 +38,5 @@ export default class UIButtonDemo extends UIView {
                 </UIButton>
             </div>
         );
-    }
-
-    handleClick() {
-        alert('A single-click was detected.');
-    }
-
-    handlePressed() {
-        this.setState({pressed: true});
-    }
-
-    handleUnpressed() {
-        this.setState({pressed: false});
     }
 }

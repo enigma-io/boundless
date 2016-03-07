@@ -9,14 +9,62 @@ import noop from '../UIUtils/noop';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
-class UITypeaheadInput extends UIView {
-    initialState() {
-        return {
-            entityMatchIndexes: [],
-            selectedEntityIndex: -1,
-            id: this.uuid(),
-            userInput: this.props.defaultValue,
-        };
+export default class UITypeaheadInput extends UIView {
+    static mode = {
+        'STARTS_WITH': 'STARTS_WITH',
+        'FUZZY': 'FUZZY',
+    }
+
+    static propTypes = {
+        algorithm: React.PropTypes.oneOfType([
+            React.PropTypes.oneOf([
+                UITypeaheadInput.mode.STARTS_WITH,
+                UITypeaheadInput.mode.FUZZY,
+            ]),
+            React.PropTypes.shape({
+                markFunc: React.PropTypes.func,
+                matchFunc: React.PropTypes.func,
+            }),
+        ]),
+        clearPartialInputOnSelection: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string,
+        entities: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                text: React.PropTypes.string,
+            })
+        ),
+        hint: React.PropTypes.bool,
+        hintProps: React.PropTypes.object,
+        inputProps: React.PropTypes.object,
+        matchWrapperProps: React.PropTypes.object,
+        name: React.PropTypes.string,
+        offscreenClass: React.PropTypes.string,
+        onComplete: React.PropTypes.func,
+        onInput: React.PropTypes.func,
+        onEntityHighlighted: React.PropTypes.func,
+        onEntitySelected: React.PropTypes.func,
+        type: React.PropTypes.string,
+    }
+
+    static defaultProps = {
+        algorithm: UITypeaheadInput.mode.STARTS_WITH,
+        clearPartialInputOnSelection: false,
+        defaultValue: '',
+        entities: [],
+        hintProps: {},
+        inputProps: {},
+        matchWrapperProps: {},
+        offscreenClass: 'ui-offscreen',
+        onComplete: noop,
+        onEntityHighlighted: noop,
+        onEntitySelected: noop,
+    }
+
+    state = {
+        entityMatchIndexes: [],
+        selectedEntityIndex: -1,
+        id: this.uuid(),
+        userInput: this.props.defaultValue,
     }
 
     componentWillMount() {
@@ -55,7 +103,7 @@ class UITypeaheadInput extends UIView {
     }
 
     handleMatchClick(index) {
-        this.setState({selectedEntityIndex: index}, () => this.setValueWithSelectedEntity());
+        this.setState({selectedEntityIndex: index}, this.setValueWithSelectedEntity);
     }
 
     selectMatch(delta) {
@@ -140,7 +188,7 @@ class UITypeaheadInput extends UIView {
         return node.selectionStart === node.selectionEnd && node.selectionEnd === node.value.length;
     }
 
-    setValueWithSelectedEntity() {
+    setValueWithSelectedEntity = () => {
         this.props.onEntitySelected(this.state.selectedEntityIndex);
 
         if (this.props.clearPartialInputOnSelection) {
@@ -247,7 +295,7 @@ class UITypeaheadInput extends UIView {
         });
     }
 
-    handleInput(event) {
+    handleInput = (event) => {
         this.setState({userInput: event.target.value}, () => this.computeMatches());
 
         if (this.props.onInput) {
@@ -261,7 +309,7 @@ class UITypeaheadInput extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         switch (event.key) {
         case 'ArrowLeft':
             if (event.target.selectionStart > 1) {
@@ -397,7 +445,7 @@ class UITypeaheadInput extends UIView {
                     'ui-typeahead-wrapper': true,
                     [this.props.className]: !!this.props.className,
                  })}
-                 onKeyDown={this.handleKeyDown.bind(this)}>
+                 onKeyDown={this.handleKeyDown}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
@@ -411,62 +459,10 @@ class UITypeaheadInput extends UIView {
                        name={this.props.name || this.props.inputProps.name}
                        type={this.props.type || this.props.inputProps.type || 'text'}
                        aria-controls={this.state.id}
-                       onInput={this.handleInput.bind(this)} />
+                       onInput={this.handleInput} />
 
                 {this.renderMatches()}
             </div>
         );
     }
 }
-
-UITypeaheadInput.mode = {
-    'STARTS_WITH': 'STARTS_WITH',
-    'FUZZY': 'FUZZY',
-};
-
-UITypeaheadInput.propTypes = {
-    algorithm: React.PropTypes.oneOfType([
-        React.PropTypes.oneOf([
-            UITypeaheadInput.mode.STARTS_WITH,
-            UITypeaheadInput.mode.FUZZY,
-        ]),
-        React.PropTypes.shape({
-            markFunc: React.PropTypes.func,
-            matchFunc: React.PropTypes.func,
-        }),
-    ]),
-    clearPartialInputOnSelection: React.PropTypes.bool,
-    defaultValue: React.PropTypes.string,
-    entities: React.PropTypes.arrayOf(
-        React.PropTypes.shape({
-            text: React.PropTypes.string,
-        })
-    ),
-    hint: React.PropTypes.bool,
-    hintProps: React.PropTypes.object,
-    inputProps: React.PropTypes.object,
-    matchWrapperProps: React.PropTypes.object,
-    name: React.PropTypes.string,
-    offscreenClass: React.PropTypes.string,
-    onComplete: React.PropTypes.func,
-    onInput: React.PropTypes.func,
-    onEntityHighlighted: React.PropTypes.func,
-    onEntitySelected: React.PropTypes.func,
-    type: React.PropTypes.string,
-};
-
-UITypeaheadInput.defaultProps = {
-    algorithm: UITypeaheadInput.mode.STARTS_WITH,
-    clearPartialInputOnSelection: false,
-    defaultValue: '',
-    entities: [],
-    hintProps: {},
-    inputProps: {},
-    matchWrapperProps: {},
-    offscreenClass: 'ui-offscreen',
-    onComplete: noop,
-    onEntityHighlighted: noop,
-    onEntitySelected: noop,
-};
-
-export default UITypeaheadInput;

@@ -2,17 +2,20 @@ import React from 'react';
 import UIView from '../UIView';
 import {findDOMNode} from 'react-dom';
 
-class UIArrowKeyNavigation extends UIView {
-    constructor(...args) {
-        super(...args);
-
-        this.handleKeyDown = this.handleKeyDown.bind(this);
+export default class UIArrowKeyNavigation extends UIView {
+    static propTypes = {
+        component: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.func,
+        ]),
     }
 
-    initialState() {
-        return {
-            activeChildIndex: null,
-        };
+    static defaultProps = {
+        component: 'div',
+    }
+
+    state = {
+        activeChildIndex: null,
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -22,7 +25,7 @@ class UIArrowKeyNavigation extends UIView {
                                 : 0;
 
             if (numChildren === 0) {
-                this.setState(this.initialState()); // eslint-disable-line react/no-did-update-set-state
+                this.setState({activeChildIndex: null}); // eslint-disable-line react/no-did-update-set-state
             } else if (this.state.activeChildIndex >= numChildren) {
                 this.setState({activeChildIndex: numChildren - 1}); // eslint-disable-line react/no-did-update-set-state
             } else if (this.state.activeChildIndex !== prevState.activeChildIndex) {
@@ -59,7 +62,7 @@ class UIArrowKeyNavigation extends UIView {
         this.setState({activeChildIndex: nextIndex});
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         switch (event.key) {
         case 'ArrowUp':
         case 'ArrowLeft':
@@ -119,16 +122,3 @@ class UIArrowKeyNavigation extends UIView {
         }, this.children());
     }
 }
-
-UIArrowKeyNavigation.propTypes = {
-    component: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.func,
-    ]),
-};
-
-UIArrowKeyNavigation.defaultProps = {
-    component: 'div',
-};
-
-export default UIArrowKeyNavigation;

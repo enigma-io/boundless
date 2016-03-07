@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {findDOMNode} from 'react-dom';
 
 /**
  * A testing module to verify that arbitrary React-supported attributes are passed
@@ -37,10 +37,10 @@ export default function verifyConformance(render, Constructor, baseProps, ref) {
         if (ref) {
             return   element.refs[ref] instanceof HTMLElement
                    ? element.refs[ref]
-                   : ReactDOM.findDOMNode(element.refs[ref]);
+                   : findDOMNode(element.refs[ref]);
         }
 
-        return ReactDOM.findDOMNode(element);
+        return findDOMNode(element);
     };
 
     /* verify props.className */

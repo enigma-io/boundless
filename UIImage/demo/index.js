@@ -1,7 +1,7 @@
+import React from 'react';
 import UIButton from '../../UIButton';
 import UIImage from '../index';
 import UIView from '../../UIView';
-import React from 'react';
 
 export default class UIImageDemo extends UIView {
     initialState() {
@@ -12,6 +12,10 @@ export default class UIImageDemo extends UIView {
             delayed: now,
             error: now,
         };
+    }
+
+    remountImage(refName) {
+        this.setState({[refName]: Date.now()});
     }
 
     render() {
@@ -54,9 +58,5 @@ export default class UIImageDemo extends UIView {
                 </figure>
             </div>
         );
-    }
-
-    remountImage(refName) {
-        this.setState({[refName]: Date.now()});
     }
 }

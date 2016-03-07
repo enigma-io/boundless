@@ -8,14 +8,29 @@ import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-class UIRadio extends UIView {
-    initialState() {
-        return {
-            id: this.props.inputProps.id || this.uuid(),
-        };
+export default class UIRadio extends UIView {
+    static propTypes = {
+        inputProps: React.PropTypes.object,
+        label: React.PropTypes.node,
+        labelProps: React.PropTypes.object,
+        name: React.PropTypes.string.isRequired,
+        onSelected: React.PropTypes.func,
+        selected: React.PropTypes.bool,
+        value: React.PropTypes.string.isRequired,
     }
 
-    handleChange(event) {
+    static defaultProps = {
+        inputProps: {},
+        labelProps: {},
+        onSelected: noop,
+        selected: false,
+    }
+
+    state = {
+        id: this.props.inputProps.id || this.uuid(),
+    }
+
+    handleChange = (event) => {
         if (event.target.checked) {
             this.props.onSelected(event.target.value);
         }
@@ -42,7 +57,7 @@ class UIRadio extends UIView {
                    value={this.props.value}
                    checked={this.props.selected}
                    aria-checked={String(this.props.selected)}
-                   onChange={this.handleChange.bind(this)} />
+                   onChange={this.handleChange} />
         );
     }
 
@@ -76,22 +91,3 @@ class UIRadio extends UIView {
         );
     }
 }
-
-UIRadio.propTypes = {
-    inputProps: React.PropTypes.object,
-    label: React.PropTypes.node,
-    labelProps: React.PropTypes.object,
-    name: React.PropTypes.string.isRequired,
-    onSelected: React.PropTypes.func,
-    selected: React.PropTypes.bool,
-    value: React.PropTypes.string.isRequired,
-};
-
-UIRadio.defaultProps = {
-    inputProps: {},
-    labelProps: {},
-    onSelected: noop,
-    selected: false,
-};
-
-export default UIRadio;

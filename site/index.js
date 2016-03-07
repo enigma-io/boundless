@@ -156,6 +156,10 @@ const utilities = {
 };
 
 class Sidebar extends UIView {
+    static contextTypes = {
+        history: React.PropTypes.object,
+    }
+
     createSubEntities(path, text, entities, readme) {
         const headerTextRegex = /#+\s?([^<]+)/;
         const headerHashRegex = /#+\s?.*?href="(.*?)"/;
@@ -228,11 +232,11 @@ class Sidebar extends UIView {
         );
     }
 
-    handleEntitySelected(index) {
+    handleEntitySelected = (index) => {
         this.context.history.pushState(null, this.state.entities[index].path);
     }
 
-    handleComplete(value) {
+    handleComplete = (value) => {
         if (!value) {
             return this.context.history.pushState(null, '/');
         }
@@ -258,8 +262,8 @@ class Sidebar extends UIView {
                 <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
                                   className='ui-demo-header-search'
                                   entities={this.state.entities}
-                                  onEntitySelected={this.handleEntitySelected.bind(this)}
-                                  onComplete={this.handleComplete.bind(this)}
+                                  onEntitySelected={this.handleEntitySelected}
+                                  onComplete={this.handleComplete}
                                   inputProps={{
                                     autoFocus: true,
                                     placeholder: 'Search for a page...',
@@ -291,11 +295,11 @@ class Sidebar extends UIView {
     }
 }
 
-Sidebar.contextTypes = {
-    history: React.PropTypes.object
-};
-
 class Container extends UIView {
+    static contextTypes = {
+        history: React.PropTypes.object,
+    }
+
     componentDidMount() {
         Prism.highlightAll();
         this.autoscroll();
@@ -318,7 +322,7 @@ class Container extends UIView {
         document.body.scrollTop = 0;
     }
 
-    handleClick(event) {
+    handleClick = (event) => {
         /*
             markdown-created links don't use React Router's <Link /> mechanism, so we have to programmatically
             trigger the route to avoid a page refresh
@@ -347,7 +351,7 @@ class Container extends UIView {
 
     render() {
         return (
-            <div onClick={this.handleClick.bind(this)}>
+            <div onClick={this.handleClick}>
                 <Sidebar />
 
                 <main className='ui-demo-section'>
@@ -364,10 +368,6 @@ class Container extends UIView {
         );
     }
 }
-
-Container.contextTypes = {
-    history: React.PropTypes.object
-};
 
 render(
     <Router history={history}>

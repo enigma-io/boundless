@@ -9,24 +9,39 @@ import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 export default class UIProgressiveDisclosure extends UIView {
-    initialState() {
-        return {
-            expanded: this.props.expanded,
-        };
+    static propTypes = {
+        children: React.PropTypes.node,
+        expanded: React.PropTypes.bool,
+        onExpand: React.PropTypes.func,
+        onHide: React.PropTypes.func,
+        teaser: React.PropTypes.node,
+        teaserExpanded: React.PropTypes.node,
+        toggleProps: React.PropTypes.object,
     }
 
-    dispatchCallback() {
-        this.props[this.state.expanded ? 'onExpand' : 'onHide']();
+    static defaultProps = {
+        expanded: false,
+        onExpand: noop,
+        onHide: noop,
+        toggleProps: {},
+    }
+
+    state = {
+        expanded: this.props.expanded,
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.expanded !== this.props.expanded) {
-            this.setState({expanded: newProps.expanded}, () => this.dispatchCallback());
+            this.setState({expanded: newProps.expanded}, this.dispatchCallback);
         }
     }
 
-    handleClick(event) {
-        this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
+    dispatchCallback = () => {
+        this.props[this.state.expanded ? 'onExpand' : 'onHide']();
+    }
+
+    handleClick = (event) => {
+        this.setState({expanded: !this.state.expanded}, this.dispatchCallback);
 
         /* istanbul ignore else */
         if (typeof this.props.toggleProps.onClick === 'function') {
@@ -35,11 +50,11 @@ export default class UIProgressiveDisclosure extends UIView {
         }
     }
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         switch (event.key) {
         case 'Enter':
             event.preventDefault();
-            this.setState({expanded: !this.state.expanded}, () => this.dispatchCallback());
+            this.setState({expanded: !this.state.expanded}, this.dispatchCallback);
         }
 
         /* istanbul ignore else */
@@ -64,8 +79,8 @@ export default class UIProgressiveDisclosure extends UIView {
                         'ui-disclosure-toggle': true,
                         [this.props.toggleProps.className]: !!this.props.toggleProps.className,
                      })}
-                     onClick={this.handleClick.bind(this)}
-                     onKeyDown={this.handleKeyDown.bind(this)}
+                     onClick={this.handleClick}
+                     onKeyDown={this.handleKeyDown}
                      tabIndex='0'>
                     {this.state.expanded ? this.props.teaserExpanded || this.props.teaser : this.props.teaser}
                 </div>
@@ -77,22 +92,3 @@ export default class UIProgressiveDisclosure extends UIView {
         );
     }
 }
-
-UIProgressiveDisclosure.propTypes = {
-    children: React.PropTypes.node,
-    expanded: React.PropTypes.bool,
-    onExpand: React.PropTypes.func,
-    onHide: React.PropTypes.func,
-    teaser: React.PropTypes.node,
-    teaserExpanded: React.PropTypes.node,
-    toggleProps: React.PropTypes.object,
-};
-
-UIProgressiveDisclosure.defaultProps = {
-    expanded: false,
-    onExpand: noop,
-    onHide: noop,
-    toggleProps: {},
-};
-
-export default UIProgressiveDisclosure;
