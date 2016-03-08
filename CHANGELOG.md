@@ -3,9 +3,63 @@
 
 ---
 
+### 1.0.0-beta-13 (3/8/2016)
+
+__UITable/TableView major refactor__
+
+A huge amount of bugs were squashed in this release relating to row translation, handling of the scrollbars, and overall performance. No outward changes.
+
+__UIButton#onPressed now called for all single-hit interactions__
+
+Think of it as a shortcut to knowing if the button has been interacted with, regardless of the source of the event (click, keyboard enter, etc.). If you decide to pass `props.pressed`, the button will become stateful as expected. You can still set explicit `onClick` and `onKeyDown` events if you wish.
+
+#### Breaking Changes
+
+__Removed `props.body` from UIDialog (+ UIModal, UIPopover)__
+
+Simply nest the body content inside the component like you would a normal HTML tag. Simpler, right? See any of their docs for an example.
+
+__UITypeaheadInput#algorithm#markFunc's argument list was adjusted to better match UITypeaheadInput#algorithm#matchFunc__
+
+See the docs for `UITypeaheadInput`, should be as simple as switching the position of your arguments if you are providing a custom `markFunc`.
+
+#### Important
+
+- __Expose UIUtils/transformProperty__ (119aab1) A convenience module for getting the vendor-prefixed JS-based transform property for inline styles, if needed.
+- __Added `Getting Started` page to UIKit site__ (3418560)
+- __UISegmentedControl: Fixed component not resetting when backing changes. Introduced new identifier prop. Fixed logic in lifecycle methods. Updated - docs.__ (ed157ab)
+- __UIDialog, UIModal, UIPopover: light refactor, remove `body` prop__ (805bb3e) In favor of just passing body items as nested - children. Just makes more sense in use.
+- __UICheckbox: fix proxying of inputProps.onChange/onClick__ (399e5af)
+- __UIArrowKeyNavigation: forward child focus/blur events if given__ (3a82185)
+- __UIButton: refactor, onPressed now fired regardless of `props.pressed`__ (f80d6fa) Semantically, it didn't make sense for a - keydown event to trigger a click handler, so the behavior and recommendation has been revised such that you should listen for `onPressed` instead of `onClick` or `onKeyDown` to catch when the user interacts with the button.
+  If you really only want to listen for clicks, then providing an `onClick` prop will still work as expected.
+- __UITable: Fix viewport becoming unstuck__ (5ed8b3b) Due to a few math errors:
+  1) row_end_index was off by one (not accounting for zero-based indexes)
+  2) shift delta not being applied consistently during the reset timer
+- __UITable: Properly rachet the Y scroll handle by the current top visible row index__ (de7204c)
+- __UITable: Fix jumpiness for short tables__ (2e594c2)
+- __UITable: fix cut off last row__ (08d2c74)
+- __UITable: auto-hiding scrollbars__ (1f3efef) On the Y axis, the scrollbar will hide if there aren't enough rows to fill the table. On the X axis, it will hide if there aren't enough columns. Resizing the columns to fill the screen will bring it back.
+- __UITable: add double-click to fit column__ (6149ea2) Similar to Excel functionality. Double-clicking the drag handle for a column will now automatically inspect all rendered content for that column, find the longest item and apply a new width to not truncate it.
+- __UITable: throttle getRow calls if dragging the scroll nub fast__ (73f51f6)
+- __UITable: clicking on the scrollbar track will now autoscroll__ (e1ad55c)
+- __UITypeaheadInput: algorithm.markFunc argument change__ (d7a088c) Now aligns with algorithm.matchFunc and gives better access to - all the data that may go into a rendering decision for entity marking.
+
+#### Misc
+
+- __Use class properties transform__ (6916d86)
+- __Use Babel "loose" mode__ (898f74b) Allows for some speed improvements and potentially code size reduction. Also pinning us at 6.5.1, as there were some code changes in 6.6.0 that broke UITable/TableView due to a new transform in the es2015 preset.
+- __eslintify 1.x -> 2.x__ (1fe5529)
+- __Use my updated copy of Jest__ (6eb1ae7) Allows for setting a specific version of JSDOM so we can stay up to date.
+- __Add bundle-collapser plugin to reduce byte size of dist builds__ (23e9ebc) Instead of require('xyz') it now optimizes to an - integer and saves space.
+- __Chore: add jsnext:main field for ES6-aware bundlers__ (ef029e0)
+- __Chore: add note about polyfilling Promise as needed__ (f4e8953)
+
+---
+
 ### 1.0.0-beta-12 (1/26/2016)
 
-- __UITable: change the row loading animation__ (43349a1) Since the line length can vary considerably, it's now using a more horizontally-oblivious animation.
+- __UITable: changed the row loading animation__ (43349a1) Since the line length can vary considerably, it's now using a more horizontally-oblivious animation.
 
 - __UITable: don't run calculateYBound() on resize__ (cb26a6f) If the height of the table changes, the whole thing has to be rebuilt anyway because the number of rotated rows may change, so running the `calculateYBound()` function will mess up the rotation if only X-size was modified.
 

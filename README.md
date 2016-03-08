@@ -7,7 +7,7 @@ UIKit is a problem-solving [React JS](https://facebook.github.io/react/) compone
 
 During the beta releases, UIKit will not come with a compiled CSS "skin". Each component in the Github repository does have styles that can be copied and used in your project, though.
 
-__UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+). You will also need to provide a `window.Promise` polyfill if your browser support matrix includes IE (non-Edge) and/or some mobile browsers: http://caniuse.com/#search=Promise.__
+__UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+). You will also need to provide a `window.Promise` polyfill if your browser support matrix includes IE (non-Edge) and/or some mobile browsers: [http://caniuse.com/#search=Promise](http://caniuse.com/#search=Promise)__
 
 ---
 
@@ -38,7 +38,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 }
 ```
 
-> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-12`.
+> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-13`.
 
 #### without a bundling system
 
