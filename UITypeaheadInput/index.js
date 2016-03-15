@@ -296,6 +296,8 @@ export default class UITypeaheadInput extends UIView {
     }
 
     handleInput = (event) => {
+        event.stopPropagation();
+
         this.setState({userInput: event.target.value}, () => this.computeMatches());
 
         if (this.props.onInput) {
