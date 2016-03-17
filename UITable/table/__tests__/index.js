@@ -325,6 +325,12 @@ describe('UITable/TableView', () => {
             table.rows[0].cells[0].width = 400;
             expect(table.rows[0].cells[0].width).toBe(400);
         });
+
+        it('should be tagged with their respective column via [data-column]', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
+        });
     });
 
     describe('row rotation', () => {
