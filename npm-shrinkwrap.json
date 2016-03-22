@@ -192,11 +192,6 @@
       "from": "assert-plus@>=0.2.0 <0.3.0",
       "resolved": "http://registry.npmjs.org/assert-plus/-/assert-plus-0.2.0.tgz"
     },
-    "assertion-error": {
-      "version": "1.0.1",
-      "from": "assertion-error@>=1.0.1 <2.0.0",
-      "resolved": "http://registry.npmjs.org/assertion-error/-/assertion-error-1.0.1.tgz"
-    },
     "astw": {
       "version": "2.0.0",
       "from": "astw@>=2.0.0 <3.0.0",
@@ -1585,18 +1580,6 @@
       "from": "decamelize@>=1.1.2 <2.0.0",
       "resolved": "http://registry.npmjs.org/decamelize/-/decamelize-1.1.2.tgz"
     },
-    "deep-eql": {
-      "version": "0.1.3",
-      "from": "deep-eql@>=0.1.3 <0.2.0",
-      "resolved": "http://registry.npmjs.org/deep-eql/-/deep-eql-0.1.3.tgz",
-      "dependencies": {
-        "type-detect": {
-          "version": "0.1.1",
-          "from": "type-detect@0.1.1",
-          "resolved": "http://registry.npmjs.org/type-detect/-/type-detect-0.1.1.tgz"
-        }
-      }
-    },
     "deep-equal": {
       "version": "1.0.1",
       "from": "deep-equal@>=1.0.0 <2.0.0",
@@ -1976,11 +1959,6 @@
       "from": "fast-levenshtein@>=1.0.6 <1.1.0",
       "resolved": "http://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-1.0.7.tgz"
     },
-    "fast-path": {
-      "version": "1.1.0",
-      "from": "fast-path@>=1.1.0 <2.0.0",
-      "resolved": "http://registry.npmjs.org/fast-path/-/fast-path-1.1.0.tgz"
-    },
     "faye-websocket": {
       "version": "0.10.0",
       "from": "faye-websocket@>=0.10.0 <0.11.0",
@@ -2247,11 +2225,6 @@
       "version": "1.0.1",
       "from": "graceful-readlink@>=1.0.0",
       "resolved": "http://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
-    },
-    "growl": {
-      "version": "1.8.1",
-      "from": "growl@1.8.1",
-      "resolved": "http://registry.npmjs.org/growl/-/growl-1.8.1.tgz"
     },
     "handlebars": {
       "version": "4.0.5",
@@ -2610,22 +2583,15 @@
         }
       }
     },
-    "jade": {
-      "version": "0.26.3",
-      "from": "jade@0.26.3",
-      "resolved": "http://registry.npmjs.org/jade/-/jade-0.26.3.tgz",
-      "dependencies": {
-        "commander": {
-          "version": "0.6.1",
-          "from": "commander@0.6.1",
-          "resolved": "http://registry.npmjs.org/commander/-/commander-0.6.1.tgz"
-        },
-        "mkdirp": {
-          "version": "0.3.0",
-          "from": "mkdirp@0.3.0",
-          "resolved": "http://registry.npmjs.org/mkdirp/-/mkdirp-0.3.0.tgz"
-        }
-      }
+    "jest-mock": {
+      "version": "1.0.0",
+      "from": "jest-mock@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npmjs.org/jest-mock/-/jest-mock-1.0.0.tgz"
+    },
+    "jest-util": {
+      "version": "1.0.0",
+      "from": "jest-util@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npmjs.org/jest-util/-/jest-util-1.0.0.tgz"
     },
     "jodid25519": {
       "version": "1.0.2",
@@ -4313,11 +4279,6 @@
       "from": "type-check@>=0.3.1 <0.4.0",
       "resolved": "http://registry.npmjs.org/type-check/-/type-check-0.3.2.tgz"
     },
-    "type-detect": {
-      "version": "1.0.0",
-      "from": "type-detect@>=1.0.0 <2.0.0",
-      "resolved": "http://registry.npmjs.org/type-detect/-/type-detect-1.0.0.tgz"
-    },
     "type-is": {
       "version": "1.6.12",
       "from": "type-is@>=1.6.10 <1.7.0",
@@ -4506,9 +4467,9 @@
       }
     },
     "webidl-conversions": {
-      "version": "2.0.1",
-      "from": "webidl-conversions@>=2.0.0 <3.0.0",
-      "resolved": "http://registry.npmjs.org/webidl-conversions/-/webidl-conversions-2.0.1.tgz"
+      "version": "3.0.1",
+      "from": "webidl-conversions@>=3.0.1 <4.0.0",
+      "resolved": "http://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz"
     },
     "websocket-driver": {
       "version": "0.6.4",
@@ -4528,18 +4489,7 @@
     "whatwg-url": {
       "version": "1.0.1",
       "from": "whatwg-url@>=1.0.0 <2.0.0",
-      "resolved": "http://registry.npmjs.org/whatwg-url/-/whatwg-url-1.0.1.tgz",
-      "dependencies": {
-        "webidl-conversions": {
-          "version": "3.0.1",
-          "from": "webidl-conversions@>=3.0.0 <4.0.0"
-        }
-      }
-    },
-    "whatwg-url-compat": {
-      "version": "0.6.5",
-      "from": "whatwg-url-compat@>=0.6.5 <0.7.0",
-      "resolved": "http://registry.npmjs.org/whatwg-url-compat/-/whatwg-url-compat-0.6.5.tgz"
+      "resolved": "http://registry.npmjs.org/whatwg-url/-/whatwg-url-1.0.1.tgz"
     },
     "which": {
       "version": "1.2.4",
