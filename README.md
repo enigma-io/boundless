@@ -21,6 +21,7 @@ __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-tabl
     1. [ES5 (unbundled)](#es5-distuikitminjs-dropped-into-the-page)
 1. [Website, Component Demos and Reference Styles](#website-component-demos-and-reference-styles)
     1. [Running the Website Locally](#running-the-website-locally)
+1. [Branding UIKit](#branding-uikit)
 
 ---
 
@@ -151,5 +152,25 @@ Run the following commands inside the cloned UIKit repository (assumes Node 4+ i
 npm install
 npm start
 ```
+
+[back to top](#uikit)
+
+---
+
+### Branding UIKit
+
+Thanks to the modular nature of [Stylus](http://stylus-lang.com/), injecting your own customization to things like accent color(s) is extremely simple.
+
+In your own project's `.styl` file, define any variable overrides (see [style.styl](./style.styl) for what variables can be overridden), then import UIKit's master styl file:
+
+```stylus
+color-accent = red;
+
+@import "node_modules/enigma-uikit/style";
+```
+
+Next time your project's CSS is built, UIKit's CSS will automatically be compiled with the appropriate changes and included in your stylesheet.
+
+> The Platform Team recommends using the [`generator-enigma`](https://github.com/enigma-io/generator-enigma) scaffolding tool to easily lay out a solid foundation for your project (including a Stylus installation.)
 
 [back to top](#uikit)
