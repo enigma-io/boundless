@@ -1,7 +1,5 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-@import "../_globals"
-
 .ui-button {
     appearance: none;
     background: transparent;
@@ -20,8 +18,10 @@
 }
 
 .ui-button[disabled] {
-    opacity: 0.3;
+    border-color: color-text-body !important;
+    color: color-text-body !important;
     cursor: not-allowed;
+    opacity: 0.3;
 }
 
 .ui-button:hover,
