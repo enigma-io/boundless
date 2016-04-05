@@ -169,10 +169,10 @@ export default class UIPopover extends UIView {
         const yMax = document.body.scrollHeight;
 
         if (x + width > xMax) { // overflowing off to the right
-            corrections.anchorXAlign = UIPopover.position.END;
+            corrections.anchorXAlign = UIPopover.position.START;
             corrections.selfXAlign = UIPopover.position.END;
         } else if (x < 0) { // overflowing off to the left
-            corrections.anchorXAlign = UIPopover.position.START;
+            corrections.anchorXAlign = UIPopover.position.END;
             corrections.selfXAlign = UIPopover.position.START;
         } else if (y + height > yMax) { // overflowing below
             corrections.anchorYAlign = UIPopover.position.START;
