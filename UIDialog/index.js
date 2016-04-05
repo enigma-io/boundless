@@ -53,7 +53,9 @@ export default class UIDialog extends UIView {
     }
 
     isPartOfDialog(node) {
-        return node && this.refs.dialog.contains(node.nodeType === 3 ? node.parentNode : node);
+        if (!node || node === window) { return false; }
+
+        return this.refs.dialog.contains(node.nodeType === 3 ? node.parentNode : node);
     }
 
     handleFocus = (nativeEvent) => {

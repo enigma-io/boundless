@@ -1,5 +1,7 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
+border-width = 10px
+
 .ui-popover {
     border-color: color-accent;
     box-shadow: none;
@@ -8,27 +10,29 @@
 
 .ui-popover::before,
 .ui-popover::after {
-        content: '';
-        position: absolute;
-        border-width: 10px;
-        border-color: transparent;
-        border-style: solid;
-        left: 5px;
+    content: '';
+    position: absolute;
+    border-width: 10px;
+    border-color: transparent;
+    border-style: solid;
+    left: 5px;
 }
 
 .ui-popover-self-y-start {
-    margin-top: 14px;
+    margin-top: border-width * -1;
 }
 
 .ui-popover-self-y-start::before,
 .ui-popover-self-y-start::after {
-    top: -20px;
+    border-color: transparent;
     border-bottom-color: color-accent;
+    top: -1px;
 }
 
 .ui-popover-self-y-start::after {
+    border-color: transparent;
     border-bottom-color: #FFF;
-    top: -19px;
+    top: -1px;
 }
 
 .ui-popover-self-x-middle::before,
@@ -55,6 +59,7 @@
 
 .ui-popover-anchor-x-end.ui-popover-self-x-start::before,
 .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
+    border-color: transparent;
     border-right-color: color-accent;
     left: -20px;
 }
@@ -70,6 +75,7 @@
 
 .ui-popover-anchor-x-start.ui-popover-self-x-end::before,
 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
+    border-color: transparent;
     border-left-color: color-accent;
     right: -20px;
 }
@@ -77,6 +83,22 @@
 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
     border-left-color: #FFF;
     right: -19px;
+}
+
+.ui-popover-anchor-y-end.ui-popover-self-y-start {
+    margin-top: 14px;
+}
+
+.ui-popover-anchor-y-end.ui-popover-self-y-start::before,
+.ui-popover-anchor-y-end.ui-popover-self-y-start::after {
+    top: -20px;
+    border-color: transparent;
+    border-bottom-color: color-accent;
+}
+
+.ui-popover-anchor-y-end.ui-popover-self-y-start::after {
+    border-bottom-color: #FFF;
+    top: -19px;
 }
 
 .ui-popover-self-x-end::before,
@@ -92,6 +114,7 @@
 .ui-popover-self-y-end::before,
 .ui-popover-self-y-end::after {
     bottom: -20px;
+    border-color: transparent;
     border-top-color: color-accent;
 }
 
