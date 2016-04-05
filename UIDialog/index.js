@@ -41,12 +41,14 @@ export default class UIDialog extends UIView {
             this.refs.dialog.focus();
         }
 
-        window.addEventListener('focus', this.handleFocus, true);
         window.addEventListener('click', this.handleOutsideClick, true);
+        window.addEventListener('contextmenu', this.handleOutsideClick, true);
+        window.addEventListener('focus', this.handleFocus, true);
     }
 
     componentWillUnmount() {
         window.removeEventListener('click', this.handleOutsideClick, true);
+        window.removeEventListener('contextmenu', this.handleOutsideClick, true);
         window.removeEventListener('focus', this.handleFocus, true);
     }
 
