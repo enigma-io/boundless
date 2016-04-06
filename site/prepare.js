@@ -6,11 +6,11 @@ const shaRemapperRegex = /\(([A-Z0-9]{7,})\)/gi;
 const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
 const propDescriptorRegex = /((__|\*\*).*?(__|\*\*)\s?`.*?`)/g;
 
-function sanitizeHeaderName(name = '') {
-    return name.trim()
-               .toLowerCase()
-               .replace(/[^\w\s]/gi, '')  // remove all punctuation/non-ASCII
-               .replace(/\s/g, '-');      // spaces to dashes
+function sanitizeHeaderName(name) {
+    return (name || '').trim()
+                       .toLowerCase()
+                       .replace(/[^\w\s]/gi, '')  // remove all punctuation/non-ASCII
+                       .replace(/\s/g, '-');      // spaces to dashes
 }
 
 function injectHeaderLinks(mkdown) {
@@ -45,8 +45,8 @@ function remapRelativeLinksToGithub(mkdown) {
     );
 }
 
-function prepareMarkdown(mkdown = '') {
-    return mkdown.split(/(```[^`]*?```)/g).map(block => {
+function prepareMarkdown(mkdown) {
+    return (mkdown || '').split(/(```[^`]*?```)/g).map(block => {
         if (block.indexOf('```') === -1) {
             return [
                 injectHeaderLinks,
