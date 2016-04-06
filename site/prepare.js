@@ -6,14 +6,12 @@ const shaRemapperRegex = /\(([A-Z0-9]{7,})\)/gi;
 const readmeRemapperRegex = /(\[.*?\])\(((?!http|#).*?\/(.*?)\/README\.md(.*?))\)/gi;
 const propDescriptorRegex = /((__|\*\*).*?(__|\*\*)\s?`.*?`)/g;
 
-function sanitizeHeaderName(name) {
-    name = name || '';
-
+function sanitizeHeaderName(name = '') {
     return name.trim()
                .toLowerCase()
                .replace(/[^\w\s]/gi, '')  // remove all punctuation/non-ASCII
                .replace(/\s/g, '-');      // spaces to dashes
-};
+}
 
 function injectHeaderLinks(mkdown) {
     return mkdown.replace(
@@ -39,7 +37,7 @@ function remapRelativeLinksToGithub(mkdown) {
     return mkdown.replace(
         githubRemapperRegex, (fullMatch, anchor, sha) => {
             if (fullMatch.indexOf('README.md') === -1) {
-                return `${anchor}(https://github.com/bibliotech/uikit/blob/master/${sha})`
+                return `${anchor}(https://github.com/bibliotech/uikit/blob/master/${sha})`;
             } // exclude READMEs, those are handled by `remapRelativeREADMELinks`
 
             return fullMatch;
@@ -47,9 +45,7 @@ function remapRelativeLinksToGithub(mkdown) {
     );
 }
 
-function prepareMarkdown(mkdown) {
-    mkdown = mkdown || '';
-
+function prepareMarkdown(mkdown = '') {
     return mkdown.split(/(```[^`]*?```)/g).map(block => {
         if (block.indexOf('```') === -1) {
             return [
@@ -65,14 +61,12 @@ function prepareMarkdown(mkdown) {
     }).join(''); // ignore fenced code blocks
 }
 
-module.exports = function (filename) {
-    function write (markdown) {
-        markdown = prepareMarkdown(markdown);
-
-        this.queue(markdown);
+module.exports = function(filename) {
+    function write(markdown) {
+        this.queue(prepareMarkdown(markdown));
     }
 
-    function end () {
+    function end() {
         this.queue(null);
     }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {findWhere, escapeRegExp} from 'lodash';
+import {findWhere} from 'lodash';
 
 import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
@@ -103,7 +103,7 @@ const components = {
     },
     UIPaginatedView: {
         component: UIPaginatedViewDemo,
-        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8')
+        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8'),
     },
     UIPopover: {
         component: UIPopoverDemo,
@@ -160,11 +160,11 @@ class Sidebar extends UIView {
         history: React.PropTypes.object,
     }
 
-    createSubEntities(path, text, entities, readme) {
+    createSubEntities(path, text, entities, markdown) {
         const headerTextRegex = /#+\s?([^<]+)/;
         const headerHashRegex = /#+\s?.*?href="(.*?)"/;
 
-        readme.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
+        markdown.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
             if (line.match(headerHashRegex)) {
                 entities.push({
                     path: `${path}${line.match(headerHashRegex)[1]}`,
