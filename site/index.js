@@ -1,7 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom';
-
-import {findWhere, escapeRegExp} from 'lodash';
+import { render } from 'react-dom';
 
 import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
@@ -30,12 +28,9 @@ import NotifyDemo from '../UIUtils/notify/demo';
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
 
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import {Router, Route, Link} from 'react-router';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
-const history = createBrowserHistory();
 const fs = require('fs');
-
 const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
 
 // Pages using NullComponent do not render the demo area
@@ -103,7 +98,7 @@ const components = {
     },
     UIPaginatedView: {
         component: UIPaginatedViewDemo,
-        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8')
+        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8'),
     },
     UIPopover: {
         component: UIPopoverDemo,
@@ -157,14 +152,14 @@ const utilities = {
 
 class Sidebar extends UIView {
     static contextTypes = {
-        history: React.PropTypes.object,
+        router: React.PropTypes.object.isRequired,
     }
 
-    createSubEntities(path, text, entities, readme) {
+    createSubEntities(path, text, entities, markdown) {
         const headerTextRegex = /#+\s?([^<]+)/;
         const headerHashRegex = /#+\s?.*?href="(.*?)"/;
 
-        readme.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
+        markdown.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
             if (line.match(headerHashRegex)) {
                 entities.push({
                     path: `${path}${line.match(headerHashRegex)[1]}`,
@@ -233,18 +228,18 @@ class Sidebar extends UIView {
     }
 
     handleEntitySelected = (index) => {
-        this.context.history.pushState(null, this.state.entities[index].path);
+        this.context.router.push(null, this.state.entities[index].path);
     }
 
     handleComplete = (value) => {
         if (!value) {
-            return this.context.history.pushState(null, '/');
+            return this.context.router.push(null, '/');
         }
 
-        const found = findWhere(this.state.entities, {text: value});
+        const found = this.state.entities.find(entity => entity.text === value);
 
         if (found) {
-            this.context.history.pushState(null, found.path);
+            this.context.router.push(null, found.path);
         }
     }
 
@@ -297,7 +292,7 @@ class Sidebar extends UIView {
 
 class Container extends UIView {
     static contextTypes = {
-        history: React.PropTypes.object,
+        router: React.PropTypes.object.isRequired,
     }
 
     componentDidMount() {
@@ -332,7 +327,7 @@ class Container extends UIView {
                 && event.target.pathname[0] === '/') {
                 if (event.target.getAttribute('href')[0] !== '#') {
                     event.preventDefault();
-                    this.context.history.pushState(null, event.target.pathname);
+                    this.context.router.push(null, event.target.pathname);
                     document.body.scrollTop = 0;
                 }
             } else {
@@ -370,7 +365,7 @@ class Container extends UIView {
 }
 
 render(
-    <Router history={history}>
+    <Router history={browserHistory}>
         <Route path='/' component={Container} readme={readme}>
             {Object.keys(pages).map(page => {
                 return <Route {...pages[page]} key={page} path={page} />;

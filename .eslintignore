@@ -1,0 +1,5 @@
+coverage/
+dist/
+docs/
+es5/
+__tests__/
