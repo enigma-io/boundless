@@ -88,6 +88,8 @@ export default class UIArrowKeyNavigation extends UIView {
             this.setState({activeChildIndex: null});
         }
 
+        event.stopPropagation();
+
         if (typeof child !== 'string' && typeof child.props.onBlur === 'function') {
             event.persist();
             child.props.onBlur(event);
@@ -96,6 +98,8 @@ export default class UIArrowKeyNavigation extends UIView {
 
     handleChildFocus(index, child, event) {
         this.setState({activeChildIndex: index});
+
+        event.stopPropagation();
 
         if (typeof child !== 'string' && typeof child.props.onFocus === 'function') {
             event.persist();
