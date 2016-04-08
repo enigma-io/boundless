@@ -1168,8 +1168,9 @@ class TableView {
         this.applyNewColumnWidth(index, this.column_is_resizing.width + adjusted_delta);
 
         /* If a column shrinks, the wrapper X translation needs to be adjusted accordingly or
-        we'll see unwanted whitespace on the right side. If the table width becomes smaller than the overall container, whitespace will appear regardless. */
-        if (adjusted_delta < 0) {
+        we'll see unwanted whitespace on the right side. If the table width becomes smaller than
+        the overall container, whitespace will appear regardless. */
+        if (adjusted_delta < 0 && this.row_w + this.x + adjusted_delta < this.container_w) {
             this.evt.deltaX = adjusted_delta;
             this.evt.deltaY = 0;
 
