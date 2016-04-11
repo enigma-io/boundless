@@ -5,8 +5,8 @@
 }
 
 .ui-tooltip::before {
-    background: color-accent;
-    color: get-foreground-text-color(color-accent);
+    background: background-UITooltip;
+    color: color-UITooltip;
     padding: 0.25rem 0.5rem;
     position: absolute;
     z-index: 1;
@@ -32,7 +32,7 @@
 }
 
 .ui-tooltip-position-above::after {
-    border-top-color: color-accent;
+    border-top-color: background-UITooltip_arrow;
     bottom: 100%;
     left: 10px;
     margin-bottom: -2px;
@@ -44,7 +44,7 @@
 }
 
 .ui-tooltip-position-below::after {
-    border-bottom-color: color-accent;
+    border-bottom-color: background-UITooltip_arrow;
     top: 100%;
     left: 10px;
     margin-top: -2px;
@@ -56,7 +56,7 @@
 }
 
 .ui-tooltip-position-before::after {
-    border-left-color: color-accent;
+    border-left-color: background-UITooltip_arrow;
     right: 100%;
     top: 10px;
     margin-right: -2px;
@@ -68,7 +68,7 @@
 }
 
 .ui-tooltip-position-after::after {
-    border-right-color: color-accent;
+    border-right-color: background-UITooltip_arrow;
     left: 100%;
     top: 10px;
     margin-left: -2px;

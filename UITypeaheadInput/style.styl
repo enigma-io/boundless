@@ -1,15 +1,16 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .ui-typeahead-wrapper {
-    font-size: input-font-size;
+    font-size: fontSize-input;
     position: relative;
 }
 
 .ui-typeahead,
 .ui-typeahead-hint {
-    background: #FFF;
-    border: 1px solid #333;
-    border-radius: default-border-radius;
+    background: background-UITypeaheadInput;
+    border: 1px solid borderColor-UITypeaheadInput;
+    border-radius: borderRadius;
+    color: color-UITypeaheadInput;
     padding: 0.75em;
     width: 100%;
 }
@@ -25,14 +26,17 @@
     transition: border-color 200ms ease;
 }
 
-.ui-typeahead:hover,
+.ui-typeahead:hover {
+    border-color: borderColor-UITypeaheadInput-hover;
+}
+
 .ui-typeahead:focus {
-    border-color: color-accent;
+    border-color: borderColor-UITypeaheadInput-focus;
 }
 
 .ui-typeahead-hint {
     border-color: transparent;
-    color: gray;
+    color: color-UITypeaheadInput-hint;
     position: absolute;
     top: 0;
     left: 0;
@@ -40,10 +44,10 @@
 }
 
 .ui-typeahead-match-wrapper {
-    background: #FFF;
-    border-bottom-left-radius: default-border-radius;
-    border-bottom-right-radius: default-border-radius;
-    box-shadow: 0 0 0 1px #CCC inset;
+    background: background-UITypeaheadInput_match_wrapper;
+    border-bottom-left-radius: borderRadius;
+    border-bottom-right-radius: borderRadius;
+    box-shadow: boxShadow-UITypeaheadInput_match_wrapper;
     margin-top: -1px;
     max-height: 300px;
     overflow: hidden;
@@ -56,6 +60,7 @@
 }
 
 .ui-typeahead-match {
+    color: color-UITypeaheadInput_match;
     cursor: pointer;
     font-size: 13px;
     line-height: 1;
@@ -63,20 +68,35 @@
 }
 
 .ui-typeahead-match:hover {
-    background-color: rgba(color-accent, 0.2);
+    background: background-UITypeaheadInput_match-hover;
+    color: color-UITypeaheadInput_match-hover;
+
+    .ui-typeahead-match-highlight {
+        background: background-UITypeaheadInput_match_highlight-hover;
+        color: color-UITypeaheadInput_match_highlight-hover;
+        font-weight: bolder;
+    }
 }
 
 .ui-typeahead-match-selected,
 .ui-typeahead-match-selected:hover {
-    background-color: rgba(color-accent, 0.9);
-    color: #FFF;
+    background: background-UITypeaheadInput_match-selected;
+    color: color-UITypeaheadInput_match-selected;
+
+    .ui-typeahead-match-highlight {
+        background: background-UITypeaheadInput_match_highlight-selected-hover;
+        color: color-UITypeaheadInput_match_highlight-selected-hover;
+        font-weight: bolder;
+    }
 }
 
 .ui-typeahead-match-highlight {
-    background-color: rgba(0, 0, 0, 0.15);
+    background: background-UITypeaheadInput_match_highlight;
+    color: color-UITypeaheadInput_match_highlight;
+    font-weight: bolder;
 }
 
 .ui-typeahead-match-selected .ui-typeahead-match-highlight {
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #FFF;
+    background: background-UITypeaheadInput_match_highlight-selected;
+    color: color-UITypeaheadInput_match_highlight-selected;
 }

@@ -11,8 +11,8 @@
 
 .ui-radio {
     appearance: none;
-    background: transparent;
-    border: 1px solid #CCC;
+    background: background-UIRadio;
+    border: 1px solid borderColor-UIRadio;
     border-radius: 50%;
     flex-shrink: 0;
     margin: 1px 3px 0;
@@ -23,14 +23,22 @@
     transition: border-color 200ms ease;
 }
 
-.ui-radio:hover,
-.ui-radio:focus {
-    border-color: color-accent;
+.ui-radio:hover {
+    background: background-UIRadio-hover;
+    border-color: borderColor-UIRadio-hover;
 }
 
-.ui-radio-selected {
-    background-color: color-accent;
-    box-shadow: 0 0 0 1px #FFF inset;
+.ui-radio:focus {
+    background: background-UIRadio-focus;
+    border-color: borderColor-UIRadio-focus;
+}
+
+.ui-radio-selected,
+.ui-radio-selected:hover,
+.ui-radio-selected:focus,
+.ui-radio-selected:active {
+    background: background-UIRadio-selected;
+    box-shadow: 0 0 0 2px boxShadowColor-UIRadio-selected inset;
 }
 
 .ui-radio-label {

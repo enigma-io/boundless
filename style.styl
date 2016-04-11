@@ -1,19 +1,198 @@
-// Global Variables
+/*
+    UIKit theming variables are defined with the following schema:
+    {property}-{component}-{state}
 
-color-bg-body ?= #fff
-color-text-body ?= #111
-color-text-header-title ?= #ccc
+    Every variable in this file should roughly correspond to the above schema, with a few exceptions of
+    meta properties that don't exist in CSS (like paddingX as shorthand for paddingLeft & paddingRight)
+*/
+
+// Default styles
+background-body ?= #FFF
+borderRadius ?= 2px
+color-body ?= #111
+fontSize-input ?= 0.75rem
+
+// Default colors (attribute-independent)
 color-accent ?= #333
+color-focus-ring ?= color-accent
+color-neutral-light ?= #CCC
+color-neutral-dark ?= #444
 
-default-border-radius ?= 2px
+// UIButton
+background-UIButton ?= background-body
+background-UIButton-active ?= color-accent
+background-UIButton-disabled ?= background-body
+background-UIButton-focus ?= background-body
+background-UIButton-hover ?= halve_alpha(color-accent)
+background-UIButton-pressed ?= color-accent
+borderColor-UIButton ?= color-accent
+borderColor-UIButton-active ?= color-accent
+borderColor-UIButton-disabled ?= color-accent
+borderColor-UIButton-focus ?= color-accent
+borderColor-UIButton-hover ?= color-accent
+borderColor-UIButton-pressed ?= color-accent
+color-UIButton ?= color-body
+color-UIButton-active ?= get_contrasting_color(background-UIButton-active)
+color-UIButton-disabled ?= get_contrasting_color(background-UIButton-disabled)
+color-UIButton-focus ?= get_contrasting_color(background-UIButton-focus)
+color-UIButton-hover ?= get_contrasting_color(background-UIButton-hover)
+color-UIButton-pressed ?= get_contrasting_color(background-UIButton-pressed)
 
-input-font-size ?= 0.75rem
+// UICheckbox
+background-UICheckbox ?= color-accent
+background-UICheckbox-checked ?= color-accent
+background-UICheckbox-indeterminate ?= linear-gradient(135deg, background-UICheckbox 50%, rgba(#fff, 0) 50%, rgba(#fff, 0) 100%)
+borderColor-UICheckbox ?= color-neutral-light
+borderColor-UICheckbox-focus ?= color-accent
+borderColor-UICheckbox-hover ?= color-accent
+borderColor-UICheckbox-checked ?= color-neutral-light
+boxShadowColor-UICheckbox ?= background-body
 
-get-foreground-text-color(color) {
-    if (lightness(color) > 50) {
-        return #000; // Lighter backgorund, return dark color
+// UIDialog
+background-UIDialog ?= background-body
+borderColor-UIDialog ?= color-accent
+boxShadowColor-UIDialog ?= color-neutral-light
+
+// UIImage
+background-UIImage ?= color-neutral-light
+background-UIImage-error ?= color-neutral-light
+background-UIImage-loading ?= color-neutral-light
+background-UIImage_error_icon ?= color-neutral-dark
+
+// UIModal
+backgroundColor-UIModal_mask ?= background-body
+background-UIModal_mask ?= rgba(backgroundColor-UIModal_mask, 0.9)
+
+// UIPaginatedView
+background-UIPaginatedView_control ?= background-body
+background-UIPaginatedView_control-focus ?= halve_alpha(color-accent)
+background-UIPaginatedView_control-selected ?= color-accent
+background-UIPaginatedView_item-loading ?= color-accent
+borderColor-UIPaginatedView_control ?= color-accent
+color-UIPaginatedView_control ?= get_contrasting_color(background-UIPaginatedView_control)
+color-UIPaginatedView_control-focus ?= get_contrasting_color(background-UIPaginatedView_control-focus)
+color-UIPaginatedView_control-selected ?= get_contrasting_color(background-UIPaginatedView_control-selected)
+
+// UIPopover
+borderColor-UIPopover ?= #FFF
+borderColor-UIPopover_outline ?= color-accent
+
+// UIProgress
+background-UIProgress ?= color-accent
+borderColor-UIProgress ?= color-accent
+color-UIProgress ?= get_contrasting_color(background-UIProgress)
+
+// UIProgressiveDisclosure
+borderColor-UIProgressiveDisclosure_arrow ?= color-neutral-dark
+color-UIProgressiveDisclosure ?= color-neutral-dark
+
+// UIRadio
+background-UIRadio ?= background-body
+background-UIRadio-focus ?= background-UIRadio
+background-UIRadio-hover ?= background-UIRadio
+background-UIRadio-selected ?= color-accent
+borderColor-UIRadio ?= color-neutral-light
+borderColor-UIRadio-focus ?= color-accent
+borderColor-UIRadio-hover ?= color-accent
+borderColor-UIRadio-selected ?= color-accent
+boxShadowColor-UIRadio-selected ?= background-body // separation region between the outer border and inner background
+
+// UISegmentedControl
+background-UISegmentedControl_option ?= background-body
+background-UISegmentedControl_option-active ?= color-accent
+background-UISegmentedControl_option-focus ?= halve_alpha(color-accent)
+background-UISegmentedControl_option-selected ?= color-accent
+borderColor-UISegmentedControl_option ?= color-accent
+color-UISegmentedControl_option ?= get_contrasting_color(background-UISegmentedControl_option)
+color-UISegmentedControl_option-active ?= get_contrasting_color(background-UISegmentedControl_option-active)
+color-UISegmentedControl_option-focus ?= get_contrasting_color(background-UISegmentedControl_option-focus)
+color-UISegmentedControl_option-selected ?= get_contrasting_color(background-UISegmentedControl_option-selected)
+
+// UITable
+background-UITable_column_resize_handle ?= get_contrasting_color(background-UITable_header)
+background-UITable_header ?= color-accent
+background-UITable_row-even ?= background-body
+background-UITable_row-loading ?= halve_alpha(color-accent)
+background-UITable_row-odd ?= rgba(color-accent, 0.075)
+background-UITable_row-active ?= rgba(color-accent, 0.25)
+background-UITable_scroll_handle ?= color-neutral-dark
+background-UITable_scroll_track ?= color-neutral-light
+color-UITable_header ?= get_contrasting_color(background-UITable_header)
+color-UITable_row-even ?= color-body
+color-UITable_row-active ?= color-body
+color-UITable_row-odd ?= color-body
+height-UITable_cell ?= 40px
+paddingX-UITable_cell ?= 0.75em
+size-UITable_scroll_track ?= 8px
+size-UITable_scroll_track-expanded ?= 12px
+
+// UITokenizedInput
+background-UITokenizedInput ?= background-body
+background-UITokenizedInput_highlight ?= rgba(color-accent, 0.25)
+background-UITokenizedInput_token ?= background-body
+background-UITokenizedInput_token-active ?= halve_alpha(color-accent)
+background-UITokenizedInput_token-focus ?= background-body
+background-UITokenizedInput_token-hover ?= background-body
+background-UITokenizedInput_token-selected ?= halve_alpha(color-accent)
+borderColor-UITokenizedInput ?= color-accent
+borderColor-UITokenizedInput_token ?= color-neutral-light
+borderColor-UITokenizedInput_token-active ?= color-body
+borderColor-UITokenizedInput_token-focus ?= color-neutral-dark
+borderColor-UITokenizedInput_token-hover ?= color-neutral-dark
+borderColor-UITokenizedInput_token-selected ?= color-neutral-dark
+color-UITokenizedInput_token ?= get_contrasting_color(background-UITokenizedInput_token)
+color-UITokenizedInput_token-active ?= get_contrasting_color(background-UITokenizedInput_token-active)
+color-UITokenizedInput_token-focus ?= get_contrasting_color(background-UITokenizedInput_token-focus)
+color-UITokenizedInput_token-hover ?= get_contrasting_color(background-UITokenizedInput_token-hover)
+color-UITokenizedInput_token-selected ?= get_contrasting_color(background-UITokenizedInput_token-selected)
+color-UITokenizedInput_token_close ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token))
+color-UITokenizedInput_token_close-focus ?= get_contrasting_color(background-UITokenizedInput_token-focus)
+color-UITokenizedInput_token_close-hover ?= get_contrasting_color(background-UITokenizedInput_token-hover)
+color-UITokenizedInput_token_close-selected ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token-selected))
+color-UITokenizedInput_token_close-selected-focus ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token-selected))
+color-UITokenizedInput_token_close-selected-hover ?= get_contrasting_color(background-UITokenizedInput_token-selected)
+size-UITokenizedInput_token_spacer = 0.25rem
+
+// UITooltip
+background-UITooltip ?= color-accent
+background-UITooltip_arrow ?= color-accent
+color-UITooltip ?= get_contrasting_color(color-accent)
+
+// UITypeaheadInput
+background-UITypeaheadInput ?= background-body
+background-UITypeaheadInput_match-hover ?= rgba(color-accent, 0.2)
+background-UITypeaheadInput_match-selected ?= color-accent
+background-UITypeaheadInput_match_highlight ?= background-UITypeaheadInput
+background-UITypeaheadInput_match_highlight-hover ?= transparent
+background-UITypeaheadInput_match_highlight-selected ?= background-UITypeaheadInput_match-selected
+background-UITypeaheadInput_match_highlight-selected-hover ?= background-UITypeaheadInput_match-selected
+background-UITypeaheadInput_match_wrapper ?= background-UITypeaheadInput
+borderColor-UITypeaheadInput ?= color-accent
+borderColor-UITypeaheadInput-focus ?= color-accent
+borderColor-UITypeaheadInput-hover ?= color-accent
+boxShadowColor-UITypeaheadInput_match_wrapper ?= color-neutral-light
+boxShadow-UITypeaheadInput_match_wrapper ?= 0 0 0 1px boxShadowColor-UITypeaheadInput_match_wrapper inset
+color-UITypeaheadInput ?= get_contrasting_color(background-UITypeaheadInput)
+color-UITypeaheadInput-hint ?= halve_alpha(get_contrasting_color(background-UITypeaheadInput))
+color-UITypeaheadInput_match ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
+color-UITypeaheadInput_match-highlight ?= get_contrasting_color(background-UITypeaheadInput_match_highlight)
+color-UITypeaheadInput_match-hover ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
+color-UITypeaheadInput_match-hover-highlight ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
+color-UITypeaheadInput_match-selected ?= get_contrasting_color(background-UITypeaheadInput_match-selected)
+color-UITypeaheadInput_match_highlight-selected ?= get_contrasting_color(background-UITypeaheadInput_match-selected)
+color-UITypeaheadInput_match_highlight-selected-hover ?= get_contrasting_color(background-UITypeaheadInput_match_highlight-selected)
+
+halve_alpha(color) {
+    return rgba(color, 0.5)
+}
+
+get_contrasting_color(color) {
+    luminance = 1 - ( 0.299 * red(color) + 0.587 * green(color) + 0.114 * blue(color) ) / 255
+
+    if (luminance < 0.5) {
+        return #000
     } else {
-        return #FFF; // Darker background, return light color
+        return #FFF
     }
 }
 
@@ -21,6 +200,7 @@ get-foreground-text-color(color) {
 *::before,
 *::after {
     box-sizing: border-box;
+    outline-color: color-focus-ring;
 }
 
 .ui-offscreen {

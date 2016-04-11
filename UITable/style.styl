@@ -1,12 +1,5 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-cell-color-base = color-accent
-cell-height = 40px
-cell-x-padding = 0.75em
-
-track-size = 8px
-track-size-expanded = 12px
-
 .ui-table-wrapper,
 .ui-table-wrapper * {
     box-sizing: border-box;
@@ -33,7 +26,7 @@ track-size-expanded = 12px
 
 .ui-table-body {
     position: absolute;
-    top: cell-height;
+    top: height-UITable_cell;
     bottom: 0;
     backface-visibility: hidden;
     transform: translate3d(0, 0, 0);
@@ -42,8 +35,8 @@ track-size-expanded = 12px
 
 .ui-table-row,
 .ui-table-cell {
-    height: cell-height;
-    line-height: cell-height;
+    height: height-UITable_cell;
+    line-height: height-UITable_cell;
 }
 
 .ui-table-row {
@@ -57,11 +50,13 @@ track-size-expanded = 12px
 }
 
 .ui-table-row-even {
-    background: #fff;
+    background: background-UITable_row-even;
+    color: color-UITable_row-even;
 }
 
 .ui-table-row-odd {
-    background: rgba(cell-color-base, 0.075);
+    background: background-UITable_row-odd;
+    color: color-UITable_row-odd;
 }
 
 .ui-table-row-loading::before {
@@ -72,7 +67,7 @@ track-size-expanded = 12px
    left: 0;
    height: 2px;
    width: 100%;
-   background-color: #BBB;
+   background: background-UITable_row-loading;
 }
 
 .ui-table-row-loading::before {
@@ -95,14 +90,15 @@ track-size-expanded = 12px
 }
 
 .ui-table-row-active {
-    background: rgba(cell-color-base, 0.25);
+    background: background-UITable_row-active;
+    color: color-UITable_row-active;
 }
 
 .ui-table-cell {
     display: inline-block;
     vertical-align: top;
     min-width: 75px;
-    padding: 0 cell-x-padding;
+    padding: 0 paddingX-UITable_cell;
     position: relative;
     user-select: none;
     will-change: contents;
@@ -111,20 +107,20 @@ track-size-expanded = 12px
 .ui-table-cell-inner {
     position: absolute;
     top: 0;
-    left: cell-x-padding;
-    right: cell-x-padding;
+    left: paddingX-UITable_cell;
+    right: paddingX-UITable_cell;
     overflow: hidden;
     text-overflow: ellipsis;
     will-change: contents;
 }
 
 .ui-table-header-cell {
-    background: #333;
-    color: #FFF;
+    background: background-UITable_header;
+    color: color-UITable_header;
 }
 
 .ui-table-header-cell .ui-table-cell-inner {
-    right: cell-x-padding + 0.5em;
+    right: paddingX-UITable_cell + 0.5em;
 }
 
 .ui-table-header-cell:hover .ui-table-header-cell-resize-handle {
@@ -132,7 +128,7 @@ track-size-expanded = 12px
 }
 
 .ui-table-header-cell-resize-handle {
-    border-right: 2px dotted #FFF;
+    border-right: 2px dotted background-UITable_column_resize_handle;
     cursor: col-resize;
     opacity: 0;
     position: absolute;
@@ -145,7 +141,7 @@ track-size-expanded = 12px
 
 .ui-table-x-scroll-track,
 .ui-table-y-scroll-track {
-    background: #CCC;
+    background: background-UITable_scroll_track;
     cursor: move;
     position: absolute;
     top: 0;
@@ -158,30 +154,30 @@ track-size-expanded = 12px
 }
 
 .ui-table-x-scroll-track {
-    height: track-size;
-    margin-right: track-size;
+    height: size-UITable_scroll_track;
+    margin-right: size-UITable_scroll_track;
     top: auto;
     transition-property: height;
 }
 
 .ui-table-x-scroll-track:hover {
-    height: track-size-expanded;
+    height: size-UITable_scroll_track-expanded;
 }
 
 .ui-table-y-scroll-track {
-    width: track-size;
+    width: size-UITable_scroll_track;
     left: auto;
     transition-property: width;
 }
 
 .ui-table-y-scroll-track:hover {
-    width: track-size-expanded;
+    width: size-UITable_scroll_track-expanded;
 }
 
 .ui-table-x-scroll-handle,
 .ui-table-y-scroll-handle {
     backface-visibility: hidden;
-    background-color: black;
+    background-color: background-UITable_scroll_handle;
     position: absolute;
 }
 
