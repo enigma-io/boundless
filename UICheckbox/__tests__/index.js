@@ -77,7 +77,7 @@ describe('UICheckbox', () => {
             const node = element.refs.input;
 
             expect(node.getAttribute('aria-checked')).toBe('true');
-            expect(node.hasAttribute('checked')).toBe(true);
+            expect(node.checked).toBe(true);
         });
 
         it('a falsy value', () => {
@@ -85,7 +85,7 @@ describe('UICheckbox', () => {
             const node = element.refs.input;
 
             expect(node.getAttribute('aria-checked')).toBe('false');
-            expect(node.hasAttribute('checked')).toBe(false);
+            expect(node.checked).toBe(false);
         });
 
         it('a string label', () => {
@@ -208,11 +208,7 @@ describe('UICheckbox', () => {
         });
     });
 
-    /*
-        Needs this issue to be resolved in JSDOM to work:
-        https://github.com/tmpvar/jsdom/issues/1079#issuecomment-159754855
-     */
-    xdescribe('clicking on the label', () => {
+    describe('clicking on the label', () => {
         it('should toggle the checkbox state', () => {
             const stub = sandbox.stub();
             const element = render(<UICheckbox {...baseProps} label='test' onChecked={stub} />);
