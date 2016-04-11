@@ -228,18 +228,18 @@ class Sidebar extends UIView {
     }
 
     handleEntitySelected = (index) => {
-        this.context.router.push(null, this.state.entities[index].path);
+        this.context.router.push(this.state.entities[index].path);
     }
 
     handleComplete = (value) => {
         if (!value) {
-            return this.context.router.push(null, '/');
+            return this.context.router.push('');
         }
 
         const found = this.state.entities.find(entity => entity.text === value);
 
         if (found) {
-            this.context.router.push(null, found.path);
+            this.context.router.push(found.path);
         }
     }
 
@@ -327,7 +327,7 @@ class Container extends UIView {
                 && event.target.pathname[0] === '/') {
                 if (event.target.getAttribute('href')[0] !== '#') {
                     event.preventDefault();
-                    this.context.router.push(null, event.target.pathname);
+                    this.context.router.push(event.target.pathname);
                     document.body.scrollTop = 0;
                 }
             } else {
