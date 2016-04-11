@@ -32,7 +32,7 @@ describe('UIProgress', () => {
         it('a specific style property to tween', () => {
             const element = render(<UIProgress progress='0%' tweenProperty='height' />);
 
-            expect(element.refs.progress.getAttribute('style')).toBe('height:0%;');
+            expect(element.refs.progress.getAttribute('style')).toBe('height: 0%;');
         });
 
         it('arbitrary HTML attributes via props.progressProps', () => {
@@ -114,7 +114,7 @@ describe('UIProgress', () => {
             const element = render(<UIProgress progress='0%' />);
             const node = element.refs.progress;
 
-            expect(node.getAttribute('style')).toBe('width:0%;');
+            expect(node.getAttribute('style')).toBe('width: 0%;');
 
             render(<UIProgress progress='10%' />);
 
