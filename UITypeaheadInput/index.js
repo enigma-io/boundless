@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import UITextualInput from '../UITextualInput';
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 import cx from 'classnames';
@@ -144,12 +145,14 @@ export default class UITypeaheadInput extends UIView {
     }
 
     getInputNode() {
-        return this.refs.input;
+        return this.refs.input.refs.field;
     }
 
     select() {
-        this.refs.input.selectionStart = 0;
-        this.refs.input.selectionEnd = this.refs.input.value.length;
+        const input = this.getInputNode();
+
+        input.selectionStart = 0;
+        input.selectionEnd = input.length;
     }
 
     focus() {
@@ -393,16 +396,17 @@ export default class UITypeaheadInput extends UIView {
             }
 
             return (
-                <input {...this.props.hintProps}
-                       ref='hint'
-                       type={this.props.type || this.props.inputProps.type || 'text'}
-                       className={cx({
-                           'ui-typeahead-hint': true,
-                           [this.props.hintProps.className]: !!this.props.hintProps.className,
-                       })}
-                       value={processed}
-                       disabled={true}
-                       tabIndex='-1' />
+                <div {...this.props.hintProps}
+                     ref='hint'
+                     className={cx({
+                         'ui-textual-input': true,
+                         'ui-textual-input-placeholder': true,
+                         'ui-typeahead-hint': true,
+                         [this.props.hintProps.className]: !!this.props.hintProps.className,
+                     })}
+                     tabIndex='-1'>
+                    {processed}
+                </div>
             );
         }
     }
@@ -451,17 +455,19 @@ export default class UITypeaheadInput extends UIView {
                 {this.renderNotification()}
                 {this.renderHint()}
 
-                <input {...this.props.inputProps}
-                       ref='input'
-                       className={cx({
-                           'ui-typeahead': true,
-                           [this.props.inputProps.className]: !!this.props.inputProps.className,
-                       })}
-                       defaultValue={this.props.defaultValue || this.props.inputProps.defaultValue}
-                       name={this.props.name || this.props.inputProps.name}
-                       type={this.props.type || this.props.inputProps.type || 'text'}
-                       aria-controls={this.state.id}
-                       onInput={this.handleInput} />
+                <UITextualInput ref='input'
+                                inputProps={{
+                                    ...this.props.inputProps,
+                                    className: cx({
+                                        'ui-typeahead': true,
+                                        [this.props.inputProps.className]: !!this.props.inputProps.className,
+                                    }),
+                                    defaultValue: this.props.defaultValue || this.props.inputProps.defaultValue,
+                                    name: this.props.name || this.props.inputProps.name,
+                                    type: this.props.type || this.props.inputProps.type,
+                                    onInput: this.handleInput,
+                                }}
+                                aria-controls={this.state.id} />
 
                 {this.renderMatches()}
             </div>

@@ -261,16 +261,16 @@ export default class UITypeaheadInputDemo extends UIView {
             <div className='ui-spread-even'>
                 <div>
                     <h5>Starts-with matching</h5>
-                    <p>Please enter your country of origin:</p>
                     <UITypeaheadInput entities={this.state.countries}
-                                      hint={true} />
+                                      hint={true}
+                                      inputProps={{placeholder: 'Please enter your country of origin...'}} />
                 </div>
                 <div style={{marginLeft: '1em'}}>
                     <h5>Fuzzy matching</h5>
-                    <p>Please enter your country of origin:</p>
                     <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
                                       entities={this.state.countries}
-                                      hint={true} />
+                                      hint={true}
+                                      inputProps={{placeholder: 'Please enter your country of origin...'}} />
                 </div>
             </div>
         );

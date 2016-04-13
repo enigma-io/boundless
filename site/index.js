@@ -19,6 +19,7 @@ import UIProgressiveDisclosureDemo from '../UIProgressiveDisclosure/demo';
 import UIRadioDemo from '../UIRadio/demo';
 import UISegmentedControlDemo from '../UISegmentedControl/demo';
 import UITableDemo from '../UITable/demo';
+import UITextualInputDemo from '../UITextualInput/demo';
 import UITokenizedInputDemo from '../UITokenizedInput/demo';
 import UITooltipDemo from '../UITooltip/demo';
 import UITypeaheadInputDemo from '../UITypeaheadInput/demo';
@@ -123,6 +124,10 @@ const components = {
     UITable: {
         component: UITableDemo,
         readme: fs.readFileSync(__dirname + '/../UITable/README.md', 'utf8'),
+    },
+    UITextualInput: {
+        component: UITextualInputDemo,
+        readme: fs.readFileSync(__dirname + '/../UITextualInput/README.md', 'utf8'),
     },
     UITokenizedInput: {
         component: UITokenizedInputDemo,
@@ -260,9 +265,8 @@ class Sidebar extends UIView {
                                   onEntitySelected={this.handleEntitySelected}
                                   onComplete={this.handleComplete}
                                   inputProps={{
-                                    autoFocus: true,
-                                    placeholder: 'Search for a page...',
-                                    type: 'search',
+                                      autoFocus: true,
+                                      placeholder: 'Search for a page...',
                                   }}
                                   hint={true} />
 

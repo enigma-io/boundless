@@ -5,42 +5,8 @@
     position: relative;
 }
 
-.ui-typeahead,
-.ui-typeahead-hint {
-    background: background-UITypeaheadInput;
-    border: 1px solid borderColor-UITypeaheadInput;
-    border-radius: borderRadius;
-    color: color-UITypeaheadInput;
-    padding: 0.75em;
-    width: 100%;
-}
-
-.ui-typeahead-hint + .ui-typeahead {
+.ui-typeahead-hint + .ui-textual-input-wrapper .ui-textual-input-placeholder {
     background: transparent;
-}
-
-.ui-typeahead {
-    position: relative;
-    z-index: 1;
-
-    transition: border-color 200ms ease;
-}
-
-.ui-typeahead:hover {
-    border-color: borderColor-UITypeaheadInput-hover;
-}
-
-.ui-typeahead:focus {
-    border-color: borderColor-UITypeaheadInput-focus;
-}
-
-.ui-typeahead-hint {
-    border-color: transparent;
-    color: color-UITypeaheadInput-hint;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
 }
 
 .ui-typeahead-match-wrapper {

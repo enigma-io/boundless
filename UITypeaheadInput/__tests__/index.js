@@ -91,7 +91,7 @@ describe('UITypeaheadInput', () => {
         it('ui-typeahead should be rendered', () => {
             const element = render(<UITypeaheadInput />);
 
-            expect(element.refs.input.classList.contains('ui-typeahead')).toBe(true);
+            expect(element.getInputNode().classList.contains('ui-typeahead')).toBe(true);
         });
 
         it('ui-typeahead-hint should be rendered', () => {
@@ -140,9 +140,8 @@ describe('UITypeaheadInput', () => {
 
         it('should be filled with the current selection', () => {
             const element = render(<UITypeaheadInput hint={true} defaultValue='ap' entities={entities} />);
-            const node = element.refs.hint;
 
-            expect(node.value).toBe('apple');
+            expect(element.refs.hint.textContent).toBe('apple');
         });
 
 
@@ -160,7 +159,7 @@ describe('UITypeaheadInput', () => {
                 stopPropagation: noop
             });
 
-            expect(element.refs.hint.value).toBe('');
+            expect(element.refs.hint.textContent).toBe('');
         });
 
         it('should clear if the matched substring is not at the beginning of the user input', () => {
@@ -177,7 +176,7 @@ describe('UITypeaheadInput', () => {
                                   }} />
             );
 
-            expect(element.refs.hint.value).toBe('');
+            expect(element.refs.hint.textContent).toBe('');
             expect(element.getSelectedEntityText()).toBe('grape');
         });
     });
@@ -188,7 +187,7 @@ describe('UITypeaheadInput', () => {
 
             element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
 
-            expect(element.refs.hint.value).toBe('apricot');
+            expect(element.refs.hint.textContent).toBe('apricot');
         });
 
         it('should loop back to the first match if at the end', () => {
@@ -197,7 +196,7 @@ describe('UITypeaheadInput', () => {
             element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
             element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
 
-            expect(element.refs.hint.value).toBe('apple');
+            expect(element.refs.hint.textContent).toBe('apple');
         });
     });
 
@@ -208,7 +207,7 @@ describe('UITypeaheadInput', () => {
             element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
             element.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
 
-            expect(element.refs.hint.value).toBe('apple');
+            expect(element.refs.hint.textContent).toBe('apple');
         });
 
         it('should reverse loop to the last match if at the beginning', () => {
@@ -216,7 +215,7 @@ describe('UITypeaheadInput', () => {
 
             element.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
 
-            expect(element.refs.hint.value).toBe('apricot');
+            expect(element.refs.hint.textContent).toBe('apricot');
         });
     });
 

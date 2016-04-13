@@ -1,0 +1,89 @@
+.ui-textual-input-wrapper {
+    font-size: fontSize-input;
+    position: relative;
+    width: 100%;
+}
+
+.ui-textual-input {
+    appearance: none;
+    background: background-UITextualInput;
+    border: 1px solid borderColor-UITextualInput;
+    border-radius: borderRadius;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0.75em;
+    width: 100%;
+}
+
+.ui-textual-input {
+    position: relative;
+    z-index: 1;
+
+    transition: border-color 200ms ease;
+}
+
+.ui-textual-input:hover {
+    border-color: borderColor-UITextualInput-hover;
+}
+
+.ui-textual-input:focus {
+    border-color: borderColor-UITextualInput-focus;
+}
+
+.ui-textual-input-placeholder {
+    color: color-UITextualInput_placeholder;
+    border-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.ui-textual-input-placeholder + .ui-textual-input {
+    background: transparent;
+}
+
+/*
+
+.ui-typeahead,
+.ui-typeahead-hint {
+    background: background-UITextualInput;
+    border: 1px solid borderColor-UITextualInput;
+    border-radius: borderRadius;
+    color: color-UITextualInput;
+    padding: 0.75em;
+    width: 100%;
+}
+
+.ui-typeahead-hint + .ui-typeahead {
+    background: transparent;
+}
+
+.ui-typeahead {
+    position: relative;
+    z-index: 1;
+
+    transition: border-color 200ms ease;
+}
+
+.ui-typeahead:hover {
+    border-color: borderColor-UITextualInput-hover;
+}
+
+.ui-typeahead:focus {
+    border-color: borderColor-UITextualInput-focus;
+}
+
+.ui-typeahead-hint {
+    border-color: transparent;
+    color: color-UITextualInput-hint;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+*/

@@ -126,6 +126,14 @@ paddingX-UITable_cell ?= 0.75em
 size-UITable_scroll_track ?= 8px
 size-UITable_scroll_track-expanded ?= 12px
 
+// UITextualInput
+background-UITextualInput ?= background-body
+borderColor-UITextualInput ?= color-accent
+borderColor-UITextualInput-focus ?= color-accent
+borderColor-UITextualInput-hover ?= color-accent
+color-UITextualInput ?= get_contrasting_color(background-UITextualInput)
+color-UITextualInput_placeholder ?= halve_alpha(get_contrasting_color(background-UITextualInput))
+
 // UITokenizedInput
 background-UITokenizedInput ?= background-body
 background-UITokenizedInput_highlight ?= rgba(color-accent, 0.25)
@@ -159,21 +167,15 @@ background-UITooltip_arrow ?= color-accent
 color-UITooltip ?= get_contrasting_color(color-accent)
 
 // UITypeaheadInput
-background-UITypeaheadInput ?= background-body
 background-UITypeaheadInput_match-hover ?= rgba(color-accent, 0.2)
 background-UITypeaheadInput_match-selected ?= color-accent
-background-UITypeaheadInput_match_highlight ?= background-UITypeaheadInput
+background-UITypeaheadInput_match_highlight ?= background-UITextualInput
 background-UITypeaheadInput_match_highlight-hover ?= transparent
 background-UITypeaheadInput_match_highlight-selected ?= background-UITypeaheadInput_match-selected
 background-UITypeaheadInput_match_highlight-selected-hover ?= background-UITypeaheadInput_match-selected
-background-UITypeaheadInput_match_wrapper ?= background-UITypeaheadInput
-borderColor-UITypeaheadInput ?= color-accent
-borderColor-UITypeaheadInput-focus ?= color-accent
-borderColor-UITypeaheadInput-hover ?= color-accent
+background-UITypeaheadInput_match_wrapper ?= background-UITextualInput
 boxShadowColor-UITypeaheadInput_match_wrapper ?= color-neutral-light
 boxShadow-UITypeaheadInput_match_wrapper ?= 0 0 0 1px boxShadowColor-UITypeaheadInput_match_wrapper inset
-color-UITypeaheadInput ?= get_contrasting_color(background-UITypeaheadInput)
-color-UITypeaheadInput-hint ?= halve_alpha(get_contrasting_color(background-UITypeaheadInput))
 color-UITypeaheadInput_match ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
 color-UITypeaheadInput_match-highlight ?= get_contrasting_color(background-UITypeaheadInput_match_highlight)
 color-UITypeaheadInput_match-hover ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)

@@ -27,14 +27,14 @@ describe('UITokenizedInput', () => {
     describe('accepts', () => {
         it('arbitrary HTML attributes via props.inputProps', () => {
             const element = render(<UITokenizedInput inputProps={{'data-id': 'foo'}} />);
-            const node = element.refs.typeahead.refs.input;
+            const node = element.refs.typeahead.getInputNode();
 
             expect(node.getAttribute('data-id')).toBe('foo');
         });
 
         it('additional classes via props.inputProps.className', () => {
             const element = render(<UITokenizedInput inputProps={{className: 'foo'}} />);
-            const node = element.refs.typeahead.refs.input;
+            const node = element.refs.typeahead.getInputNode();
 
             expect(node.classList.contains('foo')).toBe(true);
         });
@@ -156,11 +156,11 @@ describe('UITokenizedInput', () => {
             );
 
             element.refs.typeahead.value('blue');
-            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+            expect(element.refs.typeahead.getInputNode().value).toBe('blue');
 
             element = render(<UITokenizedInput entities={entities} tokens={[0, 1, 2]} />);
 
-            expect(element.refs.typeahead.refs.input.value).toBe('');
+            expect(element.refs.typeahead.getInputNode().value).toBe('');
         });
 
         it('should not clear the input when a token is removed', () => {
@@ -169,11 +169,11 @@ describe('UITokenizedInput', () => {
             );
 
             element.refs.typeahead.value('blue');
-            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+            expect(element.refs.typeahead.getInputNode().value).toBe('blue');
 
             element = render(<UITokenizedInput entities={entities} tokens={[0]} />);
 
-            expect(element.refs.typeahead.refs.input.value).toBe('blue');
+            expect(element.refs.typeahead.getInputNode().value).toBe('blue');
         });
     });
 
@@ -318,7 +318,7 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
                   typeahead.focus();
 
-            expect(document.activeElement).toBe(typeahead.refs.input);
+            expect(document.activeElement).toBe(typeahead.getInputNode());
 
             modifySelection([1]);
 
@@ -343,11 +343,11 @@ describe('UITokenizedInput', () => {
             const typeahead = element.refs.typeahead;
                   typeahead.focus();
 
-            expect(document.activeElement).toBe(typeahead.refs.input);
+            expect(document.activeElement).toBe(typeahead.getInputNode());
 
             modifySelection([]);
 
-            expect(document.activeElement).toBe(typeahead.refs.input);
+            expect(document.activeElement).toBe(typeahead.getInputNode());
         });
 
         it('should move focus to the leftmost token of the selection when mass selecting after shift + left arrow', () => {
@@ -455,7 +455,7 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0, 1]} tokensSelected={[1]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            Simulate.focus(typeahead.refs.input);
+            Simulate.focus(typeahead.getInputNode());
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
@@ -472,7 +472,7 @@ describe('UITokenizedInput', () => {
 
             const typeahead = element.refs.typeahead;
 
-            Simulate.focus(typeahead.refs.input);
+            Simulate.focus(typeahead.getInputNode());
 
             expect(stub.called).toBe(true);
         });
@@ -487,7 +487,7 @@ describe('UITokenizedInput', () => {
 
             element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
 
-            expect(document.activeElement).toBe(typeahead.refs.input);
+            expect(document.activeElement).toBe(typeahead.getInputNode());
         });
 
         it('should be returned after pressing the cmd + a keys', () => {
@@ -505,7 +505,7 @@ describe('UITokenizedInput', () => {
                 preventDefault: noop
             });
 
-            expect(document.activeElement).toBe(typeahead.refs.input);
+            expect(document.activeElement).toBe(typeahead.getInputNode());
         });
     });
 
