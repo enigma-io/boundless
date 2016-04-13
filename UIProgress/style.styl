@@ -1,15 +1,15 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .ui-progress-wrapper {
-    border: 1px solid color-accent;
-    border-radius: default-border-radius;
+    border: 1px solid borderColor-UIProgress;
+    border-radius: borderRadius;
     height: 30px;
     overflow: hidden;
     position: relative;
 }
 
 .ui-progress {
-    background: color-accent;
+    background: background-UIProgress;
     position: absolute;
     top: 0;
     left: 0;
@@ -17,7 +17,7 @@
 }
 
 .ui-progress-label {
-    color: #FFF;
+    color: color-UIProgress;
     line-height: 28px;
     padding-left: 10px;
     position: relative;
@@ -31,7 +31,7 @@
 }
 
 .ui-progress-indeterminate {
-    background: color-accent;
+    background: background-UIProgress;
     border-radius: 0;
     right: 0;
     opacity: 0.25;

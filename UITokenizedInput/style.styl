@@ -1,18 +1,11 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-color-border = #CCC
-color-border-focus = #888
-color-border-hover = #444
-color-border-active = color-text-body
-
-spacer-size = 0.25rem
-
 .ui-tokenfield-wrapper {
-    background: #FFF;
-    border: 1px solid color-accent;
-    border-radius: default-border-radius;
+    background: background-UITokenizedInput;
+    border: 1px solid borderColor-UITokenizedInput;
+    border-radius: borderRadius;
     display: flex;
-    font-size: input-font-size;
+    font-size: fontSize-input;
 }
 
 .ui-tokenfield-wrapper .ui-typeahead-wrapper {
@@ -24,7 +17,7 @@ spacer-size = 0.25rem
     align-self: stretch;
     background: transparent;
     border-color: transparent !important;
-    padding: spacer-size * 2;
+    padding: size-UITokenizedInput_token_spacer * 2;
 }
 
 .ui-tokenfield {
@@ -34,7 +27,7 @@ spacer-size = 0.25rem
 .ui-tokenfield-tokens {
     display: flex;
     flex-shrink: 0;
-    margin: spacer-size 0 spacer-size spacer-size;
+    margin: size-UITokenizedInput_token_spacer 0 size-UITokenizedInput_token_spacer size-UITokenizedInput_token_spacer;
 }
 
 .ui-tokenfield-tokens:empty {
@@ -44,38 +37,47 @@ spacer-size = 0.25rem
 .ui-tokenfield-token {
     align-items: center;
     align-self: stretch;
-    border: 1px solid color-border;
-    border-radius: default-border-radius;
+    background: background-UITokenizedInput_token;
+    border: 1px solid borderColor-UITokenizedInput_token;
+    border-radius: borderRadius;
+    color: color-UITokenizedInput_token;
     cursor: pointer;
     display: flex;
     line-height: 1;
 
-    margin-right: spacer-size;
-    padding: spacer-size (spacer-size * 2);
+    margin-right: size-UITokenizedInput_token_spacer;
+    padding: size-UITokenizedInput_token_spacer (size-UITokenizedInput_token_spacer * 2);
 
     white-space: nowrap;
 
-    transition: border-color 200ms ease-in-out,
-                background-color 200ms ease-in-out;
+    transition: color 200ms ease-in-out,
+                border-color 200ms ease-in-out,
+                background 200ms ease-in-out;
 
     &:focus {
-        border-color: color-border-focus;
+        background: background-UITokenizedInput_token-focus;
+        border-color: borderColor-UITokenizedInput_token-focus;
+        color: color-UITokenizedInput_token-focus;
 
         .ui-tokenfield-token-close {
-            color: color-border-focus;
+            color: color-UITokenizedInput_token_close-focus;
         }
     }
 
     &:hover {
-        border-color: color-border-hover;
+        background: background-UITokenizedInput_token-hover;
+        border-color: borderColor-UITokenizedInput_token-hover;
+        color: color-UITokenizedInput_token-hover;
 
         .ui-tokenfield-token-close {
-            color: color-border-hover;
+            color: color-UITokenizedInput_token_close-hover;
         }
     }
 
     &:active {
-        border-color: color-border-active;
+        background: background-UITokenizedInput_token-active;
+        border-color: borderColor-UITokenizedInput_token-active;
+        color: color-UITokenizedInput_token-active;
     }
 
     &:last-child {
@@ -84,16 +86,37 @@ spacer-size = 0.25rem
 }
 
 .ui-tokenfield-token-selected {
-    background-color: rgba(color-accent, 0.25);
-    border-color: color-accent;
+    background: background-UITokenizedInput_token-selected;
+    border-color: borderColor-UITokenizedInput_token-selected;
+    color: color-UITokenizedInput_token-selected;
+
+    &:focus {
+        background: background-UITokenizedInput_token-selected;
+        border-color: borderColor-UITokenizedInput_token-selected;
+        color: color-UITokenizedInput_token-selected;
+
+        .ui-tokenfield-token-close {
+            color: color-UITokenizedInput_token_close-selected-focus;
+        }
+    }
+
+    &:hover {
+        background: background-UITokenizedInput_token-selected;
+        border-color: borderColor-UITokenizedInput_token-selected;
+        color: color-UITokenizedInput_token-selected;
+
+        .ui-tokenfield-token-close {
+            color: color-UITokenizedInput_token_close-selected-hover;
+        }
+    }
 
     .ui-tokenfield-token-close {
-        color: color-accent;
+        color: color-UITokenizedInput_token_close-selected;
     }
 }
 
 .ui-tokenfield-token-close {
-    color: color-border;
+    color: color-UITokenizedInput_token_close;
     cursor: pointer;
     display: inline-block;
     font-size: 0.85em;

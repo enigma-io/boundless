@@ -2,10 +2,10 @@
 
 .ui-button {
     appearance: none;
-    background: transparent;
-    border: 1px solid color-text-body;
-    border-radius: default-border-radius;
-    color: color-text-body;
+    background: background-UIButton;
+    border: 1px solid borderColor-UIButton;
+    border-radius: borderRadius;
+    color: color-UIButton;
     cursor: pointer;
     font-size: 14px;
     margin: 0;
@@ -17,23 +17,36 @@
     transition: all 200ms ease;
 }
 
+.ui-button:hover {
+    background: background-UIButton-hover;
+    border-color: borderColor-UIButton-hover;
+    color: color-UIButton-hover;
+}
+
+.ui-button:focus {
+    background: background-UIButton-focus;
+    border-color: borderColor-UIButton-focus;
+    color: color-UIButton-focus;
+}
+
+.ui-button:active {
+    background: background-UIButton-active;
+    border-color: borderColor-UIButton-active;
+    color: color-UIButton-active;
+}
+
+.ui-button.ui-button-pressed {
+    background: background-UIButton-pressed;
+    border-color: borderColor-UIButton-pressed;
+    color: color-UIButton-pressed;
+}
+
 .ui-button[disabled] {
-    border-color: color-text-body !important;
-    color: color-text-body !important;
+    background: background-UIButton-disabled;
+    border-color: borderColor-UIButton-disabled;
+    color: color-UIButton-disabled;
     cursor: not-allowed;
     opacity: 0.3;
-}
-
-.ui-button:hover,
-.ui-button:focus {
-    border-color: color-accent;
-    color: color-accent;
-}
-
-.ui-button:active,
-.ui-button.ui-button-pressed {
-    background: color-accent;
-    color: #FFF;
 }
 
 .ui-button + .ui-button {

@@ -1,11 +1,19 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-paginated-view-controls > .ui-segmented-control-option:focus {
-    background: rgba(color-accent, 0.1);
+.ui-paginated-view-controls .ui-segmented-control-option {
+    background: background-UIPaginatedView_control;
+    border-color: borderColor-UIPaginatedView_control;
+    color: color-UIPaginatedView_control;
 }
 
-.ui-paginated-view-controls > .ui-segmented-control-option-selected:focus {
-    background: color-accent;
+.ui-paginated-view-controls .ui-segmented-control-option:not(.ui-segmented-control-option-selected):focus {
+    background: background-UIPaginatedView_control-focus;
+    color: color-UIPaginatedView_control-focus;
+}
+
+.ui-paginated-view-controls .ui-segmented-control-option-selected {
+    background: background-UIPaginatedView_control-selected;
+    color: color-UIPaginatedView_control-selected;
 }
 
 .ui-paginated-view .ui-paginated-view-item {
@@ -31,7 +39,7 @@
     height: 10px;
     width: 10px;
     border-radius: 100%;
-    background-color: #AAA;
+    background: background-UIPaginatedView_item-loading;
 }
 
 .ui-paginated-view-item-loading::before {

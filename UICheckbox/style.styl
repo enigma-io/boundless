@@ -16,8 +16,8 @@
 
 .ui-checkbox {
     appearance: none;
-    border: 1px solid #CCC;
-    border-radius: default-border-radius;
+    border: 1px solid borderColor-UICheckbox;
+    border-radius: borderRadius;
     box-shadow: none;
     flex-shrink: 0;
     margin: 0 3px 0;
@@ -28,20 +28,24 @@
     transition: border-color 200ms ease;
 }
 
-.ui-checkbox:hover,
+.ui-checkbox:hover {
+    border-color: borderColor-UICheckbox-hover;
+}
+
 .ui-checkbox:focus {
-    border-color: color-accent;
+    border-color: borderColor-UICheckbox-focus;
 }
 
 .ui-checkbox-checked {
-    background-color: color-accent;
+    background: background-UICheckbox-checked;
+    border-color: borderColor-UICheckbox-checked;
 }
 
 .ui-checkbox-mixed {
-    background: linear-gradient(135deg, rgba(color-accent, 1) 50%, rgba(#fff, 0) 50%, rgba(#fff, 0) 100%);
+    background: background-UICheckbox-indeterminate;
 }
 
 .ui-checkbox-checked,
 .ui-checkbox-mixed {
-    box-shadow: 0 0 0 1px #FFF inset;
+    box-shadow: 0 0 0 1px boxShadowColor-UICheckbox inset;
 }

@@ -9,9 +9,10 @@
 
 .ui-segmented-control .ui-segmented-control-option {
     align-self: stretch;
-    border: 1px solid color-text-body;
+    background: background-UISegmentedControl_option;
+    border: 1px solid borderColor-UISegmentedControl_option;
     border-radius: 0;
-    color: color-text-body;
+    color: color-UISegmentedControl_option;
     flex-grow: 1;
     font-size: 14px;
     margin: 0;
@@ -27,26 +28,27 @@
 }
 
 .ui-segmented-control .ui-segmented-control-option:first-of-type {
-    border-top-left-radius: default-border-radius;
-    border-bottom-left-radius: default-border-radius;
+    border-top-left-radius: borderRadius;
+    border-bottom-left-radius: borderRadius;
 }
 
 .ui-segmented-control .ui-segmented-control-option:last-of-type {
-    border-top-right-radius: default-border-radius;
-    border-bottom-right-radius: default-border-radius;
+    border-top-right-radius: borderRadius;
+    border-bottom-right-radius: borderRadius;
+}
+
+.ui-segmented-control .ui-segmented-control-option:not(.ui-segmented-control-option-selected):focus {
+    background: background-UISegmentedControl_option-focus;
+    color: color-UISegmentedControl_option-focus;
 }
 
 .ui-segmented-control .ui-segmented-control-option-selected {
-    background: color-accent;
-    color: #FFF;
+    background: background-UISegmentedControl_option-selected;
+    color: color-UISegmentedControl_option-selected;
+    z-index: 1;
 }
 
-.ui-segmented-control .ui-segmented-control-option:hover,
-.ui-segmented-control .ui-segmented-control-option:focus {
-    color: color-accent;
-}
-
-.ui-segmented-control .ui-segmented-control-option-selected:hover,
-.ui-segmented-control .ui-segmented-control-option-selected:focus {
-    color: #FFF;
+.ui-segmented-control .ui-segmented-control-option:active {
+    background: background-UISegmentedControl_option-active;
+    color: background-UISegmentedControl_option-active;
 }

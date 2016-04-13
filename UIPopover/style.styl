@@ -1,9 +1,7 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-border-width = 10px
-
 .ui-popover {
-    border-color: color-accent;
+    border-color: borderColor-UIPopover_outline;
     box-shadow: none;
     max-width: 400px;
 }
@@ -19,19 +17,19 @@ border-width = 10px
 }
 
 .ui-popover-self-y-start {
-    margin-top: border-width * -1;
+    margin-top: -10px;
 }
 
 .ui-popover-self-y-start::before,
 .ui-popover-self-y-start::after {
     border-color: transparent;
-    border-bottom-color: color-accent;
+    border-bottom-color: borderColor-UIPopover_outline;
     top: -1px;
 }
 
 .ui-popover-self-y-start::after {
     border-color: transparent;
-    border-bottom-color: #FFF;
+    border-bottom-color: borderColor-UIPopover;
     top: -1px;
 }
 
@@ -60,12 +58,12 @@ border-width = 10px
 .ui-popover-anchor-x-end.ui-popover-self-x-start::before,
 .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
     border-color: transparent;
-    border-right-color: color-accent;
+    border-right-color: borderColor-UIPopover_outline;
     left: -20px;
 }
 
 .ui-popover-anchor-x-end.ui-popover-self-x-start::after {
-    border-right-color: #FFF;
+    border-right-color: borderColor-UIPopover;
     left: -19px;
 }
 
@@ -76,12 +74,12 @@ border-width = 10px
 .ui-popover-anchor-x-start.ui-popover-self-x-end::before,
 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
     border-color: transparent;
-    border-left-color: color-accent;
+    border-left-color: borderColor-UIPopover_outline;
     right: -20px;
 }
 
 .ui-popover-anchor-x-start.ui-popover-self-x-end::after {
-    border-left-color: #FFF;
+    border-left-color: borderColor-UIPopover;
     right: -19px;
 }
 
@@ -93,11 +91,11 @@ border-width = 10px
 .ui-popover-anchor-y-end.ui-popover-self-y-start::after {
     top: -20px;
     border-color: transparent;
-    border-bottom-color: color-accent;
+    border-bottom-color: borderColor-UIPopover_outline;
 }
 
 .ui-popover-anchor-y-end.ui-popover-self-y-start::after {
-    border-bottom-color: #FFF;
+    border-bottom-color: borderColor-UIPopover;
     top: -19px;
 }
 
@@ -115,11 +113,11 @@ border-width = 10px
 .ui-popover-self-y-end::after {
     bottom: -20px;
     border-color: transparent;
-    border-top-color: color-accent;
+    border-top-color: borderColor-UIPopover_outline;
 }
 
 .ui-popover-self-y-end::after {
-    border-top-color: #FFF;
+    border-top-color: borderColor-UIPopover;
     bottom: -19px;
 }
 
