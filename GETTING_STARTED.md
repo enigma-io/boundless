@@ -55,8 +55,16 @@ The `--save` option updates `package.json` automatically.
 
 UIKit has a default style skin which can be imported via Stylus. Add the following line to `your-app/style.styl`:
 
-```css
-@import "node_modules/enigma-uikit/dist/skin.min.css"
+```styl
+@import "node_modules/enigma-uikit/style.styl"
+```
+
+If you want to do any custom theming, feel free to redeclare any variables present in [UIKit's style.styl](./style.styl) above where you are importing it, like:
+
+```styl
+color-accent = royalblue
+
+@import "node_modules/enigma-uikit/style.styl"
 ```
 
 ---

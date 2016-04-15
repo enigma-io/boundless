@@ -3,3 +3,7 @@
 !es5/**/*
 !dist/
 !dist/**/*
+
+# allow custom theming
+!style.styl
+!UI*/style.styl
