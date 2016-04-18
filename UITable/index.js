@@ -22,6 +22,7 @@ export default class UITable extends UIView {
         offscreenClass: React.PropTypes.string,
         onCellInteract: React.PropTypes.func,
         onRowInteract: React.PropTypes.func,
+        preserveScrollState: React.PropTypes.bool,
         throttleInterval: React.PropTypes.number,
         totalRows: React.PropTypes.number,
     }
@@ -29,6 +30,7 @@ export default class UITable extends UIView {
     static defaultProps = {
         className: '',
         offscreenClass: 'ui-offscreen',
+        preserveScrollState: true,
     }
 
     getTableViewConfiguration() {
@@ -46,6 +48,7 @@ export default class UITable extends UIView {
             rowClickFunc: this.props.onRowInteract,
             cellClickFunc: this.props.onCellInteract,
             getRow: this.props.getRow,
+            preserveScrollState: this.props.preserveScrollState,
             throttleInterval: this.props.throttleInterval,
             totalRows: this.props.totalRows,
         };

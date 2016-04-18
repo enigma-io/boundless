@@ -173,6 +173,14 @@ describe('UITable/TableView', () => {
 
             expect(table.c.cellClickFunc).toEqual(jasmine.any(Function));
         });
+
+        it('should throw if preserveScrollState is not a boolean', () => {
+            expect(function() { return new TableView({...baseConfig, preserveScrollState: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, preserveScrollState: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, preserveScrollState: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, preserveScrollState: function(){}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, preserveScrollState: 3}); }).toThrow();
+        });
     });
 
     describe('click functionality', () => {
@@ -700,6 +708,42 @@ describe('UITable/TableView', () => {
             table.handleWindowResize();
             expect(table.initializeScrollBars.calledOnce).toBe(true);
 
+        });
+    });
+
+    describe('preserveScrollState', () => {
+        it('should reapply scroll values after regeneration', () => {
+            baseConfig.wrapper.setAttribute('style', 'height: 100px');
+
+            table = new TableView({...baseConfig, preserveScrollState: true});
+
+            table.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 100,
+                preventDefault: noop
+            });
+
+            expect(table.y).toBe(-100);
+
+            table.regenerate();
+            expect(table.y).toBe(-100);
+        });
+
+        it('should not reapply scroll values after regeneration if false', () => {
+            baseConfig.wrapper.setAttribute('style', 'height: 100px');
+
+            table = new TableView({...baseConfig, preserveScrollState: false});
+
+            table.handleMoveIntent({
+                deltaX: 0,
+                deltaY: 100,
+                preventDefault: noop
+            });
+
+            expect(table.y).toBe(-100);
+
+            table.regenerate();
+            expect(table.y).toBe(0);
         });
     });
 });

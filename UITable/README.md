@@ -158,8 +158,11 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 - __onRowInteract__ `Function`
   invoked when a cell in a row is interacted with; returns (event, rowIndex)
 
+- __preserveScrollState__ `Boolean`
+  (default `true`) prompts the table view to remember the row numbers, X and Y coordinates when regenerating and attempt to restore them
+
 - __throttleInterval__ `Number`
-  (default 300) the time in milliseconds to pause row fetching during a fast drag operation on the scroll handles
+  (default `300`) the time in milliseconds to pause row fetching during a fast drag operation on the scroll handles
 
 - __totalRows__ `Number`
   the total length of the data set, necessary for smart scrollbar calculations

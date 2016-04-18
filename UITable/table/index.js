@@ -366,6 +366,10 @@ class TableView {
         if (typeof config.cellClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
         }
+
+        if (typeof config.preserveScrollState !== 'boolean') {
+            throw Error('TableView was not passed a valid `preserveScrollState`; it should be a boolean.');
+        }
     }
 
     processConfiguration(config) {
@@ -374,6 +378,7 @@ class TableView {
         // fallback values
         this.c.rowClickFunc = this.c.rowClickFunc || noop;
         this.c.cellClickFunc = this.c.cellClickFunc || noop;
+        this.c.preserveScrollState = this.c.preserveScrollState === undefined ? true : this.c.preserveScrollState;
         this.c.throttleInterval = this.c.throttleInterval || 300;
         this.c.totalRows = this.c.totalRows || 0;
 
@@ -389,6 +394,11 @@ class TableView {
         this.header_style = this.header.style;
         this.x_scroll_handle_style = this.c['x-scroll-handle'].style;
         this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
+
+        this.resetInternals();
+
+        /* used in scroll state preservation calculations */
+        this.__x = this.__y = this.__row_start_index = null;
 
         this.regenerate();
 
@@ -543,8 +553,8 @@ class TableView {
         this.emptyBody();
 
         this.rows.push(createRow({
-            data: this.c.getRow(0),
-            setIndex: 0,
+            data: this.c.getRow(this.row_start_index),
+            setIndex: this.row_start_index,
             y: 0,
         }, this.columns));
 
@@ -559,8 +569,8 @@ class TableView {
 
         for (this.i = 1; this.i < this.n_rows_rendered; this.i += 1) {
             this.rows.push(createRow({
-                data: this.c.getRow(this.i),
-                setIndex: this.i,
+                data: this.c.getRow(this.i + this.row_start_index),
+                setIndex: this.i + this.row_start_index,
                 y: this.cell_h * this.i,
             }, this.columns));
 
@@ -671,10 +681,18 @@ class TableView {
     regenerate(config = this.c) {
         if (config !== this.c) { this.processConfiguration(config); }
 
+        /* stores the current state of the union for if we need to rehydrate the previous scroll state */
+        this.__x = this.x;
+        this.__y = this.y;
+        this.__row_start_index = this.row_start_index;
+
         this.resetInternals();
         this.calculateContainerDimensions();
 
         this.buildColumns();
+
+        this.row_start_index = this.c.preserveScrollState ? this.__row_start_index || 0 : 0;
+
         this.injectFirstRow();
         this.calculateCellWidths();
         this.calculateCellHeight();
@@ -691,8 +709,7 @@ class TableView {
             this.n_rows_visible = this.n_rows_rendered;
         }
 
-        this.row_start_index = 0;
-        this.row_end_index = this.n_rows_rendered - 1;
+        this.row_end_index = this.row_start_index + this.n_rows_rendered - 1;
 
         this.injectHeaderCells();
         this.injectRestOfRows();
@@ -701,6 +718,16 @@ class TableView {
         this.calculateYBound();
 
         this.initializeScrollBars();
+
+        if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
+            this.handleMoveIntent({
+                deltaX: -this.__x,
+                deltaY: -this.__y,
+                preventDefault: noop,
+            });
+        }
+
+        this.__x = this.__y = this.__row_start_index = null;
     }
 
     translateHeader(x) {
