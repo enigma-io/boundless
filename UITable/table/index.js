@@ -241,7 +241,7 @@ const createRow = function createRow(metadata, columns) {
             if (val !== this._data) {
                 this._data = val;
 
-                if (this._data instanceof Promise || this._data === null) {
+                if (this._data === null || this._data instanceof Promise) {
                     for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
                         this.cells[this._iterator].content = '';
                     }
@@ -300,7 +300,7 @@ class TableView {
         return    typeof column.mapping === 'string'
                && typeof column.resizable === 'boolean'
                && typeof column.title === 'string'
-               && (typeof column.width === 'number' || typeof column.width === 'undefined');
+               && (column.width === undefined || typeof column.width === 'number');
     }
 
     validateConfiguration(config) {

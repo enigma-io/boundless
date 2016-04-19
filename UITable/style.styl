@@ -10,13 +10,20 @@
     position: relative;
     height: 500px;
     width: 100%;
-    transform: translateZ(0);
 }
 
 .ui-table {
     border-spacing: 0;
     text-align: left;
     white-space: nowrap;
+}
+
+.ui-table-header,
+.ui-table-body,
+.ui-table-row {
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform;
 }
 
 .ui-table-header {
@@ -28,9 +35,7 @@
     position: absolute;
     top: height-UITable_cell;
     bottom: 0;
-    backface-visibility: hidden;
     transform: translate3d(0, 0, 0);
-    will-change: transform;
 }
 
 .ui-table-row,
@@ -43,10 +48,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    backface-visibility: hidden;
     transform: translate3d(0, 0, 0);
     overflow: hidden;
-    will-change: transform;
 }
 
 .ui-table-row-even {
@@ -59,6 +62,21 @@
     color: color-UITable_row-odd;
 }
 
+@keyframes indeterminate {
+  0%        {transform: translateX(-100%) scaleX(0.2)}
+  20%       {transform: translateX(-40%) scaleX(0.2)}
+  30%       {transform: translateX(0%) scaleX(0.5)}
+  55%       {transform: translateX(100%) scaleX(0.7)}
+  55.99%    {transform: scaleX(0)}
+  56%       {transform: translateX(-100%) scaleX(0)}
+  56.99%    {transform: translateX(-100%) scaleX(0.6)}
+  75%       {transform: translateX(-5%) scaleX(0.6)}
+  85%       {transform: translateX(30%) scaleX(0.3)}
+  98%       {transform: translateX(100%) scaleX(0.2)}
+  99.99%    {transform: scaleX(0)}
+  100%      {transform: translateX(-100%)}
+}
+
 .ui-table-row-loading::before {
    content: '';
    position: absolute;
@@ -68,25 +86,8 @@
    height: 2px;
    width: 100%;
    background: background-UITable_row-loading;
-}
 
-.ui-table-row-loading::before {
-    animation: indeterminate 2s linear infinite;
-}
-
-@keyframes indeterminate {
-  0% {transform: translateX(-100%) scaleX(0.2) }
-  20% {transform: translateX(-40%) scaleX(0.2) }
-  30% {transform: translateX(0%) scaleX(0.5) }
-  55% {transform: translateX(100%) scaleX(0.7) }
-  55.99% {transform: scaleX(0) }
-  56% {transform: translateX(-100%) scaleX(0) }
-  56.99% {transform: translateX(-100%) scaleX(0.6) }
-  75% {transform: translateX(-5%) scaleX(0.6) }
-  85% {transform: translateX(30%) scaleX(0.3) }
-  98% {transform: translateX(100%) scaleX(0.2)}
-  99.99% {transform: scaleX(0) }
-  100% {transform: translateX(-100%)}
+   animation: indeterminate 2s linear infinite;
 }
 
 .ui-table-row-active {
@@ -101,7 +102,6 @@
     padding: 0 paddingX-UITable_cell;
     position: relative;
     user-select: none;
-    will-change: contents;
 }
 
 .ui-table-cell-inner {
