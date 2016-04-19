@@ -19,6 +19,7 @@ export default class UITable extends UIView {
         ),
         getRow: React.PropTypes.func,
         identifier: React.PropTypes.string,
+        jumpToRowIndex: React.PropTypes.number,
         offscreenClass: React.PropTypes.string,
         onCellInteract: React.PropTypes.func,
         onRowInteract: React.PropTypes.func,
@@ -55,6 +56,10 @@ export default class UITable extends UIView {
     }
     componentDidMount() {
         this.table = new TableView(this.getTableViewConfiguration());
+
+        if (this.props.jumpToRowIndex) {
+            this.table.jumpToRowIndex(this.props.jumpToRowIndex);
+        }
     }
 
     componentWillUnmount() {
@@ -62,8 +67,13 @@ export default class UITable extends UIView {
         this.table = null;
     }
 
-    componentDidUpdate() {
-        this.table.regenerate(this.getTableViewConfiguration());
+    componentDidUpdate(prevProps) {
+        if (this.props.jumpToRowIndex !== prevProps.jumpToRowIndex) {
+            /* jumpToRowIndex already does a regenerate, just avoiding running it twice */
+            this.table.jumpToRowIndex(this.props.jumpToRowIndex);
+        } else {
+            this.table.regenerate(this.getTableViewConfiguration());
+        }
     }
 
     render() {

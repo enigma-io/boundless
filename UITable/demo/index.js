@@ -78,6 +78,11 @@ export default class UITableDemo extends UIView {
             value: 'columnar',
             selected: false,
         }],
+        jumpToRowIndex: 0,
+    }
+
+    handleChange = event => {
+        this.setState({jumpToRowIndex: event.target.value ? parseInt(event.target.value, 10) - 1 : null});
     }
 
     handleCellClick = (event, rowIndex, columnName) => {
@@ -108,12 +113,25 @@ export default class UITableDemo extends UIView {
 
         return (
             <div>
+                <p>
+                    <label>
+                        Jump to row&nbsp;&nbsp;
+                        <input type='number'
+                               onChange={this.handleChange}
+                               defaultValue={1}
+                               max={source.totalRows}
+                               min={1} />
+                        &nbsp;&nbsp;<small>(performs a full re-render)</small>
+                    </label>
+                </p>
+
                 <UISegmentedControl options={this.state.options}
                                     onOptionSelected={this.handleOptionSelected} />
                 <br />
                 <UITable identifier={source.value}
                          columns={source.columns}
                          totalRows={source.totalRows}
+                         jumpToRowIndex={this.state.jumpToRowIndex}
                          getRow={source.getRow}
                          onCellInteract={this.handleCellClick}
                          onRowInteract={this.handleRowClick} />

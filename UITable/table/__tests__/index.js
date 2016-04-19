@@ -746,4 +746,14 @@ describe('UITable/TableView', () => {
             expect(table.y).toBe(0);
         });
     });
+
+    describe('jumpToRowIndex()', () => {
+        it('should advance the table to the specified index', () => {
+            table = new TableView(baseConfig);
+            table.jumpToRowIndex(5);
+
+            expect(table.active_row).toBe(5);
+            expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Ronald');
+        });
+    });
 });

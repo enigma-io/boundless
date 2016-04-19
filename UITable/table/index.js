@@ -720,6 +720,8 @@ class TableView {
         this.initializeScrollBars();
 
         if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
+            /* the cached values are then applied against the table to arrive at the previous state */
+
             this.handleMoveIntent({
                 deltaX: -this.__x,
                 deltaY: -this.__y,
@@ -1269,8 +1271,8 @@ class TableView {
 
                 this.handleMoveIntent(this.evt);
             }
-        } else if (   (delta === -1 && this.active_row > 0)
-                   || (delta === 1 && this.active_row < this.c.totalRows)) {
+        } else if (   (delta < 0 && this.active_row > 0)
+                   || (delta > 0 && this.active_row < this.c.totalRows)) {
             /* The destination row isn't rendered, so we need to translate enough rows for it to feasibly be shown in the viewport. */
             this.evt.deltaX = 0;
             this.evt.deltaY = (   (    this.row_start_index > this.active_row
@@ -1351,6 +1353,24 @@ class TableView {
 
             this.c.rowClickFunc(event, row.setIndex);
         }
+    }
+
+    jumpToRowIndex(index) {
+        this.row_start_index = index;
+        this.y = 0;
+
+        this.regenerate();
+
+        this.top_visible_row_index = index;
+        this.y_scroll_handle_position = index * this.y_scrollbar_pixel_ratio;
+
+        if (this.y_scroll_handle_position + this.y_scroll_handle_size > this.y_scroll_track_h) {
+            this.y_scroll_handle_position = this.y_scroll_track_h - this.y_scroll_handle_size;
+        }
+
+        this.translateYScrollHandle(this.y_scroll_handle_position);
+
+        this.setActiveRow(index);
     }
 }
 

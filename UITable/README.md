@@ -149,6 +149,9 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 - __identifier__ `String`
   a unique name for the dataset being consumed; pass a different name to cause the table to fully reset and pull brand new data
 
+- __jumpToRowIndex__ `Number`
+  fast-forwards scrolling within the table to the specified row index (zero-based) and sets it as the active row
+
 - __offscreenClass__ `String`
   (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
