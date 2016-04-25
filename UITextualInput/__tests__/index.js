@@ -161,6 +161,12 @@ describe('UITextualInput', () => {
             expect(element.refs.placeholder.textContent).toBe('');
         });
 
+        it('should cause the placeholder to be empty when given a `defaultValue` via `inputProps`', () => {
+            const element = render(<UITextualInput {...base_props} placeholder='foo' inputProps={{defaultValue: 'foo'}} />);
+
+            expect(element.refs.placeholder.textContent).toBe('');
+        });
+
         it('should cause the placeholder to be empty when the input is non-empty', () => {
             const element = render(<UITextualInput {...base_props} placeholder='foo' />);
 
