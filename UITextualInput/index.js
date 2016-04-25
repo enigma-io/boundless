@@ -22,7 +22,7 @@ export default class UITextualInput extends UIView {
     }
 
     state = {
-        input: '',
+        input: this.props.defaultValue || '',
         is_focused: false,
     }
 
