@@ -448,6 +448,7 @@ export default class UITypeaheadInput extends UIView {
                                     name: this.props.name || this.props.inputProps.name,
                                     type: this.props.type || this.props.inputProps.type,
                                     onInput: this.handleInput,
+                                    value: this.props.inputProps.value,
                                 }}
                                 aria-controls={this.state.id} />
 
