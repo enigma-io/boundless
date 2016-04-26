@@ -392,6 +392,29 @@ describe('UITypeaheadInput', () => {
         })
     });
 
+    describe('controlled input mode', () => {
+        it('should correctly set the value of the input', () => {
+            let element;
+
+            element = render(<UITypeaheadInput inputProps={{value: 'ap', onChange: noop}} />);
+            expect(element.getInputNode().value).toBe('ap');
+
+            element = render(<UITypeaheadInput inputProps={{value: 'foo', onChange: noop}} />);
+            expect(element.getInputNode().value).toBe('foo');
+        });
+    });
+
+    describe('value(string)', () => {
+        it('should change the value of the input', () => {
+            const element = render(<UITypeaheadInput entities={entities} defaultValue='ap' />);
+
+            expect(element.getInputNode().value).toBe('ap');
+
+            element.value('foo');
+            expect(element.getInputNode().value).toBe('foo');
+        });
+    });
+
     describe('misc internals', () => {
         it('focus should focus the correct node', () => {
             const element = render(<UITypeaheadInput />);

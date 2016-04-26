@@ -85,7 +85,7 @@ describe('UITextualInput', () => {
         expect(element.refs.placeholder).not.toBeUndefined();
         expect(element.refs.placeholder.textContent).toBe('foo');
 
-        element.handle_focus();
+        element.handleFocus();
 
         expect(element.refs.placeholder.textContent).toBe('');
     });
@@ -96,10 +96,10 @@ describe('UITextualInput', () => {
         expect(element.refs.placeholder).not.toBeUndefined();
         expect(element.refs.placeholder.textContent).toBe('foo');
 
-        element.handle_focus();
+        element.handleFocus();
         expect(element.refs.placeholder.textContent).toBe('');
 
-        element.handle_blur();
+        element.handleBlur();
         expect(element.refs.placeholder.textContent).toBe('foo');
     });
 
@@ -143,7 +143,7 @@ describe('UITextualInput', () => {
 
             sandbox.stub(element, 'setState');
 
-            element.handle_input({target: {value: 'x'}});
+            element.handleInput({target: {value: 'x'}});
             expect(element.setState.notCalled).toBe(true);
         });
     });
@@ -170,7 +170,7 @@ describe('UITextualInput', () => {
         it('should cause the placeholder to be empty when the input is non-empty', () => {
             const element = render(<UITextualInput {...base_props} placeholder='foo' />);
 
-            element.handle_input({target: {value: 'x'}});
+            element.handleInput({target: {value: 'x'}});
 
             expect(element.refs.placeholder.textContent).toBe('');
         });
@@ -180,14 +180,47 @@ describe('UITextualInput', () => {
 
             expect(element.refs.placeholder.textContent).toBe('foo');
 
-            element.handle_input({target: {value: 'x'}});
+            element.handleInput({target: {value: 'x'}});
             expect(element.refs.placeholder.textContent).toBe('');
 
-            element.handle_input({target: {value: 'xy'}});
+            element.handleInput({target: {value: 'xy'}});
             expect(element.refs.placeholder.textContent).toBe('');
 
-            element.handle_input({target: {value: ''}});
+            element.handleInput({target: {value: ''}});
             expect(element.refs.placeholder.textContent).toBe('foo');
+        });
+    });
+
+    describe('value(string)', () => {
+        it('should change the input value', () => {
+            const element = render(<UITextualInput {...base_props} defaultValue='ap' />);
+
+            expect(element.refs.field.value).toBe('ap');
+
+            element.value('foo');
+            expect(element.refs.field.value).toBe('foo');
+        });
+
+        it('should empty the placeholder if set with a non-empty string', () => {
+            const element = render(<UITextualInput {...base_props} placeholder='bar' />);
+
+            expect(element.refs.field.value).toBe('');
+            expect(element.refs.placeholder.textContent).toBe('bar');
+
+            element.value('foo');
+            expect(element.refs.field.value).toBe('foo');
+            expect(element.refs.placeholder.textContent).toBe('');
+        });
+
+        it('should restore the placeholder if set with an empty string', () => {
+            const element = render(<UITextualInput {...base_props} defaultValue='foo' placeholder='bar' />);
+
+            expect(element.refs.field.value).toBe('foo');
+            expect(element.refs.placeholder.textContent).toBe('');
+
+            element.value('');
+            expect(element.refs.field.value).toBe('');
+            expect(element.refs.placeholder.textContent).toBe('bar');
         });
     });
 
@@ -196,7 +229,7 @@ describe('UITextualInput', () => {
         const element = render(<UITextualInput {...base_props} inputProps={{onBlur: stub}} />);
         const faux_event = {persist: noop};
 
-        element.handle_blur(faux_event);
+        element.handleBlur(faux_event);
 
         expect(stub.calledOnce).toBe(true);
         expect(stub.calledWithMatch(faux_event)).toBe(true);
@@ -207,7 +240,7 @@ describe('UITextualInput', () => {
         const element = render(<UITextualInput {...base_props} inputProps={{onFocus: stub}} />);
         const faux_event = {persist: noop};
 
-        element.handle_focus(faux_event);
+        element.handleFocus(faux_event);
 
         expect(stub.calledOnce).toBe(true);
         expect(stub.calledWithMatch(faux_event)).toBe(true);
@@ -218,7 +251,7 @@ describe('UITextualInput', () => {
         const element = render(<UITextualInput {...base_props} inputProps={{onInput: stub}} />);
         const faux_event = {persist: noop, target: {value: 'x'}};
 
-        element.handle_input(faux_event);
+        element.handleInput(faux_event);
 
         expect(stub.calledOnce).toBe(true);
         expect(stub.calledWithMatch(faux_event)).toBe(true);

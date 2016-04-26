@@ -22,11 +22,17 @@ export default class UITextualInput extends UIView {
     }
 
     state = {
-        input: this.props.defaultValue || this.props.inputProps.defaultValue || '',
+        input: this.props.defaultValue || this.props.inputProps.defaultValue || '', // ignored if in controlled-mode
         is_focused: false,
     }
 
-    handle_blur = event => {
+    value(next_value) {
+        this.refs.field.value = next_value;
+
+        this.setState({input: next_value});
+    }
+
+    handleBlur = event => {
         this.setState({is_focused: false});
 
         if (typeof this.props.inputProps.onBlur === 'function') {
@@ -35,7 +41,7 @@ export default class UITextualInput extends UIView {
         }
     }
 
-    handle_focus = event => {
+    handleFocus = event => {
         this.setState({is_focused: true});
 
         if (typeof this.props.inputProps.onFocus === 'function') {
@@ -44,7 +50,7 @@ export default class UITextualInput extends UIView {
         }
     }
 
-    handle_input = event => {
+    handleInput = event => {
         if (typeof this.props.value !== 'string') {
             this.setState({input: event.target.value});
         }
@@ -55,7 +61,7 @@ export default class UITextualInput extends UIView {
         }
     }
 
-    render_placeholder() {
+    renderPlaceholder() {
         /* If a controlled input (`props.value` being set), show the placeholder based on that state */
         const is_non_empty = typeof this.props.value === 'string' ? Boolean(this.props.value) : Boolean(this.state.input);
         const should_show_placeholder =   this.props.hidePlaceholderOnFocus
@@ -80,7 +86,7 @@ export default class UITextualInput extends UIView {
                  name={null}
                  placeholder={null}
                  type={null}>
-                {this.render_placeholder()}
+                {this.renderPlaceholder()}
                 <input {...this.props.inputProps}
                        ref='field'
                        className={cx({
@@ -92,9 +98,9 @@ export default class UITextualInput extends UIView {
                        placeholder={null}
                        type={this.props.inputProps.type || this.props.type}
                        value={this.props.inputProps.value || this.props.value}
-                       onBlur={this.handle_blur}
-                       onFocus={this.handle_focus}
-                       onInput={this.handle_input} />
+                       onBlur={this.handleBlur}
+                       onFocus={this.handleFocus}
+                       onInput={this.handleInput} />
             </div>
         );
     }
