@@ -138,13 +138,23 @@ describe('UITextualInput', () => {
             expect(element.refs.placeholder.textContent).toBe('foo');
         });
 
-        it('should prevent a setState upon an input event', () => {
-            const element = render(<UITextualInput {...base_props} placeholder='foo' value='x' />);
+        it('should properly manage placeholder visibility across many `props.inputProps.value` changes', () => {
+            let element;
 
-            sandbox.stub(element, 'setState');
+            element = render(<UITextualInput {...base_props} inputProps={{placeholder: 'foo', value: 'x'}} />);
+            expect(element.refs.placeholder.textContent).toBe('');
 
-            element.handleInput({target: {value: 'x'}});
-            expect(element.setState.notCalled).toBe(true);
+            element = render(<UITextualInput {...base_props} inputProps={{placeholder: 'foo', value: ''}} />);
+            expect(element.refs.placeholder.textContent).toBe('foo');
+
+            element = render(<UITextualInput {...base_props} inputProps={{placeholder: 'foo', value: 'x'}} />);
+            expect(element.refs.placeholder.textContent).toBe('');
+
+            element = render(<UITextualInput {...base_props} inputProps={{placeholder: 'foo', value: 'xy'}} />);
+            expect(element.refs.placeholder.textContent).toBe('');
+
+            element = render(<UITextualInput {...base_props} inputProps={{placeholder: 'foo', value: ''}} />);
+            expect(element.refs.placeholder.textContent).toBe('foo');
         });
     });
 
@@ -199,6 +209,18 @@ describe('UITextualInput', () => {
 
             element.value('foo');
             expect(element.refs.field.value).toBe('foo');
+        });
+
+        it('should not change the input value for a controlled component', () => {
+            sandbox.stub(console, 'warn');
+
+            const element = render(<UITextualInput {...base_props} value='ap' />);
+
+            expect(element.refs.field.value).toBe('ap');
+
+            element.value('foo');
+            expect(element.refs.field.value).toBe('ap');
+            expect(console.warn.calledOnce).toBe(true);
         });
 
         it('should empty the placeholder if set with a non-empty string', () => {

@@ -2,11 +2,18 @@ import React, { PropTypes } from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
 
+const is_function = test => typeof test === 'function';
+const is_string = test => typeof test === 'string';
+
 export default class UITextualInput extends UIView {
     static propTypes = {
         defaultValue: PropTypes.string,
         hidePlaceholderOnFocus: PropTypes.bool,
-        inputProps: PropTypes.object,
+        inputProps: PropTypes.shape({
+            defaultValue: PropTypes.string,
+            placeholder: PropTypes.string,
+            value: PropTypes.string,
+        }),
         name: PropTypes.string,
         placeholder: PropTypes.string,
         type: PropTypes.string,
@@ -22,20 +29,40 @@ export default class UITextualInput extends UIView {
     }
 
     state = {
-        input: this.props.defaultValue || this.props.inputProps.defaultValue || '', // ignored if in controlled-mode
+        input: '',
+        is_controlled: is_string(this.props.inputProps.value) || is_string(this.props.value),
         is_focused: false,
     }
 
-    value(next_value) {
-        this.refs.field.value = next_value;
+    componentWillMount() {
+        if (this.state.is_controlled === true) {
+            return this.setState({input: this.props.inputProps.value || this.props.value || ''});
+        }
 
+        this.setState({input: this.props.inputProps.defaultValue || this.props.defaultValue || ''});
+    }
+
+    componentWillReceiveProps(props) {
+        if (props.inputProps.value !== this.props.inputProps.value) {
+            this.setState({input: props.inputProps.value});
+        } else if (props.value !== this.props.value) {
+            this.setState({input: props.value});
+        }
+    }
+
+    value(next_value) {
+        if (this.state.is_controlled === true) {
+            return console.warn('UITextualInput: a controlled component should be updated by changing its `props.value` or `props.inputProps.value`, not via programmatic methods.');
+        }
+
+        this.refs.field.value = next_value;
         this.setState({input: next_value});
     }
 
     handleBlur = event => {
         this.setState({is_focused: false});
 
-        if (typeof this.props.inputProps.onBlur === 'function') {
+        if (is_function(this.props.inputProps.onBlur) === true) {
             event.persist();
             this.props.inputProps.onBlur(event);
         }
@@ -44,27 +71,24 @@ export default class UITextualInput extends UIView {
     handleFocus = event => {
         this.setState({is_focused: true});
 
-        if (typeof this.props.inputProps.onFocus === 'function') {
+        if (is_function(this.props.inputProps.onFocus) === true) {
             event.persist();
             this.props.inputProps.onFocus(event);
         }
     }
 
     handleInput = event => {
-        if (typeof this.props.value !== 'string') {
-            this.setState({input: event.target.value});
-        }
+        this.setState({input: event.target.value});
 
-        if (typeof this.props.inputProps.onInput === 'function') {
+        if (is_function(this.props.inputProps.onInput) === true) {
             event.persist();
             this.props.inputProps.onInput(event);
         }
     }
 
     renderPlaceholder() {
-        /* If a controlled input (`props.value` being set), show the placeholder based on that state */
-        const is_non_empty = typeof this.props.value === 'string' ? Boolean(this.props.value) : Boolean(this.state.input);
-        const should_show_placeholder =   this.props.hidePlaceholderOnFocus
+        const is_non_empty = Boolean(this.state.input);
+        const should_show_placeholder =   this.props.hidePlaceholderOnFocus === true
                                         ? this.state.is_focused === false && is_non_empty === false
                                         : is_non_empty === false;
 
