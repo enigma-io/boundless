@@ -3,12 +3,14 @@
  * @class UITypeaheadInput
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import UITextualInput from '../UITextualInput';
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
+
+const is_string = test => typeof test === 'string';
 
 export default class UITypeaheadInput extends UIView {
     static mode = {
@@ -17,40 +19,46 @@ export default class UITypeaheadInput extends UIView {
     }
 
     static propTypes = {
-        algorithm: React.PropTypes.oneOfType([
-            React.PropTypes.oneOf([
+        algorithm: PropTypes.oneOfType([
+            PropTypes.oneOf([
                 UITypeaheadInput.mode.STARTS_WITH,
                 UITypeaheadInput.mode.FUZZY,
             ]),
-            React.PropTypes.shape({
-                markFunc: React.PropTypes.func,
-                matchFunc: React.PropTypes.func,
+            PropTypes.shape({
+                markFunc: PropTypes.func,
+                matchFunc: PropTypes.func,
             }),
         ]),
-        clearPartialInputOnSelection: React.PropTypes.bool,
-        defaultValue: React.PropTypes.string,
-        entities: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-                text: React.PropTypes.string,
+        clearPartialInputOnSelection: PropTypes.bool,
+        defaultValue: PropTypes.string,
+        entities: PropTypes.arrayOf(
+            PropTypes.shape({
+                text: PropTypes.string,
             })
         ),
-        hint: React.PropTypes.bool,
-        hintProps: React.PropTypes.object,
-        inputProps: React.PropTypes.object,
-        matchWrapperProps: React.PropTypes.object,
-        name: React.PropTypes.string,
-        offscreenClass: React.PropTypes.string,
-        onComplete: React.PropTypes.func,
-        onInput: React.PropTypes.func,
-        onEntityHighlighted: React.PropTypes.func,
-        onEntitySelected: React.PropTypes.func,
-        type: React.PropTypes.string,
+        hint: PropTypes.bool,
+        hintProps: PropTypes.object,
+        inputProps: PropTypes.shape({
+            className: PropTypes.string,
+            defaultValue: PropTypes.string,
+            name: PropTypes.string,
+            type: PropTypes.string,
+            value: PropTypes.string,
+        }),
+        matchWrapperProps: PropTypes.object,
+        name: PropTypes.string,
+        offscreenClass: PropTypes.string,
+        onComplete: PropTypes.func,
+        onInput: PropTypes.func,
+        onEntityHighlighted: PropTypes.func,
+        onEntitySelected: PropTypes.func,
+        type: PropTypes.string,
+        value: PropTypes.string,
     }
 
     static defaultProps = {
         algorithm: UITypeaheadInput.mode.STARTS_WITH,
         clearPartialInputOnSelection: false,
-        defaultValue: '',
         entities: [],
         hintProps: {},
         inputProps: {},
@@ -65,7 +73,12 @@ export default class UITypeaheadInput extends UIView {
         entityMatchIndexes: [],
         selectedEntityIndex: -1,
         id: this.uuid(),
-        userInput: this.props.defaultValue,
+        is_controlled: is_string(this.props.inputProps.value) || is_string(this.props.value),
+        userInput:    this.props.inputProps.value
+                   || this.props.value
+                   || this.props.inputProps.defaultValue
+                   || this.props.defaultValue
+                   || '',
     }
 
     componentWillMount() {
@@ -77,6 +90,12 @@ export default class UITypeaheadInput extends UIView {
     componentWillReceiveProps(nextProps) {
         if (nextProps.entities !== this.props.entities) {
             this.computeMatches(nextProps.entities);
+        }
+
+        if (nextProps.inputProps.value !== this.props.inputProps.value) {
+            this.setState({userInput: nextProps.inputProps.value});
+        } else if (nextProps.value !== this.props.value) {
+            this.setState({userInput: nextProps.value});
         }
     }
 
@@ -357,10 +376,11 @@ export default class UITypeaheadInput extends UIView {
 
     renderNotification() {
         return (
-            <div ref='aria'
-                 id={this.state.id}
-                 className={this.props.offscreenClass}
-                 aria-live='polite'>
+            <div
+                ref='aria'
+                id={this.state.id}
+                className={this.props.offscreenClass}
+                aria-live='polite'>
                 {this.getSelectedEntityText()}
             </div>
         );
@@ -378,15 +398,16 @@ export default class UITypeaheadInput extends UIView {
             }
 
             return (
-                <div {...this.props.hintProps}
-                     ref='hint'
-                     className={cx({
-                         'ui-textual-input': true,
-                         'ui-textual-input-placeholder': true,
-                         'ui-typeahead-hint': true,
-                         [this.props.hintProps.className]: !!this.props.hintProps.className,
-                     })}
-                     tabIndex='-1'>
+                <div
+                    {...this.props.hintProps}
+                    ref='hint'
+                    className={cx({
+                        'ui-textual-input': true,
+                        'ui-textual-input-placeholder': true,
+                        'ui-typeahead-hint': true,
+                        [this.props.hintProps.className]: !!this.props.hintProps.className,
+                    })}
+                    tabIndex='-1'>
                     {processed}
                 </div>
             );
@@ -396,25 +417,27 @@ export default class UITypeaheadInput extends UIView {
     renderMatches() {
         if (this.state.entityMatchIndexes.length) {
             return (
-                <div {...this.props.matchWrapperProps}
-                     ref='matches'
-                     className={cx({
-                         'ui-typeahead-match-wrapper': true,
-                         [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
-                     })}>
+                <div
+                    {...this.props.matchWrapperProps}
+                    ref='matches'
+                    className={cx({
+                        'ui-typeahead-match-wrapper': true,
+                        [this.props.matchWrapperProps.className]: !!this.props.matchWrapperProps.className,
+                    })}>
                     {this.state.entityMatchIndexes.map(index => {
                         const entity = this.props.entities[index];
 
                         return (
-                            <div {...entity}
-                                 ref={`match_$${index}`}
-                                 className={cx({
-                                     'ui-typeahead-match': true,
-                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
-                                     [entity.className]: !!entity.className,
-                                 })}
-                                 key={entity.text}
-                                 onClick={this.handleMatchClick.bind(this, index)}>
+                            <div
+                                {...entity}
+                                ref={`match_$${index}`}
+                                className={cx({
+                                    'ui-typeahead-match': true,
+                                    'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
+                                    [entity.className]: !!entity.className,
+                                })}
+                                key={entity.text}
+                                onClick={this.handleMatchClick.bind(this, index)}>
                                 {this.markMatchSubstring(this.state.userInput, entity)}
                             </div>
                         );
@@ -425,32 +448,36 @@ export default class UITypeaheadInput extends UIView {
     }
 
     render() {
+        const { props, state } = this;
+
         return (
-            <div {...this.props}
-                 type={null}
-                 ref='wrapper'
-                 className={cx({
-                    'ui-typeahead-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                 })}
-                 onKeyDown={this.handleKeyDown}>
+            <div
+                {...props}
+                type={null}
+                ref='wrapper'
+                className={cx({
+                   'ui-typeahead-wrapper': true,
+                   [props.className]: !!props.className,
+                })}
+                onKeyDown={this.handleKeyDown}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
-                <UITextualInput ref='input'
-                                inputProps={{
-                                    ...this.props.inputProps,
-                                    className: cx({
-                                        'ui-typeahead': true,
-                                        [this.props.inputProps.className]: !!this.props.inputProps.className,
-                                    }),
-                                    defaultValue: this.props.defaultValue || this.props.inputProps.defaultValue,
-                                    name: this.props.name || this.props.inputProps.name,
-                                    type: this.props.type || this.props.inputProps.type,
-                                    onInput: this.handleInput,
-                                    value: this.props.inputProps.value,
-                                }}
-                                aria-controls={this.state.id} />
+                <UITextualInput
+                    ref='input'
+                    inputProps={{
+                        ...props.inputProps,
+                        className: cx({
+                            'ui-typeahead': true,
+                            [props.inputProps.className]: !!props.inputProps.className,
+                        }),
+                        defaultValue: state.is_controlled === true ? undefined : props.inputProps.defaultValue || props.defaultValue || '',
+                        name: props.inputProps.name || props.name,
+                        type: props.inputProps.type || props.type,
+                        onInput: this.handleInput,
+                        value: state.is_controlled === true ? props.inputProps.value || props.value || '' : undefined,
+                    }}
+                    aria-controls={state.id} />
 
                 {this.renderMatches()}
             </div>

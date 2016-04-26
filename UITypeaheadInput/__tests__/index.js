@@ -17,7 +17,7 @@ describe('UITypeaheadInput', () => {
     const entities = [
         { text: 'apple' },
         { text: 'apricot' },
-        { text: 'grape' }
+        { text: 'grape' },
     ];
 
     afterEach(() => {
@@ -68,12 +68,13 @@ describe('UITypeaheadInput', () => {
         const markStub = sandbox.stub().returns([]);
 
         render(
-            <UITypeaheadInput defaultValue='ap'
-                              entities={entities}
-                              algorithm={{
-                                  matchFunc: matchStub,
-                                  markFunc: markStub,
-                              }} />
+            <UITypeaheadInput
+                defaultValue='ap'
+                entities={entities}
+                algorithm={{
+                    matchFunc: matchStub,
+                    markFunc: markStub,
+                }} />
         );
 
         expect(matchStub.calledOnce).toBe(true);
@@ -167,13 +168,14 @@ describe('UITypeaheadInput', () => {
             const stub = sandbox.stub().returns([2]);
             const stub2 = sandbox.stub().returns([]);
             const element = render(
-                <UITypeaheadInput hint={true}
-                                  defaultValue='ap'
-                                  entities={entities}
-                                  algorithm={{
-                                      matchFunc: stub,
-                                      markFunc: stub2,
-                                  }} />
+                <UITypeaheadInput
+                    hint={true}
+                    defaultValue='ap'
+                    entities={entities}
+                    algorithm={{
+                        matchFunc: stub,
+                        markFunc: stub2,
+                    }} />
             );
 
             expect(element.refs.hint.textContent).toBe('');
@@ -393,13 +395,23 @@ describe('UITypeaheadInput', () => {
     });
 
     describe('controlled input mode', () => {
-        it('should correctly set the value of the input', () => {
+        it('should correctly set the value of the input from `props.inputProps.value`', () => {
             let element;
 
             element = render(<UITypeaheadInput inputProps={{value: 'ap', onChange: noop}} />);
             expect(element.getInputNode().value).toBe('ap');
 
             element = render(<UITypeaheadInput inputProps={{value: 'foo', onChange: noop}} />);
+            expect(element.getInputNode().value).toBe('foo');
+        });
+
+        it('should correctly set the value of the input from `props.value`', () => {
+            let element;
+
+            element = render(<UITypeaheadInput value='ap' inputProps={{onChange: noop}} />);
+            expect(element.getInputNode().value).toBe('ap');
+
+            element = render(<UITypeaheadInput value='foo' inputProps={{onChange: noop}} />);
             expect(element.getInputNode().value).toBe('foo');
         });
     });
