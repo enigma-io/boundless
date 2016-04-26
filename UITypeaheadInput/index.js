@@ -169,7 +169,7 @@ export default class UITypeaheadInput extends UIView {
     }
 
     value(newValue) {
-        this.getInputNode().value = newValue;
+        this.refs.input.value(newValue);
 
         this.setState({ userInput: newValue });
         this.resetMatches();

@@ -50,6 +50,13 @@ __Blur__ | on the input | should restore the placeholder text if the input is em
 
 ---
 
+### Available Methods
+
+- __value(string)__
+  programmatically set the input value; useful for clearing out the input in "uncontrolled" mode -- note that digging into the internals and setting the `refs.field.value = ''` directly will not trigger events and messes up the internal state of the component
+
+---
+
 ### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-textual-input-wrapper` node
