@@ -159,30 +159,12 @@ export default class UITypeaheadInput extends UIView {
         this.getInputNode().focus();
     }
 
-    focusInput() {
-        if (!this.warned_focusInput) {
-            this.warned_focusInput = true;
-            console.warn('UITypeaheadInput: `focusInput()` is deprecated and will be removed in a future release. Please use UITypeaheadInput.focus() instead.');
-        }
-
-        this.focus();
-    }
-
     value(newValue) {
         this.refs.input.value(newValue);
 
         this.setState({ userInput: newValue });
         this.resetMatches();
         this.focus();
-    }
-
-    setValue(newValue) {
-        if (!this.warned_setValue) {
-            this.warned_setValue = true;
-            console.warn('UITypeaheadInput: `setValue(text)` is deprecated and will be removed in a future release. Please use UITypeaheadInput.value(text) instead.');
-        }
-
-        this.value(newValue);
     }
 
     cursorAtEndOfInput() {
