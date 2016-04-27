@@ -2,8 +2,10 @@
 
 .ui-modal-wrapper {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     position: fixed;
     top: 0;
     left: 0;
@@ -13,12 +15,14 @@
 }
 
 .ui-modal-wrapper .ui-dialog {
+    flex-shrink: 0;
+    max-width: 80vw;
     position: relative;
 }
 
 .ui-modal-mask {
     background: background-UIModal_mask;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
