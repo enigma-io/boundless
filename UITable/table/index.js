@@ -219,6 +219,8 @@ const createRow = function createRow(metadata, columns) {
                                           : this.node.className.replace('ui-table-row-even', 'ui-table-row-odd');
                 }
 
+                this.node.setAttribute('data-index', val);
+
                 this._setIndex = val;
             }
         },
@@ -288,6 +290,7 @@ const createRow = function createRow(metadata, columns) {
 
     // Setting it separately to have the classes added automatically
     rowObj.setIndex = metadata.setIndex;
+    rowObj.active = metadata.active;
 
     // Setting it separately so the Promise handling can take place if needed...
     rowObj.data = metadata.data;
@@ -359,12 +362,20 @@ class TableView {
             throw Error('TableView was not passed a valid `getRow`; it should be a function.');
         }
 
-        if (typeof config.rowClickFunc !== 'function') {
+        if (config.rowClickFunc !== undefined && typeof config.rowClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `rowClickFunc`; it should be a function.');
         }
 
-        if (typeof config.cellClickFunc !== 'function') {
+        if (config.cellClickFunc !== undefined && typeof config.cellClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
+        }
+
+        if (config.columnResizeFunc !== undefined && typeof config.columnResizeFunc !== 'function') {
+            throw Error('TableView was not passed a valid `columnResizeFunc`; it should be a function.');
+        }
+
+        if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
+            throw Error('TableView was not passed a valid `static_mode`; it should be a boolean.');
         }
 
         if (typeof config.preserveScrollState !== 'boolean') {
@@ -376,8 +387,6 @@ class TableView {
         this.c = {...config};
 
         // fallback values
-        this.c.rowClickFunc = this.c.rowClickFunc || noop;
-        this.c.cellClickFunc = this.c.cellClickFunc || noop;
         this.c.preserveScrollState = this.c.preserveScrollState === undefined ? true : this.c.preserveScrollState;
         this.c.throttleInterval = this.c.throttleInterval || 300;
         this.c.totalRows = this.c.totalRows || 0;
@@ -396,53 +405,58 @@ class TableView {
         this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
 
         this.resetInternals();
+        this.resetActiveRow();
 
         /* used in scroll state preservation calculations */
         this.__x = this.__y = this.__row_start_index = null;
 
         this.regenerate();
 
-        window.addEventListener('resize', this.handleWindowResize);
-        window.addEventListener('mousemove', this.handleDragMove);
+        if (!this.c.static_mode) {
+            window.addEventListener('resize', this.handleWindowResize);
+            window.addEventListener('mousemove', this.handleDragMove);
 
-        this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
-        this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
+            this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
+            this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
+            this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
 
-        this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
+            this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
 
-        this.header.addEventListener('mousedown', this.handleColumnDragStart);
-        this.header.addEventListener('dblclick', this.handleColumnAutoExpand);
+            this.header.addEventListener('mousedown', this.handleColumnDragStart);
+            this.header.addEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this.body.addEventListener('click', this.handleClick);
+            this.body.addEventListener('click', this.handleClick);
 
-        this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
-        this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
+            this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
+            this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
 
-        this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
-        this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+            this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+            this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+        }
     }
 
     destroy() {
-        window.removeEventListener('resize', this.handleWindowResize);
-        window.removeEventListener('mousemove', this.handleDragMove);
+        if (!this.c.static_mode) {
+            window.removeEventListener('resize', this.handleWindowResize);
+            window.removeEventListener('mousemove', this.handleDragMove);
 
-        this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
-        this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+            this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
+            this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+            this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
 
-        this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
+            this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
 
-        this.header.removeEventListener('mousedown', this.handleColumnDragStart);
-        this.header.removeEventListener('dblclick', this.handleColumnAutoExpand);
+            this.header.removeEventListener('mousedown', this.handleColumnDragStart);
+            this.header.removeEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this.body.removeEventListener('click', this.handleClick);
+            this.body.removeEventListener('click', this.handleClick);
 
-        this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
-        this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
+            this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
+            this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
 
-        this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
-        this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+            this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+            this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+        }
 
         this.emptyHeader();
         this.emptyBody();
@@ -453,6 +467,11 @@ class TableView {
                 this.c[key] = null;
             }
         });
+    }
+
+    resetActiveRow() {
+        this.active_row = -1;
+        this.next_active_row = null;
     }
 
     resetInternals() {
@@ -467,9 +486,6 @@ class TableView {
         this.distance_from_left = this.last_pageX = this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset;
         this.distance_from_top = this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset;
         this.x_scroll_handle_position = this.y_scroll_handle_position = 0;
-
-        this.active_row = -1;
-        this.next_active_row = null;
 
         this.top_visible_row_index = 0;
 
@@ -553,6 +569,7 @@ class TableView {
         this.emptyBody();
 
         this.rows.push(createRow({
+            active: this.row_start_index === this.active_row,
             data: this.c.getRow(this.row_start_index),
             setIndex: this.row_start_index,
             y: 0,
@@ -569,6 +586,7 @@ class TableView {
 
         for (this.i = 1; this.i < this.n_rows_rendered; this.i += 1) {
             this.rows.push(createRow({
+                active: this.i + this.row_start_index === this.active_row,
                 data: this.c.getRow(this.i + this.row_start_index),
                 setIndex: this.i + this.row_start_index,
                 y: this.cell_h * this.i,
@@ -687,6 +705,11 @@ class TableView {
         this.__row_start_index = this.row_start_index;
 
         this.resetInternals();
+
+        if (this.active_row >= this.c.totalRows) {
+            this.resetActiveRow();
+        }
+
         this.calculateContainerDimensions();
 
         this.buildColumns();
@@ -714,19 +737,21 @@ class TableView {
         this.injectHeaderCells();
         this.injectRestOfRows();
 
-        this.calculateXBound();
-        this.calculateYBound();
+        if (!this.c.static_mode) {
+            this.calculateXBound();
+            this.calculateYBound();
 
-        this.initializeScrollBars();
+            this.initializeScrollBars();
 
-        if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
-            /* the cached values are then applied against the table to arrive at the previous state */
+            if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
+                /* the cached values are then applied against the table to arrive at the previous state */
 
-            this.handleMoveIntent({
-                deltaX: -this.__x,
-                deltaY: -this.__y,
-                preventDefault: noop,
-            });
+                this.handleMoveIntent({
+                    deltaX: -this.__x,
+                    deltaY: -this.__y,
+                    preventDefault: noop,
+                });
+            }
         }
 
         this.__x = this.__y = this.__row_start_index = null;
@@ -1177,6 +1202,10 @@ class TableView {
 
         this.calculateXBound();
         this.initializeScrollBars();
+
+        if (this.c.onColumnResize) {
+            this.c.onColumnResize(this.columns[index].mapping, width);
+        }
     }
 
     handleColumnResize(delta) {
@@ -1347,11 +1376,13 @@ class TableView {
 
             this.setActiveRow(row.setIndex);
 
-            if (map.cell) {
+            if (map.cell && this.c.cellClickFunc) {
                 this.c.cellClickFunc(event, row.setIndex, map.cell.getAttribute('data-column'));
             }
 
-            this.c.rowClickFunc(event, row.setIndex);
+            if (this.c.rowClickFunc) {
+                this.c.rowClickFunc(event, row.setIndex);
+            }
         }
     }
 
