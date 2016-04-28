@@ -362,16 +362,20 @@ class TableView {
             throw Error('TableView was not passed a valid `getRow`; it should be a function.');
         }
 
-        if (config.rowClickFunc && typeof config.rowClickFunc !== 'function') {
+        if (config.rowClickFunc !== undefined && typeof config.rowClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `rowClickFunc`; it should be a function.');
         }
 
-        if (config.cellClickFunc && typeof config.cellClickFunc !== 'function') {
+        if (config.cellClickFunc !== undefined && typeof config.cellClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
         }
 
-        if (config.columnResizeFunc && typeof config.columnResizeFunc !== 'function') {
+        if (config.columnResizeFunc !== undefined && typeof config.columnResizeFunc !== 'function') {
             throw Error('TableView was not passed a valid `columnResizeFunc`; it should be a function.');
+        }
+
+        if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
+            throw Error('TableView was not passed a valid `static_mode`; it should be a boolean.');
         }
 
         if (typeof config.preserveScrollState !== 'boolean') {
@@ -408,47 +412,51 @@ class TableView {
 
         this.regenerate();
 
-        window.addEventListener('resize', this.handleWindowResize);
-        window.addEventListener('mousemove', this.handleDragMove);
+        if (!this.c.static_mode) {
+            window.addEventListener('resize', this.handleWindowResize);
+            window.addEventListener('mousemove', this.handleDragMove);
 
-        this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
-        this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
+            this.c.wrapper.addEventListener('wheel', this.handleMoveIntent);
+            this.c.wrapper.addEventListener('touchstart', this.handleTouchStart);
+            this.c.wrapper.addEventListener('touchmove', this.handleTouchMove);
 
-        this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
+            this.c.wrapper.addEventListener('keydown', this.handleKeyDown);
 
-        this.header.addEventListener('mousedown', this.handleColumnDragStart);
-        this.header.addEventListener('dblclick', this.handleColumnAutoExpand);
+            this.header.addEventListener('mousedown', this.handleColumnDragStart);
+            this.header.addEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this.body.addEventListener('click', this.handleClick);
+            this.body.addEventListener('click', this.handleClick);
 
-        this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
-        this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
+            this.c['x-scroll-handle'].addEventListener('mousedown', this.handleXScrollHandleDragStart);
+            this.c['y-scroll-handle'].addEventListener('mousedown', this.handleYScrollHandleDragStart);
 
-        this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
-        this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+            this.c['x-scroll-track'].addEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+            this.c['y-scroll-track'].addEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+        }
     }
 
     destroy() {
-        window.removeEventListener('resize', this.handleWindowResize);
-        window.removeEventListener('mousemove', this.handleDragMove);
+        if (!this.c.static_mode) {
+            window.removeEventListener('resize', this.handleWindowResize);
+            window.removeEventListener('mousemove', this.handleDragMove);
 
-        this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
-        this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
-        this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+            this.c.wrapper.removeEventListener('wheel', this.handleMoveIntent);
+            this.c.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+            this.c.wrapper.removeEventListener('touchmove', this.handleTouchMove);
 
-        this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
+            this.c.wrapper.removeEventListener('keydown', this.handleKeyDown);
 
-        this.header.removeEventListener('mousedown', this.handleColumnDragStart);
-        this.header.removeEventListener('dblclick', this.handleColumnAutoExpand);
+            this.header.removeEventListener('mousedown', this.handleColumnDragStart);
+            this.header.removeEventListener('dblclick', this.handleColumnAutoExpand);
 
-        this.body.removeEventListener('click', this.handleClick);
+            this.body.removeEventListener('click', this.handleClick);
 
-        this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
-        this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
+            this.c['x-scroll-handle'].removeEventListener('mousedown', this.handleXScrollHandleDragStart);
+            this.c['y-scroll-handle'].removeEventListener('mousedown', this.handleYScrollHandleDragStart);
 
-        this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
-        this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+            this.c['x-scroll-track'].removeEventListener('click', this.handleAdvanceToXScrollTrackLocation);
+            this.c['y-scroll-track'].removeEventListener('click', this.handleAdvanceToYScrollTrackLocation);
+        }
 
         this.emptyHeader();
         this.emptyBody();
@@ -729,19 +737,21 @@ class TableView {
         this.injectHeaderCells();
         this.injectRestOfRows();
 
-        this.calculateXBound();
-        this.calculateYBound();
+        if (!this.c.static_mode) {
+            this.calculateXBound();
+            this.calculateYBound();
 
-        this.initializeScrollBars();
+            this.initializeScrollBars();
 
-        if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
-            /* the cached values are then applied against the table to arrive at the previous state */
+            if (this.c.preserveScrollState && this.__x !== null && this.__y !== null) {
+                /* the cached values are then applied against the table to arrive at the previous state */
 
-            this.handleMoveIntent({
-                deltaX: -this.__x,
-                deltaY: -this.__y,
-                preventDefault: noop,
-            });
+                this.handleMoveIntent({
+                    deltaX: -this.__x,
+                    deltaY: -this.__y,
+                    preventDefault: noop,
+                });
+            }
         }
 
         this.__x = this.__y = this.__row_start_index = null;

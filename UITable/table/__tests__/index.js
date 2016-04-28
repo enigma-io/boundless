@@ -162,12 +162,28 @@ describe('UITable/TableView', () => {
             expect(function() { return new TableView({...baseConfig, cellClickFunc: 3}); }).toThrow();
         });
 
+        it('should throw if columnResizeFunc is not a function', () => {
+            expect(function() { return new TableView({...baseConfig, columnResizeFunc: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columnResizeFunc: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columnResizeFunc: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columnResizeFunc: true}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, columnResizeFunc: 3}); }).toThrow();
+        });
+
         it('should throw if preserveScrollState is not a boolean', () => {
             expect(function() { return new TableView({...baseConfig, preserveScrollState: 'x'}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, preserveScrollState: {}}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, preserveScrollState: []}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, preserveScrollState: function(){}}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, preserveScrollState: 3}); }).toThrow();
+        });
+
+        it('should throw if static_mode is not a boolean', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: 'x'}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, static_mode: {}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, static_mode: []}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, static_mode: function(){}}); }).toThrow();
+            expect(function() { return new TableView({...baseConfig, static_mode: 3}); }).toThrow();
         });
     });
 
@@ -773,6 +789,24 @@ describe('UITable/TableView', () => {
 
             expect(table.active_row).toBe(5);
             expect(table.c.body.querySelector('.ui-table-row .ui-table-cell').textContent).toBe('Ronald');
+        });
+    });
+
+    describe('static mode', () => {
+        it('should prevent the addition of event listeners', () => {
+            sandbox.spy(baseConfig.wrapper, 'addEventListener');
+
+            table = new TableView({...baseConfig, static_mode: true});
+
+            expect(baseConfig.wrapper.addEventListener.called).toBe(false);
+        });
+
+        it('should not set up the scrollbars', () => {
+            sandbox.spy(TableView.prototype, 'initializeScrollBars');
+
+            table = new TableView({...baseConfig, static_mode: true});
+
+            expect(table.initializeScrollBars.called).toBe(false);
         });
     });
 });

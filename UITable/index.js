@@ -27,6 +27,8 @@ export default class UITable extends UIView {
         preserveScrollState: PropTypes.bool,
         throttleInterval: PropTypes.number,
         totalRows: PropTypes.number,
+
+        static: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -54,6 +56,9 @@ export default class UITable extends UIView {
             preserveScrollState: this.props.preserveScrollState,
             throttleInterval: this.props.throttleInterval,
             totalRows: this.props.totalRows,
+
+            // internal use only, renders the table without any event listeners (minimal computation)
+            static_mode: this.props.static,
         };
     }
 
@@ -114,6 +119,34 @@ export default class UITable extends UIView {
         }
     }
 
+    renderXScroll() {
+        if (!this.props.static) {
+            return (
+                <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
+                    <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
+                </div>
+            );
+        }
+    }
+
+    renderYScroll() {
+        if (!this.props.static) {
+            return (
+                <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
+                    <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
+                </div>
+            );
+        }
+    }
+
+    renderAria() {
+        if (!this.props.static) {
+            return (
+                <div ref='aria' className={this.props.offscreenClass || 'ui-offscreen'} aria-live='polite' />
+            );
+        }
+    }
+
     render() {
         return (
             <div
@@ -127,15 +160,9 @@ export default class UITable extends UIView {
                     <div ref='body' className='ui-table-body' />
                 </div>
 
-                <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
-                    <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
-                </div>
-
-                <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
-                    <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
-                </div>
-
-                <div ref='aria' className={this.props.offscreenClass || 'ui-offscreen'} aria-live='polite' />
+                {this.renderXScroll()}
+                {this.renderYScroll()}
+                {this.renderAria()}
             </div>
         );
     }
