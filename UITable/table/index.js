@@ -307,6 +307,11 @@ class TableView {
     }
 
     validateConfiguration(config) {
+        // x-scroll-track, y-scroll-track, x-scroll-handle, y-scroll-handle, and aria are not required in static_mode
+        if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
+            throw Error('TableView was not passed a valid `static_mode`; it should be a boolean.');
+        }
+
         if (!(config.wrapper instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `wrapper` element.');
         }
@@ -319,23 +324,23 @@ class TableView {
             throw Error('TableView was not passed a valid `body` element.');
         }
 
-        if (!(config['x-scroll-track'] instanceof HTMLElement)) {
+        if (!config.static_mode && !(config['x-scroll-track'] instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `x-scroll-track` element.');
         }
 
-        if (!(config['y-scroll-track'] instanceof HTMLElement)) {
+        if (!config.static_mode && !(config['y-scroll-track'] instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `y-scroll-track` element.');
         }
 
-        if (!(config['x-scroll-handle'] instanceof HTMLElement)) {
+        if (!config.static_mode && !(config['x-scroll-handle'] instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `x-scroll-handle` element.');
         }
 
-        if (!(config['y-scroll-handle'] instanceof HTMLElement)) {
+        if (!config.static_mode && !(config['y-scroll-handle'] instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `y-scroll-handle` element.');
         }
 
-        if (!(config.aria instanceof HTMLElement)) {
+        if (!config.static_mode && !(config.aria instanceof HTMLElement)) {
             throw Error('TableView was not passed a valid `aria` element.');
         }
 
@@ -374,10 +379,6 @@ class TableView {
             throw Error('TableView was not passed a valid `columnResizeFunc`; it should be a function.');
         }
 
-        if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
-            throw Error('TableView was not passed a valid `static_mode`; it should be a boolean.');
-        }
-
         if (typeof config.preserveScrollState !== 'boolean') {
             throw Error('TableView was not passed a valid `preserveScrollState`; it should be a boolean.');
         }
@@ -401,8 +402,11 @@ class TableView {
         this.body_style = this.body.style;
         this.header = this.c.header;
         this.header_style = this.header.style;
-        this.x_scroll_handle_style = this.c['x-scroll-handle'].style;
-        this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
+
+        if (!this.c.static_mode) {
+            this.x_scroll_handle_style = this.c['x-scroll-handle'].style;
+            this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
+        }
 
         this.resetInternals();
         this.resetActiveRow();
@@ -483,8 +487,11 @@ class TableView {
 
         this.x = this.y = 0;
         this.next_x = this.next_y = 0;
-        this.distance_from_left = this.last_pageX = this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset;
-        this.distance_from_top = this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset;
+
+        this.distance_from_top =   this.c['y-scroll-track']
+                                 ? this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset
+                                 : null;
+
         this.x_scroll_handle_position = this.y_scroll_handle_position = 0;
 
         this.top_visible_row_index = 0;
@@ -773,14 +780,14 @@ class TableView {
     }
 
     translateXScrollHandle(x) {
-        if (x !== this.last_x_scroll_handle_x) {
+        if (!this.c.static_mode && x !== this.last_x_scroll_handle_x) {
             this.x_scroll_handle_style[transformProp] = translate3d(x);
             this.last_x_scroll_handle_x = x;
         }
     }
 
     translateYScrollHandle(y) {
-        if (y !== this.last_y_scroll_handle_y) {
+        if (!this.c.static_mode && y !== this.last_y_scroll_handle_y) {
             this.y_scroll_handle_style[transformProp] = translate3d(0, y);
             this.last_y_scroll_handle_y = y;
         }

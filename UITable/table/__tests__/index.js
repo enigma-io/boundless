@@ -808,5 +808,25 @@ describe('UITable/TableView', () => {
 
             expect(table.initializeScrollBars.called).toBe(false);
         });
+
+        it('should not require a provided x-scroll-track element', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: true, 'x-scroll-track': undefined}); }).not.toThrow();
+        });
+
+        it('should not require a provided y-scroll-track element', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: true, 'y-scroll-track': undefined}); }).not.toThrow();
+        });
+
+        it('should not require a provided x-scroll-handle element', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: true, 'x-scroll-handle': undefined}); }).not.toThrow();
+        });
+
+        it('should not require a provided y-scroll-handle element', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: true, 'y-scroll-handle': undefined}); }).not.toThrow();
+        });
+
+        it('should not require a provided aria element', () => {
+            expect(function() { return new TableView({...baseConfig, static_mode: true, 'aria': undefined}); }).not.toThrow();
+        });
     });
 });
