@@ -20,7 +20,8 @@ export default class UIModalDemo extends UIView {
             ];
 
             return (
-                <UIModal header='Account Deletion'
+                <UIModal className='demo-modal'
+                         header='Account Deletion'
                          footer={buttons}>
                     Are you sure you want to remove your account permanently?
                 </UIModal>
