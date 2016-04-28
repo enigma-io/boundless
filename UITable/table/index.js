@@ -219,6 +219,8 @@ const createRow = function createRow(metadata, columns) {
                                           : this.node.className.replace('ui-table-row-even', 'ui-table-row-odd');
                 }
 
+                this.node.setAttribute('data-index', val);
+
                 this._setIndex = val;
             }
         },

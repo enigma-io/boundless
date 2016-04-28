@@ -301,6 +301,13 @@ describe('UITable/TableView', () => {
             table.changeActiveRow(1);
             expect(table.rows[0].active).toBe(true);
         });
+
+        it('should be labeled by their index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].node.getAttribute('data-index')).toBe('0');
+            expect(table.rows[1].node.getAttribute('data-index')).toBe('1');
+        });
     });
 
     describe('row cells', () => {
