@@ -308,6 +308,30 @@ describe('UITable/TableView', () => {
             expect(table.rows[0].node.getAttribute('data-index')).toBe('0');
             expect(table.rows[1].node.getAttribute('data-index')).toBe('1');
         });
+
+        it('should retain their active status through a regeneration', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].active).toBe(false);
+
+            table.changeActiveRow(1);
+            expect(table.rows[0].active).toBe(true);
+
+            table.regenerate();
+            expect(table.rows[0].active).toBe(true);
+        });
+
+        it('should lose their active status through a regeneration if the new row count is less than the previous active index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.active_row).toBe(-1);
+
+            table.changeActiveRow(3);
+            expect(table.rows[2].active).toBe(true);
+
+            table.regenerate({...baseConfig, totalRows: 1});
+            expect(table.active_row).toBe(-1);
+        });
     });
 
     describe('row cells', () => {

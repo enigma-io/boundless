@@ -290,6 +290,7 @@ const createRow = function createRow(metadata, columns) {
 
     // Setting it separately to have the classes added automatically
     rowObj.setIndex = metadata.setIndex;
+    rowObj.active = metadata.active;
 
     // Setting it separately so the Promise handling can take place if needed...
     rowObj.data = metadata.data;
@@ -398,6 +399,7 @@ class TableView {
         this.y_scroll_handle_style = this.c['y-scroll-handle'].style;
 
         this.resetInternals();
+        this.resetActiveRow();
 
         /* used in scroll state preservation calculations */
         this.__x = this.__y = this.__row_start_index = null;
@@ -457,6 +459,11 @@ class TableView {
         });
     }
 
+    resetActiveRow() {
+        this.active_row = -1;
+        this.next_active_row = null;
+    }
+
     resetInternals() {
         this.columns = [];
         this.rows = [];
@@ -469,9 +476,6 @@ class TableView {
         this.distance_from_left = this.last_pageX = this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset;
         this.distance_from_top = this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset;
         this.x_scroll_handle_position = this.y_scroll_handle_position = 0;
-
-        this.active_row = -1;
-        this.next_active_row = null;
 
         this.top_visible_row_index = 0;
 
@@ -555,6 +559,7 @@ class TableView {
         this.emptyBody();
 
         this.rows.push(createRow({
+            active: this.row_start_index === this.active_row,
             data: this.c.getRow(this.row_start_index),
             setIndex: this.row_start_index,
             y: 0,
@@ -571,6 +576,7 @@ class TableView {
 
         for (this.i = 1; this.i < this.n_rows_rendered; this.i += 1) {
             this.rows.push(createRow({
+                active: this.i + this.row_start_index === this.active_row,
                 data: this.c.getRow(this.i + this.row_start_index),
                 setIndex: this.i + this.row_start_index,
                 y: this.cell_h * this.i,
@@ -689,6 +695,11 @@ class TableView {
         this.__row_start_index = this.row_start_index;
 
         this.resetInternals();
+
+        if (this.active_row >= this.c.totalRows) {
+            this.resetActiveRow();
+        }
+
         this.calculateContainerDimensions();
 
         this.buildColumns();
