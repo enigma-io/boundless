@@ -154,24 +154,12 @@ describe('UITable/TableView', () => {
             expect(function() { return new TableView({...baseConfig, rowClickFunc: 3}); }).toThrow();
         });
 
-        it('should default rowClickFunc to a noop function', () => {
-            table = new TableView({...baseConfig, rowClickFunc: undefined});
-
-            expect(table.c.rowClickFunc).toEqual(jasmine.any(Function));
-        });
-
         it('should throw if cellClickFunc is not a function', () => {
             expect(function() { return new TableView({...baseConfig, cellClickFunc: 'x'}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, cellClickFunc: {}}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, cellClickFunc: []}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, cellClickFunc: true}); }).toThrow();
             expect(function() { return new TableView({...baseConfig, cellClickFunc: 3}); }).toThrow();
-        });
-
-        it('should default cellClickFunc to a noop function', () => {
-            table = new TableView({...baseConfig, cellClickFunc: undefined});
-
-            expect(table.c.cellClickFunc).toEqual(jasmine.any(Function));
         });
 
         it('should throw if preserveScrollState is not a boolean', () => {

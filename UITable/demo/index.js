@@ -9,6 +9,17 @@ const json2 = require('./fixture.columnar.json');
 export default class UITableDemo extends UIView {
     state = {
         options: [{
+            id: 'table_a',
+            content: 'Normal Example',
+            value: 'normal',
+            selected: true,
+        }, {
+            id: 'table_b',
+            content: 'Many Column Example',
+            value: 'columnar',
+            selected: false,
+        }],
+        table_a: {
             columns: [{
                 title: 'ID',
                 mapping: 'id',
@@ -64,20 +75,15 @@ export default class UITableDemo extends UIView {
 
                 return json[index];
             },
-            content: 'Normal Example',
-            value: 'normal',
-            selected: true,
-        }, {
+        },
+        table_b: {
             columns: Object.keys(json2.result[0]).map(key => {
                 return {title: key, mapping: key, resizable: true}
             }),
             rows: json2.result,
             totalRows: json2.info.rows_limit,
             getRow: index => json2.result[index],
-            content: 'Many Column Example',
-            value: 'columnar',
-            selected: false,
-        }],
+        },
         jumpToRowIndex: 0,
     }
 
@@ -85,14 +91,18 @@ export default class UITableDemo extends UIView {
         this.setState({jumpToRowIndex: event.target.value ? parseInt(event.target.value, 10) - 1 : null});
     }
 
+    getCurrentTable() {
+        return this.state[this.state.options.find(option => option.selected).id];
+    }
+
     handleCellClick = (event, rowIndex, columnName) => {
-        const source = this.state.options.find(option => option.selected);
+        const source = this.getCurrentTable();
 
         console.debug(`clicked ${source.rows[rowIndex][columnName]} (${columnName}), in:`, source.rows[rowIndex]);
     }
 
     handleRowClick = (event, rowIndex) => {
-        const source = this.state.options.find(option => option.selected);
+        const source = this.getCurrentTable();
 
         console.debug('clicked the row containing', source.rows[rowIndex]);
     }
@@ -108,8 +118,19 @@ export default class UITableDemo extends UIView {
         });
     }
 
+    handleColumnResize = (mapping, width) => {
+        const table_id = this.state.options.find(option => option.selected).id;
+        const source = this.state[table_id];
+
+        const columns = source.columns.map(column => {
+            return column.mapping === mapping ? {...column, width} : column;
+        });
+
+        this.setState({ [table_id]: {...this.state[table_id], columns} });
+    }
+
     render() {
-        const source = this.state.options.find(option => option.selected);
+        const source = this.getCurrentTable();
 
         return (
             <div>
@@ -128,13 +149,15 @@ export default class UITableDemo extends UIView {
                 <UISegmentedControl options={this.state.options}
                                     onOptionSelected={this.handleOptionSelected} />
                 <br />
-                <UITable identifier={source.value}
-                         columns={source.columns}
-                         totalRows={source.totalRows}
-                         jumpToRowIndex={this.state.jumpToRowIndex}
-                         getRow={source.getRow}
-                         onCellInteract={this.handleCellClick}
-                         onRowInteract={this.handleRowClick} />
+                <UITable
+                    identifier={source.value}
+                    columns={source.columns}
+                    totalRows={source.totalRows}
+                    jumpToRowIndex={this.state.jumpToRowIndex}
+                    getRow={source.getRow}
+                    onCellInteract={this.handleCellClick}
+                    onRowInteract={this.handleRowClick}
+                    onColumnResize={this.handleColumnResize} />
             </div>
         );
     }

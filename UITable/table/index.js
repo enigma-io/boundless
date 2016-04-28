@@ -362,12 +362,16 @@ class TableView {
             throw Error('TableView was not passed a valid `getRow`; it should be a function.');
         }
 
-        if (typeof config.rowClickFunc !== 'function') {
+        if (config.rowClickFunc && typeof config.rowClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `rowClickFunc`; it should be a function.');
         }
 
-        if (typeof config.cellClickFunc !== 'function') {
+        if (config.cellClickFunc && typeof config.cellClickFunc !== 'function') {
             throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
+        }
+
+        if (config.columnResizeFunc && typeof config.columnResizeFunc !== 'function') {
+            throw Error('TableView was not passed a valid `columnResizeFunc`; it should be a function.');
         }
 
         if (typeof config.preserveScrollState !== 'boolean') {
@@ -379,8 +383,6 @@ class TableView {
         this.c = {...config};
 
         // fallback values
-        this.c.rowClickFunc = this.c.rowClickFunc || noop;
-        this.c.cellClickFunc = this.c.cellClickFunc || noop;
         this.c.preserveScrollState = this.c.preserveScrollState === undefined ? true : this.c.preserveScrollState;
         this.c.throttleInterval = this.c.throttleInterval || 300;
         this.c.totalRows = this.c.totalRows || 0;
@@ -1190,6 +1192,10 @@ class TableView {
 
         this.calculateXBound();
         this.initializeScrollBars();
+
+        if (this.c.onColumnResize) {
+            this.c.onColumnResize(this.columns[index].mapping, width);
+        }
     }
 
     handleColumnResize(delta) {
@@ -1360,11 +1366,13 @@ class TableView {
 
             this.setActiveRow(row.setIndex);
 
-            if (map.cell) {
+            if (map.cell && this.c.cellClickFunc) {
                 this.c.cellClickFunc(event, row.setIndex, map.cell.getAttribute('data-column'));
             }
 
-            this.c.rowClickFunc(event, row.setIndex);
+            if (this.c.rowClickFunc) {
+                this.c.rowClickFunc(event, row.setIndex);
+            }
         }
     }
 

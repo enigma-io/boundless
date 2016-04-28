@@ -142,4 +142,60 @@ describe('UITable', () => {
             expect(element.refs.body.querySelector('.ui-table-cell').textContent).toBe('Lana');
         });
     });
+
+    describe('regeneration', () => {
+        it('should not occur if nothing changed', () => {
+            let element;
+
+            element = render(<UITable {...baseProps} />);
+
+            sandbox.spy(element.table, 'regenerate');
+
+            element = render(<UITable {...baseProps} />);
+            expect(element.table.regenerate.called).toBe(false);
+        });
+
+        it('should occur if a column is changed', () => {
+            let element;
+
+            element = render(<UITable {...baseProps} />);
+
+            sandbox.spy(element.table, 'regenerate');
+
+            element.table.columns[0].width = 300;
+
+            const modified_columns = baseProps.columns.slice(1);
+                  modified_columns.unshift({...baseProps.columns[0], width: 299});
+
+            element = render(<UITable {...baseProps} columns={modified_columns} />);
+            expect(element.table.regenerate.calledOnce).toBe(true);
+        });
+
+        it('should not occur if a column width is changed to match the internal column width', () => {
+            let element;
+
+            element = render(<UITable {...baseProps} />);
+
+            sandbox.spy(element.table, 'regenerate');
+
+            element.table.columns[0].width = 300;
+
+            const modified_columns = baseProps.columns.slice(1);
+                  modified_columns.unshift({...baseProps.columns[0], width: 300});
+
+            element = render(<UITable {...baseProps} columns={modified_columns} />);
+            expect(element.table.regenerate.called).toBe(false);
+        });
+
+        it('should only occur once when given `props.jumpToRowIndex`', () => {
+            let element;
+
+            element = render(<UITable {...baseProps} />);
+
+            sandbox.spy(element.table, 'regenerate');
+
+            element = render(<UITable {...baseProps} jumpToRowIndex={1} />);
+            expect(element.table.regenerate.calledOnce).toBe(true);
+        });
+    });
 });

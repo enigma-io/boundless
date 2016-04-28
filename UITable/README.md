@@ -156,10 +156,13 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
   (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
 - __onCellInteract__ `Function`
-  invoked when a cell is interacted with; returns (event, rowIndex, fieldName)
+  invoked when a cell is interacted with, __arguments: `event`: `object`, `rowIndex`: `number`, `fieldName`: `string`__
+
+- __onColumnResize__ `Function`
+  invoked when a column has been resized by the user, __arguments: `mapping`: `string`, `width`: `number`__
 
 - __onRowInteract__ `Function`
-  invoked when a cell in a row is interacted with; returns (event, rowIndex)
+  invoked when a cell in a row is interacted with, __arguments: `event`: `object`, `rowIndex`: `number`__
 
 - __preserveScrollState__ `Boolean`
   (default `true`) prompts the table view to remember the row numbers, X and Y coordinates when regenerating and attempt to restore them
