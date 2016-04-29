@@ -1202,7 +1202,8 @@ class TableView {
     }
 
     applyNewColumnWidth(index, width) {
-        this.columns[index].width = width;
+        this.c.columns[index].width = width;    // the provided config objects
+        this.columns[index].width = width;      // the column nodes
         this.rows.forEach(row => {
             row.cells[index].width = width;
         });
