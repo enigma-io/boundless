@@ -64,30 +64,42 @@ export default class UIProgressiveDisclosure extends UIView {
         }
     }
 
-    render() {
-        return (
-            <div {...this.props}
-                 ref='wrapper'
-                 className={cx({
-                    'ui-disclosure': true,
-                    'ui-disclosure-expanded': this.state.expanded,
-                    [this.props.className]: !!this.props.className,
-                 })}>
-                <div {...this.props.toggleProps}
-                     ref='toggle'
-                     className={cx({
-                        'ui-disclosure-toggle': true,
-                        [this.props.toggleProps.className]: !!this.props.toggleProps.className,
-                     })}
-                     onClick={this.handleClick}
-                     onKeyDown={this.handleKeyDown}
-                     tabIndex='0'>
-                    {this.state.expanded ? this.props.teaserExpanded || this.props.teaser : this.props.teaser}
-                </div>
+    renderContent() {
+        if (this.state.expanded) {
+            return (
                 <div ref='content'
                      className='ui-disclosure-content'>
                     {this.props.children}
                 </div>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div
+                {...this.props}
+                ref='wrapper'
+                className={cx({
+                   'ui-disclosure': true,
+                   'ui-disclosure-expanded': this.state.expanded,
+                   [this.props.className]: !!this.props.className,
+                })}>
+
+                <div
+                    {...this.props.toggleProps}
+                    ref='toggle'
+                    className={cx({
+                       'ui-disclosure-toggle': true,
+                       [this.props.toggleProps.className]: !!this.props.toggleProps.className,
+                    })}
+                    onClick={this.handleClick}
+                    onKeyDown={this.handleKeyDown}
+                    tabIndex='0'>
+                    {this.state.expanded ? this.props.teaserExpanded || this.props.teaser : this.props.teaser}
+                </div>
+
+                {this.renderContent()}
             </div>
         );
     }

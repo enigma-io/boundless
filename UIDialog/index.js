@@ -62,7 +62,7 @@ export default class UIDialog extends UIView {
         if (!this.props.captureFocus) {
             if (this.props.closeOnOutsideFocus) {
                 if (!this.isPartOfDialog(nativeEvent.target)) {
-                    return this.props.onClose();
+                    return window.setTimeout(() => this.props.onClose(), 0);
                 }
             }
 
@@ -81,7 +81,7 @@ export default class UIDialog extends UIView {
 
     handleKeyDown = (event) => {
         if (this.props.closeOnEscKey && event.key === 'Escape') {
-            this.props.onClose();
+            window.setTimeout(() => this.props.onClose(), 0);
         }
 
         if (typeof this.props.onKeyDown === 'function') {
@@ -92,7 +92,7 @@ export default class UIDialog extends UIView {
 
     handleOutsideClick = (nativeEvent) => {
         if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
-            this.props.onClose();
+            window.setTimeout(() => this.props.onClose(), 0);
         }
     }
 

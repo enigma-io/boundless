@@ -119,7 +119,16 @@ Refer to [UIDialog](../UIDialog/README.md)
       equates to `{?, 100}` on a 100x100 cartesian plane
 
 - __autoReposition__ `Boolean`
-  if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
+  (default `true`) if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
+
+- __captureFocus__ `Boolean`
+  (default `false`) see [UIDialog.props.captureFocus](../UIDialog/README.md)
+
+- __closeOnEscKey__ `Boolean`
+  (default `true`) see [UIDialog.props.closeOnEscKey](../UIDialog/README.md)
+
+- __closeOnOutsideClick__ `Boolean`
+  (default `true`) see [UIDialog.props.closeOnOutsideClick](../UIDialog/README.md)
 
 - __selfXAlign__ `Constant`
   (default `UIPopover.position.START`) location on the popover X-axis to use for alignment calculations

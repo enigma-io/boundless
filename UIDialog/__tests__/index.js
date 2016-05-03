@@ -15,6 +15,8 @@ describe('UIDialog', () => {
 
     const sandbox = sinon.sandbox.create();
 
+    beforeEach(() => sandbox.useFakeTimers());
+
     afterEach(() => {
         ReactDOM.unmountComponentAtNode(mountNode);
         sandbox.restore();
@@ -144,7 +146,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog closeOnEscKey={true} onClose={stub} />);
 
             element.handleKeyDown({key: 'Escape'});
-
+            sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
 
@@ -153,7 +155,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog onClose={stub} />);
 
             element.handleKeyDown({key: 'Escape'});
-
+            sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
     });
@@ -164,7 +166,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog closeOnOutsideClick={true} onClose={stub} />);
 
             element.handleOutsideClick({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
 
@@ -173,7 +175,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog onClose={stub} />);
 
             element.handleOutsideClick({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
     });
@@ -186,7 +188,7 @@ describe('UIDialog', () => {
             expect(document.activeElement).not.toBe(element.refs.dialog);
 
             element.handleFocus({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
 
@@ -195,7 +197,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog captureFocus={true} closeOnOutsideFocus={true} onClose={stub} />);
 
             element.handleFocus({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
 
@@ -206,7 +208,7 @@ describe('UIDialog', () => {
             expect(document.activeElement).not.toBe(element.refs.dialog);
 
             element.handleFocus({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
 
@@ -215,7 +217,7 @@ describe('UIDialog', () => {
             const element = render(<UIDialog onClose={stub} />);
 
             element.handleFocus({target: mountNode});
-
+            sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
     });

@@ -57,6 +57,9 @@ export default class UIPopover extends UIView {
 
     static defaultProps = {
         ...UIDialog.defaultProps,
+        captureFocus: false,
+        closeOnOutsideClick: true,
+        closeOnEscKey: true,
         anchorXAlign: UIPopover.position.START,
         anchorYAlign: UIPopover.position.END,
         autoReposition: true,
@@ -233,22 +236,22 @@ export default class UIPopover extends UIView {
         const getFrag = this.getClassAlignmentFragment;
 
         return ReactDOM.render(
-            <UIDialog {...this.props}
-                      captureFocus={false}
-                      className={cx({
-                        'ui-popover': true,
-                        [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
-                        [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
-                        [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
-                        [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                        [this.props.className]: !!this.props.className,
-                      })}
-                      style={{
-                          ...this.props.style,
-                          position: 'absolute',
-                          top: '0px',
-                          left: '0px',
-                      }} />
+            <UIDialog
+                {...this.props}
+                className={cx({
+                    'ui-popover': true,
+                    [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
+                    [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
+                    [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
+                    [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
+                    [this.props.className]: !!this.props.className,
+                })}
+                style={{
+                    ...this.props.style,
+                    position: 'absolute',
+                    top: '0px',
+                    left: '0px',
+                }} />
         , this.container);
     }
 

@@ -37,13 +37,13 @@ describe('UIProgressiveDisclosure', () => {
         });
 
         it('string content', () => {
-            const element = render(<UIProgressiveDisclosure>foo</UIProgressiveDisclosure>);
+            const element = render(<UIProgressiveDisclosure expanded={true}>foo</UIProgressiveDisclosure>);
 
             expect(element.refs.content.textContent).toBe('foo');
         });
 
         it('element content', () => {
-            const element = render(<UIProgressiveDisclosure><p>foo</p></UIProgressiveDisclosure>);
+            const element = render(<UIProgressiveDisclosure expanded={true}><p>foo</p></UIProgressiveDisclosure>);
 
             expect(element.refs.content.textContent).toBe('foo');
         });

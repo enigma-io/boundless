@@ -5,6 +5,8 @@ __Hide content until it's needed.__
 
 ---
 
+Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
+
 ### Example Usage
 
 ```js
@@ -34,10 +36,6 @@ Renders:
     Save?
     <div class="ui-disclosure">
         <div class="ui-disclosure-toggle">Advanced Options</div>
-        <div class="ui-disclosure-content">
-            <label for="filename-field">Save as a different name?</label>
-            <input id="filename-field" name="filename" type="text" placeholder="untitled.txt" />
-        </div>
     </div>
     <button class="ui-button">Yes</button>
     <button class="ui-button">No</button>

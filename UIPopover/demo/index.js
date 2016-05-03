@@ -63,12 +63,16 @@ export default class UIPopoverDemo extends UIView {
 
     handleKeyDown(index, event) {
         if (event.key === 'Enter') {
-            this.togglePopover(index);
+            this[this.state['showPopover' + index] ? 'showPopover' : 'hidePopover'](index, event);
         }
     }
 
-    togglePopover(index) {
-        this.setState({ ['showPopover' + index]: !this.state['showPopover' + index] });
+    openPopover(index, event) {
+        this.setState({ ['showPopover' + index]: true });
+    }
+
+    closePopover(index, event) {
+        this.setState({ ['showPopover' + index]: false });
     }
 
     renderSecondaryDefinitions(definitions = []) {
@@ -100,10 +104,8 @@ export default class UIPopoverDemo extends UIView {
                            anchor={this.refs['word' + index]}
                            anchorXAlign={definition.anchorXAlign}
                            anchorYAlign={definition.anchorYAlign}
-                           closeOnEscKey={true}
-                           closeOnOutsideClick={true}
                            closeOnOutsideFocus={true}
-                           onClose={this.togglePopover.bind(this, index)}
+                           onClose={this.closePopover.bind(this, index)}
                            selfXAlign={definition.selfXAlign}
                            selfYAlign={definition.selfYAlign}>
                     {this.renderBody(definition)}
@@ -122,7 +124,7 @@ export default class UIPopoverDemo extends UIView {
                             <div key={definition.word}>
                                 <abbr ref={'word' + index}
                                       className='show-help-popover'
-                                      onClick={this.togglePopover.bind(this, index)}
+                                      onClick={this.openPopover.bind(this, index)}
                                       onKeyDown={this.handleKeyDown.bind(this, index)}
                                       tabIndex='0'>
                                     {definition.word}
