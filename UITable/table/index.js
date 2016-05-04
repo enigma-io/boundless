@@ -262,8 +262,14 @@ const createRow = function createRow(metadata, columns) {
                 }
 
                 if (this._data) {
-                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
-                        this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                    if (Array.isArray(this._data)) {
+                        for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                            this.cells[this._iterator].content = this._data[this._iterator];
+                        }
+                    } else {
+                        for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                            this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                        }
                     }
 
                     this.waitingForResolution = false;

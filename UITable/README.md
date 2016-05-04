@@ -90,6 +90,15 @@ renders:
 </div>
 ```
 
+__NOTE: UITable also accepts rows in pure array form, without the mappings. However, take care to ensure that the row fields will come in the exact order of how the columns are ordered to avoid field mismatching.__
+
+```js
+const rows = [
+    ['Alex', 'Zimmerman', '555-555-5555'],
+    ['Simone', 'Broadwell', '444-444-4444'],
+];
+```
+
 Styling of the element will be provided via the CSS hooks:
 
 - `.ui-table`
