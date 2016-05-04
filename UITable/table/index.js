@@ -56,7 +56,6 @@ const reparentCellText = function reparentCellText(node, content) {
 const createDOMCell = function createDOMCell(content, mapping, width) {
     const cell = document.createElement('div');
           cell.className = 'ui-table-cell';
-          cell.setAttribute('title', content);
           cell.setAttribute('data-column', mapping);
           cell.appendChild(document.createTextNode(content));
 
@@ -125,8 +124,6 @@ const createCell = function createCell(content, mapping, width) {
         set content(val) {
             if (val !== this._content) {
                 this._content = val;
-
-                this.node.setAttribute('title', this._content);
                 this._textNode.nodeValue = this._content;
             }
         },

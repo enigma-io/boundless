@@ -54,10 +54,6 @@ describe('UITable', () => {
             expect(node.className).toContain('ui-table-wrapper');
         });
 
-        it('ui-table should be rendered', () => {
-            expect(element.refs.table.className).toContain('ui-table');
-        });
-
         it('ui-table-body should be rendered', () => {
             expect(element.refs.body.className).toContain('ui-table-body');
         });

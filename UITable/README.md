@@ -36,44 +36,42 @@ render() {
 renders:
 ```html
 <div class="ui-table-wrapper" tabindex="0" data-set-identifier="foo">
-    <div class="ui-table">
-        <div class="ui-table-header">
-            <div class="ui-table-row ui-table-header-row">
-                <div class="ui-table-cell ui-table-header-cell" style="width:75px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">First Name</span>
-                    </div>
-                    <div class="ui-table-header-cell-resize-handle" data-column-index="0"></div>
+    <div class="ui-table-header">
+        <div class="ui-table-row ui-table-header-row">
+            <div class="ui-table-cell ui-table-header-cell" style="width:75px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">First Name</span>
                 </div>
-                <div class="ui-table-cell ui-table-header-cell" style="width:100px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">Last Name</span>
-                    </div>
-                    <div class="ui-table-header-cell-resize-handle" data-column-index="1"></div>
+                <div class="ui-table-header-cell-resize-handle" data-column-index="0"></div>
+            </div>
+            <div class="ui-table-cell ui-table-header-cell" style="width:100px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">Last Name</span>
                 </div>
-                <div class="ui-table-cell ui-table-header-cell" style="width:143px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">Primary Phone #</span>
-                    </div>
+                <div class="ui-table-header-cell-resize-handle" data-column-index="1"></div>
+            </div>
+            <div class="ui-table-cell ui-table-header-cell" style="width:143px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">Primary Phone #</span>
                 </div>
             </div>
         </div>
-        <div class="ui-table-body">
-            <div class="ui-table-row ui-table-row-even" style="transform:translate3d(0px, 0px, 0px);">
-                <div class="ui-table-cell" title="Louise" style="width: 75px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">Alex</span>
-                    </div>
+    </div>
+    <div class="ui-table-body">
+        <div class="ui-table-row ui-table-row-even" style="transform:translate3d(0px, 0px, 0px);">
+            <div class="ui-table-cell" title="Louise" style="width: 75px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">Alex</span>
                 </div>
-                <div class="ui-table-cell" title="Fernandez" style="width: 100px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">Zimmerman</span>
-                    </div>
+            </div>
+            <div class="ui-table-cell" title="Fernandez" style="width: 100px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">Zimmerman</span>
                 </div>
-                <div class="ui-table-cell" title="6-(697)972-8601" style="width: 143px;">
-                    <div class="ui-table-cell-inner">
-                        <span class="ui-table-cell-inner-text">555-555-5555</span>
-                    </div>
+            </div>
+            <div class="ui-table-cell" title="6-(697)972-8601" style="width: 143px;">
+                <div class="ui-table-cell-inner">
+                    <span class="ui-table-cell-inner-text">555-555-5555</span>
                 </div>
             </div>
         </div>
@@ -101,7 +99,6 @@ const rows = [
 
 Styling of the element will be provided via the CSS hooks:
 
-- `.ui-table`
 - `.ui-table-wrapper`
 - `.ui-table-body`
 - `.ui-table-row`
