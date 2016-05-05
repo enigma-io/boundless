@@ -17,21 +17,19 @@ describe('UITable/TableView', () => {
 
     const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code', resizable: true}];
 
-    document.body.innerHTML = `<div class='ui-table-wrapper' tabindex='0'>
-        <div class='ui-table'>
+    document.body.innerHTML = `
+        <div class='ui-table-wrapper' tabindex='0'>
             <div class='ui-table-header'></div>
             <div class='ui-table-body'></div>
-        </div>
-        <div>
             <div class='ui-table-x-scroll-track'>
                 <div class='ui-table-x-scroll-handle'></div>
             </div>
             <div class='ui-table-y-scroll-track'>
                 <div class='ui-table-y-scroll-handle'></div>
             </div>
+            <div class='ui-offscreen' aria-live='polite' />
         </div>
-        <div class='ui-offscreen' aria-live='polite' />
-    </div>`;
+    `;
 
     const baseConfig = {
         getRow: rowGetter,
@@ -332,6 +330,14 @@ describe('UITable/TableView', () => {
             table.regenerate({...baseConfig, totalRows: 1});
             expect(table.active_row).toBe(-1);
         });
+
+        it('should be tagged with .ui-table-row-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].node.className).toContain('ui-table-row-even');
+            expect(table.rows[1].node.className).toContain('ui-table-row-odd');
+            expect(table.rows[2].node.className).toContain('ui-table-row-even');
+        });
     });
 
     describe('row cells (row data in object form)', () => {
@@ -369,6 +375,14 @@ describe('UITable/TableView', () => {
             table = new TableView(baseConfig);
 
             expect(table.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].node.className).toContain('ui-table-cell-even');
+            expect(table.rows[0].cells[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.rows[0].cells[2].node.className).toContain('ui-table-cell-even');
         });
     });
 
@@ -424,6 +438,14 @@ describe('UITable/TableView', () => {
             table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
 
             expect(table.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].node.className).toContain('ui-table-cell-even');
+            expect(table.rows[0].cells[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.rows[0].cells[2].node.className).toContain('ui-table-cell-even');
         });
     });
 
@@ -710,6 +732,14 @@ describe('UITable/TableView', () => {
 
             table.columns[0].title = 'abc';
             expect(table.columns[0].title).toBe('abc');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.columns[0].node.className).toContain('ui-table-cell-even');
+            expect(table.columns[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.columns[2].node.className).toContain('ui-table-cell-even');
         });
     });
 

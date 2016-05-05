@@ -88,6 +88,18 @@ describe('UITable', () => {
             expect(node.querySelector('.ui-table-cell')).not.toBe(null);
         });
 
+        it('ui-table-cell-even should be rendered', () => {
+            const node = element.refs.wrapper;
+
+            expect(node.querySelector('.ui-table-cell-even')).not.toBe(null);
+        });
+
+        it('ui-table-cell-odd should be rendered', () => {
+            const node = element.refs.wrapper;
+
+            expect(node.querySelector('.ui-table-cell-odd')).not.toBe(null);
+        });
+
         it('ui-table-header-cell should be rendered', () => {
             const node = element.refs.wrapper;
 
