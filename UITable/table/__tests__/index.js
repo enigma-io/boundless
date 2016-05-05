@@ -15,27 +15,21 @@ describe('UITable/TableView', () => {
     // index 3 is for the ui-table-row-loading css hook test
     const rowGetter = index => index === 3 ? new Promise(noop) : rows[index];
 
-    const rowsAlt = [{"id":1,"first_name":"Lana","last_name":"Fernandez","job_title":"Database Administrator I","phone":"6-(697)972-8601","email":"lfernandez1@opera.com","address1":"5049 Barnett Road","city":"Nglengkir","country":"Indonesia","country_code":"ID"}];
-
-    const altRowGetter = index => rowsAlt[index];
-
     const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code', resizable: true}];
 
-    document.body.innerHTML = `<div class='ui-table-wrapper' tabindex='0'>
-        <div class='ui-table'>
+    document.body.innerHTML = `
+        <div class='ui-table-wrapper' tabindex='0'>
             <div class='ui-table-header'></div>
             <div class='ui-table-body'></div>
-        </div>
-        <div>
             <div class='ui-table-x-scroll-track'>
                 <div class='ui-table-x-scroll-handle'></div>
             </div>
             <div class='ui-table-y-scroll-track'>
                 <div class='ui-table-y-scroll-handle'></div>
             </div>
+            <div class='ui-offscreen' aria-live='polite' />
         </div>
-        <div class='ui-offscreen' aria-live='polite' />
-    </div>`;
+    `;
 
     const baseConfig = {
         getRow: rowGetter,
@@ -336,9 +330,17 @@ describe('UITable/TableView', () => {
             table.regenerate({...baseConfig, totalRows: 1});
             expect(table.active_row).toBe(-1);
         });
+
+        it('should be tagged with .ui-table-row-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].node.className).toContain('ui-table-row-even');
+            expect(table.rows[1].node.className).toContain('ui-table-row-odd');
+            expect(table.rows[2].node.className).toContain('ui-table-row-even');
+        });
     });
 
-    describe('row cells', () => {
+    describe('row cells (row data in object form)', () => {
         it('cell.content should retrieve the text of the cell', () => {
             table = new TableView(baseConfig);
 
@@ -373,6 +375,77 @@ describe('UITable/TableView', () => {
             table = new TableView(baseConfig);
 
             expect(table.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.rows[0].cells[0].node.className).toContain('ui-table-cell-even');
+            expect(table.rows[0].cells[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.rows[0].cells[2].node.className).toContain('ui-table-cell-even');
+        });
+    });
+
+    describe('row cells (row data in array form)', () => {
+        const arrayStyleRows = [
+            [
+                1,
+                "Lana",
+                "Fernandez",
+                "Database Administrator I",
+                "6-(697)972-8601",
+                "lfernandez1@opera.com",
+                "5049 Barnett Road",
+                "Nglengkir",
+                "Indonesia",
+                "ID",
+            ]
+        ];
+
+        const arrayStyleRowGetter = index => arrayStyleRows[index];
+
+        it('cell.content should retrieve the text of the cell', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].content).toBe(arrayStyleRows[0][0]);
+        });
+
+        it('cell.content = `string` should update the cell text', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].content).not.toBe('abc');
+
+            table.rows[0].cells[0].content = 'abc';
+            expect(table.rows[0].cells[0].content).toBe('abc');
+        });
+
+        it('cell.width should retrieve the calculated width', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].width).toEqual(jasmine.any(Number));
+        });
+
+        it('cell.width = `number` should update the cell width', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].width).not.toBe(400);
+
+            table.rows[0].cells[0].width = 400;
+            expect(table.rows[0].cells[0].width).toBe(400);
+        });
+
+        it('should be tagged with their respective column via [data-column]', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView({...baseConfig, getRow: arrayStyleRowGetter, totalRows: arrayStyleRows.length});
+
+            expect(table.rows[0].cells[0].node.className).toContain('ui-table-cell-even');
+            expect(table.rows[0].cells[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.rows[0].cells[2].node.className).toContain('ui-table-cell-even');
         });
     });
 
@@ -659,6 +732,14 @@ describe('UITable/TableView', () => {
 
             table.columns[0].title = 'abc';
             expect(table.columns[0].title).toBe('abc');
+        });
+
+        it('should be tagged with .ui-table-cell-(even|odd) based on index', () => {
+            table = new TableView(baseConfig);
+
+            expect(table.columns[0].node.className).toContain('ui-table-cell-even');
+            expect(table.columns[1].node.className).toContain('ui-table-cell-odd');
+            expect(table.columns[2].node.className).toContain('ui-table-cell-even');
         });
     });
 

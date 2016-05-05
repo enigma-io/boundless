@@ -54,10 +54,6 @@ describe('UITable', () => {
             expect(node.className).toContain('ui-table-wrapper');
         });
 
-        it('ui-table should be rendered', () => {
-            expect(element.refs.table.className).toContain('ui-table');
-        });
-
         it('ui-table-body should be rendered', () => {
             expect(element.refs.body.className).toContain('ui-table-body');
         });
@@ -90,6 +86,18 @@ describe('UITable', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-cell')).not.toBe(null);
+        });
+
+        it('ui-table-cell-even should be rendered', () => {
+            const node = element.refs.wrapper;
+
+            expect(node.querySelector('.ui-table-cell-even')).not.toBe(null);
+        });
+
+        it('ui-table-cell-odd should be rendered', () => {
+            const node = element.refs.wrapper;
+
+            expect(node.querySelector('.ui-table-cell-odd')).not.toBe(null);
         });
 
         it('ui-table-header-cell should be rendered', () => {

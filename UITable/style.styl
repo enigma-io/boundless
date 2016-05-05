@@ -10,11 +10,6 @@
     position: relative;
     height: 500px;
     width: 100%;
-}
-
-.ui-table {
-    border-spacing: 0;
-    text-align: left;
     white-space: nowrap;
 }
 
@@ -106,13 +101,16 @@
 }
 
 .ui-table-cell-inner {
-    position: absolute;
-    top: 0;
-    left: paddingX-UITable_cell;
-    right: paddingX-UITable_cell;
     overflow: hidden;
     text-overflow: ellipsis;
     will-change: contents;
+
+    // creates a "layout boundary" and restricts the size of relayout
+    // http://wilsonpage.co.uk/introducing-layout-boundaries/
+    height: height-UITable_cell;
+    width: inherit;
+    margin-left: paddingX-UITable_cell * -1;
+    padding: 0 paddingX-UITable_cell;
 }
 
 .ui-table-header-cell {

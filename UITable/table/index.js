@@ -53,12 +53,14 @@ const reparentCellText = function reparentCellText(node, content) {
     return textNode;
 };
 
-const createDOMCell = function createDOMCell(content, mapping, width) {
+const createDOMCell = function createDOMCell(content, mapping, width, index) {
     const cell = document.createElement('div');
-          cell.className = 'ui-table-cell';
-          cell.setAttribute('title', content);
-          cell.setAttribute('data-column', mapping);
-          cell.appendChild(document.createTextNode(content));
+
+    cell.className = 'ui-table-cell ';
+    cell.className += index % 2 === 0 ? 'ui-table-cell-even' : 'ui-table-cell-odd';
+
+    cell.setAttribute('data-column', mapping);
+    cell.appendChild(document.createTextNode(content));
 
     if (width) {
         cell.style.width = width + 'px';
@@ -68,8 +70,8 @@ const createDOMCell = function createDOMCell(content, mapping, width) {
     return cell;
 };
 
-const createDOMHeaderCell = function createDOMHeaderCell(column, width) {
-    const cell = createDOMCell(column.title, column.mapping, width);
+const createDOMHeaderCell = function createDOMHeaderCell(column, width, index) {
+    const cell = createDOMCell(column.title, column.mapping, width, index);
           cell.className += ' ui-table-header-cell';
 
     if (column.resizable) {
@@ -82,8 +84,8 @@ const createDOMHeaderCell = function createDOMHeaderCell(column, width) {
     return cell;
 };
 
-const createHeaderCell = function createHeaderCell(metadata, width) {
-    const node = createDOMHeaderCell(metadata, metadata.width || width);
+const createHeaderCell = function createHeaderCell(metadata, index) {
+    const node = createDOMHeaderCell(metadata, metadata.width, index);
 
     return {
         '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
@@ -98,7 +100,7 @@ const createHeaderCell = function createHeaderCell(metadata, width) {
                 this._textNode.nodeValue = this._title;
             }
         },
-        '_width': metadata.width || width,
+        '_width': metadata.width,
         get width() { return this._width; },
         set width(val) {
             if (val !== this._width) {
@@ -115,8 +117,8 @@ const createHeaderCell = function createHeaderCell(metadata, width) {
     };
 };
 
-const createCell = function createCell(content, mapping, width) {
-    const node = createDOMCell(content, mapping, width);
+const createCell = function createCell(content, mapping, width, index) {
+    const node = createDOMCell(content, mapping, width, index);
 
     return {
         '_textNode': node.childNodes[0].nodeType === 3 ? node.childNodes[0] : node.children[0].childNodes[0],
@@ -125,8 +127,6 @@ const createCell = function createCell(content, mapping, width) {
         set content(val) {
             if (val !== this._content) {
                 this._content = val;
-
-                this.node.setAttribute('title', this._content);
                 this._textNode.nodeValue = this._content;
             }
         },
@@ -181,7 +181,7 @@ const createRow = function createRow(metadata, columns) {
     let fragment = document.createDocumentFragment();
 
     columns.forEach((column, index) => {
-        cells.push(createCell('', column.mapping, column.width));
+        cells.push(createCell('', column.mapping, column.width, index));
         fragment.appendChild(cells[index].node);
     });
 
@@ -262,8 +262,14 @@ const createRow = function createRow(metadata, columns) {
                 }
 
                 if (this._data) {
-                    for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
-                        this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                    if (Array.isArray(this._data)) {
+                        for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                            this.cells[this._iterator].content = this._data[this._iterator];
+                        }
+                    } else {
+                        for (this._iterator = 0; this._iterator < this.cells.length; this._iterator += 1) {
+                            this.cells[this._iterator].content = this._data[columns[this._iterator].mapping];
+                        }
                     }
 
                     this.waitingForResolution = false;
@@ -536,7 +542,9 @@ class TableView {
     buildColumns() {
         this.emptyHeader();
 
-        this.c.columns.forEach(column => this.columns.push(createHeaderCell(column)));
+        this.c.columns.forEach((column, index) => {
+            this.columns.push(createHeaderCell(column, index))
+        });
     }
 
     computeMinMaxHeaderCellDimensions() {

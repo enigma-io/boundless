@@ -155,10 +155,8 @@ export default class UITable extends UIView {
                 className={'ui-table-wrapper ' + this.props.className}
                 data-set-identifier={this.props.identifier}
                 tabIndex='0'>
-                <div ref='table' className='ui-table'>
-                    <div ref='header' className='ui-table-header' />
-                    <div ref='body' className='ui-table-body' />
-                </div>
+                <div ref='header' className='ui-table-header' />
+                <div ref='body' className='ui-table-body' />
 
                 {this.renderXScroll()}
                 {this.renderYScroll()}
