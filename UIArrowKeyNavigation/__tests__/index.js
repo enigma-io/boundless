@@ -63,7 +63,7 @@ describe('UIArrowKeyNavigation', () => {
 
         Simulate.focus(node.children[0]);
 
-        expect(stub.calledOnce).toBe(true);
+        expect(stub.called).toBe(true);
     });
 
     it('should forward child blur events to the appropriate handler, if one is provided', () => {
@@ -78,7 +78,7 @@ describe('UIArrowKeyNavigation', () => {
 
         Simulate.blur(node.children[0]);
 
-        expect(stub.calledOnce).toBe(true);
+        expect(stub.called).toBe(true);
     });
 
     it('should not reset internal focus if handleChildBlur is called out of turn', () => {

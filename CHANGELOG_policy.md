@@ -1,5 +1,4 @@
-# Enigma Platform Team
-## UIKit Changelog Policy
+# UIKit Changelog Policy
 
 ---
 

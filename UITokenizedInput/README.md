@@ -3,7 +3,7 @@ __Distill rich entity data matched via typeahead input into simple visual abstra
 
 Basic usage of this component is identical to that of [UITypeaheadInput](../UITypeaheadInput/README.md). Additional props are available to take advantage of the tokenization functionality.
 
-> The Platform team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITokenizedInput` in your project.
+> The UIKit Team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITokenizedInput` in your project.
 
 ---
 

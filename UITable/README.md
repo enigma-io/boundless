@@ -1,7 +1,7 @@
 # UITable
 __A high-performance, infinite table view.__
 
-> The Platform team recommends reviewing the [Table View](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW4) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITable` in your project.
+> The UIKit Team recommends reviewing the [Table View](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW4) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITable` in your project.
 
 ---
 

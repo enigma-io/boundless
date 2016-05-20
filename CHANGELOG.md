@@ -1,9 +1,8 @@
-# Enigma Platform Team
-## UIKit Changelog
+# UIKit Changelog
 
 ---
 
-### 1.0.0-beta-13 (3/8/2016)
+## 1.0.0-beta-13 (3/8/2016)
 
 __UITable/TableView major refactor__
 
@@ -13,7 +12,7 @@ __UIButton#onPressed now called for all single-hit interactions__
 
 Think of it as a shortcut to knowing if the button has been interacted with, regardless of the source of the event (click, keyboard enter, etc.). If you decide to pass `props.pressed`, the button will become stateful as expected. You can still set explicit `onClick` and `onKeyDown` events if you wish.
 
-#### Breaking Changes
+### Breaking Changes
 
 __Removed `props.body` from UIDialog (+ UIModal, UIPopover)__
 
@@ -23,7 +22,7 @@ __UITypeaheadInput#algorithm#markFunc's argument list was adjusted to better mat
 
 See the docs for `UITypeaheadInput`, should be as simple as switching the position of your arguments if you are providing a custom `markFunc`.
 
-#### Important
+### Important
 
 - __Expose UIUtils/transformProperty__ (119aab1) A convenience module for getting the vendor-prefixed JS-based transform property for inline styles, if needed.
 - __Added `Getting Started` page to UIKit site__ (3418560)
@@ -45,7 +44,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 - __UITable: clicking on the scrollbar track will now autoscroll__ (e1ad55c)
 - __UITypeaheadInput: algorithm.markFunc argument change__ (d7a088c) Now aligns with algorithm.matchFunc and gives better access to - all the data that may go into a rendering decision for entity marking.
 
-#### Misc
+### Misc
 
 - __Use class properties transform__ (6916d86)
 - __Use Babel "loose" mode__ (898f74b) Allows for some speed improvements and potentially code size reduction. Also pinning us at 6.5.1, as there were some code changes in 6.6.0 that broke UITable/TableView due to a new transform in the es2015 preset.
@@ -57,7 +56,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-12 (1/26/2016)
+## 1.0.0-beta-12 (1/26/2016)
 
 - __UITable: changed the row loading animation__ (43349a1) Since the line length can vary considerably, it's now using a more horizontally-oblivious animation.
 
@@ -65,20 +64,20 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-11 (1/26/2016)
+## 1.0.0-beta-11 (1/26/2016)
 
 - __UITable: recompute translation boundaries on window resize__ (93d2773) Otherwise the scroll tracks will not properly resize themselves.
 
 ---
 
-### 1.0.0-beta-10 (1/26/2016)
-#### New Component(s)
+## 1.0.0-beta-10 (1/26/2016)
+### New Component(s)
 
 1. __UIArrowKeyNavigation__
 
    A higher-order component that adds arrow key navigation to a grouping of children. Learn more in the [UIArrowKeyNavigation docs](./UIArrowKeyNavigation/README.md)!
 
-#### Breaking Changes
+### Breaking Changes
 
 1. __UIList has been removed in favor of UIArrowKeyNavigation.__
 
@@ -86,7 +85,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
    UIPaginatedView was modified to directly use UIArrowKeyNavigation, as it previously used UIList internally. The `.ui-list`, `.ui-list-item`, etc classes are removed, so please modify your code to use the appropriate [UIPaginatedView class](./UIPaginatedView/README.md#example-usage) if you haven't already.
 
-#### Commits
+### Commits
 
 - UITypeaheadInput: reduce frequency of console warnings (791d100) - They will now be emitted once each per component instance.
 - Remove UIList; migrate other components to use UIArrowKeyNavigation (29b1489)
@@ -102,7 +101,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 - UIProgressiveDisclosure: improve test coverage, fixed bug in onClick proxy (fbaf974)
 - UISegmentedControl: improve code coverage, fix a bug related to onBlur (ad32887)
 
-#### Misc
+### Misc
 
 - Chore: site styling adjustments (9b57216)
 - Chore: add sourcemaps to es5/ files and don't minify them (0685453) - Allows for easier development and the end user can minify them as desired. The release builds are still available in dist/ for a completely ready and minified solution.
@@ -118,14 +117,14 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-9 (1/8/2016)
-#### Deprecations
+## 1.0.0-beta-9 (1/8/2016)
+### Deprecations
 
 1. __UITypeaheadInput methods `focusInput` and `setValue` were renamed to `focus` and `value`.__
 
    Console warnings are in place and the old method will be removed at a later date. It will continue to work in the meantime.
 
-#### Commits
+### Commits
 
 - UITokenizedInput: cmd + a support to select all tokens (f0afa0d) - Also selects input text if the focus is on
   the input at that time.
@@ -151,12 +150,12 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 - UIFittedText: prevent fontSize from being set to zero (2605faf) - If this happens, rescaling back up will not work since the calculation will try to multiply by zero.
 
-#### Demos
+### Demos
 
 - UIProgess demo: add aria labels to each bar (3247788)
 - UIPopover demo: make the triggers focusable and handle Enter presses (83ed15a)
 
-#### Misc
+### Misc
 
 - move history dep back to caret selector (2978c4c) - Fixes the npm warning
 - Move .ui-offscreen class into the compiled skin (34ecfe3) - Also switched the target for pleeease-cli to a new branch.
@@ -165,12 +164,12 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-8 (1/5/2016)
+## 1.0.0-beta-8 (1/5/2016)
 
 - UITokenizedInput: focus a token when it becomes selected, tests (68ecf18)
 - UITokenizedInput: clear input when tokens are added (2298596)
 
-#### Misc
+### Misc
 
 - Site: prepare markdown modifications at build time (cdee94e)
 - [Site] Auto-link detected commit SHAs back to github (fb579b9)
@@ -182,8 +181,8 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-7 (1/4/2016)
-#### Breaking Changes
+## 1.0.0-beta-7 (1/4/2016)
+### Breaking Changes
 
 1. __UITokenizedInput is now operated as a "controlled" component.__
 
@@ -195,7 +194,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
    We recently discovered that the lifecycle functionality of web notifications is completely unreliable, so the "manager" aspect of this component was removed and the whole thing has been converted into a utility, rather than a React component.
 
-#### Relevant Commits
+### Relevant Commits
 
 - UITokenizedInput: Refactor to a "controlled" system (130b328)
 - Fix links to UITypeaheadInput from UITokenizedInput (d1c408f)
@@ -213,8 +212,8 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-6 (12/17/2015)
-#### Breaking Change
+## 1.0.0-beta-6 (12/17/2015)
+### Breaking Change
 
 1. __UITypeaheadInput's algorithm handling has been changed.__
 
@@ -238,7 +237,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
    Other algorithm options include "starts-with" (`UITypeaheadInput.mode.STARTS_WITH`) and "fuzzy" (`UITypeaheadInput.mode.FUZZY`). See the [   UITypeaheadInput readme](./UITypeaheadInput/README.md) for more information.
 
-#### Relevant Commits
+### Relevant Commits
 
 - UITable: classList -> className (IE9 support) (b98ad3f)
 - UITable: fix y-axis scroll handle sensitivity (77f8098)
@@ -254,7 +253,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-5 (12/16/2015)
+## 1.0.0-beta-5 (12/16/2015)
 
 - UITable: add tests, fix an x-scroll track NaN condition (75e5828)
 - UISegmentedControl: add "content" to prop list, fix alignment (84015d3)
@@ -264,7 +263,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-4 (12/14/2015)
+## 1.0.0-beta-4 (12/14/2015)
 
 - UITable: fix x-axis translation boundary not updating after column resizing (199b7ff)
 - UITable: handle window resize (6bbdb38)
@@ -276,14 +275,14 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 - UITable: fix x-axis sizing for very wide datasets (2f6bd9d)
 - UITable: try out some bleeding-edge CSS stuff to test perf (f20ec6a); `will-change` property
 
-#### Misc
+### Misc
 - [Chore] Minify generated ES5 files (419a0ee)
 
 [back to top](#uikit-changelog)
 
 ---
 
-### 1.0.0-beta-3 (12/10/2015)
+## 1.0.0-beta-3 (12/10/2015)
 
 - UITable: Fix first row disappearing on scroll (d010001ea7865c51d0a072114f7bc26a118b0bb4)
 - UITable: composite table rows to fix WebKit rendering bug (97d3536138d41e2ebc43a335c9064e61f1a28312); click
@@ -297,7 +296,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta-2 (12/9/2015)
+## 1.0.0-beta-2 (12/9/2015)
 
 - Added support for [default tokens in UITokenizedInput](3b2e48144f15b62121ccab1c7d5e6bf92f6f005a)
 - Added programmatic [`addToken()` and `removeToken()` functionality](https://github.com/bibliotech/uikit/tree/master/UITokenizedInput#available-methods) to UITokenizedInput
@@ -308,7 +307,7 @@ See the docs for `UITypeaheadInput`, should be as simple as switching the positi
 
 ---
 
-### 1.0.0-beta (12/4/2015)
+## 1.0.0-beta (12/4/2015)
 
 Hey, it's our initial company-wide release!
 

@@ -1,7 +1,6 @@
-# Enigma Platform Team
-## UIKit
+# UIKit
 
----
+[![Build Status](https://travis-ci.com/bibliotech/uikit.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/bibliotech/uikit) [![Coverage Status](https://coveralls.io/repos/github/bibliotech/uikit/badge.svg?branch=master&t=HM2WQm)](https://coveralls.io/github/bibliotech/uikit?branch=master)
 
 UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
@@ -25,11 +24,11 @@ __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-tabl
 
 ---
 
-### Installation
+## Installation
 
 There are a number of ways you can consume UIKit in your project.
 
-#### via a bundling system like Browserify or Webpack
+### via a bundling system like Browserify or Webpack
 
 Simply add UIKit as a dependency to your package.json file (and run `npm install`):
 
@@ -41,7 +40,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 
 > Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-13`.
 
-#### without a bundling system
+### without a bundling system
 
 You can simply copy the [dist/uikit.min.js](https://github.com/bibliotech/uikit/blob/master/dist/uikit.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
@@ -67,8 +66,8 @@ In this case, your HTML page would probably resemble the following:
 
 ---
 
-### Usage
-#### ES6 (bundled with Babel, etc.)
+## Usage
+### ES6 (bundled with Babel, etc.)
 
 ```js
 import React from 'react';
@@ -84,7 +83,7 @@ function MyUI() {
 render(<MyUI />, document.body);
 ```
 
-#### ES5 (bundled)
+### ES5 (bundled)
 
 ```js
 var React = require('react');
@@ -100,7 +99,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-#### ES5 (`dist/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+### ES5 (`dist/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -115,7 +114,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-#### ES5 (`dist/uikit.min.js` dropped into the page)
+### ES5 (`dist/uikit.min.js` dropped into the page)
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -134,7 +133,7 @@ An unminified version with bundled sourcemapping for easy debugging during the d
 
 ---
 
-### Website, Component Demos and Reference Styles
+## Website, Component Demos and Reference Styles
 
 Clone the repository to your local machine:
 
@@ -144,7 +143,7 @@ git clone git@github.com:bibliotech/uikit.git
 
 Each component folder includes a functional demo and some reference styles in `style.styl`. These styles are all rolled up into `dist/skin.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
 
-#### Running the Website Locally
+### Running the Website Locally
 
 Run the following commands inside the cloned UIKit repository (assumes Node 4+ is installed):
 
@@ -157,7 +156,7 @@ npm start
 
 ---
 
-### Branding UIKit
+## Branding UIKit
 
 Thanks to the modular nature of [Stylus](http://stylus-lang.com/), injecting your own customization to things like accent color(s) is extremely simple.
 
@@ -171,6 +170,8 @@ color-accent = red;
 
 Next time your project's CSS is built, UIKit's CSS will automatically be compiled with the appropriate changes and included in your stylesheet.
 
-> The Platform Team recommends using the [`generator-enigma`](https://github.com/enigma-io/generator-enigma) scaffolding tool to easily lay out a solid foundation for your project (including a Stylus installation.)
+> The UIKit Team recommends using the [`generator-enigma`](https://github.com/enigma-io/generator-enigma) scaffolding tool to easily lay out a solid foundation for your project (including a Stylus installation.)
 
 [back to top](#uikit)
+
+<sub>© Enigma Technologies 2015-present. All rights reserved.</sub>

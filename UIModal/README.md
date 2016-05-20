@@ -3,7 +3,7 @@ __A blocking, focus-stealing container.__
 
 A modal is an enhancement upon a [dialog](../UIDialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
-> The Platform team recommends reviewing the [Alerts](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/WindowAlerts.html#//apple_ref/doc/uid/20000957-CH44-SW1) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIModal` in your project.
+> The UIKit Team recommends reviewing the [Alerts](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/WindowAlerts.html#//apple_ref/doc/uid/20000957-CH44-SW1) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIModal` in your project.
 
 ---
 

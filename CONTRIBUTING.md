@@ -1,5 +1,4 @@
-# Enigma Platform Team
-## UIKit Contributor Policy
+# UIKit Contributor Policy
 
 ---
 

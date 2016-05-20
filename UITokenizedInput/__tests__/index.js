@@ -105,7 +105,7 @@ describe('UITokenizedInput', () => {
 
             element.add(0);
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch(0)).toBe(true);
         });
 
@@ -126,7 +126,7 @@ describe('UITokenizedInput', () => {
 
             element.remove(0);
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
         });
 
@@ -189,7 +189,7 @@ describe('UITokenizedInput', () => {
                 target: typeahead.getInputNode()
             });
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch(0)).toBe(true);
         });
     });
@@ -202,7 +202,7 @@ describe('UITokenizedInput', () => {
 
             element.handleKeyDown({which: 8, preventDefault: noop});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
         });
 
@@ -213,7 +213,7 @@ describe('UITokenizedInput', () => {
 
             element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
         });
 
@@ -224,7 +224,7 @@ describe('UITokenizedInput', () => {
 
             element.handleTokenCloseClick(1);
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
         });
     });
@@ -238,7 +238,7 @@ describe('UITokenizedInput', () => {
             typeahead.focus();
             element.handleKeyDown({which: 37});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
         });
 
@@ -249,7 +249,7 @@ describe('UITokenizedInput', () => {
 
             element.handleTokenKeyDown(0, {which: 13, preventDefault: noop});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
         });
 
@@ -260,7 +260,7 @@ describe('UITokenizedInput', () => {
 
             element.handleTokenKeyDown(0, {which: 32, preventDefault: noop});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0])).toBe(true);
         });
 
@@ -269,7 +269,6 @@ describe('UITokenizedInput', () => {
             const element = render(<UITokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} handleNewSelection={stub} />);
             const typeahead = element.refs.typeahead;
 
-            typeahead.focus();
             element.handleKeyDown({which: 37});
 
             expect(stub.called).toBe(false);
@@ -283,7 +282,7 @@ describe('UITokenizedInput', () => {
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
             element.handleKeyDown({which: 39});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
             expect(document.activeElement).toBe(typeahead.getInputNode());
         });
@@ -296,7 +295,7 @@ describe('UITokenizedInput', () => {
             element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
             element.handleKeyDown({which: 39});
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
         });
 
@@ -413,7 +412,7 @@ describe('UITokenizedInput', () => {
                 shiftKey: true
             });
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0, 1])).toBe(true);
         });
 
@@ -428,7 +427,7 @@ describe('UITokenizedInput', () => {
                 shiftKey: true
             });
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0, 1])).toBe(true);
         });
 
@@ -444,7 +443,7 @@ describe('UITokenizedInput', () => {
                 preventDefault: noop
             });
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([0, 1])).toBe(true);
         });
     });
@@ -457,7 +456,7 @@ describe('UITokenizedInput', () => {
 
             Simulate.focus(typeahead.getInputNode());
 
-            expect(stub.calledOnce).toBe(true);
+            expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
         });
 

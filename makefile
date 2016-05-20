@@ -1,15 +1,18 @@
-all: install check
+all: install test
 
-check:
+install:
+	npm i
+
+test: install
 	npm run lint
-	npm run test
+	npm run coverage
+	npm run coverage:send
 
 deploy: install
 	npm run site:release
 	npm run site:deploy
 
-install:
-	npm i
-
 release: install
 	npm run all
+
+.PHONY: install test deploy release

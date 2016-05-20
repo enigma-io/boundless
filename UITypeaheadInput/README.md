@@ -1,7 +1,7 @@
 # UITypeaheadInput
 __Intelligently recommend entities via customizable, fuzzy recognition.__
 
-> The Platform team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITypeaheadInput` in your project.
+> The UIKit Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITypeaheadInput` in your project.
 
 ---
 

@@ -3,7 +3,7 @@ __An accessible radio form control.__
 
 UIRadio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
 
-> The Platform team recommends reviewing the [Radio Button](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW10) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIRadio` in your project.
+> The UIKit Team recommends reviewing the [Radio Button](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW10) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIRadio` in your project.
 
 ---
 

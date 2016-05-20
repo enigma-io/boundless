@@ -28,6 +28,7 @@
     "browserify": "^13.0.0",
     "budo": "^8.1.0",
     "bundle-collapser": "^1.2.1",
+    "coveralls": "^2.11.9",
     "eslint": "^2.7.0",
     "eslint-plugin-react": "^4.2.3",
     "exposify": "^0.5.0",
@@ -62,12 +63,17 @@
     ]
   },
   "jest": {
-    "automock": false
+    "automock": false,
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
   },
   "scripts": {
     "lint": "eslint --quiet *.js **/*.js",
     "test": "jest --verbose",
     "coverage": "jest --coverage",
+    "coverage:send": "cat coverage/lcov.info | coveralls",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -path './UI*/*' -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/dist/style.css",
     "site:css:release": "npm run site:css && mv site/dist/style.css site/dist/assets/style.css",
