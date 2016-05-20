@@ -218,22 +218,43 @@ describe('UITable/TableView', () => {
         });
     });
 
-    describe('arrow key functionality', () => {
+    describe('keyboard events', () => {
         beforeEach(() => table = new TableView(baseConfig));
 
-        it('should move the active row on down arrow', () => {
-            expect(table.c.body.querySelector('.ui-table-row-active')).toBe(null);
+        describe('ArrowDown', () => {
+            it('increments the active row', () => {
+                expect(table.c.body.querySelector('.ui-table-row-active')).toBe(null);
 
-            table.handleKeyDown({
-                key: 'ArrowDown',
-                preventDefault: noop
+                table.handleKeyDown({
+                    key: 'ArrowDown',
+                    preventDefault: noop
+                });
+
+                expect(table.c.body.querySelector('.ui-table-row-active')).not.toBe(null);
+                expect(table.c.body.querySelector('.ui-table-row-active .ui-table-cell').textContent).toBe('Louise');
             });
 
-            expect(table.c.body.querySelector('.ui-table-row-active')).not.toBe(null);
-            expect(table.c.body.querySelector('.ui-table-row-active .ui-table-cell').textContent).toBe('Louise');
+            it('jumps to the topmost visible row in the viewport if the table has been scrolled and there is no current active row', () => {
+                baseConfig.wrapper.setAttribute('style', 'height: 150px');
+
+                table = new TableView(baseConfig);
+
+                table.handleMoveIntent({
+                    deltaX: 0,
+                    deltaY: 10000,
+                    preventDefault: noop
+                });
+
+                table.handleKeyDown({
+                    key: 'ArrowDown',
+                    preventDefault: noop
+                });
+
+                expect(table.rows[table.rows_ordered_by_y[table.n_padding_rows]].active).toBe(true);
+            });
         });
 
-        it('should move the active row on up arrow', () => {
+        it('ArrowUp decrements the active row', () => {
             expect(table.c.body.querySelector('.ui-table-row-active')).toBe(null);
 
             table.handleKeyDown({
@@ -254,6 +275,22 @@ describe('UITable/TableView', () => {
             });
 
             expect(table.c.body.querySelector('.ui-table-row-active .ui-table-cell').textContent).toBe('Louise');
+        });
+
+        it('Escape clears the active row', () => {
+            table.handleKeyDown({
+                key: 'ArrowDown',
+                preventDefault: noop
+            });
+
+            expect(table.c.body.querySelector('.ui-table-row-active')).not.toBe(null);
+
+            table.handleKeyDown({
+                key: 'Escape',
+                preventDefault: noop
+            });
+
+            expect(table.c.body.querySelector('.ui-table-row-active')).toBe(null);
         });
     });
 
@@ -908,6 +945,27 @@ describe('UITable/TableView', () => {
 
         it('should not require a provided aria element', () => {
             expect(function() { return new TableView({...baseConfig, static_mode: true, 'aria': undefined}); }).not.toThrow();
+        });
+    });
+
+    describe('setActiveRow(number)', () => {
+        it('sets active status on the given row index', () => {
+            table = new TableView(baseConfig);
+
+            table.setActiveRow(1);
+            expect(table.rows[1].active).toBe(true);
+        });
+    });
+
+    describe('resetActiveRow()', () => {
+        it('unsets active status on all rows', () => {
+            table = new TableView(baseConfig);
+
+            table.setActiveRow(1);
+            expect(table.rows[1].active).toBe(true);
+
+            table.resetActiveRow();
+            expect(table.rows[1].active).toBe(false);
         });
     });
 });

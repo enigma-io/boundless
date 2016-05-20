@@ -482,6 +482,12 @@ class TableView {
     resetActiveRow() {
         this.active_row = -1;
         this.next_active_row = null;
+
+        if (this.rows.length) {
+            this.rows.forEach(row => {
+                row.active = row.setIndex === this.active_row;
+            });
+        }
     }
 
     resetInternals() {
@@ -1274,6 +1280,9 @@ class TableView {
 
     getKeyFromKeyCode(code) {
         switch (code) {
+        case 192:
+            return 'Escape';
+
         case 40:
             return 'ArrowDown';
 
@@ -1339,8 +1348,20 @@ class TableView {
         const key = event.key || this.getKeyFromKeyCode(event.keyCode);
 
         switch (key) {
+        case 'Escape':
+            this.resetActiveRow();
+            break;
+
         case 'ArrowDown':
-            this.changeActiveRow(1);
+            if (   this.active_row !== -1 // already keying through the table
+                || (this.active_row === -1 && this.row_start_index === 0) // at the beginning
+            ) {
+                this.changeActiveRow(1);
+            } else {
+                // start the active row on the topmost row in the current viewport
+                this.changeActiveRow(this.row_start_index + this.n_padding_rows + 1);
+            }
+
             event.preventDefault();
             break;
 
