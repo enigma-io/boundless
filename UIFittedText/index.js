@@ -8,6 +8,8 @@ import {findDOMNode} from 'react-dom';
 import UIView from '../UIView';
 import cx from 'classnames';
 
+const instances = [];
+
 function toI(stringNumber) {
     return parseInt(stringNumber, 10);
 }
@@ -52,8 +54,6 @@ function unregisterInstance(instance) {
         window.removeEventListener('resize', handleWindowResize, true);
     }
 }
-
-const instances = [];
 
 export default class UIFittedText extends UIView {
     static defaultProps = {
