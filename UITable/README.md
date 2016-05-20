@@ -171,6 +171,37 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 
 ---
 
+### Tableview methods (CAUTION, THAR BE DRAGONS)
+
+A formal API for the non-React tableview base class has not been established, but if you want to take advantage of some lightly documented functionality, here are some things you can programmatically do:
+
+- `table.jumpToRowIndex(number)` - programmatically scrolls the table to the appropriate row index
+
+- `table.regenerate()` - full rebuild of the table, useful if you suspect there's old data lingering around for debugging purposes
+
+- `table.resetActiveRow()` - clears active status on all rows
+
+You'd access the above methods like this:
+
+```js
+
+class MyComponent extends React.Component {
+    render() {
+        return (
+            <div className='myview'>
+                <UIButton onPressed={() => this.refs.myTable.table.resetActiveRow()}>
+                    Click me to clear the active row!
+                </UIButton>
+
+                <UITable ref='myTable' /* required props */ />
+            </div>
+        );
+    }
+}
+```
+
+---
+
 ### Note
 
 A few events like `onWheel`, `onMouseMove` and `onMouseUp` are very performance intensive for this component and are _not_ proxied for external use. It's recommended to not listen for your own events at all for UITable and instead rely on the callback function interfaces provided via `props`.
