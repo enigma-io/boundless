@@ -1,11 +1,11 @@
 /**
- * React wrapper for TableView.
+ * React wrapper for Table.
  * @class UITable
  */
 
 import React, { PropTypes } from 'react';
 import UIView from '../UIView';
-import TableView from './table';
+import Table from './table';
 
 export default class UITable extends UIView {
     static propTypes = {
@@ -37,7 +37,7 @@ export default class UITable extends UIView {
         preserveScrollState: true,
     }
 
-    getTableViewConfiguration() {
+    getSubviewConfiguration() {
         return {
             wrapper: this.refs.wrapper,
             header: this.refs.header,
@@ -63,7 +63,7 @@ export default class UITable extends UIView {
     }
 
     componentDidMount() {
-        this.table = new TableView(this.getTableViewConfiguration());
+        this.table = new Table(this.getSubviewConfiguration());
 
         if (this.props.jumpToRowIndex) {
             this.table.jumpToRowIndex(this.props.jumpToRowIndex);
@@ -115,7 +115,7 @@ export default class UITable extends UIView {
                 }
             }
 
-            this.table.regenerate(this.getTableViewConfiguration());
+            this.table.regenerate(this.getSubviewConfiguration());
         }
     }
 

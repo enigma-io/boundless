@@ -1,6 +1,6 @@
 /**
  * A high-performance, infinite table view.
- * @class TableView
+ * @class Table
  */
 
 import transformProp from '../../UIUtils/transformProperty';
@@ -33,11 +33,38 @@ If the component updates due to new props, just blow away everything and start o
 const cellClassRegex = /\s?ui-table-cell\b/g;
 const rowClassRegex = /\s?ui-table-row\b/g;
 
-const translate3d = function translate3D(x = 0, y = 0) {
+function applyDelta(delta, num) {
+    if (delta < 0) {
+        return num < 0 ? num - delta : num + delta;
+    }
+
+    return num - delta;
+}
+
+function getKeyFromKeyCode(code) {
+    switch (code) {
+    case 192:
+        return 'Escape';
+
+    case 40:
+        return 'ArrowDown';
+
+    case 38:
+        return 'ArrowUp';
+
+    case 13:
+        return 'Enter';
+    }
+
+    return null;
+}
+
+function translate3d (x = 0, y = 0) {
     return 'translate3d(' + x + 'px, ' + y + 'px, 0px)';
 }; // z is never used
 
-const reparentCellText = function reparentCellText(node, content) {
+
+function reparentCellText(node, content) {
     if (node.childNodes.length && node.childNodes[0].nodeType === 3) {
         node.removeChild(node.childNodes[0]);
     }
@@ -53,7 +80,7 @@ const reparentCellText = function reparentCellText(node, content) {
     return textNode;
 };
 
-const createDOMCell = function createDOMCell(content, mapping, width, index) {
+function createDOMCell(content, mapping, width, index) {
     const cell = document.createElement('div');
 
     cell.className = 'ui-table-cell ';
@@ -70,7 +97,7 @@ const createDOMCell = function createDOMCell(content, mapping, width, index) {
     return cell;
 };
 
-const createDOMHeaderCell = function createDOMHeaderCell(column, width, index) {
+function createDOMHeaderCell(column, width, index) {
     const cell = createDOMCell(column.title, column.mapping, width, index);
           cell.className += ' ui-table-header-cell';
 
@@ -84,7 +111,7 @@ const createDOMHeaderCell = function createDOMHeaderCell(column, width, index) {
     return cell;
 };
 
-const createHeaderCell = function createHeaderCell(metadata, index) {
+function createHeaderCell(metadata, index) {
     const node = createDOMHeaderCell(metadata, metadata.width, index);
 
     return {
@@ -117,7 +144,7 @@ const createHeaderCell = function createHeaderCell(metadata, index) {
     };
 };
 
-const createCell = function createCell(content, mapping, width, index) {
+function createCell(content, mapping, width, index) {
     const node = createDOMCell(content, mapping, width, index);
 
     return {
@@ -164,7 +191,7 @@ const createCell = function createCell(content, mapping, width, index) {
     };
 };
 
-const createDOMRow = function createDOMRow(setIndex, y) {
+function createDOMRow(setIndex, y) {
     const row = document.createElement('div');
           row.className = 'ui-table-row';
           row.style[transformProp] = translate3d(0, y);
@@ -172,7 +199,7 @@ const createDOMRow = function createDOMRow(setIndex, y) {
     return row;
 };
 
-const createRow = function createRow(metadata, columns) {
+function createRow(metadata, columns) {
     /* IMPORTANT NOTE: metadata.data might be a promise. Plan accordingly. */
 
     const row = createDOMRow(metadata.setIndex, metadata.y);
@@ -304,92 +331,92 @@ const createRow = function createRow(metadata, columns) {
     return rowObj;
 };
 
-class TableView {
-    validateColumnShape(column) {
-        return    typeof column.mapping === 'string'
-               && typeof column.resizable === 'boolean'
-               && typeof column.title === 'string'
-               && (column.width === undefined || typeof column.width === 'number');
+function validateColumnShape(column) {
+    return    typeof column.mapping === 'string'
+           && typeof column.resizable === 'boolean'
+           && typeof column.title === 'string'
+           && (column.width === undefined || typeof column.width === 'number');
+}
+
+function validateConfiguration(config) {
+    // x-scroll-track, y-scroll-track, x-scroll-handle, y-scroll-handle, and aria are not required in static_mode
+    if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
+        throw Error('Table was not passed a valid `static_mode`; it should be a boolean.');
     }
 
-    validateConfiguration(config) {
-        // x-scroll-track, y-scroll-track, x-scroll-handle, y-scroll-handle, and aria are not required in static_mode
-        if (config.static_mode !== undefined && typeof config.static_mode !== 'boolean') {
-            throw Error('TableView was not passed a valid `static_mode`; it should be a boolean.');
-        }
-
-        if (!(config.wrapper instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `wrapper` element.');
-        }
-
-        if (!(config.header instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `header` element.');
-        }
-
-        if (!(config.body instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `body` element.');
-        }
-
-        if (!config.static_mode && !(config['x-scroll-track'] instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `x-scroll-track` element.');
-        }
-
-        if (!config.static_mode && !(config['y-scroll-track'] instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `y-scroll-track` element.');
-        }
-
-        if (!config.static_mode && !(config['x-scroll-handle'] instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `x-scroll-handle` element.');
-        }
-
-        if (!config.static_mode && !(config['y-scroll-handle'] instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `y-scroll-handle` element.');
-        }
-
-        if (!config.static_mode && !(config.aria instanceof HTMLElement)) {
-            throw Error('TableView was not passed a valid `aria` element.');
-        }
-
-        if (   !Array.isArray(config.columns)
-            || config.columns.length === 0
-            || !config.columns.every(this.validateColumnShape)) {
-            throw Error(`TableView was not passed valid \`columns\`. It should be an array with at least one object conforming to: {
-                mapping: string,
-                resizable: bool,
-                title: string,
-                width: number (optional),
-            }`);
-        }
-
-        if (typeof config.throttleInterval !== 'number') {
-            throw Error('TableView was not passed a valid `throttleInterval`; it should be a Number.');
-        }
-
-        if (typeof config.totalRows !== 'number') {
-            throw Error('TableView was not passed a valid `totalRows`; it should be a Number.');
-        }
-
-        if (typeof config.getRow !== 'function') {
-            throw Error('TableView was not passed a valid `getRow`; it should be a function.');
-        }
-
-        if (config.rowClickFunc !== undefined && typeof config.rowClickFunc !== 'function') {
-            throw Error('TableView was not passed a valid `rowClickFunc`; it should be a function.');
-        }
-
-        if (config.cellClickFunc !== undefined && typeof config.cellClickFunc !== 'function') {
-            throw Error('TableView was not passed a valid `cellClickFunc`; it should be a function.');
-        }
-
-        if (config.columnResizeFunc !== undefined && typeof config.columnResizeFunc !== 'function') {
-            throw Error('TableView was not passed a valid `columnResizeFunc`; it should be a function.');
-        }
-
-        if (typeof config.preserveScrollState !== 'boolean') {
-            throw Error('TableView was not passed a valid `preserveScrollState`; it should be a boolean.');
-        }
+    if (!(config.wrapper instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `wrapper` element.');
     }
 
+    if (!(config.header instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `header` element.');
+    }
+
+    if (!(config.body instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `body` element.');
+    }
+
+    if (!config.static_mode && !(config['x-scroll-track'] instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `x-scroll-track` element.');
+    }
+
+    if (!config.static_mode && !(config['y-scroll-track'] instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `y-scroll-track` element.');
+    }
+
+    if (!config.static_mode && !(config['x-scroll-handle'] instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `x-scroll-handle` element.');
+    }
+
+    if (!config.static_mode && !(config['y-scroll-handle'] instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `y-scroll-handle` element.');
+    }
+
+    if (!config.static_mode && !(config.aria instanceof HTMLElement)) {
+        throw Error('Table was not passed a valid `aria` element.');
+    }
+
+    if (   !Array.isArray(config.columns)
+        || config.columns.length === 0
+        || !config.columns.every(validateColumnShape)) {
+        throw Error(`Table was not passed valid \`columns\`. It should be an array with at least one object conforming to: {
+            mapping: string,
+            resizable: bool,
+            title: string,
+            width: number (optional),
+        }`);
+    }
+
+    if (typeof config.throttleInterval !== 'number') {
+        throw Error('Table was not passed a valid `throttleInterval`; it should be a Number.');
+    }
+
+    if (typeof config.totalRows !== 'number') {
+        throw Error('Table was not passed a valid `totalRows`; it should be a Number.');
+    }
+
+    if (typeof config.getRow !== 'function') {
+        throw Error('Table was not passed a valid `getRow`; it should be a function.');
+    }
+
+    if (config.rowClickFunc !== undefined && typeof config.rowClickFunc !== 'function') {
+        throw Error('Table was not passed a valid `rowClickFunc`; it should be a function.');
+    }
+
+    if (config.cellClickFunc !== undefined && typeof config.cellClickFunc !== 'function') {
+        throw Error('Table was not passed a valid `cellClickFunc`; it should be a function.');
+    }
+
+    if (config.columnResizeFunc !== undefined && typeof config.columnResizeFunc !== 'function') {
+        throw Error('Table was not passed a valid `columnResizeFunc`; it should be a function.');
+    }
+
+    if (typeof config.preserveScrollState !== 'boolean') {
+        throw Error('Table was not passed a valid `preserveScrollState`; it should be a boolean.');
+    }
+}
+
+export default class Table {
     processConfiguration(config) {
         this.c = {...config};
 
@@ -398,7 +425,7 @@ class TableView {
         this.c.throttleInterval = this.c.throttleInterval || 300;
         this.c.totalRows = this.c.totalRows || 0;
 
-        this.validateConfiguration(this.c);
+        validateConfiguration(this.c);
     }
 
     constructor(config) {
@@ -500,9 +527,21 @@ class TableView {
         this.x = this.y = 0;
         this.next_x = this.next_y = 0;
 
+        if (this.c['y-scroll-track']) {
+            this.c['y-scroll-track'].style.display = '';
+        }
+
         this.distance_from_top =   this.c['y-scroll-track']
                                  ? this.c['y-scroll-track'].getBoundingClientRect().top + window.pageYOffset
                                  : null;
+
+        if (this.c['x-scroll-track']) {
+            this.c['x-scroll-track'].style.display = '';
+        }
+
+        this.distance_from_left =   this.c['x-scroll-track']
+                                  ? this.c['x-scroll-track'].getBoundingClientRect().left + window.pageXOffset
+                                  : null;
 
         this.x_scroll_handle_position = this.y_scroll_handle_position = 0;
 
@@ -645,10 +684,12 @@ class TableView {
     }
 
     calculateXScrollHandleSize() {
-        this.x_scroll_handle_size = this.container_w - Math.abs(this.x_max);
+        this.x_scroll_handle_size = this.x_scroll_track_w / this.row_w * this.x_scroll_track_w;
 
         if (this.x_scroll_handle_size < 12) {
             this.x_scroll_handle_size = 12;
+        } else if (this.x_scroll_handle_size > this.x_scroll_track_w) {
+            this.x_scroll_handle_size = this.x_scroll_track_w;
         }
 
         return this.x_scroll_handle_size;
@@ -681,7 +722,7 @@ class TableView {
 
         /* hide the scrollbars if they are not needed */
 
-        if (this.x_scroll_handle_size === this.container_w) {
+        if (this.x_scroll_handle_size === this.x_scroll_track_w) {
             this.c['x-scroll-track'].style.display = 'none';
             this.x_scroll_track_hidden = true;
         } else {
@@ -689,7 +730,7 @@ class TableView {
             this.x_scroll_track_hidden = false;
         }
 
-        if (this.y_scroll_handle_size === this.container_h) {
+        if (this.y_scroll_handle_size === this.y_scroll_track_h) {
             this.c['y-scroll-track'].style.display = 'none';
             this.y_scroll_track_hidden = true;
         } else {
@@ -710,11 +751,29 @@ class TableView {
         if (this.c.wrapper.clientHeight !== this.container_h) {
             /* more rows may be needed to display the data, so we need to rebuild */
             return this.regenerate();
-        }
+        } else if (this.c.wrapper.clientWidth !== this.container_w) {
+            const old_width = this.container_w;
 
-        this.calculateContainerDimensions();
-        this.calculateXBound();
-        this.initializeScrollBars();
+            this.calculateContainerDimensions();
+            this.calculateXBound();
+            this.initializeScrollBars();
+
+            this.x_scroll_handle_position = this.x / this.x_table_pixel_ratio * -1;
+
+            if (this.x_scroll_handle_position + this.x_scroll_handle_size > this.x_scroll_track_w) {
+                this.x_scroll_handle_position = this.x_scroll_track_w - this.x_scroll_handle_size;
+            }
+
+            this.translateXScrollHandle(this.x_scroll_handle_position);
+
+            // getting larger and we're fully scrolled to the right
+            if (old_width < this.container_w && this.x_scroll_handle_position + this.x_scroll_handle_size === this.x_scroll_track_w) {
+                this.x += this.container_w - old_width;
+
+                this.translateHeader(this.x);
+                this.translateBody(this.x, this.last_body_y);
+            }
+        }
     }
 
     regenerate(config = this.c) {
@@ -906,8 +965,8 @@ class TableView {
                 this.n_rows_to_shift - (this.c.totalRows - this.row_end_index - (this.top_visible_row_index === 0 ? 0 : 1))
             ) * this.cell_h;
 
-            this.next_y = this.applyDelta(
-                this.applyDelta(this.y_max, this.y) % this.cell_h, this.next_y
+            this.next_y = applyDelta(
+                applyDelta(this.y_max, this.y) % this.cell_h, this.next_y
             );
 
             if (this.x_scroll_track_hidden === false) {
@@ -963,19 +1022,11 @@ class TableView {
         }
     }
 
-    applyDelta(delta, num) {
-        if (delta < 0) {
-            return num < 0 ? num - delta : num + delta;
-        }
-
-        return num - delta;
-    }
-
     calculateVisibleTopRowIndex(targetY = this.next_y) {
         return this.rows[
             this.rows_ordered_by_y[
                 Math.ceil(Math.abs(
-                    this.applyDelta(this.y_min, targetY) / this.cell_h
+                    applyDelta(this.y_min, targetY) / this.cell_h
                 ))
             ]
         ].setIndex;
@@ -1023,9 +1074,9 @@ class TableView {
             instance.reset_delta = instance.y_min;
 
             /* shift all the positioning variables */
-            instance.y = instance.applyDelta(instance.reset_delta, instance.y);
-            instance.y_min = instance.applyDelta(instance.reset_delta, instance.y_min);
-            instance.y_max = instance.applyDelta(instance.reset_delta, instance.y_max);
+            instance.y = applyDelta(instance.reset_delta, instance.y);
+            instance.y_min = applyDelta(instance.reset_delta, instance.y_min);
+            instance.y_max = applyDelta(instance.reset_delta, instance.y_max);
 
             /* shift all the rows */
             instance.rows_ordered_by_y.forEach((position, index) => {
@@ -1093,7 +1144,12 @@ class TableView {
         if (this.x_scroll_locked) { return; }
         if (event.target.className !== 'ui-table-x-scroll-track') { return; }
 
-        this.evt.deltaX = (event.pageX - this.last_pageX) * this.x_table_pixel_ratio;
+        this.evt.deltaX = Math.floor(
+            applyDelta(
+                this.last_x_scroll_handle_x, event.pageX - this.distance_from_left
+            ) * this.x_table_pixel_ratio
+        );
+
         this.evt.deltaY = 0;
 
         this.handleMoveIntent(this.evt);
@@ -1107,7 +1163,7 @@ class TableView {
 
         this.evt.deltaX = 0;
         this.evt.deltaY = Math.floor(
-            this.applyDelta(
+            applyDelta(
                 this.last_y_scroll_handle_y, event.pageY - this.distance_from_top
             ) / this.y_scrollbar_pixel_ratio
         ) * this.cell_h;
@@ -1163,7 +1219,7 @@ class TableView {
 
             this.evt.deltaX = 0;
             this.evt.deltaY = Math.floor(
-                this.applyDelta(
+                applyDelta(
                     this.last_y_scroll_handle_y,
                     event.pageY - this.distance_from_top - this.y_scroll_offset
                 ) / this.y_scrollbar_pixel_ratio
@@ -1278,24 +1334,6 @@ class TableView {
         }
     }
 
-    getKeyFromKeyCode(code) {
-        switch (code) {
-        case 192:
-            return 'Escape';
-
-        case 40:
-            return 'ArrowDown';
-
-        case 38:
-            return 'ArrowUp';
-
-        case 13:
-            return 'Enter';
-        }
-
-        return null;
-    }
-
     setAriaText(text) {
         this.c.aria.innerText = text;
     }
@@ -1345,7 +1383,7 @@ class TableView {
     }
 
     handleKeyDown = (event) => {
-        const key = event.key || this.getKeyFromKeyCode(event.keyCode);
+        const key = event.key || getKeyFromKeyCode(event.keyCode);
 
         switch (key) {
         case 'Escape':
@@ -1441,5 +1479,3 @@ class TableView {
         this.setActiveRow(index);
     }
 }
-
-export default TableView;
