@@ -1,5 +1,5 @@
 ---
-- hosts: platform-docs
+- hosts: uikit-docs
   vars:
     nginx_dir: "/usr/local/etc/nginx"
 
@@ -14,6 +14,10 @@
       pkgng: name={{ item }}
       with_items:
         - nginx
+
+    - name: Create nginx directory
+      sudo: true
+      file: path={{ nginx_dir }} state=directory mode=0774
 
     - name: Install the NGINX config
       sudo: true

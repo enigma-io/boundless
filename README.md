@@ -174,4 +174,34 @@ Next time your project's CSS is built, UIKit's CSS will automatically be compile
 
 [back to top](#uikit)
 
+---
+
+## Updating this website (http://uikit.enigma)
+
+Add the ansible role to your `/etc/ansible/hosts` file:
+
+```
+uikit-docs ansible_ssh_user=ec2-user ansible_ssh_host=10.10.219.210 ansible_python_interpreter=/usr/local/bin/python
+```
+
+Then grab the latest code and run `make deploy`. The deployment will fail unless your public key is added to the AWS instance ([INF](mailto:inf@enigma.io) can do this.)
+
+### Recreating the server
+
+UIKit docs are hosted on an AWS FreeBSD instance. If you need to recreate it for some reason, select the Enigma FreeBSD image (`ami-67df330a`), launch it with the subnet (currently `pub-platform-east1c-enigma`) and security group (`default-priv-corp-east1c-enigma`), and SSH in to set up python:
+
+```bash
+pkg install python
+```
+
+`exit` out of SSH, back to your local CLI. Then run the server setup ansible playbook from the UIKit directory:
+
+```bash
+ansible-playbook deploy/playbook-server.yml -i /etc/ansible/hosts
+```
+
+Once that is done, you should be able to run `make deploy` to build the site itself and deploy it.
+
+__NOTE: INF will have to point the internal DNS at the new instance IP, so send that information to them as soon as the new instance has been launched to save time.__
+
 <sub>© Enigma Technologies 2015-present. All rights reserved.</sub>

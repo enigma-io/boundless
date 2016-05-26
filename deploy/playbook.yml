@@ -1,5 +1,5 @@
 ---
-- hosts: platform-docs
+- hosts: uikit-docs
   vars:
     user: uikit
     home_dir: /home/{{ user }}
@@ -16,7 +16,6 @@
       sudo: yes
       pkgng: name={{ item }}
       with_items:
-        - nginx
         - rsync
 
     - name: Create the uikit user
