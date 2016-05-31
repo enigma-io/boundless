@@ -98,4 +98,4 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
 
 - __onClose__ `Function`
-  a handler called if `closeOnEscKey` or `closeOnOutsideClick` is passed as `true`
+  a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
