@@ -3,6 +3,8 @@ __A high-performance, infinite table view.__
 
 > The UIKit Team recommends reviewing the [Table View](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW4) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITable` in your project.
 
+UITable makes use of the [`enigma-table` project](https://github.com/bibliotech/table) under the hood.
+
 ---
 
 ### Example Usage
@@ -171,9 +173,9 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 
 ---
 
-### Tableview methods (CAUTION, THAR BE DRAGONS)
+### Underlying table methods (CAUTION, THAR BE DRAGONS)
 
-A formal API for the non-React tableview base class has not been established, but if you want to take advantage of some lightly documented functionality, here are some things you can programmatically do:
+A formal API for the non-React table base class has not been established, but if you want to take advantage of some lightly documented functionality, here are some things you can programmatically do:
 
 - `table.jumpToRowIndex(number)` - programmatically scrolls the table to the appropriate row index
 
@@ -189,15 +191,16 @@ class MyComponent extends React.Component {
     render() {
         return (
             <div className='myview'>
-                <UIButton onPressed={() => this.refs.myTable.table.resetActiveRow()}>
+                <UIButton onPressed={() => this.refs.tableview.table.resetActiveRow()}>
                     Click me to clear the active row!
                 </UIButton>
 
-                <UITable ref='myTable' /* required props */ />
+                <UITable ref='tableview' /* required props */ />
             </div>
         );
     }
 }
+
 ```
 
 ---

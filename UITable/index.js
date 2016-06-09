@@ -3,9 +3,9 @@
  * @class UITable
  */
 
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import UIView from '../UIView';
-import Table from './table';
+import Table from 'enigma-table';
 
 export default class UITable extends UIView {
     static propTypes = {

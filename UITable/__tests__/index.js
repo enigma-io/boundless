@@ -5,7 +5,7 @@ window.requestAnimationFrame = callback => callback();  // make it synchronous f
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import UITable from '../../UITable';
+import UITable from '../index';
 import conformanceChecker from '../../UIUtils/conform';
 import noop from '../../UIUtils/noop';
 
@@ -48,89 +48,89 @@ describe('UITable', () => {
 
         beforeEach(() => element = render(<UITable {...baseProps} />));
 
-        it('ui-table-wrapper should be rendered', () => {
+        it('ui-table-wrapper is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.className).toContain('ui-table-wrapper');
         });
 
-        it('ui-table-body should be rendered', () => {
+        it('ui-table-body is rendered', () => {
             expect(element.refs.body.className).toContain('ui-table-body');
         });
 
-        it('ui-table-row should be rendered', () => {
+        it('ui-table-row is rendered', () => {
             const node = element.refs.body;
 
             expect(node.querySelector('.ui-table-row')).not.toBe(null);
         });
 
-        it('ui-table-row-even should be rendered', () => {
+        it('ui-table-row-even is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-even')).not.toBe(null);
         });
 
-        it('ui-table-row-odd should be rendered', () => {
+        it('ui-table-row-odd is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-odd')).not.toBe(null);
         });
 
-        it('ui-table-row-loading should be rendered', () => {
+        it('ui-table-row-loading is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-row-loading')).not.toBe(null);
         });
 
-        it('ui-table-cell should be rendered', () => {
+        it('ui-table-cell is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-cell')).not.toBe(null);
         });
 
-        it('ui-table-cell-even should be rendered', () => {
+        it('ui-table-cell-even is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-cell-even')).not.toBe(null);
         });
 
-        it('ui-table-cell-odd should be rendered', () => {
+        it('ui-table-cell-odd is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-cell-odd')).not.toBe(null);
         });
 
-        it('ui-table-header-cell should be rendered', () => {
+        it('ui-table-header-cell is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-header-cell')).not.toBe(null);
         });
 
-        it('ui-table-header-cell-resize-handle should be rendered', () => {
+        it('ui-table-header-cell-resize-handle is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-header-cell-resize-handle')).not.toBe(null);
         });
 
-        it('ui-table-x-scroll-track should be rendered', () => {
+        it('ui-table-x-scroll-track is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-x-scroll-track')).not.toBe(null);
         });
 
-        it('ui-table-x-scroll-handle should be rendered', () => {
+        it('ui-table-x-scroll-handle is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-x-scroll-handle')).not.toBe(null);
         });
 
-        it('ui-table-y-scroll-track should be rendered', () => {
+        it('ui-table-y-scroll-track is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-y-scroll-track')).not.toBe(null);
         });
 
-        it('ui-table-y-scroll-handle should be rendered', () => {
+        it('ui-table-y-scroll-handle is rendered', () => {
             const node = element.refs.wrapper;
 
             expect(node.querySelector('.ui-table-y-scroll-handle')).not.toBe(null);
@@ -138,7 +138,7 @@ describe('UITable', () => {
     });
 
     describe('props.identifier', () => {
-        it('should fully reset the table when changed', () => {
+        it('fully resets the table when changed', () => {
             let element = render(<UITable {...baseProps} />);
 
             expect(element.refs.body.querySelector('.ui-table-cell').textContent).toBe('Louise');
@@ -152,7 +152,7 @@ describe('UITable', () => {
     });
 
     describe('regeneration', () => {
-        it('should not occur if nothing changed', () => {
+        it('does not occur if nothing changed', () => {
             let element;
 
             element = render(<UITable {...baseProps} />);
@@ -163,7 +163,7 @@ describe('UITable', () => {
             expect(element.table.regenerate.called).toBe(false);
         });
 
-        it('should occur if a column is changed', () => {
+        it('occurs if a column is changed', () => {
             let element;
 
             element = render(<UITable {...baseProps} />);
@@ -179,7 +179,7 @@ describe('UITable', () => {
             expect(element.table.regenerate.calledOnce).toBe(true);
         });
 
-        it('should not occur if a column width is changed to match the internal column width', () => {
+        it('does not occur if a column width is changed to match the internal column width', () => {
             let element;
 
             element = render(<UITable {...baseProps} />);
@@ -195,7 +195,7 @@ describe('UITable', () => {
             expect(element.table.regenerate.called).toBe(false);
         });
 
-        it('should only occur once when given `props.jumpToRowIndex`', () => {
+        it('only occurs once when given `props.jumpToRowIndex`', () => {
             let element;
 
             element = render(<UITable {...baseProps} />);
