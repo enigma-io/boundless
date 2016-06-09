@@ -2,6 +2,96 @@
 
 ---
 
+## 1.0.0-beta-14 (6/9/2016)
+
+No breaking changes.
+
+### Highlights
+
+__Co-branding__
+
+It's now possible to modify the UIKit styles without writing CSS overrides. [Check out the README](https://github.com/bibliotech/uikit#branding-uikit) to learn how this works.
+
+__UITable improvements / migration__
+
+Performance is up across the board and a few new [programmatic methods](./UITable#underlying-table-methods-caution-thar-be-dragons) have been added. The base table implementation has been moved into [its own repository](https://github.com/bibliotech/table) for faster development and more experimentation without affecting UIKit.
+
+__UITextualInput__
+
+A new component with polyfilled, configurable placeholder support. It has taken the place of text inputs in other components, like UITypeaheadInput.
+
+### On the horizon...
+
+Work has been started to do a fairly substantial rewrite of the base table implementation, using native scrollable DOM zones. This is important because it gives kinetic scrolling on touch devices for free and generally will be much more performant. The tradeoff is the synthetic scrollbars go away, so we lose the ability to style them in non-Webkit browsers.
+
+UIKit will also be getting an infusion of new layout components when the Tolleson branding exercise is complete. They will directly align with Design's "sticker sheet" and make it extremely simple to have your entire webapp be Enigma-branded, with appropriate styling. UIKit will, in effect, be the living Enigma visual style guide. We will also provide reference HTML & styles for layout components if your project isn't thick enough to need React.
+
+### Relevant Commits
+
+- __UITextualInput placeholder adjustments (#235)__ (1f7f5d9) Otherwise it will leak out of the input area and obviously not look like a true placeholder.
+- __UIDialog: rewrite the `onClose` prop description (#237)__ (60cfd82) The intended purpose was not clearly - articulated.
+- __UITable: remove perspective CSS property (#232)__ (6a7e353) It causes all the text to become blurred in Safari.
+- __UITable: fix x-axis scrolling issue when cached pageX is not set (#229)__ (9e00254) When fully scrolled to the right and resizing the screen (making the table larger) the viewport should now automatically keep pace with the right edge so it doesn't break the scrolling.
+- __UITable: row deselection support, down arrow behaviorial change__ (fa31483) The table will now automatically - attempt to make the topmost visible row the active row if no row has been previously made active.
+    - added a blurb to the README on some programmatic, but unstable methods that can be used for Tableview
+- __UITable: add odd and even classes to the cells__ (94ef9e2) This should improve scrolling performance, as using :nth-child() selectors on things that change often is hideously expensive. Also removed some unnecessary styles.
+- __UITable: don't render cell title (perf), remove unnecessary div__ (96cb6f7) The .ui-table div isn't needed, and - I don't recall why it was added. Removing it had no noticeable effect.
+- __UITable: support array-form rows__ (8e833ab) This has the advantage of a more compact payload, but extra care must be taken to ensure the column ordering exactly mirrors that of the rows.
+- __Various component behaviorial changes (#212)__ (1d7ea10) * UIPopover: close on esc key and outside click by default
+- __UITable: persist the column width changes to the backing data (#211)__ (b92dd56) Now that our external wrapper is smarter, the columns don't get passed down for a regeneration cycle, so the TableView needs to update itself.
+- __UITable: add static mode__ (488a976) This is purposely not going to be advertised in the docs, but exists to support the table preview functionality in the current Explore query search.
+- __UITable: implement column resize callback, improve regen logic__ (76bab70)
+- __UITable: preserve active row selection__ (14d0414) It will no longer reset on window resize or between dataset source changes unless the previous active index now exceeds the new total amount of available rows.
+- __UITable: implement .ui-table-row[data-index]__ (0b58970) To allow granular styling for specific rows, since DOM - order can't be guaranteed.
+- __UITypeaheadInput: support "controlled" inputs__ (dd53a1e)
+- __UITextualInput: value(string) method__ (f4b4d94) For programmatic setting of the input field value. This needs to exist because directly setting `refs.field.value = string` does not trigger the necessary event flow to update the component's internal state and the placeholder doesn't appear/disappear correctly.
+- __UITable: jumpToRowIndex (#196)__ (6b01aa6) Programmatically advance the table to a specific row \# within the current data set.
+- __UITable: scroll state preservation (optional, defaulting to on) (#194)__ (accbaf6)
+- __Revise the Getting Started import instructions (#190)__ (09940f6) And add a note about custom theming, similar to the README. Now includes all the style assets in the downloaded NPM module.
+- __UITextualInput (#186)__ (202de00) A new composition component that abstracts away some x-platform differences in how placeholders are displayed and their interaction behaviors.
+- __UITable: fix column resize behavior__ (8a1c799) Previously any shrinkage of a column would cause a left scroll, now we only scroll left if the negative delta would cause the a whitespace gap on the right edge.
+- __UIArrowKeyNavigation: stop focus & blur bubbling__ (1a55887) If multiple instances of this component are nested, - the child events bubble up and trigger handlers on the parents, which isn't desired as it can move the page around and be disorienting.
+- __Add co-branding instructions to README__ (cc7efaa)
+- __Move global style variables to central style.styl__ (8576d30) Now it is possible for a third party to import the - main style.styl and inject their own values for the variables to change colors, etc as needed. More work needs to be done to make more of the styles configurable.
+
+### Misc
+
+- __UIDialog: remove unused/unrepresented styles (#241)__ (4b5f8d7)
+- __Generalize passing of props from parent to child in composite components (#240)__ (0fc77ff)
+- __Use the separated enigma-table module in UITable (#238)__ (84a7d28) The base table class will be used in places other than UIKit, so it makes sense to separate it into its own repository for cleaner issue management and development.
+- __Revise ansible deployment stuff, add README entry about it__ (b801eec)
+- __Move const declaration__ (a188727)
+- __UIFittedText: use a shared window resize listener__ (7646210) Takes the number of window resize listeners from O(- n) to O(1) for any number of UIFittedText instances on a page.
+- __Travis CI integration & remove Platform team branding (#227)__ (89e52f4)
+- __UIProgressiveDisclosure: expand horizontally as able__ (90b42eb)
+- __UITable: introduce a layout boundary for the cell text__ (758080f) Theoretically, this should reduce the amount - of work the browser has to do when updating a cell's content and give some perf improvement.
+- __Update to Jest 12.x__ (32e28c9) Supposedly there are some perf improvements.
+- __UITable: static mode no longer requires elements for the scroll bars__ (ca37519)
+- __UIModal: tweak base styling__ (9e9e009) It's a bit more flexible now.
+- __UITextualInput: further tweaking for controlled input support__ (4e61cf1)
+- __UITypeaheadInput: remove deprecated methods__ (ce13625)
+- __UITypeaheadInput: also watch for inputProps.defaultValue (#200)__ (ac1e855)
+- __UITextualInput: hide placeholder when a defaultValue is given (#199)__ (2da2d1b)
+- __UISegmentedControl: pointer cursor only for the toggles (#198)__ (95f177d) Previously the entire thing (including any padding) had the cursor, which is setting the wrong expectation if a user tries to click in the padding area outside a toggle.
+- __UITable: CSS tuning for table view perf (#197)__ (d5d3252) Minor changes, but I saw about a 10% improvement in ms timings.
+- __Abstract color scheme options to global vars__ (5b52076)
+- __Fix a few failing tests, enable checkbox + label test__ (a4dbd7f)
+- __Update to React 15, fix a documentation site react-router issue__ (9ee90b8) Everything appears to just work. <- U+1F389>
+- __Rewrite es5 compilation step & add a watch mode__ (9c165c1)
+- __Re-shrinkwrap with new dep versions__ (2c10619)
+- __Upgrade React-Router to 2.x__ (325f9f5) Also had to remove the use of ES6 defaults in site/prepare.js because the functionality isn't enabled in Node yet.
+- __eslintify -> eslint__ (767d968) We don't need the transform version. Fixed a few linting issues.
+- __UIPopover: add a few more style combinations for placements__ (2907518)
+- __UIDialog: closeOnOutsideClick right-click support__ (f77d8d6)
+- __UIPopover: fix X-overflow alignment__ (5cc00c6)
+- __UIButton: fix style not being enforced for disabled buttons__ (e071145) They shouldn't respond to hover, etc.
+- __Update babel-jest and babel-eslint__ (b388045)
+- __Update jest and npm test commands__ (0f72238) Does not collect coverage by default now, since it's slow and the - bug was fixed in 0.9.x so we don't have to specify files anymore.
+- __UITable/TableView: Add test to verify table cells receive [data-column]__ (4985d18)
+- __UITypeaheadInput: prevent double onInput events__ (947d54a)
+
+---
+
 ## 1.0.0-beta-13 (3/8/2016)
 
 __UITable/TableView major refactor__
