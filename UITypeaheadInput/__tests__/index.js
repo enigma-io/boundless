@@ -427,6 +427,46 @@ describe('UITypeaheadInput', () => {
         });
     });
 
+    describe('passthrough to UITextualInput', () => {
+        let element;
+
+        beforeEach(() => {
+            element = render(
+                <UITypeaheadInput
+                    defaultValue='ap'
+                    hidePlaceholderOnFocus={true}
+                    name='baz'
+                    placeholder='pl'
+                    type='text'
+                    value='va' />
+            );
+        });
+
+        it('should correctly pass down props.defaultValue', () => {
+            expect(element.refs.input.props.defaultValue).toContain('ap');
+        });
+
+        it('should correctly pass down props.hidePlaceholderOnFocus', () => {
+            expect(element.refs.input.props.hidePlaceholderOnFocus).toBe(true);
+        });
+
+        it('should correctly pass down props.name', () => {
+            expect(element.refs.input.props.name).toBe('baz');
+        });
+
+        it('should correctly pass down props.placeholder', () => {
+            expect(element.refs.input.props.placeholder).toBe('pl');
+        });
+
+        it('should correctly pass down props.type', () => {
+            expect(element.refs.input.props.type).toBe('text');
+        });
+
+        it('should correctly pass down props.value', () => {
+            expect(element.refs.input.props.value).toBe('va');
+        });
+    });
+
     describe('misc internals', () => {
         it('focus should focus the correct node', () => {
             const element = render(<UITypeaheadInput />);

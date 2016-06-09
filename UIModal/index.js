@@ -5,6 +5,7 @@
 
 import React from 'react';
 import UIDialog from '../UIDialog';
+import extractChildProps from '../UIUtils/extractChildProps';
 import UIView from '../UIView';
 import cx from 'classnames';
 
@@ -22,12 +23,6 @@ export default class UIModal extends UIView {
     }
 
     render() {
-        const dialogSpecificProps = Object.keys(UIDialog.propTypes).reduce((props, key) => {
-            props[key] = this.props[key];
-
-            return props;
-        }, {});
-
         return (
             <div {...this.props}
                  ref='wrapper'
@@ -41,7 +36,7 @@ export default class UIModal extends UIView {
                          'ui-modal-mask': true,
                          [this.props.maskProps.className]: !!this.props.maskProps.className,
                      })} />
-                <UIDialog {...dialogSpecificProps}
+                <UIDialog {...extractChildProps(this.props, UIDialog.propTypes)}
                           {...this.props.modalProps}
                           ref='dialog'
                           className={cx({

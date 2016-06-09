@@ -6,6 +6,7 @@
 import React, { PropTypes } from 'react';
 import UITextualInput from '../UITextualInput';
 import UIView from '../UIView';
+import extractChildProps from '../UIUtils/extractChildProps';
 import noop from '../UIUtils/noop';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
@@ -448,7 +449,7 @@ export default class UITypeaheadInput extends UIView {
     }
 
     render() {
-        const { props, state } = this;
+        const {props, state} = this;
 
         return (
             <div
@@ -464,6 +465,7 @@ export default class UITypeaheadInput extends UIView {
                 {this.renderHint()}
 
                 <UITextualInput
+                    {...extractChildProps(props, UITextualInput.propTypes)}
                     ref='input'
                     inputProps={{
                         ...props.inputProps,
