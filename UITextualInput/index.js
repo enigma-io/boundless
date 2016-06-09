@@ -86,15 +86,19 @@ export default class UITextualInput extends UIView {
         }
     }
 
-    renderPlaceholder() {
+    getPlaceholderText() {
         const is_non_empty = Boolean(this.state.input);
         const should_show_placeholder =   this.props.hidePlaceholderOnFocus === true
                                         ? this.state.is_focused === false && is_non_empty === false
                                         : is_non_empty === false;
 
+        return should_show_placeholder ? this.props.inputProps.placeholder || this.props.placeholder : '';
+    }
+
+    renderPlaceholder() {
         return (
             <div ref='placeholder' className='ui-textual-input ui-textual-input-placeholder'>
-                {should_show_placeholder ? this.props.inputProps.placeholder || this.props.placeholder : ''}
+                {this.getPlaceholderText()}
             </div>
         );
     }
@@ -112,7 +116,8 @@ export default class UITextualInput extends UIView {
                 })}
                 name={null}
                 placeholder={null}
-                type={null}>
+                type={null}
+                title={this.getPlaceholderText()}>
                 {this.renderPlaceholder()}
                 <input
                     {...props.inputProps}

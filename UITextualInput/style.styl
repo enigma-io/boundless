@@ -36,54 +36,16 @@
 .ui-textual-input-placeholder {
     color: color-UITextualInput_placeholder;
     border-color: transparent;
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .ui-textual-input-placeholder + .ui-textual-input {
     background: transparent;
 }
-
-/*
-
-.ui-typeahead,
-.ui-typeahead-hint {
-    background: background-UITextualInput;
-    border: 1px solid borderColor-UITextualInput;
-    border-radius: borderRadius;
-    color: color-UITextualInput;
-    padding: 0.75em;
-    width: 100%;
-}
-
-.ui-typeahead-hint + .ui-typeahead {
-    background: transparent;
-}
-
-.ui-typeahead {
-    position: relative;
-    z-index: 1;
-
-    transition: border-color 200ms ease;
-}
-
-.ui-typeahead:hover {
-    border-color: borderColor-UITextualInput-hover;
-}
-
-.ui-typeahead:focus {
-    border-color: borderColor-UITextualInput-focus;
-}
-
-.ui-typeahead-hint {
-    border-color: transparent;
-    color: color-UITextualInput-hint;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-}
-*/
