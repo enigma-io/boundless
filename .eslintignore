@@ -1,5 +1,5 @@
 coverage/
-dist/
+public/
 docs/
 es5/
 __tests__/

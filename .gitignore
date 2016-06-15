@@ -6,7 +6,7 @@ node_modules/
 
 # build things
 coverage/
-site/dist
+site/public
 docs/sdk
 
 # Uncomment this when we are serving to npm for realzies

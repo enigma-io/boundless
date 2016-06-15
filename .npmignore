@@ -1,8 +1,8 @@
 *
 !es5/
 !es5/**/*
-!dist/
-!dist/**/*
+!public/
+!public/**/*
 
 # allow custom theming
 !style.styl

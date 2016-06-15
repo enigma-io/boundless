@@ -24,7 +24,7 @@
 
     - name: Copy over the uikit source
       sudo: true
-      synchronize: src=../site/dist/ dest={{ app_dir }}
+      synchronize: src=../site/public/ dest={{ app_dir }}
 
     - name: Change owner of uikit source
       sudo: true
