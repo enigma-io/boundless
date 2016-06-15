@@ -16,8 +16,8 @@ __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-tabl
 1. [Usage](#usage)
     1. [ES6 (bundled with Babel, etc.)](#es6-bundled-with-babel-etc)
     1. [ES5 (bundled)](#es5-bundled)
-    1. [ES5 (unbundled) + in-browser JSX compiler](#es5-distuikitminjs-dropped-into-the-page--inbrowser-jsx-compilerhttpbabeljsiodocsusagebrowser)
-    1. [ES5 (unbundled)](#es5-distuikitminjs-dropped-into-the-page)
+    1. [ES5 (unbundled) + in-browser JSX compiler](#es5-publicuikitminjs-dropped-into-the-page--inbrowser-jsx-compilerhttpbabeljsiodocsusagebrowser)
+    1. [ES5 (unbundled)](#es5-publicuikitminjs-dropped-into-the-page)
 1. [Website, Component Demos and Reference Styles](#website-component-demos-and-reference-styles)
     1. [Running the Website Locally](#running-the-website-locally)
 1. [Branding UIKit](#branding-uikit)
@@ -42,7 +42,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 
 ### without a bundling system
 
-You can simply copy the [dist/uikit.min.js](https://github.com/bibliotech/uikit/blob/master/dist/uikit.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
+You can simply copy the [public/uikit.min.js](https://github.com/bibliotech/uikit/blob/master/public/uikit.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
 In this case, your HTML page would probably resemble the following:
 ```html
@@ -99,7 +99,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-### ES5 (`dist/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+### ES5 (`public/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -114,7 +114,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-### ES5 (`dist/uikit.min.js` dropped into the page)
+### ES5 (`public/uikit.min.js` dropped into the page)
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -127,7 +127,7 @@ function MyUI() {
 ReactDOM.render(MyUI(), document.body);
 ```
 
-An unminified version with bundled sourcemapping for easy debugging during the development process is available: [dist/uikit.js](dist/uikit.js)
+An unminified version with bundled sourcemapping for easy debugging during the development process is available: [public/uikit.js](public/uikit.js)
 
 [back to top](#uikit)
 
@@ -141,7 +141,7 @@ Clone the repository to your local machine:
 git clone git@github.com:bibliotech/uikit.git
 ```
 
-Each component folder includes a functional demo and some reference styles in `style.styl`. These styles are all rolled up into `dist/skin.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
+Each component folder includes a functional demo and some reference styles in `style.styl`. These styles are all rolled up into `public/skin.min.css` that you can drop into your project. ___NOTE: these are not official Enigma styles, expect them to change in a later release.___
 
 ### Running the Website Locally
 
