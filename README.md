@@ -1,7 +1,5 @@
 # UIKit
 
-[![Build Status](https://travis-ci.com/bibliotech/uikit.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/bibliotech/uikit) [![Coverage Status](https://coveralls.io/repos/github/bibliotech/uikit/badge.svg?branch=master&t=HM2WQm)](https://coveralls.io/github/bibliotech/uikit?branch=master)
-
 UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
 During the beta releases, UIKit will not come with a compiled CSS "skin". Each component in the Github repository does have styles that can be copied and used in your project, though.

@@ -67,14 +67,13 @@
     "automock": false,
     "coverageReporters": [
       "text",
-      "lcov"
+      "cobertura"
     ]
   },
   "scripts": {
     "lint": "eslint --quiet *.js **/*.js",
     "test": "jest --verbose",
     "coverage": "jest --coverage",
-    "coverage:send": "cat coverage/lcov.info | coveralls",
     "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -path './UI*/*' -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
     "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",

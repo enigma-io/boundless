@@ -6,7 +6,6 @@ install:
 test: install
 	npm run lint
 	npm run coverage
-	npm run coverage:send
 
 deploy: install
 	npm run site:release
