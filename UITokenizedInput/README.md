@@ -10,39 +10,53 @@ Basic usage of this component is identical to that of [UITypeaheadInput](../UITy
 ### Example Usage
 
 ```jsx
-import {UITokenizedInput} from 'enigma-uikit';
+import {
+    UITokenizedInput,
+    UIView,
+} from 'enigma-uikit';
 
-const list = [
-    {text: 'orange'},
-    {text: 'apple'},
-    {text: 'banana'},
-];
+class MyTokenField extends UIView {
+    state = {
+        list: [
+            {text: 'orange'},
+            {text: 'apple'},
+            {text: 'banana'},
+        ],
 
-const tokens = [0];         // these are indexes of entities in "list" above
-const tokensSelected = [];  // indexes are added to this array when the user tries to select a token
+        // these are indexes of entities in "list" above
+        tokens: [0],
 
-const addEntityIndexToTokens = index => tokens.push(index);
-const removeEntityIndexesFromTokens = indexes => tokens.filter(index => indexes.indexOf(index) === -1);
-const modifyTokenSelectionArray = indexes => tokensSelected = indexes;
+        // indexes are added to this array when the user tries to select a token
+        tokens_selected: [],
+    }
 
-// ...
+    addToken = index => {
+        this.setState({tokens: this.state.tokens.concat(index)});
+    }
 
-render() {
-    return (
-        <UITokenizedInput
-            entities={list}
-            handleAddToken={addEntityIndexToTokens}
-            handleRemoveTokens={removeEntityIndexesFromTokens}
-            handleSelection={modifyTokenSelectionArray}
-            hint={true}
-            inputProps={{
-                'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.',
-                defaultValue: 'ap',
-                name: 'my-tokenfield',
-            }}
-            tokens={tokens}
-            tokensSelected={tokensSelected} />
-    );
+    removeTokens = indexes => {
+        this.setState({tokens: this.state.tokens.filter(index => indexes.indexOf(index) === -1)});
+    }
+
+    changeTokenSelection = indexes => this.setState({tokens_selected: indexes.slice(0)})
+
+    render() {
+        return (
+            <UITokenizedInput
+                entities={this.state.list}
+                handleAddToken={this.addToken}
+                handleRemoveTokens={this.removeTokens}
+                handleNewSelection={this.changeTokenSelection}
+                hint={true}
+                inputProps={{
+                    'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.',
+                    defaultValue: 'ap',
+                    name: 'my-tokenfield',
+                }}
+                tokens={this.state.tokens}
+                tokensSelected={this.state.tokens_selected} />
+        );
+    }
 }
 ```
 
