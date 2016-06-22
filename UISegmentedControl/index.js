@@ -142,6 +142,8 @@ export default class UISegmentedControl extends UIView {
         return this.props.options.map((definition, index) => {
             return (
                 <UIButton {...definition}
+                          content={null}
+                          value={null}
                           selected={null}
                           role='radio'
                           aria-checked={String(definition.selected)}
@@ -166,7 +168,7 @@ export default class UISegmentedControl extends UIView {
         return (
             <div {...this.props}
                  ref='wrapper'
-                 aria-required='radiogroup'
+                 aria-role='radiogroup'
                  className={cx({
                     'ui-segmented-control': true,
                     [this.props.className]: !!this.props.className,

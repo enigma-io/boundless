@@ -14,7 +14,7 @@ import UIDialogDemo from '../UIDialog/demo';
 import UIFittedTextDemo from '../UIFittedText/demo';
 import UIImageDemo from '../UIImage/demo';
 import UIModalDemo from '../UIModal/demo';
-import UIPaginatedViewDemo from '../UIPaginatedView/demo';
+import UIPaginationDemo from '../UIPagination/demo';
 import UIPopoverDemo from '../UIPopover/demo';
 import UIProgressDemo from '../UIProgress/demo';
 import UIProgressiveDisclosureDemo from '../UIProgressiveDisclosure/demo';
@@ -99,9 +99,9 @@ const components = {
         component: UIModalDemo,
         readme: fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8'),
     },
-    UIPaginatedView: {
-        component: UIPaginatedViewDemo,
-        readme: fs.readFileSync(__dirname + '/../UIPaginatedView/README.md', 'utf8'),
+    UIPagination: {
+        component: UIPaginationDemo,
+        readme: fs.readFileSync(__dirname + '/../UIPagination/README.md', 'utf8'),
     },
     UIPopover: {
         component: UIPopoverDemo,

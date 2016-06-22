@@ -1,35 +1,31 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-paginated-view-controls .ui-segmented-control-option {
+.ui-pagination-controls .ui-pagination-control {
     background: background-UIPaginatedView_control;
     border-color: borderColor-UIPaginatedView_control;
     color: color-UIPaginatedView_control;
 }
 
-.ui-paginated-view-controls .ui-segmented-control-option:not(.ui-segmented-control-option-selected):focus {
+.ui-pagination-controls .ui-pagination-control:not(.ui-segmented-control-option-selected):focus {
     background: background-UIPaginatedView_control-focus;
     color: color-UIPaginatedView_control-focus;
 }
 
-.ui-paginated-view-controls .ui-segmented-control-option-selected {
+.ui-pagination-controls .ui-segmented-control-option-selected {
     background: background-UIPaginatedView_control-selected;
     color: color-UIPaginatedView_control-selected;
 }
 
-.ui-paginated-view .ui-paginated-view-item {
+.ui-pagination .ui-pagination-item {
     display: flex;
 }
 
-.ui-paginated-view .ui-paginated-view-item:after {
-    content: none;
-}
-
-.ui-paginated-view-item-loading {
+.ui-pagination-item-loading {
     position: relative;
 }
 
-.ui-paginated-view-item-loading::before,
-.ui-paginated-view-item-loading::after {
+.ui-pagination-item-loading::before,
+.ui-pagination-item-loading::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -42,11 +38,11 @@
     background: background-UIPaginatedView_item-loading;
 }
 
-.ui-paginated-view-item-loading::before {
+.ui-pagination-item-loading::before {
     animation: loaderBefore 0.7s ease-in-out alternate infinite;
 }
 
-.ui-paginated-view-item-loading::after {
+.ui-pagination-item-loading::after {
     animation: loaderAfter 0.7s ease-in-out alternate infinite;
 }
 

@@ -1,48 +1,117 @@
 /**
- * A controller view for managing the aggregate state of multiple, related radio-style buttons.
- * @class UIPaginatedView
+ * A utility view for paging the display of many data items of varying sizes.
+ * @class UIPagination
  */
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import UIView from '../UIView';
 import UISegmentedControl from '../UISegmentedControl';
 import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
-import Item from './item';
-import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
-export default class UIPaginatedView extends UIView {
-    static controlValues = {
+import cx from 'classnames';
+
+class Item extends UIView {
+    static propTypes = {
+        even: PropTypes.bool,
+        data: PropTypes.object,
+        index: PropTypes.number,
+    }
+
+    state = {
+        data: this.props.data,
+    }
+
+    __mounted = false
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            this.setState({data: nextProps.data});
+        }
+    }
+
+    waitForContentIfNecessary() {
+        if (this.state.data instanceof Promise) {
+            this.state.data.then(function cautiouslySetItemData(promise, value) {
+                if (this.__mounted && this.state.data === promise) {
+                    this.setState({data: value});
+                } // only replace if we're looking at the same promise, otherwise do nothing
+            }.bind(this, this.state.data));
+        }
+    }
+
+    componentDidMount() {
+        this.__mounted = true;
+        this.waitForContentIfNecessary();
+    }
+
+    componentWillUnmount() {
+        this.__mounted = false;
+    }
+
+    componentDidUpdate() {
+        this.waitForContentIfNecessary();
+    }
+
+    getClasses(extraClasses) {
+        return cx({
+            'ui-pagination-item': true,
+            'ui-pagination-item-even': this.props.even,
+            'ui-pagination-item-odd': !this.props.even,
+            'ui-pagination-item-loading': this.state.data instanceof Promise,
+        }) + (extraClasses ? ' ' + extraClasses : '');
+    }
+
+    render() {
+        if (this.state.data instanceof Promise) {
+            return (<div {...this.props} className={this.getClasses()} />);
+        }
+
+        return React.cloneElement(this.state.data, {
+            ...this.props,
+            className: this.getClasses(this.state.data.props.className),
+            'data-index': this.props.index,
+            data: null,
+            even: null,
+            index: null,
+        });
+    }
+}
+
+export default class UIPagination extends UIView {
+    static controls = {
         FIRST: 'FIRST',
         PREVIOUS: 'PREVIOUS',
         NEXT: 'NEXT',
         LAST: 'LAST',
     }
 
-    static position = {
+    static positions = {
         ABOVE: 'ABOVE',
         BELOW: 'BELOW',
         BOTH: 'BOTH',
     }
 
     static propTypes = {
-        getItem: React.PropTypes.func,
-        identifier: React.PropTypes.string.isRequired,
-        jumpToFirstControlText: React.PropTypes.string,
-        jumpToLastControlText: React.PropTypes.string,
-        listWrapperProps: React.PropTypes.object,
-        nextPageControlText: React.PropTypes.string,
+        getItem: PropTypes.func,
+        hidePagerIfNotNeeded: PropTypes.bool,
+        identifier: PropTypes.string.isRequired,
+        jumpToFirstControlText: PropTypes.string,
+        jumpToLastControlText: PropTypes.string,
+        listWrapperProps: PropTypes.object,
+        nextPageControlText: PropTypes.string,
+
         numItemsPerPage: function validateNumItemsPerPage(props) {
             if (!Number.isInteger(props.numItemsPerPage)) {
                 return new Error('`numItemsPerPage` must be an integer.');
-            }
-
-            if (props.numItemsPerPage < 1 || props.numItemsPerPage > props.totalItems) {
-                return new Error('`numItemsPerPage` must be between 1 and ' + props.totalItems + '.');
+            } else if (props.numItemsPerPage < 1) {
+                return new Error('`numItemsPerPage` must be greater than zero.');
             }
         },
-        numPageToggles: React.PropTypes.number,
+
+        numPageToggles: PropTypes.number,
+
         pagerPosition: function validatePagerPosition(props) {
             if (!Number.isInteger(props.pagerPosition)) {
                 return new Error('`pagerPosition` must be an integer.');
@@ -54,17 +123,19 @@ export default class UIPaginatedView extends UIView {
                 return new Error('`pagerPosition` must be between 1 and ' + numberOfPages + '.');
             }
         },
-        position: React.PropTypes.oneOf(Object.keys(UIPaginatedView.position)),
-        previousPageControlText: React.PropTypes.string,
-        showJumpToFirst: React.PropTypes.bool,
-        showJumpToLast: React.PropTypes.bool,
-        toggleWrapperProps: React.PropTypes.object,
-        totalItems: React.PropTypes.number.isRequired,
+
+        position: PropTypes.oneOf(Object.keys(UIPagination.positions)),
+        previousPageControlText: PropTypes.string,
+        showJumpToFirst: PropTypes.bool,
+        showJumpToLast: PropTypes.bool,
+        toggleWrapperProps: PropTypes.object,
+        totalItems: PropTypes.number.isRequired,
     }
 
     static defaultProps = {
         options: [],
         getItem: noop,
+        hidePagerIfNotNeeded: false,
         jumpToFirstControlText: '« First',
         jumpToLastControlText: 'Last »',
         listWrapperProps: {},
@@ -72,7 +143,7 @@ export default class UIPaginatedView extends UIView {
         numItemsPerPage: 10,
         numPageToggles: 5,
         pagerPosition: 1,
-        position: UIPaginatedView.position.ABOVE,
+        position: UIPagination.positions.ABOVE,
         previousPageControlText: '‹ Previous',
         showJumpToFirst: true,
         showJumpToLast: true,
@@ -88,8 +159,8 @@ export default class UIPaginatedView extends UIView {
         shownItems: [{data: this.props.getItem(0)}],
     }
 
-    componentDidUpdate(oldProps, oldState) {
-        if (oldState.currentPage !== this.state.currentPage) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.currentPage !== this.state.currentPage) {
             findDOMNode(this.refs.item_0).focus();
         }
     }
@@ -107,6 +178,8 @@ export default class UIPaginatedView extends UIView {
         }
     }
 
+    currentPage = () => this.state.currentPage
+
     createPageButtonOptions() {
         const options = [];
         const numberOfPages = this.state.numberOfPages;
@@ -119,22 +192,24 @@ export default class UIPaginatedView extends UIView {
             options.push({
                 selected: false,
                 content: this.props.jumpToFirstControlText,
-                value: UIPaginatedView.controlValues.FIRST,
+                value: UIPagination.controls.FIRST,
                 disabled: this.state.currentPage === 1,
-                className: 'ui-paginated-view-controls-first',
+                className: 'ui-pagination-control ui-pagination-control-first',
             });
         }
 
         options.push({
             selected: false,
             content: this.props.previousPageControlText,
-            value: UIPaginatedView.controlValues.PREVIOUS,
+            value: UIPagination.controls.PREVIOUS,
             disabled: this.state.currentPage === 1,
-            className: 'ui-paginated-view-controls-previous',
+            className: 'ui-pagination-control ui-pagination-control-previous',
         });
 
         for (let i = startPage; i <= endPage; i++) {
             options.push({
+                className: 'ui-pagination-control',
+                'data-page-number': i,
                 selected: i === this.state.currentPage,
                 content: i,
                 value: i,
@@ -144,26 +219,22 @@ export default class UIPaginatedView extends UIView {
         options.push({
             selected: false,
             content: this.props.nextPageControlText,
-            value: UIPaginatedView.controlValues.NEXT,
+            value: UIPagination.controls.NEXT,
             disabled: this.state.currentPage === this.state.numberOfPages,
-            className: 'ui-paginated-view-controls-next',
+            className: 'ui-pagination-control ui-pagination-control-next',
         });
 
         if (this.props.showJumpToLast) {
             options.push({
                 selected: false,
                 content: this.props.jumpToLastControlText,
-                value: UIPaginatedView.controlValues.LAST,
+                value: UIPagination.controls.LAST,
                 disabled: this.state.currentPage === this.state.numberOfPages,
-                className: 'ui-paginated-view-controls-last',
+                className: 'ui-pagination-control ui-pagination-control-last',
             });
         }
 
         return options;
-    }
-
-    currentPage() {
-        return this.state.currentPage;
     }
 
     generateItems(currentPage, getItem = this.props.getItem) {
@@ -179,19 +250,20 @@ export default class UIPaginatedView extends UIView {
     }
 
     handleClick = (value) => {
+        const values = UIPagination.controls;
         let pageNumber;
 
         switch (value) {
-        case UIPaginatedView.controlValues.FIRST:
+        case values.FIRST:
             pageNumber = 1;
             break;
-        case UIPaginatedView.controlValues.PREVIOUS:
+        case values.PREVIOUS:
             pageNumber = this.state.currentPage - 1;
             break;
-        case UIPaginatedView.controlValues.NEXT:
+        case values.NEXT:
             pageNumber = this.state.currentPage + 1;
             break;
-        case UIPaginatedView.controlValues.LAST:
+        case values.LAST:
             pageNumber = this.state.numberOfPages;
             break;
         default:
@@ -205,19 +277,24 @@ export default class UIPaginatedView extends UIView {
     }
 
     renderItems() {
+        const props = this.props.listWrapperProps;
+
         return (
-            <UIArrowKeyNavigation {...this.props.listWrapperProps}
-                                  ref='itemList'
-                                  className={cx({
-                                      'ui-paginated-view-item-list': true,
-                                      [this.props.listWrapperProps.className]: !!this.props.listWrapperProps.className,
-                                  })}>
+            <UIArrowKeyNavigation
+                {...props}
+                ref='itemList'
+                className={cx({
+                    'ui-pagination-items': true,
+                    [props.className]: !!props.className,
+                })}>
                 {this.state.shownItems.map((item, index) => {
                     return (
-                        <Item ref={`item_${index}`}
-                              key={index}
-                              data={item.data}
-                              even={index % 2 === 0} />
+                        <Item
+                            ref={`item_${index}`}
+                            key={index}
+                            data={item.data}
+                            even={index % 2 === 0}
+                            index={this.state.currentPage - 1 + index} />
                     );
                 })}
             </UIArrowKeyNavigation>
@@ -225,16 +302,23 @@ export default class UIPaginatedView extends UIView {
     }
 
     renderControls(position) {
-        const positionLowerCase = position.toLowerCase();
+        if (   this.props.hidePagerIfNotNeeded
+            && this.props.totalItems <= this.props.numItemsPerPage) {
+            return;
+        }
+
+        const props = this.props.toggleWrapperProps;
+        const position_lower = position.toLowerCase();
+        const position_capitalized = position_lower[0].toUpperCase() + position_lower.slice(1);
 
         return (
             <UISegmentedControl
-                {...this.props.toggleWrapperProps}
-                ref={'segmentedControl' + (positionLowerCase[0].toUpperCase() + positionLowerCase.slice(1))}
+                {...props}
+                ref={`segmentedControl${position_capitalized}`}
                 className={cx({
-                    'ui-paginated-view-controls': true,
-                    ['ui-paginated-view-controls-' + positionLowerCase]: true,
-                    [this.props.toggleWrapperProps.className]: !!this.props.toggleWrapperProps.className,
+                    'ui-pagination-controls': true,
+                    [`ui-pagination-controls-${position_lower}`]: true,
+                    [props.className]: !!props.className,
                 })}
                 options={this.createPageButtonOptions()}
                 onOptionSelected={this.handleClick} />
@@ -242,21 +326,24 @@ export default class UIPaginatedView extends UIView {
     }
 
     renderView() {
+        const {props} = this;
+        const position = UIPagination.positions;
+
         return (
             <div
                 ref='paginatedView'
-                className='ui-paginated-view'>
+                className='ui-pagination'>
                 {
-                    (   this.props.position === UIPaginatedView.position.ABOVE
-                     || this.props.position === UIPaginatedView.position.BOTH)
-                    ? this.renderControls(UIPaginatedView.position.ABOVE)
+                      (props.position === position.ABOVE || props.position === position.BOTH)
+                    ? this.renderControls(position.ABOVE)
                     : noop
                 }
+
                 {this.renderItems()}
+
                 {
-                    (   this.props.position === UIPaginatedView.position.BELOW
-                     || this.props.position === UIPaginatedView.position.BOTH)
-                    ? this.renderControls(UIPaginatedView.position.BELOW)
+                      (props.position === position.BELOW || props.position === position.BOTH)
+                    ? this.renderControls(position.BELOW)
                     : noop
                 }
             </div>
@@ -269,7 +356,7 @@ export default class UIPaginatedView extends UIView {
                 {...this.props}
                 ref='wrapper'
                 className={cx({
-                    'ui-paginated-view-wrapper': true,
+                    'ui-pagination-wrapper': true,
                     [this.props.className]: !!this.props.className,
                 })}>
                 {this.renderView()}
