@@ -6,8 +6,11 @@
 import React from 'react';
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
-import cx from 'classnames';
+
 import noop from '../UIUtils/noop';
+import extractChildProps from '../UIUtils/extractChildProps';
+
+import cx from 'classnames';
 
 const first = array => array[0];
 const last = array => array[array.length - 1];
@@ -38,7 +41,7 @@ export default class UITokenizedInput extends UIView {
         const currentSelectedIndexes = this.props.tokensSelected;
 
         if (this.props.tokens.length > prevProps.tokens.length) {
-            this.refs.typeahead.value('');
+            this.setValue('');
         }
 
         if (this._suppressNextTokenSelection) {
@@ -59,6 +62,14 @@ export default class UITokenizedInput extends UIView {
             this.refs[`token_${currentSelectedIndexes[0]}`].focus();
         } // move focus
     }
+
+    // passthroughs to UITypeaheadInput instance methods
+    focus = () => this.refs.typeahead.focus()
+    getInputNode = () => this.refs.typeahead.getInputNode()
+    getSelectedEntityText = () => this.refs.typeahead.getSelectedEntityText()
+    getValue = () => this.refs.typeahead.getValue()
+    select = () => this.refs.typeahead.select()
+    setValue = value => this.refs.typeahead.setValue(value)
 
     add = (index) => {
         if (this.props.tokens.indexOf(index) === -1) { this.props.handleAddToken(index); }
@@ -108,7 +119,7 @@ export default class UITokenizedInput extends UIView {
 
         if (last(selected) === last(indexes)) {
             this.clearSelection();
-            this.refs.typeahead.focus();
+            this.focus();
         } else {
             const nextToken = indexes[indexes.indexOf(last(selected)) + 1];
 
@@ -142,7 +153,7 @@ export default class UITokenizedInput extends UIView {
         case 8:     // backspace
             if (this.props.tokensSelected.length) {
                 this.remove(this.props.tokensSelected);
-                this.refs.typeahead.focus();
+                this.focus();
             }
 
             break;
@@ -151,8 +162,8 @@ export default class UITokenizedInput extends UIView {
             if (event.metaKey) {
                 event.preventDefault();
 
-                this.refs.typeahead.focus();
-                this.refs.typeahead.select();
+                this.focus();
+                this.select();
 
                 // hacky, but the only way unless we move selection management internal again
                 this._suppressNextTokenSelection = true;
@@ -169,14 +180,15 @@ export default class UITokenizedInput extends UIView {
 
     handleTokenCloseClick(index) {
         this.remove(index);
-        this.refs.typeahead.focus();
+        this.focus();
     }
 
     renderTokenClose(index) {
         if (this.props.showTokenClose) {
             return (
-                <div className='ui-tokenfield-token-close'
-                     onClick={this.handleTokenCloseClick.bind(this, index)} />
+                <div
+                    className='ui-tokenfield-token-close'
+                    onClick={this.handleTokenCloseClick.bind(this, index)} />
             );
         }
     }
@@ -201,15 +213,16 @@ export default class UITokenizedInput extends UIView {
             <div className='ui-tokenfield-tokens'>
                 {this.props.tokens.map(index => {
                     return (
-                        <div ref={`token_${index}`}
-                             key={index}
-                             className={cx({
-                                'ui-tokenfield-token': true,
-                                'ui-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
-                             })}
-                             onClick={this.selectToken.bind(this, index)}
-                             onKeyDown={this.handleTokenKeyDown.bind(this, index)}
-                             tabIndex='0'>
+                        <div
+                            ref={`token_${index}`}
+                            key={index}
+                            className={cx({
+                               'ui-tokenfield-token': true,
+                               'ui-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
+                            })}
+                            onClick={this.selectToken.bind(this, index)}
+                            onKeyDown={this.handleTokenKeyDown.bind(this, index)}
+                            tabIndex='0'>
                             {this.props.entities[index].text}
                             {this.renderTokenClose(index)}
                         </div>
@@ -220,28 +233,27 @@ export default class UITokenizedInput extends UIView {
     }
 
     render() {
-        const descendants = Object.keys(UITypeaheadInput.propTypes).reduce((props, key) => {
-            props[key] = this.props[key];
-
-            return props;
-        }, {});
-
         return (
-            <div {...this.props}
-                 ref='wrapper'
-                 className={cx({
-                     'ui-tokenfield-wrapper': true,
-                     [this.props.className]: !!this.props.className,
-                 })}
-                 onKeyDown={this.handleKeyDown}>
+            <div
+                {...this.props}
+                ref='wrapper'
+                className={cx({
+                    'ui-tokenfield-wrapper': true,
+                    [this.props.className]: !!this.props.className,
+                })}
+                onKeyDown={this.handleKeyDown}>
                 {this.renderTokens()}
 
-                <UITypeaheadInput {...descendants}
-                                  ref='typeahead'
-                                  className='ui-tokenfield'
-                                  onEntitySelected={this.add}
-                                  onFocus={this.handleInputFocus}
-                                  clearPartialInputOnSelection={true} />
+                <UITypeaheadInput
+                    {...extractChildProps(this.props, UITypeaheadInput.propTypes)}
+                    ref='typeahead'
+                    className='ui-tokenfield'
+                    clearPartialInputOnSelection={true}
+                    inputProps={{
+                        ...this.props.inputProps,
+                        onFocus: this.handleInputFocus,
+                    }}
+                    onEntitySelected={this.add} />
             </div>
         );
     }

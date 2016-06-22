@@ -30,14 +30,16 @@ const modifyTokenSelectionArray = indexes => tokensSelected = indexes;
 render() {
     return (
         <UITokenizedInput
-            name='my-tokenfield'
-            aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
-            defaultValue='ap'
             entities={list}
             handleAddToken={addEntityIndexToTokens}
             handleRemoveTokens={removeEntityIndexesFromTokens}
             handleSelection={modifyTokenSelectionArray}
             hint={true}
+            inputProps={{
+                'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.',
+                defaultValue: 'ap',
+                name: 'my-tokenfield',
+            }}
             tokens={tokens}
             tokensSelected={tokensSelected} />
     );
@@ -88,10 +90,39 @@ __Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the tok
 
 ---
 
+### Available instance methods
+
+- __add(index: number)__
+  programmatically creates a token for `props.entities[index]`; `props.handleAddToken` will be called as a hint to persist the change in your controller view or other application state
+
+- __focus()__
+  focuses the browser oon the underlying textual input for immediate text entry
+
+- __getInputNode()__
+  returns the raw underlying textual input DOM node
+
+- __getSelectedEntityText()__
+  returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
+
+- __getValue()__
+  retrieves the current value of the underlying textual input
+
+- __remove(index: number)__
+  programmatically removes the token for `props.entities[index]`; `props.handleRemoveTokens` will be called as a hint to persist the change in your controller view or other application state
+
+- __select()__
+  programmatically creates a full selection on the underlying textual input such that a press of the Backspace key would fully clear the input
+
+- __setValue(value: string)__
+  sets the underlying textual input to the specified text and updates internal state; do not use this method when using `UITypeaheadInput` as a "controlled input"
+
+---
+
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput/README.md)
+- all props accepted by [`UITextualInput`](../UITextualInput/README.md)
 
 - __handleAddToken(`Number`)__ `Function`
   function handler that is called when an entity is selected by the user and a token should be created
