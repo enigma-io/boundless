@@ -9,7 +9,7 @@ UIRadio is implemented as a "controlled input", meaning it is a direct represent
 
 ### Example Usage
 
-```js
+```jsx
 import {UIRadio} from 'enigma-uikit';
 
 // ...
@@ -18,16 +18,18 @@ render() {
     return (
         <div>
             <p>¿Guarda automáticamente?</p>
-            <UIRadio selected={true}
-                     label='Sí'
-                     labelProps={{'data-i18n': 'es-ES'}}
-                     name='autosave'
-                     value='1' />
-            <UIRadio selected={false}
-                     label='No'
-                     labelProps={{'data-i18n': 'es-ES'}}
-                     name='autosave'
-                     value='0' />
+            <UIRadio
+                selected={true}
+                label='Sí'
+                labelProps={{'data-i18n': 'es-ES'}}
+                name='autosave'
+                value='1' />
+            <UIRadio
+                selected={false}
+                label='No'
+                labelProps={{'data-i18n': 'es-ES'}}
+                name='autosave'
+                value='0' />
         </div>
     );
 }

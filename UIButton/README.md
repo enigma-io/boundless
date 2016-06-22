@@ -9,24 +9,27 @@ UIButton can be used like a normal HTML `<button>`, or when provided `props.pres
 
 ### Example Usage
 
-```js
+```jsx
 import {UIButton} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIButton aria-label='Press to activate bolding on the selected text and new input.'
-                  className='text-bolder'
-                  onPressed={this.activateBolding}
-                  onUnpressed={this.deactivateBolding}
-                  pressed={this.isBold}>
+        <UIButton
+            aria-label='Press to activate bolding on the selected text and new input.'
+            className='text-bolder'
+            onPressed={this.activateBolding}
+            onUnpressed={this.deactivateBolding}
+            pressed={this.isBold}>
             <i className='icon-bold' />
         </UIButton>
     );
 }
 ```
+
 Renders:
+
 ```html
 <button class="ui-button text-bolder" aria-label="Press to activate bolding on the selected text and new input." aria-pressed="true">
     <i class="icon-bold"></i>

@@ -9,21 +9,22 @@ Specific areas (header, body, footer) are defined to provide easy conformance to
 
 ### Example Usage
 
-```js
+```jsx
 import {UIDialog} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIDialog header='My Dialog'
-                  footer={[
-                      <UIButton onPressed={this.handleConfirm.bind(this)}>Confirm</UIButton>,
-                      <UIButton onPressed={this.handleCancel.bind(this)}>Cancel</UIButton>,
-                  ]}
-                  closeOnEscKey={true}
-                  closeOnOutsideClick={true}
-                  onClose={this.handleCancel}>
+        <UIDialog
+            header='My Dialog'
+            footer={[
+                <UIButton onPressed={this.handleConfirm.bind(this)}>Confirm</UIButton>,
+                <UIButton onPressed={this.handleCancel.bind(this)}>Cancel</UIButton>,
+            ]}
+            closeOnEscKey={true}
+            closeOnOutsideClick={true}
+            onClose={this.handleCancel}>
             Testing 123
         </UIDialog>
     );

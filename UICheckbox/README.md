@@ -10,22 +10,25 @@ UICheckbox is implemented as a "controlled input", meaning it is a direct repres
 
 ### Example Usage
 
-```js
+```jsx
 import {UICheckbox} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UICheckbox name='autosave'
-                    checked={true}
-                    label='Save'
-                    labelProps={{'data-i18n': 'en-US'}}
-                    wrapperProps={{className: 'control-autosave'}} />
+        <UICheckbox
+            name='autosave'
+            checked={true}
+            label='Save'
+            labelProps={{'data-i18n': 'en-US'}}
+            wrapperProps={{className: 'control-autosave'}} />
     );
 }
 ```
+
 Renders:
+
 ```html
 <div class="ui-checkbox-wrapper control-autosave">
     <input id="1f2cd27f-0754-4344-9d20-436a201b2f80" name="autosave" type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />

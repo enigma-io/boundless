@@ -9,14 +9,19 @@ The most common use case for this class is fitting single-line text of unknown/v
 
 ### Example Usage
 
-```js
-import {UIButton, UIFittedText} from 'enigma-uikit';
+```jsx
+import {
+    UIButton,
+    UIFittedText,
+} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIButton onPressed={someFunc} style={{width: '400px'}}>
+        <UIButton
+            onPressed={someFunc}
+            style={{width: '400px'}}>
             <UIFittedText>Testing 123</UIFittedText>
         </UIButton>
     );

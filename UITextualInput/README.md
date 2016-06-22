@@ -9,7 +9,7 @@ UITextualInput abstracts away the cross-platform differences of placeholder styl
 
 ### Example Usage
 
-```js
+```jsx
 import {UITextualInput} from 'enigma-uikit';
 
 render() {

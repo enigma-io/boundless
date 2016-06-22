@@ -11,7 +11,7 @@ The most common use case for `UICheckboxGroup` is a "select all" / children scen
 
 ### Example Usage
 
-```js
+```jsx
 import {UICheckboxGroup} from 'enigma-uikit';
 
 /*
@@ -47,7 +47,9 @@ const items = [{
 
 render() {
     return (
-        <UICheckboxGroup items={items} selectAll={true} />
+        <UICheckboxGroup
+            items={items}
+            selectAll={true} />
     );
 }
 ```

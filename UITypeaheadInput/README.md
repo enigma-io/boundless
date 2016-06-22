@@ -30,7 +30,7 @@ UITypeaheadInput offers two built-in matching algorithms: "starts-with" (the def
 
 ### Example Usage
 
-```js
+```jsx
 import {UITypeaheadInput} from 'enigma-uikit';
 
 const list = [

@@ -9,7 +9,7 @@ UIArrowKeyNavigation is designed not to care about the component types it is wra
 
 The children, similarly, can be any type of component.
 
-```js
+```jsx
 import {UIArrowKeyNavigation} from 'enigma-uikit';
 
 const list = ['apple', 'orange', 'lemon'];
@@ -18,7 +18,10 @@ const list = ['apple', 'orange', 'lemon'];
 
 render() {
     return (
-        <UIArrowKeyNavigation component='ul' className='my-list' aria-label='Press an arrow key to cycle through the list.'>
+        <UIArrowKeyNavigation
+            component='ul'
+            className='my-list'
+            aria-label='Press an arrow key to cycle through the list.'>
             {list.map(item => <li key={item}>{item}</li>)}
         </UIArrowKeyNavigation>
     );
