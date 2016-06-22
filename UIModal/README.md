@@ -9,18 +9,22 @@ UIModal is an enhancement upon [UIDialog](../UIDialog/README.md). Typically, a m
 
 ### Example Usage
 
-```js
-import {UIButton, UIModal} from 'enigma-uikit';
+```jsx
+import {
+    UIButton,
+    UIModal,
+} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIModal header='My Dialog'
-                 footer={[
-                    <UIButton onPressed={this.handleConfirm}>Confirm</UIButton>,
-                    <UIButton onPressed={this.handleCancel}>Cancel</UIButton>,
-                 ]}>
+        <UIModal
+            header='My Dialog'
+            footer={[
+                <UIButton onPressed={this.handleConfirm}>Confirm</UIButton>,
+                <UIButton onPressed={this.handleCancel}>Cancel</UIButton>,
+            ]}>
             Testing 123
         </UIModal>
     );

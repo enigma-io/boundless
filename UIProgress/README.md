@@ -7,15 +7,16 @@ __An unopinionated progress implementation that allows for a variety of shapes a
 
 ### Example Usage
 
-```js
+```jsx
 import {UIProgress} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIProgress progress='45'
-                    onCancel={cancelFunc} />
+        <UIProgress
+            progress='45'
+            onCancel={cancelFunc} />
     );
 }
 ```

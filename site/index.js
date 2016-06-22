@@ -1,8 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
+import {render} from 'react-dom';
 
 import Markdown from 'react-remarkable';
+
 import Prism from 'prismjs';
+import {} from 'prismjs/components/prism-jsx.min.js';
 
 import UIArrowKeyNavigationDemo from '../UIArrowKeyNavigation/demo';
 import UIButtonDemo from '../UIButton/demo';

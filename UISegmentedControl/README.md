@@ -9,7 +9,7 @@ UISegmentedControl is implemented as a "controlled component", meaning it is a d
 
 ### Example Usage
 
-```js
+```jsx
 import {UISegmentedControl} from 'enigma-uikit';
 
 // ...
@@ -27,7 +27,9 @@ render() {
     );
 }
 ```
+
 Renders:
+
 ```html
 <div>
   <p>Paper or plastic?</p>

@@ -5,15 +5,16 @@ __An image block with placeholder support for loading and fallback scenarios.__
 
 ### Example Usage
 
-```js
+```jsx
 import {UIImage} from 'enigma-uikit';
 
 // ...
 
 render() {
     return (
-        <UIImage src='http://i.imgur.com/BymoMze.jpg'
-                 alt='A Corgi wielding Google Glass.' />
+        <UIImage
+            src='http://i.imgur.com/BymoMze.jpg'
+            alt='A Corgi wielding Google Glass.' />
     );
 }
 ```

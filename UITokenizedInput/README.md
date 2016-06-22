@@ -9,7 +9,7 @@ Basic usage of this component is identical to that of [UITypeaheadInput](../UITy
 
 ### Example Usage
 
-```js
+```jsx
 import {UITokenizedInput} from 'enigma-uikit';
 
 const list = [
@@ -29,16 +29,17 @@ const modifyTokenSelectionArray = indexes => tokensSelected = indexes;
 
 render() {
     return (
-        <UITokenizedInput name='my-tokenfield'
-                          aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
-                          defaultValue='ap'
-                          entities={list}
-                          handleAddToken={addEntityIndexToTokens}
-                          handleRemoveTokens={removeEntityIndexesFromTokens}
-                          handleSelection={modifyTokenSelectionArray}
-                          hint={true}
-                          tokens={tokens}
-                          tokensSelected={tokensSelected} />
+        <UITokenizedInput
+            name='my-tokenfield'
+            aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.'
+            defaultValue='ap'
+            entities={list}
+            handleAddToken={addEntityIndexToTokens}
+            handleRemoveTokens={removeEntityIndexesFromTokens}
+            handleSelection={modifyTokenSelectionArray}
+            hint={true}
+            tokens={tokens}
+            tokensSelected={tokensSelected} />
     );
 }
 ```

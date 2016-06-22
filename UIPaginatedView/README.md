@@ -7,7 +7,7 @@ UIPaginatedView is implemented as an encapsulated view system, accepting an arra
 
 ### Example Usage
 
-```js
+```jsx
 import {UISegmentedControl} from 'enigma-uikit';
 
 // ...
@@ -35,7 +35,9 @@ render() {
     }
 }
 ```
+
 Renders:
+
 ```html
 <div class="ui-paginated-view-wrapper">
   <div class="ui-paginated-view">

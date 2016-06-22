@@ -9,12 +9,14 @@ UITable makes use of the [`enigma-table` project](https://github.com/bibliotech/
 
 ### Example Usage
 
-```js
+```jsx
 import {UITable} from 'enigma-uikit';
 
-const rows = [
-    {first_name: 'Alex', last_name: 'Zimmerman', phone: '555-555-5555'},
-];
+const rows = [{
+    first_name: 'Alex',
+    last_name: 'Zimmerman',
+    phone: '555-555-5555',
+}];
 
 const columns = [
     {title: 'First Name', mapping: 'first_name': resizable: true},
@@ -28,14 +30,17 @@ const rowGetter = index => rows[index];
 
 render() {
     return (
-        <UITable identifier='foo'
-                 getRow={rowGetter}
-                 totalRows={rows.length}
-                 columns={columns} />
+        <UITable
+            identifier='foo'
+            getRow={rowGetter}
+            totalRows={rows.length}
+            columns={columns} />
     );
 }
 ```
+
 renders:
+
 ```html
 <div class="ui-table-wrapper" tabindex="0" data-set-identifier="foo">
     <div class="ui-table-header">

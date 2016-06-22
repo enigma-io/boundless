@@ -7,7 +7,7 @@ Nest any React-renderable content inside the `UITooltip` wrapper as you would a 
 
 ### Example Usage
 
-```js
+```jsx
 import {UITooltip} from 'enigma-uikit';
 
 // ...

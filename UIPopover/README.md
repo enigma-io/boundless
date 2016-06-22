@@ -9,12 +9,15 @@ A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide 
 
 ### Example Usage
 
-```js
-import {UIArrowKeyNavigation, UIPopover} from 'enigma-uikit';
+```jsx
+import {
+    UIArrowKeyNavigation,
+    UIPopover,
+} from 'enigma-uikit';
 
 const definitions = [
     'of or relating to a spiritual or nonphysical realm.',
-    '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.'
+    '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.',
 ];
 
 // ...

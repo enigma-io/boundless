@@ -9,8 +9,11 @@ Mechanically, hidden disclosure content is not rendered to the DOM until it is n
 
 ### Example Usage
 
-```js
-import {UIButton, UIProgressiveDisclosure} from 'enigma-uikit';
+```jsx
+import {
+    UIButton,
+    UIProgressiveDisclosure,
+} from 'enigma-uikit';
 
 // ...
 
@@ -21,7 +24,11 @@ render() {
 
             <UIProgressiveDisclosure teaser='Advanced Options'>
                 <label htmlFor='filename-field'>Save as a different name?</label>
-                <input id='filename-field' name='filename' type='text' placeholder='untitled.txt' />
+                <input
+                    id='filename-field'
+                    name='filename'
+                    type='text'
+                    placeholder='untitled.txt' />
             </UIProgressiveDisclosure>
 
             <UIButton onPressed={doSave}>Yes</UIButton>
