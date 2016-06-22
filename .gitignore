@@ -6,8 +6,8 @@ node_modules/
 
 # build things
 coverage/
-site/public
-docs/sdk
+site/public/
+docs/sdk/
 
 # Uncomment this when we are serving to npm for realzies
 #es5/
