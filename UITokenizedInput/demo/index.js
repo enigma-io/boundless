@@ -3,7 +3,9 @@ import UITokenizedInput from '../index';
 import UITypeahead from '../../UITypeaheadInput';
 import UIView from '../../UIView';
 
-const without = (baseArray, ...toBeExcluded) => baseArray.filter(item => toBeExcluded.indexOf(item) === -1);
+const without = (baseArray, ...toBeExcluded) => {
+    return baseArray.filter(item => toBeExcluded.indexOf(item) === -1);
+};
 
 export default class UITokenizedInputDemo extends UIView {
     state = {
@@ -280,15 +282,16 @@ export default class UITokenizedInputDemo extends UIView {
         return (
             <div>
                 <p>Enter a country you'd like to visit:</p>
-                <UITokenizedInput algorithm={UITypeahead.mode.FUZZY}
-                                  entities={this.state.countries}
-                                  handleAddToken={this.addTokenByEntityIndex}
-                                  handleRemoveTokens={this.removeTokensByEntityIndexes}
-                                  handleNewSelection={this.handleSelectionByEntityIndexes}
-                                  hint={true}
-                                  showTokenClose={true}
-                                  tokens={this.state.tokens}
-                                  tokensSelected={this.state.tokensSelected} />
+                <UITokenizedInput
+                    algorithm={UITypeahead.mode.FUZZY}
+                    entities={this.state.countries}
+                    handleAddToken={this.addTokenByEntityIndex}
+                    handleRemoveTokens={this.removeTokensByEntityIndexes}
+                    handleNewSelection={this.handleSelectionByEntityIndexes}
+                    hint={true}
+                    showTokenClose={true}
+                    tokens={this.state.tokens}
+                    tokensSelected={this.state.tokensSelected} />
             </div>
         );
     }

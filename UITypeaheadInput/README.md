@@ -44,11 +44,13 @@ const list = [
 render() {
     return (
         <UITypeaheadInput
-            name='my-typeahead'
-            aria-label='An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.'
-            defaultValue='or'
             entities={list}
-            hint={true} />
+            hint={true}
+            inputProps={{
+                'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.',
+                defaultValue: 'or',
+                name: 'my-typeahead',
+            }} />
     );
 }
 ```
@@ -91,6 +93,28 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 ---
 
+### Available instance methods
+
+- __focus()__
+  focuses the browser oon the underlying textual input for immediate text entry
+
+- __getInputNode()__
+  returns the raw underlying textual input DOM node
+
+- __getSelectedEntityText()__
+  returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
+
+- __getValue()__
+  retrieves the current value of the underlying textual input
+
+- __select()__
+  programmatically creates a full selection on the underlying textual input such that a press of the Backspace key would fully clear the input
+
+- __setValue(value: string)__
+  sets the underlying textual input to the specified text and updates internal state; do not use this method when using `UITypeaheadInput` as a "controlled input"
+
+---
+
 ### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
@@ -121,9 +145,6 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
       }
       ```
 
-- __defaultValue__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
-
 - __offscreenClass__ `String`
   the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
 
@@ -148,9 +169,6 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
     - __matchWrapperProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
 
-- __name__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired
-
 - __onEntityHighlighted__ `Function`
   called with the index of the highlighted entity due to keyboard selection
 
@@ -159,6 +177,3 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 - __onComplete__ `Function`
   called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
-
-- __type__ `String`
-  passed through to the main input node, `.ui-typeahead` -- may alternatively be set in `props.inputProps` if desired

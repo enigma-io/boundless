@@ -8,11 +8,20 @@ export default class UITextualInputDemo extends UIView {
             <div className='ui-spread-even'>
                 <div>
                     <h5><code>hidePlaceholderOnFocus=&#123;false&#125;</code></h5>
-                    <UITextualInput placeholder='Start typing and I disappear!' />
+                    <UITextualInput
+                        hidePlaceholderOnFocus={false}
+                        inputProps={{
+                            placeholder: 'Start typing and I disappear!'
+                        }} />
                 </div>
+
                 <div style={{marginLeft: '1em'}}>
                     <h5><code>hidePlaceholderOnFocus=&#123;true&#125;</code></h5>
-                    <UITextualInput placeholder='Focus on me and I disappear!' hidePlaceholderOnFocus={true} />
+                    <UITextualInput
+                        hidePlaceholderOnFocus={true}
+                        inputProps={{
+                            placeholder: 'Focus on me and I disappear!',
+                        }} />
                 </div>
             </div>
         );

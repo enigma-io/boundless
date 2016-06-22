@@ -15,10 +15,13 @@ import {UITextualInput} from 'enigma-uikit';
 render() {
     return (
         <UITextualInput
-            name='search-box'
-            aria-label='Type a keyword and press Enter to perform a search.'
-            placeholder='Search here...'
-            type='search' />
+            hidePlaceholderOnFocus={true}
+            inputProps={{
+                'aria-label': 'Type a keyword and press Enter to perform a search.',
+                name: 'search-box',
+                placeholder: 'Search here...',
+                type: 'search',
+            }} />
     );
 }
 ```
@@ -27,7 +30,7 @@ Renders:
 
 ```html
 <div class="ui-textual-input-wrapper">
-    <div class="ui-textual-input-placeholder">Search here...</div>
+    <div class="ui-textual-input-placeholder ui-textual-input">Search here...</div>
     <input class="ui-textual-input" name="search-box" type="search" aria-label="Type a keyword and press Enter to perform a search." />
 </div>
 ```
@@ -50,9 +53,12 @@ __Blur__ | on the input | should restore the placeholder text if the input is em
 
 ---
 
-### Available Methods
+### Available instance methods
 
-- __value(string)__
+- __getValue()__
+  returns the current value of the input field
+
+- __setValue(string)__
   programmatically set the input value; useful for clearing out the input in "uncontrolled" mode -- note that digging into the internals and setting the `refs.field.value = ''` directly will not trigger events and messes up the internal state of the component
 
 ---
@@ -61,23 +67,11 @@ __Blur__ | on the input | should restore the placeholder text if the input is em
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-textual-input-wrapper` node
 
-- __defaultValue__ `String`
-  passed through to the main input node, `.ui-textual-input` -- may alternatively be set in `props.inputProps` if desired
-
 - __hidePlaceholderOnFocus__ `Boolean`
-  triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
+  (default: true) triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
 - __inputProps__ `Object`
-  props to be passed through to the input node, `.ui-textual-input`
+  props to be passed through to the input node, `.ui-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
 
-- __name__ `String`
-  passed through to the main input node, `.ui-textual-input` -- may alternatively be set in `props.inputProps` if desired
-
-- __placeholder__ `String`
-  `.ui-textual-input-placeholder` with the appropriate placeholder text will be rendered and inherit the styles of `.ui-textual-input`; native `placeholder` is not used for this component due to x-platform behavioral differences
-
-- __type__ `String`
-  passed through to the main input node, `.ui-textual-input` -- may alternatively be set in `props.inputProps` if desired
-
-- __value__ `String`
-  passed through to the main input node, `.ui-textual-input` -- may alternatively be set in `props.inputProps` if desired; turns `UITextualInput` into a ["controlled input"](https://facebook.github.io/react/docs/forms.html#controlled-components) and the relevant updating rules apply
+  - __inputProps.type__ `String`
+    (default: "text")
