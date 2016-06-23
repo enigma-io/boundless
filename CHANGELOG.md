@@ -2,6 +2,136 @@
 
 ---
 
+## 1.0.0-beta-15 (6/23/2016)
+
+### Breaking Changes
+
+__Prop interface adjustments to `UITextualInput`, `UITypeaheadInput`, and `UITokenizedInput`.__
+
+It used to be that you could optionally pass certain props to `UITextualInput` and compositions above it like `value`, `name`, etc, but this ended up being confusing. Now the only place to pass props to the text input at the root of all these components is `inputProps`.
+
+For instance:
+
+```jsx
+<UITextualInput
+    inputProps={{
+        defaultValue: 'foo',
+        placeholder: 'bar',
+    }} />
+```
+
+__Prop interface change to `algorithm` in `UITypeaheadInput`__
+
+`algorithm.matchFunc` -> `algorithm.matcher`
+`algorithm.markFunc` -> `algorithm.marker`
+
+Previously, if you wanted to implement only one piece of the matching & marking algorithm, you'd have to copy over or reimplement the complementing function to complete the functionality. For example, if you passed:
+
+```jsx
+<UITypeaheadInput
+    algorithm={{
+        matcher: myMatchingFunction,
+    }}
+```
+
+...and omitted the `marker`, the component would opaquely use the stored default `marker` function and not allow any further tweaking. This is no longer the case, and now `matcher` and `marker` also accept the typeahead operation modes `UITypeahead.mode.STARTS_WITH` and `UITypeahead.mode.FUZZY` to be able to pick a desired built-in function.
+
+```jsx
+<UITypeaheadInput
+    algorithm={{
+        matcher: myMatchingFunction,
+        marker: UITypeahead.mode.STARTS_WITH,
+    }}
+```
+
+__UIPaginatedView was renamed to `UIPagination`.__
+
+This revised name better fits with the other components. The CSS class hooks were adjusted to `.ui-pagination-*` and the stylus variables changed, too.
+
+
+
+### Highlights
+
+__"Fuzzy" mode is now the default in `UITypeaheadInput`.__
+
+Starts-with matching is too simple for most use cases, so it was decided that fuzzy matching & marking of entities would be the default going forward. If you've already specified a `props.algorithm` in your usage of the component, no change is required.
+
+
+__`hidePlaceholderOnFocus` is now turned on by default in `UITextualInput`.__
+
+This behavior change smooths-over the differences between browsers when clicking a text input field and starting to type; there's a discrepancy between Internet Explorer and other browsers for at what point the placeholder is meant to disappear. Now the placeholder will always be dismissed as soon as a user click into the field in every browser.
+
+
+### Relevant Commits
+
+- __Rename styl variables missed in the UIPagination renaming commit__ (ad4c21b)
+
+- __[Breaking Change] UITypeaheadInput: FUZZY now default, prop changes__ (740d79a)
+
+  The `props.algorithm` interface changed slightly, from markFunc -> marker and matchFunc -> matcher. You can also now provide a constant for the object property you're not overriding to avoid having to copy over a function from the original implementation.
+
+  So now you can do something like this:
+
+  ```
+  algorithm={{
+    marker: myMarkerFunction,
+    matcher: UITypeaheadInput.mode.FUZZY,
+  }}
+  ```
+
+- __[Breaking Change] UIPaginatedView -> UIPagination, new prop, misc fixes (#250)__ (41a057c)
+  + the CSS classes have been changed to reflect the new component naming (.ui-paginated-view-* -> .ui-pagination-*)
+
+  + added [data-page-number] to the pager controls
+  + added [data-index] to the paginated items
+
+  + fixed half the loader being missing
+
+  + UISegmentedControl: fix prop leak onto the DOM nodes, aria attribute
+
+  * UIPagination: implement `props.hidePagerIfNotNeeded`
+
+  Does not render the paging controls if the number of items
+  supplied to the view is less-than-or-equal-to the number of items
+  to show per page via `props.numItemsPerPage`.
+
+  * UIPagination: allow a higher numItemsPerPage than totalItems
+
+  This can come up when switching out the underlying data source,
+  but wanting to maintain consistency in the number of items
+  displayed without thrashing the view.
+
+- __UITokenizedInput: fix README example to be more complete__ (1378820)
+
+- __[Breaking Change] Refactor prop interface to follow UITypeaheadInput__ (15a84da)
+
+  Also made dedicated aliases to UITypeaheadInput instance methods to eliminate the need to dive through the ref tree and do dirty work.
+
+  Added documentation & cleaned up the tests.
+
+- __[Breaking Change] Refactor prop interface to follow UITextualInput__ (0874c8c)
+
+  See 05ccfffb38f55c76d0df570d9cbd5ce8c504991d for more information.
+
+  Also documented a few instance methods for programmatic manipulation of `UITypeaheadInput` and cleaned up the tests.
+
+- __[Breaking Change] Revise UITextualInput prop interface__ (3f05d74)
+
+  Previously you could pass in certain input props as naked props, e.g. `type` but passing them in as `inputProps.type` was also supported--in retrospect, that's super confusing.
+
+
+### Misc
+
+- __Fix gitignore__ (cae10e8)
+- __Fix syntax highlighting of JSX in the READMEs__ (1647893)
+- __Remove Travis CI-related things (#247)__ (1ad62a9)
+- __Add oauth token__ (89641a3)
+- __Caught a few more instances of dist/__ (4f48ec5)
+- __Rename dist -> public, rebuild targets__ (eeefb1a)
+- __Update enigma-table to 1.0.3 (#243)__ (ea09392) See https://github.com/bibliotech/table/releases/tag/1.0.3 for more info.
+
+---
+
 ## 1.0.0-beta-14 (6/9/2016)
 
 No breaking changes.
