@@ -7,7 +7,7 @@ UITypeaheadInput is an enhancement upon [UITextualInput](../UITextualInput/READM
 
 ---
 
-UITypeaheadInput offers two built-in matching algorithms: "starts-with" (the default) and "fuzzy". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="ui-typeahead-match-highlight"></div>`:
+UITypeaheadInput offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="ui-typeahead-match-highlight"></div>`:
 
 1. __"Starts-with" matching & marking__ `algorithm={UITypeahead.mode.STARTS_WITH}`
    For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
@@ -21,7 +21,7 @@ UITypeaheadInput offers two built-in matching algorithms: "starts-with" (the def
    Matched: `["apple", "grape", "apricot"]`<br/>
    Marked: `["<a>pple", "gr<a>pe", "<a>pricot"]`<br/><br/>
 
-1. __Custom matching & marking__ `algorithm={{matchFunc: yourMatchFunc, markFunc: yourMarkFunc}}`
+1. __Custom matching & marking__ `algorithm={{matcher: yourMatchFunc, marker: yourMarkFunc}}`
    Optionally, you can provide your own combination of matching and marking functions. For example, loosening the matching to include unicode variants of characters could be useful, e.g. ç &rarr; c
 
    Follow the guide in the [props summary for algorithm](#available-props).
@@ -121,10 +121,10 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 - all supported [UITextualInput props](../UITextualInput/README.md#available-props); applied to the `.ui-textual-input-wrapper` node
 
-- __algorithm__ `UITypeaheadInput.mode.STARTS_WITH, UITypeaheadInput.mode.FUZZY, Object{Function, Function}`
-  (default `UITypeaheadInput.mode.STARTS_WITH`) the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
+- __algorithm__ `Object|UITypeaheadInput.mode.STARTS_WITH|UITypeaheadInput.mode.FUZZY`
+  (default `UITypeaheadInput.mode.FUZZY`) the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
 
-    - __algorithm.matchFunc__ `Function`
+    - __algorithm.matcher__ `Function|UITypeaheadInput.mode.STARTS_WITH|UITypeaheadInput.mode.FUZZY`
       provide a custom matching algorithm, adhering to this format:
 
       ```js
@@ -136,7 +136,7 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
       the index is stored instead of the entire entity to conserve memory and reduce data duplication
 
-    - __algorithm.markFunc__ `Function`
+    - __algorithm.marker__ `Function|UITypeaheadInput.mode.STARTS_WITH|UITypeaheadInput.mode.FUZZY`
       provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks, adhering to this format:
 
       ```js

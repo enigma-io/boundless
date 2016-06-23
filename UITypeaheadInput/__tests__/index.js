@@ -46,15 +46,27 @@ describe('UITypeaheadInput', () => {
 
         render(
             <UITypeaheadInput
-                algorithm={{matchFunc: stub}}
+                algorithm={{matcher: stub}}
                 entities={entities}
                 inputProps={{defaultValue: 'ap'}} />
         );
 
         expect(stub.calledOnce).toBe(true);
+    });
 
-        expect(console.warn.calledOnce).toBe(true);
-        expect(console.warn.calledWithMatch('props.algorithm.markFunc')).toBe(true);
+    it('emits a warning if a custom matcher is given without specifying a marker', () => {
+        sandbox.stub(console, 'warn');
+
+        const stub = sandbox.stub().returns([0]);
+
+        render(
+            <UITypeaheadInput
+                algorithm={{matcher: stub}}
+                entities={entities}
+                inputProps={{defaultValue: 'ap'}} />
+        );
+
+        expect(console.warn.calledWithMatch('props.algorithm.marker')).toBe(true);
     });
 
     it('accepts a custom match marking algorithm', () => {
@@ -64,15 +76,27 @@ describe('UITypeaheadInput', () => {
 
         render(
             <UITypeaheadInput
-                algorithm={{markFunc: stub}}
+                algorithm={{marker: stub}}
                 entities={entities}
                 inputProps={{defaultValue: 'ap'}} />
         );
 
-        expect(stub.calledTwice).toBe(true);
+        expect(stub.calledThrice).toBe(true);
+    });
 
-        expect(console.warn.calledOnce).toBe(true);
-        expect(console.warn.calledWithMatch('props.algorithm.matchFunc')).toBe(true);
+    it('emits a warning if a custom marker is given without specifying a matcher', () => {
+        sandbox.stub(console, 'warn');
+
+        const stub = sandbox.stub().returns([]);
+
+        render(
+            <UITypeaheadInput
+                algorithm={{marker: stub}}
+                entities={entities}
+                inputProps={{defaultValue: 'ap'}} />
+        );
+
+        expect(console.warn.calledWithMatch('props.algorithm.matcher')).toBe(true);
     });
 
     it('accepts a custom matching and marking algorithm', () => {
@@ -82,8 +106,8 @@ describe('UITypeaheadInput', () => {
         render(
             <UITypeaheadInput
                 algorithm={{
-                    matchFunc: matchStub,
-                    markFunc: markStub,
+                    matcher: matchStub,
+                    marker: markStub,
                 }}
                 entities={entities}
                 inputProps={{defaultValue: 'ap'}} />
@@ -91,6 +115,28 @@ describe('UITypeaheadInput', () => {
 
         expect(matchStub.calledOnce).toBe(true);
         expect(markStub.calledTwice).toBe(true);
+    });
+
+    it('recomputes matches when new entities are provided', () => {
+        let element;
+
+        element = render(
+            <UITypeaheadInput
+                algorithm={UITypeaheadInput.mode.STARTS_WITH}
+                entities={entities}
+                inputProps={{defaultValue: 'ap'}} />
+        );
+
+        expect(document.querySelectorAll('.ui-typeahead-match').length).toEqual(2);
+
+        element = render(
+            <UITypeaheadInput
+                algorithm={UITypeaheadInput.mode.STARTS_WITH}
+                entities={entities.slice(0, 1)}
+                inputProps={{defaultValue: 'ap'}} />
+        );
+
+        expect(document.querySelectorAll('.ui-typeahead-match').length).toEqual(1);
     });
 
     describe('CSS hook', () => {
@@ -130,10 +176,7 @@ describe('UITypeaheadInput', () => {
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            const node = element.refs.matches;
-            const matches = node.querySelectorAll('.ui-typeahead-match');
-
-            expect(matches.length).toBe(2);
+            expect(document.querySelector('.ui-typeahead-match')).not.toBe(null);
         });
 
         it('ui-typeahead-match-selected is rendered', () => {
@@ -143,10 +186,7 @@ describe('UITypeaheadInput', () => {
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            const node = element.refs.matches;
-            const match = node.querySelector('.ui-typeahead-match-selected');
-
-            expect(match).not.toBe(null);
+            expect(document.querySelector('.ui-typeahead-match-selected')).not.toBe(null);
         });
 
         it('is added for the marked text inside each match', () => {
@@ -159,7 +199,7 @@ describe('UITypeaheadInput', () => {
             const node = element.refs.matches;
             const matches = node.querySelectorAll('.ui-typeahead-match-highlight');
 
-            expect(matches.length).toBe(2);
+            expect(matches.length).toBe(3);
         });
     });
 
@@ -213,8 +253,8 @@ describe('UITypeaheadInput', () => {
             const element = render(
                 <UITypeaheadInput
                     algorithm={{
-                        matchFunc: stub,
-                        markFunc: stub2,
+                        matcher: stub,
+                        marker: stub2,
                     }}
                     entities={entities}
                     hint={true}
@@ -233,6 +273,7 @@ describe('UITypeaheadInput', () => {
             beforeEach(() => {
                 element = render(
                     <UITypeaheadInput
+                        algorithm={UITypeaheadInput.mode.STARTS_WITH}
                         entities={entities}
                         hint={true}
                         inputProps={{defaultValue: 'ap'}} />
@@ -257,6 +298,7 @@ describe('UITypeaheadInput', () => {
             beforeEach(() => {
                 element = render(
                     <UITypeaheadInput
+                        algorithm={UITypeaheadInput.mode.STARTS_WITH}
                         entities={entities}
                         hint={true}
                         inputProps={{defaultValue: 'ap'}} />
@@ -378,7 +420,7 @@ describe('UITypeaheadInput', () => {
         });
     });
 
-    describe('entity matches', () => {
+    describe('an entity match', () => {
         let element;
 
         beforeEach(() => {
@@ -389,7 +431,7 @@ describe('UITypeaheadInput', () => {
             );
         });
 
-        it('autocomplete on click', () => {
+        it('autocompletes on click', () => {
             const node = element.getInputNode();
 
             expect(node.value).toBe('ap');
@@ -400,7 +442,7 @@ describe('UITypeaheadInput', () => {
             expect(node.value).toBe('apple');
         });
 
-        it('contain a marked substring with the proper class', () => {
+        it('contains a marked substring with the proper class', () => {
             let node = document.querySelector('.ui-typeahead-match');
 
             expect(node.textContent).toBe('apple');

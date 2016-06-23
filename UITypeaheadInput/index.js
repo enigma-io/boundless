@@ -14,6 +14,7 @@ import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
 const is_string = test => typeof test === 'string';
+const is_function = test => typeof test === 'function';
 
 export default class UITypeaheadInput extends UIView {
     static mode = {
@@ -29,8 +30,20 @@ export default class UITypeaheadInput extends UIView {
                 UITypeaheadInput.mode.FUZZY,
             ]),
             PropTypes.shape({
-                markFunc: PropTypes.func,
-                matchFunc: PropTypes.func,
+                marker: PropTypes.oneOfType([
+                    PropTypes.func,
+                    PropTypes.oneOf([
+                        UITypeaheadInput.mode.STARTS_WITH,
+                        UITypeaheadInput.mode.FUZZY,
+                    ]),
+                ]),
+                matcher: PropTypes.oneOfType([
+                    PropTypes.func,
+                    PropTypes.oneOf([
+                        UITypeaheadInput.mode.STARTS_WITH,
+                        UITypeaheadInput.mode.FUZZY,
+                    ]),
+                ]),
             }),
         ]),
         clearPartialInputOnSelection: PropTypes.bool,
@@ -50,7 +63,7 @@ export default class UITypeaheadInput extends UIView {
 
     static defaultProps = {
         ...UITextualInput.defaultProps,
-        algorithm: UITypeaheadInput.mode.STARTS_WITH,
+        algorithm: UITypeaheadInput.mode.FUZZY,
         clearPartialInputOnSelection: false,
         entities: [],
         hintProps: {},
@@ -219,26 +232,27 @@ export default class UITypeaheadInput extends UIView {
         ];
     }
 
-    markMatchSubstring(...args) {
-        switch (this.props.algorithm) {
-        case UITypeaheadInput.mode.STARTS_WITH:
-            return this.markStartsWithMatchSubstring(...args);
+    getMarkingFunction() {
+        if (is_string(this.props.algorithm)) {
+            if (this.props.algorithm === UITypeaheadInput.mode.STARTS_WITH) {
+                return this.markStartsWithMatchSubstring;
+            }
 
-        case UITypeaheadInput.mode.FUZZY:
-            return this.markFuzzyMatchSubstring(...args);
+            return this.markFuzzyMatchSubstring;
+
+        } else if (is_function(this.props.algorithm.marker)) {
+            return this.props.algorithm.marker;
         }
 
-        if (typeof this.props.algorithm.markFunc === 'function') {
-            return this.props.algorithm.markFunc(...args);
+        if (!this.warned_marker) {
+            this.warned_marker = true;
+            console.warn('UITypeaheadInput: no `props.algorithm.marker` was provided; falling back to the default marking algorithm (FUZZY).');
         }
 
-        if (!this.warned_markFunc) {
-            this.warned_markFunc = true;
-            console.warn('UITypeaheadInput: no `props.algorithm.markFunc` was provided; falling back to the default marking algorithm.');
-        }
-
-        return this.markStartsWithMatchSubstring(...args);
+        return this.markFuzzyMatchSubstring;
     }
+
+    markMatchSubstring = (...args) => this.getMarkingFunction()(...args)
 
     getFuzzyMatchIndexes(userText, entities) {
         const normalized = userText.toLowerCase();
@@ -260,26 +274,27 @@ export default class UITypeaheadInput extends UIView {
         }, []);
     }
 
-    getMatchIndexes(...args) {
-        switch (this.props.algorithm) {
-        case UITypeaheadInput.mode.STARTS_WITH:
-            return this.getStartsWithMatchIndexes(...args);
+    getMatchingFunction() {
+        if (is_string(this.props.algorithm)) {
+            if (this.props.algorithm === UITypeaheadInput.mode.STARTS_WITH) {
+                return this.getStartsWithMatchIndexes;
+            }
 
-        case UITypeaheadInput.mode.FUZZY:
-            return this.getFuzzyMatchIndexes(...args);
+            return this.getFuzzyMatchIndexes;
+
+        } else if (is_function(this.props.algorithm.matcher)) {
+            return this.props.algorithm.matcher;
         }
 
-        if (typeof this.props.algorithm.matchFunc === 'function') {
-            return this.props.algorithm.matchFunc(...args);
+        if (!this.warned_matcher) {
+            this.warned_matcher = true;
+            console.warn('UITypeaheadInput: no `props.algorithm.matcher` was provided; falling back to the default matching algorithm (FUZZY).');
         }
 
-        if (!this.warned_matchFunc) {
-            this.warned_matchFunc = true;
-            console.warn('UITypeaheadInput: no `props.algorithm.matchFunc` was provided; falling back to the default matching algorithm.');
-        }
-
-        return this.getStartsWithMatchIndexes(...args);
+        return this.getFuzzyMatchIndexes;
     }
+
+    getMatchIndexes = (...args) => this.getMatchingFunction()(...args)
 
     computeMatches(entities = this.props.entities) {
         const currentValue = this.state.input;
