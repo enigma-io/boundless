@@ -37,6 +37,7 @@
     "jsdoc": "^3.4.0",
     "lodash": "^4.6.1",
     "minami": "^1.1.1",
+    "mkdirp": "^0.5.1",
     "prismjs": "^1.4.1",
     "react": "^15.0.1",
     "react-addons-test-utils": "^15.0.1",
@@ -71,6 +72,7 @@
     ]
   },
   "scripts": {
+    "postinstall": "mkdirp site/public/assets",
     "lint": "eslint --quiet *.js **/*.js",
     "test": "jest --verbose",
     "coverage": "jest --coverage",
@@ -80,7 +82,7 @@
     "site:css:watch": "stylus -w -c -m -l -u autoprefixer-stylus site/style.styl -o site/public/style.css --sourcemap-inline",
     "site:js:release": "NODE_ENV=production browserify site/index.js -t babelify -t [ brfs --transformer site/prepare.js ] | uglifyjs -mc drop_console --screw-ie8 > site/public/assets/bundle.min.js",
     "site:js:watch": "budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t [ brfs --transformer site/prepare.js ] -p bundle-collapser/plugin",
-    "site:release": "mkdir -p site/public/assets && npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
+    "site:release": "npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
     "start": "sh parallelize.sh \"npm run site:css:watch\" \"npm run site:js:watch\"",
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
