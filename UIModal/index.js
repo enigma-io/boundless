@@ -72,9 +72,6 @@ export default class UIModal extends UIView {
                         })}>
                         {props.children}
                     </UIDialog>
-
-                    {/* used as a focus boundary - without this, focus moves off the browser window and we can't stop it */}
-                    <div className='ui-offscreen' tabIndex='0'>&nbsp;</div>
                 </div>
             , this.$container)
         );

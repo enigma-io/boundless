@@ -58,8 +58,9 @@ export default class UIPopover extends UIView {
     static defaultProps = {
         ...UIDialog.defaultProps,
         captureFocus: false,
-        closeOnOutsideClick: true,
         closeOnEscKey: true,
+        closeOnOutsideClick: true,
+        closeOnOutsideScroll: true,
         anchorXAlign: UIPopover.position.START,
         anchorYAlign: UIPopover.position.END,
         autoReposition: true,
@@ -76,7 +77,7 @@ export default class UIPopover extends UIView {
 
     updateDialogInternalCache(instance) {
         this.dialog = instance;
-        this.$dialog = ReactDOM.findDOMNode(instance);
+        this.$dialog = instance.$dialog;
     }
 
     componentWillMount() {

@@ -133,6 +133,9 @@ Refer to [UIDialog](../UIDialog/README.md)
 - __closeOnOutsideClick__ `Boolean`
   (default `true`) see [UIDialog.props.closeOnOutsideClick](../UIDialog/README.md)
 
+- __closeOnOutsideScroll__ `Boolean~
+  (default `true`) see [UIDialog.props.closeOnOutsideScroll](../UIDialog/README.md)
+
 - __selfXAlign__ `Constant`
   (default `UIPopover.position.START`) location on the popover X-axis to use for alignment calculations
     - __selfXAlign__ `UIPopover.position.START`

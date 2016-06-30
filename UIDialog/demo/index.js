@@ -27,6 +27,7 @@ export default class UIDialogDemo extends UIView {
             return (
                 <UIDialog closeOnEscKey={true}
                           closeOnOutsideClick={true}
+                          closeOnOutsideScroll={true}
                           onClose={this.toggleDialog}
                           style={{
                               left: this.state.leftPosition,

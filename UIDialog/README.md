@@ -72,17 +72,20 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
     - __bodyProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
 
-- __captureFocus__ `Boolean` (default `true`)
-  determines if focus is allowed to move away from the dialog
+- __captureFocus__ `Boolean`
+  (default `true`) determines if focus is allowed to move away from the dialog
 
 - __closeOnEscKey__ `Boolean`
-  enable detection of "Escape" keypresses to trigger `props.onClose`
+  (default `false`) enable detection of "Escape" keypresses to trigger `props.onClose`
 
 - __closeOnOutsideClick__ `Boolean`
-  enable detection of clicks outside the dialog area to trigger `props.onClose`
+  (default `false`) enable detection of clicks outside the dialog area to trigger `props.onClose`
 
 - __closeOnOutsideFocus__ `Boolean`
-  enable detection of focus outside the dialog area to trigger `props.onClose`
+  (default `false`) enable detection of focus outside the dialog area to trigger `props.onClose`
+
+- __closeOnOutsideScroll__ `Boolean`
+  (default `false`) enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`
 
 - __footer__ `any renderable content`
   text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
