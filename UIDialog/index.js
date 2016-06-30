@@ -159,7 +159,7 @@ export default class UIDialog extends UIView {
     renderFocusBoundary() {
         if (this.props.captureFocus) {
             return (
-                <div className='ui-offscreen' tabIndex='0'>&nbsp;</div>
+                <div className='ui-offscreen' tabIndex='0' aria-hidden='true'>&nbsp;</div>
             );
         }
     } // used to lock focus into a particular subset of DOM
