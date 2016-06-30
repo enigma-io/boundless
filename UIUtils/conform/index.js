@@ -15,13 +15,13 @@ import {findDOMNode} from 'react-dom';
  * Each must be able to be mixed and matched without overwriting each other,
  * with the exception of `id`, where `props.id`
  *
-  * @param  {function}  render       a pre-build render function to take in vdom and render to a designated place
- * @param  {function}  Constructor  a valid ReactClass
- * @param  {object}    baseProps    any fundamental props that are needed for the component to be rendered successfully
- * @param  {string}   [ref]         a specific ref identifier to check for compliance instead of the base element; this is
+ * @param {function}  render        a pre-build render function to take in vdom and render to a designated place
+ * @param {function}  Constructor   a valid ReactClass
+ * @param {object}    baseProps     any fundamental props that are needed for the component to be rendered successfully
+ * @param {string}   [key] an instance key to check for compliance instead of the base element; this is
  *                                  used for React components that render to <body> or a node other than its logical parent
  */
-export default function verifyConformance(render, Constructor, baseProps, ref) {
+export default function verifyConformance(render, Constructor, baseProps, key) {
     let node;
 
     const renderWithPropsAndGetNode = props => {
@@ -34,10 +34,10 @@ export default function verifyConformance(render, Constructor, baseProps, ref) {
             )
         );
 
-        if (ref) {
-            return   element.refs[ref] instanceof HTMLElement
-                   ? element.refs[ref]
-                   : findDOMNode(element.refs[ref]);
+        if (key) {
+            return   element[key] instanceof HTMLElement
+                   ? element[key]
+                   : findDOMNode(element[key]);
         }
 
         return findDOMNode(element);

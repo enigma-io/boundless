@@ -12,62 +12,48 @@ describe('UIModal', () => {
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
-    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIModal));
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIModal, {}, 'modal'));
 
-    describe('accepts', () => {
-        it('arbitrary HTML attributes via props.modalProps', () => {
-            const element = render(<UIModal modalProps={{'data-id': 'foo'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.dialog);
+    it('renders .ui-modal', () => {
+        const element = render(<UIModal>foo</UIModal>);
 
-            expect(node.getAttribute('data-id')).toBe('foo');
-        });
-
-        it('extra classes via props.modalProps.className', () => {
-            const element = render(<UIModal modalProps={{className: 'foo'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.dialog);
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
-
-        it('arbitrary HTML attributes via props.maskProps', () => {
-            const element = render(<UIModal maskProps={{'data-id': 'foo'}} />);
-
-            expect(element.refs.mask.getAttribute('data-id')).toBe('foo');
-        });
-
-        it('extra classes via props.maskProps.className', () => {
-            const element = render(<UIModal maskProps={{className: 'foo'}} />);
-            const node = element.refs.mask;
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
-
-        it('an additional class as a string without replacing the core hook', () => {
-            const element = render(<UIModal className='foo bar' />);
-            const node = element.refs.wrapper;
-
-            ['ui-modal-wrapper', 'foo', 'bar'].forEach(cname => expect(node.classList.contains(cname)).toBe(true));
-        });
+        expect(document.querySelector('.ui-modal')).not.toBe(null);
     });
 
-    describe('CSS hook(s)', () => {
-        let element;
+    it('renders .ui-modal-mask', () => {
+        const element = render(<UIModal>foo</UIModal>);
 
-        beforeEach(() => {
-            element = render(<UIModal />);
-        });
+        expect(document.querySelector('.ui-modal-mask')).not.toBe(null);
+    });
 
-        it('ui-modal is rendered', () => {
-            expect(ReactDOM.findDOMNode(element.refs.dialog).classList.contains('ui-modal')).toBe(true);
-        });
+    it('renders .ui-modal-wrapper', () => {
+        const element = render(<UIModal>foo</UIModal>);
 
-        it('ui-modal-mask is rendered', () => {
-            expect(element.refs.mask.classList.contains('ui-modal-mask')).toBe(true);
-        });
+        expect(document.querySelector('.ui-modal-wrapper')).not.toBe(null);
+    });
 
-        it('ui-modal-wrapper is rendered', () => {
-            expect(element.refs.wrapper.classList.contains('ui-modal-wrapper')).toBe(true);
-        });
+    it('accepts arbitrary HTML attributes via props.modalProps', () => {
+        const element = render(<UIModal modalProps={{'data-id': 'foo'}} />);
+
+        expect(document.querySelector('.ui-modal').getAttribute('data-id')).toBe('foo');
+    });
+
+    it('accepts extra classes via props.modalProps.className', () => {
+        const element = render(<UIModal modalProps={{className: 'foo'}} />);
+
+        expect(document.querySelector('.ui-modal').classList.contains('foo')).toBe(true);
+    });
+
+    it('accepts arbitrary HTML attributes via props.maskProps', () => {
+        const element = render(<UIModal maskProps={{'data-id': 'foo'}} />);
+
+        expect(document.querySelector('.ui-modal-mask').getAttribute('data-id')).toBe('foo');
+    });
+
+    it('accepts extra classes via props.maskProps.className', () => {
+        const element = render(<UIModal maskProps={{className: 'foo'}} />);
+
+        expect(document.querySelector('.ui-modal-mask').classList.contains('foo')).toBe(true);
     });
 
     describe('passthrough to UIDialog', () => {
@@ -75,39 +61,40 @@ describe('UIModal', () => {
 
         beforeEach(() => {
             element = render(
-                <UIModal header='foo'
-                         headerProps={{className: 'foo'}}
-                         bodyProps={{className: 'foo'}}
-                         footer='baz'
-                         footerProps={{className: 'foo'}}>
+                <UIModal
+                    header='foo'
+                    headerProps={{className: 'foo'}}
+                    bodyProps={{className: 'foo'}}
+                    footer='baz'
+                    footerProps={{className: 'foo'}}>
                     bar
                 </UIModal>
             );
         });
 
         it('should correctly pass down props.header', () => {
-            expect(element.refs.dialog.refs.header.textContent).toContain('foo');
+            expect(document.querySelector('.ui-dialog-header').textContent).toContain('foo');
         });
 
         it('should correctly pass down props.headerProps', () => {
-            expect(element.refs.dialog.refs.header.classList.contains('foo')).toBe(true);
-        });
-
-        it('should correctly pass down props.bodyProps', () => {
-            expect(element.refs.dialog.refs.body.classList.contains('foo')).toBe(true);
-        });
-
-        it('should correctly pass down props.footer', () => {
-            expect(element.refs.dialog.refs.footer.textContent).toContain('baz');
-        });
-
-        it('should correctly pass down props.footerProps', () => {
-            expect(element.refs.dialog.refs.footer.classList.contains('foo')).toBe(true);
+            expect(document.querySelector('.ui-dialog-header').classList.contains('foo')).toBe(true);
         });
 
         it('should correctly pass down nested children', () => {
             element = render(<UIModal>foo</UIModal>);
-            expect(ReactDOM.findDOMNode(element.refs.dialog).textContent).toContain('foo');
+            expect(document.querySelector('.ui-dialog-body').textContent).toContain('foo');
+        });
+
+        it('should correctly pass down props.bodyProps', () => {
+            expect(document.querySelector('.ui-dialog-body').classList.contains('foo')).toBe(true);
+        });
+
+        it('should correctly pass down props.footer', () => {
+            expect(document.querySelector('.ui-dialog-footer').textContent).toContain('baz');
+        });
+
+        it('should correctly pass down props.footerProps', () => {
+            expect(document.querySelector('.ui-dialog-footer').classList.contains('foo')).toBe(true);
         });
     });
 });

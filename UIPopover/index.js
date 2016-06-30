@@ -74,14 +74,16 @@ export default class UIPopover extends UIView {
         selfYAlign: this.props.selfYAlign,
     }
 
+    updateDialogInternalCache(instance) {
+        this.dialog = instance;
+        this.$dialog = ReactDOM.findDOMNode(instance);
+    }
+
     componentWillMount() {
-        document.body.appendChild((this.container = document.createElement('div')));
+        this.$container = document.createElement('div');
+        document.body.appendChild(this.$container);
 
-        // this is bad, don't do this anywhere else :-x.
-        this.refs = {};
-        this.refs.dialog = this.renderDialog();
-        this.node = ReactDOM.findDOMNode(this.refs.dialog);
-
+        this.renderDialog();
         this.align();
 
         window.addEventListener('resize', this.align, true);
@@ -93,8 +95,8 @@ export default class UIPopover extends UIView {
     }
 
     componentWillUnmount() {
-        ReactDOM.unmountComponentAtNode(this.container);
-        document.body.removeChild(this.container);
+        ReactDOM.unmountComponentAtNode(this.$container);
+        document.body.removeChild(this.$container);
 
         window.removeEventListener('resize', this.align, true);
     }
@@ -204,16 +206,16 @@ export default class UIPopover extends UIView {
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        const x = this.getNextXPosition(anchor, this.node);
-        const y = this.getNextYPosition(anchor, this.node);
+        const x = this.getNextXPosition(anchor, this.$dialog);
+        const y = this.getNextYPosition(anchor, this.$dialog);
 
-        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.node, x, y);
+        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.$dialog, x, y);
 
         if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
             return this.setState(alignmentCorrection, () => this.componentDidUpdate());
         }
 
-        this.applyTranslation(this.node, x, y);
+        this.applyTranslation(this.$dialog, x, y);
     }
 
     getClassAlignmentFragment(constant) {
@@ -235,24 +237,26 @@ export default class UIPopover extends UIView {
         const state = this.state;
         const getFrag = this.getClassAlignmentFragment;
 
-        return ReactDOM.render(
-            <UIDialog
-                {...this.props}
-                className={cx({
-                    'ui-popover': true,
-                    [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
-                    [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
-                    [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
-                    [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                    [this.props.className]: !!this.props.className,
-                })}
-                style={{
-                    ...this.props.style,
-                    position: 'absolute',
-                    top: '0px',
-                    left: '0px',
-                }} />
-        , this.container);
+        this.updateDialogInternalCache(
+            ReactDOM.render(
+                <UIDialog
+                    {...this.props}
+                    className={cx({
+                        'ui-popover': true,
+                        [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
+                        [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
+                        [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
+                        [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
+                        [this.props.className]: !!this.props.className,
+                    })}
+                    style={{
+                        ...this.props.style,
+                        position: 'absolute',
+                        top: '0px',
+                        left: '0px',
+                    }} />
+            , this.$container)
+        );
     }
 
     render() {
