@@ -2,6 +2,29 @@
 
 ---
 
+## 1.0.0-beta-16 (6/30/2016)
+
+- __UIDialog: make focus boundaries hidden to screen readers__ (4a4691d)
+- __UIDialog: implement props.closeOnOutsideScroll (#254)__ (5df8d90)
+
+  This is mostly aimed at UIPopover and contexts where scrolling may move a fixed or absolutely-positioned element away from its anchor in an undesirable way.
+
+  * UIPopover: dismiss by default on outside scroll
+  * UIDialog: add defaults to boolean props, handle focus boundaries
+
+    Pulled the boundaries out of UIModal, because that component isn't who actually manages the functionality of `props.captureFocus`. Also
+    cleaned up the UIDialog tests.
+
+
+- __Refactor UIPopover's internal caching mechanism__ (96e754c)
+- __UIModal: inject into `<body>` rather than locally__ (6e2b6dd) This follows the same pattern as UIPopover, such that a modal can truly sit atop all other content.
+- __Refactor conformance checker to not use refs__ (f5e6213)
+- __Remove the auth token to pull down enigma-table__ (2fa4df5) Our CI now has the proper keys to not require this.
+- __Remove things that should be gitignored__ (2509a7c)
+- __Update README__ (76add2b)
+
+---
+
 ## 1.0.0-beta-15 (6/23/2016)
 
 ### Breaking Changes
