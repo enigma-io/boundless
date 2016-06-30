@@ -4,10 +4,12 @@
  */
 
 import React from 'react';
-import UIDialog from '../UIDialog';
-import extractChildProps from '../UIUtils/extractChildProps';
-import UIView from '../UIView';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
+
+import UIDialog from '../UIDialog';
+import UIView from '../UIView';
+import extractChildProps from '../UIUtils/extractChildProps';
 
 export default class UIModal extends UIView {
     static propTypes = {
@@ -18,34 +20,67 @@ export default class UIModal extends UIView {
 
     static defaultProps = {
         ...UIDialog.defaultProps,
+        captureFocus: true,
         maskProps: {},
         modalProps: {},
     }
 
-    render() {
-        return (
-            <div {...this.props}
-                 ref='wrapper'
-                 className={cx({
-                     'ui-modal-wrapper': true,
-                     [this.props.className]: !!this.props.className,
-                 })}>
-                <div {...this.props.maskProps}
-                     ref='mask'
-                     className={cx({
-                         'ui-modal-mask': true,
-                         [this.props.maskProps.className]: !!this.props.maskProps.className,
-                     })} />
-                <UIDialog {...extractChildProps(this.props, UIDialog.propTypes)}
-                          {...this.props.modalProps}
-                          ref='dialog'
-                          className={cx({
-                              'ui-modal': true,
-                              [this.props.modalProps.className]: !!this.props.modalProps.className,
-                          })}>
-                    {this.props.children}
-                </UIDialog>
-            </div>
+    updateInternalModalCache(instance) {
+        this.modal = instance;
+    }
+
+    componentWillMount() {
+        this.$container = document.createElement('div');
+
+        document.body.appendChild(this.$container);
+
+        this.renderModal();
+    }
+
+    componentDidUpdate() {
+        this.renderModal();
+    }
+
+    componentWillUnmount() {
+        ReactDOM.unmountComponentAtNode(this.$container);
+        document.body.removeChild(this.$container);
+    }
+
+    renderModal() {
+        const {props} = this;
+
+        this.updateInternalModalCache(
+            ReactDOM.render(
+                <div
+                    {...props}
+                    className={cx({
+                        'ui-modal-wrapper': true,
+                        [props.className]: !!props.className,
+                    })}>
+                    <div
+                        {...props.maskProps}
+                        className={cx({
+                            'ui-modal-mask': true,
+                            [props.maskProps.className]: !!props.maskProps.className,
+                        })} />
+                    <UIDialog
+                        {...extractChildProps(props, UIDialog.propTypes)}
+                        {...props.modalProps}
+                        className={cx({
+                            'ui-modal': true,
+                            [props.modalProps.className]: !!props.modalProps.className,
+                        })}>
+                        {props.children}
+                    </UIDialog>
+
+                    {/* used as a focus boundary - without this, focus moves off the browser window and we can't stop it */}
+                    <div className='ui-offscreen' tabIndex='0'>&nbsp;</div>
+                </div>
+            , this.$container)
         );
+    }
+
+    render() {
+        return (<div />);
     }
 }
