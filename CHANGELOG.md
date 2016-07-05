@@ -2,6 +2,12 @@
 
 ---
 
+## 1.0.0-beta-17 (7/5/2016)
+
+- __Update to `enigma-table@1.0.4`__ -- no actual changes, just a PATCH version bump to pull in a missed commit that didn't make it into `enigma-table@1.0.3` but appeared in the CHANGELOG
+
+---
+
 ## 1.0.0-beta-16 (6/30/2016)
 
 - __UIDialog: make focus boundaries hidden to screen readers__ (4a4691d)
