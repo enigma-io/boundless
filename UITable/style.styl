@@ -25,6 +25,13 @@
     z-index: 1;
 }
 
+.ui-table-header,
+.ui-table-row {
+    display: flex;
+    min-width: "calc(100vw - %s)" % size-UITable_scroll_track;
+    position: absolute;
+}
+
 .ui-table-body {
     position: absolute;
     top: height-UITable_cell;
@@ -93,23 +100,16 @@
 .ui-table-cell {
     display: inline-block;
     vertical-align: top;
-    min-width: 75px;
+    min-width: 50px;
     padding: 0 paddingX-UITable_cell;
     position: relative;
     user-select: none;
 }
 
 .ui-table-cell-inner {
-    overflow: hidden;
     text-overflow: ellipsis;
     will-change: contents;
-
-    // creates a "layout boundary" and restricts the size of relayout
-    // http://wilsonpage.co.uk/introducing-layout-boundaries/
     height: height-UITable_cell;
-    width: inherit;
-    margin-left: paddingX-UITable_cell * -1;
-    padding: 0 paddingX-UITable_cell;
 }
 
 .ui-table-header-cell {
@@ -187,4 +187,16 @@
 .ui-table-y-scroll-handle {
     left: 0;
     right: 0;
+}
+
+.ui-table-initialized {
+    .ui-table-header-cell,
+    .ui-table-cell {
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+
+    .ui-table-cell-inner {
+        overflow: hidden;
+    }
 }
