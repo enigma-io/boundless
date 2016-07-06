@@ -186,5 +186,16 @@ describe('UICheckboxGroup', () => {
 
             expect(stub.calledOnce).toBe(true);
         });
+
+        it('renders a custom label if given', () => {
+            const element = render(
+                <UICheckboxGroup
+                    items={mixedItems}
+                    selectAll={true}
+                    selectAllProps={{label: 'foo'}} />
+            );
+
+            expect(element.refs.select_all.refs.label.textContent).toBe('foo');
+        });
     });
 });

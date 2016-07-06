@@ -92,7 +92,7 @@ export default class UICheckboxGroupDemo extends UIView {
                 <UICheckboxGroup
                     items={this.state.items}
                     selectAll={true}
-                    selectAllLabel='All of the above'
+                    selectAllProps={{label: 'All of the above'}}
                     selectAllPosition={UICheckboxGroup.Constants.SELECT_ALL_AFTER}
                     onAllChecked={this.handleAllChecked}
                     onAllUnchecked={this.handleAllUnchecked}

@@ -23,7 +23,7 @@ export default class UICheckboxGroup extends UIView {
                     label: PropTypes.string,
                     name: PropTypes.string.isRequired,
                     value: PropTypes.string,
-                })
+                }),
             })
         ).isRequired,
         onAllChecked: PropTypes.func,
@@ -32,7 +32,6 @@ export default class UICheckboxGroup extends UIView {
         onChildUnchecked: PropTypes.func,
         selectAll: PropTypes.bool,
         selectAllProps: PropTypes.object,
-        selectAllLabel: PropTypes.string,
         selectAllPosition: PropTypes.oneOf([
             UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
             UICheckboxGroup.Constants.SELECT_ALL_AFTER,
@@ -45,10 +44,8 @@ export default class UICheckboxGroup extends UIView {
         onAllUnchecked: noop,
         onChildChecked: noop,
         onChildUnchecked: noop,
-        selectAllProps: {
-            inputProps: {},
-        },
-        selectAllLabel: 'Select All',
+        selectAll: false,
+        selectAllProps: {},
         selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
     }
 
@@ -80,7 +77,7 @@ export default class UICheckboxGroup extends UIView {
                         indeterminate: !allChecked && this.anyItemsChecked(),
                         name: inputProps && inputProps.name ? inputProps.name : 'cb_select_all',
                     }}
-                    label={this.props.selectAllLabel}
+                    label={this.props.selectAllProps.label || 'Select All'}
                     onChecked={this.props.onAllChecked}
                     onUnchecked={this.props.onAllUnchecked} />
             );
