@@ -23,45 +23,43 @@ describe('UIButton', () => {
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIButton));
 
-    describe('CSS hook', () => {
-        it('ui-button should be rendered', () => {
-            const element = render(<UIButton />);
-            const node = element.refs.button;
+    it('renders ui-button', () => {
+        const element = render(<UIButton />);
+        const node = element.refs.button;
 
-            expect(node.classList.contains('ui-button')).toBe(true);
-        });
+        expect(node.classList.contains('ui-button')).toBe(true);
+    });
 
-        it('ui-button-pressable should be rendered when provided `props.pressed`', () => {
-            const element = render(<UIButton pressed={false} />);
-            const node = element.refs.button;
+    it('renders ui-button-pressable when provided `props.pressed`', () => {
+        const element = render(<UIButton pressed={false} />);
+        const node = element.refs.button;
 
-            expect(node.classList.contains('ui-button-pressable')).toBe(true);
-        });
+        expect(node.classList.contains('ui-button-pressable')).toBe(true);
+    });
 
-        it('ui-button-pressed should be rendered when `props.pressed` is `true`', () => {
-            const element = render(<UIButton pressed={true} />);
-            const node = element.refs.button;
+    it('renders ui-button-pressed when `props.pressed` is `true`', () => {
+        const element = render(<UIButton pressed={true} />);
+        const node = element.refs.button;
 
-            expect(node.classList.contains('ui-button-pressed')).toBe(true);
-        });
+        expect(node.classList.contains('ui-button-pressed')).toBe(true);
     });
 
     describe('`aria-pressed` HTML attribute', () => {
-        it('should be "true" if `props.pressed` is `true`', () => {
+        it('is "true" if `props.pressed` is `true`', () => {
             const element = render(<UIButton pressed={true} />);
             const node = element.refs.button;
 
             expect(node.getAttribute('aria-pressed')).toBe('true');
         });
 
-        it('should be "false" if `props.pressed` is `false`', () => {
+        it('is "false" if `props.pressed` is `false`', () => {
             const element = render(<UIButton pressed={false} />);
             const node = element.refs.button;
 
             expect(node.getAttribute('aria-pressed')).toBe('false');
         });
 
-        it('should not be applied if `props.pressed` is not provided', () => {
+        it('is not be applied if `props.pressed` is not provided', () => {
             const element = render(<UIButton />);
             const node = element.refs.button;
 
@@ -70,7 +68,7 @@ describe('UIButton', () => {
     });
 
     describe('on click', () => {
-        it('should trigger `props.onClick` if provided', () => {
+        it('triggers `props.onClick` if provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onClick={stub} />);
 
@@ -80,7 +78,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
+        it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
@@ -90,7 +88,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
+        it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
@@ -100,7 +98,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
+        it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onPressed={stub} />);
 
@@ -121,7 +119,7 @@ describe('UIButton', () => {
     });
 
     describe('on "Enter" key', () => {
-        it('should trigger `props.onKeyDown` if provided', () => {
+        it('triggers `props.onKeyDown` if provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onKeyDown={stub} />);
 
@@ -131,7 +129,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
+        it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
@@ -141,7 +139,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
+        it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
@@ -151,7 +149,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
+        it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onPressed={stub} />);
 
@@ -172,7 +170,7 @@ describe('UIButton', () => {
     });
 
     describe('on "Space" key', () => {
-        it('should trigger `props.onKeyDown` if provided', () => {
+        it('triggers `props.onKeyDown` if provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onKeyDown={stub} />);
 
@@ -182,7 +180,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onUnpressed` if `props.pressed` is `true`', () => {
+        it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={true} onUnpressed={stub} />);
 
@@ -192,7 +190,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` if `props.pressed` is `false`', () => {
+        it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton pressed={false} onPressed={stub} />);
 
@@ -202,7 +200,7 @@ describe('UIButton', () => {
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
-        it('should trigger `onPressed` even if `props.pressed` is not provided', () => {
+        it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
             const element = render(<UIButton onPressed={stub} />);
 
@@ -222,7 +220,7 @@ describe('UIButton', () => {
         });
     });
 
-    it('on non-handled keydown, it should trigger `props.onKeyDown` if provided', () => {
+    it('on non-handled keydown, it triggers `props.onKeyDown` if provided', () => {
         const stub = sandbox.stub();
         const element = render(<UIButton onKeyDown={stub} />);
 
