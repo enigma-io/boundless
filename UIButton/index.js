@@ -23,6 +23,8 @@ export default class UIButton extends UIView {
     }
 
     handleClick = (event) => {
+        if (this.props.disabled) { return; }
+
         this.toggleState(event);
 
         if (typeof this.props.onClick === 'function') {
@@ -32,6 +34,8 @@ export default class UIButton extends UIView {
     }
 
     handleKeyDown = (event) => {
+        if (this.props.disabled) { return; }
+
         switch (event.key) {
         case 'Enter':
         case 'Space':

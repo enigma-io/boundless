@@ -109,6 +109,15 @@ describe('UIButton', () => {
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
+
+        it('will not trigger `onPressed` if the button is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onPressed={stub} disabled />);
+
+            element.handleClick(evt);
+
+            expect(stub.called).toBe(false);
+        });
     });
 
     describe('on "Enter" key', () => {
@@ -151,6 +160,15 @@ describe('UIButton', () => {
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch(evt)).toBe(true);
         });
+
+        it('will not trigger `onPressed` if the button is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onPressed={stub} disabled />);
+
+            element.handleKeyDown({...evt, key: 'Enter'});
+
+            expect(stub.called).toBe(false);
+        });
     });
 
     describe('on "Space" key', () => {
@@ -192,6 +210,15 @@ describe('UIButton', () => {
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch(evt)).toBe(true);
+        });
+
+        it('will not trigger `onPressed` if the button is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UIButton onPressed={stub} disabled />);
+
+            element.handleKeyDown({...evt, key: 'Space'});
+
+            expect(stub.called).toBe(false);
         });
     });
 
