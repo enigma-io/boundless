@@ -33,11 +33,12 @@ export default class UICheckboxDemo extends UIView {
                     let boundFunc = this.handleInteraction.bind(this, definition.name);
 
                     return (
-                        <UICheckbox {...definition}
-                                    key={definition.name}
-                                    label={definition.label}
-                                    onChecked={boundFunc}
-                                    onUnchecked={boundFunc} />
+                        <UICheckbox
+                            key={definition.name}
+                            inputProps={definition}
+                            label={definition.label}
+                            onChecked={boundFunc}
+                            onUnchecked={boundFunc} />
                     );
                 })}
             </div>

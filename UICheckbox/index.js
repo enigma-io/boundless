@@ -3,59 +3,62 @@
  * @class UICheckbox
  */
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 import UIView from '../UIView';
 import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 export default class UICheckbox extends UIView {
     static propTypes = {
-        checked: React.PropTypes.bool,
-        indeterminate: React.PropTypes.bool,
-        inputProps: React.PropTypes.object,
-        label: React.PropTypes.node,
-        labelProps: React.PropTypes.object,
-        name: React.PropTypes.string.isRequired,
-        onChecked: React.PropTypes.func,
-        onUnchecked: React.PropTypes.func,
-        value: React.PropTypes.string,
+        inputProps: PropTypes.shape({
+            checked: PropTypes.bool,
+            className: PropTypes.string,
+            disabled: PropTypes.bool,
+            id: PropTypes.string,
+            indeterminate: PropTypes.bool,
+            onChange: PropTypes.func,
+            onClick: PropTypes.func,
+            name: PropTypes.string,
+            value: PropTypes.string,
+        }),
+        label: PropTypes.node,
+        labelProps: PropTypes.object,
+        onChecked: PropTypes.func,
+        onUnchecked: PropTypes.func,
     }
 
     static defaultProps = {
-        checked: false,
-        indeterminate: false,
-        inputProps: {},
+        inputProps: {
+            checked: false,
+            indeterminate: false,
+        },
         labelProps: {},
         onChecked: noop,
         onUnchecked: noop,
     }
 
-    state = {
-        id: this.props.inputProps.id || this.uuid(),
-    }
+    id = UIView.prototype.uuid()
 
     componentDidMount() {
-        if (this.props.indeterminate) {
+        if (this.props.inputProps.indeterminate) {
             this.setIndeterminate();
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.indeterminate !== this.props.indeterminate) {
+        if (prevProps.inputProps.indeterminate !== this.props.inputProps.indeterminate) {
             this.setIndeterminate();
         }
     }
 
     setIndeterminate() {
-        this.refs.input.indeterminate = !!this.props.indeterminate;
-    }
-
-    ariaState() {
-        return this.props.indeterminate ? 'mixed' : String(this.props.checked);
+        this.refs.input.indeterminate = !!this.props.inputProps.indeterminate;
     }
 
     handleChange = (event) => { // Send the opposite signal from what was passed to toggle the data
-        this.props[!this.props.checked ? 'onChecked' : 'onUnchecked'](this.props.name);
+        if (this.props.inputProps.disabled) { return; }
+
+        this.props[!this.props.inputProps.checked ? 'onChecked' : 'onUnchecked'](this.props.inputProps.name);
 
         if (typeof this.props.inputProps.onChange === 'function') {
             event.persist();
@@ -64,6 +67,8 @@ export default class UICheckbox extends UIView {
     }
 
     handleClick = (event) => {
+        if (this.props.inputProps.disabled) { return; }
+
         this.refs.input.focus();
 
         if (typeof this.props.inputProps.onClick === 'function') {
@@ -72,38 +77,41 @@ export default class UICheckbox extends UIView {
         }
     }
 
+    getAriaState() {
+        return this.props.inputProps.indeterminate ? 'mixed' : String(this.props.inputProps.checked);
+    }
+
     renderInput() {
         return (
-            <input {...this.props.inputProps}
-                   ref='input'
-                   type='checkbox'
-                   id={this.state.id}
-                   className={cx({
-                       'ui-checkbox': true,
-                       'ui-checkbox-mixed': this.props.indeterminate,
-                       'ui-checkbox-checked': this.props.checked,
-                       'ui-checkbox-unchecked': !this.props.indeterminate && !this.props.checked,
-                       [this.props.inputProps.className]: !!this.props.inputProps.className,
-                   })}
-                   name={this.props.name}
-                   checked={this.props.checked}
-                   aria-checked={this.ariaState()}
-                   onChange={this.handleChange}
-                   onClick={this.handleClick}
-                   value={this.props.value} />
+            <input
+                {...omit(this.props.inputProps, 'indeterminate')}
+                ref='input'
+                type='checkbox'
+                className={cx({
+                    'ui-checkbox': true,
+                    'ui-checkbox-mixed': this.props.inputProps.indeterminate,
+                    'ui-checkbox-checked': this.props.inputProps.checked,
+                    'ui-checkbox-unchecked': !this.props.inputProps.indeterminate && !this.props.inputProps.checked,
+                    [this.props.inputProps.className]: !!this.props.inputProps.className,
+                })}
+                id={this.props.inputProps.id || this.id}
+                aria-checked={this.getAriaState()}
+                onChange={this.handleChange}
+                onClick={this.handleClick} />
         );
     }
 
     renderLabel() {
         if (this.props.label) {
             return (
-                <label {...this.props.labelProps}
-                       ref='label'
-                       className={cx({
-                            'ui-checkbox-label': true,
-                            [this.props.labelProps.className]: !!this.props.labelProps.className,
-                       })}
-                       htmlFor={this.state.id}>
+                <label
+                    {...this.props.labelProps}
+                    ref='label'
+                    className={cx({
+                        'ui-checkbox-label': true,
+                        [this.props.labelProps.className]: !!this.props.labelProps.className,
+                    })}
+                    htmlFor={this.props.inputProps.id || this.id}>
                     {this.props.label}
                 </label>
             );

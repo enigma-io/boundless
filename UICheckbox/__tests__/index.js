@@ -14,9 +14,12 @@ describe('UICheckbox', () => {
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
     const sandbox = sinon.sandbox.create();
-    const baseProps = {
-        name: 'foo',
-        value: 'bar'
+    const props = {
+        inputProps: {
+            checked: false,
+            name: 'foo',
+            value: 'bar',
+        }
     };
 
     afterEach(() => {
@@ -24,134 +27,98 @@ describe('UICheckbox', () => {
         sandbox.restore();
     });
 
-    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UICheckbox, baseProps));
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UICheckbox, props));
 
     it('defaults to being unchecked', () => {
-        const element = render(<UICheckbox {...baseProps} />);
+        const element = render(<UICheckbox {...props} />);
         const node = element.refs.input;
 
         expect(node.getAttribute('aria-checked')).toBe('false');
         expect(node.hasAttribute('checked')).toBe(false);
     });
 
-    describe('passes through', () => {
-        it('props.checked to the input node', () => {
-             const element = render(<UICheckbox {...baseProps} checked={true} />);
-             const node = element.refs.input;
+    it('accepts arbitrary React-supported HTML attributes via the `inputProps` prop', () => {
+        const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, 'data-id': 'foo'}} />);
+        const node = element.refs.input;
 
-             expect(node.checked).toBe(true);
-        });
-
-        it('props.name to the input node', () => {
-            const element = render(<UICheckbox {...baseProps} />);
-            const node = element.refs.input;
-
-            expect(node.getAttribute('name')).toBe('foo');
-        });
-
-        it('props.value to the input node', () => {
-            const element = render(<UICheckbox {...baseProps} />);
-            const node = element.refs.input;
-
-            expect(node.value).toBe('bar');
-        });
+        expect(node.getAttribute('data-id')).toBe('foo');
     });
 
-    describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes via the `inputProps` prop', () => {
-            const element = render(<UICheckbox {...baseProps} inputProps={{'data-id': 'foo'}} />);
-            const node = element.refs.input;
+    it('accepts arbitrary React-supported HTML attributes via the `labelProps` prop', () => {
+        const element = render(<UICheckbox {...props} labelProps={{'data-id': 'foo'}} label='foo' />);
+        const node = element.refs.label;
 
-            expect(node.getAttribute('data-id')).toBe('foo');
-        });
-
-        it('arbitrary React-supported HTML attributes via the `labelProps` prop', () => {
-            const element = render(<UICheckbox {...baseProps} labelProps={{'data-id': 'foo'}} label='foo' />);
-            const node = element.refs.label;
-
-            expect(node.getAttribute('data-id')).toBe('foo');
-        });
-
-        it('a truthy value', () => {
-            const element = render(<UICheckbox {...baseProps} checked={true} />);
-            const node = element.refs.input;
-
-            expect(node.getAttribute('aria-checked')).toBe('true');
-            expect(node.checked).toBe(true);
-        });
-
-        it('a falsy value', () => {
-            const element = render(<UICheckbox {...baseProps} checked={false} />);
-            const node = element.refs.input;
-
-            expect(node.getAttribute('aria-checked')).toBe('false');
-            expect(node.checked).toBe(false);
-        });
-
-        it('a string label', () => {
-            const element = render(<UICheckbox {...baseProps} label='foo' />);
-
-            expect(element.refs.label.textContent).toBe('foo');
-        });
-
-        it('an element label', () => {
-            const element = render(<UICheckbox {...baseProps} label={<p>foo</p>} />);
-
-            expect(element.refs.label.textContent).toBe('foo');
-        });
+        expect(node.getAttribute('data-id')).toBe('foo');
     });
 
-    describe('CSS hook', () => {
-        it('ui-checkbox-wrapper should be rendered', () => {
-            const element = render(<UICheckbox {...baseProps} />);
+    it('accepts a string label', () => {
+        const element = render(<UICheckbox {...props} label='foo' />);
 
-            expect(element.refs.wrapper.classList.contains('ui-checkbox-wrapper')).toBe(true);
-        });
-
-        it('ui-checkbox-label should be rendered', () => {
-            const element = render(<UICheckbox {...baseProps} label='foo' />);
-
-            expect(element.refs.label.classList.contains('ui-checkbox-label')).toBe(true);
-        });
-
-        it('ui-checkbox should be rendered', () => {
-            const element = render(<UICheckbox {...baseProps} />);
-
-            expect(element.refs.input.classList.contains('ui-checkbox')).toBe(true);
-        });
-
-        it('ui-checkbox-checked should be rendered when the checkbox value is truthy', () => {
-            const element = render(<UICheckbox {...baseProps} checked={true} />);
-
-            expect(element.refs.input.classList.contains('ui-checkbox-checked')).toBe(true);
-        });
-
-        it('ui-checkbox-unchecked should be rendered when the checkbox value is falsy', () => {
-            const element = render(<UICheckbox {...baseProps} />);
-
-            expect(element.refs.input.classList.contains('ui-checkbox-unchecked')).toBe(true);
-        });
-
-        it('ui-checkbox-mixed should be rendered when the checkbox is indeterminate', () => {
-            const element = render(<UICheckbox {...baseProps} checked={true} indeterminate={true} />);
-
-            expect(element.refs.input.classList.contains('ui-checkbox-mixed')).toBe(true);
-        });
+        expect(element.refs.label.textContent).toBe('foo');
     });
 
-    describe('calls the appropriate handler', () => {
-        it('when the checkbox value becomes truthy', () => {
+    it('accepts an element label', () => {
+        const element = render(<UICheckbox {...props} label={<p>foo</p>} />);
+
+        expect(element.refs.label.textContent).toBe('foo');
+    });
+
+    it('renders .ui-checkbox-wrapper', () => {
+        const element = render(<UICheckbox {...props} />);
+
+        expect(element.refs.wrapper.classList.contains('ui-checkbox-wrapper')).toBe(true);
+    });
+
+    it('renders .ui-checkbox-label', () => {
+        const element = render(<UICheckbox {...props} label='foo' />);
+
+        expect(element.refs.label.classList.contains('ui-checkbox-label')).toBe(true);
+    });
+
+    it('renders .ui-checkbox', () => {
+        const element = render(<UICheckbox {...props} />);
+
+        expect(element.refs.input.classList.contains('ui-checkbox')).toBe(true);
+    });
+
+    it('renders .ui-checkbox-checked when the checkbox value is truthy', () => {
+        const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, checked: true}} />);
+
+        expect(element.refs.input.classList.contains('ui-checkbox-checked')).toBe(true);
+    });
+
+    it('renders .ui-checkbox-unchecked when the checkbox value is falsy', () => {
+        const element = render(<UICheckbox {...props} />);
+
+        expect(element.refs.input.classList.contains('ui-checkbox-unchecked')).toBe(true);
+    });
+
+    it('renders .ui-checkbox-mixed when the checkbox is indeterminate', () => {
+        const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, checked: true, indeterminate: true}} />);
+
+        expect(element.refs.input.classList.contains('ui-checkbox-mixed')).toBe(true);
+    });
+
+    it('associates a provided label with the underlying input', () => {
+        const element = render(<UICheckbox {...props} label='foo' />);
+
+        expect(element.refs.label.htmlFor).not.toBe('');
+        expect(element.refs.label.htmlFor).toEqual(element.refs.input.id);
+    });
+
+    describe('checkbox state change', () => {
+        it('triggers onChecked when the checkbox value becomes truthy', () => {
             const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} onChecked={stub} />);
+            const element = render(<UICheckbox {...props} onChecked={stub} />);
 
             element.handleChange();
 
             expect(stub.calledOnce).toBe(true);
         });
 
-        it('when the checkbox value becomes falsy', () => {
+        it('triggers onUnchecked when the checkbox value becomes falsy', () => {
             const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} checked={true} onUnchecked={stub} />);
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, checked: true}} onUnchecked={stub} />);
 
             element.handleChange();
 
@@ -159,63 +126,77 @@ describe('UICheckbox', () => {
         });
     });
 
-    describe('input change event', () => {
-        it('should be forwarded if `props.inputProps.onChange` is provided', () => {
-            const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} inputProps={{onChange: stub}} />);
-
-            element.handleChange({persist: noop, checked: true});
-
-            expect(stub.calledOnce).toBe(true);
-        });
-    });
-
-    describe('input click event', () => {
-        it('should be forwarded if `props.inputProps.onClick` is provided', () => {
-            const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} inputProps={{onClick: stub}} />);
-
-            element.handleClick({persist: noop});
-
-            expect(stub.calledOnce).toBe(true);
-        });
-
-        it('should move focus to the input', () => {
-            const element = render(<UICheckbox {...baseProps} />);
+    describe('clicking on the wrapper', () => {
+        it('moves focus to the input', () => {
+            const element = render(<UICheckbox {...props} />);
 
             expect(document.activeElement).not.toBe(element.refs.input);
 
             element.handleClick({persist: noop});
             expect(document.activeElement).toBe(element.refs.input);
         }); // patching a browser inconsistency between webkit & gecko
+
+        it('does nothing if the input is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, disabled: true}} onClick={stub} />);
+
+            expect(stub.called).toBe(false);
+        });
     });
 
-    describe('props.indeterminate', () => {
-        it('should set the indeterminate property on the raw input', () => {
-            const element = render(<UICheckbox {...baseProps} indeterminate={true} />);
+    describe('indeterminate state', () => {
+        it('is programmatically set on the underlying input', () => {
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, indeterminate: true}} />);
 
             expect(element.refs.input.indeterminate).toBe(true);
         });
 
-        it('should update the indeterminate property on the raw input when changed', () => {
+        it('is kept in sync when the prop changes', () => {
             let element;
 
-            element = render(<UICheckbox {...baseProps} indeterminate={false} />);
+            element = render(<UICheckbox {...props} inputProps={{...props.inputProps, indeterminate: false}} />);
             expect(element.refs.input.indeterminate).toBeFalsy();
 
-            element = render(<UICheckbox {...baseProps} indeterminate={true} />);
+            element = render(<UICheckbox {...props} inputProps={{...props.inputProps, indeterminate: true}} />);
             expect(element.refs.input.indeterminate).toBeTruthy();
         });
     });
 
-    describe('clicking on the label', () => {
-        it('should toggle the checkbox state', () => {
+    describe('proxied events', () => {
+        it('forwards input change events if `props.inputProps.onChange` is provided', () => {
             const stub = sandbox.stub();
-            const element = render(<UICheckbox {...baseProps} label='test' onChecked={stub} />);
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, onChange: stub}} />);
 
-            element.refs.label.click();
+            element.handleChange({persist: noop, checked: true});
 
             expect(stub.calledOnce).toBe(true);
+        });
+
+        it('does not forward input change events if the input is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, onChange: stub, disabled: true}} />);
+
+            element.handleChange({persist: noop, checked: true});
+
+            expect(stub.called).toBe(false);
+        });
+
+        it('forwards input click events if `props.inputProps.onClick` is provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, onClick: stub}} />);
+
+            element.handleClick({persist: noop});
+
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('does not forward input click events if the input is disabled', () => {
+            const stub = sandbox.stub();
+            const element = render(<UICheckbox {...props} inputProps={{...props.inputProps, onClick: stub, disabled: true}} />);
+
+            element.handleClick({persist: noop});
+
+            expect(stub.called).toBe(false);
         });
     });
 });

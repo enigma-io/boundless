@@ -14,25 +14,31 @@ describe('UICheckboxGroup', () => {
 
     const sandbox = sinon.sandbox.create();
     const items = [{
+        inputProps: {
+            name: 'gender-male',
+            checked: false,
+        },
         label: 'Male',
-        name: 'gender-male',
-        checked: false
     }, {
+        inputProps: {
+            name: 'gender-female',
+            checked: false
+        },
         label: 'Female',
-        name: 'gender-female',
-        checked: false
     }, {
+        inputProps: {
+            name: 'gender-other',
+            checked: false,
+        },
         label: 'Other',
-        name: 'gender-other',
-        checked: false
     }];
 
     const checkedItems = items.map(item => {
-        return {...item, checked: true};
+        return {...item, inputProps: {...item.inputProps, checked: true}};
     });
 
     const mixedItems = items.map((item, index) => {
-        return {...item, checked: !!(index % 2)};
+        return {...item, inputProps: {...item.inputProps, checked: !!(index % 2)}};
     });
 
     afterEach(() => {
@@ -120,9 +126,15 @@ describe('UICheckboxGroup', () => {
             expect(node.className).toContain('foo');
         });
 
-        it('should accept a name passed by `selectAllProps.name`', () => {
-            const element = render(<UICheckboxGroup items={items} selectAll={true} selectAllProps={{name: 'foo'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.select_all);
+        it('should accept a name passed by `selectAllProps.inputProps.name`', () => {
+            const element = render(
+                <UICheckboxGroup
+                    items={items}
+                    selectAll={true}
+                    selectAllProps={{inputProps: {name: 'foo'}}} />
+            );
+
+            const node = ReactDOM.findDOMNode(element.refs.select_all.refs.input);
 
             expect(node.getAttribute('name')).toBe('foo');
         });
@@ -159,7 +171,7 @@ describe('UICheckboxGroup', () => {
                                  selectAll={true} />
             );
 
-            expect(element.refs.select_all.props.indeterminate).toBe(true);
+            expect(element.refs.select_all.props.inputProps.indeterminate).toBe(true);
         });
 
         it('should make all children checked if clicked in indeterminate state', () => {
