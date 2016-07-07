@@ -2,6 +2,47 @@
 
 ---
 
+## 1.0.0-beta-18 (7/7/2016)
+### Breaking Changes
+
+__`UICheckbox` and `UICheckboxGroup`'s select all input now require use of `inputProps`__
+
+Previously `UICheckbox` allowed various things like `value` and `name` to be passed at the top level, but this has been removed in favor of always passing input-specific props via `props.inputProps`.
+
+This follows the change [introduced in beta 15](https://github.com/bibliotech/uikit/releases/tag/1.0.0-beta-15) for `UITextualInput`.
+
+### Relevant commits
+
+- __Modify components to not apply custom props to JSX elements__ (4c2dd69)
+
+  This piggybacks off a change in React 15.2, where they now warn if garbage is being fed into JSX elements (what will become actual DOM) that doesn't correlate with a real DOM attribute.
+
+  The eventual React plan is to allow everything through to the DOM without maintaining a map of which attributes are legal for each DOM node type, so this is an interim measure to catch and fix those occurrences.
+
+- __UITable: remove static mode__ (1421169) It was [removed in bibliotech/table in 1.1.0](https://github.com/bibliotech/table/commit/45c7a7e346bcc0b19a2f4d2e46f718a1fab8d761)
+
+- __[Breaking Change] UICheckboxGroup selectAllLabel -> selectAllProps.label__ (039d5e2)
+- __[Breaking Change] UICheckbox refactor to remove top-level props__ (79003b4)
+
+  Similar to what was done with `UITextualInput` in a previous beta, input-specific props must now be passed through `inputProps` or they will not be recognized.
+
+  Also now watching for `disabled` to prevent the event handlers from firing when inappropriate.
+
+  Applied the changes to the other places it's used.
+
+- __UIButton: don't fire onPressed if the button is disabled__ (33b67f0) Closes #256
+
+### Misc
+
+- __Clean up UICheckboxGroup test language__ (bf12458)
+- __Bump the version (oops)__ (93b9e56)
+- __Revise UIButton test language__ (3af6bbc)
+- __Update to enigma-table 1.1.0, remove layout boundaries in UITable__ (9bf2a15)
+- __Tweak site styling__ (a63049c)
+
+
+---
+
 ## 1.0.0-beta-17 (7/5/2016)
 
 - __Update to `enigma-table@1.0.4`__ -- no actual changes, just a PATCH version bump to pull in a missed commit that didn't make it into `enigma-table@1.0.3` but appeared in the CHANGELOG

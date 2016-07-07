@@ -36,7 +36,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 }
 ```
 
-> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-17`.
+> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-18`.
 
 ### without a bundling system
 
