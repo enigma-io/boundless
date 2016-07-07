@@ -5,12 +5,13 @@
 
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
+import cx from 'classnames';
+import omit from 'lodash.omit';
+
 import UIView from '../UIView';
 import UISegmentedControl from '../UISegmentedControl';
 import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
 import noop from '../UIUtils/noop';
-
-import cx from 'classnames';
 
 class Item extends UIView {
     static propTypes = {
@@ -18,6 +19,8 @@ class Item extends UIView {
         data: PropTypes.object,
         index: PropTypes.number,
     }
+
+    static internal_keys = Object.keys(Item.propTypes)
 
     state = {
         data: this.props.data,
@@ -65,16 +68,13 @@ class Item extends UIView {
 
     render() {
         if (this.state.data instanceof Promise) {
-            return (<div {...this.props} className={this.getClasses()} />);
+            return (<div {...omit(this.props, Item.internal_keys)} className={this.getClasses()} />);
         }
 
         return React.cloneElement(this.state.data, {
-            ...this.props,
+            ...omit(this.props, Item.internal_keys),
             className: this.getClasses(this.state.data.props.className),
             'data-index': this.props.index,
-            data: null,
-            even: null,
-            index: null,
         });
     }
 }
@@ -132,8 +132,9 @@ export default class UIPagination extends UIView {
         totalItems: PropTypes.number.isRequired,
     }
 
+    static internal_keys = Object.keys(UIPagination.propTypes)
+
     static defaultProps = {
-        options: [],
         getItem: noop,
         hidePagerIfNotNeeded: false,
         jumpToFirstControlText: '« First',
@@ -353,7 +354,7 @@ export default class UIPagination extends UIView {
     render() {
         return (
             <div
-                {...this.props}
+                {...omit(this.props, UIPagination.internal_keys)}
                 ref='wrapper'
                 className={cx({
                     'ui-pagination-wrapper': true,

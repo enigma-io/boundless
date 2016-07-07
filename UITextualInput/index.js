@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 
 const is_function = test => typeof test === 'function';
 const is_string = test => typeof test === 'string';
@@ -19,6 +21,8 @@ export default class UITextualInput extends UIView {
             value: PropTypes.string,
         }),
     }
+
+    static internal_keys = Object.keys(UITextualInput.propTypes)
 
     static defaultProps = {
         hidePlaceholderOnFocus: true,
@@ -118,7 +122,7 @@ export default class UITextualInput extends UIView {
 
         return (
             <div
-                {...props}
+                {...omit(props, UITextualInput.internal_keys)}
                 ref='wrapper'
                 className={cx({
                     'ui-textual-input-wrapper': true,

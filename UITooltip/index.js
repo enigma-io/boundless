@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 
 export default class UITooltip extends UIView {
     static position = {
@@ -20,6 +22,8 @@ export default class UITooltip extends UIView {
         text: React.PropTypes.string,
     }
 
+    static internal_keys = Object.keys(UITooltip.propTypes)
+
     static defaultProps = {
         position: UITooltip.position.ABOVE,
     }
@@ -28,17 +32,18 @@ export default class UITooltip extends UIView {
         const {position} = this.props;
 
         return (
-            <div {...this.props}
-                 className={cx({
-                     'ui-tooltip': true,
-                     'ui-tooltip-position-above': position === UITooltip.position.ABOVE,
-                     'ui-tooltip-position-below': position === UITooltip.position.BELOW,
-                     'ui-tooltip-position-before': position === UITooltip.position.BEFORE,
-                     'ui-tooltip-position-after': position === UITooltip.position.AFTER,
-                     [this.props.className]: !!this.props.className,
-                 })}
-                 data-tooltip={this.props.text}
-                 aria-label={this.props['aria-label'] || this.props.text}>
+            <div
+                {...omit(this.props, UITooltip.internal_keys)}
+                className={cx({
+                    'ui-tooltip': true,
+                    'ui-tooltip-position-above': position === UITooltip.position.ABOVE,
+                    'ui-tooltip-position-below': position === UITooltip.position.BELOW,
+                    'ui-tooltip-position-before': position === UITooltip.position.BEFORE,
+                    'ui-tooltip-position-after': position === UITooltip.position.AFTER,
+                    [this.props.className]: !!this.props.className,
+                })}
+                data-tooltip={this.props.text}
+                aria-label={this.props['aria-label'] || this.props.text}>
                 {this.props.children}
             </div>
         );

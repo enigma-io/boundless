@@ -48,8 +48,7 @@ export default class UIRadioDemo extends UIView {
                             <UIRadio {...definition}
                                      key={definition.value}
                                      label={definition.label}
-                                     onSelected={boundFunc}
-                                     onDeselected={boundFunc} />
+                                     onSelected={boundFunc} />
                         );
                     })}
                 </div>

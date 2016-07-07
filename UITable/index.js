@@ -4,8 +4,10 @@
  */
 
 import React, {PropTypes} from 'react';
-import UIView from '../UIView';
+import omit from 'lodash.omit';
 import Table from 'enigma-table';
+
+import UIView from '../UIView';
 
 export default class UITable extends UIView {
     static propTypes = {
@@ -27,9 +29,9 @@ export default class UITable extends UIView {
         preserveScrollState: PropTypes.bool,
         throttleInterval: PropTypes.number,
         totalRows: PropTypes.number,
-
-        static: PropTypes.bool,
     }
+
+    static internal_keys = Object.keys(UITable.propTypes)
 
     static defaultProps = {
         className: '',
@@ -56,9 +58,6 @@ export default class UITable extends UIView {
             preserveScrollState: this.props.preserveScrollState,
             throttleInterval: this.props.throttleInterval,
             totalRows: this.props.totalRows,
-
-            // internal use only, renders the table without any event listeners (minimal computation)
-            static_mode: this.props.static,
         };
     }
 
@@ -120,37 +119,31 @@ export default class UITable extends UIView {
     }
 
     renderXScroll() {
-        if (!this.props.static) {
-            return (
-                <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
-                    <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
-                </div>
-            );
-        }
+        return (
+            <div ref='x-scroll-track' className='ui-table-x-scroll-track'>
+                <div ref='x-scroll-handle' className='ui-table-x-scroll-handle' />
+            </div>
+        );
     }
 
     renderYScroll() {
-        if (!this.props.static) {
-            return (
-                <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
-                    <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
-                </div>
-            );
-        }
+        return (
+            <div ref='y-scroll-track' className='ui-table-y-scroll-track'>
+                <div ref='y-scroll-handle' className='ui-table-y-scroll-handle' />
+            </div>
+        );
     }
 
     renderAria() {
-        if (!this.props.static) {
-            return (
-                <div ref='aria' className={this.props.offscreenClass || 'ui-offscreen'} aria-live='polite' />
-            );
-        }
+        return (
+            <div ref='aria' className={this.props.offscreenClass || 'ui-offscreen'} aria-live='polite' />
+        );
     }
 
     render() {
         return (
             <div
-                {...this.props}
+                {...omit(this.props, UITable.internal_keys)}
                 ref='wrapper'
                 className={'ui-table-wrapper ' + this.props.className}
                 data-set-identifier={this.props.identifier}

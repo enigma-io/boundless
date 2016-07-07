@@ -4,9 +4,11 @@
  */
 
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
 import noop from '../UIUtils/noop';
+import UIView from '../UIView';
 
 export default class UIImage extends UIView {
     static status = {
@@ -22,6 +24,8 @@ export default class UIImage extends UIView {
         src: React.PropTypes.string.isRequired,
         statusProps: React.PropTypes.object,
     }
+
+    static internal_keys = Object.keys(UIImage.propTypes)
 
     static defaultProps = {
         imageProps: {},
@@ -71,31 +75,33 @@ export default class UIImage extends UIView {
     renderImage() {
         if (this.props.displayAsBackgroundImage) {
             return (
-                <div {...this.props.imageProps}
-                     ref='image'
-                     className={cx({
-                         'ui-image': true,
-                         [this.props.imageProps.className]: !!this.props.imageProps.className,
-                     })}
-                     title={this.props.alt}
-                     style={{
-                         ...this.props.imageProps.style,
-                         backgroundImage: `url(${this.props.src})`,
-                     }} />
+                <div
+                    {...this.props.imageProps}
+                    ref='image'
+                    className={cx({
+                        'ui-image': true,
+                        [this.props.imageProps.className]: !!this.props.imageProps.className,
+                    })}
+                    title={this.props.alt}
+                    style={{
+                        ...this.props.imageProps.style,
+                        backgroundImage: `url(${this.props.src})`,
+                    }} />
             );
         }
 
         return (
-            <img {...this.props.imageProps}
-                 ref='image'
-                 className={cx({
+            <img
+                {...this.props.imageProps}
+                ref='image'
+                className={cx({
                     'ui-image': true,
                     [this.props.imageProps.className]: !!this.props.imageProps.className,
-                 })}
-                 src={this.props.src}
-                 alt={this.props.alt}
-                 onLoad={noop}
-                 onError={noop} />
+                })}
+                src={this.props.src}
+                alt={this.props.alt}
+                onLoad={noop}
+                onError={noop} />
         );
     }
 
@@ -116,14 +122,13 @@ export default class UIImage extends UIView {
 
     render() {
         return (
-            <div {...this.props}
-                 alt={null}
-                 src={null}
-                 ref='wrapper'
-                 className={cx({
+            <div
+                {...omit(this.props, UIImage.internal_keys)}
+                ref='wrapper'
+                className={cx({
                     'ui-image-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                 })}>
+                })}>
                 {this.renderImage()}
                 {this.renderStatus()}
             </div>

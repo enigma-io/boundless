@@ -5,9 +5,11 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import cx from 'classnames';
+import omit from 'lodash.omit';
+
 import UIView from '../UIView';
 import UIButton from '../UIButton';
-import cx from 'classnames';
 import noop from '../UIUtils/noop';
 
 export default class UISegmentedControl extends UIView {
@@ -48,6 +50,13 @@ export default class UISegmentedControl extends UIView {
             }
         },
     }
+
+    static internal_keys = Object.keys(UISegmentedControl.propTypes)
+    static internal_child_keys = [
+        'content',
+        'value',
+        'selected',
+    ]
 
     static defaultProps = {
         options: [],
@@ -141,23 +150,21 @@ export default class UISegmentedControl extends UIView {
     renderOptions() {
         return this.props.options.map((definition, index) => {
             return (
-                <UIButton {...definition}
-                          content={null}
-                          value={null}
-                          selected={null}
-                          role='radio'
-                          aria-checked={String(definition.selected)}
-                          ref={'option_$' + index}
-                          key={definition.value}
-                          className={cx({
-                             'ui-segmented-control-option': true,
-                             'ui-segmented-control-option-selected': definition.selected,
-                             [definition.className]: !!definition.className,
-                          })}
-                          tabIndex={definition.selected ? '0' : '-1'}
-                          onBlur={this.handleOptionBlur.bind(this, definition)}
-                          onPressed={this.handleOptionClick.bind(this, definition)}
-                          onFocus={this.handleOptionFocus.bind(this, definition)}>
+                <UIButton
+                    {...omit(definition, UISegmentedControl.internal_child_keys)}
+                    role='radio'
+                    aria-checked={String(definition.selected)}
+                    ref={'option_$' + index}
+                    key={definition.value}
+                    className={cx({
+                        'ui-segmented-control-option': true,
+                        'ui-segmented-control-option-selected': definition.selected,
+                        [definition.className]: !!definition.className,
+                    })}
+                    tabIndex={definition.selected ? '0' : '-1'}
+                    onBlur={this.handleOptionBlur.bind(this, definition)}
+                    onPressed={this.handleOptionClick.bind(this, definition)}
+                    onFocus={this.handleOptionFocus.bind(this, definition)}>
                     {definition.content}
                 </UIButton>
             );
@@ -166,15 +173,16 @@ export default class UISegmentedControl extends UIView {
 
     render() {
         return (
-            <div {...this.props}
-                 ref='wrapper'
-                 aria-role='radiogroup'
-                 className={cx({
+            <div
+                {...omit(this.props, UISegmentedControl.internal_keys)}
+                ref='wrapper'
+                aria-role='radiogroup'
+                className={cx({
                     'ui-segmented-control': true,
                     [this.props.className]: !!this.props.className,
-                 })}
-                 onKeyDown={this.handleKeyDown}>
-                 {this.renderOptions()}
+                })}
+                onKeyDown={this.handleKeyDown}>
+                {this.renderOptions()}
             </div>
         );
     }

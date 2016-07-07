@@ -41,33 +41,37 @@ export default class UIProgressDemo extends UIView {
             <div className='progress-demo ui-spread-even ui-align-end'>
                 <figure>
                     <h5>Horizontal Progress Bar</h5>
-                    <UIProgress ref='bar'
-                                aria-label={`${this.state.barProgress}% complete`}
-                                label={`${this.state.barProgress}%`}
-                                progress={`${this.state.barProgress}%`} />
-                    <UIButton onPressed={this.resetProgress.bind(this, 'bar')}
-                              style={{marginTop: '1rem'}}>
+                    <UIProgress
+                        ref='bar'
+                        aria-label={`${this.state.barProgress}% complete`}
+                        label={`${this.state.barProgress}%`}
+                        progress={`${this.state.barProgress}%`} />
+                    <UIButton
+                        onPressed={this.resetProgress.bind(this, 'bar')}
+                        style={{marginTop: '1rem'}}>
                         Reset
                     </UIButton>
                 </figure>
                 <figure>
                     <h5>Filling Progress Meter</h5>
-                    <UIProgress ref='meter'
-                                id='progress-meter'
-                                aria-label={`${this.state.meterProgress}% complete`}
-                                label={`${this.state.meterProgress}%`}
-                                progress={`${this.state.meterProgress}%`}
-                                tweenProperty='height' />
-                    <UIButton onPressed={this.resetProgress.bind(this, 'meter')}
-                              style={{marginTop: '1rem'}}>
+                    <UIProgress
+                        ref='meter'
+                        id='progress-meter'
+                        aria-label={`${this.state.meterProgress}% complete`}
+                        label={`${this.state.meterProgress}%`}
+                        progress={`${this.state.meterProgress}%`}
+                        tweenProperty='height' />
+                    <UIButton
+                        onPressed={this.resetProgress.bind(this, 'meter')}
+                        style={{marginTop: '1rem'}}>
                         Reset
                     </UIButton>
                 </figure>
                 <figure>
                     <h5>Indeterminate Progress Bar</h5>
-                    <UIProgress ref='indeterminate'
-                                indeterminate={true}
-                                aria-label={`Processing...`} />
+                    <UIProgress
+                        ref='indeterminate'
+                        aria-label={`Processing...`} />
                 </figure>
             </div>
         );

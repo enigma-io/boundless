@@ -5,8 +5,10 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 
 const instances = [];
 
@@ -22,8 +24,7 @@ function rescale(instance) {
     let containerHeight = toI(containerBox.height);
     let containerWidth = toI(containerBox.width);
 
-    if (   containerBox.boxSizing === 'border-box'
-        || containerBox.boxSizing === 'padding-box') { // need to account for padding
+    if (containerBox.boxSizing === 'border-box' || containerBox.boxSizing === 'padding-box') { // need to account for padding
         containerHeight -= toI(containerBox.paddingTop) + toI(containerBox.paddingBottom);
         containerWidth -= toI(containerBox.paddingLeft) + toI(containerBox.paddingRight);
     }
@@ -68,6 +69,8 @@ export default class UIFittedText extends UIView {
         maxFontSize: React.PropTypes.number,
     }
 
+    static internal_keys = Object.keys(UIFittedText.propTypes)
+
     componentDidMount() {
         rescale(this);
 
@@ -86,7 +89,7 @@ export default class UIFittedText extends UIView {
 
     render() {
         return (
-            <span {...this.props}
+            <span {...omit(this.props, UIFittedText.internal_keys)}
                   className={cx({
                       'ui-text': true,
                       [this.props.className]: !!this.props.className,

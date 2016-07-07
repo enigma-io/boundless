@@ -1,6 +1,8 @@
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 
 export default class UIButton extends UIView {
@@ -11,6 +13,8 @@ export default class UIButton extends UIView {
         onUnpressed: React.PropTypes.func,
         pressed: React.PropTypes.bool,
     };
+
+    static internal_keys = Object.keys(UIButton.propTypes)
 
     static defaultProps = {
         onPressed: noop,
@@ -51,17 +55,18 @@ export default class UIButton extends UIView {
 
     render() {
         return (
-            <button {...this.props}
-                    ref='button'
-                    className={cx({
-                        'ui-button': true,
-                        'ui-button-pressable': typeof this.props.pressed !== 'undefined',
-                        'ui-button-pressed': this.props.pressed,
-                        [this.props.className]: !!this.props.className,
-                    })}
-                    aria-pressed={this.props.pressed}
-                    onKeyDown={this.handleKeyDown}
-                    onClick={this.handleClick}>
+            <button
+                {...omit(this.props, UIButton.internal_keys)}
+                ref='button'
+                className={cx({
+                    'ui-button': true,
+                    'ui-button-pressable': typeof this.props.pressed !== 'undefined',
+                    'ui-button-pressed': this.props.pressed,
+                    [this.props.className]: !!this.props.className,
+                })}
+                aria-pressed={this.props.pressed}
+                onKeyDown={this.handleKeyDown}
+                onClick={this.handleClick}>
                 {this.props.children}
             </button>
         );

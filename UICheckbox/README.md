@@ -53,19 +53,32 @@ Type | Context | Expectation
 __Keyboard__ | `[Enter, Space]` | should toggle the `checked` state
 __Mouse__ | `click` | should toggle the `checked` state, focus the checkbox
 
+Events will not be proxied if the input is in "disabled" state, via the HTML5 `disabled` attribute.
+
 ---
 
 ### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
 
-- __checked__ `Boolean`
-  determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
-
-- __indeterminate__ `Boolean`
-  enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
-
 - __inputProps__ `Object`
+    all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
+
+    - __inputProps.checked__ `Boolean`
+      (default `false`) determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+
+    - __inputProps.disabled__ `Boolean`
+      (default `false`) prevents the `on{Checked,Unchecked}` events from firing when `true`
+
+    - __inputProps.indeterminate__ `Boolean`
+      enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
+
+    - __inputProps.name__ `String`
+      rendered as the input control's form name
+
+    - __inputProps.value__ `String`
+      passed-through to the input node, like `name`
+
     - __inputProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
 
@@ -76,14 +89,8 @@ __Mouse__ | `click` | should toggle the `checked` state, focus the checkbox
     - __labelProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
 
-- __name__ `String`
-  rendered as the input control's form name
-
 - __onChecked__ `Function`
   called when the element becomes checked; backing data must be updated to persist the state change
 
 - __onUnchecked__ `Function`
   called when the element becomes unchecked; backing data must be updated to persist the state change
-
-- __value__ `String`
-  passed-through to the input node, like `name`

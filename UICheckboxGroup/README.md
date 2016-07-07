@@ -18,29 +18,37 @@ import {UICheckboxGroup} from 'enigma-uikit';
     items{} spec
 
     {
-        autoFocus: "Boolean (optional)",
-        checked: "Boolean",
+        inputProps: {
+            autoFocus: "Boolean (optional)",
+            checked: "Boolean",
+            name: "String",
+            value: "String (optional)",
+        },
         label: "String (optional)",
-        name: "String",
-        value: "String (optional)",
     }
  */
 
 const items = [{
+    inputProps: {
+        value: 'DEF',
+        name: 'GHI',
+        checked: false,
+    },
     label: 'ABC',
-    value: 'DEF',
-    name: 'GHI',
-    checked: false
 }, {
+    inputProps: {
+        value: 'MNO',
+        name: 'PQR',
+        checked: false,
+    },
     label: 'JKL',
-    value: 'MNO',
-    name: 'PQR',
-    checked: false
 }, {
+    inputProps: {
+        value: 'VWX',
+        name: 'YZ',
+        checked: false,
+    },
     label: 'STU',
-    value: 'VWX',
-    name: 'YZ',
-    checked: false
 }];
 
 // ...
@@ -59,20 +67,20 @@ Renders:
 ```html
 <div class="ui-checkbox-group">
     <div class="ui-checkbox-wrapper">
-        <input id='<randomhash>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" />
-        <label class="ui-checkbox-label" for='<randomhash>'>Select All</label>
+        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" />
+        <label class="ui-checkbox-label" for='<uuid>'>Select All</label>
     </div>
     <div class="ui-checkbox-wrapper">
-        <input id='<randomhash>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="DEF" name="GHI" />
-        <label class="ui-checkbox-label" for='<randomhash>'>ABC</label>
+        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="DEF" name="GHI" />
+        <label class="ui-checkbox-label" for='<uuid>'>ABC</label>
     </div>
     <div class="ui-checkbox-wrapper">
-        <input id='<randomhash>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="MNO" name="PQR" />
-        <label class="ui-checkbox-label" for='<randomhash>'>JKL</label>
+        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="MNO" name="PQR" />
+        <label class="ui-checkbox-label" for='<uuid>'>JKL</label>
     </div>
     <div class="ui-checkbox-wrapper">
-        <input id='<randomhash>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="VWX" name="YZ" />
-        <label class="ui-checkbox-label" for='<randomhash>'>STU</label>
+        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="VWX" name="YZ" />
+        <label class="ui-checkbox-label" for='<uuid>'>STU</label>
     </div>
 </div>
 ```
@@ -115,14 +123,15 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
   called when a specific child has become checked, returns the child definition
 
 - __selectAll__ `Boolean`
-  renders a master checkbox that can manipulate the values of all children simultaneously
+  (default `false`) renders a master checkbox that can manipulate the values of all children simultaneously
 
 - __selectAllProps__ `Object`
-    - __selectAllProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group-selectall` node
+  must conform to the [UICheckbox prop spec](../UICheckbox/README.md)
 
-- __selectAllLabel__ `String`
-  the text or renderable node to display next to the checkbox, defaults to "Select All"
+    - __selectAllProps.label__ `String`
+      (default "Select All") the text or renderable node to display next to the checkbox
+
+    - __selectAllProps.inputProps__ `Object`
 
 - __selectAllPosition__ `Constant` (see [the implementation](index.js))
   the rendering position of the "select all" checkbox, defaults to "before"
