@@ -4,8 +4,10 @@
  */
 
 import React, {PropTypes} from 'react';
-import UIView from '../UIView';
+import omit from 'lodash.omit';
 import cx from 'classnames';
+
+import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 
 export default class UICheckbox extends UIView {
@@ -26,6 +28,8 @@ export default class UICheckbox extends UIView {
         onChecked: PropTypes.func,
         onUnchecked: PropTypes.func,
     }
+
+    static internal_keys = Object.keys(UICheckbox.propTypes)
 
     static defaultProps = {
         inputProps: {
@@ -120,12 +124,13 @@ export default class UICheckbox extends UIView {
 
     render() {
         return (
-            <div {...this.props}
-                 ref='wrapper'
-                 className={cx({
+            <div
+                {...omit(this.props, UICheckbox.internal_keys)}
+                ref='wrapper'
+                className={cx({
                     'ui-checkbox-wrapper': true,
                     [this.props.className]: !!this.props.className,
-                 })}>
+                })}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>

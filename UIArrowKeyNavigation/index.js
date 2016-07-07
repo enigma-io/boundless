@@ -1,6 +1,8 @@
 import React from 'react';
-import UIView from '../UIView';
 import {findDOMNode} from 'react-dom';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 
 export default class UIArrowKeyNavigation extends UIView {
     static propTypes = {
@@ -9,6 +11,8 @@ export default class UIArrowKeyNavigation extends UIView {
             React.PropTypes.func,
         ]),
     }
+
+    static internal_keys = Object.keys(UIArrowKeyNavigation.propTypes)
 
     static defaultProps = {
         component: 'div',
@@ -120,7 +124,7 @@ export default class UIArrowKeyNavigation extends UIView {
 
     render() {
         return React.createElement(this.props.component, {
-            ...this.props,
+            ...omit(this.props, UIArrowKeyNavigation.internal_keys),
             ref: 'wrapper',
             onKeyDown: this.handleKeyDown,
         }, this.children());

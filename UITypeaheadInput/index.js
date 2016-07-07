@@ -4,14 +4,14 @@
  */
 
 import React, {PropTypes} from 'react';
-import UITextualInput from '../UITextualInput';
-import UIView from '../UIView';
-
-import extractChildProps from '../UIUtils/extractChildProps';
-import noop from '../UIUtils/noop';
-
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
+import omit from 'lodash.omit';
+
+import UITextualInput from '../UITextualInput';
+import UIView from '../UIView';
+import extractChildProps from '../UIUtils/extractChildProps';
+import noop from '../UIUtils/noop';
 
 const is_string = test => typeof test === 'string';
 const is_function = test => typeof test === 'function';
@@ -60,6 +60,8 @@ export default class UITypeaheadInput extends UIView {
         onEntityHighlighted: PropTypes.func,
         onEntitySelected: PropTypes.func,
     }
+
+    static internal_keys = Object.keys(UITypeaheadInput.propTypes)
 
     static defaultProps = {
         ...UITextualInput.defaultProps,
@@ -430,17 +432,18 @@ export default class UITypeaheadInput extends UIView {
                     })}>
                     {this.state.entityMatchIndexes.map(index => {
                         const entity = this.props.entities[index];
+                        const {className, text, ...rest} = entity;
 
                         return (
                             <div
-                                {...entity}
+                                {...rest}
                                 ref={`match_$${index}`}
                                 className={cx({
                                     'ui-typeahead-match': true,
                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
-                                    [entity.className]: !!entity.className,
+                                    [className]: !!className,
                                 })}
-                                key={entity.text}
+                                key={text}
                                 onClick={this.handleMatchClick.bind(this, index)}>
                                 {this.markMatchSubstring(this.state.input, entity)}
                             </div>
@@ -456,7 +459,7 @@ export default class UITypeaheadInput extends UIView {
 
         return (
             <div
-                {...props}
+                {...omit(props, UITypeaheadInput.internal_keys)}
                 ref='wrapper'
                 className={cx({
                    'ui-typeahead-wrapper': true,

@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 
 export default class UIRadio extends UIView {
@@ -19,6 +21,8 @@ export default class UIRadio extends UIView {
         value: React.PropTypes.string.isRequired,
     }
 
+    static internal_keys = Object.keys(UIRadio.propTypes)
+
     static defaultProps = {
         inputProps: {},
         labelProps: {},
@@ -26,9 +30,7 @@ export default class UIRadio extends UIView {
         selected: false,
     }
 
-    state = {
-        id: this.props.inputProps.id || this.uuid(),
-    }
+    uuid = UIView.prototype.uuid()
 
     handleChange = (event) => {
         if (event.target.checked) {
@@ -44,33 +46,35 @@ export default class UIRadio extends UIView {
 
     renderInput() {
         return (
-            <input {...this.props.inputProps}
-                   ref='input'
-                   type='radio'
-                   id={this.state.id}
-                   className={cx({
-                       'ui-radio': true,
-                       'ui-radio-selected': this.props.selected,
-                       [this.props.inputProps.className]: !!this.props.inputProps.className,
-                   })}
-                   name={this.props.name}
-                   value={this.props.value}
-                   checked={this.props.selected}
-                   aria-checked={String(this.props.selected)}
-                   onChange={this.handleChange} />
+            <input
+                {...this.props.inputProps}
+                ref='input'
+                type='radio'
+                id={this.props.id || this.props.inputProps.id || this.uuid}
+                className={cx({
+                    'ui-radio': true,
+                    'ui-radio-selected': this.props.selected,
+                    [this.props.inputProps.className]: !!this.props.inputProps.className,
+                })}
+                name={this.props.name}
+                value={this.props.value}
+                checked={this.props.selected}
+                aria-checked={String(this.props.selected)}
+                onChange={this.handleChange} />
         );
     }
 
     renderLabel() {
         if (this.props.label) {
             return (
-                <label {...this.props.labelProps}
-                       ref='label'
-                       className={cx({
-                           'ui-radio-label': true,
-                           [this.props.labelProps.className]: !!this.props.labelProps.className,
-                       })}
-                       htmlFor={this.state.id}>
+                <label
+                    {...this.props.labelProps}
+                    ref='label'
+                    className={cx({
+                        'ui-radio-label': true,
+                        [this.props.labelProps.className]: !!this.props.labelProps.className,
+                    })}
+                    htmlFor={this.props.id || this.props.inputProps.id || this.uuid}>
                     {this.props.label}
                 </label>
             );
@@ -79,12 +83,13 @@ export default class UIRadio extends UIView {
 
     render() {
         return (
-            <div {...this.props}
-                 ref='wrapper'
-                 className={cx({
-                     'ui-radio-wrapper': true,
-                     [this.props.className]: !!this.props.className,
-                 })}>
+            <div
+                {...omit(this.props, UIRadio.internal_keys)}
+                ref='wrapper'
+                className={cx({
+                    'ui-radio-wrapper': true,
+                    [this.props.className]: !!this.props.className,
+                })}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>

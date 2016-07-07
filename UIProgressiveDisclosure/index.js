@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 
 export default class UIProgressiveDisclosure extends UIView {
@@ -18,6 +20,8 @@ export default class UIProgressiveDisclosure extends UIView {
         teaserExpanded: React.PropTypes.node,
         toggleProps: React.PropTypes.object,
     }
+
+    static internal_keys = Object.keys(UIProgressiveDisclosure.propTypes)
 
     static defaultProps = {
         expanded: false,
@@ -78,7 +82,7 @@ export default class UIProgressiveDisclosure extends UIView {
     render() {
         return (
             <div
-                {...this.props}
+                {...omit(this.props, UIProgressiveDisclosure.internal_keys)}
                 ref='wrapper'
                 className={cx({
                    'ui-disclosure': true,

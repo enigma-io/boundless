@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
-import UIView from '../UIView';
 import cx from 'classnames';
+import omit from 'lodash.omit';
+
+import UIView from '../UIView';
 import noop from '../UIUtils/noop';
 
 export default class UIDialog extends UIView {
@@ -24,6 +26,8 @@ export default class UIDialog extends UIView {
         onClose: React.PropTypes.func,
     }
 
+    static internal_keys = Object.keys(UIDialog.propTypes)
+
     static defaultProps = {
         bodyProps: {},
         captureFocus: true,
@@ -36,10 +40,9 @@ export default class UIDialog extends UIView {
         onClose: noop,
     }
 
-    state = {
-        headerUUID: this.uuid(),
-        bodyUUID: this.uuid(),
-    }
+    // fallbacks if one isn't passed
+    uuid_header = UIView.prototype.uuid()
+    uuid_body = UIView.prototype.uuid()
 
     componentDidMount() {
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
@@ -115,7 +118,7 @@ export default class UIDialog extends UIView {
         return (
             <div
                 {...this.props.bodyProps}
-                id={this.state.bodyUUID}
+                id={this.props.bodyProps.id || this.uuid_body}
                 className={cx({
                    'ui-dialog-body': true,
                    [this.props.bodyProps.className]: !!this.props.bodyProps.className,
@@ -145,7 +148,7 @@ export default class UIDialog extends UIView {
             return (
                 <header
                     {...this.props.headerProps}
-                    id={this.state.headerUUID}
+                    id={this.props.headerProps.id || this.uuid_header}
                     className={cx({
                         'ui-dialog-header': true,
                         [this.props.headerProps.className]: !!this.props.headerProps.className,
@@ -170,7 +173,7 @@ export default class UIDialog extends UIView {
                 {this.renderFocusBoundary()}
 
                 <div
-                    {...this.props}
+                    {...omit(this.props, UIDialog.internal_keys)}
                     ref={node => (this.$dialog = node)}
                     className={cx({
                         'ui-dialog': true,

@@ -4,8 +4,10 @@
  */
 
 import React, {PropTypes} from 'react';
-import UIView from '../UIView';
+import omit from 'lodash.omit';
 import Table from 'enigma-table';
+
+import UIView from '../UIView';
 
 export default class UITable extends UIView {
     static propTypes = {
@@ -28,6 +30,8 @@ export default class UITable extends UIView {
         throttleInterval: PropTypes.number,
         totalRows: PropTypes.number,
     }
+
+    static internal_keys = Object.keys(UITable.propTypes)
 
     static defaultProps = {
         className: '',
@@ -139,7 +143,7 @@ export default class UITable extends UIView {
     render() {
         return (
             <div
-                {...this.props}
+                {...omit(this.props, UITable.internal_keys)}
                 ref='wrapper'
                 className={'ui-table-wrapper ' + this.props.className}
                 data-set-identifier={this.props.identifier}

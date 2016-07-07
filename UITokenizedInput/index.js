@@ -4,13 +4,14 @@
  */
 
 import React from 'react';
+import omit from 'lodash.omit';
+import cx from 'classnames';
+
 import UITypeaheadInput from '../UITypeaheadInput';
 import UIView from '../UIView';
-
 import noop from '../UIUtils/noop';
 import extractChildProps from '../UIUtils/extractChildProps';
 
-import cx from 'classnames';
 
 const first = array => array[0];
 const last = array => array[array.length - 1];
@@ -25,6 +26,8 @@ export default class UITokenizedInput extends UIView {
         tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
         showTokenClose: React.PropTypes.bool,
     }
+
+    static internal_keys = Object.keys(UITokenizedInput.propTypes)
 
     static defaultProps = {
         ...UITypeaheadInput.defaultProps,
@@ -235,7 +238,7 @@ export default class UITokenizedInput extends UIView {
     render() {
         return (
             <div
-                {...this.props}
+                {...omit(this.props, UITokenizedInput.internal_keys)}
                 ref='wrapper'
                 className={cx({
                     'ui-tokenfield-wrapper': true,

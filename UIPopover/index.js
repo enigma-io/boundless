@@ -11,10 +11,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import cx from 'classnames';
+import omit from 'lodash.omit';
+import without from 'lodash.without';
+
 import UIDialog from '../UIDialog';
 import UIView from '../UIView';
 import transformProp from '../UIUtils/transformProperty';
-import cx from 'classnames';
 
 export default class UIPopover extends UIView {
     static position = {
@@ -54,6 +57,8 @@ export default class UIPopover extends UIView {
             UIPopover.position.END,
         ]),
     }
+
+    static internal_keys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
 
     static defaultProps = {
         ...UIDialog.defaultProps,
@@ -241,7 +246,7 @@ export default class UIPopover extends UIView {
         this.updateDialogInternalCache(
             ReactDOM.render(
                 <UIDialog
-                    {...this.props}
+                    {...omit(this.props, UIPopover.internal_keys)}
                     className={cx({
                         'ui-popover': true,
                         [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
