@@ -181,7 +181,10 @@ export default class UITokenizedInput extends UIView {
         }
     }
 
-    handleTokenCloseClick(index) {
+    handleTokenCloseClick(index, event) {
+        // if we don't stop propagation, the event bubbles and results in a failed token selection
+        event.stopPropagation();
+
         this.remove(index);
         this.focus();
     }
@@ -205,7 +208,8 @@ export default class UITokenizedInput extends UIView {
             break;
 
         case 8: // backspace
-            this.handleTokenCloseClick(index);
+            this.remove(index);
+            this.focus();
             event.preventDefault();
             break;
         }
