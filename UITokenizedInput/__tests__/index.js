@@ -249,7 +249,7 @@ describe('UITokenizedInput', () => {
 
             const typeahead = element.refs.typeahead;
 
-            element.handleTokenCloseClick(1);
+            element.handleTokenCloseClick(1, {stopPropagation: noop});
 
             expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([1])).toBe(true);
