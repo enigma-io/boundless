@@ -288,7 +288,7 @@ describe('UITextualInput', () => {
                     }} />
             );
 
-            element.handleInput({target: {value: 'x'}});
+            element.handleChange({target: {value: 'x'}});
 
             expect(element.refs.placeholder.textContent).toBe('');
         });
@@ -305,13 +305,13 @@ describe('UITextualInput', () => {
 
             expect(element.refs.placeholder.textContent).toBe('foo');
 
-            element.handleInput({target: {value: 'x'}});
+            element.handleChange({target: {value: 'x'}});
             expect(element.refs.placeholder.textContent).toBe('');
 
-            element.handleInput({target: {value: 'xy'}});
+            element.handleChange({target: {value: 'xy'}});
             expect(element.refs.placeholder.textContent).toBe('');
 
-            element.handleInput({target: {value: ''}});
+            element.handleChange({target: {value: ''}});
             expect(element.refs.placeholder.textContent).toBe('foo');
         });
     });
@@ -455,26 +455,6 @@ describe('UITextualInput', () => {
         const faux_event = {persist: noop, target: {value: 'x'}};
 
         element.handleChange(faux_event);
-
-        expect(stub.calledOnce).toBe(true);
-        expect(stub.calledWithMatch(faux_event)).toBe(true);
-    });
-
-    it('should proxy input events to `props.inputProps.onInput` if provided', () => {
-        const stub = sandbox.stub();
-
-        const element = render(
-            <UITextualInput
-                {...base_props}
-                inputProps={{
-                    ...base_props.inputProps,
-                    onInput: stub,
-                }} />
-        );
-
-        const faux_event = {persist: noop, target: {value: 'x'}};
-
-        element.handleInput(faux_event);
 
         expect(stub.calledOnce).toBe(true);
         expect(stub.calledWithMatch(faux_event)).toBe(true);

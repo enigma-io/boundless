@@ -15,7 +15,6 @@ export default class UITextualInput extends UIView {
             onBlur: PropTypes.func,
             onFocus: PropTypes.func,
             onChange: PropTypes.func,
-            onInput: PropTypes.func,
             placeholder: PropTypes.string,
             type: PropTypes.string,
             value: PropTypes.string,
@@ -91,15 +90,6 @@ export default class UITextualInput extends UIView {
         }
     }
 
-    handleInput = event => {
-        this.setState({input: event.target.value});
-
-        if (is_function(this.props.inputProps.onInput) === true) {
-            event.persist();
-            this.props.inputProps.onInput(event);
-        }
-    }
-
     getPlaceholderText() {
         const is_non_empty = this.state.input !== '';
         const should_show_placeholder =   this.props.hidePlaceholderOnFocus === true
@@ -141,8 +131,7 @@ export default class UITextualInput extends UIView {
                     placeholder={null}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}
-                    onChange={this.handleChange}
-                    onInput={this.handleInput} />
+                    onChange={this.handleChange} />
             </div>
         );
     }
