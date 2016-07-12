@@ -15,7 +15,6 @@ export default class UITextualInput extends UIView {
             onBlur: PropTypes.func,
             onFocus: PropTypes.func,
             onChange: PropTypes.func,
-            onInput: PropTypes.func,
             placeholder: PropTypes.string,
             type: PropTypes.string,
             value: PropTypes.string,
@@ -83,20 +82,16 @@ export default class UITextualInput extends UIView {
     }
 
     handleChange = event => {
-        this.setState({input: event.target.value});
+        // for "controlled" scenarios, updates to the cached input text should come exclusively via props (cWRP)
+        // so it exactly mirrors the current application state, otherwise a re-render will occur before
+        // the new text has completed its feedback loop and the cursor position is lost
+        if (this.state.is_controlled === false) {
+            this.setState({input: event.target.value});
+        }
 
         if (is_function(this.props.inputProps.onChange) === true) {
             event.persist();
             this.props.inputProps.onChange(event);
-        }
-    }
-
-    handleInput = event => {
-        this.setState({input: event.target.value});
-
-        if (is_function(this.props.inputProps.onInput) === true) {
-            event.persist();
-            this.props.inputProps.onInput(event);
         }
     }
 
@@ -141,8 +136,7 @@ export default class UITextualInput extends UIView {
                     placeholder={null}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}
-                    onChange={this.handleChange}
-                    onInput={this.handleInput} />
+                    onChange={this.handleChange} />
             </div>
         );
     }

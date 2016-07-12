@@ -3,6 +3,12 @@ import UITextualInput from '../index';
 import UIView from '../../UIView';
 
 export default class UITextualInputDemo extends UIView {
+    state = {
+        input: '',
+    }
+
+    handleChange = (e) => this.setState({input: e.target.value})
+
     render() {
         return (
             <div className='ui-spread-even'>
@@ -21,6 +27,17 @@ export default class UITextualInputDemo extends UIView {
                         hidePlaceholderOnFocus={true}
                         inputProps={{
                             placeholder: 'Focus on me and I disappear!',
+                        }} />
+                </div>
+
+                <div style={{marginLeft: '1em'}}>
+                    <h5>"controlled" input</h5>
+                    <UITextualInput
+                        hidePlaceholderOnFocus={true}
+                        inputProps={{
+                            placeholder: 'Focus on me and I disappear!',
+                            onChange: this.handleChange,
+                            value: this.state.input,
                         }} />
                 </div>
             </div>

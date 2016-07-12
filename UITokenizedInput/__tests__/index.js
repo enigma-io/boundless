@@ -503,6 +503,37 @@ describe('UITokenizedInput', () => {
         });
     });
 
+    describe('input click', () => {
+        it('clears any token selection', () => {
+            const stub = sinon.stub();
+            const element = render(
+                <UITokenizedInput
+                    entities={entities}
+                    handleNewSelection={stub}
+                    tokens={[0, 1]}
+                    tokensSelected={[1]} />
+            );
+
+            Simulate.click(element.getInputNode());
+            expect(stub.called).toBe(true);
+            expect(stub.calledWithMatch([])).toBe(true);
+        });
+
+        it('proxies up the click event if inputProps.onClick is provided', () => {
+            const stub = sinon.stub();
+            const element = render(
+                <UITokenizedInput
+                    entities={entities}
+                    inputProps={{onClick: stub}}
+                    tokens={[0, 1]}
+                    tokensSelected={[1]} />
+            );
+
+            Simulate.click(element.getInputNode());
+            expect(stub.called).toBe(true);
+        });
+    });
+
     describe('input focus', () => {
         it('clears any token selection', () => {
             const stub = sinon.stub();

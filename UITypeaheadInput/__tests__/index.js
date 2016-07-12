@@ -546,6 +546,15 @@ describe('UITypeaheadInput', () => {
             element = render(<UITypeaheadInput inputProps={{value: 'foo', onChange: noop}} />);
             expect(element.getInputNode().value).toBe('foo');
         });
+
+        it('does not cause a setState for bubbling change events', () => {
+            const element = render(<UITypeaheadInput inputProps={{value: 'ap', onChange: noop}} />);
+
+            sandbox.stub(element, 'setState');
+
+            element.handleChange({persist: noop, target: {value: 'foo'}});
+            expect(element.setState.called).toBe(false);
+        });
     });
 
     describe('child prop transferral', () => {

@@ -134,6 +134,15 @@ export default class UITokenizedInput extends UIView {
         this.props.handleNewSelection([]);
     }
 
+    handleInputClick = (event) => {
+        this.clearSelection();
+
+        if (typeof this.props.inputProps.onClick === 'function') {
+            event.persist();
+            this.props.inputProps.onClick(event);
+        }
+    }
+
     handleInputFocus = (event) => {
         this.clearSelection();
 
@@ -258,6 +267,7 @@ export default class UITokenizedInput extends UIView {
                     clearPartialInputOnSelection={true}
                     inputProps={{
                         ...this.props.inputProps,
+                        onClick: this.handleInputClick,
                         onFocus: this.handleInputFocus,
                     }}
                     onEntitySelected={this.add} />

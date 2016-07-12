@@ -308,14 +308,14 @@ export default class UITypeaheadInput extends UIView {
         });
     }
 
-    handleInput = (event) => {
-        event.stopPropagation();
+    handleChange = (event) => {
+        if (this.state.is_controlled === false) {
+            this.setState({input: event.target.value}, () => this.computeMatches());
+        }
 
-        this.setState({input: event.target.value}, () => this.computeMatches());
-
-        if (typeof this.props.inputProps.onInput === 'function') {
+        if (typeof this.props.inputProps.onChange === 'function') {
             event.persist();
-            this.props.inputProps.onInput(event);
+            this.props.inputProps.onChange(event);
         }
     }
 
@@ -479,7 +479,7 @@ export default class UITypeaheadInput extends UIView {
                             'ui-typeahead': true,
                             [props.inputProps.className]: !!props.inputProps.className,
                         }),
-                        onInput: this.handleInput,
+                        onChange: this.handleChange,
                     }} />
 
                 {this.renderMatches()}
