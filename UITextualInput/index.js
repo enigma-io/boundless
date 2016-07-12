@@ -82,7 +82,12 @@ export default class UITextualInput extends UIView {
     }
 
     handleChange = event => {
-        this.setState({input: event.target.value});
+        // for "controlled" scenarios, updates to the cached input text should come exclusively via props (cWRP)
+        // so it exactly mirrors the current application state, otherwise a re-render will occur before
+        // the new text has completed its feedback loop and the cursor position is lost
+        if (this.state.is_controlled === false) {
+            this.setState({input: event.target.value});
+        }
 
         if (is_function(this.props.inputProps.onChange) === true) {
             event.persist();

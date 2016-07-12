@@ -248,6 +248,23 @@ describe('UITextualInput', () => {
             );
             expect(element.refs.placeholder.textContent).toBe('foo');
         });
+
+        it('changes to the input text result do not result in a setState within the event handler', () => {
+            const element = render(
+                <UITextualInput
+                    {...base_props}
+                    inputProps={{
+                        ...base_props.inputProps,
+                        placeholder: 'foo',
+                        value: '',
+                    }} />
+            );
+
+            sandbox.stub(element, 'setState');
+
+            element.handleChange({target: {value: 'foobar'}});
+            expect(element.setState.called).toBe(false);
+        });
     });
 
     describe('uncontrolled mode', () => {
