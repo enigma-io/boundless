@@ -9,6 +9,7 @@ import omit from 'lodash.omit';
 
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
+import uuid from '../UIUtils/uuid';
 
 export default class UIDialog extends UIView {
     static propTypes = {
@@ -41,8 +42,8 @@ export default class UIDialog extends UIView {
     }
 
     // fallbacks if one isn't passed
-    uuid_header = UIView.prototype.uuid()
-    uuid_body = UIView.prototype.uuid()
+    uuid_header = uuid()
+    uuid_body = uuid()
 
     componentDidMount() {
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
@@ -181,8 +182,8 @@ export default class UIDialog extends UIView {
                     })}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
-                    aria-labelledby={this.state.headerUUID}
-                    aria-describedby={this.state.bodyUUID}
+                    aria-labelledby={this.uuid_header}
+                    aria-describedby={this.uuid_body}
                     tabIndex='0'>
                     {this.renderHeader()}
                     {this.renderBody()}

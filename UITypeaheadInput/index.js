@@ -12,6 +12,7 @@ import UITextualInput from '../UITextualInput';
 import UIView from '../UIView';
 import extractChildProps from '../UIUtils/extractChildProps';
 import noop from '../UIUtils/noop';
+import uuid from '../UIUtils/uuid';
 
 const is_string = test => typeof test === 'string';
 const is_function = test => typeof test === 'function';
@@ -79,7 +80,7 @@ export default class UITypeaheadInput extends UIView {
     state = {
         entityMatchIndexes: [],
         selectedEntityIndex: -1,
-        id: this.uuid(),
+        id: uuid(),
         is_controlled: is_string(this.props.inputProps.value),
         input:    this.props.inputProps.value
                || this.props.inputProps.defaultValue
