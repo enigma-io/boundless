@@ -27,6 +27,7 @@ module.exports = {
     UITooltip: (global.UIKit.UITooltip = require('./UITooltip').default),
     UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput').default),
     UIUtils: {
+        extractChildProps: (global.UIKit.UIUtils.extractChildProps = require('./UIUtils/extractChildProps').default),
         notify: (global.UIKit.UIUtils.notify = require('./UIUtils/notify').default),
         transformProperty: (global.UIKit.UIUtils.transformProperty = require('./UIUtils/transformProperty').default),
         uuid: (global.UIKit.UIUtils.uuid = require('./UIUtils/uuid').default),
