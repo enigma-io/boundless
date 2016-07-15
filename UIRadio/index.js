@@ -9,6 +9,7 @@ import omit from 'lodash.omit';
 
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
+import uuid from '../UIUtils/uuid';
 
 export default class UIRadio extends UIView {
     static propTypes = {
@@ -30,7 +31,7 @@ export default class UIRadio extends UIView {
         selected: false,
     }
 
-    uuid = UIView.prototype.uuid()
+    uuid = uuid()
 
     handleChange = (event) => {
         if (event.target.checked) {

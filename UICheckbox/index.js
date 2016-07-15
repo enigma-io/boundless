@@ -9,6 +9,7 @@ import cx from 'classnames';
 
 import UIView from '../UIView';
 import noop from '../UIUtils/noop';
+import uuid from '../UIUtils/uuid';
 
 export default class UICheckbox extends UIView {
     static propTypes = {
@@ -41,7 +42,7 @@ export default class UICheckbox extends UIView {
         onUnchecked: noop,
     }
 
-    id = UIView.prototype.uuid()
+    id = uuid()
 
     componentDidMount() {
         if (this.props.inputProps.indeterminate) {
