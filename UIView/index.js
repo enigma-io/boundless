@@ -20,7 +20,7 @@ export default class UIView extends Component {
         this.state = this.initialState ? this.initialState() : {};
     }
 
-    uuid = () => {
+    uuid() {
         if (this.uuid_warning === undefined) {
             this.uuid_warning = true;
 

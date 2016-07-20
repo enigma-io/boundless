@@ -212,8 +212,8 @@ export default class UIPopover extends UIView {
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        const x = this.getNextXPosition(anchor, this.$dialog);
-        const y = this.getNextYPosition(anchor, this.$dialog);
+        const x = Math.round(this.getNextXPosition(anchor, this.$dialog));
+        const y = Math.round(this.getNextYPosition(anchor, this.$dialog));
 
         const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.$dialog, x, y);
 
