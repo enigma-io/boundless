@@ -165,7 +165,7 @@ export default class UIPagination extends UIView {
         numItemsPerPage: this.props.numItemsPerPage,
         numPageToggles: this.props.numPageToggles,
         totalItems: this.props.totalItems,
-        shownItems: [{data: this.props.getItem(0)}],
+        shownItems: [],
     }
 
     componentDidUpdate(prevProps, prevState) {
