@@ -76,7 +76,6 @@ class Item extends UIView {
             return (<div {...omit(this.props, Item.internal_keys)} className={this.getClasses()} />);
         }
 
-
         return React.cloneElement(this.state.data, {
             ...omit(this.props, Item.internal_keys),
             className: this.getClasses(this.state.data.props.className),
