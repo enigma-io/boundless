@@ -18,27 +18,32 @@ class Item extends UIView {
         even: PropTypes.bool,
         data: PropTypes.object,
         index: PropTypes.number,
+        itemToJSXConverterFunc: PropTypes.func,
     }
 
     static internal_keys = Object.keys(Item.propTypes)
 
     state = {
-        data: this.props.data,
+        data: this.maybeConvertToJSX(this.props.data),
     }
 
     __mounted = false
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            this.setState({data: nextProps.data});
+            this.setState({data: this.maybeConvertToJSX(nextProps.data)});
         }
+    }
+
+    maybeConvertToJSX(data) {
+        return data instanceof Promise ? data : this.props.itemToJSXConverterFunc(data);
     }
 
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
                 if (this.__mounted && this.state.data === promise) {
-                    this.setState({data: value});
+                    this.setState({data: this.props.itemToJSXConverterFunc(value)});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
         }
@@ -71,6 +76,7 @@ class Item extends UIView {
             return (<div {...omit(this.props, Item.internal_keys)} className={this.getClasses()} />);
         }
 
+
         return React.cloneElement(this.state.data, {
             ...omit(this.props, Item.internal_keys),
             className: this.getClasses(this.state.data.props.className),
@@ -97,6 +103,7 @@ export default class UIPagination extends UIView {
         getItem: PropTypes.func,
         hidePagerIfNotNeeded: PropTypes.bool,
         identifier: PropTypes.string.isRequired,
+        itemToJSXConverterFunc: PropTypes.func,
         jumpToFirstControlText: PropTypes.string,
         jumpToLastControlText: PropTypes.string,
         listWrapperProps: PropTypes.object,
@@ -137,6 +144,7 @@ export default class UIPagination extends UIView {
     static defaultProps = {
         getItem: noop,
         hidePagerIfNotNeeded: false,
+        itemToJSXConverterFunc: data => data,
         jumpToFirstControlText: '« First',
         jumpToLastControlText: 'Last »',
         listWrapperProps: {},
@@ -295,7 +303,8 @@ export default class UIPagination extends UIView {
                             key={index}
                             data={item.data}
                             even={index % 2 === 0}
-                            index={this.state.currentPage - 1 + index} />
+                            index={this.state.currentPage - 1 + index}
+                            itemToJSXConverterFunc={this.props.itemToJSXConverterFunc} />
                     );
                 })}
             </UIArrowKeyNavigation>
