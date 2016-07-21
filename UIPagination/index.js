@@ -18,27 +18,32 @@ class Item extends UIView {
         even: PropTypes.bool,
         data: PropTypes.object,
         index: PropTypes.number,
+        itemToJSXConverterFunc: PropTypes.func,
     }
 
     static internal_keys = Object.keys(Item.propTypes)
 
     state = {
-        data: this.props.data,
+        data: this.maybeConvertToJSX(this.props.data),
     }
 
     __mounted = false
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            this.setState({data: nextProps.data});
+            this.setState({data: this.maybeConvertToJSX(nextProps.data)});
         }
+    }
+
+    maybeConvertToJSX(data) {
+        return data instanceof Promise ? data : this.props.itemToJSXConverterFunc(data);
     }
 
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
                 if (this.__mounted && this.state.data === promise) {
-                    this.setState({data: value});
+                    this.setState({data: this.props.itemToJSXConverterFunc(value)});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
         }
@@ -97,10 +102,11 @@ export default class UIPagination extends UIView {
         getItem: PropTypes.func,
         hidePagerIfNotNeeded: PropTypes.bool,
         identifier: PropTypes.string.isRequired,
-        jumpToFirstControlText: PropTypes.string,
-        jumpToLastControlText: PropTypes.string,
+        itemToJSXConverterFunc: PropTypes.func,
+        jumpToFirstControlContent: PropTypes.node,
+        jumpToLastControlContent: PropTypes.node,
         listWrapperProps: PropTypes.object,
-        nextPageControlText: PropTypes.string,
+        nextPageControlContent: PropTypes.node,
 
         numItemsPerPage: function validateNumItemsPerPage(props) {
             if (!Number.isInteger(props.numItemsPerPage)) {
@@ -125,7 +131,7 @@ export default class UIPagination extends UIView {
         },
 
         position: PropTypes.oneOf(Object.keys(UIPagination.positions)),
-        previousPageControlText: PropTypes.string,
+        previousPageControlContent: PropTypes.node,
         showJumpToFirst: PropTypes.bool,
         showJumpToLast: PropTypes.bool,
         toggleWrapperProps: PropTypes.object,
@@ -137,15 +143,16 @@ export default class UIPagination extends UIView {
     static defaultProps = {
         getItem: noop,
         hidePagerIfNotNeeded: false,
-        jumpToFirstControlText: '« First',
-        jumpToLastControlText: 'Last »',
+        itemToJSXConverterFunc: data => data,
+        jumpToFirstControlContent: '« First',
+        jumpToLastControlContent: 'Last »',
         listWrapperProps: {},
-        nextPageControlText: 'Next ›',
+        nextPageControlContent: 'Next ›',
         numItemsPerPage: 10,
         numPageToggles: 5,
         pagerPosition: 1,
         position: UIPagination.positions.ABOVE,
-        previousPageControlText: '‹ Previous',
+        previousPageControlContent: '‹ Previous',
         showJumpToFirst: true,
         showJumpToLast: true,
         toggleWrapperProps: {},
@@ -157,7 +164,7 @@ export default class UIPagination extends UIView {
         numItemsPerPage: this.props.numItemsPerPage,
         numPageToggles: this.props.numPageToggles,
         totalItems: this.props.totalItems,
-        shownItems: [{data: this.props.getItem(0)}],
+        shownItems: [],
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -192,7 +199,7 @@ export default class UIPagination extends UIView {
         if (this.props.showJumpToFirst) {
             options.push({
                 selected: false,
-                content: this.props.jumpToFirstControlText,
+                content: this.props.jumpToFirstControlContent,
                 value: UIPagination.controls.FIRST,
                 disabled: this.state.currentPage === 1,
                 className: 'ui-pagination-control ui-pagination-control-first',
@@ -201,7 +208,7 @@ export default class UIPagination extends UIView {
 
         options.push({
             selected: false,
-            content: this.props.previousPageControlText,
+            content: this.props.previousPageControlContent,
             value: UIPagination.controls.PREVIOUS,
             disabled: this.state.currentPage === 1,
             className: 'ui-pagination-control ui-pagination-control-previous',
@@ -219,7 +226,7 @@ export default class UIPagination extends UIView {
 
         options.push({
             selected: false,
-            content: this.props.nextPageControlText,
+            content: this.props.nextPageControlContent,
             value: UIPagination.controls.NEXT,
             disabled: this.state.currentPage === this.state.numberOfPages,
             className: 'ui-pagination-control ui-pagination-control-next',
@@ -228,7 +235,7 @@ export default class UIPagination extends UIView {
         if (this.props.showJumpToLast) {
             options.push({
                 selected: false,
-                content: this.props.jumpToLastControlText,
+                content: this.props.jumpToLastControlContent,
                 value: UIPagination.controls.LAST,
                 disabled: this.state.currentPage === this.state.numberOfPages,
                 className: 'ui-pagination-control ui-pagination-control-last',
@@ -295,7 +302,8 @@ export default class UIPagination extends UIView {
                             key={index}
                             data={item.data}
                             even={index % 2 === 0}
-                            index={this.state.currentPage - 1 + index} />
+                            index={this.state.currentPage - 1 + index}
+                            itemToJSXConverterFunc={this.props.itemToJSXConverterFunc} />
                     );
                 })}
             </UIArrowKeyNavigation>

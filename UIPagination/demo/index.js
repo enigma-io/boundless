@@ -8,7 +8,7 @@ export default class UIPaginationDemo extends UIView {
         identifier: 'rolodex1000',
     }
 
-    itemToJSX(data) {
+    itemToJSX = (data) => {
         return (
             <div>
                 <div className="card-left">
@@ -31,12 +31,12 @@ export default class UIPaginationDemo extends UIView {
         if (index >= 30) {
             return new Promise(resolve => {
                 window.setTimeout(setIndex => {
-                    resolve(this.itemToJSX(this.state.items[setIndex]));
+                    resolve(this.state.items[setIndex]);
                 }, 2000, index);
             });
         }
 
-        return this.itemToJSX(this.state.items[index])
+        return this.state.items[index];
     }
 
     render() {
@@ -44,6 +44,7 @@ export default class UIPaginationDemo extends UIView {
             <UIPagination
                 getItem={this.handleItemRequest}
                 identifier={this.state.identifier}
+                itemToJSXConverterFunc={this.itemToJSX}
                 numItemsPerPage={5}
                 totalItems={this.state.items.length} />
         );

@@ -28,6 +28,7 @@ const itemToJSX = data => {
 // index 3 is for the ui-pagination-view-content-item-loading css hook test
 const itemGetter = index => index === 3 ? new Promise(noop) : itemToJSX(items[index]);
 const altItemGetter = index => index === 3 ? new Promise(noop) : itemToJSX(altItems[index]);
+const nonJSXItemGetter = index => index === 3 ? new Promise(noop) : items[index];
 
 const baseProps = {
     getItem: itemGetter,
@@ -127,7 +128,7 @@ describe('UIPagination', () => {
         });
     });
 
-    describe('items', () => {
+    describe('JSX items', () => {
         let element;
 
         beforeEach(() => {
@@ -160,6 +161,41 @@ describe('UIPagination', () => {
         it('does not lose original event handlers', () => {
             Simulate.click(dom(element.refs.item_0));
             expect(stub.calledOnce).toBe(true);
+        });
+    });
+
+    describe('non-JSX items', () => {
+        const newStub = sandbox.stub();
+        let element;
+        const newItemToJSX = data => {
+            return (
+                <div key={data.id} className='test-class' onClick={newStub}>
+                    {data.first_name} {data.last_name}
+                </div>
+            )
+        };
+
+        beforeEach(() => {
+            element = render(
+                <UIPagination
+                    getItem={nonJSXItemGetter}
+                    identifier='newId'
+                    itemToJSXConverterFunc={newItemToJSX}
+                    totalItems={items.length} />
+            );
+        });
+
+        it('renders properly, with the correct text', () => {
+            expect(dom(element.refs.item_0).textContent).toBe('Louise Francisco');
+        });
+
+        it('retains original props', () => {
+            expect(dom(element.refs.item_0).className).toContain('test-class');
+        });
+
+        it('does not lose original event handlers', () => {
+            Simulate.click(dom(element.refs.item_0));
+            expect(newStub.calledOnce).toBe(true);
         });
     });
 
@@ -286,8 +322,8 @@ describe('UIPagination', () => {
 
             element = render(
                 <UIPagination
-                    identifier='newId'
                     getItem={altItemGetter}
+                    identifier='newId'
                     totalItems={altItems.length} />
             );
 
