@@ -107,24 +107,30 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-pagination` node
 
+- __getItem__ `Function`
+  called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously
+
 - __hidePagerIfNotNeeded__ `Boolean`
   (default `false`) does not render the paging controls if the number of items supplied to the view is less-than-or-equal-to the number of items to show per page via `props.numItemsPerPage`
 
 - __identifier__ `String`
   a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data
 
-- __jumpToFirstControlText__ `String`
-  (default `'« First'`) text to be displayed inside of the "First page" control button
+- __itemToJSXConverterFunc__ `Function`
+  (default `item => item`) an optional function to specify how an item should be converted to JSX, if it is not already renderable by React
 
-- __jumpToLastControlText__ `String`
-  (default `'Last »'`) text to be displayed inside of the "Last page" control button
+- __jumpToFirstControlContent__ `Node (any React-renderable content)`
+  (default `'« First'`) content to be displayed inside of the "First page" control button
+
+- __jumpToLastControlContent__ `Node (any React-renderable content)`
+  (default `'Last »'`) content to be displayed inside of the "Last page" control button
 
 - __listWrapperProps__ `Object`
     - __listWrapperProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-pagination-item-list` node
 
-- __nextPageControlText__ `String`
-  (default `'Next ›'`) text to be displayed inside of the "Next page" control button
+- __nextPageControlContent__ `Node (any React-renderable content)`
+  (default `'Next ›'`) content to be displayed inside of the "Next page" control button
 
 - __numItemsPerPage__ `Number`
   (default `10`) the maximum number of items to be displayed on each page; must be greater than zero
@@ -135,8 +141,8 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 - __position__ `UIPagination.positions['ABOVE'|'BELOW'|'BOTH']`
   (default: `'ABOVE'`) determines whether the pagination controls are displayed above, below, or both above and below the content
 
-- __previousPageControlText__ `String`
-  (default `'‹ Previous'`) text to be displayed inside of the "Previous page" control button
+- __previousPageControlContent__ `Node (any React-renderable content)`
+  (default `'‹ Previous'`) content to be displayed inside of the "Previous page" control button
 
 - __showJumpToFirst__ `Boolean`
   (default `true`) whether the "First page" control button should be displayed
