@@ -160,19 +160,27 @@ describe('UIPagination', () => {
 
         it('does not lose original event handlers', () => {
             Simulate.click(dom(element.refs.item_0));
-            expect(stub.called).toBe(true);
+            expect(stub.calledOnce).toBe(true);
         });
     });
 
     describe('non-JSX items', () => {
+        const newStub = sandbox.stub();
         let element;
+        const newItemToJSX = data => {
+            return (
+                <div key={data.id} className='test-class' onClick={newStub}>
+                    {data.first_name} {data.last_name}
+                </div>
+            )
+        };
 
         beforeEach(() => {
             element = render(
                 <UIPagination
                     getItem={nonJSXItemGetter}
                     identifier='newId'
-                    itemToJSXConverterFunc={itemToJSX}
+                    itemToJSXConverterFunc={newItemToJSX}
                     totalItems={items.length} />
             );
         });
@@ -187,7 +195,7 @@ describe('UIPagination', () => {
 
         it('does not lose original event handlers', () => {
             Simulate.click(dom(element.refs.item_0));
-            expect(stub.called).toBe(true);
+            expect(newStub.calledOnce).toBe(true);
         });
     });
 
