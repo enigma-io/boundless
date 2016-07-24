@@ -100,7 +100,10 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 ### Available instance methods
 
 - __currentPage()__
-  returns the ___one-indexed (not zero-indexed)___ page number currently in view
+  returns the ___one___-indexed page number currently in view
+
+- __pageToIndex(`Number`)__
+  renders the page that contains the ___zero___-indexed item
 
 ---
 

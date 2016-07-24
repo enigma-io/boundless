@@ -161,10 +161,7 @@ export default class UIPagination extends UIView {
     state = {
         currentPage: this.props.pagerPosition,
         numberOfPages: Math.ceil(this.props.totalItems / this.props.numItemsPerPage),
-        numItemsPerPage: this.props.numItemsPerPage,
-        numPageToggles: this.props.numPageToggles,
         totalItems: this.props.totalItems,
-        shownItems: [],
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -173,28 +170,34 @@ export default class UIPagination extends UIView {
         }
     }
 
-    componentDidMount() {
-        this.setState({shownItems: this.generateItems(this.state.currentPage)});
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (nextProps.identifier !== this.props.identifier) {
-            this.setState({
-                currentPage: 1,
-                shownItems: this.generateItems(1, nextProps.getItem),
-            });
-        }
+        const numberOfPages = Math.ceil(nextProps.totalItems / nextProps.numItemsPerPage);
+
+        this.setState({
+            currentPage:   nextProps.identifier === this.props.identifier
+                         ? Math.min(this.state.currentPage, numberOfPages)
+                         : 1,
+            numberOfPages: numberOfPages,
+            totalItems: nextProps.totalItems,
+        });
     }
 
     currentPage = () => this.state.currentPage
 
+    pageToIndex = i => {
+        if (i < 0 || i >= this.state.totalItems) {
+            return new Error(`Cannot page to invalid index ${i}.`);
+        }
+
+        this.setState({ currentPage: Math.ceil((i + 1) / this.props.numItemsPerPage) });
+    }
+
     createPageButtonOptions() {
         const options = [];
-        const numberOfPages = this.state.numberOfPages;
         const currentPage = this.state.currentPage;
         const numPageToggles = this.props.numPageToggles;
         const startPage = currentPage - ((currentPage - 1) % numPageToggles);
-        const endPage = Math.min(startPage + numPageToggles - 1, numberOfPages);
+        const endPage = Math.min(startPage + numPageToggles - 1, this.state.numberOfPages);
 
         if (this.props.showJumpToFirst) {
             options.push({
@@ -245,13 +248,13 @@ export default class UIPagination extends UIView {
         return options;
     }
 
-    generateItems(currentPage, getItem = this.props.getItem) {
+    generateItems(currentPage) {
         const generatedItems = [];
-        const firstItemIndex = (currentPage - 1) * this.state.numItemsPerPage;
-        const lastItemIndex = Math.min(this.state.totalItems, firstItemIndex + this.state.numItemsPerPage) - 1;
+        const firstItemIndex = (currentPage - 1) * this.props.numItemsPerPage;
+        const lastItemIndex = Math.min(this.props.totalItems, firstItemIndex + this.props.numItemsPerPage) - 1;
 
         for (let i = firstItemIndex; i <= lastItemIndex; i++) {
-            generatedItems.push({data: getItem(i)});
+            generatedItems.push({data: this.props.getItem(i)});
         }
 
         return generatedItems;
@@ -278,10 +281,7 @@ export default class UIPagination extends UIView {
             pageNumber = parseInt(value, 10);
         }
 
-        this.setState({
-            currentPage: pageNumber,
-            shownItems: this.generateItems(pageNumber),
-        });
+        this.setState({ currentPage: pageNumber });
     }
 
     renderItems() {
@@ -295,7 +295,7 @@ export default class UIPagination extends UIView {
                     'ui-pagination-items': true,
                     [props.className]: !!props.className,
                 })}>
-                {this.state.shownItems.map((item, index) => {
+                {this.generateItems(this.state.currentPage).map((item, index) => {
                     return (
                         <Item
                             ref={`item_${index}`}
