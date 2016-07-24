@@ -184,6 +184,14 @@ export default class UIPagination extends UIView {
 
     currentPage = () => this.state.currentPage
 
+    pageToIndex = i => {
+        if (i < 0 || i >= this.state.totalItems) {
+            return new Error(`Cannot page to invalid index ${i}.`);
+        } else {
+            this.setState({ currentPage: Math.ceil((i + 1) / this.props.numItemsPerPage) });
+        }
+    }
+
     createPageButtonOptions() {
         const options = [];
         const currentPage = this.state.currentPage;
