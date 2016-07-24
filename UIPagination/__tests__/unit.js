@@ -213,6 +213,35 @@ describe('UIPagination', () => {
         });
     });
 
+    describe('pageToIndex', () => {
+        it('loads the page that contains the (0-indexed) item', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    numItemsPerPage={2}
+                    pagerPosition={2} />
+            );
+
+            element.pageToIndex(0);
+            expect(element.currentPage()).toEqual(1);
+        });
+
+        it('noop if called with invalid item index', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    numItemsPerPage={2}
+                    pagerPosition={2} />
+            );
+
+            element.pageToIndex(-1);
+            expect(element.currentPage()).toEqual(2);
+
+            element.pageToIndex(items.length);
+            expect(element.currentPage()).toEqual(2);
+        });
+    });
+
     describe('click functionality', () => {
         let element;
 
