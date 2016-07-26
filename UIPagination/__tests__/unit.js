@@ -31,8 +31,10 @@ const altItemGetter = index => index === 3 ? new Promise(noop) : itemToJSX(altIt
 const nonJSXItemGetter = index => index === 3 ? new Promise(noop) : items[index];
 
 const baseProps = {
+    customControlContent: 'foo',
     getItem: itemGetter,
     identifier: 'testId',
+    showPaginationState: true,
     totalItems: items.length,
 };
 
@@ -103,6 +105,10 @@ describe('UIPagination', () => {
             expect(document.querySelector('.ui-pagination-controls-below')).not.toBe(null);
         });
 
+        it('ui-pagination-control-state is rendered', () => {
+            expect(document.querySelector('.ui-pagination-control-state')).not.toBe(null);
+        });
+
         it('ui-pagination-control-first is rendered', () => {
             expect(document.querySelector('.ui-pagination-control-first')).not.toBe(null);
         });
@@ -122,6 +128,11 @@ describe('UIPagination', () => {
         it('ui-pagination-control is rendered', () => {
             expect(document.querySelector('.ui-pagination-control')).not.toBe(null);
         });
+
+        it('ui-pagination-control-custom is rendered', () => {
+            expect(document.querySelector('.ui-pagination-control-custom')).not.toBe(null);
+        });
+
 
         it('ui-pagination-wrapper is rendered', () => {
             expect(document.querySelector('.ui-pagination-wrapper')).not.toBe(null);
@@ -361,6 +372,18 @@ describe('UIPagination', () => {
         });
     });
 
+    describe('customControlContent', () => {
+        it('injects arbitrary content into a disabled control inside the wrapper', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    customControlContent={<div className='foo' />} />
+            );
+
+            expect(document.querySelector('.ui-pagination-control-custom .foo')).not.toBe(null);
+        });
+    });
+
     describe('pagerPosition', () => {
         it('controls the starting page of the rendered view', () => {
             const element = render(<UIPagination {...baseProps} pagerPosition={2} />);
@@ -389,6 +412,41 @@ describe('UIPagination', () => {
         it('set as `false` will not render the "last" control button', () => {
             const element = render(<UIPagination {...baseProps} showJumpToLast={false} />);
             expect(document.querySelector('.ui-pagination-control-last')).toBe(null);
+        });
+    });
+
+    describe('showPaginationState', () => {
+        it('set as `true` renders the current page index and total number of pages', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    numItemsPerPage={2}
+                    showPaginationState={true} />
+            );
+
+            expect(document.querySelector('.ui-pagination-control-state').textContent).toEqual(`1 of ${Math.ceil(items.length / 2)}`);
+        });
+
+        it('set as `false` does not render the current page index and total number of pages', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    numItemsPerPage={2}
+                    showPaginationState={false} />
+            );
+
+            expect(document.querySelector('.ui-pagination-control-state')).toBe(null);
+        });
+
+        it('set as a function calls the given function with the current and total pages and renders returned JSX', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    numItemsPerPage={2}
+                    showPaginationState={(currentPage, totalPages) => <span>foo {currentPage} bar {totalPages}</span>} />
+            );
+
+            expect(document.querySelector('.ui-pagination-control-state').textContent).toEqual(`foo 1 bar ${Math.ceil(items.length / 2)}`);
         });
     });
 
