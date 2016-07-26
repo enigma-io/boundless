@@ -78,6 +78,7 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-pagination-controls-above`
 - `.ui-pagination-controls-below`
 - `.ui-pagination-control`
+- `.ui-pagination-control-custom`
 - `.ui-pagination-control-first`
 - `.ui-pagination-control-previous`
 - `.ui-pagination-control-next`
@@ -110,6 +111,9 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-pagination` node
+
+- __customControlContent__ `*`
+  (default `undefined`) allows for arbitrary content to be rendered into the control area
 
 - __getItem__ `Function`
   called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously

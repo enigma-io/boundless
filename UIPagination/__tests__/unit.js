@@ -31,6 +31,7 @@ const altItemGetter = index => index === 3 ? new Promise(noop) : itemToJSX(altIt
 const nonJSXItemGetter = index => index === 3 ? new Promise(noop) : items[index];
 
 const baseProps = {
+    customControlContent: 'foo',
     getItem: itemGetter,
     identifier: 'testId',
     showPaginationState: true,
@@ -127,6 +128,11 @@ describe('UIPagination', () => {
         it('ui-pagination-control is rendered', () => {
             expect(document.querySelector('.ui-pagination-control')).not.toBe(null);
         });
+
+        it('ui-pagination-control-custom is rendered', () => {
+            expect(document.querySelector('.ui-pagination-control-custom')).not.toBe(null);
+        });
+
 
         it('ui-pagination-wrapper is rendered', () => {
             expect(document.querySelector('.ui-pagination-wrapper')).not.toBe(null);
@@ -363,6 +369,18 @@ describe('UIPagination', () => {
 
             expect(element.currentPage()).toEqual(1);
             expect(dom(element.refs.item_0).textContent).toBe('Lorraine Fernandez');
+        });
+    });
+
+    describe('customControlContent', () => {
+        it('injects arbitrary content into a disabled control inside the wrapper', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    customControlContent={<div className='foo' />} />
+            );
+
+            expect(document.querySelector('.ui-pagination-control-custom .foo')).not.toBe(null);
         });
     });
 

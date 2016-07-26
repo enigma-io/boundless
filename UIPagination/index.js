@@ -12,6 +12,7 @@ import UIView from '../UIView';
 import UISegmentedControl from '../UISegmentedControl';
 import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
 import noop from '../UIUtils/noop';
+import uuid from '../UIUtils/uuid';
 
 class Item extends UIView {
     static propTypes = {
@@ -99,6 +100,7 @@ export default class UIPagination extends UIView {
     }
 
     static propTypes = {
+        customControlContent: PropTypes.node,
         getItem: PropTypes.func,
         hidePagerIfNotNeeded: PropTypes.bool,
         identifier: PropTypes.string.isRequired,
@@ -257,6 +259,16 @@ export default class UIPagination extends UIView {
                 value: UIPagination.controls.LAST,
                 disabled: this.state.currentPage === this.state.numberOfPages,
                 className: 'ui-pagination-control ui-pagination-control-last',
+            });
+        }
+
+        if (this.props.customControlContent) {
+            options.push({
+                selected: false,
+                content: this.props.customControlContent,
+                value: uuid(),
+                disabled: true,
+                className: 'ui-pagination-control ui-pagination-control-custom',
             });
         }
 

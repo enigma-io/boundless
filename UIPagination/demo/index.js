@@ -42,6 +42,7 @@ export default class UIPaginationDemo extends UIView {
     render() {
         return (
             <UIPagination
+                customControlContent='Your custom content'
                 getItem={this.handleItemRequest}
                 identifier={this.state.identifier}
                 itemToJSXConverterFunc={this.itemToJSX}
