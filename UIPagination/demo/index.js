@@ -46,6 +46,7 @@ export default class UIPaginationDemo extends UIView {
                 identifier={this.state.identifier}
                 itemToJSXConverterFunc={this.itemToJSX}
                 numItemsPerPage={5}
+                showPaginationState={true}
                 totalItems={this.state.items.length} />
         );
     }

@@ -27,7 +27,7 @@ class Item extends UIView {
         data: this.maybeConvertToJSX(this.props.data),
     }
 
-    __mounted = false
+    mounted = false
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
@@ -42,7 +42,7 @@ class Item extends UIView {
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
-                if (this.__mounted && this.state.data === promise) {
+                if (this.mounted && this.state.data === promise) {
                     this.setState({data: this.props.itemToJSXConverterFunc(value)});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
@@ -50,12 +50,12 @@ class Item extends UIView {
     }
 
     componentDidMount() {
-        this.__mounted = true;
+        this.mounted = true;
         this.waitForContentIfNecessary();
     }
 
     componentWillUnmount() {
-        this.__mounted = false;
+        this.mounted = false;
     }
 
     componentDidUpdate() {
@@ -134,6 +134,10 @@ export default class UIPagination extends UIView {
         previousPageControlContent: PropTypes.node,
         showJumpToFirst: PropTypes.bool,
         showJumpToLast: PropTypes.bool,
+        showPaginationState: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
         toggleWrapperProps: PropTypes.object,
         totalItems: PropTypes.number.isRequired,
     }
@@ -161,7 +165,6 @@ export default class UIPagination extends UIView {
     state = {
         currentPage: this.props.pagerPosition,
         numberOfPages: Math.ceil(this.props.totalItems / this.props.numItemsPerPage),
-        totalItems: this.props.totalItems,
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -178,14 +181,13 @@ export default class UIPagination extends UIView {
                          ? Math.min(this.state.currentPage, numberOfPages)
                          : 1,
             numberOfPages: numberOfPages,
-            totalItems: nextProps.totalItems,
         });
     }
 
     currentPage = () => this.state.currentPage
 
     pageToIndex = i => {
-        if (i < 0 || i >= this.state.totalItems) {
+        if (i < 0 || i >= this.props.totalItems) {
             return new Error(`Cannot page to invalid index ${i}.`);
         }
 
@@ -198,6 +200,19 @@ export default class UIPagination extends UIView {
         const numPageToggles = this.props.numPageToggles;
         const startPage = currentPage - ((currentPage - 1) % numPageToggles);
         const endPage = Math.min(startPage + numPageToggles - 1, this.state.numberOfPages);
+        const totalPages = Math.ceil(this.props.totalItems / this.props.numItemsPerPage);
+
+        if (this.props.showPaginationState) {
+            options.push({
+                selected: false,
+                content:   typeof this.props.showPaginationState === 'function'
+                         ? this.props.showPaginationState(currentPage, totalPages)
+                         : `${currentPage} of ${totalPages}`,
+                value: '',
+                disabled: true,
+                className: 'ui-pagination-control ui-pagination-control-state',
+            });
+        }
 
         if (this.props.showJumpToFirst) {
             options.push({

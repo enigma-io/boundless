@@ -82,6 +82,7 @@ Styling of the element is provided via the CSS hooks:
 - `.ui-pagination-control-previous`
 - `.ui-pagination-control-next`
 - `.ui-pagination-control-last`
+- `.ui-pagination-control-state`
 - `.ui-pagination-wrapper`
 
 ---
@@ -152,6 +153,13 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 - __showJumpToLast__ `Boolean`
   (default `true`) whether the "Last page" control button should be displayed
+
+- __showPaginationState__ `Boolean|Function`
+  (default `false`) renders an element called `.ui-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
+
+  ```jsx
+  showPaginatedState={(currentPage, totalPages) => <div className='foo'>You're on page {currentPage} of {totalPages} pages!</div>}
+  ```
 
 - __totalItems__ `Number`
   the total number of items to be displayed in the view
