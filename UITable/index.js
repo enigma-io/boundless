@@ -9,6 +9,28 @@ import Table from 'enigma-table';
 
 import UIView from '../UIView';
 
+function didColumnsChange(current_columns, prev_columns, table_internal_columns) {
+    /*
+        1. there should be the same number of columns
+        2. the columns should exactly match in the proper order
+        3. each column property should be exactly the same
+     */
+
+    if (current_columns.length !== prev_columns.length) {
+        return true;
+    }
+
+    // did the column descriptors change in some way, or did the width change?
+    // this will also catch if the order of the columns changed when comparing
+    // the mapping property
+    return current_columns.some((column, index) => {
+        return    column.mapping !== prev_columns[index].mapping
+               || column.title !== prev_columns[index].title
+               || column.resizable !== prev_columns[index].resizable
+               || column.width !== table_internal_columns[index].width;
+    });
+}
+
 export default class UITable extends UIView {
     static propTypes = {
         columns: PropTypes.arrayOf(
@@ -74,29 +96,21 @@ export default class UITable extends UIView {
         this.table = null;
     }
 
-    onlyColumnWidthChangedAndMatchesTableInternals(current_columns, prev_columns, table_internal_columns) {
-        /* the columns should exactly match in the proper order, or the widths should be the same as the internal column
-        representation, meaning the change is a reaction to being alerted by `props.onColumnResize` */
-        return current_columns.every((column, index) => {
-            return    column === prev_columns[index]
-                   || (column.mapping === prev_columns[index].mapping && column.width === table_internal_columns[index].width);
-        });
-    }
-
     componentDidUpdate(prev_props) {
+        const {props} = this;
         const changed_props = [];
         let key;
 
         /* bidirectional key change detection */
 
-        for (key in this.props) {
-            if (this.props[key] !== prev_props[key]) {
+        for (key in props) {
+            if (props[key] !== prev_props[key]) {
                 changed_props.push(key);
             }
         }
 
         for (key in prev_props) {
-            if (prev_props[key] !== this.props[key] && changed_props.indexOf(key) === -1) {
+            if (prev_props[key] !== props[key] && changed_props.indexOf(key) === -1) {
                 changed_props.push(key);
             }
         }
@@ -104,12 +118,12 @@ export default class UITable extends UIView {
         if (changed_props.length) {
             if (changed_props.indexOf('jumpToRowIndex') !== -1) {
                 /* jumpToRowIndex already triggers a regeneration, just avoiding running it twice */
-                return this.table.jumpToRowIndex(this.props.jumpToRowIndex);
+                return this.table.jumpToRowIndex(props.jumpToRowIndex);
             }
 
             if (changed_props.length === 1 && changed_props[0] === 'columns') {
                 /* did things materially change, or just updating a column width? */
-                if (this.onlyColumnWidthChangedAndMatchesTableInternals(this.props.columns, prev_props.columns, this.table.columns)) {
+                if (didColumnsChange(props.columns, prev_props.columns, this.table.columns) === false) {
                     return;
                 }
             }
