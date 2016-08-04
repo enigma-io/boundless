@@ -14,37 +14,34 @@ import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
-class Item extends UIView {
+class Item extends React.Component {
     static propTypes = {
         even: PropTypes.bool,
         data: PropTypes.object,
+        dataToJSXConverterFunc: PropTypes.func,
         index: PropTypes.number,
-        itemToJSXConverterFunc: PropTypes.func,
+        loadingContent: PropTypes.node,
     }
 
     static internal_keys = Object.keys(Item.propTypes)
 
     state = {
-        data: this.maybeConvertToJSX(this.props.data, this.props.index),
+        data: this.props.data,
     }
 
     mounted = false
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            this.setState({data: this.maybeConvertToJSX(nextProps.data, nextProps.index)});
+            this.setState({data: nextProps.data});
         }
-    }
-
-    maybeConvertToJSX(data, index) {
-        return data instanceof Promise ? data : this.props.itemToJSXConverterFunc(data, index);
     }
 
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
                 if (this.mounted && this.state.data === promise) {
-                    this.setState({data: this.props.itemToJSXConverterFunc(value, this.props.index)});
+                    this.setState({data: value});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
         }
@@ -55,12 +52,12 @@ class Item extends UIView {
         this.waitForContentIfNecessary();
     }
 
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
     componentDidUpdate() {
         this.waitForContentIfNecessary();
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     getClasses(extraClasses) {
@@ -74,12 +71,18 @@ class Item extends UIView {
 
     render() {
         if (this.state.data instanceof Promise) {
-            return (<div {...omit(this.props, Item.internal_keys)} className={this.getClasses()} />);
+            return (
+                <div {...omit(this.props, Item.internal_keys)} className={this.getClasses()}>
+                    {this.props.loadingContent}
+                </div>
+            );
         }
 
-        return React.cloneElement(this.state.data, {
+        const jsx = this.props.dataToJSXConverterFunc(this.state.data, this.props.index);
+
+        return React.cloneElement(jsx, {
             ...omit(this.props, Item.internal_keys),
-            className: this.getClasses(this.state.data.props.className),
+            className: this.getClasses(jsx.props.className),
             'data-index': this.props.index,
         });
     }
@@ -104,6 +107,7 @@ export default class UIPagination extends UIView {
         getItem: PropTypes.func,
         hidePagerIfNotNeeded: PropTypes.bool,
         identifier: PropTypes.string.isRequired,
+        itemLoadingContent: PropTypes.node,
         itemToJSXConverterFunc: PropTypes.func,
         jumpToFirstControlContent: PropTypes.node,
         jumpToLastControlContent: PropTypes.node,
@@ -329,9 +333,10 @@ export default class UIPagination extends UIView {
                             ref={`item_${index}`}
                             key={index}
                             data={item.data}
+                            dataToJSXConverterFunc={this.props.itemToJSXConverterFunc}
                             even={index % 2 === 0}
                             index={indexOffset + index}
-                            itemToJSXConverterFunc={this.props.itemToJSXConverterFunc} />
+                            loadingContent={this.props.itemLoadingContent} />
                     );
                 })}
             </UIArrowKeyNavigation>

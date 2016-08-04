@@ -139,6 +139,20 @@ describe('UIPagination', () => {
         });
     });
 
+    describe('itemLoadingContent', () => {
+        it('injects custom content into loading pagination items', () => {
+            const element = render(
+                <UIPagination
+                    getItem={() => new Promise(() => {})}
+                    identifier='newId'
+                    itemLoadingContent={<div className='foo-loading' />}
+                    totalItems={1} />
+            );
+
+            expect(dom(element).querySelector('.foo-loading')).not.toBe(null);
+        });
+    });
+
     describe('itemToJSXConverterFunc', () => {
         const newItemToJSX = data => {
             return (
