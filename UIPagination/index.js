@@ -185,12 +185,25 @@ export default class UIPagination extends UIView {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        const nextTargetIndex = nextProps.identifier === this.props.identifier ? this.state.targetIndex : 0;
+    componentWillReceiveProps() {
+        const oldProps = this.props;
 
-        this.setState({
-            currentPage: this.getPageForIndex(nextTargetIndex, nextProps.numItemsPerPage),
-            targetIndex: nextTargetIndex,
+        // use transactional `setState()` syntax to ensure that pending state updates are honored,
+        // like those from `pageToIndex()`
+        this.setState((state, props) => {
+            // NOTE: `props` here is technically the `nextProps` you'd receive from the first cWRP argument
+            // so that's why we're caching `oldProps` outside the `setState`
+            if (props.identifier !== oldProps.identifier) {
+                return {
+                    currentPage: 1,
+                    targetIndex: 0,
+                };
+            }
+
+            return {
+                currentPage: this.getPageForIndex(state.targetIndex, props.numItemsPerPage),
+                targetIndex: state.targetIndex,
+            };
         });
     }
 
