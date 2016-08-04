@@ -124,7 +124,7 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 - __identifier__ `String`
   a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data
 
-- __itemToJSXConverterFunc__ `Function`
+- __itemToJSXConverterFunc__ `Function(item: object, index: number)`
   (default `item => item`) an optional function to specify how an item should be converted to JSX, if it is not already renderable by React
 
 - __jumpToFirstControlContent__ `Node (any React-renderable content)`

@@ -139,6 +139,43 @@ describe('UIPagination', () => {
         });
     });
 
+    describe('itemToJSXConverterFunc', () => {
+        const newItemToJSX = data => {
+            return (
+                <div key={data.id} className='test-class' onClick={sandbox.stub()}>
+                    {data.first_name} {data.last_name}
+                </div>
+            )
+        };
+
+        it('receives the object data as the first argument', () => {
+            const spy = sandbox.spy(newItemToJSX);
+            const element = render(
+                <UIPagination
+                    getItem={nonJSXItemGetter}
+                    identifier='newId'
+                    itemToJSXConverterFunc={spy}
+                    totalItems={items.length} />
+            );
+
+            expect(spy.calledWithMatch(nonJSXItemGetter(0))).toBe(true);
+        });
+
+        it('receives the object index as the second argument', () => {
+            const spy = sandbox.spy(newItemToJSX);
+            const element = render(
+                <UIPagination
+                    getItem={nonJSXItemGetter}
+                    identifier='newId'
+                    itemToJSXConverterFunc={spy}
+                    numItemsPerPage={10}
+                    totalItems={items.length} />
+            );
+
+            expect(spy.calledWithMatch(sinon.match.object, 6)).toBe(true);
+        });
+    });
+
     describe('JSX items', () => {
         let element;
 

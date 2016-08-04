@@ -25,26 +25,26 @@ class Item extends UIView {
     static internal_keys = Object.keys(Item.propTypes)
 
     state = {
-        data: this.maybeConvertToJSX(this.props.data),
+        data: this.maybeConvertToJSX(this.props.data, this.props.index),
     }
 
     mounted = false
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            this.setState({data: this.maybeConvertToJSX(nextProps.data)});
+            this.setState({data: this.maybeConvertToJSX(nextProps.data, nextProps.index)});
         }
     }
 
-    maybeConvertToJSX(data) {
-        return data instanceof Promise ? data : this.props.itemToJSXConverterFunc(data);
+    maybeConvertToJSX(data, index) {
+        return data instanceof Promise ? data : this.props.itemToJSXConverterFunc(data, index);
     }
 
     waitForContentIfNecessary() {
         if (this.state.data instanceof Promise) {
             this.state.data.then(function cautiouslySetItemData(promise, value) {
                 if (this.mounted && this.state.data === promise) {
-                    this.setState({data: this.props.itemToJSXConverterFunc(value)});
+                    this.setState({data: this.props.itemToJSXConverterFunc(value, this.props.index)});
                 } // only replace if we're looking at the same promise, otherwise do nothing
             }.bind(this, this.state.data));
         }
@@ -313,6 +313,7 @@ export default class UIPagination extends UIView {
 
     renderItems() {
         const props = this.props.listWrapperProps;
+        const indexOffset = this.props.numItemsPerPage * (this.state.currentPage - 1);
 
         return (
             <UIArrowKeyNavigation
@@ -329,7 +330,7 @@ export default class UIPagination extends UIView {
                             key={index}
                             data={item.data}
                             even={index % 2 === 0}
-                            index={this.state.currentPage - 1 + index}
+                            index={indexOffset + index}
                             itemToJSXConverterFunc={this.props.itemToJSXConverterFunc} />
                     );
                 })}
