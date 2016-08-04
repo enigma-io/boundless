@@ -124,6 +124,9 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 - __identifier__ `String`
   a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data
 
+- __initialPage__ `Number`
+  (default `1`) the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages
+
 - __itemLoadingContent__ `*`
   (default `undefined`) allows for arbitrary content to be rendered into pagination items as they're loading if the backing data is a `Promise`
 
@@ -145,9 +148,6 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 - __numItemsPerPage__ `Number`
   (default `10`) the maximum number of items to be displayed on each page; must be greater than zero
-
-- __pagerPosition__ `Number`
-  (default `1`) the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages
 
 - __position__ `UIPagination.positions['ABOVE'|'BELOW'|'BOTH']`
   (default: `'ABOVE'`) determines whether the pagination controls are displayed above, below, or both above and below the content
