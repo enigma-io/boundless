@@ -267,7 +267,7 @@ describe('UIPagination', () => {
                 <UIPagination
                     {...baseProps}
                     numItemsPerPage={2}
-                    pagerPosition={2} />
+                    initialPage={2} />
             );
 
             element.handleClick(3);
@@ -281,7 +281,7 @@ describe('UIPagination', () => {
                 <UIPagination
                     {...baseProps}
                     numItemsPerPage={2}
-                    pagerPosition={2} />
+                    initialPage={2} />
             );
 
             element.pageToIndex(0);
@@ -293,7 +293,7 @@ describe('UIPagination', () => {
                 <UIPagination
                     {...baseProps}
                     numItemsPerPage={2}
-                    pagerPosition={2} />
+                    initialPage={2} />
             );
 
             element.pageToIndex(-1);
@@ -312,7 +312,7 @@ describe('UIPagination', () => {
                 <UIPagination
                     {...baseProps}
                     numItemsPerPage={2}
-                    pagerPosition={3} />
+                    initialPage={3} />
             );
         });
 
@@ -425,7 +425,7 @@ describe('UIPagination', () => {
         });
 
         it('resets back to the first page when changed', () => {
-            let element = render(<UIPagination {...baseProps} pagerPosition={2} />);
+            let element = render(<UIPagination {...baseProps} initialPage={2} />);
             const currentContent = dom(element.refs.item_0).textContent;
 
             element = render(<UIPagination {...baseProps} identifier='someOtherId' />);
@@ -447,9 +447,9 @@ describe('UIPagination', () => {
         });
     });
 
-    describe('pagerPosition', () => {
+    describe('initialPage', () => {
         it('controls the starting page of the rendered view', () => {
-            const element = render(<UIPagination {...baseProps} pagerPosition={2} />);
+            const element = render(<UIPagination {...baseProps} initialPage={2} />);
             expect(element.currentPage()).toEqual(2);
         });
     });
@@ -519,12 +519,43 @@ describe('UIPagination', () => {
             expect(dom(element.refs.itemList).children.length).toEqual(2);
         });
 
-        it('attempts to keep the leading index in view if changed and the identifier remains the same', () => {
-            let element = render(<UIPagination {...baseProps} numItemsPerPage={2} pagerPosition={2} />);
-            const index = dom(element.refs.item_0).getAttribute('data-index');
+        it('keeps the first visible index in view if changed and the identifier remains the same', () => {
+            // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
+            let element = render(<UIPagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
+            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
 
             element = render(<UIPagination {...baseProps} numItemsPerPage={1} />);
-            expect(dom(element).querySelector(`[data-index="${index}"]`)).not.toBe(null);
+            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+        });
+
+        it('keeps the last paged-to index in view if the user has not paged backward or forward yet', () => {
+            // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
+            let element = render(<UIPagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
+            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+
+            element.pageToIndex(4);
+            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+
+            element = render(<UIPagination {...baseProps} numItemsPerPage={1} />);
+            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+        });
+
+        it('keeps the first visible index in view if the user pages back/forward after programmatic pageToIndex()', () => {
+            // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
+            let element = render(<UIPagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
+            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+
+            element.pageToIndex(4);
+            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+
+            element.handleClick(UIPagination.controls.NEXT);
+            expect(dom(element).querySelector('[data-index="6"]')).not.toBe(null);
+
+            element = render(<UIPagination {...baseProps} numItemsPerPage={1} />);
+            expect(dom(element).querySelector('[data-index="6"]')).not.toBe(null);
+
+            element.handleClick(UIPagination.controls.PREVIOUS);
+            expect(dom(element).querySelector('[data-index="5"]')).not.toBe(null);
         });
     });
 
