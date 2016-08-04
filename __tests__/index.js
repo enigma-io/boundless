@@ -4,7 +4,7 @@ import fs from 'fs';
 describe('exports', () => {
     it('should not have any undefined keys (if failed, the require is probably wrong)', () => {
         Object.keys(global.UIKit).forEach(key => {
-            expect(UIKit).not.toBeUndefined(`${key} is resolving as undefined in exports.js`);
+            expect(UIKit).not.toBeUndefined();
         });
     });
 
@@ -12,17 +12,17 @@ describe('exports', () => {
         // only get folders starting with "UI"
         const folders = fs.readdirSync(__dirname + '/../').filter(name => /^UI/.test(name));
 
-        folders.forEach(name => expect(UIKit[name]).not.toBeUndefined(`${name} is missing in exports.js`));
+        folders.forEach(name => expect(UIKit[name]).not.toBeUndefined());
     });
 
     describe('UIUtils', () => {
         it('should exist', () => {
-            expect(UIKit.UIUtils).not.toBeUndefined('UIKit.UIUtils is missing');
+            expect(UIKit.UIUtils).not.toBeUndefined();
         });
 
         it('should not have any undefined keys (if failed, the require is probably wrong)', () => {
             Object.keys(UIKit.UIUtils).forEach(key => {
-                expect(UIKit.UIUtils[key]).not.toBeUndefined(`UIUtils/${key} is resolving as undefined in exports.js`);
+                expect(UIKit.UIUtils[key]).not.toBeUndefined();
             });
         });
     });
@@ -34,7 +34,7 @@ describe('exports', () => {
 
         it('should not have any undefined keys (if failed, the require is probably wrong)', () => {
             Object.keys(global.UIKit).forEach(key => {
-                expect(UIKit).not.toBeUndefined(`global.UIKit.${key} is resolving as undefined in exports.js`);
+                expect(UIKit).not.toBeUndefined();
             });
         });
 
@@ -43,7 +43,7 @@ describe('exports', () => {
             const folders = fs.readdirSync(__dirname + '/../').filter(name => /^UI/.test(name));
 
             folders.forEach(name => {
-                expect(global.UIKit[name]).not.toBeUndefined(`${name} is missing from the global export in exports.js`);
+                expect(global.UIKit[name]).not.toBeUndefined();
             });
         });
     })
