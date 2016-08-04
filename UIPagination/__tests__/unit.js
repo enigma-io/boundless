@@ -407,19 +407,31 @@ describe('UIPagination', () => {
 
     describe('identifier', () => {
         it('resets the view when changed', () => {
-            let element = render(<UIPagination {...baseProps} pagerPosition={2} />);
+            let element;
 
-            expect(dom(element.refs.item_0).textContent).toBe('Lorna Fernandez');
+            element = render(<UIPagination {...baseProps} />);
+            expect(dom(element.refs.item_0).textContent).toBe('Louise Francisco');
 
             element = render(
                 <UIPagination
+                    {...baseProps}
                     getItem={altItemGetter}
-                    identifier='newId'
+                    identifier='someOtherId'
                     totalItems={altItems.length} />
             );
 
             expect(element.currentPage()).toEqual(1);
             expect(dom(element.refs.item_0).textContent).toBe('Lorraine Fernandez');
+        });
+
+        it('resets back to the first page when changed', () => {
+            let element = render(<UIPagination {...baseProps} pagerPosition={2} />);
+            const currentContent = dom(element.refs.item_0).textContent;
+
+            element = render(<UIPagination {...baseProps} identifier='someOtherId' />);
+
+            expect(element.currentPage()).toEqual(1);
+            expect(dom(element.refs.item_0).textContent).not.toBe(currentContent);
         });
     });
 
@@ -505,6 +517,14 @@ describe('UIPagination', () => {
         it('controls the number of items rendered per page', () => {
             const element = render(<UIPagination {...baseProps} numItemsPerPage={2} />);
             expect(dom(element.refs.itemList).children.length).toEqual(2);
+        });
+
+        it('attempts to keep the leading index in view if changed and the identifier remains the same', () => {
+            let element = render(<UIPagination {...baseProps} numItemsPerPage={2} pagerPosition={2} />);
+            const index = dom(element.refs.item_0).getAttribute('data-index');
+
+            element = render(<UIPagination {...baseProps} numItemsPerPage={1} />);
+            expect(dom(element).querySelector(`[data-index="${index}"]`)).not.toBe(null);
         });
     });
 

@@ -173,6 +173,10 @@ export default class UIPagination extends UIView {
         numberOfPages: Math.ceil(this.props.totalItems / this.props.numItemsPerPage),
     }
 
+    getFirstVisibleItemIndex() {
+        return (this.state.currentPage - 1) * this.props.numItemsPerPage;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.currentPage !== this.state.currentPage) {
             findDOMNode(this.refs.item_0).focus();
@@ -181,13 +185,16 @@ export default class UIPagination extends UIView {
 
     componentWillReceiveProps(nextProps) {
         const numberOfPages = Math.ceil(nextProps.totalItems / nextProps.numItemsPerPage);
+        const currentFirstIndex = this.getFirstVisibleItemIndex();
 
         this.setState({
             currentPage:   nextProps.identifier === this.props.identifier
                          ? Math.min(this.state.currentPage, numberOfPages)
                          : 1,
             numberOfPages: numberOfPages,
-        });
+
+           // try to maintain the current items in view if we're looking at the same data source
+        }, nextProps.identifier === this.props.identifier ? () => this.pageToIndex(currentFirstIndex) : undefined);
     }
 
     currentPage = () => this.state.currentPage
@@ -279,12 +286,12 @@ export default class UIPagination extends UIView {
         return options;
     }
 
-    generateItems(currentPage) {
+    generateItems() {
         const generatedItems = [];
-        const firstItemIndex = (currentPage - 1) * this.props.numItemsPerPage;
+        const firstItemIndex = this.getFirstVisibleItemIndex();
         const lastItemIndex = Math.min(this.props.totalItems, firstItemIndex + this.props.numItemsPerPage) - 1;
 
-        for (let i = firstItemIndex; i <= lastItemIndex; i++) {
+        for (let i = firstItemIndex; i <= lastItemIndex; i += 1) {
             generatedItems.push({data: this.props.getItem(i)});
         }
 
@@ -312,7 +319,7 @@ export default class UIPagination extends UIView {
             pageNumber = parseInt(value, 10);
         }
 
-        this.setState({ currentPage: pageNumber });
+        this.setState({currentPage: pageNumber});
     }
 
     renderItems() {
@@ -327,7 +334,7 @@ export default class UIPagination extends UIView {
                     'ui-pagination-items': true,
                     [props.className]: !!props.className,
                 })}>
-                {this.generateItems(this.state.currentPage).map((item, index) => {
+                {this.generateItems().map((item, index) => {
                     return (
                         <Item
                             ref={`item_${index}`}
