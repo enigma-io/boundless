@@ -149,7 +149,10 @@ __Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the tok
   function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with
   what the new selection should be
 
-- __showTokenClose__ `Boolean`
+- __tokenCloseComponent__ `ReactElement`
+  (default `<div>X</div>`) the JSX used for the close button itself
+
+- __tokenCloseVisible__ `Boolean`
   (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
 
 - __tokens__ `Array<Number>`
