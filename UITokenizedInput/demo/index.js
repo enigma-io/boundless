@@ -289,7 +289,7 @@ export default class UITokenizedInputDemo extends UIView {
                     handleRemoveTokens={this.removeTokensByEntityIndexes}
                     handleNewSelection={this.handleSelectionByEntityIndexes}
                     hint={true}
-                    showTokenClose={true}
+                    tokenCloseComponent={<span>ⓧ</span>}
                     tokens={this.state.tokens}
                     tokensSelected={this.state.tokensSelected} />
             </div>

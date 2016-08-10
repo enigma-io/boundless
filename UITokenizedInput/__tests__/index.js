@@ -26,105 +26,114 @@ describe('UITokenizedInput', () => {
         conformanceChecker(render, UITokenizedInput);
     });
 
-    describe('accepts', () => {
-        it('arbitrary HTML attributes via props.inputProps', () => {
-            const element = render(<UITokenizedInput inputProps={{'data-id': 'foo'}} />);
-            const node = element.refs.typeahead.getInputNode();
+    it('accepts arbitrary HTML attributes via props.inputProps', () => {
+        const element = render(<UITokenizedInput inputProps={{'data-id': 'foo'}} />);
+        const node = element.refs.typeahead.getInputNode();
 
-            expect(node.getAttribute('data-id')).toBe('foo');
-        });
+        expect(node.getAttribute('data-id')).toBe('foo');
+    });
 
-        it('additional classes via props.inputProps.className', () => {
-            const element = render(<UITokenizedInput inputProps={{className: 'foo'}} />);
-            const node = element.refs.typeahead.getInputNode();
+    it('accepts additional classes via props.inputProps.className', () => {
+        const element = render(<UITokenizedInput inputProps={{className: 'foo'}} />);
+        const node = element.refs.typeahead.getInputNode();
 
-            expect(node.classList.contains('foo')).toBe(true);
-        });
+        expect(node.classList.contains('foo')).toBe(true);
+    });
 
-        it('an additional class as a string without replacing the core hook', () => {
-            const element = render(<UITokenizedInput className='foo' />);
-            const node = element.refs.wrapper;
+    it('accepts an additional class as a string without replacing the core hook', () => {
+        const element = render(<UITokenizedInput className='foo' />);
+        const node = element.refs.wrapper;
 
-            ['ui-tokenfield-wrapper', 'foo'].forEach(name => {
-                expect(node.classList.contains(name)).toBe(true);
+        ['ui-tokenfield-wrapper', 'foo'].forEach(name => {
+            expect(node.classList.contains(name)).toBe(true);
 
-            });
         });
     });
 
-    describe('CSS hook', () => {
-        it('ui-tokenfield-wrapper is rendered', () => {
-            const element = render(<UITokenizedInput />);
-            const node = element.refs.wrapper;
+    it('accepts custom close token JSX', () => {
+        const element = render(
+            <UITokenizedInput
+                entities={entities}
+                tokens={[0]}
+                tokenCloseComponent={<span>foo</span>} />
+        );
 
-            expect(node.className).toContain('ui-tokenfield-wrapper');
-        });
+        const node = element.refs.wrapper;
 
-        it('ui-tokenfield is rendered', () => {
-            const element = render(<UITokenizedInput />);
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield');
+        expect(node.querySelector('.ui-tokenfield-token-close').textContent).toBe('foo');
+    });
 
-            expect(node).not.toBe(null);
-        });
+    it('renders .ui-tokenfield-wrapper', () => {
+        const element = render(<UITokenizedInput />);
+        const node = element.refs.wrapper;
 
-        it('ui-tokenfield-tokens is rendered', () => {
-            const element = render(<UITokenizedInput />);
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield-tokens');
+        expect(node.className).toContain('ui-tokenfield-wrapper');
+    });
 
-            expect(node).not.toBe(null);
-        });
+    it('renders .ui-tokenfield', () => {
+        const element = render(<UITokenizedInput />);
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield');
 
-        it('ui-tokenfield-token is rendered', () => {
-            const element = render(
-                <UITokenizedInput
-                    entities={entities}
-                    tokens={[0]} />
-            );
+        expect(node).not.toBe(null);
+    });
 
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token');
+    it('renders .ui-tokenfield-tokens', () => {
+        const element = render(<UITokenizedInput />);
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield-tokens');
 
-            expect(node).not.toBe(null);
-        });
+        expect(node).not.toBe(null);
+    });
 
-        it('ui-tokenfield-token-selected is rendered', () => {
-            const element = render(
-                <UITokenizedInput
-                    entities={entities}
-                    tokens={[0]}
-                    tokensSelected={[0]} />
-            );
+    it('renders .ui-tokenfield-token', () => {
+        const element = render(
+            <UITokenizedInput
+                entities={entities}
+                tokens={[0]} />
+        );
 
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-selected');
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token');
 
-            expect(node).not.toBe(null);
-        });
+        expect(node).not.toBe(null);
+    });
 
-        it('ui-tokenfield-token-close is rendered', () => {
-            const element = render(
-                <UITokenizedInput
-                    entities={entities}
-                    tokens={[0]}
-                    tokensSelected={[0]} />
-            );
+    it('renders .ui-tokenfield-token-selected', () => {
+        const element = render(
+            <UITokenizedInput
+                entities={entities}
+                tokens={[0]}
+                tokensSelected={[0]} />
+        );
 
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-selected');
 
-            expect(node).not.toBe(null);
-        });
+        expect(node).not.toBe(null);
+    });
 
-        it('ui-tokenfield-token-close is not rendered if `showTokenClose` is `false`', () => {
-            const element = render(
-                <UITokenizedInput
-                    entities={entities}
-                    showTokenClose={false}
-                    tokens={[0]}
-                    tokensSelected={[0]} />
-            );
+    it('renders .ui-tokenfield-token-close', () => {
+        const element = render(
+            <UITokenizedInput
+                entities={entities}
+                tokens={[0]}
+                tokensSelected={[0]} />
+        );
 
-            const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
 
-            expect(node).toBe(null);
-        });
+        expect(node).not.toBe(null);
+    });
+
+    it('does not render .ui-tokenfield-token-close if `tokenCloseVisible` is `false`', () => {
+        const element = render(
+            <UITokenizedInput
+                entities={entities}
+                tokenCloseVisible={false}
+                tokens={[0]}
+                tokensSelected={[0]} />
+        );
+
+        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
+
+        expect(node).toBe(null);
     });
 
     describe('props.tokens', () => {
@@ -135,8 +144,8 @@ describe('UITokenizedInput', () => {
                     tokens={[0, 1]} />
             );
 
-            expect(element.refs['token_0'].textContent).toBe('apple');
-            expect(element.refs['token_1'].textContent).toBe('apricot');
+            expect(element.refs['token_0'].textContent).toContain('apple');
+            expect(element.refs['token_1'].textContent).toContain('apricot');
         });
 
         it('clears the input when a new token is added', () => {

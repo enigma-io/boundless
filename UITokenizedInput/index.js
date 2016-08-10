@@ -22,9 +22,10 @@ export default class UITokenizedInput extends UIView {
         handleAddToken: React.PropTypes.func,
         handleRemoveTokens: React.PropTypes.func,
         handleNewSelection: React.PropTypes.func,
+        tokenCloseComponent: React.PropTypes.element,
+        tokenCloseVisible: React.PropTypes.bool,
         tokens: React.PropTypes.arrayOf(React.PropTypes.number),
         tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
-        showTokenClose: React.PropTypes.bool,
     }
 
     static internal_keys = Object.keys(UITokenizedInput.propTypes)
@@ -34,9 +35,10 @@ export default class UITokenizedInput extends UIView {
         handleAddToken: noop,
         handleRemoveTokens: noop,
         handleNewSelection: noop,
+        tokenCloseComponent: (<div>X</div>),
+        tokenCloseVisible: true,
         tokens: [],
         tokensSelected: [],
-        showTokenClose: true,
     }
 
     componentDidUpdate(prevProps) {
@@ -196,15 +198,21 @@ export default class UITokenizedInput extends UIView {
 
         this.remove(index);
         this.focus();
+
+        if (this.props.tokenCloseComponent.props.onClick) {
+            this.props.tokenCloseComponent.props.onClick(event);
+        }
     }
 
     renderTokenClose(index) {
-        if (this.props.showTokenClose) {
-            return (
-                <div
-                    className='ui-tokenfield-token-close'
-                    onClick={this.handleTokenCloseClick.bind(this, index)} />
-            );
+        if (this.props.tokenCloseVisible) {
+            return React.cloneElement(this.props.tokenCloseComponent, {
+                className: cx({
+                    'ui-tokenfield-token-close': true,
+                    [this.props.tokenCloseComponent.props.className]: Boolean(this.props.tokenCloseComponent.props.className),
+                }),
+                onClick: this.handleTokenCloseClick.bind(this, index),
+            });
         }
     }
 
