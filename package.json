@@ -9,6 +9,7 @@
   ],
   "main": "es5/exports.js",
   "jsnext:main": "exports.js",
+  "module": "exports.js",
   "dependencies": {
     "classnames": "^2.1.5",
     "enigma-table": "bibliotech/table#1.2.0",
