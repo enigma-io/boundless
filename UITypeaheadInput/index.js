@@ -181,7 +181,7 @@ export default class UITypeaheadInput extends UIView {
     focus = () => this.getInputNode().focus()
     getValue = () => this.refs.input.getValue()
 
-    setValue = (value) => {
+    setValue = (value = '') => {
         this.refs.input.setValue(value);
 
         this.setState({input: value});
