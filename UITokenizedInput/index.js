@@ -140,7 +140,6 @@ export default class UITokenizedInput extends UIView {
         this.clearSelection();
 
         if (typeof this.props.inputProps.onClick === 'function') {
-            event.persist();
             this.props.inputProps.onClick(event);
         }
     }
@@ -149,7 +148,6 @@ export default class UITokenizedInput extends UIView {
         this.clearSelection();
 
         if (typeof this.props.inputProps.onFocus === 'function') {
-            event.persist();
             this.props.inputProps.onFocus(event);
         }
     }
@@ -187,7 +185,6 @@ export default class UITokenizedInput extends UIView {
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }

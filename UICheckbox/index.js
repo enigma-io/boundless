@@ -66,7 +66,6 @@ export default class UICheckbox extends UIView {
         this.props[!this.props.inputProps.checked ? 'onChecked' : 'onUnchecked'](this.props.inputProps.name);
 
         if (typeof this.props.inputProps.onChange === 'function') {
-            event.persist();
             this.props.inputProps.onChange(event);
         }
     }
@@ -77,7 +76,6 @@ export default class UICheckbox extends UIView {
         this.refs.input.focus();
 
         if (typeof this.props.inputProps.onClick === 'function') {
-            event.persist();
             this.props.inputProps.onClick(event);
         }
     }

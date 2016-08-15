@@ -98,7 +98,6 @@ export default class UIDialog extends UIView {
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }

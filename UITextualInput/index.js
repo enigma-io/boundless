@@ -67,7 +67,6 @@ export default class UITextualInput extends UIView {
         this.setState({is_focused: false});
 
         if (is_function(this.props.inputProps.onBlur) === true) {
-            event.persist();
             this.props.inputProps.onBlur(event);
         }
     }
@@ -76,7 +75,6 @@ export default class UITextualInput extends UIView {
         this.setState({is_focused: true});
 
         if (is_function(this.props.inputProps.onFocus) === true) {
-            event.persist();
             this.props.inputProps.onFocus(event);
         }
     }
@@ -90,7 +88,6 @@ export default class UITextualInput extends UIView {
         }
 
         if (is_function(this.props.inputProps.onChange) === true) {
-            event.persist();
             this.props.inputProps.onChange(event);
         }
     }

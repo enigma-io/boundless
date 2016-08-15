@@ -417,6 +417,20 @@ describe('UITypeaheadInput', () => {
                 expect(stub.calledOnce).toBe(true);
                 expect(stub.calledWith('ap')).toBe(true);
             });
+
+            it('passes the event as the second argument in the onComplete handler', () => {
+                const stub = sandbox.stub();
+                const element = render(
+                    <UITypeaheadInput
+                        onComplete={stub}
+                        inputProps={{defaultValue: 'ap'}} />
+                );
+
+                element.handleKeyDown({key: 'Enter', nativeEvent: {preventDefault: noop}});
+
+                expect(stub.calledOnce).toBe(true);
+                expect(stub.calledWith('ap', sinon.match.object)).toBe(true);
+            });
         });
     });
 

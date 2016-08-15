@@ -49,7 +49,6 @@ export default class UIProgressiveDisclosure extends UIView {
 
         /* istanbul ignore else */
         if (typeof this.props.toggleProps.onClick === 'function') {
-            event.persist();
             this.props.toggleProps.onClick(event);
         }
     }
@@ -63,7 +62,6 @@ export default class UIProgressiveDisclosure extends UIView {
 
         /* istanbul ignore else */
         if (typeof this.props.toggleProps.onKeyDown === 'function') {
-            event.persist();
             this.props.toggleProps.onKeyDown(event);
         }
     }

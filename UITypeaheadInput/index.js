@@ -315,7 +315,6 @@ export default class UITypeaheadInput extends UIView {
         }
 
         if (typeof this.props.inputProps.onChange === 'function') {
-            event.persist();
             this.props.inputProps.onChange(event);
         }
     }
@@ -367,14 +366,13 @@ export default class UITypeaheadInput extends UIView {
                 event.nativeEvent.preventDefault();
                 this.setValueWithSelectedEntity();
             } else {
-                this.props.onComplete(this.state.input);
+                this.props.onComplete(this.state.input, event);
             }
 
             break;
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }

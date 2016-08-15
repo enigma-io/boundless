@@ -103,7 +103,6 @@ export default class UISegmentedControl extends UIView {
         }
 
         if (typeof option.onBlur === 'function') {
-            event.persist();
             option.onBlur(event);
         }
     }
@@ -112,7 +111,6 @@ export default class UISegmentedControl extends UIView {
         this.props.onOptionSelected(option.value);
 
         if (typeof option.onClick === 'function') {
-            event.persist();
             option.onClick(event);
         }
     }
@@ -121,7 +119,6 @@ export default class UISegmentedControl extends UIView {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
 
         if (typeof option.onFocus === 'function') {
-            event.persist();
             option.onFocus(event);
         }
     }
@@ -142,7 +139,6 @@ export default class UISegmentedControl extends UIView {
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }

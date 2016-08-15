@@ -82,7 +82,6 @@ export default class UIArrowKeyNavigation extends UIView {
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }
@@ -95,7 +94,6 @@ export default class UIArrowKeyNavigation extends UIView {
         event.stopPropagation();
 
         if (typeof child !== 'string' && typeof child.props.onBlur === 'function') {
-            event.persist();
             child.props.onBlur(event);
         }
     }
@@ -106,7 +104,6 @@ export default class UIArrowKeyNavigation extends UIView {
         event.stopPropagation();
 
         if (typeof child !== 'string' && typeof child.props.onFocus === 'function') {
-            event.persist();
             child.props.onFocus(event);
         }
     }

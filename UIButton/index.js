@@ -22,7 +22,6 @@ export default class UIButton extends UIView {
     };
 
     toggleState(event) {
-        event.persist();
         this.props[this.props.pressed ? 'onUnpressed' : 'onPressed'](event);
     }
 
@@ -32,7 +31,6 @@ export default class UIButton extends UIView {
         this.toggleState(event);
 
         if (typeof this.props.onClick === 'function') {
-            event.persist();
             this.props.onClick(event);
         }
     }
@@ -48,7 +46,6 @@ export default class UIButton extends UIView {
         }
 
         if (typeof this.props.onKeyDown === 'function') {
-            event.persist();
             this.props.onKeyDown(event);
         }
     }

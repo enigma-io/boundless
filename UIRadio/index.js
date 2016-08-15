@@ -40,7 +40,6 @@ export default class UIRadio extends UIView {
 
         /* istanbul ignore else */
         if (typeof this.props.inputProps.onChange === 'function') {
-            event.persist();
             this.props.inputProps.onChange(event);
         }
     }

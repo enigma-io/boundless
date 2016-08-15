@@ -169,11 +169,11 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
     - __matchWrapperProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
 
-- __onEntityHighlighted__ `Function`
+- __onEntityHighlighted__ `Function(index: number)`
   called with the index of the highlighted entity due to keyboard selection
 
-- __onEntitySelected__ `Function`
+- __onEntitySelected__ `Function(index: number)`
   called with the index of the entity selected by the user
 
-- __onComplete__ `Function`
+- __onComplete__ `Function(value: string, event: object)`
   called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
