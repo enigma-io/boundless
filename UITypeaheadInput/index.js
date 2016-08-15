@@ -99,7 +99,7 @@ export default class UITypeaheadInput extends UIView {
         }
 
         if (nextProps.inputProps.value !== this.props.inputProps.value) {
-            this.setState({input: nextProps.inputProps.value});
+            this.setState({input: nextProps.inputProps.value || ''});
         }
     }
 
@@ -311,7 +311,7 @@ export default class UITypeaheadInput extends UIView {
 
     handleChange = (event) => {
         if (this.state.is_controlled === false) {
-            this.setState({input: event.target.value}, () => this.computeMatches());
+            this.setState({input: event.target.value || ''}, () => this.computeMatches());
         }
 
         if (typeof this.props.inputProps.onChange === 'function') {
