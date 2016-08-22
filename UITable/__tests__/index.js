@@ -21,7 +21,7 @@ const rowsAlt = [{"id":1,"first_name":"Lana","last_name":"Fernandez","job_title"
 
 const altRowGetter = index => rowsAlt[index];
 
-const columns = [{title:'FirstName',mapping:'first_name',resizable:true,width: 100},{title:'LastName',mapping:'last_name',resizable:true,width: 100},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true,width: 100},{title:'EmailAddress',mapping:'email',resizable:true,width: 100},{title:'StreetAddress',mapping:'address1',resizable:true,width: 100},{title:'City',mapping:'city',resizable:true,width: 100},{title:'Country',mapping:'country',resizable:true,width: 100},{title:'CountryCode',mapping:'country_code',resizable:true,width: 100}];
+const columns = [{title:'FirstName',mapping:'first_name',resizable:true},{title:'LastName',mapping:'last_name',resizable:true},{width:100,title:'JobTitle',mapping:'job_title',resizable:true},{title:'Phone',mapping:'phone',resizable:true},{title:'EmailAddress',mapping:'email',resizable:true},{title:'StreetAddress',mapping:'address1',resizable:true},{title:'City',mapping:'city',resizable:true},{title:'Country',mapping:'country',resizable:true},{title:'CountryCode',mapping:'country_code',resizable:true}];
 
 const baseProps = {
     identifier: 'foo',
