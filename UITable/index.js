@@ -27,7 +27,7 @@ function didColumnsChange(current_columns, prev_columns, table_internal_columns)
         return    column.mapping !== prev_columns[index].mapping
                || column.title !== prev_columns[index].title
                || column.resizable !== prev_columns[index].resizable
-               || column.width !== table_internal_columns[index].width;
+               || (column.width !== undefined && column.width !== table_internal_columns[index].width);
     });
 }
 
