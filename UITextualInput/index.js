@@ -1,13 +1,10 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
+import isFunction from '../UIUtils/isFunction';
+import isString from '../UIUtils/isString';
 
-import UIView from '../UIView';
-
-const is_function = test => typeof test === 'function';
-const is_string = test => typeof test === 'string';
-
-export default class UITextualInput extends UIView {
+export default class UITextualInput extends React.PureComponent {
     static propTypes = {
         hidePlaceholderOnFocus: PropTypes.bool,
         inputProps: PropTypes.shape({
@@ -21,7 +18,7 @@ export default class UITextualInput extends UIView {
         }),
     }
 
-    static internal_keys = Object.keys(UITextualInput.propTypes)
+    static internalKeys = Object.keys(UITextualInput.propTypes)
 
     static defaultProps = {
         hidePlaceholderOnFocus: true,
@@ -32,21 +29,21 @@ export default class UITextualInput extends UIView {
 
     state = {
         input: '',
-        is_controlled: is_string(this.props.inputProps.value),
-        is_focused: false,
+        isControlled: isString(this.props.inputProps.value),
+        isFocused: false,
     }
 
     componentWillMount() {
-        if (this.state.is_controlled === true) {
+        if (this.state.isControlled === true) {
             return this.setState({input: this.props.inputProps.value || ''});
         }
 
         this.setState({input: this.props.inputProps.defaultValue || ''});
     }
 
-    componentWillReceiveProps(next_props) {
-        if (next_props.inputProps.value !== this.props.inputProps.value) {
-            this.setState({input: next_props.inputProps.value});
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.inputProps.value !== this.props.inputProps.value) {
+            this.setState({input: nextProps.inputProps.value});
         }
     }
 
@@ -54,27 +51,27 @@ export default class UITextualInput extends UIView {
         return this.refs.field.value;
     }
 
-    setValue(next_value) {
-        if (this.state.is_controlled === true) {
+    setValue(nextValue) {
+        if (this.state.isControlled === true) {
             return console.warn('UITextualInput: a controlled component should be updated by changing its `props.value` or `props.inputProps.value`, not via programmatic methods.');
         }
 
-        this.refs.field.value = next_value;
-        this.setState({input: next_value});
+        this.refs.field.value = nextValue;
+        this.setState({input: nextValue});
     }
 
     handleBlur = event => {
-        this.setState({is_focused: false});
+        this.setState({isFocused: false});
 
-        if (is_function(this.props.inputProps.onBlur) === true) {
+        if (isFunction(this.props.inputProps.onBlur) === true) {
             this.props.inputProps.onBlur(event);
         }
     }
 
     handleFocus = event => {
-        this.setState({is_focused: true});
+        this.setState({isFocused: true});
 
-        if (is_function(this.props.inputProps.onFocus) === true) {
+        if (isFunction(this.props.inputProps.onFocus) === true) {
             this.props.inputProps.onFocus(event);
         }
     }
@@ -83,22 +80,22 @@ export default class UITextualInput extends UIView {
         // for "controlled" scenarios, updates to the cached input text should come exclusively via props (cWRP)
         // so it exactly mirrors the current application state, otherwise a re-render will occur before
         // the new text has completed its feedback loop and the cursor position is lost
-        if (this.state.is_controlled === false) {
+        if (this.state.isControlled === false) {
             this.setState({input: event.target.value});
         }
 
-        if (is_function(this.props.inputProps.onChange) === true) {
+        if (isFunction(this.props.inputProps.onChange) === true) {
             this.props.inputProps.onChange(event);
         }
     }
 
     getPlaceholderText() {
-        const is_non_empty = this.state.input !== '';
-        const should_show_placeholder =   this.props.hidePlaceholderOnFocus === true
-                                        ? this.state.is_focused === false && is_non_empty === false
-                                        : is_non_empty === false;
+        const isNonEmpty = this.state.input !== '';
+        const shouldShowPlaceholder =   this.props.hidePlaceholderOnFocus === true
+                                        ? this.state.isFocused === false && isNonEmpty === false
+                                        : isNonEmpty === false;
 
-        return should_show_placeholder ? this.props.inputProps.placeholder : '';
+        return shouldShowPlaceholder ? this.props.inputProps.placeholder : '';
     }
 
     renderPlaceholder() {
@@ -114,7 +111,7 @@ export default class UITextualInput extends UIView {
 
         return (
             <div
-                {...omit(props, UITextualInput.internal_keys)}
+                {...omit(props, UITextualInput.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-textual-input-wrapper': true,

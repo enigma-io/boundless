@@ -7,31 +7,29 @@ import React, {PropTypes} from 'react';
 import omit from 'lodash.omit';
 import Table from 'enigma-table';
 
-import UIView from '../UIView';
-
-function didColumnsChange(current_columns, prev_columns, table_internal_columns) {
+function didColumnsChange(currentColumns, prevColumns, tableInternalColumns) {
     /*
         1. there should be the same number of columns
         2. the columns should exactly match in the proper order
         3. each column property should be exactly the same
      */
 
-    if (current_columns.length !== prev_columns.length) {
+    if (currentColumns.length !== prevColumns.length) {
         return true;
     }
 
     // did the column descriptors change in some way, or did the width change?
     // this will also catch if the order of the columns changed when comparing
     // the mapping property
-    return current_columns.some((column, index) => {
-        return    column.mapping !== prev_columns[index].mapping
-               || column.title !== prev_columns[index].title
-               || column.resizable !== prev_columns[index].resizable
-               || (column.width !== undefined && column.width !== table_internal_columns[index].width);
+    return currentColumns.some((column, index) => {
+        return    column.mapping !== prevColumns[index].mapping
+               || column.title !== prevColumns[index].title
+               || column.resizable !== prevColumns[index].resizable
+               || (column.width !== undefined && column.width !== tableInternalColumns[index].width);
     });
 }
 
-export default class UITable extends UIView {
+export default class UITable extends React.PureComponent {
     static propTypes = {
         columns: PropTypes.arrayOf(
             PropTypes.shape({
@@ -53,7 +51,7 @@ export default class UITable extends UIView {
         totalRows: PropTypes.number,
     }
 
-    static internal_keys = Object.keys(UITable.propTypes)
+    static internalKeys = Object.keys(UITable.propTypes)
 
     static defaultProps = {
         className: '',
@@ -96,34 +94,34 @@ export default class UITable extends UIView {
         this.table = null;
     }
 
-    componentDidUpdate(prev_props) {
+    componentDidUpdate(prevProps) {
         const {props} = this;
-        const changed_props = [];
+        const changedProps = [];
         let key;
 
         /* bidirectional key change detection */
 
         for (key in props) {
-            if (props[key] !== prev_props[key]) {
-                changed_props.push(key);
+            if (props[key] !== prevProps[key]) {
+                changedProps.push(key);
             }
         }
 
-        for (key in prev_props) {
-            if (prev_props[key] !== props[key] && changed_props.indexOf(key) === -1) {
-                changed_props.push(key);
+        for (key in prevProps) {
+            if (prevProps[key] !== props[key] && changedProps.indexOf(key) === -1) {
+                changedProps.push(key);
             }
         }
 
-        if (changed_props.length) {
-            if (changed_props.indexOf('jumpToRowIndex') !== -1) {
+        if (changedProps.length) {
+            if (changedProps.indexOf('jumpToRowIndex') !== -1) {
                 /* jumpToRowIndex already triggers a regeneration, just avoiding running it twice */
                 return this.table.jumpToRowIndex(props.jumpToRowIndex);
             }
 
-            if (changed_props.length === 1 && changed_props[0] === 'columns') {
+            if (changedProps.length === 1 && changedProps[0] === 'columns') {
                 /* did things materially change, or just updating a column width? */
-                if (didColumnsChange(props.columns, prev_props.columns, this.table.columns) === false) {
+                if (didColumnsChange(props.columns, prevProps.columns, this.table.columns) === false) {
                     return;
                 }
             }
@@ -157,7 +155,7 @@ export default class UITable extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UITable.internal_keys)}
+                {...omit(this.props, UITable.internalKeys)}
                 ref='wrapper'
                 className={'ui-table-wrapper ' + this.props.className}
                 data-set-identifier={this.props.identifier}

@@ -7,11 +7,11 @@ import React from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
-export default class UIRadio extends UIView {
+export default class UIRadio extends React.PureComponent {
     static propTypes = {
         inputProps: React.PropTypes.object,
         label: React.PropTypes.node,
@@ -22,7 +22,7 @@ export default class UIRadio extends UIView {
         value: React.PropTypes.string.isRequired,
     }
 
-    static internal_keys = Object.keys(UIRadio.propTypes)
+    static internalKeys = Object.keys(UIRadio.propTypes)
 
     static defaultProps = {
         inputProps: {},
@@ -39,7 +39,7 @@ export default class UIRadio extends UIView {
         }
 
         /* istanbul ignore else */
-        if (typeof this.props.inputProps.onChange === 'function') {
+        if (isFunction(this.props.inputProps.onChange)) {
             this.props.inputProps.onChange(event);
         }
     }
@@ -84,7 +84,7 @@ export default class UIRadio extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UIRadio.internal_keys)}
+                {...omit(this.props, UIRadio.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-radio-wrapper': true,

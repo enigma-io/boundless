@@ -7,11 +7,11 @@ import React, {PropTypes} from 'react';
 import omit from 'lodash.omit';
 import cx from 'classnames';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
-export default class UICheckbox extends UIView {
+export default class UICheckbox extends React.PureComponent {
     static propTypes = {
         inputProps: PropTypes.shape({
             checked: PropTypes.bool,
@@ -30,7 +30,7 @@ export default class UICheckbox extends UIView {
         onUnchecked: PropTypes.func,
     }
 
-    static internal_keys = Object.keys(UICheckbox.propTypes)
+    static internalKeys = Object.keys(UICheckbox.propTypes)
 
     static defaultProps = {
         inputProps: {
@@ -65,7 +65,7 @@ export default class UICheckbox extends UIView {
 
         this.props[!this.props.inputProps.checked ? 'onChecked' : 'onUnchecked'](this.props.inputProps.name);
 
-        if (typeof this.props.inputProps.onChange === 'function') {
+        if (isFunction(this.props.inputProps.onChange)) {
             this.props.inputProps.onChange(event);
         }
     }
@@ -75,7 +75,7 @@ export default class UICheckbox extends UIView {
 
         this.refs.input.focus();
 
-        if (typeof this.props.inputProps.onClick === 'function') {
+        if (isFunction(this.props.inputProps.onClick)) {
             this.props.inputProps.onClick(event);
         }
     }
@@ -124,7 +124,7 @@ export default class UICheckbox extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UICheckbox.internal_keys)}
+                {...omit(this.props, UICheckbox.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-checkbox-wrapper': true,

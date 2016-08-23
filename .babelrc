@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        "transform-class-properties"
+    ],
+    "presets": [
+        "es2015-loose",
+        "react",
+        "stage-2"
+    ]
+}

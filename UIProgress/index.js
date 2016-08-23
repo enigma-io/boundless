@@ -8,9 +8,8 @@ import cx from 'classnames';
 import omit from 'lodash.omit';
 
 import UIButton from '../UIButton';
-import UIView from '../UIView';
 
-export default class UIProgress extends UIView {
+export default class UIProgress extends React.PureComponent {
     static propTypes = {
         cancelProps: React.PropTypes.object,
         label: React.PropTypes.node,
@@ -24,7 +23,7 @@ export default class UIProgress extends UIView {
         tweenProperty: React.PropTypes.string,
     }
 
-    static internal_keys = Object.keys(UIProgress.propTypes)
+    static internalKeys = Object.keys(UIProgress.propTypes)
 
     static defaultProps = {
         cancelProps: {},
@@ -85,7 +84,7 @@ export default class UIProgress extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UIProgress.internal_keys)}
+                {...omit(this.props, UIProgress.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-progress-wrapper': true,

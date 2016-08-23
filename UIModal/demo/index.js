@@ -1,9 +1,8 @@
 import React from 'react';
 import UIButton from '../../UIButton';
 import UIModal from '../index';
-import UIView from '../../UIView';
 
-export default class UIModalDemo extends UIView {
+export default class UIModalDemo extends React.PureComponent {
     state = {
         showModal: false,
     }

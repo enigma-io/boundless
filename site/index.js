@@ -29,9 +29,13 @@ import UITypeaheadInputDemo from '../UITypeaheadInput/demo';
 import NotifyDemo from '../UIUtils/notify/demo';
 
 import UITypeaheadInput from '../UITypeaheadInput';
-import UIView from '../UIView';
 
-import { Router, Route, Link, browserHistory } from 'react-router';
+import {
+    Router,
+    Route,
+    Link,
+    browserHistory,
+} from 'react-router';
 
 const fs = require('fs');
 const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
@@ -44,22 +48,22 @@ const NullComponent = () => <div />;
  */
 
 const pages = {
-    getting_started: {
+    'getting_started': {
         component: NullComponent,
         displayName: 'Getting Started',
         readme: fs.readFileSync(__dirname + '/../GETTING_STARTED.md', 'utf8'),
     },
-    changelog: {
+    'changelog': {
         component: NullComponent,
         displayName: 'Changelog',
         readme: fs.readFileSync(__dirname + '/../CHANGELOG.md', 'utf8'),
     },
-    changelog_policy: {
+    'changelog_policy': {
         component: NullComponent,
         displayName: 'Changelog Policy',
         readme: fs.readFileSync(__dirname + '/../CHANGELOG_policy.md', 'utf8'),
     },
-    contributing: {
+    'contributing': {
         component: NullComponent,
         displayName: 'Contributor Policy',
         readme: fs.readFileSync(__dirname + '/../CONTRIBUTING.md', 'utf8'),
@@ -67,85 +71,81 @@ const pages = {
 };
 
 const components = {
-    UIArrowKeyNavigation: {
+    'UIArrowKeyNavigation': {
         component: UIArrowKeyNavigationDemo,
         readme: fs.readFileSync(__dirname + '/../UIArrowKeyNavigation/README.md', 'utf8'),
     },
-    UIButton: {
+    'UIButton': {
         component: UIButtonDemo,
         readme: fs.readFileSync(__dirname + '/../UIButton/README.md', 'utf8'),
     },
-    UICheckbox: {
+    'UICheckbox': {
         component: UICheckboxDemo,
         readme: fs.readFileSync(__dirname + '/../UICheckbox/README.md', 'utf8'),
     },
-    UICheckboxGroup: {
+    'UICheckboxGroup': {
         component: UICheckboxGroupDemo,
         readme: fs.readFileSync(__dirname + '/../UICheckboxGroup/README.md', 'utf8'),
     },
-    UIDialog: {
+    'UIDialog': {
         component: UIDialogDemo,
         readme: fs.readFileSync(__dirname + '/../UIDialog/README.md', 'utf8'),
     },
-    UIFittedText: {
+    'UIFittedText': {
         component: UIFittedTextDemo,
         readme: fs.readFileSync(__dirname + '/../UIFittedText/README.md', 'utf8'),
     },
-    UIImage: {
+    'UIImage': {
         component: UIImageDemo,
         readme: fs.readFileSync(__dirname + '/../UIImage/README.md', 'utf8'),
     },
-    UIModal: {
+    'UIModal': {
         component: UIModalDemo,
         readme: fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8'),
     },
-    UIPagination: {
+    'UIPagination': {
         component: UIPaginationDemo,
         readme: fs.readFileSync(__dirname + '/../UIPagination/README.md', 'utf8'),
     },
-    UIPopover: {
+    'UIPopover': {
         component: UIPopoverDemo,
         readme: fs.readFileSync(__dirname + '/../UIPopover/README.md', 'utf8'),
     },
-    UIProgress: {
+    'UIProgress': {
         component: UIProgressDemo,
         readme: fs.readFileSync(__dirname + '/../UIProgress/README.md', 'utf8'),
     },
-    UIProgressiveDisclosure: {
+    'UIProgressiveDisclosure': {
         component: UIProgressiveDisclosureDemo,
         readme: fs.readFileSync(__dirname + '/../UIProgressiveDisclosure/README.md', 'utf8'),
     },
-    UIRadio: {
+    'UIRadio': {
         component: UIRadioDemo,
         readme: fs.readFileSync(__dirname + '/../UIRadio/README.md', 'utf8'),
     },
-    UISegmentedControl: {
+    'UISegmentedControl': {
         component: UISegmentedControlDemo,
         readme: fs.readFileSync(__dirname + '/../UISegmentedControl/README.md', 'utf8'),
     },
-    UITable: {
+    'UITable': {
         component: UITableDemo,
         readme: fs.readFileSync(__dirname + '/../UITable/README.md', 'utf8'),
     },
-    UITextualInput: {
+    'UITextualInput': {
         component: UITextualInputDemo,
         readme: fs.readFileSync(__dirname + '/../UITextualInput/README.md', 'utf8'),
     },
-    UITokenizedInput: {
+    'UITokenizedInput': {
         component: UITokenizedInputDemo,
         readme: fs.readFileSync(__dirname + '/../UITokenizedInput/README.md', 'utf8'),
     },
-    UITooltip: {
+    'UITooltip': {
         component: UITooltipDemo,
         readme: fs.readFileSync(__dirname + '/../UITooltip/README.md', 'utf8'),
     },
-    UITypeaheadInput: {
+    'UITypeaheadInput': {
         component: UITypeaheadInputDemo,
         readme: fs.readFileSync(__dirname + '/../UITypeaheadInput/README.md', 'utf8'),
-    },
-    UIView: {
-        component: NullComponent,
-        readme: fs.readFileSync(__dirname + '/../UIView/README.md', 'utf8'),
     },
 };
 
@@ -157,33 +157,20 @@ const utilities = {
     },
 };
 
-class Sidebar extends UIView {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
+class Sidebar extends React.PureComponent {
+    state = {
+        entities: [],
     }
 
-    createSubEntities(path, text, entities, markdown) {
-        const headerTextRegex = /#+\s?([^<]+)/;
-        const headerHashRegex = /#+\s?.*?href="(.*?)"/;
-
-        markdown.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
-            if (line.match(headerHashRegex)) {
-                entities.push({
-                    path: `${path}${line.match(headerHashRegex)[1]}`,
-                    text: `${text} - ${line.match(headerTextRegex)[1]}`,
-                });
-            }
-        });
-    }
-
-    initialState() {
+    componentWillMount() {
         const entities = [];
 
         Object.keys(components).forEach(path => {
             const name = components[path].displayName || path;
 
             entities.push({
-                path: path,
+                'data-path': path,
+                key: path,
                 text: name,
             });
 
@@ -195,7 +182,8 @@ class Sidebar extends UIView {
             const name = pages[page].displayName || page;
 
             entities.push({
-                path: path,
+                'data-path': path,
+                key: path,
                 text: name,
             });
 
@@ -207,14 +195,32 @@ class Sidebar extends UIView {
             const name = utilities[utility].displayName || utility;
 
             entities.push({
-                path: path,
+                'data-path': path,
+                key: path,
                 text: name,
             });
 
             this.createSubEntities(path, name, entities, utilities[utility].readme);
         });
 
-        return {entities};
+        this.setState({entities});
+    }
+
+    createSubEntities(path, text, entities, markdown) {
+        const headerTextRegex = /#+\s?([^<]+)/;
+        const headerHashRegex = /#+\s?.*?href="(.*?)"/;
+
+        markdown.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
+            if (line.match(headerHashRegex)) {
+                const formedPath = `${path}${line.match(headerHashRegex)[1]}`;
+
+                entities.push({
+                    'data-path': formedPath,
+                    key: formedPath,
+                    text: `${text} - ${line.match(headerTextRegex)[1]}`,
+                });
+            }
+        });
     }
 
     preventOverScroll(event) {
@@ -235,18 +241,18 @@ class Sidebar extends UIView {
     }
 
     handleEntitySelected = (index) => {
-        this.context.router.push(this.state.entities[index].path);
+        browserHistory.push(this.state.entities[index]['data-path']);
     }
 
     handleComplete = (value) => {
         if (!value) {
-            return this.context.router.push('');
+            return browserHistory.push('');
         }
 
         const found = this.state.entities.find(entity => entity.text === value);
 
         if (found) {
-            this.context.router.push(found.path);
+            browserHistory.push(found['data-path']);
         }
     }
 
@@ -261,16 +267,17 @@ class Sidebar extends UIView {
 
                 <sub className='ui-demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
 
-                <UITypeaheadInput algorithm={UITypeaheadInput.mode.FUZZY}
-                                  className='ui-demo-header-search'
-                                  entities={this.state.entities}
-                                  onEntitySelected={this.handleEntitySelected}
-                                  onComplete={this.handleComplete}
-                                  inputProps={{
-                                      autoFocus: true,
-                                      placeholder: 'Search for a page...',
-                                  }}
-                                  hint={true} />
+                <UITypeaheadInput
+                    algorithm={UITypeaheadInput.mode.FUZZY}
+                    className='ui-demo-header-search'
+                    entities={this.state.entities}
+                    onEntitySelected={this.handleEntitySelected}
+                    onComplete={this.handleComplete}
+                    inputProps={{
+                        autoFocus: true,
+                        placeholder: 'Search for a page...',
+                    }}
+                    hint={true} />
 
                 <nav className='ui-demo-nav'>
                     <div className='ui-demo-nav-section'>
@@ -296,11 +303,7 @@ class Sidebar extends UIView {
     }
 }
 
-class Container extends UIView {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
-    }
-
+class Container extends React.PureComponent {
     componentDidMount() {
         Prism.highlightAll();
         this.autoscroll();
@@ -333,7 +336,7 @@ class Container extends UIView {
                 && event.target.pathname[0] === '/') {
                 if (event.target.getAttribute('href')[0] !== '#') {
                     event.preventDefault();
-                    this.context.router.push(event.target.pathname);
+                    browserHistory.push(event.target.pathname);
                     document.body.scrollTop = 0;
                 }
             } else {
@@ -344,9 +347,12 @@ class Container extends UIView {
     }
 
     renderDemo() {
-        if (   this.props.children
-            && this.props.children.type !== NullComponent) {
-            return               <article className='ui-demo-section-example'>{this.props.children}</article>;
+        if (this.props.children && this.props.children.type !== NullComponent) {
+            return (
+                <article className='ui-demo-section-example'>
+                    {this.props.children}
+                </article>
+            );
         } // don't render if not a composite
     }
 

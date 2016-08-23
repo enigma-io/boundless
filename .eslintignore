@@ -1,5 +1,4 @@
 coverage/
 public/
-docs/
 es5/
-__tests__/
+**/*.spec.js

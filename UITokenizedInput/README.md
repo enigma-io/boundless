@@ -10,12 +10,10 @@ Basic usage of this component is identical to that of [UITypeaheadInput](../UITy
 ### Example Usage
 
 ```jsx
-import {
-    UITokenizedInput,
-    UIView,
-} from 'enigma-uikit';
+import React from 'react';
+import {UITokenizedInput} from 'enigma-uikit';
 
-class MyTokenField extends UIView {
+class MyTokenField extends React.PureComponent {
     state = {
         list: [
             {text: 'orange'},

@@ -1,9 +1,8 @@
 import React from 'react';
 import notify from '../index';
 import UIButton from '../../../UIButton';
-import UIView from '../../../UIView';
 
-export default class NotifyDemo extends UIView {
+export default class NotifyDemo extends React.PureComponent {
     state = {
         n: 0,
     }

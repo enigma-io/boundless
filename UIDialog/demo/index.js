@@ -1,16 +1,15 @@
+import React from 'react';
+import {findDOMNode} from 'react-dom';
 import UIButton from '../../UIButton';
 import UIDialog from '../index';
-import UIView from '../../UIView';
-import React from 'react';
-import ReactDOM from 'react-dom';
 
-export default class UIDialogDemo extends UIView {
+export default class UIDialogDemo extends React.PureComponent {
     state = {
         showDialog: false,
     }
 
     componentDidMount() {
-        const node = ReactDOM.findDOMNode(this.refs.trigger);
+        const node = findDOMNode(this.refs.trigger);
 
         this.setState({
             leftPosition: node.offsetLeft + node.offsetWidth + 10 + 'px',

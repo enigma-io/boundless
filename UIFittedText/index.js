@@ -8,8 +8,6 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
-
 const instances = [];
 
 function toI(stringNumber) {
@@ -56,7 +54,7 @@ function unregisterInstance(instance) {
     }
 }
 
-export default class UIFittedText extends UIView {
+export default class UIFittedText extends React.PureComponent {
     static defaultProps = {
         maxFontSize: Number.MAX_VALUE,
     }
@@ -69,7 +67,7 @@ export default class UIFittedText extends UIView {
         maxFontSize: React.PropTypes.number,
     }
 
-    static internal_keys = Object.keys(UIFittedText.propTypes)
+    static internalKeys = Object.keys(UIFittedText.propTypes)
 
     componentDidMount() {
         rescale(this);
@@ -89,7 +87,7 @@ export default class UIFittedText extends UIView {
 
     render() {
         return (
-            <span {...omit(this.props, UIFittedText.internal_keys)}
+            <span {...omit(this.props, UIFittedText.internalKeys)}
                   className={cx({
                       'ui-text': true,
                       [this.props.className]: !!this.props.className,

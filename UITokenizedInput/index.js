@@ -8,15 +8,14 @@ import omit from 'lodash.omit';
 import cx from 'classnames';
 
 import UITypeaheadInput from '../UITypeaheadInput';
-import UIView from '../UIView';
-import noop from '../UIUtils/noop';
 import extractChildProps from '../UIUtils/extractChildProps';
-
+import isFunction from '../UIUtils/isFunction';
+import noop from '../UIUtils/noop';
 
 const first = array => array[0];
 const last = array => array[array.length - 1];
 
-export default class UITokenizedInput extends UIView {
+export default class UITokenizedInput extends React.PureComponent {
     static propTypes = {
         ...UITypeaheadInput.propTypes,
         handleAddToken: React.PropTypes.func,
@@ -28,7 +27,7 @@ export default class UITokenizedInput extends UIView {
         tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
     }
 
-    static internal_keys = Object.keys(UITokenizedInput.propTypes)
+    static internalKeys = Object.keys(UITokenizedInput.propTypes)
 
     static defaultProps = {
         ...UITypeaheadInput.defaultProps,
@@ -139,7 +138,7 @@ export default class UITokenizedInput extends UIView {
     handleInputClick = (event) => {
         this.clearSelection();
 
-        if (typeof this.props.inputProps.onClick === 'function') {
+        if (isFunction(this.props.inputProps.onClick)) {
             this.props.inputProps.onClick(event);
         }
     }
@@ -147,7 +146,7 @@ export default class UITokenizedInput extends UIView {
     handleInputFocus = (event) => {
         this.clearSelection();
 
-        if (typeof this.props.inputProps.onFocus === 'function') {
+        if (isFunction(this.props.inputProps.onFocus)) {
             this.props.inputProps.onFocus(event);
         }
     }
@@ -184,7 +183,7 @@ export default class UITokenizedInput extends UIView {
             } // "cmd"
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -256,7 +255,7 @@ export default class UITokenizedInput extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UITokenizedInput.internal_keys)}
+                {...omit(this.props, UITokenizedInput.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-tokenfield-wrapper': true,

@@ -1,8 +1,7 @@
 import React from 'react';
 import UICheckbox from '../index';
-import UIView from '../../UIView';
 
-export default class UICheckboxDemo extends UIView {
+export default class UICheckboxDemo extends React.PureComponent {
     state = {
         checkboxes: [{
             checked: false,

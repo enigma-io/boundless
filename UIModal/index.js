@@ -9,17 +9,16 @@ import cx from 'classnames';
 import omit from 'lodash.omit';
 
 import UIDialog from '../UIDialog';
-import UIView from '../UIView';
 import extractChildProps from '../UIUtils/extractChildProps';
 
-export default class UIModal extends UIView {
+export default class UIModal extends React.PureComponent {
     static propTypes = {
         ...UIDialog.propTypes,
         maskProps: React.PropTypes.object,
         modalProps: React.PropTypes.object,
     }
 
-    static internal_keys = Object.keys(UIModal.propTypes)
+    static internalKeys = Object.keys(UIModal.propTypes)
 
     static defaultProps = {
         ...UIDialog.defaultProps,
@@ -55,7 +54,7 @@ export default class UIModal extends UIView {
         this.updateInternalModalCache(
             ReactDOM.render(
                 <div
-                    {...omit(props, UIModal.internal_keys)}
+                    {...omit(props, UIModal.internalKeys)}
                     className={cx({
                         'ui-modal-wrapper': true,
                         [props.className]: !!props.className,

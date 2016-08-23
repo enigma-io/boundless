@@ -1,11 +1,10 @@
 import React from 'react';
 import UIButton from '../../UIButton';
 import UIProgress from '../index';
-import UIView from '../../UIView';
 import {each} from 'lodash';
 import transformProp from '../../UIUtils/transformProperty';
 
-export default class UIProgressDemo extends UIView {
+export default class UIProgressDemo extends React.PureComponent {
     state = {
         barProgress: 0,
         meterProgress: 0,

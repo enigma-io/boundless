@@ -8,9 +8,8 @@ import cx from 'classnames';
 import omit from 'lodash.omit';
 
 import noop from '../UIUtils/noop';
-import UIView from '../UIView';
 
-export default class UIImage extends UIView {
+export default class UIImage extends React.PureComponent {
     static status = {
         LOADING: 'LOADING',
         LOADED: 'LOADED',
@@ -25,7 +24,7 @@ export default class UIImage extends UIView {
         statusProps: React.PropTypes.object,
     }
 
-    static internal_keys = Object.keys(UIImage.propTypes)
+    static internalKeys = Object.keys(UIImage.propTypes)
 
     static defaultProps = {
         imageProps: {},
@@ -123,7 +122,7 @@ export default class UIImage extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UIImage.internal_keys)}
+                {...omit(this.props, UIImage.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-image-wrapper': true,

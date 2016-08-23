@@ -105,7 +105,7 @@
         "brace-style": [2, "1tbs", {"allowSingleLine": true}],
         "quotes": [2, "single", "avoid-escape"],
         "jsx-quotes": [2, "prefer-single"],
-        "camelcase": 0,
+        "camelcase": 2,
         "comma-spacing": [2, {
             "before": false,
             "after": true

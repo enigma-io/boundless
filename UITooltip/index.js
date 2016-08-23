@@ -7,9 +7,7 @@ import React from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
-
-export default class UITooltip extends UIView {
+export default class UITooltip extends React.PureComponent {
     static position = {
         ABOVE: 'ABOVE',
         BELOW: 'BELOW',
@@ -22,7 +20,7 @@ export default class UITooltip extends UIView {
         text: React.PropTypes.string,
     }
 
-    static internal_keys = Object.keys(UITooltip.propTypes)
+    static internalKeys = Object.keys(UITooltip.propTypes)
 
     static defaultProps = {
         position: UITooltip.position.ABOVE,
@@ -33,7 +31,7 @@ export default class UITooltip extends UIView {
 
         return (
             <div
-                {...omit(this.props, UITooltip.internal_keys)}
+                {...omit(this.props, UITooltip.internalKeys)}
                 className={cx({
                     'ui-tooltip': true,
                     'ui-tooltip-position-above': position === UITooltip.position.ABOVE,

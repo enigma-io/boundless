@@ -7,11 +7,11 @@ import React from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
-export default class UIDialog extends UIView {
+export default class UIDialog extends React.PureComponent {
     static propTypes = {
         bodyProps: React.PropTypes.object,
         captureFocus: React.PropTypes.bool,
@@ -27,7 +27,7 @@ export default class UIDialog extends UIView {
         onClose: React.PropTypes.func,
     }
 
-    static internal_keys = Object.keys(UIDialog.propTypes)
+    static internalKeys = Object.keys(UIDialog.propTypes)
 
     static defaultProps = {
         bodyProps: {},
@@ -42,8 +42,8 @@ export default class UIDialog extends UIView {
     }
 
     // fallbacks if one isn't passed
-    uuid_header = uuid()
-    uuid_body = uuid()
+    uuidHeader = uuid()
+    uuidBody = uuid()
 
     componentDidMount() {
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
@@ -97,7 +97,7 @@ export default class UIDialog extends UIView {
             window.setTimeout(() => this.props.onClose(), 0);
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -118,7 +118,7 @@ export default class UIDialog extends UIView {
         return (
             <div
                 {...this.props.bodyProps}
-                id={this.props.bodyProps.id || this.uuid_body}
+                id={this.props.bodyProps.id || this.uuidBody}
                 className={cx({
                    'ui-dialog-body': true,
                    [this.props.bodyProps.className]: !!this.props.bodyProps.className,
@@ -148,7 +148,7 @@ export default class UIDialog extends UIView {
             return (
                 <header
                     {...this.props.headerProps}
-                    id={this.props.headerProps.id || this.uuid_header}
+                    id={this.props.headerProps.id || this.uuidHeader}
                     className={cx({
                         'ui-dialog-header': true,
                         [this.props.headerProps.className]: !!this.props.headerProps.className,
@@ -173,7 +173,7 @@ export default class UIDialog extends UIView {
                 {this.renderFocusBoundary()}
 
                 <div
-                    {...omit(this.props, UIDialog.internal_keys)}
+                    {...omit(this.props, UIDialog.internalKeys)}
                     ref={node => (this.$dialog = node)}
                     className={cx({
                         'ui-dialog': true,
@@ -181,8 +181,8 @@ export default class UIDialog extends UIView {
                     })}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
-                    aria-labelledby={this.uuid_header}
-                    aria-describedby={this.uuid_body}
+                    aria-labelledby={this.uuidHeader}
+                    aria-describedby={this.uuidBody}
                     tabIndex='0'>
                     {this.renderHeader()}
                     {this.renderBody()}

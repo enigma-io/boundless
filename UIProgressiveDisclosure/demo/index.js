@@ -1,8 +1,7 @@
 import React from 'react';
 import UIProgressiveDisclosure from '../index';
-import UIView from '../../UIView';
 
-export default class UIProgressiveDisclosureDemo extends UIView {
+export default class UIProgressiveDisclosureDemo extends React.PureComponent {
     render() {
         return (
             <UIProgressiveDisclosure

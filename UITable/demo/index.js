@@ -1,12 +1,11 @@
 import React from 'react';
 import UITable from '../index';
 import UISegmentedControl from '../../UISegmentedControl';
-import UIView from '../../UIView';
 
 const json = require('./fixture.json');
 const json2 = require('./fixture.columnar.json');
 
-export default class UITableDemo extends UIView {
+export default class UITableDemo extends React.PureComponent {
     state = {
         options: [{
             id: 'table_a',

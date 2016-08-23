@@ -1,8 +1,7 @@
 import React from 'react';
 import UIRadio from '../index';
-import UIView from '../../UIView';
 
-export default class UIRadioDemo extends UIView {
+export default class UIRadioDemo extends React.PureComponent {
     state = {
         options: [{
             selected: false,

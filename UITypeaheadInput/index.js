@@ -9,15 +9,13 @@ import escaper from 'escape-string-regexp';
 import omit from 'lodash.omit';
 
 import UITextualInput from '../UITextualInput';
-import UIView from '../UIView';
 import extractChildProps from '../UIUtils/extractChildProps';
+import isFunction from '../UIUtils/isFunction';
+import isString from '../UIUtils/isString';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
-const is_string = test => typeof test === 'string';
-const is_function = test => typeof test === 'function';
-
-export default class UITypeaheadInput extends UIView {
+export default class UITypeaheadInput extends React.PureComponent {
     static mode = {
         'STARTS_WITH': 'STARTS_WITH',
         'FUZZY': 'FUZZY',
@@ -62,7 +60,7 @@ export default class UITypeaheadInput extends UIView {
         onEntitySelected: PropTypes.func,
     }
 
-    static internal_keys = Object.keys(UITypeaheadInput.propTypes)
+    static internalKeys = Object.keys(UITypeaheadInput.propTypes)
 
     static defaultProps = {
         ...UITextualInput.defaultProps,
@@ -81,7 +79,7 @@ export default class UITypeaheadInput extends UIView {
         entityMatchIndexes: [],
         selectedEntityIndex: -1,
         id: uuid(),
-        is_controlled: is_string(this.props.inputProps.value),
+        isControlled: isString(this.props.inputProps.value),
         input:    this.props.inputProps.value
                || this.props.inputProps.defaultValue
                || '',
@@ -236,19 +234,19 @@ export default class UITypeaheadInput extends UIView {
     }
 
     getMarkingFunction() {
-        if (is_string(this.props.algorithm)) {
+        if (isString(this.props.algorithm)) {
             if (this.props.algorithm === UITypeaheadInput.mode.STARTS_WITH) {
                 return this.markStartsWithMatchSubstring;
             }
 
             return this.markFuzzyMatchSubstring;
 
-        } else if (is_function(this.props.algorithm.marker)) {
+        } else if (isFunction(this.props.algorithm.marker)) {
             return this.props.algorithm.marker;
         }
 
-        if (!this.warned_marker) {
-            this.warned_marker = true;
+        if (this.warnedMarker === undefined) {
+            this.warnedMarker = true;
             console.warn('UITypeaheadInput: no `props.algorithm.marker` was provided; falling back to the default marking algorithm (FUZZY).');
         }
 
@@ -278,19 +276,19 @@ export default class UITypeaheadInput extends UIView {
     }
 
     getMatchingFunction() {
-        if (is_string(this.props.algorithm)) {
+        if (isString(this.props.algorithm)) {
             if (this.props.algorithm === UITypeaheadInput.mode.STARTS_WITH) {
                 return this.getStartsWithMatchIndexes;
             }
 
             return this.getFuzzyMatchIndexes;
 
-        } else if (is_function(this.props.algorithm.matcher)) {
+        } else if (isFunction(this.props.algorithm.matcher)) {
             return this.props.algorithm.matcher;
         }
 
-        if (!this.warned_matcher) {
-            this.warned_matcher = true;
+        if (this.warnedMatcher === undefined) {
+            this.warnedMatcher = true;
             console.warn('UITypeaheadInput: no `props.algorithm.matcher` was provided; falling back to the default matching algorithm (FUZZY).');
         }
 
@@ -310,11 +308,11 @@ export default class UITypeaheadInput extends UIView {
     }
 
     handleChange = (event) => {
-        if (this.state.is_controlled === false) {
+        if (this.state.isControlled === false) {
             this.setState({input: event.target.value || ''}, () => this.computeMatches());
         }
 
-        if (typeof this.props.inputProps.onChange === 'function') {
+        if (isFunction(this.props.inputProps.onChange)) {
             this.props.inputProps.onChange(event);
         }
     }
@@ -372,7 +370,7 @@ export default class UITypeaheadInput extends UIView {
             break;
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -458,7 +456,7 @@ export default class UITypeaheadInput extends UIView {
 
         return (
             <div
-                {...omit(props, UITypeaheadInput.internal_keys)}
+                {...omit(props, UITypeaheadInput.internalKeys)}
                 ref='wrapper'
                 className={cx({
                    'ui-typeahead-wrapper': true,

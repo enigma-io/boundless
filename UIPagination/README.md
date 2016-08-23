@@ -8,12 +8,10 @@ UIPagination is implemented as an encapsulated view system, accepting an array o
 ### Example Usage
 
 ```jsx
-import {
-    UIPagination,
-    UIView,
-} from 'enigma-uikit';
+import React from 'react';
+import {UIPagination} from 'enigma-uikit';
 
-class MyPaginatedView extends UIView {
+class MyPaginatedView extends React.PureComponent {
     state = {
         items: [
             'Alice',

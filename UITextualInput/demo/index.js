@@ -1,8 +1,7 @@
 import React from 'react';
 import UITextualInput from '../index';
-import UIView from '../../UIView';
 
-export default class UITextualInputDemo extends UIView {
+export default class UITextualInputDemo extends React.PureComponent {
     state = {
         input: '',
     }

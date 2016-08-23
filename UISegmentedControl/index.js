@@ -8,11 +8,11 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
 import UIButton from '../UIButton';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 
-export default class UISegmentedControl extends UIView {
+export default class UISegmentedControl extends React.PureComponent {
     static propTypes = {
         onOptionSelected: React.PropTypes.func,
         options: function validateOptions(props) {
@@ -51,8 +51,8 @@ export default class UISegmentedControl extends UIView {
         },
     }
 
-    static internal_keys = Object.keys(UISegmentedControl.propTypes)
-    static internal_child_keys = [
+    static internalKeys = Object.keys(UISegmentedControl.propTypes)
+    static internalChildKeys = [
         'content',
         'value',
         'selected',
@@ -102,7 +102,7 @@ export default class UISegmentedControl extends UIView {
             this.setState({indexOfOptionInFocus: null});
         }
 
-        if (typeof option.onBlur === 'function') {
+        if (isFunction(option.onBlur)) {
             option.onBlur(event);
         }
     }
@@ -110,7 +110,7 @@ export default class UISegmentedControl extends UIView {
     handleOptionClick(option, event) {
         this.props.onOptionSelected(option.value);
 
-        if (typeof option.onClick === 'function') {
+        if (isFunction(option.onClick)) {
             option.onClick(event);
         }
     }
@@ -118,7 +118,7 @@ export default class UISegmentedControl extends UIView {
     handleOptionFocus(option, event) {
         this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
 
-        if (typeof option.onFocus === 'function') {
+        if (isFunction(option.onFocus)) {
             option.onFocus(event);
         }
     }
@@ -138,7 +138,7 @@ export default class UISegmentedControl extends UIView {
             event.preventDefault();
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -147,7 +147,7 @@ export default class UISegmentedControl extends UIView {
         return this.props.options.map((definition, index) => {
             return (
                 <UIButton
-                    {...omit(definition, UISegmentedControl.internal_child_keys)}
+                    {...omit(definition, UISegmentedControl.internalChildKeys)}
                     role='radio'
                     aria-checked={String(definition.selected)}
                     ref={'option_$' + index}
@@ -170,7 +170,7 @@ export default class UISegmentedControl extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UISegmentedControl.internal_keys)}
+                {...omit(this.props, UISegmentedControl.internalKeys)}
                 ref='wrapper'
                 aria-role='radiogroup'
                 className={cx({

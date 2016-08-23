@@ -1,9 +1,8 @@
 import React from 'react';
 import UIArrowKeyNavigation from '../../UIArrowKeyNavigation';
 import UIPopover from '../index';
-import UIView from '../../UIView';
 
-export default class UIPopoverDemo extends UIView {
+export default class UIPopoverDemo extends React.PureComponent {
     state = {
         words: [{
             word: 'transcendental',

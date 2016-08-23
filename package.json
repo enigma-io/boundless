@@ -37,7 +37,6 @@
     "eslint-plugin-react": "^4.2.3",
     "exposify": "^0.5.0",
     "jest-cli": "^14.0.0",
-    "jsdoc": "^3.4.0",
     "lodash": "^4.6.1",
     "minami": "^1.1.1",
     "mkdirp": "^0.5.1",
@@ -46,7 +45,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-remarkable": "^1.1.1",
-    "react-router": "2.2.2",
+    "react-router": "^2.7.0",
     "sinon": "^1.17.3",
     "stylus": "^0.54.2",
     "through": "^2.3.8",
@@ -54,32 +53,23 @@
     "watchify": "^3.7.0"
   },
   "peerDependencies": {
-    "react": ">= 0.14",
-    "react-dom": ">= 0.14"
-  },
-  "babel": {
-    "plugins": [
-      "transform-class-properties"
-    ],
-    "presets": [
-      "es2015-loose",
-      "react",
-      "stage-2"
-    ]
+    "react": ">= 15.3",
+    "react-dom": ">= 15.3"
   },
   "jest": {
     "automock": false,
     "coverageReporters": [
       "text",
-      "cobertura"
-    ]
+      "cobertura",
+      "lcov"
+    ],
+    "testRegex": "\\.spec\\.js$"
   },
   "scripts": {
     "postinstall": "mkdirp site/public/assets",
     "lint": "eslint --quiet *.js **/*.js",
     "test": "jest --verbose",
     "coverage": "jest --coverage",
-    "docs": "mkdir -p docs/sdk && find . -type f -name '*.js' -path './UI*/*' -not -path '*/__tests__/*' -not -path '*/demo/*' | xargs jsdoc -d docs/sdk -c docs/jsdoc.json README.md --verbose",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
     "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",
     "site:css:watch": "stylus -w -c -m -l -u autoprefixer-stylus site/style.styl -o site/public/style.css --sourcemap-inline",
@@ -91,7 +81,7 @@
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "css:watch": "npm run css -- -w",
-    "es5": "babel exports.js UI*/{*.js,!\\(demo\\|__tests__\\)/*.js} --out-dir es5 --source-maps inline",
+    "es5": "rm -rf es5 && babel . --ignore coverage,demo,es5,node_modules,public,site,*/**/*.spec.js --out-dir es5 --source-maps inline",
     "es5:watch": "npm run es5 -- -w",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
     "js": "browserify exports.js -t babelify -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) -p bundle-collapser/plugin --debug -o public/uikit.js",

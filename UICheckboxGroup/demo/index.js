@@ -1,9 +1,8 @@
 import React from 'react';
 import UICheckboxGroup from '../index';
-import UIView from '../../UIView';
 import {filter, map, merge, some} from 'lodash';
 
-export default class UICheckboxGroupDemo extends UIView {
+export default class UICheckboxGroupDemo extends React.PureComponent {
     state = {
         items: [{
             inputProps: {

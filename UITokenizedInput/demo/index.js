@@ -1,13 +1,9 @@
 import React from 'react';
 import UITokenizedInput from '../index';
 import UITypeahead from '../../UITypeaheadInput';
-import UIView from '../../UIView';
+import {without} from 'lodash';
 
-const without = (baseArray, ...toBeExcluded) => {
-    return baseArray.filter(item => toBeExcluded.indexOf(item) === -1);
-};
-
-export default class UITokenizedInputDemo extends UIView {
+export default class UITokenizedInputDemo extends React.PureComponent {
     state = {
         countries: [
             {text: 'Afghanistan'},

@@ -8,9 +8,9 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
 import UISegmentedControl from '../UISegmentedControl';
 import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import uuid from '../UIUtils/uuid';
 
@@ -23,7 +23,7 @@ class Item extends React.Component {
         loadingContent: PropTypes.node,
     }
 
-    static internal_keys = Object.keys(Item.propTypes)
+    static internalKeys = Object.keys(Item.propTypes)
 
     state = {
         data: this.props.data,
@@ -72,7 +72,7 @@ class Item extends React.Component {
     render() {
         if (this.state.data instanceof Promise) {
             return (
-                <div {...omit(this.props, Item.internal_keys)} className={this.getClasses()}>
+                <div {...omit(this.props, Item.internalKeys)} className={this.getClasses()}>
                     {this.props.loadingContent}
                 </div>
             );
@@ -81,14 +81,14 @@ class Item extends React.Component {
         const jsx = this.props.dataToJSXConverterFunc(this.state.data, this.props.index);
 
         return React.cloneElement(jsx, {
-            ...omit(this.props, Item.internal_keys),
+            ...omit(this.props, Item.internalKeys),
             className: this.getClasses(jsx.props.className),
             'data-index': this.props.index,
         });
     }
 }
 
-export default class UIPagination extends UIView {
+export default class UIPagination extends React.PureComponent {
     static controls = {
         FIRST: 'FIRST',
         PREVIOUS: 'PREVIOUS',
@@ -148,7 +148,7 @@ export default class UIPagination extends UIView {
         totalItems: PropTypes.number.isRequired,
     }
 
-    static internal_keys = Object.keys(UIPagination.propTypes)
+    static internalKeys = Object.keys(UIPagination.propTypes)
 
     static defaultProps = {
         getItem: noop,
@@ -229,7 +229,7 @@ export default class UIPagination extends UIView {
         if (this.props.showPaginationState) {
             options.push({
                 selected: false,
-                content:   typeof this.props.showPaginationState === 'function'
+                content:   isFunction(this.props.showPaginationState)
                          ? this.props.showPaginationState(currentPage, totalPages)
                          : `${currentPage} of ${totalPages}`,
                 value: '',
@@ -370,16 +370,16 @@ export default class UIPagination extends UIView {
         }
 
         const props = this.props.toggleWrapperProps;
-        const position_lower = position.toLowerCase();
-        const position_capitalized = position_lower[0].toUpperCase() + position_lower.slice(1);
+        const positionLower = position.toLowerCase();
+        const positionCapitalized = positionLower[0].toUpperCase() + positionLower.slice(1);
 
         return (
             <UISegmentedControl
                 {...props}
-                ref={`segmentedControl${position_capitalized}`}
+                ref={`segmentedControl${positionCapitalized}`}
                 className={cx({
                     'ui-pagination-controls': true,
-                    [`ui-pagination-controls-${position_lower}`]: true,
+                    [`ui-pagination-controls-${positionLower}`]: true,
                     [props.className]: !!props.className,
                 })}
                 options={this.createPageButtonOptions()}
@@ -415,7 +415,7 @@ export default class UIPagination extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UIPagination.internal_keys)}
+                {...omit(this.props, UIPagination.internalKeys)}
                 ref='wrapper'
                 className={cx({
                     'ui-pagination-wrapper': true,

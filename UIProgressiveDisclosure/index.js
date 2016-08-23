@@ -7,10 +7,10 @@ import React from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 
-export default class UIProgressiveDisclosure extends UIView {
+export default class UIProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
         children: React.PropTypes.node,
         expanded: React.PropTypes.bool,
@@ -21,7 +21,7 @@ export default class UIProgressiveDisclosure extends UIView {
         toggleProps: React.PropTypes.object,
     }
 
-    static internal_keys = Object.keys(UIProgressiveDisclosure.propTypes)
+    static internalKeys = Object.keys(UIProgressiveDisclosure.propTypes)
 
     static defaultProps = {
         expanded: false,
@@ -48,7 +48,7 @@ export default class UIProgressiveDisclosure extends UIView {
         this.setState({expanded: !this.state.expanded}, this.dispatchCallback);
 
         /* istanbul ignore else */
-        if (typeof this.props.toggleProps.onClick === 'function') {
+        if (isFunction(this.props.toggleProps.onClick)) {
             this.props.toggleProps.onClick(event);
         }
     }
@@ -61,7 +61,7 @@ export default class UIProgressiveDisclosure extends UIView {
         }
 
         /* istanbul ignore else */
-        if (typeof this.props.toggleProps.onKeyDown === 'function') {
+        if (isFunction(this.props.toggleProps.onKeyDown)) {
             this.props.toggleProps.onKeyDown(event);
         }
     }
@@ -80,7 +80,7 @@ export default class UIProgressiveDisclosure extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UIProgressiveDisclosure.internal_keys)}
+                {...omit(this.props, UIProgressiveDisclosure.internalKeys)}
                 ref='wrapper'
                 className={cx({
                    'ui-disclosure': true,

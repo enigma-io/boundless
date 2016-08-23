@@ -1,8 +1,7 @@
 import React from 'react';
 import UIPagination from '../index';
-import UIView from '../../UIView';
 
-export default class UIPaginationDemo extends UIView {
+export default class UIPaginationDemo extends React.PureComponent {
     state = {
         items: require('./fixture.json'),
         identifier: 'rolodex1000',

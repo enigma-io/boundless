@@ -2,9 +2,10 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
+import isString from '../UIUtils/isString';
 
-export default class UIArrowKeyNavigation extends UIView {
+export default class UIArrowKeyNavigation extends React.PureComponent {
     static propTypes = {
         component: React.PropTypes.oneOfType([
             React.PropTypes.string,
@@ -12,7 +13,7 @@ export default class UIArrowKeyNavigation extends UIView {
         ]),
     }
 
-    static internal_keys = Object.keys(UIArrowKeyNavigation.propTypes)
+    static internalKeys = Object.keys(UIArrowKeyNavigation.propTypes)
 
     static defaultProps = {
         component: 'div',
@@ -81,7 +82,7 @@ export default class UIArrowKeyNavigation extends UIView {
             break;
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -93,7 +94,7 @@ export default class UIArrowKeyNavigation extends UIView {
 
         event.stopPropagation();
 
-        if (typeof child !== 'string' && typeof child.props.onBlur === 'function') {
+        if (!isString(child) && isFunction(child.props.onBlur)) {
             child.props.onBlur(event);
         }
     }
@@ -103,7 +104,7 @@ export default class UIArrowKeyNavigation extends UIView {
 
         event.stopPropagation();
 
-        if (typeof child !== 'string' && typeof child.props.onFocus === 'function') {
+        if (!isString(child) && isFunction(child.props.onFocus)) {
             child.props.onFocus(event);
         }
     }
@@ -121,7 +122,7 @@ export default class UIArrowKeyNavigation extends UIView {
 
     render() {
         return React.createElement(this.props.component, {
-            ...omit(this.props, UIArrowKeyNavigation.internal_keys),
+            ...omit(this.props, UIArrowKeyNavigation.internalKeys),
             ref: 'wrapper',
             onKeyDown: this.handleKeyDown,
         }, this.children());

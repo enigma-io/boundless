@@ -1,9 +1,8 @@
 import React from 'react';
 import UIButton from '../../UIButton';
 import UIImage from '../index';
-import UIView from '../../UIView';
 
-export default class UIImageDemo extends UIView {
+export default class UIImageDemo extends React.PureComponent {
     initialState() {
         const now = Date.now();
 

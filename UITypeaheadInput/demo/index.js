@@ -1,8 +1,7 @@
 import React from 'react';
 import UITypeaheadInput from '../index';
-import UIView from '../../UIView';
 
-export default class UITypeaheadInputDemo extends UIView {
+export default class UITypeaheadInputDemo extends React.PureComponent {
     state = {
         countries: [
             {text: 'Afghanistan'},

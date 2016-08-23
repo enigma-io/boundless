@@ -16,10 +16,9 @@ import omit from 'lodash.omit';
 import without from 'lodash.without';
 
 import UIDialog from '../UIDialog';
-import UIView from '../UIView';
 import transformProp from '../UIUtils/transformProperty';
 
-export default class UIPopover extends UIView {
+export default class UIPopover extends React.PureComponent {
     static position = {
         START: 'START',
         MIDDLE: 'MIDDLE',
@@ -58,7 +57,7 @@ export default class UIPopover extends UIView {
         ]),
     }
 
-    static internal_keys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
+    static internalKeys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
 
     static defaultProps = {
         ...UIDialog.defaultProps,
@@ -246,7 +245,7 @@ export default class UIPopover extends UIView {
         this.updateDialogInternalCache(
             ReactDOM.render(
                 <UIDialog
-                    {...omit(this.props, UIPopover.internal_keys)}
+                    {...omit(this.props, UIPopover.internalKeys)}
                     className={cx({
                         'ui-popover': true,
                         [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,

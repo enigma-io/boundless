@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
+import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 
-export default class UIButton extends UIView {
+export default class UIButton extends React.PureComponent {
     static propTypes = {
         children: React.PropTypes.node,
         onClick: React.PropTypes.func,
@@ -14,7 +14,7 @@ export default class UIButton extends UIView {
         pressed: React.PropTypes.bool,
     };
 
-    static internal_keys = Object.keys(UIButton.propTypes)
+    static internalKeys = Object.keys(UIButton.propTypes)
 
     static defaultProps = {
         onPressed: noop,
@@ -30,7 +30,7 @@ export default class UIButton extends UIView {
 
         this.toggleState(event);
 
-        if (typeof this.props.onClick === 'function') {
+        if (isFunction(this.props.onClick)) {
             this.props.onClick(event);
         }
     }
@@ -45,7 +45,7 @@ export default class UIButton extends UIView {
             this.toggleState(event);
         }
 
-        if (typeof this.props.onKeyDown === 'function') {
+        if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
         }
     }
@@ -53,7 +53,7 @@ export default class UIButton extends UIView {
     render() {
         return (
             <button
-                {...omit(this.props, UIButton.internal_keys)}
+                {...omit(this.props, UIButton.internalKeys)}
                 ref='button'
                 className={cx({
                     'ui-button': true,

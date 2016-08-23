@@ -1,8 +1,7 @@
 import React from 'react';
 import UIArrowKeyNavigation from '../index';
-import UIView from '../../UIView';
 
-export default class UIArrowKeyNavigationDemo extends UIView {
+export default class UIArrowKeyNavigationDemo extends React.PureComponent {
     state = {
         items: ['lorem', 'ipsum', 'dolor'],
     }

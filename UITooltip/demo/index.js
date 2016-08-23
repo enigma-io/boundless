@@ -1,8 +1,7 @@
 import React from 'react';
 import UITooltip from '../index';
-import UIView from '../../UIView';
 
-export default class UITooltipDemo extends UIView {
+export default class UITooltipDemo extends React.PureComponent {
     render() {
         return (
             <div>

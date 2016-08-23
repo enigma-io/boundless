@@ -1,9 +1,8 @@
+import React from 'react';
 import UIButton from '../../UIButton';
 import UIFittedText from '../index';
-import UIView from '../../UIView';
-import React from 'react';
 
-export default class UIFittedTextDemo extends UIView {
+export default class UIFittedTextDemo extends React.PureComponent {
     render() {
         return (
             <div className='ui-spread-even'>

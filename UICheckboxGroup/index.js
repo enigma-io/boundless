@@ -7,11 +7,10 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 
-import UIView from '../UIView';
 import UICheckbox from '../UICheckbox';
 import noop from '../UIUtils/noop';
 
-export default class UICheckboxGroup extends UIView {
+export default class UICheckboxGroup extends React.PureComponent {
     static Constants = {
         SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
         SELECT_ALL_AFTER: 'SELECT_ALL_AFTER',
@@ -40,7 +39,7 @@ export default class UICheckboxGroup extends UIView {
         ]),
     }
 
-    static internal_keys = Object.keys(UICheckboxGroup.propTypes)
+    static internalKeys = Object.keys(UICheckboxGroup.propTypes)
 
     static defaultProps = {
         items: [],
@@ -121,7 +120,7 @@ export default class UICheckboxGroup extends UIView {
     render() {
         return (
             <div
-                {...omit(this.props, UICheckboxGroup.internal_keys)}
+                {...omit(this.props, UICheckboxGroup.internalKeys)}
                 ref='group'
                 className={cx({
                     'ui-checkbox-group': true,

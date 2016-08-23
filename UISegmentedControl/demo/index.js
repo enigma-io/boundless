@@ -1,9 +1,8 @@
 import React from 'react';
 import UISegmentedControl from '../index';
 import UIImage from '../../UIImage';
-import UIView from '../../UIView';
 
-export default class UISegmentedControlDemo extends UIView {
+export default class UISegmentedControlDemo extends React.PureComponent {
     state = {
         options: [{
             selected: true,

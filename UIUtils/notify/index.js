@@ -3,6 +3,9 @@
  * @class UINotificationService
  */
 
+import isFunction from '../isFunction';
+import isString from '../isString';
+
 export const errors = {
     DISABLED: 'UIUtils/notify: web notifications are currently disabled by user settings.',
     NOT_AVAILABLE: 'UIUtils/notify: web notifications are not supported on this platform.',
@@ -81,15 +84,15 @@ export default function notify(config) {
             return reject(errors.CONFIG_TYPE);
         } else if (config.body === undefined) {
             return reject(errors.BODY_MISSING);
-        } else if (typeof config.body !== 'string') {
+        } else if (isString(config.body) === false) {
             return reject(errors.BODY_TYPE);
         } else if (config.header === undefined) {
             return reject(errors.HEADER_MISSING);
-        } else if (typeof config.header !== 'string') {
+        } else if (isString(config.header) === false) {
             return reject(errors.HEADER_TYPE);
-        } else if (config.icon !== undefined && typeof config.icon !== 'string') {
+        } else if (config.icon !== undefined && isString(config.icon) === false) {
             return reject(errors.ICON_TYPE);
-        } else if (config.onClick !== undefined && typeof config.onClick !== 'function') {
+        } else if (config.onClick !== undefined && isFunction(config.onClick) === false) {
             return reject(errors.ONCLICK_TYPE);
         }
 

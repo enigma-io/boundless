@@ -1,8 +1,7 @@
 import React from 'react';
 import UIButton from '../index';
-import UIView from '../../UIView';
 
-export default class UIButtonDemo extends UIView {
+export default class UIButtonDemo extends React.PureComponent {
     state = {
         pressed: false,
     }
