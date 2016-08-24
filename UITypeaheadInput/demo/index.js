@@ -253,7 +253,13 @@ export default class UITypeaheadInputDemo extends React.PureComponent {
             {text: 'Zambia'},
             {text: 'Zimbabwe'},
         ],
+
+        firstInputValue: '',
+        secondInputValue: '',
     }
+
+    handleFirstInputChange = (e) => this.setState({firstInputValue: e.target.value})
+    handleSecondInputChange = (e) => this.setState({secondInputValue: e.target.value})
 
     render() {
         return (
@@ -263,7 +269,11 @@ export default class UITypeaheadInputDemo extends React.PureComponent {
                     <UITypeaheadInput
                         entities={this.state.countries}
                         hint={true}
-                        inputProps={{placeholder: 'Please enter your country of origin...'}} />
+                        inputProps={{
+                            onChange: this.handleFirstInputChange,
+                            placeholder: 'Please enter your country of origin...',
+                            value: this.state.firstInputValue,
+                        }} />
                 </div>
 
                 <div style={{marginLeft: '1em'}}>
@@ -272,7 +282,11 @@ export default class UITypeaheadInputDemo extends React.PureComponent {
                         algorithm={UITypeaheadInput.mode.FUZZY}
                         entities={this.state.countries}
                         hint={true}
-                        inputProps={{placeholder: 'Please enter your country of origin...'}} />
+                        inputProps={{
+                            onChange: this.handleFirstInputChange,
+                            placeholder: 'Please enter your country of origin...',
+                            value: this.state.secondInputValue,
+                        }} />
                 </div>
             </div>
         );

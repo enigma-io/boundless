@@ -97,7 +97,7 @@ export default class UITypeaheadInput extends React.PureComponent {
         }
 
         if (nextProps.inputProps.value !== this.props.inputProps.value) {
-            this.setState({input: nextProps.inputProps.value || ''});
+            this.setState({input: nextProps.inputProps.value || ''}, this.computeMatches);
         }
     }
 
