@@ -283,7 +283,7 @@ export default class UITypeaheadInputDemo extends React.PureComponent {
                         entities={this.state.countries}
                         hint={true}
                         inputProps={{
-                            onChange: this.handleFirstInputChange,
+                            onChange: this.handleSecondInputChange,
                             placeholder: 'Please enter your country of origin...',
                             value: this.state.secondInputValue,
                         }} />
