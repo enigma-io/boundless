@@ -52,12 +52,14 @@ export default class UITextualInput extends React.PureComponent {
     }
 
     setValue(nextValue) {
-        if (this.state.isControlled === true) {
-            return console.warn('UITextualInput: a controlled component should be updated by changing its `props.value` or `props.inputProps.value`, not via programmatic methods.');
-        }
-
-        this.refs.field.value = nextValue;
         this.setState({input: nextValue});
+        this.refs.field.value = nextValue;
+
+        if (this.state.isControlled === true) {
+            // simulate input change event flow
+            this.refs.field.dispatchEvent(new Event('input', {bubbles: true}));
+            this.refs.field.dispatchEvent(new Event('change', {bubbles: true}));
+        }
     }
 
     handleBlur = event => {
