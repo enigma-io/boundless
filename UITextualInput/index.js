@@ -35,33 +35,35 @@ export default class UITextualInput extends React.PureComponent {
 
     componentWillMount() {
         if (this.state.isControlled === true) {
-            return this.setState({input: this.props.inputProps.value || ''});
+            return this.setInputValue(this.props.inputProps.value);
         }
 
-        this.setState({input: this.props.inputProps.defaultValue || ''});
+        this.setInputValue(this.props.inputProps.defaultValue);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.inputProps.value !== this.props.inputProps.value) {
-            this.setState({input: nextProps.inputProps.value});
+            this.setInputValue(nextProps.inputProps.value);
         }
     }
 
-    getValue() {
-        return this.refs.field.value;
-    }
+    setInputValue = (value = '') => this.setState((state) => ({...state, input: value}))
+
+    getValue = () => this.refs.field.value
 
     setValue(nextValue) {
-        if (this.state.isControlled === true) {
-            return console.warn('UITextualInput: a controlled component should be updated by changing its `props.value` or `props.inputProps.value`, not via programmatic methods.');
-        }
-
+        this.setInputValue(nextValue);
         this.refs.field.value = nextValue;
-        this.setState({input: nextValue});
+
+        if (this.state.isControlled === true) {
+            // simulate input change event flow
+            this.refs.field.dispatchEvent(new Event('input', {bubbles: true}));
+            this.refs.field.dispatchEvent(new Event('change', {bubbles: true}));
+        }
     }
 
     handleBlur = event => {
-        this.setState({isFocused: false});
+        this.setState((state) => ({...state, isFocused: false}));
 
         if (isFunction(this.props.inputProps.onBlur) === true) {
             this.props.inputProps.onBlur(event);
@@ -69,7 +71,7 @@ export default class UITextualInput extends React.PureComponent {
     }
 
     handleFocus = event => {
-        this.setState({isFocused: true});
+        this.setState((state) => ({...state, isFocused: true}));
 
         if (isFunction(this.props.inputProps.onFocus) === true) {
             this.props.inputProps.onFocus(event);
@@ -77,11 +79,12 @@ export default class UITextualInput extends React.PureComponent {
     }
 
     handleChange = event => {
-        // for "controlled" scenarios, updates to the cached input text should come exclusively via props (cWRP)
-        // so it exactly mirrors the current application state, otherwise a re-render will occur before
-        // the new text has completed its feedback loop and the cursor position is lost
+        // for "controlled" scenarios, updates to the cached input text should come
+        // exclusively via props (cWRP) so it exactly mirrors the current application
+        // state, otherwise a re-render will occur before the new text has completed its
+        // feedback loop and the cursor position is lost
         if (this.state.isControlled === false) {
-            this.setState({input: event.target.value});
+            this.setInputValue(event.target.value);
         }
 
         if (isFunction(this.props.inputProps.onChange) === true) {

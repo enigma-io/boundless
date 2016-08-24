@@ -77,16 +77,18 @@ export default class UITypeaheadInput extends React.PureComponent {
 
     state = {
         entityMatchIndexes: [],
-        selectedEntityIndex: -1,
         id: uuid(),
         isControlled: isString(this.props.inputProps.value),
         input:    this.props.inputProps.value
                || this.props.inputProps.defaultValue
                || '',
+        selectedEntityIndex: -1,
     }
 
+    updateInputState = (value = '') => this.setState((state) => ({...state, input: value}))
+
     componentWillMount() {
-        if (this.props.inputProps.defaultValue) {
+        if (this.props.inputProps.value || this.props.inputProps.defaultValue) {
             this.computeMatches();
         }
     }
@@ -97,7 +99,8 @@ export default class UITypeaheadInput extends React.PureComponent {
         }
 
         if (nextProps.inputProps.value !== this.props.inputProps.value) {
-            this.setState({input: nextProps.inputProps.value || ''});
+            this.updateInputState(nextProps.inputProps.value);
+            this.computeMatches();
         }
     }
 
@@ -125,7 +128,10 @@ export default class UITypeaheadInput extends React.PureComponent {
     }
 
     handleMatchClick(index) {
-        this.setState({selectedEntityIndex: index}, this.setValueWithSelectedEntity);
+        this.setState(
+            (state) => ({...state, selectedEntityIndex: index}),
+            this.setValueWithSelectedEntity,
+        );
     }
 
     selectMatch(delta) {
@@ -154,20 +160,21 @@ export default class UITypeaheadInput extends React.PureComponent {
                 matchesNode.scrollTop = matchNodeYStart;
             }
 
-            this.setState({selectedEntityIndex: matchIndex});
+            this.setState((state) => ({...state, selectedEntityIndex: matchIndex}));
         }
     }
 
-    resetMatches() {
-        this.setState({
-            selectedEntityIndex: -1,
-            entityMatchIndexes: [],
+    resetMatches = () => {
+        this.setState((state) => {
+            return {
+                ...state,
+                selectedEntityIndex: -1,
+                entityMatchIndexes: [],
+            };
         });
     }
 
-    getInputNode() {
-        return this.refs.input.refs.field;
-    }
+    getInputNode = () => this.refs.input.refs.field
 
     select = () => {
         const input = this.getInputNode();
@@ -182,7 +189,7 @@ export default class UITypeaheadInput extends React.PureComponent {
     setValue = (value = '') => {
         this.refs.input.setValue(value);
 
-        this.setState({input: value});
+        this.updateInputState(value);
         this.resetMatches();
         this.focus();
     }
@@ -202,6 +209,9 @@ export default class UITypeaheadInput extends React.PureComponent {
         } else {
             this.setValue(this.getSelectedEntityText());
         }
+
+        // needs to happen after the upcoming render that will be triggered by `setValue`
+        window.setTimeout(this.resetMatches, 0);
     }
 
     markFuzzyMatchSubstring(input, entity) {
@@ -268,10 +278,13 @@ export default class UITypeaheadInput extends React.PureComponent {
     getStartsWithMatchIndexes(userText, entities) {
         const seekValue = userText.toLowerCase();
 
-        return entities.reduce(function seekMatch(result, entity, index) {
-            return   entity.text.toLowerCase().indexOf(seekValue) === 0
-                   ? (result.push(index) && result)
-                   : result;
+        return entities.reduce(function seekMatch(results, entity, index) {
+            if (entity.text.toLowerCase().indexOf(seekValue) === 0) {
+                results.push(index);
+            }
+
+            return results;
+
         }, []);
     }
 
@@ -297,19 +310,24 @@ export default class UITypeaheadInput extends React.PureComponent {
 
     getMatchIndexes = (...args) => this.getMatchingFunction()(...args)
 
-    computeMatches(entities = this.props.entities) {
-        const currentValue = this.state.input;
-        const matches = currentValue === '' ? [] : this.getMatchIndexes(currentValue, entities);
+    computeMatches(providedEntities) {
+        this.setState((state, props) => {
+            const entities = providedEntities || props.entities;
+            const currentValue = state.input;
+            const matches = currentValue === '' ? [] : this.getMatchIndexes(currentValue, entities);
 
-        this.setState({
-            selectedEntityIndex: matches.length ? matches[0] : -1,
-            entityMatchIndexes: matches,
+            return {
+                ...state,
+                selectedEntityIndex: matches.length ? matches[0] : -1,
+                entityMatchIndexes: matches,
+            };
         });
     }
 
     handleChange = (event) => {
         if (this.state.isControlled === false) {
-            this.setState({input: event.target.value || ''}, () => this.computeMatches());
+            this.updateInputState(event.target.value);
+            this.computeMatches();
         }
 
         if (isFunction(this.props.inputProps.onChange)) {

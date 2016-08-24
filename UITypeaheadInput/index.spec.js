@@ -456,6 +456,19 @@ describe('UITypeaheadInput component', () => {
             expect(node.value).toBe('apple');
         });
 
+        it('resets computed matches after autocomplete', () => {
+            const node = element.getInputNode();
+
+            expect(node.value).toBe('ap');
+
+            expect(document.querySelector('.ui-typeahead-match-wrapper')).not.toBeNull();
+
+            // default selected should be 'apple'
+            document.querySelector('.ui-typeahead-match-selected').click();
+
+            expect(document.querySelector('.ui-typeahead-match-wrapper')).toBeNull();
+        });
+
         it('contains a marked substring with the proper class', () => {
             let node = document.querySelector('.ui-typeahead-match');
 
@@ -568,6 +581,32 @@ describe('UITypeaheadInput component', () => {
 
             element.handleChange({target: {value: 'foo'}});
             expect(element.setState.called).toBe(false);
+        });
+
+        it('recomputes matches when the input value changes', () => {
+            let element;
+
+            element = render(
+                <UITypeaheadInput
+                    entities={entities}
+                    inputProps={{
+                        onChange: noop,
+                        value: 'ap',
+                    }} />
+            );
+
+            expect(document.querySelectorAll('.ui-typeahead-match').length).toBe(3);
+
+            element = render(
+                <UITypeaheadInput
+                    entities={entities}
+                    inputProps={{
+                        onChange: noop,
+                        value: 'app',
+                    }} />
+            );
+
+            expect(document.querySelectorAll('.ui-typeahead-match').length).toBe(1);
         });
     });
 

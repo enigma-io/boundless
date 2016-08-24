@@ -359,24 +359,21 @@ describe('UITextualInput component', () => {
             expect(element.getValue()).toBe('foo');
         });
 
-        it('does not change the input value for a controlled component', () => {
-            sandbox.stub(console, 'warn');
+        it('triggers the inputProps.onChange flow before the value is reset by React for a controlled component', () => {
+            const changeStub = sandbox.stub();
 
             const element = render(
                 <UITextualInput
                     {...props}
                     inputProps={{
                         ...props.inputProps,
-                        onChange: noop,
+                        onChange: changeStub,
                         value: 'ap',
                     }} />
             );
 
-            expect(element.getValue()).toBe('ap');
-
             element.setValue('foo');
-            expect(element.getValue()).toBe('ap');
-            expect(console.warn.calledOnce).toBe(true);
+            expect(changeStub.calledOnce).toBe(true);
         });
 
         it('empties the placeholder if set with a non-empty string', () => {
