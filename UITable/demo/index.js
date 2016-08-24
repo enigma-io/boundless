@@ -1,4 +1,5 @@
 import React from 'react';
+import UIPopover from '../../UIPopover';
 import UITable from '../index';
 import UISegmentedControl from '../../UISegmentedControl';
 
@@ -6,6 +7,12 @@ const json = require('./fixture.json');
 const json2 = require('./fixture.columnar.json');
 
 export default class UITableDemo extends React.PureComponent {
+    // if we pre-bind with arrow syntax, the function needs to be placed above the state = {} declaration
+    // due to allocation order and use of `spawnIDColumnPopover` inside the column definition
+    spawnIDColumnPopover = (event) => this.setState({idPopoverAnchor: event.target})
+    // the alternative would be to do a `setState()` in cWM with the initial state
+    // instead of ahead of time
+
     state = {
         options: [{
             id: 'table_a',
@@ -20,6 +27,11 @@ export default class UITableDemo extends React.PureComponent {
         }],
         table_a: {
             columns: [{
+                children: [{
+                    children: '📤',
+                    className: 'table-demo-popover-toggle',
+                    onclick: this.spawnIDColumnPopover,
+                }],
                 title: 'ID',
                 mapping: 'id',
                 resizable: true,
@@ -84,7 +96,10 @@ export default class UITableDemo extends React.PureComponent {
             getRow: index => json2.result[index],
         },
         jumpToRowIndex: 0,
+        idPopoverAnchor: null,
     }
+
+    despawnIDColumnPopover = () => this.setState({idPopoverAnchor: null})
 
     handleChange = event => {
         this.setState({jumpToRowIndex: event.target.value ? parseInt(event.target.value, 10) - 1 : null});
@@ -128,6 +143,18 @@ export default class UITableDemo extends React.PureComponent {
         this.setState({ [table_id]: {...this.state[table_id], columns} });
     }
 
+    maybeRenderIDPopover() {
+        if (this.state.idPopoverAnchor) {
+            return (
+                <UIPopover
+                    anchor={this.state.idPopoverAnchor}
+                    onClose={this.despawnIDColumnPopover}>
+                    Something something.
+                </UIPopover>
+            );
+        }
+    }
+
     render() {
         const source = this.getCurrentTable();
 
@@ -157,6 +184,8 @@ export default class UITableDemo extends React.PureComponent {
                     onCellInteract={this.handleCellClick}
                     onRowInteract={this.handleRowClick}
                     onColumnResize={this.handleColumnResize} />
+
+                {this.maybeRenderIDPopover()}
             </div>
         );
     }

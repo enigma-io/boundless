@@ -29,10 +29,22 @@ function didColumnsChange(currentColumns, prevColumns, tableInternalColumns) {
     });
 }
 
+const columnChildSpec = PropTypes.shape({
+    tag: PropTypes.string,
+    attributes: PropTypes.object,
+});
+
 export default class UITable extends React.PureComponent {
     static propTypes = {
         columns: PropTypes.arrayOf(
             PropTypes.shape({
+                children: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number,
+                    PropTypes.bool,
+                    columnChildSpec,
+                    PropTypes.arrayOf(columnChildSpec),
+                ]),
                 mapping: PropTypes.string,
                 resizable: PropTypes.bool,
                 title: PropTypes.string,
@@ -45,6 +57,7 @@ export default class UITable extends React.PureComponent {
         offscreenClass: PropTypes.string,
         onCellInteract: PropTypes.func,
         onColumnResize: PropTypes.func,
+        onHeaderCellInteract: PropTypes.func,
         onRowInteract: PropTypes.func,
         preserveScrollState: PropTypes.bool,
         throttleInterval: PropTypes.number,
@@ -71,6 +84,7 @@ export default class UITable extends React.PureComponent {
             aria: this.refs.aria,
 
             columns: this.props.columns,
+            headerColumnClickFunc: this.props.onHeaderCellInteract,
             rowClickFunc: this.props.onRowInteract,
             cellClickFunc: this.props.onCellInteract,
             onColumnResize: this.props.onColumnResize,

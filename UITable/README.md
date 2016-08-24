@@ -125,7 +125,7 @@ __click__ | table cell | call `onCellInteract` with the row object reference and
 __keydown__ `[Enter]` | table cell | call `onCellInteract` with the row object reference and cell property name
 __keydown__ `[Up, Down]` | table cell | move focus and apply `active` class to row
 __drag__ | column header cell resize handle | recalculate column width with end X value & apply new sizing
-__doubleClick__ | column header cell resize handle | automatically resize the column cells to fit the longest rendered content
+__dblclick__ | column header cell resize handle | automatically resize the column cells to fit the longest rendered content
 __resize__ | window | recompute scrollbar sizing; if the height of the table changes, rebuild it
 
 ---
@@ -134,6 +134,28 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
 
 - __columns__ `Array<Object>`
+    - __columns[].children__ `*`
+      content to be generated and injected alongside the column title; if you wish to inject customized DOM content, provide an object or array of objects conforming to the following spec:
+
+      ```js
+      {
+        // (any valid DOM `tagName` that could be used in `document.createElement`, e.g. `'div'`)
+        tag: string,
+
+        // (optional) HTML attributes to be set via `HTMLElement.setAttribute`
+        attributes: object,
+
+        // (optional) more children conforming to the same spec
+        children: *,
+
+        // (optional) properties that are settable by simple allocation,
+        // e.g. `className: 'foo'` or `onclick: function(e) { console.log('clicked!') }`
+        [anyValidPropertyName]: *,
+      }
+      ```
+
+      Where `tag` is any valid DOM `tagName` that could be used in `document.createElement`
+
     - __columns[].mapping__ `String`
       the exact name of the corresponding property in each row object
 
@@ -158,14 +180,17 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 - __offscreenClass__ `String`
   (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
-- __onCellInteract__ `Function`
-  invoked when a cell is interacted with, __arguments: `event`: `object`, `rowIndex`: `number`, `fieldName`: `string`__
+- __onCellInteract__ `Function(event: object, rowIndex: number, columnMapping: string)`
+  invoked when a cell is interacted with
 
-- __onColumnResize__ `Function`
-  invoked when a column has been resized by the user, __arguments: `mapping`: `string`, `width`: `number`__
+- __onColumnResize__ `Function(columnMapping: string, width: number)`
+  invoked when a column has been resized by the user
 
-- __onRowInteract__ `Function`
-  invoked when a cell in a row is interacted with, __arguments: `event`: `object`, `rowIndex`: `number`__
+- __onHeaderCellInteract__ `Function(event: object, columnMapping: string)`
+  invoked when a column header cell has been clicked
+
+- __onRowInteract__ `Function(event: object, index: number)`
+  invoked when a cell in a row is clicked
 
 - __preserveScrollState__ `Boolean`
   (default `true`) prompts the table view to remember the row numbers, X and Y coordinates when regenerating and attempt to restore them
