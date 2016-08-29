@@ -24,7 +24,7 @@ import {findDOMNode} from 'react-dom';
 export default function verifyConformance(render, Constructor, baseProps, key) {
     let node;
 
-    const renderWithPropsAndGetNode = props => {
+    const renderWithPropsAndGetNode = (props) => {
         const element = render(
             React.createElement(
                 Constructor, {

@@ -234,4 +234,18 @@ describe('UIDialog component', () => {
             expect(stub.notCalled).toBe(true);
         });
     });
+
+    describe('"outside" elements', () => {
+        it('allows rendering of arbitrary content before the dialog', () => {
+            const element = render(<UIDialog before={<span className='foo' />} />);
+
+            expect(document.body.querySelector('.foo')).not.toBeNull();
+        });
+
+        it('allows rendering of arbitrary content after the dialog', () => {
+            const element = render(<UIDialog after={<span className='foo' />} />);
+
+            expect(document.body.querySelector('.foo')).not.toBeNull();
+        });
+    });
 });

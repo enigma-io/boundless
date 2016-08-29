@@ -3,17 +3,12 @@
  * @class UIPopover
  */
 
-/*
-    A nuance about this component: since it only renders a simple <div>, the main render() function
-    never changes. Therefore, we need to manually call `componentDidUpdate` after `setState` to trigger
-    a full re-render of the child dialog.
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import omit from 'lodash.omit';
 import without from 'lodash.without';
+import values from 'lodash.values';
 
 import UIDialog from '../UIDialog';
 import transformProp from '../UIUtils/transformProperty';
@@ -25,63 +20,90 @@ export default class UIPopover extends React.PureComponent {
         END: 'END',
     }
 
+    static positionValues = values(UIPopover.position)
+
+    static preset = {
+        'ABOVE': {
+            anchorXAlign: UIPopover.position.MIDDLE,
+            anchorYAlign: UIPopover.position.START,
+            selfXAlign: UIPopover.position.MIDDLE,
+            selfYAlign: UIPopover.position.END,
+        },
+        'BELOW': {
+            anchorXAlign: UIPopover.position.MIDDLE,
+            anchorYAlign: UIPopover.position.END,
+            selfXAlign: UIPopover.position.MIDDLE,
+            selfYAlign: UIPopover.position.START,
+        },
+        'LEFT': {
+            anchorXAlign: UIPopover.position.START,
+            anchorYAlign: UIPopover.position.MIDDLE,
+            selfXAlign: UIPopover.position.END,
+            selfYAlign: UIPopover.position.MIDDLE,
+        },
+        'RIGHT': {
+            anchorXAlign: UIPopover.position.END,
+            anchorYAlign: UIPopover.position.MIDDLE,
+            selfXAlign: UIPopover.position.START,
+            selfYAlign: UIPopover.position.MIDDLE,
+        },
+    }
+
+    static presetValues = values(UIPopover.preset)
+
     static propTypes = {
         ...UIDialog.propTypes,
-        anchor: React.PropTypes.oneOfType([
-            React.PropTypes.instanceOf(HTMLElement),
-            React.PropTypes.shape({
-                props: React.PropTypes.object,
-                state: React.PropTypes.object,
-            }), // a react element of some fashion, React.PropTypes.element wasn't working
+        anchor: PropTypes.oneOfType([
+            PropTypes.instanceOf(HTMLElement),
+            PropTypes.shape({
+                props: PropTypes.object,
+                state: PropTypes.object,
+            }), // a react element of some fashion, PropTypes.element wasn't working
         ]).isRequired,
-        anchorXAlign: React.PropTypes.oneOf([
-            UIPopover.position.START,
-            UIPopover.position.MIDDLE,
-            UIPopover.position.END,
-        ]),
-        anchorYAlign: React.PropTypes.oneOf([
-            UIPopover.position.START,
-            UIPopover.position.MIDDLE,
-            UIPopover.position.END,
-        ]),
-        autoReposition: React.PropTypes.bool,
-        selfXAlign: React.PropTypes.oneOf([
-            UIPopover.position.START,
-            UIPopover.position.MIDDLE,
-            UIPopover.position.END,
-        ]),
-        selfYAlign: React.PropTypes.oneOf([
-            UIPopover.position.START,
-            UIPopover.position.MIDDLE,
-            UIPopover.position.END,
-        ]),
+        anchorXAlign: PropTypes.oneOf(UIPopover.positionValues),
+        anchorYAlign: PropTypes.oneOf(UIPopover.positionValues),
+        autoReposition: PropTypes.bool,
+        caretComponent: PropTypes.element,
+        preset: PropTypes.oneOf(UIPopover.presetValues),
+        selfXAlign: PropTypes.oneOf(UIPopover.positionValues),
+        selfYAlign: PropTypes.oneOf(UIPopover.positionValues),
     }
 
     static internalKeys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
 
     static defaultProps = {
         ...UIDialog.defaultProps,
+        autoReposition: true,
         captureFocus: false,
+        caretComponent: (
+            <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+                <g>
+                    <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10'></polygon>
+                    <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10'></polygon>
+                </g>
+            </svg>
+        ),
         closeOnEscKey: true,
         closeOnOutsideClick: true,
         closeOnOutsideScroll: true,
-        anchorXAlign: UIPopover.position.START,
-        anchorYAlign: UIPopover.position.END,
-        autoReposition: true,
-        selfXAlign: UIPopover.position.START,
-        selfYAlign: UIPopover.position.START,
+        preset: UIPopover.preset.BELOW,
     }
 
-    state = {
-        anchorXAlign: this.props.anchorXAlign,
-        anchorYAlign: this.props.anchorYAlign,
-        selfXAlign: this.props.selfXAlign,
-        selfYAlign: this.props.selfYAlign,
+    constructor(props) {
+        super();
+
+        this.state = {
+            anchorXAlign:   props.anchorXAlign  || props.preset.anchorXAlign,
+            anchorYAlign:   props.anchorYAlign  || props.preset.anchorYAlign,
+            selfXAlign:     props.selfXAlign    || props.preset.selfXAlign,
+            selfYAlign:     props.selfYAlign    || props.preset.selfYAlign,
+        };
     }
 
     updateDialogInternalCache(instance) {
         this.dialog = instance;
-        this.$dialog = instance.$dialog;
+        this.$dialog = instance.$dialog;    // used in testing, not relevant
+        this.$wrapper = instance.$wrapper;
     }
 
     componentWillMount() {
@@ -94,7 +116,12 @@ export default class UIPopover extends React.PureComponent {
         window.addEventListener('resize', this.align, true);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
+        /*
+            A nuance about this component: since it only renders a simple <div>, the main render() function
+            never changes. Therefore, we need to manually call `componentDidUpdate` after `setState` to trigger
+            a full re-render of the child dialog.
+         */
         this.renderDialog();
         this.align();
     }
@@ -106,23 +133,82 @@ export default class UIPopover extends React.PureComponent {
         window.removeEventListener('resize', this.align, true);
     }
 
-    getNextXPosition(anchor, dialog) {
-        const state = this.state;
+    cacheViewportCartography(anchor) {
+        const anchorRect = anchor.getBoundingClientRect();
+
+        this.anchorLeft = anchorRect.left;
+        this.anchorTop = anchorRect.top;
+        this.anchorHeight = anchorRect.height;
+        this.anchorWidth = anchorRect.width;
+
+        this.bodyLeft = document.body.scrollLeft;
+        this.bodyTop = document.body.scrollTop;
+    }
+
+    getNextCaretXPosition(anchor, caret = this.$caret) {
+        const {anchorXAlign, selfXAlign, anchorYAlign, selfYAlign} = this.state;
         const position = UIPopover.position;
 
-        let nextX = anchor.getBoundingClientRect().left + document.body.scrollLeft;
+        let nextX = 0;
 
-        switch (state.anchorXAlign) {
+        // we only want to change the X position when we're
+        // fully above or below the anchor and selfXAlign isn't MIDDLE
+
+        if (   selfXAlign !== position.MIDDLE
+            && (   anchorYAlign === position.START && selfYAlign === position.END
+                || anchorYAlign === position.END && selfYAlign === position.START)) {
+
+            if (anchorXAlign === position.START) {
+                nextX += this.anchorWidth / 2 - caret.clientWidth / 2;
+            } else if (anchorXAlign === position.END) {
+                nextX += this.$wrapper.clientWidth - this.anchorWidth / 2 - caret.clientWidth / 2;
+            }
+        }
+
+        return nextX;
+    }
+
+    getNextCaretYPosition(anchor, caret = this.$caret) {
+        const {anchorXAlign, selfXAlign, anchorYAlign, selfYAlign} = this.state;
+        const position = UIPopover.position;
+
+        let nextY = 0;
+
+        // we only want to change the Y position when we're
+        // fully to the left or right of the anchor (start,end | end,start)
+        // selfYAlign isn't MIDDLE
+
+        if (   selfYAlign !== position.MIDDLE
+            && (   anchorXAlign === position.START && selfXAlign === position.END
+                || anchorXAlign === position.END && selfXAlign === position.START)) {
+
+            if (anchorYAlign === position.START) {
+                nextY += this.anchorHeight / 2 - caret.clientWidth / 2;
+            } else if (anchorYAlign === position.END) {
+                nextY += this.$wrapper.clientHeight - this.anchorWidth / 2 - caret.clientWidth / 2;
+            }
+        }
+
+        return nextY;
+    }
+
+    getNextDialogXPosition(anchor, dialog = this.$wrapper) {
+        const {anchorXAlign, selfXAlign} = this.state;
+        const position = UIPopover.position;
+
+        let nextX = this.anchorLeft + this.bodyLeft;
+
+        switch (anchorXAlign) {
         case position.MIDDLE:
-            nextX += anchor.offsetWidth / 2;
+            nextX += this.anchorWidth / 2;
             break;
 
         case position.END:
-            nextX += anchor.offsetWidth;
+            nextX += this.anchorWidth;
             break;
         }
 
-        switch (state.selfXAlign) {
+        switch (selfXAlign) {
         case position.MIDDLE:
             nextX -= dialog.clientWidth / 2;
             break;
@@ -135,13 +221,12 @@ export default class UIPopover extends React.PureComponent {
         return nextX;
     }
 
-    getNextYPosition(anchor, dialog) {
+    getNextDialogYPosition(anchor, dialog = this.$wrapper) {
         const state = this.state;
         const position = UIPopover.position;
-        const anchorY = anchor.getBoundingClientRect().top + document.body.scrollTop;
-        const anchorHeight = anchor.offsetHeight;
+        const anchorY = this.anchorTop + this.bodyTop;
 
-        let nextY = anchorY + anchorHeight;
+        let nextY = anchorY + this.anchorHeight;
 
         switch (state.anchorYAlign) {
         case position.START:
@@ -149,7 +234,7 @@ export default class UIPopover extends React.PureComponent {
             break;
 
         case position.MIDDLE:
-            nextY = anchorY + anchorHeight / 2;
+            nextY = anchorY + this.anchorHeight / 2;
             break;
         }
 
@@ -166,32 +251,51 @@ export default class UIPopover extends React.PureComponent {
         return nextY;
     }
 
-    getAlignmentCorrectionIfOverflowing(node, x, y) {
+    getAlignmentCorrectionIfOverflowing(x, y) {
         if (!this.props.autoReposition) {
             return false;
         }
 
-        const corrections = {};
+        const corrections = {...this.state};
+        const position = UIPopover.position;
 
-        const width = node.clientWidth;
-        const height = node.clientHeight;
+        const width = this.$wrapper.clientWidth;
+        const height = this.$wrapper.clientHeight;
         const xMax = document.body.scrollWidth;
         const yMax = document.body.scrollHeight;
 
         if (x + width > xMax) { // overflowing off to the right
-            corrections.anchorXAlign = UIPopover.position.START;
-            corrections.selfXAlign = UIPopover.position.END;
-        } else if (x < 0) { // overflowing off to the left
-            corrections.anchorXAlign = UIPopover.position.END;
-            corrections.selfXAlign = UIPopover.position.START;
-        } else if (y + height > yMax) { // overflowing below
-            corrections.anchorYAlign = UIPopover.position.START;
-            corrections.selfYAlign = UIPopover.position.END;
-        } else if (y < 0) { // overflowing above
-            corrections.anchorYAlign = UIPopover.position.END;
-            corrections.anchorXAlign = UIPopover.position.MIDDLE;
-            corrections.selfYAlign = UIPopover.position.START;
-            corrections.selfXAlign = UIPopover.position.MIDDLE;
+            corrections.anchorXAlign = position.START;
+            corrections.selfXAlign = position.END;
+        }
+
+        if (x < 0) { // overflowing off to the left
+            corrections.anchorXAlign = position.END;
+            corrections.selfXAlign = position.START;
+        }
+
+        if (y + height > yMax) { // overflowing below
+            // if left/right
+            if (   (corrections.anchorXAlign === position.START && corrections.selfXAlign === position.END)
+                || (corrections.anchorXAlign === position.END && corrections.selfXAlign === position.START)) {
+                corrections.anchorYAlign = position.END;
+            } else {
+                corrections.anchorYAlign = position.START;
+            }
+
+            corrections.selfYAlign = position.END;
+        }
+
+        if (y < 0) { // overflowing above
+            // if left/right
+            if (   (corrections.anchorXAlign === position.START && corrections.selfXAlign === position.END)
+                || (corrections.anchorXAlign === position.END && corrections.selfXAlign === position.START)) {
+                corrections.anchorYAlign = position.START;
+            } else {
+                corrections.anchorYAlign = position.END;
+            }
+
+            corrections.selfYAlign = position.START;
         }
 
         return corrections;
@@ -206,21 +310,39 @@ export default class UIPopover extends React.PureComponent {
         }
     }
 
+    didAlignmentChange(nextAlignment, currentAlignment = this.state) {
+        return    nextAlignment.anchorXAlign !== currentAlignment.anchorXAlign
+               || nextAlignment.anchorYAlign !== currentAlignment.anchorYAlign
+               || nextAlignment.selfXAlign !== currentAlignment.selfXAlign
+               || nextAlignment.selfYAlign !== currentAlignment.selfYAlign;
+    }
+
     align = () => {
         const anchor =   this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
                        : ReactDOM.findDOMNode(this.props.anchor);
 
-        const x = Math.round(this.getNextXPosition(anchor, this.$dialog));
-        const y = Math.round(this.getNextYPosition(anchor, this.$dialog));
+        this.cacheViewportCartography(anchor);
 
-        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(this.$dialog, x, y);
+        const dx = Math.round(this.getNextDialogXPosition(anchor));
+        const dy = Math.round(this.getNextDialogYPosition(anchor));
 
-        if (alignmentCorrection && Object.keys(alignmentCorrection).length) {
-            return this.setState(alignmentCorrection, () => this.componentDidUpdate());
+        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dx, dy);
+
+        if (alignmentCorrection && this.didAlignmentChange(alignmentCorrection)) {
+            return this.setState(alignmentCorrection, this.componentDidUpdate);
         }
 
-        this.applyTranslation(this.$dialog, x, y);
+        // the caret is initially positioned at 0,0 inside the dialog
+        // which is already positioned at the anchor, so we just need to
+        // make small adjustments as necessary to line up the caret
+        // with the visual center of the anchor
+
+        this.$caret.style.left = Math.round(this.getNextCaretXPosition(anchor)) + 'px';
+        this.$caret.style.top = Math.round(this.getNextCaretYPosition(anchor)) + 'px';
+
+        this.applyTranslation(this.$caret, cx, 0);
+        this.applyTranslation(this.$wrapper, dx, dy);
     }
 
     getClassAlignmentFragment(constant) {
@@ -246,19 +368,24 @@ export default class UIPopover extends React.PureComponent {
             ReactDOM.render(
                 <UIDialog
                     {...omit(this.props, UIPopover.internalKeys)}
-                    className={cx({
-                        'ui-popover': true,
-                        [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
-                        [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
-                        [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
-                        [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                        [this.props.className]: !!this.props.className,
-                    })}
-                    style={{
-                        ...this.props.style,
-                        position: 'absolute',
-                        top: '0px',
-                        left: '0px',
+                    before={
+                        React.cloneElement(this.props.caretComponent, {
+                            ref: (node) => (this.$caret = node),
+                            className: cx({
+                                'ui-popover-caret': true,
+                                [this.props.caretComponent.props.className]: !!this.props.caretComponent.props.className,
+                            }),
+                        })
+                    }
+                    wrapperProps={{
+                        className: cx({
+                            'ui-popover': true,
+                            [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
+                            [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
+                            [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
+                            [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
+                            [this.props.className]: !!this.props.className,
+                        }),
                     }} />
             , this.$container)
         );

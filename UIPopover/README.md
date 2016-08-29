@@ -38,36 +38,54 @@ render() {
 Renders:
 
 ```html
-<div class="ui-popover ui-modal" role="dialog" aria-labelledby="{uniqueId}" aria-describedby="{uniqueId}" tabindex="0" style="top: {anchorYPos}px; left: {anchorXPos}px;">
-    <header id="{uniqueId}" class="ui-dialog-header"></header>
-    <div id="{uniqueId}" class="ui-dialog-body">
-        <strong>tran·scen·den·tal</strong>,
-        <em>adjective</em>
-        <ol>
-            <li tabindex="0">of or relating to a spiritual or nonphysical realm.</li>
-            <li tabindex="0">(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.</li>
-        </ol>
+<div class="ui-popover">
+    <div class="ui-popover-caret"><svg>...</svg></div>
+    <div class="ui-dialog" role="dialog" aria-labelledby="{uniqueId}" aria-describedby="{uniqueId}" tabindex="0" style="top: {anchorYPos}px; left: {anchorXPos}px;">
+        <header id="{uniqueId}" class="ui-dialog-header"></header>
+        <div id="{uniqueId}" class="ui-dialog-body">
+            <strong>tran·scen·den·tal</strong>,
+            <em>adjective</em>
+            <ol>
+                <li tabindex="0">of or relating to a spiritual or nonphysical realm.</li>
+                <li tabindex="0">(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.</li>
+            </ol>
+        </div>
+        <footer class="ui-dialog-footer"></footer>
     </div>
-    <footer class="ui-dialog-footer"></footer>
 </div>
 ```
 
-Combine the {element}{Axis}Align properties to create complete alignment points. For instance:
+Use a positioning preset to align the popover, e.g.
 
 ```jsx
-<UIPopover anchor={HTMLElement}
-           anchorXAlign={UIPopover.position.MIDDLE}
-           anchorYAlign={UIPopover.position.END}
-           body='foo' />
+<UIPopover
+    anchor={HTMLElement}
+    preset={UIPopover.preset.BELOW}>
+    My popover content!
+</UIPopover>
 ```
 
-Aligns the popover to `{50, 100}` on the anchor element (if it was approximately 100px x 100px)
+For more advanced positioning, combine the {element}{Axis}Align properties to create complete alignment points*. e.g.
+
+```jsx
+<UIPopover
+    anchor={HTMLElement}
+    anchorXAlign={UIPopover.position.MIDDLE}
+    anchorYAlign={UIPopover.position.END}>
+    My popover content!
+</UIPopover>
+```
+
+_*NOTE: reference styles are only provided for the preset use cases._
 
 Styling of the element will be provided via the CSS hooks:
 
 - `.ui-popover`
+- `.ui-popover-caret`
+- `.ui-popover-caret-border` (not available if `props.caretComponent` is overridden)
+- `.ui-popover-caret-fill`   (not available if `props.caretComponent` is overridden)
 
-Below are helper classes for each position combination; helpful for aligning UI "carets" if desired.
+Below are helper classes for each position combination; helpful for aligning UI carets if desired.
 
 - `.ui-popover-anchor-x-start`
 - `.ui-popover-anchor-x-middle`
@@ -124,6 +142,9 @@ Refer to [UIDialog](../UIDialog/README.md)
 - __autoReposition__ `Boolean`
   (default `true`) if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
 
+- __caretComponent__ `ReactElement`
+  (default svg) the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover
+
 - __captureFocus__ `Boolean`
   (default `false`) see [UIDialog.props.captureFocus](../UIDialog/README.md)
 
@@ -133,8 +154,20 @@ Refer to [UIDialog](../UIDialog/README.md)
 - __closeOnOutsideClick__ `Boolean`
   (default `true`) see [UIDialog.props.closeOnOutsideClick](../UIDialog/README.md)
 
-- __closeOnOutsideScroll__ `Boolean~
+- __closeOnOutsideScroll__ `Boolean`
   (default `true`) see [UIDialog.props.closeOnOutsideScroll](../UIDialog/README.md)
+
+- __preset__ `UIPopover.preset.ABOVE|UIPopover.preset.BELOW|UIPopover.preset.LEFT|UIPopover.preset.RIGHT`
+  (default `UIPopover.preset.BELOW`) a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well, e.g.
+
+  ```jsx
+  <UIPopover
+      anchor={HTMLElement}
+      preset={UIPopover.preset.BELOW}
+      selfXAlign={UIPopover.position.START}>
+      My popover content!
+  </UIPopover>
+  ```
 
 - __selfXAlign__ `Constant`
   (default `UIPopover.position.START`) location on the popover X-axis to use for alignment calculations

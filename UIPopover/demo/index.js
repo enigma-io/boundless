@@ -17,14 +17,16 @@ export default class UIPopoverDemo extends React.PureComponent {
             word: 'obstetrics',
             syllabicRepresentation: 'ob·stet·rics',
             type: 'noun',
+            preset: UIPopover.preset.ABOVE,
             primaryDefinition: 'the branch of medicine and surgery concerned with childbirth and the care of women giving birth',
             secondaryDefinitions: [],
-            anchorXAlign: UIPopover.position.MIDDLE,
-            selfXAlign: UIPopover.position.MIDDLE,
+            anchorXAlign: UIPopover.position.END,
+            selfXAlign: UIPopover.position.END,
         }, {
             word: 'olio',
             syllabicRepresentation: 'o·li·o',
             type: 'noun',
+            preset: UIPopover.preset.RIGHT,
             primaryDefinition: [
                 <span key='1'>another term for </span>,
                 <a key='2' href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>,
@@ -33,30 +35,20 @@ export default class UIPopoverDemo extends React.PureComponent {
                 'a miscellaneous collection of things',
                 'a variety act or show',
             ],
-            anchorXAlign: UIPopover.position.END,
-            anchorYAlign: UIPopover.position.MIDDLE,
-            selfXAlign: UIPopover.position.START,
-            selfYAlign: UIPopover.position.MIDDLE,
         }, {
             word: 'anastrophe',
             syllabicRepresentation: 'a·nas·tro·phe',
             type: 'noun',
+            preset: UIPopover.preset.BELOW,
             primaryDefinition: 'the inversion of the usual order of words or clauses',
             secondaryDefinitions: [],
-            anchorXAlign: UIPopover.position.START,
-            anchorYAlign: UIPopover.position.MIDDLE,
-            selfXAlign: UIPopover.position.END,
-            selfYAlign: UIPopover.position.MIDDLE,
         }, {
             word: 'octothorp',
             syllabicRepresentation: 'oc·to·thorp',
             type: 'noun',
+            preset: UIPopover.preset.LEFT,
             primaryDefinition: 'another term for the pound sign (#)',
             secondaryDefinitions: [],
-            anchorXAlign: UIPopover.position.MIDDLE,
-            anchorYAlign: UIPopover.position.START,
-            selfXAlign: UIPopover.position.MIDDLE,
-            selfYAlign: UIPopover.position.END,
         }],
     }
 
@@ -99,14 +91,16 @@ export default class UIPopoverDemo extends React.PureComponent {
     renderPopovers() {
         return this.state.words.map((definition, index) => {
             return this.state['showPopover' + index] ? (
-                <UIPopover key={definition.word}
-                           anchor={this.refs['word' + index]}
-                           anchorXAlign={definition.anchorXAlign}
-                           anchorYAlign={definition.anchorYAlign}
-                           closeOnOutsideFocus={true}
-                           onClose={this.closePopover.bind(this, index)}
-                           selfXAlign={definition.selfXAlign}
-                           selfYAlign={definition.selfYAlign}>
+                <UIPopover
+                    key={definition.word}
+                    anchor={this.refs['word' + index]}
+                    anchorXAlign={definition.anchorXAlign}
+                    anchorYAlign={definition.anchorYAlign}
+                    closeOnOutsideFocus={true}
+                    preset={definition.preset}
+                    onClose={this.closePopover.bind(this, index)}
+                    selfXAlign={definition.selfXAlign}
+                    selfYAlign={definition.selfYAlign}>
                     {this.renderBody(definition)}
                 </UIPopover>
             ) : undefined;

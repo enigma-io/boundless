@@ -50,6 +50,7 @@ Styling of the element will be provided via the CSS hook(s):
 - `.ui-dialog-header`
 - `.ui-dialog-body`
 - `.ui-dialog-footer`
+- `.ui-dialog-wrapper`
 
 ---
 
@@ -67,6 +68,12 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 ### Available `props`
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
+
+- __after__ `*`
+  (default `undefined`) arbitrary content to be rendered after the dialog in the DOM
+
+- __before__ `*`
+  (default `undefined`) arbitrary content to be rendered before the dialog in the DOM
 
 - __bodyProps__ `Object`
     - __bodyProps.*__

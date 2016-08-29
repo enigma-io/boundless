@@ -13,6 +13,8 @@ import uuid from '../UIUtils/uuid';
 
 export default class UIDialog extends React.PureComponent {
     static propTypes = {
+        after: React.PropTypes.node,
+        before: React.PropTypes.node,
         bodyProps: React.PropTypes.object,
         captureFocus: React.PropTypes.bool,
         children: React.PropTypes.node,
@@ -25,6 +27,7 @@ export default class UIDialog extends React.PureComponent {
         header: React.PropTypes.node,
         headerProps: React.PropTypes.object,
         onClose: React.PropTypes.func,
+        wrapperProps: React.PropTypes.object,
     }
 
     static internalKeys = Object.keys(UIDialog.propTypes)
@@ -39,6 +42,7 @@ export default class UIDialog extends React.PureComponent {
         footerProps: {},
         headerProps: {},
         onClose: noop,
+        wrapperProps: {},
     }
 
     // fallbacks if one isn't passed
@@ -68,7 +72,7 @@ export default class UIDialog extends React.PureComponent {
     isPartOfDialog(node) {
         if (!node || node === window) { return false; }
 
-        return this.$dialog.contains(node.nodeType === 3 ? node.parentNode : node);
+        return this.$wrapper.contains(node.nodeType === 3 ? node.parentNode : node);
     }
 
     handleFocus = (nativeEvent) => {
@@ -169,8 +173,17 @@ export default class UIDialog extends React.PureComponent {
 
     render() {
         return (
-            <div>
+            <div
+                {...this.props.wrapperProps}
+                ref={node => (this.$wrapper = node)}
+                className={cx({
+                    'ui-dialog-wrapper': true,
+                    [this.props.wrapperProps.className]: !!this.props.wrapperProps.className,
+                })}
+                tabIndex='0'>
                 {this.renderFocusBoundary()}
+
+                {this.props.before}
 
                 <div
                     {...omit(this.props, UIDialog.internalKeys)}
@@ -188,6 +201,8 @@ export default class UIDialog extends React.PureComponent {
                     {this.renderBody()}
                     {this.renderFooter()}
                 </div>
+
+                {this.props.after}
 
                 {this.renderFocusBoundary()}
             </div>

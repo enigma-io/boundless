@@ -109,6 +109,52 @@ describe('UIPopover component', () => {
         });
     });
 
+    describe('presets', () => {
+        it('configures the popover for the ABOVE preset', () => {
+            render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.ABOVE} />);
+
+            const popoverNode = document.querySelector('.ui-popover');
+
+            expect(popoverNode.classList.contains('ui-popover-anchor-x-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-x-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('configures the popover for the BELOW preset', () => {
+            render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.BELOW} />);
+
+            const popoverNode = document.querySelector('.ui-popover');
+
+            expect(popoverNode.classList.contains('ui-popover-anchor-x-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-x-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('configures the popover for the LEFT preset', () => {
+            render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.LEFT} />);
+
+            const popoverNode = document.querySelector('.ui-popover');
+
+            expect(popoverNode.classList.contains('ui-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-anchor-y-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-y-middle')).toBeTruthy();
+        });
+
+        it('configures the popover for the RIGHT preset', () => {
+            render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.RIGHT} />);
+
+            const popoverNode = document.querySelector('.ui-popover');
+
+            expect(popoverNode.classList.contains('ui-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-anchor-y-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('ui-popover-self-y-middle')).toBeTruthy();
+        });
+    });
+
     describe('passthrough to UIDialog', () => {
         let element;
 
@@ -116,6 +162,7 @@ describe('UIPopover component', () => {
             element = render(
                 <UIPopover
                     {...baseProps}
+                    autoReposition={false}
                     header='foo'
                     headerProps={{className: 'foo'}}
                     bodyProps={{className: 'foo'}}
