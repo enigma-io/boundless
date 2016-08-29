@@ -2,6 +2,141 @@
 
 ---
 
+## 1.0.0 (8/29/2016)
+
+### Breaking Changes
+
+__React >= 15.3 is now a requirement.__
+
+There are a lot of goodies in the more recent React versions, including `React.PureComponent` (we're using it heavily for optimization purposes).
+
+
+__UIView is no more.__
+
+In short, it serves no purpose with the advent of `React.PureComponent`. We get the same shallow checking for free within React and it happens in a more performant way.
+
+
+__UIPagination prop change: `pagerPosition` -> `initialPage`__
+
+There used to be a "controlled-mode" to this component, but that was removed due to being unintuitive. `initialPage` now functions more akin to `defaultValue`. Switching the page programmatically is possible via the method `pageToIndex(number)`.
+
+
+__UITokenizedInput prop change: `showTokenClose` -> `tokenCloseVisible`__
+
+Stylistic change to better group all the related token props visually and thematically.
+
+
+
+### What's new?
+
+
+__UIPopover is now simpler to use, with a more intelligent caret.__
+
+There are a variety of changes in here that all contribute to a more stable positioning algorithm.
+
+1. There are now 4 simple presets that cover the most common popover use cases (ABOVE, BELOW, LEFT, RIGHT).
+
+2. The positioning classes are now appended to the dialog wrapper
+
+3. `.ui-popover` is now applied to the dialog wrapper instead of the dialog itself
+
+4. Using an SVG caret with individually-themeable stroke and fill colors to make it easier to match themes. Can also swap it out
+   with a different component if desired.
+
+5. The caret now is centered on the anchor, rather than being arbitrarily placed via CSS
+
+
+__Several UITextualInput / UITypeaheadInput controlled-mode bugfixes.__
+
+That annoying warning about `setValue()` is also gone now.
+
+
+__`enigma-table` is now at version 1.4.__
+
+You can see the release notes for [version 1.2](https://github.com/bibliotech/table/releases/tag/1.2.0), [version 1.3](https://github.com/bibliotech/table/releases/tag/1.3.0) and [version 1.4](https://github.com/bibliotech/table/releases/tag/1.4.0). The biggest sexy change is that table will automatically scale up column widths if extra room is detected so there isn't dead space on the right side of the screen for very narrow tables.
+
+
+__We're no longer auto-persisting React events.__
+
+This means our components are now more performant by default due to not keeping event objects around longer than they need to be (React auto-reuses them.) You can still call `event.persist()` to keep them around for your needs, we just aren't doing it for you anymore.
+
+
+__You can customize the close button in UITokenizedInput tokens now.__
+
+Via the new `tokenCloseComponent` prop.
+
+
+__UIPagination bugfixes and new props.__
+
+1. the component is now much smarter about keeping the "significant index" in view when re-rendering due to layout changes; the
+   "significant index" is either the last one paged-to via `pageToIndex(number)` or the first visible item after pressing a forward/back control
+
+2. `itemLoadingContent` was introduced for customizing the content shown while waiting for an item promise to resolve
+
+3. `index` is now provided as a second argument to `itemToJSXConverterFunc`
+
+4. `customControlContent` was introduced to allow for arbitrary content to be injected into the pagination control area
+
+5. `showPaginationState` was introduced to toggle rendering of a new addition to the pagination control area: the pagination state
+   (in "1 of 10" format); a callback function can also be passed to allow for custom text or math
+
+
+### Relevant commits
+
+- (ae3e5e0) Refactor UIPopover's caret mechanism, add simple presets (#289)
+- (0c19117) RF: fix the same change handler going to both demo examples
+- (b4071ee) Light refactor on UITextualInput
+- (9cf5a2b) UITextualInput: trigger change event for programmatic value setting
+- (ac4473c) UITypeaheadInput: fix more controlled bugs & add regression tests
+- (9ee4de6) UITypeaheadInput: fix match computation in controlled mode
+- (310d73c) UITable: onHeaderCellInteract, custom injected header cell content support
+- (b5c605a) [Breaking Change] UIView removed, bump min React version, general cleanup (#286)
+- (3684938) Revert UITable test change to set a baseline width for everything
+- (22cbe56) UITable: fix column width comparison for initially undefined values
+- (3c518ec) Update to enigma-table 1.3
+- (2c6c492) Stop ignoring files for now
+- (565d824) Don't ignore the main exports file for ES6 mode
+- (e62fad5) Add more string fallbacks where input could end up undefined
+- (f39f8bd) UITypeaheadInput: Add a fallback empty string for setValue (#282)
+- (8416eae) [Behavioral Change] Stop persisting events, pass the onComplete event as second arg (#281)
+- (7e25861) Add `module` package.json property
+- (0dab49e) [Breaking Change] UITokenizedInput prop changes
+- (98dd9c3) UIPagination: switch cWRP to use transactional setState()
+- (7f06bd7) [Breaking Change] Rename pagerPosition -> initialPage, refactor UIPagination algo
+- (8212fbd) Update React deps
+- (46ba309) UIPagination: attempt to keep leading index in view
+- (7e4bc21) UIPagination item: re-render more eagerly, new prop
+- (70640ae) Fix tests after Jest 14 changes
+- (e9f05f8) UIPagination:itemToJSXConverterFunc: inject index as the second argument
+- (1cdeb9c) UITable: fix a bug in the column change detection logic
+- (a6e3e0d) UIPagination: new prop customControlContent
+- (1d0920b) UIPagination: new prop showPaginationState
+- (4942555) Fix linting issue
+- (74a684f) Update docs
+- (3ba1cd0) Update tests
+- (28fa046) Add pageToIndex method to jump to page of specific item
+- (dab092d) Make component minimally stateful Allows for more granular layout and control changes via props
+- (98fd21f) Ensure separate stubs are calledOnce
+- (f2c2113) Remove whitespace
+- (caad4bd) Update tests
+- (91a6686) Update docs
+- (d7dab33) [Breaking Change] Allow paging controls to accept any renderable content, rename props
+- (2032bc8) Ensure no children render before parent mounts
+- (636057a) Separate implicit JSX conversion in getItem into own prop
+- (d07f99d) Fix to uuid util func
+- (7ca8afa) Round alignment coordinates to prevent WebKit blurring issue
+- (16f33b5) Update to enigma-table 1.2.0
+- (67bafc4) Expose extractChildProps as a UIKit utility
+- (1c65b8e) Isolate uuid() into its own utility
+- (2142e51) UITypeaheadInput: controlled change should not cause a setState
+- (f170bcc) UITextualInput: controlled onChange should not update `state.input`
+- (c9f7ebd) UITextualInput: add "controlled" demo, remove onInput sampling
+- (0049053) UITokenizedInput: clear token selection when clicking on the input
+- (73c5ba7) UITokenizedInput: stop click bubbling for the close button
+
+
+---
+
 ## 1.0.0-beta-18 (7/7/2016)
 ### Breaking Changes
 

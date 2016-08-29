@@ -2,8 +2,6 @@
 
 UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
-During the beta releases, UIKit will not come with a compiled CSS "skin". Each component in the Github repository does have styles that can be copied and used in your project, though.
-
 __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+). You will also need to provide a `window.Promise` polyfill if your browser support matrix includes IE (non-Edge) and/or some mobile browsers: [http://caniuse.com/#search=Promise](http://caniuse.com/#search=Promise)__
 
 ---
@@ -36,7 +34,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 }
 ```
 
-> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0-beta-18`.
+> Due to the fact that we are not currently releasing UIKit via NPM, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update, e.g. `bibliotech/uikit#1.0.0`.
 
 ### without a bundling system
 
@@ -51,8 +49,8 @@ In this case, your HTML page would probably resemble the following:
     <body>
         <!-- some content or a root container -->
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
         <script src="//cdn.jsdelivr.net/polyfills/polyfill.js+promise"></script>
         <script src="js/uikit.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
@@ -67,7 +65,7 @@ In this case, your HTML page would probably resemble the following:
 ## Usage
 ### ES6 (bundled with Babel, etc.)
 
-```js
+```jsx
 import React from 'react';
 import {render} from 'react-dom';
 import {UIButton} from 'enigma-uikit';
@@ -83,7 +81,7 @@ render(<MyUI />, document.body);
 
 ### ES5 (bundled)
 
-```js
+```jsx
 var React = require('react');
 var ReactDOM = require('react-dom');
 var UIButton = require('enigma-uikit').UIButton;
@@ -98,7 +96,7 @@ ReactDOM.render(<MyUI />, document.body);
 ```
 
 ### ES5 (`public/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
-```js
+```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
 var UIButton = window.UIKit.UIButton;
