@@ -67,6 +67,7 @@ export default class UIPopover extends React.PureComponent {
         preset: PropTypes.oneOf(UIPopover.presetValues),
         selfXAlign: PropTypes.oneOf(UIPopover.positionValues),
         selfYAlign: PropTypes.oneOf(UIPopover.positionValues),
+        wrapperProps: PropTypes.object,
     }
 
     static internalKeys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
@@ -87,6 +88,7 @@ export default class UIPopover extends React.PureComponent {
         closeOnOutsideClick: true,
         closeOnOutsideScroll: true,
         preset: UIPopover.preset.BELOW,
+        wrapperProps: {},
     }
 
     constructor(props) {
@@ -378,13 +380,14 @@ export default class UIPopover extends React.PureComponent {
                         })
                     }
                     wrapperProps={{
+                        ...this.props.wrapperProps,
                         className: cx({
                             'ui-popover': true,
                             [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
                             [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
                             [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                             [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                            [this.props.className]: !!this.props.className,
+                            [this.props.wrapperProps.className]: !!this.props.wrapperProps.className,
                         }),
                     }} />
             , this.$container)

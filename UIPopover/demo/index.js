@@ -96,6 +96,7 @@ export default class UIPopoverDemo extends React.PureComponent {
                     anchor={this.refs['word' + index]}
                     anchorXAlign={definition.anchorXAlign}
                     anchorYAlign={definition.anchorYAlign}
+                    className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
                     onClose={this.closePopover.bind(this, index)}
