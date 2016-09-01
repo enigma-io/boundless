@@ -45,11 +45,15 @@ export default class UIDialog extends React.PureComponent {
         wrapperProps: {},
     }
 
+    mounted = false
+
     // fallbacks if one isn't passed
     uuidHeader = uuid()
     uuidBody = uuid()
 
     componentDidMount() {
+        this.mounted = true;
+
         if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
             this.$dialog.focus();
         }
@@ -62,6 +66,8 @@ export default class UIDialog extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
+
         window.removeEventListener('click', this.handleOutsideClick, true);
         window.removeEventListener('contextmenu', this.handleOutsideClick, true);
         window.removeEventListener('focus', this.handleFocus, true);
@@ -75,11 +81,13 @@ export default class UIDialog extends React.PureComponent {
         return this.$wrapper.contains(node.nodeType === 3 ? node.parentNode : node);
     }
 
+    callOnCloseIfMounted = () => this.mounted && this.props.onClose()
+
     handleFocus = (nativeEvent) => {
         if (!this.props.captureFocus) {
             if (this.props.closeOnOutsideFocus) {
                 if (!this.isPartOfDialog(nativeEvent.target)) {
-                    return window.setTimeout(() => this.props.onClose(), 0);
+                    return window.setTimeout(this.callOnCloseIfMounted, 0);
                 }
             }
 
@@ -98,7 +106,7 @@ export default class UIDialog extends React.PureComponent {
 
     handleKeyDown = (event) => {
         if (this.props.closeOnEscKey && event.key === 'Escape') {
-            window.setTimeout(() => this.props.onClose(), 0);
+            window.setTimeout(this.callOnCloseIfMounted, 0);
         }
 
         if (isFunction(this.props.onKeyDown)) {
@@ -108,13 +116,13 @@ export default class UIDialog extends React.PureComponent {
 
     handleOutsideClick = (nativeEvent) => {
         if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(() => this.props.onClose(), 0);
+            window.setTimeout(this.callOnCloseIfMounted, 0);
         }
     }
 
     handleOutsideScrollWheel = (nativeEvent) => {
         if (this.props.closeOnOutsideScroll && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(() => this.props.onClose(), 0);
+            window.setTimeout(this.callOnCloseIfMounted, 0);
         }
     }
 
