@@ -133,6 +133,9 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
 
+- __allowScrollPropagation__ `Boolean`
+  (default `false`) allows wheel events captured by the table component to propagate into scroll events and potentially move the page around it; this could be disorienting, use with caution
+
 - __columns__ `Array<Object>`
     - __columns[].children__ `*`
       content to be generated and injected alongside the column title; if you wish to inject customized DOM content, provide an object or array of objects conforming to the following spec:

@@ -36,6 +36,7 @@ const columnChildSpec = PropTypes.shape({
 
 export default class UITable extends React.PureComponent {
     static propTypes = {
+        allowScrollPropagation: PropTypes.bool,
         columns: PropTypes.arrayOf(
             PropTypes.shape({
                 children: PropTypes.oneOfType([
@@ -67,6 +68,7 @@ export default class UITable extends React.PureComponent {
     static internalKeys = Object.keys(UITable.propTypes)
 
     static defaultProps = {
+        allowScrollPropagation: false,
         className: '',
         offscreenClass: 'ui-offscreen',
         preserveScrollState: true,
@@ -83,6 +85,7 @@ export default class UITable extends React.PureComponent {
             'y-scroll-handle': this.refs['y-scroll-handle'],
             aria: this.refs.aria,
 
+            allowScrollPropagation: this.props.allowScrollPropagation,
             columns: this.props.columns,
             headerColumnClickFunc: this.props.onHeaderCellInteract,
             rowClickFunc: this.props.onRowInteract,
