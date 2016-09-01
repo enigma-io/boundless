@@ -93,6 +93,18 @@ describe('UIDialog component', () => {
         expect(document.querySelectorAll('.ui-offscreen[tabindex="0"]').length).toBe(0);
     });
 
+    it('will not call props.onClose if the dialog has been unmounted', () => {
+        const stub = sandbox.stub();
+        const element = render(<UIDialog closeOnOutsideClick={true} onClose={stub} />);
+
+        document.body.click();
+        ReactDOM.unmountComponentAtNode(mountNode);
+
+        sandbox.clock.tick(1);
+
+        expect(stub.called).toBe(false);
+    });
+
     describe('focus', () => {
         it('is applied to the dialog on render if `props.captureFocus` is `true`', () => {
             const element = render(<UIDialog captureFocus={true} />);
