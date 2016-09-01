@@ -2,6 +2,14 @@
 
 ---
 
+## 1.0.1 (9/1/2016)
+
+- (c546014) Update Jest to 15.x
+- (412eda8) UIDialog: don't call props.onClose if unmounted
+- (e5664be) UIPopover: fix className being added in the wrong spot
+
+---
+
 ## 1.0.0 (8/29/2016)
 
 ### Breaking Changes
