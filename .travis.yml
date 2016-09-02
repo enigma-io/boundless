@@ -10,3 +10,4 @@ cache:
 
 script:
   - "make test"
+  - "codecov"

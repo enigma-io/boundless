@@ -33,6 +33,7 @@
     "browserify": "^13.0.0",
     "budo": "^8.1.0",
     "bundle-collapser": "^1.2.1",
+    "codecov": "^1.0.1",
     "coveralls": "^2.11.9",
     "eslint": "^2.7.0",
     "eslint-plugin-react": "^4.2.3",
