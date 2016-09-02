@@ -1,5 +1,7 @@
 # UIKit
 
+[![Build Status](https://travis-ci.com/bibliotech/uikit.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/bibliotech/uikit)
+
 UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
 __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-table/es5/) (IE9+). You will also need to provide a `window.Promise` polyfill if your browser support matrix includes IE (non-Edge) and/or some mobile browsers: [http://caniuse.com/#search=Promise](http://caniuse.com/#search=Promise)__
