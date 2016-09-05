@@ -12,7 +12,7 @@
   "module": "exports.js",
   "dependencies": {
     "classnames": "^2.1.5",
-    "enigma-table": "bibliotech/table#1.5.2",
+    "enigma-table": "bibliotech/table#1.5.3",
     "escape-string-regexp": "^1.0.3",
     "lodash.omit": "^4.3.0",
     "lodash.values": "^4.3.0",
