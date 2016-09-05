@@ -206,7 +206,7 @@ describe('UITable component', () => {
 
             sandbox.spy(element.table, 'regenerate');
 
-            element = render(<UITable {...baseProps} jumpToRowIndex={1} />);
+            element = render(<UITable {...baseProps} jumpToRowIndex={9} />);
             expect(element.table.regenerate.calledOnce).toBe(true);
         });
     });
