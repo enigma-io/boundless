@@ -137,6 +137,13 @@ describe('UITable component', () => {
         });
     });
 
+    describe('props.jumpToRowIndex', () => {
+        it('marks the first row as active if 0 (regression)', () => {
+            const element = render(<UITable {...baseProps} jumpToRowIndex={0} />);
+            expect(element.table.getActiveRowIndex()).toBe(0);
+        });
+    });
+
     describe('props.identifier', () => {
         it('fully resets the table when changed', () => {
             let element = render(<UITable {...baseProps} />);

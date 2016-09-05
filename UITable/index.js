@@ -101,7 +101,7 @@ export default class UITable extends React.PureComponent {
     componentDidMount() {
         this.table = new Table(this.getSubviewConfiguration());
 
-        if (this.props.jumpToRowIndex) {
+        if (this.props.jumpToRowIndex !== undefined) {
             this.table.jumpToRowIndex(this.props.jumpToRowIndex);
         }
     }
