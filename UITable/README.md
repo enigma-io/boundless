@@ -183,6 +183,9 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 - __offscreenClass__ `String`
   (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
+- __onActiveRowChanged__ `Function(activeRowIndex: number|undefined)`
+  invoked when the table's active row is changed via arrow key, programmatically, etc.
+
 - __onCellInteract__ `Function(event: object, rowIndex: number, columnMapping: string)`
   invoked when a cell is interacted with
 

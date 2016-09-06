@@ -56,6 +56,7 @@ export default class UITable extends React.PureComponent {
         identifier: PropTypes.string,
         jumpToRowIndex: PropTypes.number,
         offscreenClass: PropTypes.string,
+        onActiveRowChanged: PropTypes.func,
         onCellInteract: PropTypes.func,
         onColumnResize: PropTypes.func,
         onHeaderCellInteract: PropTypes.func,
@@ -85,6 +86,7 @@ export default class UITable extends React.PureComponent {
             'y-scroll-handle': this.refs['y-scroll-handle'],
             aria: this.refs.aria,
 
+            activeRowChangedFunc: this.props.onActiveRowChanged,
             allowScrollPropagation: this.props.allowScrollPropagation,
             columns: this.props.columns,
             headerColumnClickFunc: this.props.onHeaderCellInteract,
