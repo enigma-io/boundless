@@ -189,21 +189,22 @@ describe('UITable component', () => {
         });
 
         it('does not occur if a column width is changed to match the internal column width', () => {
+            const columns = baseProps.columns.slice(0, 1).map((column) => ({...column, width: 100}));
             let element;
 
-            element = render(<UITable {...baseProps} />);
+            element = render(<UITable {...baseProps} columns={columns} />);
 
-            sandbox.spy(element.table, 'regenerate');
+            spyOn(element.table, 'regenerate');
 
             element.table.columns[0].width = 300;
 
             const modified_columns = [
-                {...baseProps.columns[0], width: 300},
-                ...baseProps.columns.slice(1),
+                {...columns[0], width: 300},
             ];
 
             element = render(<UITable {...baseProps} columns={modified_columns} />);
-            expect(element.table.regenerate.called).toBe(false);
+
+            expect(element.table.regenerate).not.toHaveBeenCalled();
         });
 
         it('only occurs once when given `props.jumpToRowIndex`', () => {
