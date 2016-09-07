@@ -22,7 +22,6 @@ function didColumnsChange(currentColumns, prevColumns, tableInternalColumns) {
     // this will also catch if the order of the columns changed when comparing
     // the mapping property
     return currentColumns.some((column, index) => {
-        console.log(column.width, tableInternalColumns[index].width)
         return    column.mapping !== prevColumns[index].mapping
                || column.title !== prevColumns[index].title
                || column.resizable !== prevColumns[index].resizable
