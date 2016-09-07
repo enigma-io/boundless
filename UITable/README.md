@@ -171,6 +171,9 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
     - __columns[].width__ `Number`
       (default `null`) a defined initial width for all cells associated with the column
 
+- __fitColumnsToTableWidth__ `Boolean`
+  (default `false`) automatically try to exactly fit the columns to the available space, respecting detected min/max column widths
+
 - __getRow__ `Function`
   called with a desired item index when that row number will come into view, accepts a `Promise` if you need to fetch the row asynchronously
 

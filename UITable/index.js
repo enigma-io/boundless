@@ -52,6 +52,7 @@ export default class UITable extends React.PureComponent {
                 width: PropTypes.number,
             })
         ),
+        fitColumnsToTableWidth: PropTypes.bool,
         getRow: PropTypes.func,
         identifier: PropTypes.string,
         jumpToRowIndex: PropTypes.number,
@@ -71,6 +72,7 @@ export default class UITable extends React.PureComponent {
     static defaultProps = {
         allowScrollPropagation: false,
         className: '',
+        fitColumnsToTableWidth: false,
         offscreenClass: 'ui-offscreen',
         preserveScrollState: true,
     }
@@ -89,10 +91,11 @@ export default class UITable extends React.PureComponent {
             activeRowChangedFunc: this.props.onActiveRowChanged,
             allowScrollPropagation: this.props.allowScrollPropagation,
             columns: this.props.columns,
+            columnResizeFunc: this.props.onColumnResize,
+            fitColumnsToTable: this.props.fitColumnsToTableWidth,
             headerColumnClickFunc: this.props.onHeaderCellInteract,
             rowClickFunc: this.props.onRowInteract,
             cellClickFunc: this.props.onCellInteract,
-            onColumnResize: this.props.onColumnResize,
             getRow: this.props.getRow,
             preserveScrollState: this.props.preserveScrollState,
             throttleInterval: this.props.throttleInterval,
