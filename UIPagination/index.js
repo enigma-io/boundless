@@ -6,6 +6,7 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
+import isInteger from 'lodash.isinteger';
 import omit from 'lodash.omit';
 
 import UISegmentedControl from '../UISegmentedControl';
@@ -109,7 +110,7 @@ export default class UIPagination extends React.PureComponent {
         identifier: PropTypes.string.isRequired,
 
         initialPage: function validateInitialPage(props) {
-            if (typeof props.initialPage !== 'number' || parseInt(props.initialPage, 10) !== props.initialPage) {
+            if (isInteger(props.initialPage) === false) {
                 return new Error('`initialPage` must be an integer.');
             }
 
@@ -128,7 +129,7 @@ export default class UIPagination extends React.PureComponent {
         nextPageControlContent: PropTypes.node,
 
         numItemsPerPage: function validateNumItemsPerPage(props) {
-            if (typeof props.numItemsPerPage !== 'number' || parseInt(props.numItemsPerPage, 10) !== props.numItemsPerPage) {
+            if (isInteger(props.numItemsPerPage) === false) {
                 return new Error('`numItemsPerPage` must be an integer.');
             } else if (props.numItemsPerPage < 1) {
                 return new Error('`numItemsPerPage` must be greater than zero.');
