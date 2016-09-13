@@ -109,7 +109,7 @@ export default class UIPagination extends React.PureComponent {
         identifier: PropTypes.string.isRequired,
 
         initialPage: function validateInitialPage(props) {
-            if (!Number.isInteger(props.initialPage)) {
+            if (typeof props.initialPage !== 'number' || parseInt(props.initialPage) !== props.initialPage) {
                 return new Error('`initialPage` must be an integer.');
             }
 
@@ -128,7 +128,7 @@ export default class UIPagination extends React.PureComponent {
         nextPageControlContent: PropTypes.node,
 
         numItemsPerPage: function validateNumItemsPerPage(props) {
-            if (!Number.isInteger(props.numItemsPerPage)) {
+            if (typeof props.numItemsPerPage !== 'number' || parseInt(props.numItemsPerPage) !== props.numItemsPerPage) {
                 return new Error('`numItemsPerPage` must be an integer.');
             } else if (props.numItemsPerPage < 1) {
                 return new Error('`numItemsPerPage` must be greater than zero.');
