@@ -20,6 +20,12 @@ export default class UIArrowKeyNavigationDemo extends React.PureComponent {
                 <UIArrowKeyNavigation component='ol'>
                     {this.state.items.map(item => <li key={item}>{item}</li>)}
                 </UIArrowKeyNavigation>
+
+                <UIArrowKeyNavigation>
+                    <div>lorem</div>
+                    <hr tabIndex='-1' />
+                    <div>dolor</div>
+                </UIArrowKeyNavigation>
             </div>
         );
     }

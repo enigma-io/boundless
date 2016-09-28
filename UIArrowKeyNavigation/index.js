@@ -46,7 +46,11 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
           : findDOMNode(this.refs.wrapper)
         ).children[index];
 
-        if (childNode && document.activeElement !== childNode) {
+        if (childNode && childNode.getAttribute('tabindex') === '-1') {
+            this.moveFocus(
+                childNode.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+            );
+        } else if (childNode && document.activeElement !== childNode) {
             childNode.focus();
         }
     }
@@ -113,7 +117,7 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
         return React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
                 key: child.key || index,
-                tabIndex: child.tabIndex || 0,
+                tabIndex: child.props.tabIndex !== undefined ? child.props.tabIndex : 0,
                 onBlur: this.handleChildBlur.bind(this, index, child),
                 onFocus: this.handleChildFocus.bind(this, index, child),
             });

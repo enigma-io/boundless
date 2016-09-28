@@ -252,4 +252,32 @@ describe('UIArrowKeyNavigation higher-order component', () => {
             expect(stub.calledWithMatch({key: 'ArrowDown'})).toBe(true);
         });
     });
+
+    describe('skipping focus of element with tabindex="-1"', () => {
+        beforeEach(() => {
+            element = render(
+                <UIArrowKeyNavigation>
+                    <li>apple</li>
+                    <li tabIndex='-1'>pear</li>
+                    <li>orange</li>
+                </UIArrowKeyNavigation>
+            );
+
+            node = element.refs.wrapper;
+        });
+
+        it('moves focus to the next child that does not have tabindex="-1"', () => {
+            Simulate.focus(node.children[0]);
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+
+            expect(document.activeElement).toBe(node.children[2]);
+        });
+
+        it('moves focus to the previous child that does not have tabindex="-1"', () => {
+            Simulate.focus(node.children[2]);
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+
+            expect(document.activeElement).toBe(node.children[0]);
+        });
+    });
 });
