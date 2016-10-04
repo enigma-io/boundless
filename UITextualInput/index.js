@@ -47,7 +47,7 @@ export default class UITextualInput extends React.PureComponent {
         }
     }
 
-    setInputValue = (value = '') => this.setState((state) => ({...state, input: value}))
+    setInputValue = (value = '') => this.setState({input: value})
 
     getValue = () => this.refs.field.value
 
@@ -62,23 +62,23 @@ export default class UITextualInput extends React.PureComponent {
         }
     }
 
-    handleBlur = event => {
-        this.setState((state) => ({...state, isFocused: false}));
+    handleBlur = (event) => {
+        this.setState({isFocused: false});
 
         if (isFunction(this.props.inputProps.onBlur) === true) {
             this.props.inputProps.onBlur(event);
         }
     }
 
-    handleFocus = event => {
-        this.setState((state) => ({...state, isFocused: true}));
+    handleFocus = (event) => {
+        this.setState({isFocused: true});
 
         if (isFunction(this.props.inputProps.onFocus) === true) {
             this.props.inputProps.onFocus(event);
         }
     }
 
-    handleChange = event => {
+    handleChange = (event) => {
         // for "controlled" scenarios, updates to the cached input text should come
         // exclusively via props (cWRP) so it exactly mirrors the current application
         // state, otherwise a re-render will occur before the new text has completed its

@@ -85,7 +85,7 @@ export default class UITypeaheadInput extends React.PureComponent {
         selectedEntityIndex: -1,
     }
 
-    updateInputState = (value = '') => this.setState((state) => ({...state, input: value}))
+    updateInputState = (value = '') => this.setState({input: value})
 
     componentWillMount() {
         if (this.props.inputProps.value || this.props.inputProps.defaultValue) {
@@ -128,10 +128,7 @@ export default class UITypeaheadInput extends React.PureComponent {
     }
 
     handleMatchClick(index) {
-        this.setState(
-            (state) => ({...state, selectedEntityIndex: index}),
-            this.setValueWithSelectedEntity,
-        );
+        this.setState({selectedEntityIndex: index}, this.setValueWithSelectedEntity);
     }
 
     selectMatch(delta) {
@@ -160,17 +157,14 @@ export default class UITypeaheadInput extends React.PureComponent {
                 matchesNode.scrollTop = matchNodeYStart;
             }
 
-            this.setState((state) => ({...state, selectedEntityIndex: matchIndex}));
+            this.setState({selectedEntityIndex: matchIndex});
         }
     }
 
     resetMatches = () => {
-        this.setState((state) => {
-            return {
-                ...state,
-                selectedEntityIndex: -1,
-                entityMatchIndexes: [],
-            };
+        this.setState({
+            selectedEntityIndex: -1,
+            entityMatchIndexes: [],
         });
     }
 
@@ -317,7 +311,6 @@ export default class UITypeaheadInput extends React.PureComponent {
             const matches = currentValue === '' ? [] : this.getMatchIndexes(currentValue, entities);
 
             return {
-                ...state,
                 selectedEntityIndex: matches.length ? matches[0] : -1,
                 entityMatchIndexes: matches,
             };
