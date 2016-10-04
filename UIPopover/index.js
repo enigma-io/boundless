@@ -79,8 +79,8 @@ export default class UIPopover extends React.PureComponent {
         caretComponent: (
             <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
                 <g>
-                    <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10'></polygon>
-                    <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10'></polygon>
+                    <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
+                    <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
                 </g>
             </svg>
         ),
