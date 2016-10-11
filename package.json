@@ -12,7 +12,6 @@
   "module": "exports.js",
   "dependencies": {
     "classnames": "^2.1.5",
-    "enigma-table": "bibliotech/table#8ef0c3e2e3ec8af31456bbc8fd692af1090dbb71",
     "escape-string-regexp": "^1.0.3",
     "lodash.isinteger": "^4.0.4",
     "lodash.omit": "^4.3.0",
@@ -54,10 +53,6 @@
     "through": "^2.3.8",
     "uglify-js": "^2.6.2",
     "watchify": "^3.7.0"
-  },
-  "peerDependencies": {
-    "react": ">= 15.3",
-    "react-dom": ">= 15.3"
   },
   "jest": {
     "coverageReporters": [
