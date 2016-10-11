@@ -1,6 +1,6 @@
 # UIKit
 
-[![Build Status](https://travis-ci.com/bibliotech/uikit.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/bibliotech/uikit)
+[![Build Status](https://travis-ci.com/bibliotech/uikit.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/bibliotech/uikit) [![codecov](https://codecov.io/gh/bibliotech/uikit/branch/master/graph/badge.svg?token=uOOyfMhZOc)](https://codecov.io/gh/bibliotech/uikit)
 
 UIKit is a problem-solving [React JS](https://facebook.github.io/react/) component pack, meant to provide implementations for common UI needs that need normalized behavior and are difficult and/or unreasonable to write anew for every project. Each component is designed with maximum extensibility in mind, with _at least_ basic screen-reader & ARIA support.
 
