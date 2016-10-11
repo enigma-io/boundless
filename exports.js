@@ -21,7 +21,6 @@ module.exports = {
     UIProgressiveDisclosure: (global.UIKit.UIProgressiveDisclosure = require('./UIProgressiveDisclosure').default),
     UIRadio: (global.UIKit.UIRadio = require('./UIRadio').default),
     UISegmentedControl: (global.UIKit.UISegmentedControl = require('./UISegmentedControl').default),
-    UITable: (global.UIKit.UITable = require('./UITable').default),
     UITokenizedInput: (global.UIKit.UITokenizedInput = require('./UITokenizedInput').default),
     UITextualInput: (global.UIKit.UITextualInput = require('./UITextualInput').default),
     UITooltip: (global.UIKit.UITooltip = require('./UITooltip').default),
