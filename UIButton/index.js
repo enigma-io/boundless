@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import omit from 'lodash.omit';
 
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 
 export default class UIButton extends React.PureComponent {
     static propTypes = {

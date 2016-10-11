@@ -5,9 +5,9 @@
 
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
-import omit from 'lodash.omit';
 
 import UICheckbox from '../UICheckbox';
+import omit from '../UIUtils/omit';
 import noop from '../UIUtils/noop';
 
 export default class UICheckboxGroup extends React.PureComponent {

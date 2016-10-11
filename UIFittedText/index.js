@@ -6,7 +6,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
-import omit from 'lodash.omit';
+
+import omit from '../UIUtils/omit';
 
 const instances = [];
 

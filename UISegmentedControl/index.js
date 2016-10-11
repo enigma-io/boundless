@@ -6,11 +6,11 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
-import omit from 'lodash.omit';
 
 import UIButton from '../UIButton';
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 
 export default class UISegmentedControl extends React.PureComponent {
     static propTypes = {

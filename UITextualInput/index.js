@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
-import omit from 'lodash.omit';
+
 import isFunction from '../UIUtils/isFunction';
 import isString from '../UIUtils/isString';
+import omit from '../UIUtils/omit';
 
 export default class UITextualInput extends React.PureComponent {
     static propTypes = {

@@ -4,13 +4,13 @@
  */
 
 import React from 'react';
-import omit from 'lodash.omit';
 import cx from 'classnames';
 
 import UITypeaheadInput from '../UITypeaheadInput';
 import extractChildProps from '../UIUtils/extractChildProps';
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 
 const first = array => array[0];
 const last = array => array[array.length - 1];

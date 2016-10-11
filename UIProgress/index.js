@@ -5,9 +5,9 @@
 
 import React from 'react';
 import cx from 'classnames';
-import omit from 'lodash.omit';
 
 import UIButton from '../UIButton';
+import omit from '../UIUtils/omit';
 
 export default class UIProgress extends React.PureComponent {
     static propTypes = {

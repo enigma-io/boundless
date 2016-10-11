@@ -13,10 +13,7 @@
   "dependencies": {
     "classnames": "^2.1.5",
     "escape-string-regexp": "^1.0.3",
-    "lodash.isinteger": "^4.0.4",
-    "lodash.omit": "^4.3.0",
-    "lodash.values": "^4.3.0",
-    "lodash.without": "^4.2.0"
+    "lodash.isinteger": "^4.0.4"
   },
   "devDependencies": {
     "autoprefixer-stylus": "^0.9.2",

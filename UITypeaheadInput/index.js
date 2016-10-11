@@ -6,13 +6,13 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
-import omit from 'lodash.omit';
 
 import UITextualInput from '../UITextualInput';
 import extractChildProps from '../UIUtils/extractChildProps';
 import isFunction from '../UIUtils/isFunction';
 import isString from '../UIUtils/isString';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
 export default class UITypeaheadInput extends React.PureComponent {

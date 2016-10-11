@@ -4,11 +4,11 @@
  */
 
 import React, {PropTypes} from 'react';
-import omit from 'lodash.omit';
 import cx from 'classnames';
 
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
 export default class UICheckbox extends React.PureComponent {

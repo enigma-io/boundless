@@ -7,12 +7,12 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import isInteger from 'lodash.isinteger';
-import omit from 'lodash.omit';
 
 import UISegmentedControl from '../UISegmentedControl';
 import UIArrowKeyNavigation from '../UIArrowKeyNavigation';
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
+import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
 class Item extends React.Component {

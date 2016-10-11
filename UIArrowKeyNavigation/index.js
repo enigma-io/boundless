@@ -1,9 +1,9 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import omit from 'lodash.omit';
 
 import isFunction from '../UIUtils/isFunction';
 import isString from '../UIUtils/isString';
+import omit from '../UIUtils/omit';
 
 export default class UIArrowKeyNavigation extends React.PureComponent {
     static propTypes = {

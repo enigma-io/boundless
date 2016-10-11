@@ -6,10 +6,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
-import omit from 'lodash.omit';
 
 import UIDialog from '../UIDialog';
 import extractChildProps from '../UIUtils/extractChildProps';
+import omit from '../UIUtils/omit';
 
 export default class UIModal extends React.PureComponent {
     static propTypes = {

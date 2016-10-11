@@ -6,12 +6,13 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
-import omit from 'lodash.omit';
-import without from 'lodash.without';
-import values from 'lodash.values';
 
 import UIDialog from '../UIDialog';
+import omit from '../UIUtils/omit';
 import transformProp from '../UIUtils/transformProperty';
+
+function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
+function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
 
 export default class UIPopover extends React.PureComponent {
     static position = {
@@ -70,7 +71,7 @@ export default class UIPopover extends React.PureComponent {
         wrapperProps: PropTypes.object,
     }
 
-    static internalKeys = without(Object.keys(UIPopover.propTypes), ...Object.keys(UIDialog.propTypes))
+    static internalKeys = without(Object.keys(UIPopover.propTypes), Object.keys(UIDialog.propTypes))
 
     static defaultProps = {
         ...UIDialog.defaultProps,
