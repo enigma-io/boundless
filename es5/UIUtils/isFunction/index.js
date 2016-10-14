@@ -1,8 +1,0 @@
-'use strict';
-
-exports.__esModule = true;
-
-exports.default = function (test) {
-  return typeof test === 'function';
-};
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL1VJVXRpbHMvaXNGdW5jdGlvbi9pbmRleC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O2tCQUFlLFVBQUMsSUFBRDtBQUFBLFNBQVUsT0FBTyxJQUFQLEtBQWdCLFVBQTFCO0FBQUEsQyIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0ICh0ZXN0KSA9PiB0eXBlb2YgdGVzdCA9PT0gJ2Z1bmN0aW9uJ1xuIl19

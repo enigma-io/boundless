@@ -40,7 +40,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 
 ### without a bundling system
 
-You can simply copy the [public/uikit.min.js](https://github.com/bibliotech/uikit/blob/master/public/uikit.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
+You can simply copy the [public/uikit.standalone.min.js](https://github.com/bibliotech/uikit/blob/master/public/uikit.standalone.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
 In this case, your HTML page would probably resemble the following:
 ```html
@@ -51,10 +51,10 @@ In this case, your HTML page would probably resemble the following:
     <body>
         <!-- some content or a root container -->
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.min.js"></script>
         <script src="//cdn.jsdelivr.net/polyfills/polyfill.js+promise"></script>
-        <script src="js/uikit.min.js"></script>
+        <script src="js/uikit.standalone.min.js"></script>
         <script src="js/myapp.js"></script><!-- Your code that uses window.UIKit.<moduleName> goes last. -->
     </body>
 </html>
@@ -97,7 +97,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-### ES5 (`public/uikit.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
+### ES5 (`public/uikit.standalone.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)
 ```jsx
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -112,7 +112,7 @@ function MyUI() {
 ReactDOM.render(<MyUI />, document.body);
 ```
 
-### ES5 (`public/uikit.min.js` dropped into the page)
+### ES5 (`public/uikit.standalone.min.js` dropped into the page)
 ```js
 var React = window.React;
 var ReactDOM = window.ReactDOM;
@@ -125,7 +125,7 @@ function MyUI() {
 ReactDOM.render(MyUI(), document.body);
 ```
 
-An unminified version with bundled sourcemapping for easy debugging during the development process is available: [public/uikit.js](public/uikit.js)
+An unminified version with bundled sourcemapping for easy debugging during the development process is available: [public/uikit.standalone.js](public/uikit.standalone.js)
 
 [back to top](#uikit)
 

@@ -8,6 +8,3 @@ node_modules/
 coverage/
 site/public/
 docs/sdk/
-
-# Uncomment this when we are serving to npm for realzies
-#es5/

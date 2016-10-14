@@ -1,10 +1,37 @@
 {
-    "plugins": [
-        "transform-class-properties"
-    ],
-    "presets": [
-        "es2015-loose",
-        "react",
-        "stage-2"
-    ]
+    "env": {
+        "development": {
+            "plugins": [
+                "transform-class-properties"
+            ],
+            "presets": [
+                "es2015",
+                "react",
+                "stage-2"
+            ]
+        },
+
+        "production": {
+            "plugins": [
+                "external-helpers",
+                "transform-class-properties"
+            ],
+            "presets": [
+                ["es2015", {"modules": false}],
+                "react",
+                "stage-2"
+            ],
+        },
+
+        "test": {
+            "plugins": [
+                "transform-class-properties"
+            ],
+            "presets": [
+                "es2015",
+                "react",
+                "stage-2"
+            ]
+        }
+    }
 }

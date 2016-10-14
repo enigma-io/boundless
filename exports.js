@@ -3,32 +3,28 @@
  * and directly use a component like: `require('enigma-uikit').UIButton`
  */
 
-global.UIKit = {};
-global.UIKit.UIUtils = {};
+export {default as UIArrowKeyNavigation} from './UIArrowKeyNavigation';
+export {default as UIButton} from './UIButton';
+export {default as UICheckbox} from './UICheckbox';
+export {default as UICheckboxGroup} from './UICheckboxGroup';
+export {default as UIDialog} from './UIDialog';
+export {default as UIFittedText} from './UIFittedText';
+export {default as UIImage} from './UIImage';
+export {default as UIModal} from './UIModal';
+export {default as UIPagination} from './UIPagination';
+export {default as UIPopover} from './UIPopover';
+export {default as UIProgress} from './UIProgress';
+export {default as UIProgressiveDisclosure} from './UIProgressiveDisclosure';
+export {default as UIRadio} from './UIRadio';
+export {default as UISegmentedControl} from './UISegmentedControl';
+export {default as UITokenizedInput} from './UITokenizedInput';
+export {default as UITextualInput} from './UITextualInput';
+export {default as UITypeaheadInput} from './UITypeaheadInput';
+export {default as UITooltip} from './UITooltip';
 
-module.exports = {
-    UIArrowKeyNavigation: (global.UIKit.UIArrowKeyNavigation = require('./UIArrowKeyNavigation').default),
-    UIButton: (global.UIKit.UIButton = require('./UIButton').default),
-    UICheckbox: (global.UIKit.UICheckbox = require('./UICheckbox').default),
-    UICheckboxGroup: (global.UIKit.UICheckboxGroup = require('./UICheckboxGroup').default),
-    UIDialog: (global.UIKit.UIDialog = require('./UIDialog').default),
-    UIFittedText: (global.UIKit.UIFittedText = require('./UIFittedText').default),
-    UIImage: (global.UIKit.UIImage = require('./UIImage').default),
-    UIModal: (global.UIKit.UIModal = require('./UIModal').default),
-    UIPagination: (global.UIKit.UIPagination = require('./UIPagination').default),
-    UIPopover: (global.UIKit.UIPopover = require('./UIPopover').default),
-    UIProgress: (global.UIKit.UIProgress = require('./UIProgress').default),
-    UIProgressiveDisclosure: (global.UIKit.UIProgressiveDisclosure = require('./UIProgressiveDisclosure').default),
-    UIRadio: (global.UIKit.UIRadio = require('./UIRadio').default),
-    UISegmentedControl: (global.UIKit.UISegmentedControl = require('./UISegmentedControl').default),
-    UITokenizedInput: (global.UIKit.UITokenizedInput = require('./UITokenizedInput').default),
-    UITextualInput: (global.UIKit.UITextualInput = require('./UITextualInput').default),
-    UITooltip: (global.UIKit.UITooltip = require('./UITooltip').default),
-    UITypeaheadInput: (global.UIKit.UITypeaheadInput = require('./UITypeaheadInput').default),
-    UIUtils: {
-        extractChildProps: (global.UIKit.UIUtils.extractChildProps = require('./UIUtils/extractChildProps').default),
-        notify: (global.UIKit.UIUtils.notify = require('./UIUtils/notify').default),
-        transformProperty: (global.UIKit.UIUtils.transformProperty = require('./UIUtils/transformProperty').default),
-        uuid: (global.UIKit.UIUtils.uuid = require('./UIUtils/uuid').default),
-    },
-};
+import extractChildProps from './UIUtils/extractChildProps';
+import notify from './UIUtils/notify';
+import transformProperty from './UIUtils/transformProperty';
+import uuid from './UIUtils/uuid';
+
+export const UIUtils = {extractChildProps, notify, transformProperty, uuid};

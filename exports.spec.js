@@ -1,9 +1,9 @@
-import UIKit from './exports.js';
+import * as UIKit from './exports.js';
 import fs from 'fs';
 
 describe('exports', () => {
     it('does not have any undefined keys (if failed, the require is probably wrong)', () => {
-        Object.keys(global.UIKit).forEach(key => expect(UIKit).not.toBeUndefined());
+        Object.keys(UIKit).forEach(key => expect(UIKit).not.toBeUndefined());
     });
 
     it('has as many keys as there are component folders', () => {
@@ -25,18 +25,18 @@ describe('exports', () => {
 
     describe('globalized exports', () => {
         it('exists', () => {
-            expect(global.UIKit).not.toBeUndefined();
+            expect(UIKit).not.toBeUndefined();
         });
 
         it('does not have any undefined keys (if failed, the require is probably wrong)', () => {
-            Object.keys(global.UIKit).forEach(key => expect(UIKit).not.toBeUndefined());
+            Object.keys(UIKit).forEach(key => expect(UIKit).not.toBeUndefined());
         });
 
         it('has as many keys as there are component folders', () => {
             // only get folders starting with "UI"
             const folders = fs.readdirSync('.').filter(name => /^UI/.test(name));
 
-            folders.forEach(name => expect(global.UIKit[name]).not.toBeUndefined());
+            folders.forEach(name => expect(UIKit[name]).not.toBeUndefined());
         });
     })
 });

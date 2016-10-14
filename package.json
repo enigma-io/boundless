@@ -7,9 +7,7 @@
     "Evan Jacobs <evan.jacobs@enigma.io>",
     "Abe Rubenstein <abe.rubenstein@enigma.io>"
   ],
-  "main": "es5/exports.js",
-  "jsnext:main": "exports.js",
-  "module": "exports.js",
+  "main": "public/uikit.commonjs.js",
   "dependencies": {
     "classnames": "^2.1.5",
     "escape-string-regexp": "^1.0.3",
@@ -20,9 +18,9 @@
     "babel-cli": "^6.6.4",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^16.0.0",
+    "babel-plugin-external-helpers": "^6.8.0",
     "babel-plugin-transform-class-properties": "^6.6.0",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "babelify": "^7.0.0",
@@ -45,6 +43,10 @@
     "react-dom": "^15.3.0",
     "react-remarkable": "^1.1.1",
     "react-router": "^2.7.0",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-node-resolve": "^2.0.0",
     "sinon": "^1.17.3",
     "stylus": "^0.54.2",
     "through": "^2.3.8",
@@ -78,11 +80,10 @@
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "css:watch": "npm run css -- -w",
-    "es5": "rm -rf es5 && babel . --ignore coverage,demo,es5,node_modules,public,site,*/**/*.spec.js --out-dir es5 --source-maps inline",
-    "es5:watch": "npm run es5 -- -w",
     "exclude_peer_deps": "echo $(node -p \"'-x ' + Object.keys(require('./package').peerDependencies).join(' -x ')\")",
-    "js": "browserify exports.js -t babelify -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) -p bundle-collapser/plugin --debug -o public/uikit.js",
-    "js:release": "NODE_ENV=production browserify exports.js -t babelify -t [ exposify --expose [ --react React --react-dom ReactDOM ] ] $(npm run -s exclude_peer_deps) -p bundle-collapser/plugin | uglifyjs -mc drop_console --screw-ie8 > public/uikit.min.js",
-    "all": "npm run css && npm run css:release && npm run es5 && npm run js && npm run js:release"
+    "js:standalone:dev": "NODE_ENV=production rollup -c rollup.config.js -g react:React,react-dom:ReactDOM > public/uikit.standalone.js",
+    "js:standalone:release": "NODE_ENV=production rollup -c rollup.config.js -g react:React,react-dom:ReactDOM | uglifyjs -mc drop_console --screw-ie8 > public/uikit.standalone.min.js",
+    "js:commonjs": "NODE_ENV=production rollup -c rollup.config.js --format cjs > public/uikit.commonjs.js",
+    "all": "npm run css && npm run css:release && npm run js:standalone:dev && npm run js:standalone:release && npm run js:commonjs"
   }
 }

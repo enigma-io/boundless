@@ -1,4 +1,3 @@
 coverage/
 public/
-es5/
 **/*.spec.js
