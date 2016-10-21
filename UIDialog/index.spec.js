@@ -4,6 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import UIDialog from './index';
+import UIButton from '../UIButton';
+import UIPopover from '../UIPopover';
 import conformanceChecker from '../UIUtils/conform';
 import noop from '../UIUtils/noop';
 
@@ -13,7 +15,7 @@ describe('UIDialog component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = vdom => ReactDOM.render(vdom, mountNode);
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.sandbox.create({useFakeTimers: true});
 
     let element;
 
@@ -93,18 +95,6 @@ describe('UIDialog component', () => {
         expect(document.querySelectorAll('.ui-offscreen[tabindex="0"]').length).toBe(0);
     });
 
-    it('will not call props.onClose if the dialog has been unmounted', () => {
-        const stub = sandbox.stub();
-        const element = render(<UIDialog closeOnOutsideClick={true} onClose={stub} />);
-
-        document.body.click();
-        ReactDOM.unmountComponentAtNode(mountNode);
-
-        sandbox.clock.tick(1);
-
-        expect(stub.called).toBe(false);
-    });
-
     describe('focus', () => {
         it('is applied to the dialog on render if `props.captureFocus` is `true`', () => {
             const element = render(<UIDialog captureFocus={true} />);
@@ -113,8 +103,6 @@ describe('UIDialog component', () => {
         });
 
         it('is not applied to the dialog on render if `props.captureFocus` is `false`', () => {
-            console.log(document.activeElement.className);
-
             const element = render(<UIDialog captureFocus={false} />);
 
             expect(document.activeElement).not.toBe(document.querySelector('.ui-dialog'));
@@ -258,6 +246,96 @@ describe('UIDialog component', () => {
             const element = render(<UIDialog after={<span className='foo' />} />);
 
             expect(document.body.querySelector('.foo')).not.toBeNull();
+        });
+    });
+
+    describe('nested portal components', () => {
+        class NestedPortalDemo extends React.PureComponent {
+            state = {
+                outerPopoverRendered: false,
+                innerPopoverRendered: false,
+            }
+
+            openInnerPopover = () => this.setState({innerPopoverRendered: true})
+            closeInnerPopover = () => this.setState({innerPopoverRendered: false})
+
+            openOuterPopover = () => this.setState({outerPopoverRendered: true})
+            closeOuterPopover = () => this.setState({outerPopoverRendered: false})
+
+            maybeRenderInnerPopover() {
+                return this.state.innerPopoverRendered ? (
+                    <UIPopover
+                        anchor={this.$innerButton}
+                        className='bar'
+                        onClose={this.closeInnerPopover}
+                        preset={UIPopover.preset.BELOW}>
+                        Merp.
+                    </UIPopover>
+                ) : null;
+            }
+
+            maybeRenderOuterPopover() {
+                return this.state.outerPopoverRendered ? (
+                    <UIPopover
+                        anchor={this.$outerButton}
+                        className='foo'
+                        onClose={this.closeOuterPopover}
+                        preset={UIPopover.preset.BELOW}>
+                        <UIButton
+                            ref={(instance) => (this.$innerButton = ReactDOM.findDOMNode(instance))}
+                            onPressed={this.openInnerPopover}>
+                            Bar
+                        </UIButton>
+
+                        {this.maybeRenderInnerPopover()}
+                    </UIPopover>
+                ) : null;
+            }
+
+            render() {
+                return (
+                    <div>
+                        <UIButton
+                            ref={(instance) => (this.$outerButton = ReactDOM.findDOMNode(instance))}
+                            onPressed={this.openOuterPopover}>
+                            Foo
+                        </UIButton>
+
+                        {this.maybeRenderOuterPopover()}
+
+                        <span tabIndex='0' id='baz' />
+                    </div>
+                );
+            }
+        }
+
+        it('treats clicks within nested, but dislocated components as being part of the parent tree', () => {
+            const element = render(<NestedPortalDemo />);
+
+            element.openOuterPopover();
+            element.openInnerPopover();
+
+            document.querySelector('.bar').click();
+
+            expect(element.state.outerPopoverRendered).toBe(true);
+            expect(element.state.innerPopoverRendered).toBe(true);
+        });
+
+        it('still closes the inner components if an out-of-scope element is clicked', () => {
+            const element = render(<NestedPortalDemo />);
+
+            element.openOuterPopover();
+            element.openInnerPopover();
+
+            expect(element.state.outerPopoverRendered).toBe(true);
+            expect(element.state.innerPopoverRendered).toBe(true);
+
+            document.getElementById('baz').click();
+
+            sandbox.clock.tick(1);
+
+            expect(element.state.outerPopoverRendered).toBe(false);
+            expect(element.state.innerPopoverRendered).toBe(false);
         });
     });
 });

@@ -10,6 +10,7 @@ import cx from 'classnames';
 import UIDialog from '../UIDialog';
 import extractChildProps from '../UIUtils/extractChildProps';
 import omit from '../UIUtils/omit';
+import uuid from '../UIUtils/uuid';
 
 export default class UIModal extends React.PureComponent {
     static propTypes = {
@@ -26,6 +27,8 @@ export default class UIModal extends React.PureComponent {
         maskProps: {},
         modalProps: {},
     }
+
+    portalID = uuid()
 
     updateInternalModalCache(instance) {
         this.modal = instance;
@@ -58,7 +61,8 @@ export default class UIModal extends React.PureComponent {
                     className={cx({
                         'ui-modal-wrapper': true,
                         [props.className]: !!props.className,
-                    })}>
+                    })}
+                    id={this.props.id || this.portalID}>
                     <div
                         {...props.maskProps}
                         className={cx({
@@ -81,6 +85,6 @@ export default class UIModal extends React.PureComponent {
     }
 
     render() {
-        return (<div />);
+        return (<div data-portal={this.props.id || this.portalID} />);
     }
 }

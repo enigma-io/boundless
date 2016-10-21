@@ -1,5 +1,6 @@
 import React from 'react';
-import UIArrowKeyNavigation from '../../UIArrowKeyNavigation';
+import {findDOMNode} from 'react-dom';
+import UIButton from '../../UIButton';
 import UIPopover from '../index';
 
 export default class UIPopoverDemo extends React.PureComponent {

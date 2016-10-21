@@ -66,7 +66,7 @@
   "scripts": {
     "postinstall": "mkdirp site/public/assets",
     "lint": "eslint --quiet *.js **/*.js",
-    "test": "jest --verbose",
+    "test": "jest",
     "coverage": "jest --coverage",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
     "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",

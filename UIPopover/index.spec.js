@@ -18,6 +18,14 @@ describe('UIPopover component', () => {
 
     it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIPopover, baseProps, '$dialog'));
 
+    it('tags the root element with the ID of the portalled dialog', () => {
+        const element = render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.ABOVE} />);
+        const id = ReactDOM.findDOMNode(element).getAttribute('data-portal');
+
+        expect(id).not.toBeUndefined();
+        expect(document.getElementById(id)).not.toBeNull();
+    });
+
     describe('CSS hook(s)', () => {
         it('renders .ui-popover', () => {
             const popover = render(<UIPopover {...baseProps} />);

@@ -10,6 +10,7 @@ import cx from 'classnames';
 import UIDialog from '../UIDialog';
 import omit from '../UIUtils/omit';
 import transformProp from '../UIUtils/transformProperty';
+import uuid from '../UIUtils/uuid';
 
 function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
 function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
@@ -91,6 +92,8 @@ export default class UIPopover extends React.PureComponent {
         preset: UIPopover.preset.BELOW,
         wrapperProps: {},
     }
+
+    portalID = uuid()
 
     constructor(props) {
         super();
@@ -390,12 +393,13 @@ export default class UIPopover extends React.PureComponent {
                             [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
                             [this.props.wrapperProps.className]: !!this.props.wrapperProps.className,
                         }),
+                        id: this.props.wrapperProps.id || this.portalID,
                     }} />
             , this.$container)
         );
     }
 
     render() {
-        return (<div />);
+        return (<div data-portal={this.props.wrapperProps.id || this.portalID} />);
     }
 }

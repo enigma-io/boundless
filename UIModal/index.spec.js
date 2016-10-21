@@ -56,6 +56,14 @@ describe('UIModal component', () => {
         expect(document.querySelector('.ui-modal-mask').classList.contains('foo')).toBe(true);
     });
 
+    it('tags the root element with the ID of the portalled dialog', () => {
+        const element = render(<UIModal>Foo</UIModal>);
+        const id = ReactDOM.findDOMNode(element).getAttribute('data-portal');
+
+        expect(id).not.toBeUndefined();
+        expect(document.getElementById(id)).not.toBeNull();
+    });
+
     describe('passthrough to UIDialog', () => {
         let element;
 

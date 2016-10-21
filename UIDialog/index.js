@@ -11,6 +11,8 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+const toArray = Array.prototype.slice;
+
 export default class UIDialog extends React.PureComponent {
     static propTypes = {
         after: React.PropTypes.node,
@@ -51,23 +53,33 @@ export default class UIDialog extends React.PureComponent {
     uuidHeader = uuid()
     uuidBody = uuid()
 
+    isPartOfDialog(node) {
+        if (!node || node === window) { return false; }
+
+        const roots = [this.$wrapper].concat(
+            toArray.call(
+                this.$wrapper.querySelectorAll('[data-portal]')
+            ).map((dom) => document.getElementById(dom.getAttribute('data-portal')))
+        );
+
+        const element = node.nodeType !== Node.ELEMENT_NODE ? node.parentNode : node;
+
+        return roots.some((dom) => dom.contains(element));
+    }
+
     componentDidMount() {
-        this.mounted = true;
-
-        if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
-            this.$dialog.focus();
-        }
-
         window.addEventListener('click', this.handleOutsideClick, true);
         window.addEventListener('contextmenu', this.handleOutsideClick, true);
         window.addEventListener('focus', this.handleFocus, true);
         window.addEventListener('scroll', this.handleOutsideScrollWheel, true);
         window.addEventListener('wheel', this.handleOutsideScrollWheel, true);
+
+        if (this.props.captureFocus && !this.isPartOfDialog(document.activeElement)) {
+            this.$dialog.focus();
+        }
     }
 
     componentWillUnmount() {
-        this.mounted = false;
-
         window.removeEventListener('click', this.handleOutsideClick, true);
         window.removeEventListener('contextmenu', this.handleOutsideClick, true);
         window.removeEventListener('focus', this.handleFocus, true);
@@ -75,19 +87,11 @@ export default class UIDialog extends React.PureComponent {
         window.removeEventListener('wheel', this.handleOutsideScrollWheel, true);
     }
 
-    isPartOfDialog(node) {
-        if (!node || node === window) { return false; }
-
-        return this.$wrapper.contains(node.nodeType === 3 ? node.parentNode : node);
-    }
-
-    callOnCloseIfMounted = () => this.mounted && this.props.onClose()
-
     handleFocus = (nativeEvent) => {
         if (!this.props.captureFocus) {
             if (this.props.closeOnOutsideFocus) {
                 if (!this.isPartOfDialog(nativeEvent.target)) {
-                    return window.setTimeout(this.callOnCloseIfMounted, 0);
+                    return window.setTimeout(this.props.onClose, 0);
                 }
             }
 
@@ -106,7 +110,7 @@ export default class UIDialog extends React.PureComponent {
 
     handleKeyDown = (event) => {
         if (this.props.closeOnEscKey && event.key === 'Escape') {
-            window.setTimeout(this.callOnCloseIfMounted, 0);
+            window.setTimeout(this.props.onClose, 0);
         }
 
         if (isFunction(this.props.onKeyDown)) {
@@ -116,13 +120,13 @@ export default class UIDialog extends React.PureComponent {
 
     handleOutsideClick = (nativeEvent) => {
         if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.callOnCloseIfMounted, 0);
+            window.setTimeout(this.props.onClose, 0);
         }
     }
 
     handleOutsideScrollWheel = (nativeEvent) => {
         if (this.props.closeOnOutsideScroll && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.callOnCloseIfMounted, 0);
+            window.setTimeout(this.props.onClose, 0);
         }
     }
 
