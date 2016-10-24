@@ -89,6 +89,7 @@ export default class UICheckboxGroupDemo extends React.PureComponent {
             <div>
                 <p>What subjects are you interested in?</p>
                 <UICheckboxGroup
+                    className='checkbox-group-demo'
                     items={this.state.items}
                     selectAll={true}
                     selectAllProps={{label: 'All of the above'}}
