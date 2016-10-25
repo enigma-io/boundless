@@ -24,6 +24,8 @@
         },
 
         "test": {
+            "compact": true,
+            "comments": false,
             "plugins": [
                 "transform-class-properties"
             ],

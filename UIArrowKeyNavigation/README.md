@@ -21,6 +21,7 @@ render() {
         <UIArrowKeyNavigation
             component='ul'
             className='my-list'
+            mode={UIArrowKeyNavigation.mode.HORIZONTAL}
             aria-label='Press an arrow key to cycle through the list.'>
             {list.map(item => <li key={item}>{item}</li>)}
         </UIArrowKeyNavigation>
@@ -44,8 +45,10 @@ Renders:
 
 Type | Context | Expectation
 ---- | ------- | -----------
-__Keyboard__ |`['Left', 'Up']` | move focus to previous child
-__Keyboard__ |`['Right', 'Down']` | move focus to next child
+__Keyboard__ | `Left` | move focus to previous child if `props.mode` is `UIArrowKeyNavigation.mode.HORIZONTAL` or `UIArrowKeyNavigation.mode.BOTH`
+__Keyboard__ | `Right` | move focus to next child if `props.mode` is `UIArrowKeyNavigation.mode.HORIZONTAL` or `UIArrowKeyNavigation.mode.BOTH`
+__Keyboard__ | `Up` | move focus to previous child if `props.mode` is `UIArrowKeyNavigation.mode.VERTICAL` or `UIArrowKeyNavigation.mode.BOTH`
+__Keyboard__ | `Down` | move focus to next child if `props.mode` is `UIArrowKeyNavigation.mode.VERTICAL` or `UIArrowKeyNavigation.mode.BOTH`
 
 ---
 
@@ -54,3 +57,6 @@ __Keyboard__ |`['Right', 'Down']` | move focus to next child
 
 - __component__ `String|Constructor`
   any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+
+- __mode__ `UIArrowKeyNavigation.mode[VERTICAL|HORIZONTAL|BOTH]`
+  (default `UIArrowKeyNavigation.mode.BOTH`) controls when arrow key presses will be caught by component and result in the active item being incremented or decremented

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import isFunction from '../UIUtils/isFunction';
@@ -6,10 +6,22 @@ import isString from '../UIUtils/isString';
 import omit from '../UIUtils/omit';
 
 export default class UIArrowKeyNavigation extends React.PureComponent {
+    static mode = {
+        HORIZONTAL: 'HORIZONTAL',
+        VERTICAL: 'VERTICAL',
+        BOTH: 'BOTH',
+    }
+
     static propTypes = {
-        component: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.func,
+        component: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+        ]),
+
+        mode: PropTypes.oneOf([
+            UIArrowKeyNavigation.mode.HORIZONTAL,
+            UIArrowKeyNavigation.mode.VERTICAL,
+            UIArrowKeyNavigation.mode.BOTH,
         ]),
     }
 
@@ -17,24 +29,29 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
 
     static defaultProps = {
         component: 'div',
+        mode: UIArrowKeyNavigation.mode.BOTH,
     }
 
     state = {
-        activeChildIndex: null,
+        activeChildIndex: 0,
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.activeChildIndex !== null) {
-            const numChildren =   this.props.children
-                                ? (Array.prototype.concat(this.props.children)).length
+        if (this.state.activeChildIndex !== prevState.activeChildIndex) {
+            this.setFocus(this.state.activeChildIndex);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.activeChildIndex !== 0) {
+            const numChildren =   nextProps.children
+                                ? React.Children.count(nextProps.children)
                                 : 0;
 
             if (numChildren === 0) {
-                this.setState({activeChildIndex: null}); // eslint-disable-line react/no-did-update-set-state
+                this.setState({activeChildIndex: 0});
             } else if (this.state.activeChildIndex >= numChildren) {
-                this.setState({activeChildIndex: numChildren - 1}); // eslint-disable-line react/no-did-update-set-state
-            } else if (this.state.activeChildIndex !== prevState.activeChildIndex) {
-                this.setFocus(this.state.activeChildIndex);
+                this.setState({activeChildIndex: numChildren - 1});
             }
         }
     }
@@ -46,7 +63,7 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
           : findDOMNode(this.refs.wrapper)
         ).children[index];
 
-        if (childNode && childNode.getAttribute('tabindex') === '-1') {
+        if (childNode && childNode.hasAttribute('data-skip')) {
             this.moveFocus(
                 childNode.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
             );
@@ -56,8 +73,8 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
     }
 
     moveFocus(delta) {
-        const numChildren =   this.props.children
-                            ? (Array.prototype.concat(this.props.children)).length
+        const numChildren = this.props.children
+                            ? React.Children.count(this.props.children)
                             : 0;
 
         let nextIndex = this.state.activeChildIndex + delta;
@@ -74,32 +91,44 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
     handleKeyDown = (event) => {
         switch (event.key) {
         case 'ArrowUp':
+            if (this.props.mode === UIArrowKeyNavigation.mode.VERTICAL
+                || this.props.mode === UIArrowKeyNavigation.mode.BOTH) {
+                event.preventDefault();
+                this.moveFocus(-1);
+            }
+
+            break;
+
         case 'ArrowLeft':
-            event.preventDefault();
-            this.moveFocus(-1);
+            if (this.props.mode === UIArrowKeyNavigation.mode.HORIZONTAL
+                || this.props.mode === UIArrowKeyNavigation.mode.BOTH) {
+                event.preventDefault();
+                this.moveFocus(-1);
+            }
+
             break;
 
         case 'ArrowDown':
+            if (this.props.mode === UIArrowKeyNavigation.mode.VERTICAL
+                || this.props.mode === UIArrowKeyNavigation.mode.BOTH) {
+                event.preventDefault();
+                this.moveFocus(1);
+            }
+
+            break;
+
         case 'ArrowRight':
-            event.preventDefault();
-            this.moveFocus(1);
+            if (this.props.mode === UIArrowKeyNavigation.mode.HORIZONTAL
+                || this.props.mode === UIArrowKeyNavigation.mode.BOTH) {
+                event.preventDefault();
+                this.moveFocus(1);
+            }
+
             break;
         }
 
         if (isFunction(this.props.onKeyDown)) {
             this.props.onKeyDown(event);
-        }
-    }
-
-    handleChildBlur(index, child, event) {
-        if (this.state.activeChildIndex === index) {
-            this.setState({activeChildIndex: null});
-        }
-
-        event.stopPropagation();
-
-        if (!isString(child) && isFunction(child.props.onBlur)) {
-            child.props.onBlur(event);
         }
     }
 
@@ -116,9 +145,9 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
     children() {
         return React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
+                'data-skip': parseInt(child.props.tabIndex, 10) === -1 || undefined,
                 key: child.key || index,
-                tabIndex: child.props.tabIndex !== undefined ? child.props.tabIndex : 0,
-                onBlur: this.handleChildBlur.bind(this, index, child),
+                tabIndex: this.state.activeChildIndex === index ? 0 : -1,
                 onFocus: this.handleChildFocus.bind(this, index, child),
             });
         });

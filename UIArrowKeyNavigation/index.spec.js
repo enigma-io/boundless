@@ -40,16 +40,8 @@ describe('UIArrowKeyNavigation higher-order component', () => {
     });
 
     it('updates its internal focus cache on child focus', () => {
-        Simulate.focus(node.children[0]);
+        node.children[0].focus();
         expect(element.state.activeChildIndex).toBe(0);
-    });
-
-    it('updates its internal focus cache on child blur', () => {
-        Simulate.focus(node.children[0]);
-        expect(element.state.activeChildIndex).toBe(0);
-
-        Simulate.blur(node.children[0]);
-        expect(element.state.activeChildIndex).toBe(null);
     });
 
     it('forwards child focus events to the appropriate handler, if one is provided', () => {
@@ -62,34 +54,16 @@ describe('UIArrowKeyNavigation higher-order component', () => {
             </UIArrowKeyNavigation>
         );
 
-        Simulate.focus(node.children[0]);
+        node.children[0].focus();
 
         expect(stub.called).toBe(true);
     });
 
-    it('forwards child blur events to the appropriate handler, if one is provided', () => {
-        const stub = sinon.stub();
+    it('applies focus to the new active index when `state.activeChildIndex` changes', () => {
+        expect(document.activeElement).toBe(document.body);
 
-        element = render(
-            <UIArrowKeyNavigation>
-                <li onBlur={stub}>apple</li>
-                <li>orange</li>
-            </UIArrowKeyNavigation>
-        );
-
-        Simulate.blur(node.children[0]);
-
-        expect(stub.called).toBe(true);
-    });
-
-    it('does not reset internal focus if handleChildBlur is called out of turn', () => {
-        expect(element.state.activeChildIndex).toBe(null);
-
-        element.setState({activeChildIndex: 0});
-        expect(element.state.activeChildIndex).toBe(0);
-
-        Simulate.blur(node.children[1]);
-        expect(element.state.activeChildIndex).toBe(0);
+        element.setState({activeChildIndex: 1});
+        expect(document.activeElement.textContent).toBe('orange');
     });
 
     describe('setFocus(index)', () => {
@@ -128,25 +102,13 @@ describe('UIArrowKeyNavigation higher-order component', () => {
         });
     });
 
-    describe('when `state.activeChildIndex` changes', () => {
-        it('applies focus to the new active index', () => {
-            expect(document.activeElement).toBe(document.body);
-
-            element.setState({activeChildIndex: 0});
-            expect(document.activeElement.textContent).toBe('apple');
-
-            element.setState({activeChildIndex: 1});
-            expect(document.activeElement.textContent).toBe('orange');
-        });
-    });
-
     describe('when `props.children` changes', () => {
         it('resets internal focus tracking if there are no children', () => {
-            Simulate.focus(node.children[0]);
+            node.children[0].focus();
             expect(element.state.activeChildIndex).toBe(0);
 
             element = render(<UIArrowKeyNavigation />);
-            expect(element.state.activeChildIndex).toBe(null);
+            expect(element.state.activeChildIndex).toBe(0);
         });
 
         it('moves focus to the last child if the previous activeChildIndex is greater than the total number of available children', () => {
@@ -173,64 +135,64 @@ describe('UIArrowKeyNavigation higher-order component', () => {
 
     describe('on keyboard `ArrowLeft`', () => {
         it('moves focus to the previous child', () => {
-            Simulate.focus(node.children[1]);
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            node.children[1].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
             expect(document.activeElement).toBe(node.children[0]);
         });
 
         it('moves focus to the end if on the first child (reverse loop)', () => {
-            Simulate.focus(node.children[0]);
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            node.children[0].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
             expect(document.activeElement).toBe(node.children[1]);
         });
     });
 
     describe('on keyboard `ArrowUp`', () => {
         it('moves focus to the previous child', () => {
-            Simulate.focus(node.children[1]);
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            node.children[1].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
             expect(document.activeElement).toBe(node.children[0]);
         });
 
         it('loops back to the last item if on the first item', () => {
-            Simulate.focus(node.children[0]);
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            node.children[0].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
             expect(document.activeElement).toBe(node.children[1]);
         });
     });
 
     describe('on keyboard `ArrowRight`', () => {
         it('moves focus to the next child', () => {
-            Simulate.focus(node.children[0]);
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            node.children[0].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
             expect(document.activeElement).toBe(node.children[1]);
         });
 
         it('moves focus to the beginning if on the last child (loop)', () => {
-            Simulate.focus(node.children[1]);
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            node.children[1].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
             expect(document.activeElement).toBe(node.children[0]);
         });
     });
 
     describe('on keyboard `ArrowDown`', () => {
         it('moves focus to the next child', () => {
-            Simulate.focus(node.children[0]);
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            node.children[0].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
             expect(document.activeElement).toBe(node.children[1]);
         });
 
         it('loops back to the first item if on the last item', () => {
-            Simulate.focus(node.children[1]);
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            node.children[1].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
             expect(document.activeElement).toBe(node.children[0]);
         });
     });
@@ -267,17 +229,115 @@ describe('UIArrowKeyNavigation higher-order component', () => {
         });
 
         it('moves focus to the next child that does not have tabindex="-1"', () => {
-            Simulate.focus(node.children[0]);
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            node.children[0].focus();
 
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
             expect(document.activeElement).toBe(node.children[2]);
         });
 
         it('moves focus to the previous child that does not have tabindex="-1"', () => {
             Simulate.focus(node.children[2]);
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
 
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
             expect(document.activeElement).toBe(node.children[0]);
+        });
+    });
+
+    describe('vertical mode', () => {
+        const verticalBase = (
+            <UIArrowKeyNavigation mode={UIArrowKeyNavigation.mode.VERTICAL}>
+                <li>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        beforeEach(() => {
+            element = render(verticalBase);
+            node = element.refs.wrapper;
+        });
+
+        it('should not move focus on ArrowLeft', () => {
+            node.children[1].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            expect(document.activeElement === node.children[1]).toBe(true);
+        });
+
+        it('should not move focus on ArrowRight', () => {
+            node.children[0].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            expect(document.activeElement === node.children[0]).toBe(true);
+        });
+    });
+
+    describe('horizontal mode', () => {
+        const horizontalBase = (
+            <UIArrowKeyNavigation mode={UIArrowKeyNavigation.mode.HORIZONTAL}>
+                <li>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        beforeEach(() => {
+            element = render(horizontalBase);
+            node = element.refs.wrapper;
+        });
+
+        it('should not move focus on ArrowUp', () => {
+            node.children[1].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            expect(document.activeElement === node.children[1]).toBe(true);
+        });
+
+        it('should not move focus on ArrowDown', () => {
+            node.children[0].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            expect(document.activeElement === node.children[0]).toBe(true);
+        });
+    });
+
+    describe('both mode (default)', () => {
+        const horizontalBase = (
+            <UIArrowKeyNavigation mode={UIArrowKeyNavigation.mode.BOTH}>
+                <li>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        beforeEach(() => {
+            element = render(horizontalBase);
+            node = element.refs.wrapper;
+        });
+
+        it('should move focus on ArrowUp', () => {
+            node.children[1].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            expect(document.activeElement === node.children[0]).toBe(true);
+        });
+
+        it('should move focus on ArrowLeft', () => {
+            node.children[1].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            expect(document.activeElement === node.children[0]).toBe(true);
+        });
+
+        it('should move focus on ArrowDown', () => {
+            node.children[0].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            expect(document.activeElement === node.children[1]).toBe(true);
+        });
+
+        it('should move focus on ArrowRight', () => {
+            node.children[0].focus();
+
+            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            expect(document.activeElement === node.children[1]).toBe(true);
         });
     });
 });

@@ -9,23 +9,35 @@ export default class UIArrowKeyNavigationDemo extends React.PureComponent {
     render() {
         return (
             <div className='ui-spread-even'>
-                <UIArrowKeyNavigation className='demo-loose-list'>
-                    {this.state.items.map(item => <span key={item}>{item}</span>)}
-                </UIArrowKeyNavigation>
+                <section>
+                    <h6>Horizontal-only</h6>
+                    <UIArrowKeyNavigation className='demo-loose-list' mode={UIArrowKeyNavigation.mode.HORIZONTAL}>
+                        {this.state.items.map(item => <span key={item}>{item}</span>)}
+                    </UIArrowKeyNavigation>
+                </section>
 
-                <UIArrowKeyNavigation component='ul'>
-                    {this.state.items.map(item => <li key={item}>{item}</li>)}
-                </UIArrowKeyNavigation>
+                <section>
+                    <h6>Vertical-only</h6>
+                    <UIArrowKeyNavigation component='ul' mode={UIArrowKeyNavigation.mode.VERTICAL}>
+                        {this.state.items.map(item => <li key={item}>{item}</li>)}
+                    </UIArrowKeyNavigation>
+                </section>
 
-                <UIArrowKeyNavigation component='ol'>
-                    {this.state.items.map(item => <li key={item}>{item}</li>)}
-                </UIArrowKeyNavigation>
+                <section>
+                    <h6>Both directions</h6>
+                    <UIArrowKeyNavigation component='ol' mode={UIArrowKeyNavigation.mode.BOTH}>
+                        {this.state.items.map(item => <li key={item}>{item}</li>)}
+                    </UIArrowKeyNavigation>
+                </section>
 
-                <UIArrowKeyNavigation>
-                    <div>lorem</div>
-                    <hr tabIndex='-1' />
-                    <div>dolor</div>
-                </UIArrowKeyNavigation>
+                <section>
+                    <h6>Ignored child (horizontal rule)</h6>
+                    <UIArrowKeyNavigation>
+                        <div>lorem</div>
+                        <hr tabIndex='-1' />
+                        <div>dolor</div>
+                    </UIArrowKeyNavigation>
+                </section>
             </div>
         );
     }
