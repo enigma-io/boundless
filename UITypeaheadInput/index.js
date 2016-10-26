@@ -79,7 +79,7 @@ export default class UITypeaheadInput extends React.PureComponent {
         entityMatchIndexes: [],
         id: uuid(),
         isControlled: isString(this.props.inputProps.value),
-        input:    this.props.inputProps.value
+        input: this.props.inputProps.value
                || this.props.inputProps.defaultValue
                || '',
         selectedEntityIndex: -1,

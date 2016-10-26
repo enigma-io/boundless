@@ -1,7 +1,6 @@
 import React from 'react';
 
 import UIArrowKeyNavigation from '../../UIArrowKeyNavigation';
-import UIButton from '../../UIButton';
 import UIPopover from '../index';
 
 export default class UIPopoverDemo extends React.PureComponent {
@@ -60,11 +59,11 @@ export default class UIPopoverDemo extends React.PureComponent {
         }
     }
 
-    openPopover(index, event) {
+    openPopover(index) {
         this.setState({ ['showPopover' + index]: true });
     }
 
-    closePopover(index, event) {
+    closePopover(index) {
         this.setState({ ['showPopover' + index]: false });
     }
 

@@ -230,7 +230,7 @@ export default class UIPagination extends React.PureComponent {
         if (this.props.showPaginationState) {
             options.push({
                 selected: false,
-                content:   isFunction(this.props.showPaginationState)
+                content: isFunction(this.props.showPaginationState)
                          ? this.props.showPaginationState(currentPage, totalPages)
                          : `${currentPage} of ${totalPages}`,
                 value: '',

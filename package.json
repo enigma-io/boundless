@@ -65,7 +65,7 @@
   },
   "scripts": {
     "postinstall": "mkdirp site/public/assets",
-    "lint": "eslint --quiet *.js **/*.js",
+    "lint": "eslint --quiet .",
     "test": "jest",
     "coverage": "jest --coverage",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",

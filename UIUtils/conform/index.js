@@ -30,7 +30,7 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
             React.createElement(
                 Constructor, {
                     ...baseProps,
-                    ...props
+                    ...props,
                 }
             )
         );
@@ -78,4 +78,4 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
     expect(node.getAttribute('aria-label') === 'foo').toBe(true,
         `${Constructor.name} does not support adding aria attributes via props`
     );
-};
+}

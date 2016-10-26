@@ -10,11 +10,11 @@ export default class UIPaginationDemo extends React.PureComponent {
     itemToJSX = (data) => {
         return (
             <div>
-                <div className="card-left">
+                <div className='card-left'>
                     <strong>{data.first_name} {data.last_name}</strong><br/>
                     <em>{data.job_title}</em>
                 </div>
-                <div className="card-right">
+                <div className='card-right'>
                     {data.address1}<br/>
                     {data.city}, {data.country}<br/>
                     <strong>p:</strong> {data.phone}<br/>

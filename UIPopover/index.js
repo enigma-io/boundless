@@ -12,7 +12,6 @@ import UIPortal from '../UIPortal';
 
 import omit from '../UIUtils/omit';
 import transformProp from '../UIUtils/transformProperty';
-import uuid from '../UIUtils/uuid';
 
 function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
 function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
@@ -99,10 +98,10 @@ export default class UIPopover extends React.PureComponent {
         super();
 
         this.state = {
-            anchorXAlign:   props.anchorXAlign  || props.preset.anchorXAlign,
-            anchorYAlign:   props.anchorYAlign  || props.preset.anchorYAlign,
-            selfXAlign:     props.selfXAlign    || props.preset.selfXAlign,
-            selfYAlign:     props.selfYAlign    || props.preset.selfYAlign,
+            anchorXAlign: props.anchorXAlign  || props.preset.anchorXAlign,
+            anchorYAlign: props.anchorYAlign  || props.preset.anchorYAlign,
+            selfXAlign: props.selfXAlign    || props.preset.selfXAlign,
+            selfYAlign: props.selfYAlign    || props.preset.selfYAlign,
         };
     }
 
