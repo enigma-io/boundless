@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import {get} from 'lodash';
 
 /**
  * A testing module to verify that arbitrary React-supported attributes are passed
@@ -35,9 +36,9 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
         );
 
         if (key) {
-            return   element[key] instanceof HTMLElement
-                   ? element[key]
-                   : findDOMNode(element[key]);
+            return   get(element, key) instanceof HTMLElement
+                   ? get(element, key)
+                   : findDOMNode(get(element, key));
         }
 
         return findDOMNode(element);
