@@ -164,7 +164,7 @@ class Sidebar extends React.PureComponent {
     componentWillMount() {
         const entities = [];
 
-        Object.keys(components).forEach(path => {
+        Object.keys(components).forEach((path) => {
             const name = components[path].displayName || path;
 
             entities.push({
@@ -176,7 +176,7 @@ class Sidebar extends React.PureComponent {
             this.createSubEntities(path, name, entities, components[path].readme);
         });
 
-        Object.keys(pages).forEach(page => {
+        Object.keys(pages).forEach((page) => {
             const path = page;
             const name = pages[page].displayName || page;
 
@@ -189,7 +189,7 @@ class Sidebar extends React.PureComponent {
             this.createSubEntities(path, name, entities, pages[page].readme);
         });
 
-        Object.keys(utilities).forEach(utility => {
+        Object.keys(utilities).forEach((utility) => {
             const path = utility;
             const name = utilities[utility].displayName || utility;
 
@@ -209,7 +209,7 @@ class Sidebar extends React.PureComponent {
         const headerTextRegex = /#+\s?([^<]+)/;
         const headerHashRegex = /#+\s?.*?href="(.*?)"/;
 
-        markdown.split('\n').filter(line => line.indexOf('### ') === 0).forEach(line => {
+        markdown.split('\n').filter((line) => line.indexOf('### ') === 0).forEach((line) => {
             if (line.match(headerHashRegex)) {
                 const formedPath = `${path}${line.match(headerHashRegex)[1]}`;
 
@@ -248,7 +248,7 @@ class Sidebar extends React.PureComponent {
             return browserHistory.push('');
         }
 
-        const found = this.state.entities.find(entity => entity.text === value);
+        const found = this.state.entities.find((entity) => entity.text === value);
 
         if (found) {
             browserHistory.push(found['data-path']);
@@ -281,19 +281,19 @@ class Sidebar extends React.PureComponent {
 
                 <nav className='ui-demo-nav'>
                     <div className='ui-demo-nav-section'>
-                        {Object.keys(pages).map(page => {
+                        {Object.keys(pages).map((page) => {
                             return this.renderLink(page, pages[page].displayName || page);
                         })}
                     </div>
                     <div className='ui-demo-nav-section'>
                         <h5 className='ui-demo-nav-section-title'>Documentation & Demos</h5>
-                        {Object.keys(components).map(component => {
+                        {Object.keys(components).map((component) => {
                             return this.renderLink(component, components[component].displayName || component);
                         })}
                     </div>
                     <div className='ui-demo-nav-section'>
                         <h5 className='ui-demo-nav-section-title'>Utilities</h5>
-                        {Object.keys(utilities).map(utility => {
+                        {Object.keys(utilities).map((utility) => {
                             return this.renderLink(utility, utilities[utility].displayName || utility);
                         })}
                     </div>
@@ -379,13 +379,13 @@ class Container extends React.PureComponent {
 render(
     <Router history={browserHistory}>
         <Route path='/' component={Container} readme={readme}>
-            {Object.keys(pages).map(page => {
+            {Object.keys(pages).map((page) => {
                 return <Route {...pages[page]} key={page} path={page} />;
             })}
-            {Object.keys(components).map(component => {
+            {Object.keys(components).map((component) => {
                 return <Route {...components[component]} key={component} path={component} />;
             })}
-            {Object.keys(utilities).map(utility => {
+            {Object.keys(utilities).map((utility) => {
                 return <Route {...utilities[utility]} key={utility} path={utility} />;
             })}
         </Route>

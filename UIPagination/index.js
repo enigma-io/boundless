@@ -155,7 +155,7 @@ export default class UIPagination extends React.PureComponent {
         getItem: noop,
         hidePagerIfNotNeeded: false,
         initialPage: 1,
-        itemToJSXConverterFunc: data => data,
+        itemToJSXConverterFunc: (data) => data,
         jumpToFirstControlContent: '« First',
         jumpToLastControlContent: 'Last »',
         listWrapperProps: {},
@@ -208,7 +208,7 @@ export default class UIPagination extends React.PureComponent {
         });
     }
 
-    pageToIndex = i => {
+    pageToIndex = (i) => {
         if (i < 0 || i >= this.props.totalItems) {
             return new Error(`Cannot page to invalid index ${i}.`);
         }

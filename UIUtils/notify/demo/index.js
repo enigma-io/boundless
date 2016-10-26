@@ -8,7 +8,7 @@ export default class NotifyDemo extends React.PureComponent {
     }
 
     spawnNotification = () => {
-        notify(this.template(this.state.n + 1)).catch(error => console.warn(error));
+        notify(this.template(this.state.n + 1)).catch((error) => console.warn(error));
 
         this.setState({n: this.state.n + 1});
     }

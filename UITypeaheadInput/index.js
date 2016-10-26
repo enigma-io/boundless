@@ -448,7 +448,7 @@ export default class UITypeaheadInput extends React.PureComponent {
                         'ui-typeahead-match-wrapper': true,
                         [props.className]: !!props.className,
                     })}>
-                    {this.state.entityMatchIndexes.map(index => {
+                    {this.state.entityMatchIndexes.map((index) => {
                         const entity = this.props.entities[index];
                         const {className, text, ...rest} = entity;
 

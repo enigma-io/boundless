@@ -28,8 +28,8 @@ export default class UIPaginationDemo extends React.PureComponent {
         // this might be async if row must be retrieved remotely
 
         if (index >= 30) {
-            return new Promise(resolve => {
-                window.setTimeout(setIndex => {
+            return new Promise((resolve) => {
+                window.setTimeout((setIndex) => {
                     resolve(this.state.items[setIndex]);
                 }, 2000, index);
             });

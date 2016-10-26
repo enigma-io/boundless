@@ -28,7 +28,7 @@ export default class UISegmentedControlDemo extends React.PureComponent {
     }
 
     getSelectedOptionValue() {
-        return this.state.options.find(option => option.selected === true).value;
+        return this.state.options.find((option) => option.selected === true).value;
     }
 
     renderContent() {

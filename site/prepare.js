@@ -46,7 +46,7 @@ function remapRelativeLinksToGithub(mkdown) {
 }
 
 function prepareMarkdown(mkdown) {
-    return (mkdown || '').split(/(```[^`]*?```)/g).map(block => {
+    return (mkdown || '').split(/(```[^`]*?```)/g).map((block) => {
         if (block.indexOf('```') === -1) {
             return [
                 injectHeaderLinks,
@@ -61,7 +61,7 @@ function prepareMarkdown(mkdown) {
     }).join(''); // ignore fenced code blocks
 }
 
-module.exports = function(filename) {
+module.exports = function fixupREADMEs(filename) {
     function write(markdown) {
         this.queue(prepareMarkdown(markdown));
     }

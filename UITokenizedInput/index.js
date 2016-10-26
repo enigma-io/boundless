@@ -12,8 +12,8 @@ import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 
-const first = array => array[0];
-const last = array => array[array.length - 1];
+const first = (array) => array[0];
+const last = (array) => array[array.length - 1];
 
 export default class UITokenizedInput extends React.PureComponent {
     static propTypes = {
@@ -73,14 +73,14 @@ export default class UITokenizedInput extends React.PureComponent {
     getSelectedEntityText = () => this.refs.typeahead.getSelectedEntityText()
     getValue = () => this.refs.typeahead.getValue()
     select = () => this.refs.typeahead.select()
-    setValue = value => this.refs.typeahead.setValue(value)
+    setValue = (value) => this.refs.typeahead.setValue(value)
 
     add = (index) => {
         if (this.props.tokens.indexOf(index) === -1) { this.props.handleAddToken(index); }
     }
 
     remove(index) {
-        const indexes = (Array.isArray(index) ? index : [index]).filter(idx => {
+        const indexes = (Array.isArray(index) ? index : [index]).filter((idx) => {
             return this.props.tokens.indexOf(idx) !== -1;
         });
 
@@ -231,7 +231,7 @@ export default class UITokenizedInput extends React.PureComponent {
     renderTokens() {
         return (
             <div className='ui-tokenfield-tokens'>
-                {this.props.tokens.map(index => {
+                {this.props.tokens.map((index) => {
                     return (
                         <div
                             ref={`token_${index}`}

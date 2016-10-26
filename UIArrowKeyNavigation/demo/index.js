@@ -12,21 +12,21 @@ export default class UIArrowKeyNavigationDemo extends React.PureComponent {
                 <section>
                     <h6>Horizontal-only</h6>
                     <UIArrowKeyNavigation className='demo-loose-list' mode={UIArrowKeyNavigation.mode.HORIZONTAL}>
-                        {this.state.items.map(item => <span key={item}>{item}</span>)}
+                        {this.state.items.map((item) => <span key={item}>{item}</span>)}
                     </UIArrowKeyNavigation>
                 </section>
 
                 <section>
                     <h6>Vertical-only</h6>
                     <UIArrowKeyNavigation component='ul' mode={UIArrowKeyNavigation.mode.VERTICAL}>
-                        {this.state.items.map(item => <li key={item}>{item}</li>)}
+                        {this.state.items.map((item) => <li key={item}>{item}</li>)}
                     </UIArrowKeyNavigation>
                 </section>
 
                 <section>
                     <h6>Both directions</h6>
                     <UIArrowKeyNavigation component='ol' mode={UIArrowKeyNavigation.mode.BOTH}>
-                        {this.state.items.map(item => <li key={item}>{item}</li>)}
+                        {this.state.items.map((item) => <li key={item}>{item}</li>)}
                     </UIArrowKeyNavigation>
                 </section>
 
