@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
@@ -44,14 +44,14 @@ export default class UIPortal extends React.Component {
         // update the portal ID link if needed
         this.$portal.id = this.props.portalId || this.id;
 
-        render(child, this.$portal);
+        ReactDOM.render(child, this.$portal);
         this.$passenger = this.$portal.children[0];
     }
 
     componentDidUpdate() { this.renderPortalledContent(); }
 
     componentWillUnmount() {
-        unmountComponentAtNode(this.$portal);
+        ReactDOM.unmountComponentAtNode(this.$portal);
         this.props.destination.removeChild(this.$portal);
     }
 
