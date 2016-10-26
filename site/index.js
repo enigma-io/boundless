@@ -257,9 +257,10 @@ class Sidebar extends React.PureComponent {
 
     render() {
         return (
-            <header ref='sidebar'
-                    className='ui-demo-header'
-                    onWheel={this.preventOverScroll}>
+            <header
+                ref='sidebar'
+                className='ui-demo-header'
+                onWheel={this.preventOverScroll}>
                 <h1 className='ui-demo-header-title'>
                     <Link to='/'>UIKit</Link>
                 </h1>

@@ -4,10 +4,12 @@
  */
 
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
 import UIDialog from '../UIDialog';
+import UIPortal from '../UIPortal';
+
 import omit from '../UIUtils/omit';
 import transformProp from '../UIUtils/transformProperty';
 import uuid from '../UIUtils/uuid';
@@ -93,8 +95,6 @@ export default class UIPopover extends React.PureComponent {
         wrapperProps: {},
     }
 
-    portalID = uuid()
-
     constructor(props) {
         super();
 
@@ -104,39 +104,6 @@ export default class UIPopover extends React.PureComponent {
             selfXAlign:     props.selfXAlign    || props.preset.selfXAlign,
             selfYAlign:     props.selfYAlign    || props.preset.selfYAlign,
         };
-    }
-
-    updateDialogInternalCache(instance) {
-        this.dialog = instance;
-        this.$dialog = instance.$dialog;    // used in testing, not relevant
-        this.$wrapper = instance.$wrapper;
-    }
-
-    componentWillMount() {
-        this.$container = document.createElement('div');
-        document.body.appendChild(this.$container);
-
-        this.renderDialog();
-        this.align();
-
-        window.addEventListener('resize', this.align, true);
-    }
-
-    componentDidUpdate = () => {
-        /*
-            A nuance about this component: since it only renders a simple <div>, the main render() function
-            never changes. Therefore, we need to manually call `componentDidUpdate` after `setState` to trigger
-            a full re-render of the child dialog.
-         */
-        this.renderDialog();
-        this.align();
-    }
-
-    componentWillUnmount() {
-        ReactDOM.unmountComponentAtNode(this.$container);
-        document.body.removeChild(this.$container);
-
-        window.removeEventListener('resize', this.align, true);
     }
 
     cacheViewportCartography(anchor) {
@@ -167,7 +134,7 @@ export default class UIPopover extends React.PureComponent {
             if (anchorXAlign === position.START) {
                 nextX += this.anchorWidth / 2 - caret.clientWidth / 2;
             } else if (anchorXAlign === position.END) {
-                nextX += this.$wrapper.clientWidth - this.anchorWidth / 2 - caret.clientWidth / 2;
+                nextX += this.dialog.$wrapper.clientWidth - this.anchorWidth / 2 - caret.clientWidth / 2;
             }
         }
 
@@ -191,14 +158,14 @@ export default class UIPopover extends React.PureComponent {
             if (anchorYAlign === position.START) {
                 nextY += this.anchorHeight / 2 - caret.clientWidth / 2;
             } else if (anchorYAlign === position.END) {
-                nextY += this.$wrapper.clientHeight - this.anchorWidth / 2 - caret.clientWidth / 2;
+                nextY += this.dialog.$wrapper.clientHeight - this.anchorWidth / 2 - caret.clientWidth / 2;
             }
         }
 
         return nextY;
     }
 
-    getNextDialogXPosition(anchor, dialog = this.$wrapper) {
+    getNextDialogXPosition(anchor, dialog = this.dialog.$wrapper) {
         const {anchorXAlign, selfXAlign} = this.state;
         const position = UIPopover.position;
 
@@ -227,7 +194,7 @@ export default class UIPopover extends React.PureComponent {
         return nextX;
     }
 
-    getNextDialogYPosition(anchor, dialog = this.$wrapper) {
+    getNextDialogYPosition(anchor, dialog = this.dialog.$wrapper) {
         const state = this.state;
         const position = UIPopover.position;
         const anchorY = this.anchorTop + this.bodyTop;
@@ -265,8 +232,8 @@ export default class UIPopover extends React.PureComponent {
         const corrections = {...this.state};
         const position = UIPopover.position;
 
-        const width = this.$wrapper.clientWidth;
-        const height = this.$wrapper.clientHeight;
+        const width = this.dialog.$wrapper.clientWidth;
+        const height = this.dialog.$wrapper.clientHeight;
         const xMax = document.body.scrollWidth;
         const yMax = document.body.scrollHeight;
 
@@ -326,7 +293,7 @@ export default class UIPopover extends React.PureComponent {
     align = () => {
         const anchor =   this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
-                       : ReactDOM.findDOMNode(this.props.anchor);
+                       : findDOMNode(this.props.anchor);
 
         this.cacheViewportCartography(anchor);
 
@@ -336,7 +303,7 @@ export default class UIPopover extends React.PureComponent {
         const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dx, dy);
 
         if (alignmentCorrection && this.didAlignmentChange(alignmentCorrection)) {
-            return this.setState(alignmentCorrection, this.componentDidUpdate);
+            return this.setState(alignmentCorrection);
         }
 
         // the caret is initially positioned at 0,0 inside the dialog
@@ -348,8 +315,16 @@ export default class UIPopover extends React.PureComponent {
         this.$caret.style.top = Math.round(this.getNextCaretYPosition(anchor)) + 'px';
 
         this.applyTranslation(this.$caret, cx, 0);
-        this.applyTranslation(this.$wrapper, dx, dy);
+        this.applyTranslation(this.dialog.$wrapper, dx, dy);
     }
+
+    componentDidMount() {
+        this.align();
+        window.addEventListener('resize', this.align, true);
+    }
+
+    componentDidUpdate() { this.align(); }
+    componentWillUnmount() { window.removeEventListener('resize', this.align, true); }
 
     getClassAlignmentFragment(constant) {
         const position = UIPopover.position;
@@ -366,40 +341,33 @@ export default class UIPopover extends React.PureComponent {
         }
     }
 
-    renderDialog() {
-        const state = this.state;
-        const getFrag = this.getClassAlignmentFragment;
+    render() {
+        const {getClassAlignmentFragment: getFrag, props, state} = this;
 
-        this.updateDialogInternalCache(
-            ReactDOM.render(
+        return (
+            <UIPortal>
                 <UIDialog
-                    {...omit(this.props, UIPopover.internalKeys)}
+                    {...omit(props, UIPopover.internalKeys)}
+                    ref={(instance) => (this.dialog = instance)}
                     before={
-                        React.cloneElement(this.props.caretComponent, {
+                        React.cloneElement(props.caretComponent, {
                             ref: (node) => (this.$caret = node),
-                            className: cx({
-                                'ui-popover-caret': true,
-                                [this.props.caretComponent.props.className]: !!this.props.caretComponent.props.className,
+                            className: cx('ui-popover-caret', {
+                                [props.caretComponent.props.className]: !!props.caretComponent.props.className,
                             }),
                         })
                     }
                     wrapperProps={{
-                        ...this.props.wrapperProps,
-                        className: cx({
-                            'ui-popover': true,
+                        ...props.wrapperProps,
+                        className: cx('ui-popover', {
                             [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
                             [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
                             [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                             [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                            [this.props.wrapperProps.className]: !!this.props.wrapperProps.className,
+                            [props.wrapperProps.className]: !!props.wrapperProps.className,
                         }),
-                        id: this.props.wrapperProps.id || this.portalID,
                     }} />
-            , this.$container)
+            </UIPortal>
         );
-    }
-
-    render() {
-        return (<div data-portal={this.props.wrapperProps.id || this.portalID} />);
     }
 }
