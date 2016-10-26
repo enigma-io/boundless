@@ -85,11 +85,21 @@ export default class UITypeaheadInput extends React.PureComponent {
         selectedEntityIndex: -1,
     }
 
+    mounted = false
+
     updateInputState = (value = '') => this.setState({input: value})
 
     componentWillMount() {
         if (this.props.inputProps.value || this.props.inputProps.defaultValue) {
             this.computeMatches();
+        }
+    }
+
+    componentDidMount() {
+        this.mounted = true;
+
+        if (this.state.selectedEntityIndex >= 0) {
+            this.props.onEntityHighlighted(this.state.selectedEntityIndex);
         }
     }
 
@@ -104,12 +114,6 @@ export default class UITypeaheadInput extends React.PureComponent {
         }
     }
 
-    componentDidMount() {
-        if (this.state.selectedEntityIndex >= 0) {
-            this.props.onEntityHighlighted(this.state.selectedEntityIndex);
-        }
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.state.entityMatchIndexes.length && !prevState.entityMatchIndexes.length) {
             this.refs.matches.scrollTop = 0;
@@ -119,6 +123,10 @@ export default class UITypeaheadInput extends React.PureComponent {
             && this.props.entities[this.state.selectedEntityIndex] !== prevProps.entities[prevState.selectedEntityIndex]) {
             this.props.onEntityHighlighted(this.state.selectedEntityIndex);
         }
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     getSelectedEntityText = () => {
@@ -162,10 +170,12 @@ export default class UITypeaheadInput extends React.PureComponent {
     }
 
     resetMatches = () => {
-        this.setState({
-            selectedEntityIndex: -1,
-            entityMatchIndexes: [],
-        });
+        if (this.mounted) {
+            this.setState({
+                selectedEntityIndex: -1,
+                entityMatchIndexes: [],
+            });
+        }
     }
 
     getInputNode = () => this.refs.input.refs.field
