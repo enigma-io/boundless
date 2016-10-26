@@ -3,14 +3,10 @@ import UIButton from '../../UIButton';
 import UIImage from '../index';
 
 export default class UIImageDemo extends React.PureComponent {
-    initialState() {
-        const now = Date.now();
-
-        return {
-            normal: now,
-            delayed: now,
-            error: now,
-        };
+    state = {
+        normal: Date.now(),
+        delayed: Date.now(),
+        error: Date.now(),
     }
 
     remountImage(refName) {
