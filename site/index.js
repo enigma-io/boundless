@@ -110,6 +110,10 @@ const components = {
         component: UIPopoverDemo,
         readme: fs.readFileSync(__dirname + '/../UIPopover/README.md', 'utf8'),
     },
+    'UIPortal': {
+        component: NullComponent,
+        readme: fs.readFileSync(__dirname + '/../UIPortal/README.md', 'utf8'),
+    },
     'UIProgress': {
         component: UIProgressDemo,
         readme: fs.readFileSync(__dirname + '/../UIProgress/README.md', 'utf8'),
