@@ -12,7 +12,7 @@ describe('UIModal component', () => {
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
-    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIModal, {}, 'modal'));
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIModal, {}, '$modal'));
 
     it('renders .ui-modal', () => {
         const element = render(<UIModal>foo</UIModal>);
@@ -54,14 +54,6 @@ describe('UIModal component', () => {
         const element = render(<UIModal maskProps={{className: 'foo'}} />);
 
         expect(document.querySelector('.ui-modal-mask').classList.contains('foo')).toBe(true);
-    });
-
-    it('tags the root element with the ID of the portalled dialog', () => {
-        const element = render(<UIModal>Foo</UIModal>);
-        const id = ReactDOM.findDOMNode(element).getAttribute('data-portal');
-
-        expect(id).not.toBeUndefined();
-        expect(document.getElementById(id)).not.toBeNull();
     });
 
     describe('passthrough to UIDialog', () => {
