@@ -133,7 +133,6 @@ describe('UIPagination component', () => {
             expect(document.querySelector('.ui-pagination-control-custom')).not.toBe(null);
         });
 
-
         it('ui-pagination-wrapper is rendered', () => {
             expect(document.querySelector('.ui-pagination-wrapper')).not.toBe(null);
         });
@@ -265,6 +264,81 @@ describe('UIPagination component', () => {
             expect(clickStub.calledOnce).toBe(true);
             expect(focusStub.calledOnce).toBe(true);
             expect(keyDownStub.calledOnce).toBe(true);
+        });
+
+        it('does not call itemToJSXConverterFunc on the original promise resolved value if the given promise has changed', () => {
+            ReactDOM.unmountComponentAtNode(mountNode);
+
+            const promise1ResolveValue = 'foo';
+            const promise2ResolveValue = 'bar';
+
+            let promise1Resolver;
+            let resolver;
+
+            const converter = sandbox.stub().returns((x) => <div>{x}</div>);
+
+            const getter = () => {
+                const promise = new Promise((resolve) => (resolver = resolve));
+
+                if (!promise1Resolver) {
+                    promise1Resolver = resolver;
+                }
+
+                return promise;
+            };  // second call of getter() creates a new promise
+
+            element = render(
+                <UIPagination
+                    getItem={getter}
+                    identifier='newId'
+                    itemToJSXConverterFunc={converter}
+                    totalItems={1} />
+            );
+
+            expect(converter.called).toBe(false);
+
+            element = render(
+                <UIPagination
+                    getItem={getter}
+                    identifier='newId2'
+                    itemToJSXConverterFunc={converter}
+                    totalItems={1} />
+            );
+
+            expect(converter.called).toBe(false);
+
+            promise1Resolver(promise1ResolveValue);
+            resolver(promise2ResolveValue);
+
+            return Promise.resolve().then(() => {
+                expect(converter.calledOnce).toBe(true);
+                expect(converter.calledWithMatch(promise2ResolveValue, 0)).toBe(true);
+            });
+        });
+
+        it('does not call itemToJSXConverterFunc if the component has been unmounted when the promise resolves', () => {
+            ReactDOM.unmountComponentAtNode(mountNode);
+
+            let resolver;
+
+            const converter = sandbox.stub().returns((x) => <div>{x}</div>);
+            const getter = () => new Promise((resolve) => (resolver = resolve));
+
+            element = render(
+                <UIPagination
+                    getItem={getter}
+                    identifier='newId'
+                    itemToJSXConverterFunc={converter}
+                    totalItems={1} />
+            );
+
+            expect(converter.called).toBe(false);
+
+            ReactDOM.unmountComponentAtNode(mountNode);
+            resolver('foo');
+
+            // needs to be async to occur after the first promise has resolved
+            return Promise.resolve().then(() => expect(converter.called).toBe(false));
         });
     });
 

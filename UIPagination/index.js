@@ -11,7 +11,7 @@ import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
 /**
- * A utility component for handling promises as children and eventually doing something with their resolved value.
+ * A utility component for handling promises as children and eventually doing something with their resolved payload.
  */
 class Item extends React.PureComponent {
     static propTypes = {
@@ -31,13 +31,17 @@ class Item extends React.PureComponent {
         if (props.data instanceof Promise) {
             this.setState({component: null});
 
-            props.data.then(function cautiouslySetItemData(promise, value) {
-                if (this.mounted && this.props.data === promise) {
+            const closurePromise = props.data;
+
+            props.data.then((resolvedPayload) => {
+                if (this.mounted) {
                     this.setState((state, currentProps) => ({
-                        component: currentProps.convertToJSXFunc(value, currentProps.index),
+                        component: currentProps.data === closurePromise
+                                   ? currentProps.convertToJSXFunc(resolvedPayload, currentProps.index)
+                                   : state.component,
                     }));
                 } // only replace if we're looking at the same promise, otherwise do nothing
-            }.bind(this, props.data));
+            }, noop);
 
             return;
         }
