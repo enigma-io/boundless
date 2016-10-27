@@ -55,7 +55,7 @@ __Keyboard__ | `Down` | move focus to next child if `props.mode` is `UIArrowKeyN
 ### Available `props`
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; forwarded to `props.component`
 
-- __component__ `String|Constructor`
+- __component__ `string|ReactElement`
   any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
 
 - __mode__ `UIArrowKeyNavigation.mode[VERTICAL|HORIZONTAL|BOTH]`

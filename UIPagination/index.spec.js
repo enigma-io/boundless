@@ -227,11 +227,14 @@ describe('UIPagination component', () => {
     });
 
     describe('non-JSX items', () => {
-        const newStub = sandbox.stub();
+        const clickStub = sandbox.stub();
+        const focusStub = sandbox.stub();
+        const keyDownStub = sandbox.stub();
         let element;
+
         const newItemToJSX = data => {
             return (
-                <div key={data.id} className='test-class' onClick={newStub}>
+                <div key={data.id} className='test-class' onClick={clickStub} onFocus={focusStub} onKeyDown={keyDownStub}>
                     {data.first_name} {data.last_name}
                 </div>
             )
@@ -257,7 +260,11 @@ describe('UIPagination component', () => {
 
         it('does not lose original event handlers', () => {
             Simulate.click(dom(element.refs.item_0));
-            expect(newStub.calledOnce).toBe(true);
+            Simulate.focus(dom(element.refs.item_0));
+            Simulate.keyDown(dom(element.refs.item_0));
+            expect(clickStub.calledOnce).toBe(true);
+            expect(focusStub.calledOnce).toBe(true);
+            expect(keyDownStub.calledOnce).toBe(true);
         });
     });
 

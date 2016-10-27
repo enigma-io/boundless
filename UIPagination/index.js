@@ -1,8 +1,3 @@
-/**
- * A utility view for paging the display of many data items of varying sizes.
- * @class UIPagination
- */
-
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
@@ -15,63 +10,57 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
-class Item extends React.Component {
+/**
+ * A utility component for handling promises as children and eventually doing something with their resolved value.
+ */
+class Item extends React.PureComponent {
     static propTypes = {
-        even: PropTypes.bool,
+        convertToJSXFunc: PropTypes.func,
         data: PropTypes.object,
-        dataToJSXConverterFunc: PropTypes.func,
+        even: PropTypes.bool,
         index: PropTypes.number,
         loadingContent: PropTypes.node,
     }
 
     static internalKeys = Object.keys(Item.propTypes)
 
-    state = {
-        data: this.props.data,
-    }
-
     mounted = false
+    state = {}
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            this.setState({data: nextProps.data});
-        }
-    }
+    convertDataToJSXOrWait(props = this.props) {
+        if (props.data instanceof Promise) {
+            this.setState({component: null});
 
-    waitForContentIfNecessary() {
-        if (this.state.data instanceof Promise) {
-            this.state.data.then(function cautiouslySetItemData(promise, value) {
-                if (this.mounted && this.state.data === promise) {
-                    this.setState({data: value});
+            props.data.then(function cautiouslySetItemData(promise, value) {
+                if (this.mounted && this.props.data === promise) {
+                    this.setState((state, currentProps) => ({
+                        component: currentProps.convertToJSXFunc(value, currentProps.index),
+                    }));
                 } // only replace if we're looking at the same promise, otherwise do nothing
-            }.bind(this, this.state.data));
+            }.bind(this, props.data));
+
+            return;
         }
+
+        this.setState({component: props.convertToJSXFunc(props.data, props.index)});
     }
 
-    componentDidMount() {
-        this.mounted = true;
-        this.waitForContentIfNecessary();
-    }
-
-    componentDidUpdate() {
-        this.waitForContentIfNecessary();
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
+    componentWillMount()                 { this.convertDataToJSXOrWait(); }
+    componentDidMount()                  { this.mounted = true; }
+    componentWillReceiveProps(nextProps) { this.convertDataToJSXOrWait(nextProps); }
+    componentWillUnmount()               { this.mounted = false; }
 
     getClasses(extraClasses) {
         return cx({
             'ui-pagination-item': true,
             'ui-pagination-item-even': this.props.even,
             'ui-pagination-item-odd': !this.props.even,
-            'ui-pagination-item-loading': this.state.data instanceof Promise,
+            'ui-pagination-item-loading': this.props.data instanceof Promise,
         }) + (extraClasses ? ' ' + extraClasses : '');
     }
 
     render() {
-        if (this.state.data instanceof Promise) {
+        if (this.state.component === null) {
             return (
                 <div {...omit(this.props, Item.internalKeys)} className={this.getClasses()}>
                     {this.props.loadingContent}
@@ -79,16 +68,17 @@ class Item extends React.Component {
             );
         }
 
-        const jsx = this.props.dataToJSXConverterFunc(this.state.data, this.props.index);
-
-        return React.cloneElement(jsx, {
+        return React.cloneElement(this.state.component, {
             ...omit(this.props, Item.internalKeys),
-            className: this.getClasses(jsx.props.className),
+            className: this.getClasses(this.state.component.props && this.state.component.props.className),
             'data-index': this.props.index,
         });
     }
 }
 
+/**
+ * A utility component for paging the display of many data items, possibly varying in DOM layout/size.
+ */
 export default class UIPagination extends React.PureComponent {
     static controls = {
         FIRST: 'FIRST',
@@ -353,8 +343,8 @@ export default class UIPagination extends React.PureComponent {
                         <Item
                             ref={`item_${index}`}
                             key={index}
+                            convertToJSXFunc={this.props.itemToJSXConverterFunc}
                             data={item.data}
-                            dataToJSXConverterFunc={this.props.itemToJSXConverterFunc}
                             even={index % 2 === 0}
                             index={indexOffset + index}
                             loadingContent={this.props.itemLoadingContent} />

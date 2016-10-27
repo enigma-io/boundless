@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 import React from 'react';
 import UIPagination from '../index';
 
@@ -7,9 +9,11 @@ export default class UIPaginationDemo extends React.PureComponent {
         identifier: 'rolodex1000',
     }
 
-    itemToJSX = (data) => {
+    itemToJSX = (data, index) => {
         return (
-            <div>
+            <div
+                onFocus={() => console.log('focused #' + index)}
+                onKeyDown={(e) => console.log('pressed ' + e.key + ' on #' + index)}>
                 <div className='card-left'>
                     <strong>{data.first_name} {data.last_name}</strong><br/>
                     <em>{data.job_title}</em>
