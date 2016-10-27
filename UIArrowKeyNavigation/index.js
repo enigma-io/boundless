@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import isFunction from '../UIUtils/isFunction';
-import isString from '../UIUtils/isString';
 import omit from '../UIUtils/omit';
 
 export default class UIArrowKeyNavigation extends React.PureComponent {
@@ -132,23 +131,26 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
         }
     }
 
-    handleChildFocus(index, child, event) {
-        this.setState({activeChildIndex: index});
+    handleFocus = (event) => {
+        if (event.target.hasAttribute('data-index')) {
+            const index = parseInt(event.target.getAttribute('data-index'), 10);
+            const child = React.Children.toArray(this.props.children)[index];
 
-        event.stopPropagation();
+            this.setState({activeChildIndex: index});
 
-        if (!isString(child) && isFunction(child.props.onFocus)) {
-            child.props.onFocus(event);
+            if (child.props.onFocus) {
+                child.props.onFocus(event);
+            }
         }
     }
 
     children() {
         return React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
+                'data-index': index,
                 'data-skip': parseInt(child.props.tabIndex, 10) === -1 || undefined,
                 key: child.key || index,
                 tabIndex: this.state.activeChildIndex === index ? 0 : -1,
-                onFocus: this.handleChildFocus.bind(this, index, child),
             });
         });
     }
@@ -157,6 +159,7 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
         return React.createElement(this.props.component, {
             ...omit(this.props, UIArrowKeyNavigation.internalKeys),
             ref: 'wrapper',
+            onFocus: this.handleFocus,
             onKeyDown: this.handleKeyDown,
         }, this.children());
     }
