@@ -57,6 +57,7 @@
     "react-dom": ">= 15.3"
   },
   "jest": {
+    "cacheDirectory": "node_modules/.jest-cache",
     "coverageReporters": [
       "text",
       "cobertura",
