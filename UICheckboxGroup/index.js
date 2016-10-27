@@ -53,11 +53,11 @@ export default class UICheckboxGroup extends React.PureComponent {
     }
 
     allItemsChecked() {
-        return this.props.items.every(item => item.inputProps.checked === true);
+        return this.props.items.every((item) => item.inputProps.checked === true);
     }
 
     anyItemsChecked() {
-        return this.props.items.some(item => item.inputProps.checked === true);
+        return this.props.items.some((item) => item.inputProps.checked === true);
     }
 
     renderSelectAll() {
@@ -88,7 +88,7 @@ export default class UICheckboxGroup extends React.PureComponent {
     }
 
     renderCheckboxes() {
-        return this.props.items.map(item => {
+        return this.props.items.map((item) => {
             return (
                 <UICheckbox
                     {...item}

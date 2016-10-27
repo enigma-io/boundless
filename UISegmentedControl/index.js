@@ -20,7 +20,7 @@ export default class UISegmentedControl extends React.PureComponent {
                 throw new Error('Must provide at least two options.');
             }
 
-            const missingSelected = props.options.some(option => {
+            const missingSelected = props.options.some((option) => {
                 if (!('selected' in option)) {
                     return true;
                 }
@@ -31,7 +31,7 @@ export default class UISegmentedControl extends React.PureComponent {
             }
 
             let seenSelected = false;
-            const multipleSelected = props.options.some(option => {
+            const multipleSelected = props.options.some((option) => {
                 if (option.selected) {
                     if (seenSelected) {
                         return true;
@@ -45,7 +45,7 @@ export default class UISegmentedControl extends React.PureComponent {
                 throw new Error('Encountered multiple options with `selected: true`. There can be only one.');
             }
 
-            if (props.options.some(option => typeof option.value === 'undefined')) {
+            if (props.options.some((option) => typeof option.value === 'undefined')) {
                 throw new Error('Must provide a `value` prop for each option.');
             }
         },
@@ -70,7 +70,7 @@ export default class UISegmentedControl extends React.PureComponent {
     currentValue() {
         let value;
 
-        this.props.options.some(option => {
+        this.props.options.some((option) => {
             if (option.selected) {
                 value = option.value;
 

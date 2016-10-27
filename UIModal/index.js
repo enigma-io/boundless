@@ -1,22 +1,19 @@
-/**
- * A blocking, focus-stealing container.
- * @class UIModal
- */
-
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import UIDialog from '../UIDialog';
+import UIPortal from '../UIPortal';
 import extractChildProps from '../UIUtils/extractChildProps';
 import omit from '../UIUtils/omit';
-import uuid from '../UIUtils/uuid';
 
+/**
+ * A blocking, focus-stealing container.
+ */
 export default class UIModal extends React.PureComponent {
     static propTypes = {
         ...UIDialog.propTypes,
-        maskProps: React.PropTypes.object,
-        modalProps: React.PropTypes.object,
+        maskProps: PropTypes.object,
+        modalProps: PropTypes.object,
     }
 
     static internalKeys = Object.keys(UIModal.propTypes)
@@ -28,41 +25,18 @@ export default class UIModal extends React.PureComponent {
         modalProps: {},
     }
 
-    portalID = uuid()
-
-    updateInternalModalCache(instance) {
-        this.modal = instance;
-    }
-
-    componentWillMount() {
-        this.$container = document.createElement('div');
-
-        document.body.appendChild(this.$container);
-
-        this.renderModal();
-    }
-
-    componentDidUpdate() {
-        this.renderModal();
-    }
-
-    componentWillUnmount() {
-        ReactDOM.unmountComponentAtNode(this.$container);
-        document.body.removeChild(this.$container);
-    }
-
-    renderModal() {
+    render() {
         const {props} = this;
 
-        this.updateInternalModalCache(
-            ReactDOM.render(
+        return (
+            <UIPortal>
                 <div
                     {...omit(props, UIModal.internalKeys)}
+                    ref={(node) => (this.$modal = node)}
                     className={cx({
                         'ui-modal-wrapper': true,
                         [props.className]: !!props.className,
-                    })}
-                    id={this.props.id || this.portalID}>
+                    })}>
                     <div
                         {...props.maskProps}
                         className={cx({
@@ -80,11 +54,7 @@ export default class UIModal extends React.PureComponent {
                         {props.children}
                     </UIDialog>
                 </div>
-            , this.$container)
+            </UIPortal>
         );
-    }
-
-    render() {
-        return (<div data-portal={this.props.id || this.portalID} />);
     }
 }

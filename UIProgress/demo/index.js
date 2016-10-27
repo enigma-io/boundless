@@ -2,7 +2,6 @@ import React from 'react';
 import UIButton from '../../UIButton';
 import UIProgress from '../index';
 import {each} from 'lodash';
-import transformProp from '../../UIUtils/transformProperty';
 
 export default class UIProgressDemo extends React.PureComponent {
     state = {
@@ -70,7 +69,7 @@ export default class UIProgressDemo extends React.PureComponent {
                     <h5>Indeterminate Progress Bar</h5>
                     <UIProgress
                         ref='indeterminate'
-                        aria-label={`Processing...`} />
+                        aria-label={'Processing...'} />
                 </figure>
             </div>
         );

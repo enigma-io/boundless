@@ -7,15 +7,15 @@ export default class UISegmentedControlDemo extends React.PureComponent {
         options: [{
             selected: true,
             content: 'Planets',
-            value: 'planets'
+            value: 'planets',
         }, {
             selected: false,
             content: 'Nebulae',
-            value: 'nebulae'
+            value: 'nebulae',
         }, {
             selected: false,
             content: 'Galaxies',
-            value: 'galaxies'
+            value: 'galaxies',
         }],
     }
 
@@ -23,12 +23,12 @@ export default class UISegmentedControlDemo extends React.PureComponent {
         this.setState({
             options: this.state.options.map(function transformer(option) {
                 return {...option, selected: option.value === value};
-            })
+            }),
         });
     }
 
     getSelectedOptionValue() {
-        return this.state.options.find(option => option.selected === true).value;
+        return this.state.options.find((option) => option.selected === true).value;
     }
 
     renderContent() {

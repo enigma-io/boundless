@@ -1,6 +1,10 @@
 import uuid from './index';
 
 describe('UIUtils/uuid utility', () => {
+    it('prefixes the UUIDs with "uikit-"', () => {
+        expect(uuid()).toContain('uikit-');
+    });
+
     it('creates consistently unique identifiers', () => {
         const ids = [];
 

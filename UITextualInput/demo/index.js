@@ -16,7 +16,7 @@ export default class UITextualInputDemo extends React.PureComponent {
                     <UITextualInput
                         hidePlaceholderOnFocus={false}
                         inputProps={{
-                            placeholder: 'Start typing and I disappear!'
+                            placeholder: 'Start typing and I disappear!',
                         }} />
                 </div>
 

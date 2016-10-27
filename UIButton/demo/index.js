@@ -7,6 +7,7 @@ export default class UIButtonDemo extends React.PureComponent {
     }
 
     handleClick = () => {
+        // eslint-disable-next-line no-alert
         alert('A single-click was detected.');
     }
 

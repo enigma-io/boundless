@@ -1,6 +1,6 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import UIButton from '../../UIButton';
+
+import UIArrowKeyNavigation from '../../UIArrowKeyNavigation';
 import UIPopover from '../index';
 
 export default class UIPopoverDemo extends React.PureComponent {
@@ -59,34 +59,36 @@ export default class UIPopoverDemo extends React.PureComponent {
         }
     }
 
-    openPopover(index, event) {
+    openPopover(index) {
         this.setState({ ['showPopover' + index]: true });
     }
 
-    closePopover(index, event) {
+    closePopover(index) {
         this.setState({ ['showPopover' + index]: false });
     }
 
     renderSecondaryDefinitions(definitions = []) {
         return definitions.length ? (
-            <UIArrowKeyNavigation key='secondary' component='ol'>
+            <UIArrowKeyNavigation component='ol'>
                 {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
             </UIArrowKeyNavigation>
-        ) : undefined;
+        ) : null;
     }
 
     renderPrimaryDefinition(definition) {
-        return definition ?  <p key='primary'>{definition}</p> : undefined;
+        return definition ? (<p>{definition}</p>) : null;
     }
 
     renderBody(definition) {
-        return [
-            <strong key='syllabic'>{definition.syllabicRepresentation}</strong>,
-            <br key='break' />,
-            <em key='type'>{definition.type}</em>,
-            this.renderPrimaryDefinition(definition.primaryDefinition),
-            this.renderSecondaryDefinitions(definition.secondaryDefinitions),
-        ];
+        return (
+            <div>
+                <strong>{definition.syllabicRepresentation}</strong>
+                <br />
+                <em>{definition.type}</em>
+                {this.renderPrimaryDefinition(definition.primaryDefinition)}
+                {this.renderSecondaryDefinitions(definition.secondaryDefinitions)}
+            </div>
+        );
     }
 
     renderPopovers() {
@@ -113,21 +115,24 @@ export default class UIPopoverDemo extends React.PureComponent {
         return (
             <div>
                 <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
+
                 <div className='ui-spread-even'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <div key={definition.word}>
-                                <abbr ref={'word' + index}
-                                      className='show-help-popover'
-                                      onClick={this.openPopover.bind(this, index)}
-                                      onKeyDown={this.handleKeyDown.bind(this, index)}
-                                      tabIndex='0'>
+                                <abbr
+                                    ref={'word' + index}
+                                    className='show-help-popover'
+                                    onClick={this.openPopover.bind(this, index)}
+                                    onKeyDown={this.handleKeyDown.bind(this, index)}
+                                    tabIndex='0'>
                                     {definition.word}
                                 </abbr>
                             </div>
                         );
                     })}
                 </div>
+
                 {this.renderPopovers()}
             </div>
         );

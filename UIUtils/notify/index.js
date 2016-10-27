@@ -109,7 +109,7 @@ export default function notify(config) {
                 }
 
                 resolve(notification);
-            }, error => reject(error)
+            }, (error) => reject(error)
         );
     });
 }

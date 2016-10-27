@@ -16,103 +16,71 @@ describe('UIPopover component', () => {
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
-    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIPopover, baseProps, '$dialog'));
-
-    it('tags the root element with the ID of the portalled dialog', () => {
-        const element = render(<UIPopover {...baseProps} autoReposition={false} preset={UIPopover.preset.ABOVE} />);
-        const id = ReactDOM.findDOMNode(element).getAttribute('data-portal');
-
-        expect(id).not.toBeUndefined();
-        expect(document.getElementById(id)).not.toBeNull();
-    });
+    it('conforms to the UIKit prop interface standards', () => conformanceChecker(render, UIPopover, baseProps, 'dialog.$dialog'));
 
     describe('CSS hook(s)', () => {
         it('renders .ui-popover', () => {
             const popover = render(<UIPopover {...baseProps} />);
-
             expect(document.querySelector('.ui-popover')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-x-start', () => {
             const popover = render(<UIPopover {...baseProps} anchorXAlign={position.START} />);
-
             expect(document.querySelector('.ui-popover-anchor-x-start')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-x-middle', () => {
             const popover = render(<UIPopover {...baseProps} anchorXAlign={position.MIDDLE} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-anchor-x-middle')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-x-end', () => {
             const popover = render(<UIPopover {...baseProps} anchorXAlign={position.END} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-anchor-x-end')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-y-start', () => {
             const popover = render(<UIPopover {...baseProps} anchorYAlign={position.START} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-anchor-y-start')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-y-middle', () => {
             const popover = render(<UIPopover {...baseProps} anchorYAlign={position.MIDDLE} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-anchor-y-middle')).not.toBe(null);
         });
 
         it('renders .ui-popover-anchor-y-end', () => {
             const popover = render(<UIPopover {...baseProps} anchorYAlign={position.END} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-anchor-y-end')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-x-start', () => {
             const popover = render(<UIPopover {...baseProps} selfXAlign={position.START} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-x-start')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-x-middle', () => {
             const popover = render(<UIPopover {...baseProps} selfXAlign={position.MIDDLE} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-x-middle')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-x-end', () => {
             const popover = render(<UIPopover {...baseProps} selfXAlign={position.END} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-x-end')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-y-start', () => {
             const popover = render(<UIPopover {...baseProps} selfYAlign={position.START} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-y-start')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-y-middle', () => {
             const popover = render(<UIPopover {...baseProps} selfYAlign={position.MIDDLE} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-y-middle')).not.toBe(null);
         });
 
         it('renders .ui-popover-self-y-end', () => {
             const popover = render(<UIPopover {...baseProps} selfYAlign={position.END} />);
-            const node = ReactDOM.findDOMNode(popover.renderDialog());
-
             expect(document.querySelector('.ui-popover-self-y-end')).not.toBe(null);
         });
     });

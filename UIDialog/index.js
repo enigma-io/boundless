@@ -187,7 +187,7 @@ export default class UIDialog extends React.PureComponent {
         return (
             <div
                 {...this.props.wrapperProps}
-                ref={node => (this.$wrapper = node)}
+                ref={(node) => (this.$wrapper = node)}
                 className={cx({
                     'ui-dialog-wrapper': true,
                     [this.props.wrapperProps.className]: !!this.props.wrapperProps.className,
@@ -199,7 +199,7 @@ export default class UIDialog extends React.PureComponent {
 
                 <div
                     {...omit(this.props, UIDialog.internalKeys)}
-                    ref={node => (this.$dialog = node)}
+                    ref={(node) => (this.$dialog = node)}
                     className={cx({
                         'ui-dialog': true,
                         [this.props.className]: !!this.props.className,

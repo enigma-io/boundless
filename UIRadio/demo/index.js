@@ -32,6 +32,7 @@ export default class UIRadioDemo extends React.PureComponent {
     }
 
     handleInteraction(code) {
+        // eslint-disable-next-line no-alert
         alert(`${code} selected!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 

@@ -22,13 +22,14 @@ export default class UICheckboxDemo extends React.PureComponent {
     }
 
     handleInteraction(name) {
+        // eslint-disable-next-line no-alert
         alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 
     render() {
         return (
             <div className='ui-spread-even'>
-                {this.state.checkboxes.map(definition => {
+                {this.state.checkboxes.map((definition) => {
                     let boundFunc = this.handleInteraction.bind(this, definition.name);
 
                     return (

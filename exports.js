@@ -13,6 +13,7 @@ export {default as UIImage} from './UIImage';
 export {default as UIModal} from './UIModal';
 export {default as UIPagination} from './UIPagination';
 export {default as UIPopover} from './UIPopover';
+export {default as UIPortal} from './UIPortal';
 export {default as UIProgress} from './UIProgress';
 export {default as UIProgressiveDisclosure} from './UIProgressiveDisclosure';
 export {default as UIRadio} from './UIRadio';

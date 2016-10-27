@@ -36,7 +36,7 @@ function rescale(instance) {
 }
 
 function handleWindowResize() {
-    instances.forEach(instance => rescale(instance));
+    instances.forEach((instance) => rescale(instance));
 }
 
 function registerInstance(instance) {
