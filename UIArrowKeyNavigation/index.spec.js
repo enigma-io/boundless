@@ -66,6 +66,24 @@ describe('UIArrowKeyNavigation higher-order component', () => {
         expect(document.activeElement.textContent).toBe('orange');
     });
 
+    it('defaults to the first child being "active" and included in the tabbing context', () => {
+        expect(node.querySelector('[data-index="0"][tabindex="0"]')).not.toBeNull();
+    });
+
+    it('allows the specification of a default child to be made "active" and included in the tabbing context', () => {
+        ReactDOM.unmountComponentAtNode(mountNode);
+        element = render(
+            <UIArrowKeyNavigation defaultActiveChildIndex={1}>
+                <li>apple</li>
+                <li>orange</li>
+            </UIArrowKeyNavigation>
+        );
+
+        node = element.refs.wrapper;
+
+        expect(node.querySelector('[data-index="1"][tabindex="0"]')).not.toBeNull();
+    });
+
     describe('setFocus(index)', () => {
         it('does nothing if given an invalid index', () => {
             expect(document.activeElement).toBe(document.body);
