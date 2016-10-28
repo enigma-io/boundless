@@ -31,6 +31,13 @@ export default class UIArrowKeyNavigationDemo extends React.PureComponent {
                 </section>
 
                 <section>
+                    <h6>Second child active by default</h6>
+                    <UIArrowKeyNavigation component='ul' mode={UIArrowKeyNavigation.mode.VERTICAL} defaultActiveChildIndex={1}>
+                        {this.state.items.map((item) => <li key={item}>{item}</li>)}
+                    </UIArrowKeyNavigation>
+                </section>
+
+                <section>
                     <h6>Ignored child (horizontal rule)</h6>
                     <UIArrowKeyNavigation>
                         <div>lorem</div>

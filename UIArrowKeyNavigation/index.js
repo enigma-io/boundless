@@ -17,6 +17,8 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
             PropTypes.func,
         ]),
 
+        defaultActiveChildIndex: PropTypes.number,
+
         mode: PropTypes.oneOf([
             UIArrowKeyNavigation.mode.HORIZONTAL,
             UIArrowKeyNavigation.mode.VERTICAL,
@@ -28,11 +30,12 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
 
     static defaultProps = {
         component: 'div',
+        defaultActiveChildIndex: 0,
         mode: UIArrowKeyNavigation.mode.BOTH,
     }
 
     state = {
-        activeChildIndex: 0,
+        activeChildIndex: this.props.defaultActiveChildIndex,
     }
 
     componentDidUpdate(prevProps, prevState) {
