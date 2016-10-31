@@ -2,11 +2,90 @@
 
 ---
 
+## 2.0.0 (10/31/2016)
+
+A new major release was cut because we are including some behavioral changes, including a new component: `UIPortal`.
+
+### Breaking Changes
+
+__UITable is no longer part of UIKit.__
+
+It is now fully isolated in `bibliotech/table`. This allows for more rapid iteration and helps prevent bugs by co-locating all the relevant JS.
+
+### Things of Note
+
+__New component: `UIPortal`.__
+
+`UIPortal` is a [higher-order component](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#.jusvt4ptz) meant to aid in the rendering of content outside the normal React tree. It replaces the bespoke mechanisms in `UIModal` and `UIPopover`.
+
+__All static builds are now run through Rollup.js.__
+
+This brought the compiled build size down to ~67kb from more than 88kb. No small feat, and a benefit we all can share.
+
+__The naming of the built versions has changed.__
+
+`public/uikit.js` -> `public/uikit.standalone.js`
+`public/uikit.min.js` -> `public/uikit.standalone.min.js`
+
+\+ `public/uikit.commonjs.js` (now the default export when `enigma-uikit` is used as a node module, includes sourcemaps)
+
+### Commits
+
+df8aff5 Fix portal key (#313)
+ef6980d [Prop] UIArrowKeyNavigation.props.defaultActiveChildIndex
+23750ea Add tests and tighten up the UIPagination `<Item>` async handling
+5245320 Retain the Jest cache between rebuilds
+d8765b1 Fix handling of focus on UIPagination children
+c907fb1 Rebuild once more
+bd390e3 Sync eslintrc from LION, fix issues
+5481656 Rebuild all, adjust UIPortal ReactDOM import to avoid a rollup bug
+8a84903 Fix linting errors
+be69585 Refactor UIModal to use UIPortal
+d24ca63 Refactor UIPopover to use UIPortal
+280726d Make UIUtils/conform use lodash.get() under the hood
+5fc14dd Fix website build
+975c215 Fix UIImage demo
+8ff59db UITypeaheadInput: fix resetMatches() firing when unmounted
+61d149d \[New Component\] UIPortal
+c9d8f81 Fix UIUtils/uuid to create valid HTML IDs
+096ad77 \[Behavior\]\[Prop\] UIArrowKeyNavigation: arrow key "modes", nix tabbing (#308)
+1ae924f Get rid of the CSS columns from the default checkbox group style (#307)
+eefc108 Detect events within nested components that also portal (#306)
+bbc7804 Update deps, remove babel-cli (#304)
+54b09e8 Create the public bundles with rollup; no more es5 directory (#302)
+ca4a220 Add coverage badge to README
+40e12b9 Remove a bunch of heavy lodash dependencies (#301)
+b63bff1 Rebuild targets, add back peerDependencies
+60a069c [Breaking Change] Migrate UITable -> bibliotech/table
+cbfa143 Rebuild all
+efdd277 Update ESLint config
+a16a156 Update Jest to 16.x
+d02e4f6 Remove unnecessary functional setStates / state spreads
+bed4783 Allow UIArrowKeyNavigation to skip focus of decorative elements (#296)
+03401ec Use lodash.isinteger
+c2bfbc6 Add radix to parseInts
+0f15196 Don't use isInteger, not present in IE11
+e055bbe Removing accidentally committed console log
+a1f399e Fix UITable test
+601d9ec enigma-table 1.6, document new table prop: fitColumnsToTableWidth
+c709c04 Update table; prevent the "copy" node from being tabbable
+a0c8645 table 1.5.4, new UITable prop: onActiveRowChanged
+ec27d27 enigma-table 1.5.3
+e2a4349 Update to enigma-uikit 1.5.2
+79518bc UITable: fix props.jumpToIndex=0 on first render
+3d7895a Fix UITable<->Table integration test
+f56a3af Update enigma-table
+209bb60 Add CodeCov
+19726ed Reintroduce Travis
+e9baf6f enigma-table 1.5, document UITable.props.allowScrollPropagation
+
+---
+
 ## 1.0.1 (9/1/2016)
 
-- (c546014) Update Jest to 15.x
-- (412eda8) UIDialog: don't call props.onClose if unmounted
-- (e5664be) UIPopover: fix className being added in the wrong spot
+(c546014) Update Jest to 15.x
+(412eda8) UIDialog: don't call props.onClose if unmounted
+(e5664be) UIPopover: fix className being added in the wrong spot
 
 ---
 
