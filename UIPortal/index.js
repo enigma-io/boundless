@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+export const PORTAL_DATA_ATTRIBUTE = 'data-portal-id';
+
 /**
  * A higher-order component for the rendering of components outside the normal React tree.
  * Only accepts a single top-level child; naked text, etc will be wrapped in a <div>.
@@ -56,6 +58,10 @@ export default class UIPortal extends React.Component {
     }
 
     render() {
-        return (<span {...omit(this.props, UIPortal.internalKeys)} data-portal-id={this.props.portalId || this.id} />);
+        return (
+            <span
+                {...omit(this.props, UIPortal.internalKeys)}
+                {...{[PORTAL_DATA_ATTRIBUTE]: this.props.portalId || this.id}} />
+        );
     }
 }

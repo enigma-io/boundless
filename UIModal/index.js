@@ -14,6 +14,7 @@ export default class UIModal extends React.PureComponent {
         ...UIDialog.propTypes,
         maskProps: PropTypes.object,
         modalProps: PropTypes.object,
+        portalProps: PropTypes.object,
     }
 
     static internalKeys = Object.keys(UIModal.propTypes)
@@ -23,13 +24,14 @@ export default class UIModal extends React.PureComponent {
         captureFocus: true,
         maskProps: {},
         modalProps: {},
+        portalProps: {},
     }
 
     render() {
         const {props} = this;
 
         return (
-            <UIPortal>
+            <UIPortal {...props.portalProps}>
                 <div
                     {...omit(props, UIModal.internalKeys)}
                     ref={(node) => (this.$modal = node)}

@@ -97,4 +97,22 @@ describe('UIModal component', () => {
             expect(document.querySelector('.ui-dialog-footer').classList.contains('foo')).toBe(true);
         });
     });
+
+    describe('passthrough to UIPortal', () => {
+        let element;
+
+        beforeEach(() => {
+            element = render(
+                <UIModal portalProps={{className: 'foo', id: 'bar', portalId: 'baz'}}>
+                    bar
+                </UIModal>
+            );
+        });
+
+        it('passes down arbitrary props', () => {
+            expect(document.querySelector('[data-portal-id]').classList.contains('foo')).toBe(true);
+            expect(document.querySelector('#bar[data-portal-id]')).not.toBeNull();
+            expect(document.querySelector('[data-portal-id="baz"]')).not.toBeNull();
+        });
+    });
 });

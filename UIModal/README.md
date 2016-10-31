@@ -74,3 +74,6 @@ Refer to [UIDialog](../UIDialog/README.md)
 - __modalProps__ `Object`
     - __modalProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+
+- __portalProps__ `object`
+  (default `{}`) any/all supported [UIPortal props](../UIPortal/README.md)

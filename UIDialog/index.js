@@ -6,6 +6,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import {PORTAL_DATA_ATTRIBUTE} from '../UIPortal';
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
@@ -58,8 +59,8 @@ export default class UIDialog extends React.PureComponent {
 
         const roots = [this.$wrapper].concat(
             toArray.call(
-                this.$wrapper.querySelectorAll('[data-portal]')
-            ).map((dom) => document.getElementById(dom.getAttribute('data-portal')))
+                this.$wrapper.querySelectorAll(`[${PORTAL_DATA_ATTRIBUTE}]`)
+            ).map((dom) => document.getElementById(dom.getAttribute(PORTAL_DATA_ATTRIBUTE)))
         );
 
         const element = node.nodeType !== Node.ELEMENT_NODE ? node.parentNode : node;

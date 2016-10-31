@@ -110,7 +110,7 @@ Refer to [UIDialog](../UIDialog/README.md)
 
 ### Available `props`
 
-- all supported [UIDialog props](../UIDialog/README.md)
+- any/all supported [UIDialog props](../UIDialog/README.md)
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node
 
@@ -156,6 +156,9 @@ Refer to [UIDialog](../UIDialog/README.md)
 
 - __closeOnOutsideScroll__ `Boolean`
   (default `true`) see [UIDialog.props.closeOnOutsideScroll](../UIDialog/README.md)
+
+- __portalProps__ `object`
+  (default `{}`) any/all supported [UIPortal props](../UIPortal/README.md)
 
 - __preset__ `UIPopover.preset.ABOVE|UIPopover.preset.BELOW|UIPopover.preset.LEFT|UIPopover.preset.RIGHT`
   (default `UIPopover.preset.BELOW`) a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well, e.g.

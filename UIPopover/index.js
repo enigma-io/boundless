@@ -67,6 +67,7 @@ export default class UIPopover extends React.PureComponent {
         anchorYAlign: PropTypes.oneOf(UIPopover.positionValues),
         autoReposition: PropTypes.bool,
         caretComponent: PropTypes.element,
+        portalProps: PropTypes.object,
         preset: PropTypes.oneOf(UIPopover.presetValues),
         selfXAlign: PropTypes.oneOf(UIPopover.positionValues),
         selfYAlign: PropTypes.oneOf(UIPopover.positionValues),
@@ -90,6 +91,7 @@ export default class UIPopover extends React.PureComponent {
         closeOnEscKey: true,
         closeOnOutsideClick: true,
         closeOnOutsideScroll: true,
+        portalProps: {},
         preset: UIPopover.preset.BELOW,
         wrapperProps: {},
     }
@@ -344,7 +346,7 @@ export default class UIPopover extends React.PureComponent {
         const {getClassAlignmentFragment: getFrag, props, state} = this;
 
         return (
-            <UIPortal>
+            <UIPortal {...props.portalProps}>
                 <UIDialog
                     {...omit(props, UIPopover.internalKeys)}
                     ref={(instance) => (this.dialog = instance)}
