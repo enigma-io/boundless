@@ -59,7 +59,7 @@ class Item extends React.PureComponent {
             'ui-pagination-item': true,
             'ui-pagination-item-even': this.props.even,
             'ui-pagination-item-odd': !this.props.even,
-            'ui-pagination-item-loading': this.props.data instanceof Promise,
+            'ui-pagination-item-loading': this.state.component === null,
         }) + (extraClasses ? ' ' + extraClasses : '');
     }
 
