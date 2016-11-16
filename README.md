@@ -12,13 +12,15 @@ __UIKit requires an [ES5-compatible browser](http://kangax.github.io/compat-tabl
     1. [via a bundling system like Browserify or Webpack](#via-a-bundling-system-like-browserify-or-webpack)
     1. [without a bundling system](#without-a-bundling-system)
 1. [Usage](#usage)
-    1. [ES6 (bundled with Babel, etc.)](#es6-bundled-with-babel-etc)
-    1. [ES5 (bundled)](#es5-bundled)
-    1. [ES5 (unbundled) + in-browser JSX compiler](#es5-publicuikitminjs-dropped-into-the-page--inbrowser-jsx-compilerhttpbabeljsiodocsusagebrowser)
-    1. [ES5 (unbundled)](#es5-publicuikitminjs-dropped-into-the-page)
-1. [Website, Component Demos and Reference Styles](#website-component-demos-and-reference-styles)
+    1. [ES6 (bundled with Babel, etc.)](#es6--bundled-with-babel--etc-)
+    1. [ES5 (bundled)](#es5--bundled-)
+    1. [ES5 (`public/uikit.standalone.min.js` dropped into the page) + [in-browser JSX compiler](http://babeljs.io/docs/usage/browser/)](#es5---public-uikitstandaloneminjs--dropped-into-the-page-----in-browser-jsx-compiler--http---babeljsio-docs-usage-browser--)
+    1. [ES5 (`public/uikit.standalone.min.js` dropped into the page)](#es5---public-uikitstandaloneminjs--dropped-into-the-page-)
+1. [Website, Component Demos and Reference Styles](#website--component-demos-and-reference-styles)
     1. [Running the Website Locally](#running-the-website-locally)
 1. [Branding UIKit](#branding-uikit)
+1. [Updating this website (http://uikit.enigma)](#updating-this-website--http---uikitenigma-)
+    1. [Recreating the server](#recreating-the-server)
 
 ---
 
@@ -43,6 +45,7 @@ Simply add UIKit as a dependency to your package.json file (and run `npm install
 You can simply copy the [public/uikit.standalone.min.js](https://github.com/bibliotech/uikit/blob/master/public/uikit.standalone.min.js) file to your project if desired. The components are automatically exported to `window.UIKit.<moduleName>`. They assume the presence of `window.React` and `window.ReactDOM`.
 
 In this case, your HTML page would probably resemble the following:
+
 ```html
 <html>
     <head>
@@ -59,8 +62,6 @@ In this case, your HTML page would probably resemble the following:
     </body>
 </html>
 ```
-
-[back to top](#uikit)
 
 ---
 
@@ -127,8 +128,6 @@ ReactDOM.render(MyUI(), document.body);
 
 An unminified version with bundled sourcemapping for easy debugging during the development process is available: [public/uikit.standalone.js](public/uikit.standalone.js)
 
-[back to top](#uikit)
-
 ---
 
 ## Website, Component Demos and Reference Styles
@@ -150,8 +149,6 @@ npm install
 npm start
 ```
 
-[back to top](#uikit)
-
 ---
 
 ## Branding UIKit
@@ -170,15 +167,13 @@ Next time your project's CSS is built, UIKit's CSS will automatically be compile
 
 > The UIKit Team recommends using the [`generator-enigma`](https://github.com/enigma-io/generator-enigma) scaffolding tool to easily lay out a solid foundation for your project (including a Stylus installation.)
 
-[back to top](#uikit)
-
 ---
 
 ## Updating this website (http://uikit.enigma)
 
 Add the ansible role to your `/etc/ansible/hosts` file:
 
-```
+```bash
 uikit-docs ansible_ssh_user=ec2-user ansible_ssh_host=10.10.219.210 ansible_python_interpreter=/usr/local/bin/python
 ```
 

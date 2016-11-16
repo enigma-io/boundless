@@ -3,62 +3,11 @@ __Hide content until it's needed.__
 
 > The UIKit Team recommends reviewing the [Disclosure](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW12) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIProgressiveDisclosure` in your project.
 
----
-
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
 
-### Example Usage
-
-```jsx
-import {
-    UIButton,
-    UIProgressiveDisclosure,
-} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <div>
-            Save?
-
-            <UIProgressiveDisclosure teaser='Advanced Options'>
-                <label htmlFor='filename-field'>Save as a different name?</label>
-                <input
-                    id='filename-field'
-                    name='filename'
-                    type='text'
-                    placeholder='untitled.txt' />
-            </UIProgressiveDisclosure>
-
-            <UIButton onPressed={doSave}>Yes</UIButton>
-            <UIButton onPressed={doCancel}>No</UIButton>
-        </div>
-    );
-}
-```
-Renders:
-```html
-<div>
-    Save?
-    <div class="ui-disclosure">
-        <div class="ui-disclosure-toggle">Advanced Options</div>
-    </div>
-    <button class="ui-button">Yes</button>
-    <button class="ui-button">No</button>
-</div>
-```
-
-Styling of the element is provided via the CSS hooks:
-
-- `.ui-disclosure`
-- `.ui-disclosure-toggle`
-- `.ui-disclosure-content`
-- `.ui-disclosure-expanded`
-
 ---
 
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -67,7 +16,8 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 
 ---
 
-### Available `props`
+### Props
+
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
 
 - __expanded__ `Boolean`

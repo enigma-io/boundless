@@ -5,56 +5,7 @@ __A higher-order component for the rendering of components outside the normal Re
 
 ---
 
-### Example Usage
-
-```jsx
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {UIPortal} from 'enigma-uikit';
-
-const root = document.createElement('div');
-      root.id = 'react-root';
-
-document.body.appendChild(root);
-
-class PortalledText extends React.PureComponent {
-    render() {
-        return (
-            <main>
-                Some other content.
-
-                <UIPortal>
-                    <span>I render outside the tree!</span>
-                </UIPortal>
-            </main>
-        );
-    }
-}
-
-ReactDOM.render(<PortalledText />, root);
-```
-
-Renders:
-
-```html
-<body>
-    <div id='react-root'>
-        <main>
-            Some other content.
-
-            <span data-portal-id='some-unique-id'></span>
-        </main>
-    </div>
-
-    <div id='some-unique-id'>
-        <span>I render outside the tree!</div>
-    </div>
-</body>
-```
-
----
-
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); these props are added to the `span[data-portal-id]`  element rendered at the portal origin
 

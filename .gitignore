@@ -6,5 +6,7 @@ node_modules/
 
 # build things
 coverage/
-site/public/
+site/public/index.html
+site/public/**/*.css
+site/public/**/*.js
 docs/sdk/

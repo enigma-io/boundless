@@ -9,90 +9,7 @@ The most common use case for `UICheckboxGroup` is a "select all" / children scen
 
 ---
 
-### Example Usage
-
-```jsx
-import {UICheckboxGroup} from 'enigma-uikit';
-
-/*
-    items{} spec
-
-    {
-        inputProps: {
-            autoFocus: "Boolean (optional)",
-            checked: "Boolean",
-            name: "String",
-            value: "String (optional)",
-        },
-        label: "String (optional)",
-    }
- */
-
-const items = [{
-    inputProps: {
-        value: 'DEF',
-        name: 'GHI',
-        checked: false,
-    },
-    label: 'ABC',
-}, {
-    inputProps: {
-        value: 'MNO',
-        name: 'PQR',
-        checked: false,
-    },
-    label: 'JKL',
-}, {
-    inputProps: {
-        value: 'VWX',
-        name: 'YZ',
-        checked: false,
-    },
-    label: 'STU',
-}];
-
-// ...
-
-render() {
-    return (
-        <UICheckboxGroup
-            items={items}
-            selectAll={true} />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-checkbox-group">
-    <div class="ui-checkbox-wrapper">
-        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" />
-        <label class="ui-checkbox-label" for='<uuid>'>Select All</label>
-    </div>
-    <div class="ui-checkbox-wrapper">
-        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="DEF" name="GHI" />
-        <label class="ui-checkbox-label" for='<uuid>'>ABC</label>
-    </div>
-    <div class="ui-checkbox-wrapper">
-        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="MNO" name="PQR" />
-        <label class="ui-checkbox-label" for='<uuid>'>JKL</label>
-    </div>
-    <div class="ui-checkbox-wrapper">
-        <input id='<uuid>' class="ui-checkbox ui-checkbox-unchecked" type="checkbox" aria-checked="false" value="VWX" name="YZ" />
-        <label class="ui-checkbox-label" for='<uuid>'>STU</label>
-    </div>
-</div>
-```
-
-Styling of the element is provided via the CSS hooks:
-
-- `.ui-checkbox-group`
-- `.ui-checkbox-group-selectall`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -103,7 +20,7 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
 

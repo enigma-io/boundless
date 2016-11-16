@@ -5,56 +5,6 @@ A popover is a type of [dialog](../UIDialog/README.md) that is meant to provide 
 
 > The UIKit Team recommends reviewing the [Popover](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UIPopover` in your project.
 
----
-
-### Example Usage
-
-```jsx
-import {
-    UIArrowKeyNavigation,
-    UIPopover,
-} from 'enigma-uikit';
-
-const definitions = [
-    'of or relating to a spiritual or nonphysical realm.',
-    '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.',
-];
-
-// ...
-
-render() {
-    return (
-        <UIPopover anchor={this.refs.content}>
-            <strong>tran·scen·den·tal</strong>
-            <em>adjective</em>
-            <UIArrowKeyNavigation component='ul'>
-                 {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
-             </UIArrowKeyNavigation>
-        </UIPopover>
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-popover">
-    <div class="ui-popover-caret"><svg>...</svg></div>
-    <div class="ui-dialog" role="dialog" aria-labelledby="{uniqueId}" aria-describedby="{uniqueId}" tabindex="0" style="top: {anchorYPos}px; left: {anchorXPos}px;">
-        <header id="{uniqueId}" class="ui-dialog-header"></header>
-        <div id="{uniqueId}" class="ui-dialog-body">
-            <strong>tran·scen·den·tal</strong>,
-            <em>adjective</em>
-            <ol>
-                <li tabindex="0">of or relating to a spiritual or nonphysical realm.</li>
-                <li tabindex="0">(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots.</li>
-            </ol>
-        </div>
-        <footer class="ui-dialog-footer"></footer>
-    </div>
-</div>
-```
-
 Use a positioning preset to align the popover, e.g.
 
 ```jsx
@@ -76,39 +26,17 @@ For more advanced positioning, combine the {element}{Axis}Align properties to cr
 </UIPopover>
 ```
 
-_*NOTE: reference styles are only provided for the preset use cases._
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-popover`
-- `.ui-popover-caret`
-- `.ui-popover-caret-border` (not available if `props.caretComponent` is overridden)
-- `.ui-popover-caret-fill`   (not available if `props.caretComponent` is overridden)
-
-Below are helper classes for each position combination; helpful for aligning UI carets if desired.
-
-- `.ui-popover-anchor-x-start`
-- `.ui-popover-anchor-x-middle`
-- `.ui-popover-anchor-x-end`
-- `.ui-popover-anchor-y-start`
-- `.ui-popover-anchor-y-middle`
-- `.ui-popover-anchor-y-end`
-- `.ui-popover-self-x-start`
-- `.ui-popover-self-x-middle`
-- `.ui-popover-self-x-end`
-- `.ui-popover-self-y-start`
-- `.ui-popover-self-y-middle`
-- `.ui-popover-self-y-end`
+_*NOTE: Demo reference styles are only provided for the preset use cases._
 
 ---
 
-### Expected Interactions
+### Interactions
 
 Refer to [UIDialog](../UIDialog/README.md)
 
 ---
 
-### Available `props`
+### Props
 
 - any/all supported [UIDialog props](../UIDialog/README.md)
 

@@ -7,61 +7,13 @@ UIModal is an enhancement upon [UIDialog](../UIDialog/README.md). Typically, a m
 
 ---
 
-### Example Usage
-
-```jsx
-import {
-    UIButton,
-    UIModal,
-} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <UIModal
-            header='My Dialog'
-            footer={[
-                <UIButton onPressed={this.handleConfirm}>Confirm</UIButton>,
-                <UIButton onPressed={this.handleCancel}>Cancel</UIButton>,
-            ]}>
-            Testing 123
-        </UIModal>
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-modal-wrapper">
-    <div class="ui-modal-mask"></div>
-    <div class="ui-dialog ui-modal" role="dialog" aria-labelledby="{uniqueId}" aria-describedby="{uniqueId}" tabindex="0">
-        <header id="{uniqueId}" class="ui-dialog-header">My Dialog</header>
-        <div id="{uniqueId}" class="ui-dialog-body">Testing 123</div>
-        <footer class="ui-dialog-footer">
-            <button class="ui-button">Confirm</button>
-            <button class="ui-button">Cancel</button>
-        </footer>
-    </div>
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-modal`
-- `.ui-modal-mask`
-- `.ui-modal-wrapper`
-
----
-
-### Expected Interactions
+### Interactions
 
 Refer to [UIDialog](../UIDialog/README.md)
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-wrapper` node
 

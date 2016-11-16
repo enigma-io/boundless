@@ -7,54 +7,7 @@ Specific areas (header, body, footer) are defined to provide easy conformance to
 
 ---
 
-### Example Usage
-
-```jsx
-import {UIDialog} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <UIDialog
-            header='My Dialog'
-            footer={[
-                <UIButton onPressed={this.handleConfirm.bind(this)}>Confirm</UIButton>,
-                <UIButton onPressed={this.handleCancel.bind(this)}>Cancel</UIButton>,
-            ]}
-            closeOnEscKey={true}
-            closeOnOutsideClick={true}
-            onClose={this.handleCancel}>
-            Testing 123
-        </UIDialog>
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-dialog" role="dialog" aria-labelledby="{uniqueId}" aria-describedby="{uniqueId}" tabindex="0">
-    <header id="{uniqueId}" class="ui-dialog-header">My Dialog</header>
-    <div id="{uniqueId}" class="ui-dialog-body">Testing 123</div>
-    <footer class="ui-dialog-footer">
-        <button class="ui-button">Confirm</button>
-        <button class="ui-button">Cancel</button>
-    </footer>
-</div>
-```
-
-Styling of the element will be provided via the CSS hook(s):
-
-- `.ui-dialog`
-- `.ui-dialog-header`
-- `.ui-dialog-body`
-- `.ui-dialog-footer`
-- `.ui-dialog-wrapper`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -65,7 +18,7 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
 

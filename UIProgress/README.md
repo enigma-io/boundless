@@ -5,42 +5,7 @@ __An unopinionated progress implementation that allows for a variety of shapes a
 
 ---
 
-### Example Usage
-
-```jsx
-import {UIProgress} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <UIProgress
-            progress='45'
-            onCancel={cancelFunc} />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-progress-wrapper">
-    <div class="ui-progress" style="width: 45%;"></div>
-    <div class="ui-progress-cancel"></div>
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-progress`
-- `.ui-progress-cancel`
-- `.ui-progress-indeterminate`
-- `.ui-progress-label`
-- `.ui-progress-wrapper`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -50,7 +15,7 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node
 

@@ -7,43 +7,7 @@ UITextualInput abstracts away the cross-platform differences of placeholder styl
 
 ---
 
-### Example Usage
-
-```jsx
-import {UITextualInput} from 'enigma-uikit';
-
-render() {
-    return (
-        <UITextualInput
-            hidePlaceholderOnFocus={true}
-            inputProps={{
-                'aria-label': 'Type a keyword and press Enter to perform a search.',
-                name: 'search-box',
-                placeholder: 'Search here...',
-                type: 'search',
-            }} />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-textual-input-wrapper">
-    <div class="ui-textual-input-placeholder ui-textual-input">Search here...</div>
-    <input class="ui-textual-input" name="search-box" type="search" aria-label="Type a keyword and press Enter to perform a search." />
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-textual-input`
-- `.ui-textual-input-wrapper`
-- `.ui-textual-input-placeholder`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -53,7 +17,9 @@ __Blur__ | on the input | should restore the placeholder text if the input is em
 
 ---
 
-### Available instance methods
+### Component Instance Methods
+
+When using `UITextualInput` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
 - __getValue()__
   returns the current value of the input field
@@ -63,7 +29,7 @@ __Blur__ | on the input | should restore the placeholder text if the input is em
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-textual-input-wrapper` node
 

@@ -3,43 +3,7 @@ __An image block with placeholder support for loading and fallback scenarios.__
 
 ---
 
-### Example Usage
-
-```jsx
-import {UIImage} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <UIImage
-            src='http://i.imgur.com/BymoMze.jpg'
-            alt='A Corgi wielding Google Glass.' />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-image-wrapper">
-    <img class="ui-image" src="http://i.imgur.com/BymoMze.jpg" alt="A Corgi wielding Google Glass." />
-    <div class="ui-image-loaded" role="presentation"></div>
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-image`
-- `.ui-image-wrapper`
-- `.ui-image-status`
-- `.ui-image-loading`
-- `.ui-image-loaded`
-- `.ui-image-error`
-
----
-
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-image-wrapper` node
 

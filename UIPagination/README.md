@@ -5,88 +5,7 @@ UIPagination is implemented as an encapsulated view system, accepting an array o
 
 ---
 
-### Example Usage
-
-```jsx
-import React from 'react';
-import {UIPagination} from 'enigma-uikit';
-
-class MyPaginatedView extends React.PureComponent {
-    state = {
-        items: [
-            'Alice',
-            'Bob',
-            'Charlie',
-            'Dale',
-            'Erica',
-            'Frank',
-            'Gary',
-            'Harold',
-            'Isabelle',
-        ],
-    }
-
-    handleItemRequest = index => this.state.items[index]
-
-    render() {
-        return (
-            <UIPagination
-                getItem={this.handleItemRequest}
-                identifier='names'
-                numItemsPerPage={3}
-                numPageToggles={3}
-                totalItems={this.state.items.length} />
-        );
-    }
-}
-```
-
-Renders:
-
-```html
-<div class="ui-pagination-wrapper">
-    <div class="ui-pagination">
-        <div class="ui-segmented-control ui-pagination-controls ui-pagination-controls-above" aria-role="radiogroup">
-            <button class="ui-button ui-segmented-control-option ui-pagination-control ui-pagination-control-first" tabindex="-1">First</button>
-            <button class="ui-button ui-segmented-control-option ui-pagination-control ui-pagination-control-previous" tabindex="-1">Previous</button>
-            <button role="radio" aria-checked="true" class="ui-button ui-segmented-control-option ui-pagination-control" tabindex="-1" data-page-number="1">1</button>
-            <button role="radio" aria-checked="false" class="ui-button ui-segmented-control-option ui-pagination-control" tabindex="-1" data-page-number="2">2</button>
-            <button role="radio" aria-checked="false" class="ui-button ui-segmented-control-option ui-pagination-control" tabindex="-1" data-page-number="3">3</button>
-            <button class="ui-button ui-segmented-control-option ui-pagination-control ui-pagination-control-next" tabindex="-1">Next</button>
-            <button class="ui-button ui-segmented-control-option ui-pagination-control ui-pagination-control-last" tabindex="-1">Last</button>
-        </div>
-        <div class="ui-pagination-items">
-            <div class="ui-pagination-item ui-pagination-item-even">Alice</div>
-            <div class="ui-pagination-item ui-pagination-item-odd">Bob</div>
-            <div class="ui-pagination-item ui-pagination-item-even">Charlie</div>
-        </div>
-    </div>
-</div>
-```
-
-Styling of the element is provided via the CSS hooks:
-
-- `.ui-pagination`
-- `.ui-pagination-items`
-- `.ui-pagination-item`
-- `.ui-pagination-item-even`
-- `.ui-pagination-item-loading`
-- `.ui-pagination-item-odd`
-- `.ui-pagination-controls`
-- `.ui-pagination-controls-above`
-- `.ui-pagination-controls-below`
-- `.ui-pagination-control`
-- `.ui-pagination-control-custom`
-- `.ui-pagination-control-first`
-- `.ui-pagination-control-previous`
-- `.ui-pagination-control-next`
-- `.ui-pagination-control-last`
-- `.ui-pagination-control-state`
-- `.ui-pagination-wrapper`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -97,7 +16,9 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 ---
 
-### Available instance methods
+### Component Instance Methods
+
+When using `UIPagination` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
 - __currentPage()__
   returns the ___one___-indexed page number currently in view
@@ -107,7 +28,8 @@ __Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for foc
 
 ---
 
-### Available `props`
+### Props
+
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-pagination` node
 
 - __customControlContent__ `*`

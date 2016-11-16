@@ -7,54 +7,7 @@ UISegmentedControl is implemented as a "controlled component", meaning it is a d
 
 ---
 
-### Example Usage
-
-```jsx
-import {UISegmentedControl} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <div>
-            <p>Paper or plastic?</p>
-            <div className='ui-spread-even'>
-                <UISegmentedControl
-                    options={this.state.options}
-                    onOptionSelected={this.handleOptionSelected.bind(this)} />
-            </div>
-        </div>
-    );
-}
-```
-
-Renders:
-
-```html
-<div>
-  <p>Paper or plastic?</p>
-  <div class="ui-spread-even">
-    <div class="ui-segmented-control">
-      <div class="ui-segmented-control-option ui-segmented-control-option-selected">
-          Paper
-      </div>
-      <div class="ui-segmented-control-option">
-          Plastic
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-Styling of the element is provided via the CSS hooks:
-
-- `.ui-segmented-control`
-- `.ui-segmented-control-option`
-- `.ui-segmented-control-option-selected`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -66,7 +19,8 @@ __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused optio
 
 ---
 
-### Available `props`
+### Props
+
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-segmented-control` node
 
 - __onOptionSelected__ `Function`

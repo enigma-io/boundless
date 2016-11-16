@@ -7,89 +7,7 @@ Basic usage of this component is identical to that of [UITypeaheadInput](../UITy
 
 ---
 
-### Example Usage
-
-```jsx
-import React from 'react';
-import {UITokenizedInput} from 'enigma-uikit';
-
-class MyTokenField extends React.PureComponent {
-    state = {
-        list: [
-            {text: 'orange'},
-            {text: 'apple'},
-            {text: 'banana'},
-        ],
-
-        // these are indexes of entities in "list" above
-        tokens: [0],
-
-        // indexes are added to this array when the user tries to select a token
-        tokens_selected: [],
-    }
-
-    addToken = index => {
-        this.setState({tokens: this.state.tokens.concat(index)});
-    }
-
-    removeTokens = indexes => {
-        this.setState({tokens: this.state.tokens.filter(index => indexes.indexOf(index) === -1)});
-    }
-
-    changeTokenSelection = indexes => this.setState({tokens_selected: indexes.slice(0)})
-
-    render() {
-        return (
-            <UITokenizedInput
-                entities={this.state.list}
-                handleAddToken={this.addToken}
-                handleRemoveTokens={this.removeTokens}
-                handleNewSelection={this.changeTokenSelection}
-                hint={true}
-                inputProps={{
-                    'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to  accept a text suggestion or the up and down arrows to cycle through the list when available.',
-                    defaultValue: 'ap',
-                    name: 'my-tokenfield',
-                }}
-                tokens={this.state.tokens}
-                tokensSelected={this.state.tokens_selected} />
-        );
-    }
-}
-```
-
-Renders:
-
-```html
-<div class="ui-tokenfield-wrapper">
-    <div class="ui-tokenfield-tokens">
-      <div class="ui-tokenfield-token">orange <div class="ui-tokenfield-token-close"></div></div>
-    </div>
-    <div class="ui-typeahead-wrapper">
-        <div role="region" id="{uuid}" aria-live="polite">apple</div>
-        <input type="text" class="ui-typeahead-hint" role="presentation" tabindex='-1' disabled />
-        <input name="my-tokenfield" type="text" class="ui-tokenfield ui-typeahead" aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available." aria-controls="{uuid}" /> <!-- initializes to "or" -->
-        <div class="ui-typeahead-match-wrapper" role="presentation">
-            <div class="ui-typeahead-match" data-match="orange"><mark class="ui-typeahead-match-highlight">ap</mark>ple</div>
-        </div>
-    </div>
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-tokenfield`
-- `.ui-tokenfield-wrapper`
-- `.ui-tokenfield-tokens`
-- `.ui-tokenfield-token`
-- `.ui-tokenfield-token-close`
-- `.ui-tokenfield-token-selected`
-
-In addition, the hooks available in [`UITypeaheadInput`](../UITypeaheadInput/README.md) will be present.
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -102,7 +20,9 @@ __Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the tok
 
 ---
 
-### Available instance methods
+### Component Instance Methods
+
+When using `UITokenizedInput` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
 - __add(index: number)__
   programmatically creates a token for `props.entities[index]`; `props.handleAddToken` will be called as a hint to persist the change in your controller view or other application state
@@ -130,7 +50,8 @@ __Mouse__ | `[Click]` on token close | trigger `handleRemoveTokens` with the tok
 
 ---
 
-### Available `props`
+### Props
+
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
 
 - all props accepted by [`UITypeaheadInput`](../UITypeaheadInput/README.md)

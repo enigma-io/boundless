@@ -1,13 +1,11 @@
 # UIUtils/notify
 __Trigger native toasts in supporting browsers.__
 
-This module is not a React component, but a utility. The "close" functionality of web notifications was removed in a platform spec update, so it's no longer possible to have a true lifecycle.
+> Support for web notifications is [available in all major browsers](http://caniuse.com/#feat=notifications), except IE 11 and lower (November 2016).
 
-> Support for web notifications is [not universal](http://caniuse.com/#feat=notifications) (as of July 2015.)
+This module is not a React component, but a utility. The "close" functionality of web notifications was removed in a platform spec update, so it's no longer possible to have a true lifecycle
 
----
-
-`notify` works by providing an object with the following properties:
+`UIUtils.notify(object)` works by providing an object with the following properties:
 
 - __body__ `String`
   up to two lines are displayed in the notification (based on the current browser implementations)
@@ -22,20 +20,3 @@ This module is not a React component, but a utility. The "close" functionality o
   (optional) add arbitrary functionality when the notification is clicked
 
 This will return a `Promise`. Resolution means the notification was created correctly (returns the `Notification`, and rejection will return a relevant error description string.
-
----
-
-### Example Usage
-
-```js
-import {notify} from 'enigma-uikit';
-
-// ...
-
-notify({
-    header: 'Amalia Violet',
-    body: 'Hello darling, just checking in on you...',
-    icon: 'amalia-avatar.jpg',
-    onClick: function() {/* open the corresponding message */},
-}).catch(/* malformed notification, or web notifications not supported/disabled */);
-```

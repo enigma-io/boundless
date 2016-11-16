@@ -8,45 +8,7 @@ UICheckbox is implemented as a "controlled input", meaning it is a direct repres
 
 ---
 
-### Example Usage
-
-```jsx
-import {UICheckbox} from 'enigma-uikit';
-
-// ...
-
-render() {
-    return (
-        <UICheckbox
-            name='autosave'
-            checked={true}
-            label='Save'
-            labelProps={{'data-i18n': 'en-US'}}
-            wrapperProps={{className: 'control-autosave'}} />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-checkbox-wrapper control-autosave">
-    <input id="1f2cd27f-0754-4344-9d20-436a201b2f80" name="autosave" type="checkbox" aria-checked="true" class="ui-checkbox ui-checkbox-checked" checked />
-    <label for="1f2cd27f-0754-4344-9d20-436a201b2f80" data-i18n="en-US">Save</label>
-</div>
-```
-
-Styling of the element is provided via the CSS hooks:
-
-- `.ui-checkbox`
-- `.ui-checkbox-checked`
-- `.ui-checkbox-label`
-- `.ui-checkbox-mixed`
-- `.ui-checkbox-wrapper`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -57,7 +19,7 @@ Events will not be proxied if the input is in "disabled" state, via the HTML5 `d
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
 

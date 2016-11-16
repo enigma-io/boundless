@@ -5,8 +5,6 @@ UITypeaheadInput is an enhancement upon [UITextualInput](../UITextualInput/READM
 
 > The UIKit Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `UITypeaheadInput` in your project.
 
----
-
 UITypeaheadInput offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="ui-typeahead-match-highlight"></div>`:
 
 1. __"Starts-with" matching & marking__ `algorithm={UITypeahead.mode.STARTS_WITH}`
@@ -28,59 +26,7 @@ UITypeaheadInput offers two built-in matching algorithms: "fuzzy" (the default) 
 
 ---
 
-### Example Usage
-
-```jsx
-import {UITypeaheadInput} from 'enigma-uikit';
-
-const list = [
-    {text: 'orange'},
-    {text: 'apple'},
-    {text: 'banana'},
-];
-
-// ...
-
-render() {
-    return (
-        <UITypeaheadInput
-            entities={list}
-            hint={true}
-            inputProps={{
-                'aria-label': 'An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available.',
-                defaultValue: 'or',
-                name: 'my-typeahead',
-            }} />
-    );
-}
-```
-
-Renders:
-
-```html
-<div class="ui-typeahead-wrapper">
-    <div role="region" id="{uuid}" aria-live="polite">orange</div>
-    <input type="text" class="ui-typeahead-hint" role="presentation" tabindex='-1' disabled />
-    <input name="my-typeahead" type="text" class="ui-typeahead" aria-label="An example of a typeahead component. Suggestions will be called out as matches are found. Press the right arrow to accept a text suggestion or the up and down arrows to cycle through the list when available." aria-controls="{uuid}" /> <!-- initializes to "or" -->
-    <div class="ui-typeahead-match-wrapper" role="presentation">
-        <div class="ui-typeahead-match" data-match="orange"><mark class="ui-typeahead-match-highlight">or</mark>ange</div>
-    </div>
-</div>
-```
-
-Styling of the element will be provided via the CSS hooks:
-
-- `.ui-typeahead`
-- `.ui-typeahead-wrapper`
-- `.ui-typeahead-hint`
-- `.ui-typeahead-match`
-- `.ui-typeahead-match-wrapper`
-- `.ui-typeahead-match-selected`
-- `.ui-typeahead-match-highlight`
-
----
-
-### Expected Interactions
+### Interactions
 
 Type | Context | Expectation
 ---- | ------- | -----------
@@ -93,7 +39,9 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 ---
 
-### Available instance methods
+### Component Instance Methods
+
+When using `UITypeaheadInput` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
 - __focus()__
   focuses the browser oon the underlying textual input for immediate text entry
@@ -115,7 +63,7 @@ __Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match tex
 
 ---
 
-### Available `props`
+### Props
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
 
