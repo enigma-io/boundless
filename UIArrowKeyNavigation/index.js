@@ -26,13 +26,13 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
         ]),
     }
 
-    static internalKeys = Object.keys(UIArrowKeyNavigation.propTypes)
-
     static defaultProps = {
         component: 'div',
         defaultActiveChildIndex: 0,
         mode: UIArrowKeyNavigation.mode.BOTH,
     }
+
+    static internalKeys = Object.keys(UIArrowKeyNavigation.defaultProps)
 
     state = {
         activeChildIndex: this.props.defaultActiveChildIndex,
@@ -159,11 +159,14 @@ export default class UIArrowKeyNavigation extends React.PureComponent {
     }
 
     render() {
-        return React.createElement(this.props.component, {
-            ...omit(this.props, UIArrowKeyNavigation.internalKeys),
-            ref: 'wrapper',
-            onFocus: this.handleFocus,
-            onKeyDown: this.handleKeyDown,
-        }, this.children());
+        return (
+            <this.props.component
+                {...omit(this.props, UIArrowKeyNavigation.internalKeys)}
+                ref='wrapper'
+                onFocus={this.handleFocus}
+                onKeyDown={this.handleKeyDown}>
+                {this.children()}
+            </this.props.component>
+        );
     }
 }

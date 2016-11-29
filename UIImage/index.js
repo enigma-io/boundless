@@ -1,14 +1,12 @@
-/**
- * An image block with placeholder support for loading and fallback scenarios.
- * @class UIImage
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 
+/**
+ * An image block with placeholder support for loading and fallback scenarios.
+ */
 export default class UIImage extends React.PureComponent {
     static status = {
         LOADING: 'LOADING',
@@ -17,19 +15,22 @@ export default class UIImage extends React.PureComponent {
     }
 
     static propTypes = {
-        alt: React.PropTypes.string,
-        displayAsBackgroundImage: React.PropTypes.bool,
-        imageProps: React.PropTypes.object,
-        src: React.PropTypes.string.isRequired,
-        statusProps: React.PropTypes.object,
+        alt: PropTypes.string,
+        displayAsBackgroundImage: PropTypes.bool,
+        imageProps: PropTypes.object,
+        src: PropTypes.string.isRequired,
+        statusProps: PropTypes.object,
     }
-
-    static internalKeys = Object.keys(UIImage.propTypes)
 
     static defaultProps = {
+        alt: null,
+        displayAsBackgroundImage: false,
         imageProps: {},
+        src: 'about:blank',
         statusProps: {},
     }
+
+    static internalKeys = Object.keys(UIImage.defaultProps)
 
     state = {
         status: UIImage.status.LOADING,
@@ -77,10 +78,7 @@ export default class UIImage extends React.PureComponent {
                 <div
                     {...this.props.imageProps}
                     ref='image'
-                    className={cx({
-                        'ui-image': true,
-                        [this.props.imageProps.className]: !!this.props.imageProps.className,
-                    })}
+                    className={cx('ui-image', this.props.imageProps.className)}
                     title={this.props.alt}
                     style={{
                         ...this.props.imageProps.style,
@@ -93,10 +91,7 @@ export default class UIImage extends React.PureComponent {
             <img
                 {...this.props.imageProps}
                 ref='image'
-                className={cx({
-                    'ui-image': true,
-                    [this.props.imageProps.className]: !!this.props.imageProps.className,
-                })}
+                className={cx('ui-image', this.props.imageProps.className)}
                 src={this.props.src}
                 alt={this.props.alt}
                 onLoad={noop}
@@ -108,12 +103,10 @@ export default class UIImage extends React.PureComponent {
         return (
             <div {...this.props.statusProps}
                  ref='status'
-                 className={cx({
-                    'ui-image-status': true,
+                 className={cx('ui-image-status', this.props.statusProps.className, {
                     'ui-image-loading': this.state.status === UIImage.status.LOADING,
                     'ui-image-loaded': this.state.status === UIImage.status.LOADED,
                     'ui-image-error': this.state.status === UIImage.status.ERROR,
-                    [this.props.statusProps.className]: !!this.props.statusProps.className,
                  })}
                  role='presentation' />
         );
@@ -124,10 +117,7 @@ export default class UIImage extends React.PureComponent {
             <div
                 {...omit(this.props, UIImage.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-image-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-image-wrapper', this.props.className)}>
                 {this.renderImage()}
                 {this.renderStatus()}
             </div>

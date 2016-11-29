@@ -1,36 +1,43 @@
-/**
- * An unopinionated progress implementation that allows for a variety of shapes and effects.
- * @class UIProgress
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import UIButton from '../UIButton';
+import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 
+/**
+ * An unopinionated progress implementation that allows for a variety of shapes and effects.
+ */
 export default class UIProgress extends React.PureComponent {
     static propTypes = {
-        cancelProps: React.PropTypes.object,
-        label: React.PropTypes.node,
-        labelProps: React.PropTypes.object,
-        onCancel: React.PropTypes.func,
-        progress: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.number,
+        cancelProps: PropTypes.object,
+        component: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.func,
         ]),
-        progressProps: React.PropTypes.object,
-        tweenProperty: React.PropTypes.string,
+        label: PropTypes.node,
+        labelProps: PropTypes.object,
+        onCancel: PropTypes.func,
+        progress: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+        ]),
+        progressProps: PropTypes.object,
+        tweenProperty: PropTypes.string,
     }
-
-    static internalKeys = Object.keys(UIProgress.propTypes)
 
     static defaultProps = {
         cancelProps: {},
+        component: 'div',
+        label: null,
         labelProps: {},
+        onCancel: noop,
+        progress: undefined,
         progressProps: {},
         tweenProperty: 'width',
     }
+
+    static internalKeys = Object.keys(UIProgress.defaultProps)
 
     renderLabel() {
         if (this.props.label) {
@@ -38,10 +45,7 @@ export default class UIProgress extends React.PureComponent {
                 <div
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx({
-                        'ui-progress-label': true,
-                        [this.props.labelProps.className]: !!this.props.labelProps.className,
-                    })}>
+                    className={cx('ui-progress-label', this.props.labelProps.className)}>
                     {this.props.label}
                 </div>
             );
@@ -54,10 +58,7 @@ export default class UIProgress extends React.PureComponent {
                 <UIButton
                     {...this.props.cancelProps}
                     ref='cancel'
-                    className={cx({
-                        'ui-progress-cancel': true,
-                        [this.props.cancelProps.className]: !!this.props.cancelProps.className,
-                    })}
+                    className={cx('ui-progress-cancel', this.props.cancelProps.className)}
                     onPressed={this.props.onCancel} />
             );
         }
@@ -68,10 +69,8 @@ export default class UIProgress extends React.PureComponent {
             <div
                 {...this.props.progressProps}
                 ref='progress'
-                className={cx({
-                    'ui-progress': true,
+                className={cx('ui-progress', this.props.progressProps.className, {
                     'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
-                    [this.props.progressProps.className]: !!this.props.progressProps.className,
                 })}
                 role='presentation'
                 style={{
@@ -83,17 +82,14 @@ export default class UIProgress extends React.PureComponent {
 
     render() {
         return (
-            <div
+            <this.props.component
                 {...omit(this.props, UIProgress.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-progress-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-progress-wrapper', this.props.className)}>
                 {this.renderProgress()}
                 {this.renderLabel()}
                 {this.renderCancel()}
-            </div>
+            </this.props.component>
         );
     }
 }

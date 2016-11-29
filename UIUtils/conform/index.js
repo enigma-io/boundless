@@ -27,12 +27,9 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
 
     const renderWithPropsAndGetNode = (props) => {
         const element = render(
-            React.createElement(
-                Constructor, {
-                    ...baseProps,
-                    ...props,
-                }
-            )
+            <Constructor
+                {...baseProps}
+                {...props} />
         );
 
         if (key) {
@@ -43,6 +40,10 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
 
         return findDOMNode(element);
     };
+
+    /* verify defaultProps are set for all propTypes; if we can be assured they're equivalent,
+       we can generate "internal keys" off defaultProps instead and entirely drop propTypes in production */
+    expect(Object.keys(Constructor.defaultProps || {})).toEqual(Object.keys(Constructor.propTypes || {}));
 
     /* verify props.className */
     node = renderWithPropsAndGetNode({className: 'foo'});

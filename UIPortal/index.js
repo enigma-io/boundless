@@ -14,16 +14,17 @@ export default class UIPortal extends React.Component {
     static propTypes = {
         // single child only - arrays not allowed
         children: React.PropTypes.node.isRequired,
-
         destination: PropTypes.instanceOf(HTMLElement),
         portalId: PropTypes.string,
     }
 
-    static internalKeys = Object.keys(UIPortal.propTypes)
-
     static defaultProps = {
+        children: null,
         destination: document.body,
+        portalId: null,
     }
+
+    static internalKeys = Object.keys(UIPortal.defaultProps)
 
     id = uuid()
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import isFunction from '../UIUtils/isFunction';
@@ -7,19 +7,22 @@ import omit from '../UIUtils/omit';
 
 export default class UIButton extends React.PureComponent {
     static propTypes = {
-        children: React.PropTypes.node,
-        onClick: React.PropTypes.func,
-        onPressed: React.PropTypes.func,
-        onUnpressed: React.PropTypes.func,
-        pressed: React.PropTypes.bool,
-    };
-
-    static internalKeys = Object.keys(UIButton.propTypes)
+        children: PropTypes.node,
+        onClick: PropTypes.func,
+        onPressed: PropTypes.func,
+        onUnpressed: PropTypes.func,
+        pressed: PropTypes.bool,
+    }
 
     static defaultProps = {
+        children: null,
+        onClick: noop,
         onPressed: noop,
         onUnpressed: noop,
-    };
+        pressed: undefined,
+    }
+
+    static internalKeys = Object.keys(UIButton.defaultProps)
 
     toggleState(event) {
         this.props[this.props.pressed ? 'onUnpressed' : 'onPressed'](event);
@@ -55,11 +58,9 @@ export default class UIButton extends React.PureComponent {
             <button
                 {...omit(this.props, UIButton.internalKeys)}
                 ref='button'
-                className={cx({
-                    'ui-button': true,
+                className={cx('ui-button', this.props.className, {
                     'ui-button-pressable': typeof this.props.pressed !== 'undefined',
                     'ui-button-pressed': this.props.pressed,
-                    [this.props.className]: !!this.props.className,
                 })}
                 aria-pressed={this.props.pressed}
                 onKeyDown={this.handleKeyDown}

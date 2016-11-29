@@ -1,9 +1,4 @@
-/**
- * A controller view for managing the aggregate state of multiple, related radio-style buttons.
- * @class UISegmentedControl
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
@@ -12,9 +7,12 @@ import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 
+/**
+ * A controller view for managing the aggregate state of multiple, related radio-style buttons.
+ */
 export default class UISegmentedControl extends React.PureComponent {
     static propTypes = {
-        onOptionSelected: React.PropTypes.func,
+        onOptionSelected: PropTypes.func,
         options: function validateOptions(props) {
             if (props.options.length < 2) {
                 throw new Error('Must provide at least two options.');
@@ -51,17 +49,17 @@ export default class UISegmentedControl extends React.PureComponent {
         },
     }
 
-    static internalKeys = Object.keys(UISegmentedControl.propTypes)
+    static defaultProps = {
+        onOptionSelected: noop,
+        options: [],
+    }
+
+    static internalKeys = Object.keys(UISegmentedControl.defaultProps)
     static internalChildKeys = [
         'content',
         'value',
         'selected',
     ]
-
-    static defaultProps = {
-        options: [],
-        onOptionSelected: noop,
-    }
 
     state = {
         indexOfOptionInFocus: null,
@@ -152,10 +150,8 @@ export default class UISegmentedControl extends React.PureComponent {
                     aria-checked={String(definition.selected)}
                     ref={'option_$' + index}
                     key={definition.value}
-                    className={cx({
-                        'ui-segmented-control-option': true,
+                    className={cx('ui-segmented-control-option', definition.className, {
                         'ui-segmented-control-option-selected': definition.selected,
-                        [definition.className]: !!definition.className,
                     })}
                     tabIndex={definition.selected ? '0' : '-1'}
                     onBlur={this.handleOptionBlur.bind(this, definition)}
@@ -172,11 +168,8 @@ export default class UISegmentedControl extends React.PureComponent {
             <div
                 {...omit(this.props, UISegmentedControl.internalKeys)}
                 ref='wrapper'
-                aria-role='radiogroup'
-                className={cx({
-                    'ui-segmented-control': true,
-                    [this.props.className]: !!this.props.className,
-                })}
+                role='radiogroup'
+                className={cx('ui-segmented-control', this.props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderOptions()}
             </div>

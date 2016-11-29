@@ -1,9 +1,4 @@
-/**
- * An accessible radio form control.
- * @class UIRadio
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import isFunction from '../UIUtils/isFunction';
@@ -11,25 +6,31 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+/**
+ * An accessible radio form control.
+ */
 export default class UIRadio extends React.PureComponent {
     static propTypes = {
-        inputProps: React.PropTypes.object,
-        label: React.PropTypes.node,
-        labelProps: React.PropTypes.object,
-        name: React.PropTypes.string.isRequired,
-        onSelected: React.PropTypes.func,
-        selected: React.PropTypes.bool,
-        value: React.PropTypes.string.isRequired,
+        inputProps: PropTypes.object,
+        label: PropTypes.node,
+        labelProps: PropTypes.object,
+        name: PropTypes.string.isRequired,
+        onSelected: PropTypes.func,
+        selected: PropTypes.bool,
+        value: PropTypes.string.isRequired,
     }
-
-    static internalKeys = Object.keys(UIRadio.propTypes)
 
     static defaultProps = {
         inputProps: {},
+        label: null,
         labelProps: {},
+        name: '',
         onSelected: noop,
         selected: false,
+        value: '',
     }
+
+    static internalKeys = Object.keys(UIRadio.defaultProps)
 
     uuid = uuid()
 
@@ -51,10 +52,8 @@ export default class UIRadio extends React.PureComponent {
                 ref='input'
                 type='radio'
                 id={this.props.id || this.props.inputProps.id || this.uuid}
-                className={cx({
-                    'ui-radio': true,
+                className={cx('ui-radio', this.props.inputProps.className, {
                     'ui-radio-selected': this.props.selected,
-                    [this.props.inputProps.className]: !!this.props.inputProps.className,
                 })}
                 name={this.props.name}
                 value={this.props.value}
@@ -70,10 +69,7 @@ export default class UIRadio extends React.PureComponent {
                 <label
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx({
-                        'ui-radio-label': true,
-                        [this.props.labelProps.className]: !!this.props.labelProps.className,
-                    })}
+                    className={cx('ui-radio-label', this.props.labelProps.className)}
                     htmlFor={this.props.id || this.props.inputProps.id || this.uuid}>
                     {this.props.label}
                 </label>
@@ -86,10 +82,7 @@ export default class UIRadio extends React.PureComponent {
             <div
                 {...omit(this.props, UIRadio.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-radio-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-radio-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>

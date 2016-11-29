@@ -1,21 +1,27 @@
-/**
- * A non-blocking container positioned to a specific anchor element.
- * @class UIPopover
- */
-
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
 import UIDialog from '../UIDialog';
 import UIPortal from '../UIPortal';
-
 import omit from '../UIUtils/omit';
 import transformProp from '../UIUtils/transformProperty';
 
 function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
 function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
 
+const DEFAULT_CARET_COMPONENT = (
+    <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+        <g>
+            <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
+            <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
+        </g>
+    </svg>
+);
+
+/**
+ * A non-blocking container positioned to a specific anchor element.
+ */
 export default class UIPopover extends React.PureComponent {
     static position = {
         START: 'START',
@@ -74,36 +80,34 @@ export default class UIPopover extends React.PureComponent {
         wrapperProps: PropTypes.object,
     }
 
-    static internalKeys = without(Object.keys(UIPopover.propTypes), Object.keys(UIDialog.propTypes))
-
     static defaultProps = {
         ...UIDialog.defaultProps,
+        anchor: document.body,
+        anchorXAlign: undefined,
+        anchorYAlign: undefined,
         autoReposition: true,
         captureFocus: false,
-        caretComponent: (
-            <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
-                <g>
-                    <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
-                    <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
-                </g>
-            </svg>
-        ),
+        caretComponent: DEFAULT_CARET_COMPONENT,
         closeOnEscKey: true,
         closeOnOutsideClick: true,
         closeOnOutsideScroll: true,
         portalProps: {},
         preset: UIPopover.preset.BELOW,
+        selfXAlign: undefined,
+        selfYAlign: undefined,
         wrapperProps: {},
     }
+
+    static internalKeys = without(Object.keys(UIPopover.defaultProps), UIDialog.internalKeys)
 
     constructor(props) {
         super();
 
         this.state = {
-            anchorXAlign: props.anchorXAlign  || props.preset.anchorXAlign,
-            anchorYAlign: props.anchorYAlign  || props.preset.anchorYAlign,
-            selfXAlign: props.selfXAlign    || props.preset.selfXAlign,
-            selfYAlign: props.selfYAlign    || props.preset.selfYAlign,
+            anchorXAlign: props.anchorXAlign || props.preset.anchorXAlign,
+            anchorYAlign: props.anchorYAlign || props.preset.anchorYAlign,
+            selfXAlign: props.selfXAlign     || props.preset.selfXAlign,
+            selfYAlign: props.selfYAlign     || props.preset.selfYAlign,
         };
     }
 
@@ -353,19 +357,16 @@ export default class UIPopover extends React.PureComponent {
                     before={
                         React.cloneElement(props.caretComponent, {
                             ref: (node) => (this.$caret = node),
-                            className: cx('ui-popover-caret', {
-                                [props.caretComponent.props.className]: !!props.caretComponent.props.className,
-                            }),
+                            className: cx('ui-popover-caret', props.caretComponent.props.className),
                         })
                     }
                     wrapperProps={{
                         ...props.wrapperProps,
-                        className: cx('ui-popover', {
+                        className: cx('ui-popover', props.wrapperProps.className, {
                             [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
                             [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
                             [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
                             [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                            [props.wrapperProps.className]: !!props.wrapperProps.className,
                         }),
                     }} />
             </UIPortal>

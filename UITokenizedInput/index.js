@@ -1,9 +1,4 @@
-/**
- * Distill rich entity data matched via typeahead input into simple visual abstractions.
- * @class UITokenizedInput
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import UITypeaheadInput from '../UITypeaheadInput';
@@ -15,19 +10,20 @@ import omit from '../UIUtils/omit';
 const first = (array) => array[0];
 const last = (array) => array[array.length - 1];
 
+/**
+ * Distill rich entity data matched via typeahead input into simple visual abstractions.
+ */
 export default class UITokenizedInput extends React.PureComponent {
     static propTypes = {
         ...UITypeaheadInput.propTypes,
-        handleAddToken: React.PropTypes.func,
-        handleRemoveTokens: React.PropTypes.func,
-        handleNewSelection: React.PropTypes.func,
-        tokenCloseComponent: React.PropTypes.element,
-        tokenCloseVisible: React.PropTypes.bool,
-        tokens: React.PropTypes.arrayOf(React.PropTypes.number),
-        tokensSelected: React.PropTypes.arrayOf(React.PropTypes.number),
+        handleAddToken: PropTypes.func,
+        handleRemoveTokens: PropTypes.func,
+        handleNewSelection: PropTypes.func,
+        tokenCloseComponent: PropTypes.element,
+        tokenCloseVisible: PropTypes.bool,
+        tokens: PropTypes.arrayOf(PropTypes.number),
+        tokensSelected: PropTypes.arrayOf(PropTypes.number),
     }
-
-    static internalKeys = Object.keys(UITokenizedInput.propTypes)
 
     static defaultProps = {
         ...UITypeaheadInput.defaultProps,
@@ -39,6 +35,8 @@ export default class UITokenizedInput extends React.PureComponent {
         tokens: [],
         tokensSelected: [],
     }
+
+    static internalKeys = Object.keys(UITokenizedInput.defaultProps)
 
     componentDidUpdate(prevProps) {
         const previousSelectedIndexes = prevProps.tokensSelected;
@@ -203,10 +201,7 @@ export default class UITokenizedInput extends React.PureComponent {
     renderTokenClose(index) {
         if (this.props.tokenCloseVisible) {
             return React.cloneElement(this.props.tokenCloseComponent, {
-                className: cx({
-                    'ui-tokenfield-token-close': true,
-                    [this.props.tokenCloseComponent.props.className]: Boolean(this.props.tokenCloseComponent.props.className),
-                }),
+                className: cx('ui-tokenfield-token-close', this.props.tokenCloseComponent.props.className),
                 onClick: this.handleTokenCloseClick.bind(this, index),
             });
         }
@@ -236,8 +231,7 @@ export default class UITokenizedInput extends React.PureComponent {
                         <div
                             ref={`token_${index}`}
                             key={index}
-                            className={cx({
-                               'ui-tokenfield-token': true,
+                            className={cx('ui-tokenfield-token', {
                                'ui-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
                             })}
                             onClick={this.selectToken.bind(this, index)}
@@ -257,15 +251,12 @@ export default class UITokenizedInput extends React.PureComponent {
             <div
                 {...omit(this.props, UITokenizedInput.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-tokenfield-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}
+                className={cx('ui-tokenfield-wrapper', this.props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderTokens()}
 
                 <UITypeaheadInput
-                    {...extractChildProps(this.props, UITypeaheadInput.propTypes)}
+                    {...extractChildProps(this.props, UITypeaheadInput.defaultProps)}
                     ref='typeahead'
                     className='ui-tokenfield'
                     clearPartialInputOnSelection={true}

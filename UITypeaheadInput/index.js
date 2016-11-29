@@ -1,8 +1,3 @@
-/**
- * Intelligently recommend entities via customizable, fuzzy recognition.
- * @class UITypeaheadInput
- */
-
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
@@ -15,6 +10,9 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+/**
+ * Intelligently recommend entities via customizable, fuzzy recognition.
+ */
 export default class UITypeaheadInput extends React.PureComponent {
     static mode = {
         'STARTS_WITH': 'STARTS_WITH',
@@ -60,13 +58,12 @@ export default class UITypeaheadInput extends React.PureComponent {
         onEntitySelected: PropTypes.func,
     }
 
-    static internalKeys = Object.keys(UITypeaheadInput.propTypes)
-
     static defaultProps = {
         ...UITextualInput.defaultProps,
         algorithm: UITypeaheadInput.mode.FUZZY,
         clearPartialInputOnSelection: false,
         entities: [],
+        hint: null,
         hintProps: {},
         matchWrapperProps: {},
         offscreenClass: 'ui-offscreen',
@@ -74,6 +71,8 @@ export default class UITypeaheadInput extends React.PureComponent {
         onEntityHighlighted: noop,
         onEntitySelected: noop,
     }
+
+    static internalKeys = Object.keys(UITypeaheadInput.defaultProps)
 
     state = {
         entityMatchIndexes: [],
@@ -423,12 +422,12 @@ export default class UITypeaheadInput extends React.PureComponent {
                 <div
                     {...this.props.hintProps}
                     ref='hint'
-                    className={cx({
-                        'ui-textual-input': true,
-                        'ui-textual-input-placeholder': true,
-                        'ui-typeahead-hint': true,
-                        [this.props.hintProps.className]: !!this.props.hintProps.className,
-                    })}
+                    className={cx(
+                        'ui-textual-input',
+                        'ui-textual-input-placeholder',
+                        'ui-typeahead-hint',
+                        this.props.hintProps.className,
+                    )}
                     tabIndex='-1'>
                     {processed}
                 </div>
@@ -444,10 +443,7 @@ export default class UITypeaheadInput extends React.PureComponent {
                 <div
                     {...props}
                     ref='matches'
-                    className={cx({
-                        'ui-typeahead-match-wrapper': true,
-                        [props.className]: !!props.className,
-                    })}>
+                    className={cx('ui-typeahead-match-wrapper', props.className)}>
                     {this.state.entityMatchIndexes.map((index) => {
                         const entity = this.props.entities[index];
                         const {className, text, ...rest} = entity;
@@ -456,10 +452,8 @@ export default class UITypeaheadInput extends React.PureComponent {
                             <div
                                 {...rest}
                                 ref={`match_$${index}`}
-                                className={cx({
-                                    'ui-typeahead-match': true,
+                                className={cx('ui-typeahead-match', className, {
                                     'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
-                                    [className]: !!className,
                                 })}
                                 key={text}
                                 onClick={this.handleMatchClick.bind(this, index)}>
@@ -479,24 +473,18 @@ export default class UITypeaheadInput extends React.PureComponent {
             <div
                 {...omit(props, UITypeaheadInput.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                   'ui-typeahead-wrapper': true,
-                   [props.className]: !!props.className,
-                })}
+                className={cx('ui-typeahead-wrapper', props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderNotification()}
                 {this.renderHint()}
 
                 <UITextualInput
-                    {...extractChildProps(props, UITextualInput.propTypes)}
+                    {...extractChildProps(props, UITextualInput.defaultProps)}
                     ref='input'
                     aria-controls={state.id}
                     inputProps={{
                         ...props.inputProps,
-                        className: cx({
-                            'ui-typeahead': true,
-                            [props.inputProps.className]: !!props.inputProps.className,
-                        }),
+                        className: cx('ui-typeahead', props.inputProps.className),
                         onChange: this.handleChange,
                     }} />
 

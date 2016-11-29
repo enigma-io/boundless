@@ -20,6 +20,9 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
 
+- __component__ `string|function`
+  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+
 - __expanded__ `Boolean`
   allows the disclosure to be rendered expanded by default
 

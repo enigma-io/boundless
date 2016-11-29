@@ -9,6 +9,9 @@ Nest any React-renderable content inside the `UITooltip` wrapper as you would a 
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tooltip` node
 
+- __component__ `string|function`
+  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+
 - __position__ `UITooltip.position['ABOVE'|'BELOW'|'BEFORE'|'AFTER']` _default: `'ABOVE'`_
   determines the correct class to apply to position the tooltip
 

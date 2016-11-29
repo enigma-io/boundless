@@ -19,14 +19,14 @@ export default class UITextualInput extends React.PureComponent {
         }),
     }
 
-    static internalKeys = Object.keys(UITextualInput.propTypes)
-
     static defaultProps = {
         hidePlaceholderOnFocus: true,
         inputProps: {
             type: 'text',
         },
     }
+
+    static internalKeys = Object.keys(UITextualInput.defaultProps)
 
     state = {
         input: '',
@@ -117,20 +117,14 @@ export default class UITextualInput extends React.PureComponent {
             <div
                 {...omit(props, UITextualInput.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-textual-input-wrapper': true,
-                    [props.className]: Boolean(props.className),
-                })}
+                className={cx('ui-textual-input-wrapper', props.className)}
                 title={this.getPlaceholderText()}>
                 {this.renderPlaceholder()}
 
                 <input
                     {...props.inputProps}
                     ref='field'
-                    className={cx({
-                        'ui-textual-input': true,
-                        [props.inputProps.className]: Boolean(props.inputProps.className),
-                    })}
+                    className={cx('ui-textual-input', props.inputProps.className)}
                     placeholder={null}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}

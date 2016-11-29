@@ -1,8 +1,3 @@
-/**
- * A controller view for managing the aggregate state of multiple, related checkboxes.
- * @class UICheckboxGroup
- */
-
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
@@ -10,6 +5,9 @@ import UICheckbox from '../UICheckbox';
 import omit from '../UIUtils/omit';
 import noop from '../UIUtils/noop';
 
+/**
+ * A controller view for managing the aggregate state of multiple, related checkboxes.
+ */
 export default class UICheckboxGroup extends React.PureComponent {
     static Constants = {
         SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
@@ -39,8 +37,6 @@ export default class UICheckboxGroup extends React.PureComponent {
         ]),
     }
 
-    static internalKeys = Object.keys(UICheckboxGroup.propTypes)
-
     static defaultProps = {
         items: [],
         onAllChecked: noop,
@@ -51,6 +47,8 @@ export default class UICheckboxGroup extends React.PureComponent {
         selectAllProps: {},
         selectAllPosition: UICheckboxGroup.Constants.SELECT_ALL_BEFORE,
     }
+
+    static internalKeys = Object.keys(UICheckboxGroup.defaultProps)
 
     allItemsChecked() {
         return this.props.items.every((item) => item.inputProps.checked === true);
@@ -70,15 +68,14 @@ export default class UICheckboxGroup extends React.PureComponent {
                     {...this.props.selectAllProps}
                     ref='select_all'
                     key='cb_select_all'
-                    className={cx({
-                        'ui-checkbox-group-selectall': true,
-                        [this.props.selectAllProps.className]: !!this.props.selectAllProps.className,
-                    })}
+                    className={cx('ui-checkbox-group-selectall', this.props.selectAllProps.className)}
                     inputProps={{
                         ...inputProps,
                         checked: allChecked,
                         indeterminate: !allChecked && this.anyItemsChecked(),
-                        name: inputProps && inputProps.name ? inputProps.name : 'cb_select_all',
+                        name: inputProps && inputProps.name
+                              ? inputProps.name
+                              : 'cb_select_all',
                     }}
                     label={this.props.selectAllProps.label || 'Select All'}
                     onChecked={this.props.onAllChecked}
@@ -122,10 +119,7 @@ export default class UICheckboxGroup extends React.PureComponent {
             <div
                 {...omit(this.props, UICheckboxGroup.internalKeys)}
                 ref='group'
-                className={cx({
-                    'ui-checkbox-group': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-checkbox-group', this.props.className)}>
                 {this.renderChildren()}
             </div>
         );

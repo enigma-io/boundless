@@ -1,9 +1,4 @@
-/**
- * Fit given text inside a parent container, obeying implict and explicit constraints.
- * @class UIFittedText
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
@@ -55,20 +50,29 @@ function unregisterInstance(instance) {
     }
 }
 
+/**
+ * Fit given text inside a parent container, obeying implict and explicit constraints.
+ */
 export default class UIFittedText extends React.PureComponent {
+    static propTypes = {
+        children: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        component: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.function,
+        ]),
+        maxFontSize: PropTypes.number,
+    }
+
     static defaultProps = {
+        children: null,
+        component: 'span',
         maxFontSize: Number.MAX_VALUE,
     }
 
-    static propTypes = {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number,
-        ]),
-        maxFontSize: React.PropTypes.number,
-    }
-
-    static internalKeys = Object.keys(UIFittedText.propTypes)
+    static internalKeys = Object.keys(UIFittedText.defaultProps)
 
     componentDidMount() {
         rescale(this);
@@ -88,13 +92,11 @@ export default class UIFittedText extends React.PureComponent {
 
     render() {
         return (
-            <span {...omit(this.props, UIFittedText.internalKeys)}
-                  className={cx({
-                      'ui-text': true,
-                      [this.props.className]: !!this.props.className,
-                  })}>
+            <this.props.component
+                {...omit(this.props, UIFittedText.internalKeys)}
+                className={cx('ui-text', this.props.className)}>
                 {this.props.children}
-            </span>
+            </this.props.component>
         );
     }
 }

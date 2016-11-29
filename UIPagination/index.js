@@ -10,6 +10,8 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+const identity = (x) => x;
+
 /**
  * A utility component for handling promises as children and eventually doing something with their resolved payload.
  */
@@ -22,7 +24,15 @@ class Item extends React.PureComponent {
         loadingContent: PropTypes.node,
     }
 
-    static internalKeys = Object.keys(Item.propTypes)
+    static defaultProps = {
+        convertToJSXFunc: noop,
+        data: null,
+        even: true,
+        index: 0,
+        loadingContent: null,
+    }
+
+    static internalKeys = Object.keys(Item.defaultProps)
 
     mounted = false
     state = {}
@@ -55,12 +65,11 @@ class Item extends React.PureComponent {
     componentWillUnmount()               { this.mounted = false; }
 
     getClasses(extraClasses) {
-        return cx({
-            'ui-pagination-item': true,
+        return cx('ui-pagination-item', extraClasses, {
             'ui-pagination-item-even': this.props.even,
             'ui-pagination-item-odd': !this.props.even,
             'ui-pagination-item-loading': this.state.component === null,
-        }) + (extraClasses ? ' ' + extraClasses : '');
+        });
     }
 
     render() {
@@ -143,13 +152,14 @@ export default class UIPagination extends React.PureComponent {
         totalItems: PropTypes.number.isRequired,
     }
 
-    static internalKeys = Object.keys(UIPagination.propTypes)
-
     static defaultProps = {
+        customControlContent: null,
         getItem: noop,
         hidePagerIfNotNeeded: false,
+        identifier: uuid(),
         initialPage: 1,
-        itemToJSXConverterFunc: (data) => data,
+        itemLoadingContent: null,
+        itemToJSXConverterFunc: identity,
         jumpToFirstControlContent: '« First',
         jumpToLastControlContent: 'Last »',
         listWrapperProps: {},
@@ -160,8 +170,12 @@ export default class UIPagination extends React.PureComponent {
         previousPageControlContent: '‹ Previous',
         showJumpToFirst: true,
         showJumpToLast: true,
+        showPaginationState: true,
         toggleWrapperProps: {},
+        totalItems: null,
     }
+
+    static internalKeys = Object.keys(UIPagination.defaultProps)
 
     state = {
         currentPage: this.props.initialPage,
@@ -338,10 +352,7 @@ export default class UIPagination extends React.PureComponent {
             <UIArrowKeyNavigation
                 {...props}
                 ref='itemList'
-                className={cx({
-                    'ui-pagination-items': true,
-                    [props.className]: !!props.className,
-                })}>
+                className={cx('ui-pagination-items', props.className)}>
                 {this.generateItems().map((item, index) => {
                     return (
                         <Item
@@ -372,10 +383,8 @@ export default class UIPagination extends React.PureComponent {
             <UISegmentedControl
                 {...props}
                 ref={`segmentedControl${positionCapitalized}`}
-                className={cx({
-                    'ui-pagination-controls': true,
+                className={cx('ui-pagination-controls', props.className, {
                     [`ui-pagination-controls-${positionLower}`]: true,
-                    [props.className]: !!props.className,
                 })}
                 options={this.createPageButtonOptions()}
                 onOptionSelected={this.handleClick} />
@@ -412,10 +421,7 @@ export default class UIPagination extends React.PureComponent {
             <div
                 {...omit(this.props, UIPagination.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-pagination-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-pagination-wrapper', this.props.className)}>
                 {this.renderView()}
             </div>
         );

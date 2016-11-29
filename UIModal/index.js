@@ -17,8 +17,6 @@ export default class UIModal extends React.PureComponent {
         portalProps: PropTypes.object,
     }
 
-    static internalKeys = Object.keys(UIModal.propTypes)
-
     static defaultProps = {
         ...UIDialog.defaultProps,
         captureFocus: true,
@@ -26,6 +24,8 @@ export default class UIModal extends React.PureComponent {
         modalProps: {},
         portalProps: {},
     }
+
+    static internalKeys = Object.keys(UIModal.defaultProps)
 
     render() {
         const {props} = this;
@@ -35,24 +35,15 @@ export default class UIModal extends React.PureComponent {
                 <div
                     {...omit(props, UIModal.internalKeys)}
                     ref={(node) => (this.$modal = node)}
-                    className={cx({
-                        'ui-modal-wrapper': true,
-                        [props.className]: !!props.className,
-                    })}>
+                    className={cx('ui-modal-wrapper', props.className)}>
                     <div
                         {...props.maskProps}
-                        className={cx({
-                            'ui-modal-mask': true,
-                            [props.maskProps.className]: !!props.maskProps.className,
-                        })} />
+                        className={cx('ui-modal-mask', props.maskProps.className)} />
 
                     <UIDialog
-                        {...extractChildProps(props, UIDialog.propTypes)}
+                        {...extractChildProps(props, UIDialog.defaultProps)}
                         {...props.modalProps}
-                        className={cx({
-                            'ui-modal': true,
-                            [props.modalProps.className]: !!props.modalProps.className,
-                        })}>
+                        className={cx('ui-modal', props.modalProps.className)}>
                         {props.children}
                     </UIDialog>
                 </div>

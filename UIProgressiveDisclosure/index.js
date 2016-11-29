@@ -1,34 +1,40 @@
-/**
- * Hide content until it's needed.
- * @class UIProgressiveDisclosure
- */
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import isFunction from '../UIUtils/isFunction';
 import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 
+/**
+ * Hide content until it's needed.
+ */
 export default class UIProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
-        children: React.PropTypes.node,
-        expanded: React.PropTypes.bool,
-        onExpand: React.PropTypes.func,
-        onHide: React.PropTypes.func,
-        teaser: React.PropTypes.node,
-        teaserExpanded: React.PropTypes.node,
-        toggleProps: React.PropTypes.object,
+        children: PropTypes.node,
+        component: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+        ]),
+        expanded: PropTypes.bool,
+        onExpand: PropTypes.func,
+        onHide: PropTypes.func,
+        teaser: PropTypes.node,
+        teaserExpanded: PropTypes.node,
+        toggleProps: PropTypes.object,
     }
 
-    static internalKeys = Object.keys(UIProgressiveDisclosure.propTypes)
-
     static defaultProps = {
+        children: null,
+        component: 'div',
         expanded: false,
         onExpand: noop,
         onHide: noop,
+        teaser: null,
+        teaserExpanded: null,
         toggleProps: {},
     }
+
+    static internalKeys = Object.keys(UIProgressiveDisclosure.defaultProps)
 
     state = {
         expanded: this.props.expanded,
@@ -79,22 +85,17 @@ export default class UIProgressiveDisclosure extends React.PureComponent {
 
     render() {
         return (
-            <div
+            <this.props.component
                 {...omit(this.props, UIProgressiveDisclosure.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                   'ui-disclosure': true,
+                className={cx('ui-disclosure', this.props.className, {
                    'ui-disclosure-expanded': this.state.expanded,
-                   [this.props.className]: !!this.props.className,
                 })}>
 
                 <div
                     {...this.props.toggleProps}
                     ref='toggle'
-                    className={cx({
-                       'ui-disclosure-toggle': true,
-                       [this.props.toggleProps.className]: !!this.props.toggleProps.className,
-                    })}
+                    className={cx('ui-disclosure-toggle', this.props.toggleProps.className)}
                     onClick={this.handleClick}
                     onKeyDown={this.handleKeyDown}
                     tabIndex='0'>
@@ -102,7 +103,7 @@ export default class UIProgressiveDisclosure extends React.PureComponent {
                 </div>
 
                 {this.renderContent()}
-            </div>
+            </this.props.component>
         );
     }
 }

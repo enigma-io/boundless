@@ -17,5 +17,8 @@ There are no expected user interactions. The component emits normal text and mer
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-text` node
 
+- __component__ `string|function`
+  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+
 - __maxFontSize__ `Number`
   an upper-boundary for how large the UI text is allowed to grow

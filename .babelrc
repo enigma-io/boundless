@@ -11,10 +11,23 @@
             ]
         },
 
+        "rollup-development": {
+            "plugins": [
+                "external-helpers",
+                "transform-class-properties",
+            ],
+            "presets": [
+                ["es2015", {"modules": false}],
+                "react",
+                "stage-2"
+            ],
+        },
+
         "production": {
             "plugins": [
                 "external-helpers",
-                "transform-class-properties"
+                "transform-class-properties",
+                "transform-react-remove-prop-types"
             ],
             "presets": [
                 ["es2015", {"modules": false}],
@@ -25,7 +38,8 @@
 
         "site-production": {
             "plugins": [
-                "transform-class-properties"
+                "transform-class-properties",
+                "transform-react-remove-prop-types"
             ],
             "presets": [
                 "es2015",

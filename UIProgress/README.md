@@ -23,6 +23,9 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
     - __cancelProps.*__
       any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
 
+- __component__ `string|function`
+  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+
 - __label__ `Boolean`
   the value to show as a label of the progress, e.g. "50%"
 

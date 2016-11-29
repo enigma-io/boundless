@@ -1,8 +1,3 @@
-/**
- * An accessible checkbox with indeterminate support.
- * @class UICheckbox
- */
-
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
@@ -11,6 +6,9 @@ import noop from '../UIUtils/noop';
 import omit from '../UIUtils/omit';
 import uuid from '../UIUtils/uuid';
 
+/**
+ * An accessible checkbox with indeterminate support.
+ */
 export default class UICheckbox extends React.PureComponent {
     static propTypes = {
         inputProps: PropTypes.shape({
@@ -30,17 +28,18 @@ export default class UICheckbox extends React.PureComponent {
         onUnchecked: PropTypes.func,
     }
 
-    static internalKeys = Object.keys(UICheckbox.propTypes)
-
     static defaultProps = {
         inputProps: {
             checked: false,
             indeterminate: false,
         },
+        label: null,
         labelProps: {},
         onChecked: noop,
         onUnchecked: noop,
     }
+
+    static internalKeys = Object.keys(UICheckbox.defaultProps)
 
     id = uuid()
 
@@ -90,12 +89,10 @@ export default class UICheckbox extends React.PureComponent {
                 {...omit(this.props.inputProps, 'indeterminate')}
                 ref='input'
                 type='checkbox'
-                className={cx({
-                    'ui-checkbox': true,
+                className={cx('ui-checkbox', this.props.inputProps.className, {
                     'ui-checkbox-mixed': this.props.inputProps.indeterminate,
                     'ui-checkbox-checked': this.props.inputProps.checked,
                     'ui-checkbox-unchecked': !this.props.inputProps.indeterminate && !this.props.inputProps.checked,
-                    [this.props.inputProps.className]: !!this.props.inputProps.className,
                 })}
                 id={this.props.inputProps.id || this.id}
                 aria-checked={this.getAriaState()}
@@ -110,10 +107,7 @@ export default class UICheckbox extends React.PureComponent {
                 <label
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx({
-                        'ui-checkbox-label': true,
-                        [this.props.labelProps.className]: !!this.props.labelProps.className,
-                    })}
+                    className={cx('ui-checkbox-label', this.props.labelProps.className)}
                     htmlFor={this.props.inputProps.id || this.id}>
                     {this.props.label}
                 </label>
@@ -126,10 +120,7 @@ export default class UICheckbox extends React.PureComponent {
             <div
                 {...omit(this.props, UICheckbox.internalKeys)}
                 ref='wrapper'
-                className={cx({
-                    'ui-checkbox-wrapper': true,
-                    [this.props.className]: !!this.props.className,
-                })}>
+                className={cx('ui-checkbox-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>
