@@ -10,10 +10,11 @@
 
 export default function extractChildProps(parentProps, childPropTypes) {
     return Object.keys(childPropTypes).reduce((childProps, key) => {
-        if (parentProps[key]) {
+        if (key in parentProps) {
             childProps[key] = parentProps[key];
         }
 
         return childProps;
+
     }, {});
 }
