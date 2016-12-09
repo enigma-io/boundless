@@ -23,10 +23,10 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
 
 - __after__ `*`
-  (default `undefined`) arbitrary content to be rendered after the dialog in the DOM
+  (default `null`) arbitrary content to be rendered after the dialog in the DOM
 
 - __before__ `*`
-  (default `undefined`) arbitrary content to be rendered before the dialog in the DOM
+  (default `null`) arbitrary content to be rendered before the dialog in the DOM
 
 - __bodyProps__ `Object`
     - __bodyProps.*__

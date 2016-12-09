@@ -32,6 +32,12 @@ When using `UIPagination` in your project, you may call the following methods on
 
 - any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-pagination` node
 
+- __after__ `*`
+  (default `null`) arbitrary content to be rendered after the items in the DOM
+
+- __before__ `*`
+  (default `null`) arbitrary content to be rendered before the items in the DOM
+
 - __customControlContent__ `*`
   (default `undefined`) allows for arbitrary content to be rendered into the control area
 

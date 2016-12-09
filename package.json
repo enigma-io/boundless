@@ -5,7 +5,8 @@
   "version": "2.0.0",
   "contributors": [
     "Evan Jacobs <evan.jacobs@enigma.io>",
-    "Abe Rubenstein <abe.rubenstein@enigma.io>"
+    "Abe Rubenstein <abe.rubenstein@enigma.io>",
+    "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
   "main": "public/uikit.commonjs.js",
   "dependencies": {
