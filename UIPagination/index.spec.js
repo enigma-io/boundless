@@ -680,4 +680,28 @@ describe('UIPagination component', () => {
             expect(document.querySelector('.ui-pagination-controls')).not.toBe(null);
         });
     });
+
+    describe('"outside" elements', () => {
+        it('allows rendering of arbitrary content before the items', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    before={<span className='foo' />}
+                />
+            );
+
+            expect(dom(element).querySelector('.foo')).not.toBe(null);
+        });
+
+        it('allows rendering of arbitrary content after the items', () => {
+            const element = render(
+                <UIPagination
+                    {...baseProps}
+                    after={<span className='foo' />}
+                />
+            );
+
+            expect(dom(element).querySelector('.foo')).not.toBe(null);
+        });
+    });
 });

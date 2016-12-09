@@ -107,6 +107,8 @@ export default class UIPagination extends React.PureComponent {
     }
 
     static propTypes = {
+        after: PropTypes.node,
+        before: PropTypes.node,
         customControlContent: PropTypes.node,
         getItem: PropTypes.func,
         hidePagerIfNotNeeded: PropTypes.bool,
@@ -153,6 +155,8 @@ export default class UIPagination extends React.PureComponent {
     }
 
     static defaultProps = {
+        after: null,
+        before: null,
         customControlContent: null,
         getItem: noop,
         hidePagerIfNotNeeded: false,
@@ -404,8 +408,11 @@ export default class UIPagination extends React.PureComponent {
                     ? this.renderControls(position.ABOVE)
                     : noop
                 }
+                {props.before}
 
                 {this.renderItems()}
+
+                {props.after}
 
                 {
                       (props.position === position.BELOW || props.position === position.BOTH)
