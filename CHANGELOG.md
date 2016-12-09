@@ -2,6 +2,21 @@
 
 ---
 
+## 2.0.1 (12/9/2016)
+
+__Note: this will be the last UIKit version. As of Jan 1, 2017 we will be open sourcing this library as `boundless` and there will be various breaking changes (mostly deprecations of unused components, see the [issues](https://github.com/bibliotech/uikit/issues).).__
+
+Various bugfixes, some enhanced documentation, and added some new props to `UIPagination` (props @jcreighton!)
+
+7514ed3 add before and after props for rendering arbitrary content in UIPagination
+3865904 Fix prop key detection when the value is falsy
+4271158 A little bit of everything (#318)
+944fb41 Update Travis node version
+4fc287b Documentation changes (#316)
+59f9b0b UIPagination: fix loading indicator not being dismissed
+
+---
+
 ## 2.0.0 (10/31/2016)
 
 A new major release was cut because we are including some behavioral changes, including a new component: `UIPortal`.
