@@ -1,6 +1,4 @@
-codecov:
-  bot: enigma-bot
-  branch: master
+coverage:
   ignore:
     - "__tests__/*"
     - "*.spec.js"
