@@ -23,6 +23,12 @@ packages.forEach((name) => {
     Promise.all([
         rollup.rollup(_.assign({}, baseConfig, {
             entry: path.resolve(base + name + '/index.js'),
+            plugins: baseConfig.plugins.concat(
+                uglify({
+                    compress: false,
+                    screwIE8: true,
+                })
+            ),
         })).then((bundle) => bundle.write({
             dest: path.resolve(base + name + '/dist/index.js'),
             format: 'cjs',
@@ -32,7 +38,10 @@ packages.forEach((name) => {
         rollup.rollup(_.assign({}, baseConfig, {
             entry: path.resolve(base + name + '/index.js'),
             plugins: baseConfig.plugins.concat(
-                uglify()
+                uglify({
+                    compress: false,
+                    screwIE8: true,
+                })
             ),
         })).then((bundle) => bundle.write({
             dest: path.resolve(base + name + '/dist/index.standalone.js'),
@@ -49,7 +58,12 @@ packages.forEach((name) => {
         rollup.rollup(_.assign({}, baseConfig, {
             entry: path.resolve(base + name + '/index.js'),
             plugins: baseConfig.plugins.concat(
-                uglify()
+                uglify({
+                    compress: {
+                        'drop_console': true,
+                    },
+                    screwIE8: true,
+                })
             ),
         })).then((bundle) => bundle.write({
             dest: path.resolve(base + name + '/dist/index.standalone.min.js'),

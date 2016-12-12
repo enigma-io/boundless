@@ -14,13 +14,27 @@ mkdirp.sync(path.resolve(base + '/public'));
 process.env.BABEL_ENV = 'rollup-development';
 
 Promise.all([
-    rollup.rollup(baseConfig).then((bundle) => bundle.write({
+    rollup.rollup(_.assign({}, baseConfig, {
+        plugins: baseConfig.plugins.concat(
+            uglify({
+                compress: false,
+                screwIE8: true,
+            })
+        ),
+    })).then((bundle) => bundle.write({
         dest: path.resolve(base + '/public/boundless.js'),
         format: 'cjs',
         sourceMap: 'inline',
     })),
 
-    rollup.rollup(baseConfig).then((bundle) => bundle.write({
+    rollup.rollup(_.assign({}, baseConfig, {
+        plugins: baseConfig.plugins.concat(
+            uglify({
+                compress: false,
+                screwIE8: true,
+            })
+        ),
+    })).then((bundle) => bundle.write({
         dest: path.resolve(base + '/public/boundless.standalone.js'),
         format: 'iife',
         globals: {
@@ -39,6 +53,7 @@ Promise.all([
                     'drop_console': true,
                 },
                 screwIE8: true,
+                warnings: true,
             })
         ),
     })).then((bundle) => bundle.write({
