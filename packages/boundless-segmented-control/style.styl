@@ -1,0 +1,54 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+.ui-segmented-control {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+}
+
+.ui-segmented-control .ui-segmented-control-option {
+    align-self: stretch;
+    background: background-SegmentedControl_option;
+    border: 1px solid borderColor-SegmentedControl_option;
+    border-radius: 0;
+    color: color-SegmentedControl_option;
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 14px;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+
+    transition: all 200ms ease;
+}
+
+.ui-segmented-control .ui-segmented-control-option:not(:first-of-type) {
+    margin-left: -1px;
+}
+
+.ui-segmented-control .ui-segmented-control-option:first-of-type {
+    border-top-left-radius: borderRadius;
+    border-bottom-left-radius: borderRadius;
+}
+
+.ui-segmented-control .ui-segmented-control-option:last-of-type {
+    border-top-right-radius: borderRadius;
+    border-bottom-right-radius: borderRadius;
+}
+
+.ui-segmented-control .ui-segmented-control-option:not(.ui-segmented-control-option-selected):focus {
+    background: background-SegmentedControl_option-focus;
+    color: color-SegmentedControl_option-focus;
+}
+
+.ui-segmented-control .ui-segmented-control-option-selected {
+    background: background-SegmentedControl_option-selected;
+    color: color-SegmentedControl_option-selected;
+    z-index: 1;
+}
+
+.ui-segmented-control .ui-segmented-control-option:active {
+    background: background-SegmentedControl_option-active;
+    color: background-SegmentedControl_option-active;
+}

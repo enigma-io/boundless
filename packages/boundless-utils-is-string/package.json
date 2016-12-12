@@ -1,0 +1,20 @@
+{
+  "name": "boundless-utils-is-string",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Tests for string-ness.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme"
+}

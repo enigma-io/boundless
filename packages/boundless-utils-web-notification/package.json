@@ -1,0 +1,32 @@
+{
+  "name": "boundless-utils-web-notification",
+  "version": "1.0.0",
+  "description": "Trigger native toasts in supporting browsers.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "keywords": [
+    "utility",
+    "notification",
+    "web notification",
+    "toast",
+    "boundless"
+  ],
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>",
+    "Abe Rubenstein <abe.rubenstein@enigma.io>",
+    "Jenn Creighton <jenn.creighton@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "dependencies": {
+    "boundless-utils-is-function": "^1.0.0",
+    "boundless-utils-is-string": "^1.0.0"
+  }
+}

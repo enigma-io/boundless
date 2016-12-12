@@ -6,28 +6,26 @@ import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
 
-import UIArrowKeyNavigationDemo from '../UIArrowKeyNavigation/demo';
-import UIButtonDemo from '../UIButton/demo';
-import UICheckboxDemo from '../UICheckbox/demo';
-import UICheckboxGroupDemo from '../UICheckboxGroup/demo';
-import UIDialogDemo from '../UIDialog/demo';
-import UIFittedTextDemo from '../UIFittedText/demo';
-import UIImageDemo from '../UIImage/demo';
-import UIModalDemo from '../UIModal/demo';
-import UIPaginationDemo from '../UIPagination/demo';
-import UIPopoverDemo from '../UIPopover/demo';
-import UIProgressDemo from '../UIProgress/demo';
-import UIProgressiveDisclosureDemo from '../UIProgressiveDisclosure/demo';
-import UIRadioDemo from '../UIRadio/demo';
-import UISegmentedControlDemo from '../UISegmentedControl/demo';
-import UITextualInputDemo from '../UITextualInput/demo';
-import UITokenizedInputDemo from '../UITokenizedInput/demo';
-import UITooltipDemo from '../UITooltip/demo';
-import UITypeaheadInputDemo from '../UITypeaheadInput/demo';
+import ArrowKeyNavigationDemo from '../packages/boundless-arrow-key-navigation/demo';
+import ButtonDemo from '../packages/boundless-button/demo';
+import CheckboxGroupDemo from '../packages/boundless-checkbox-group/demo';
+import DialogDemo from '../packages/boundless-dialog/demo';
+import FittedTextDemo from '../packages/boundless-fitted-text/demo';
+import ImageDemo from '../packages/boundless-image/demo';
+import InputDemo from '../packages/boundless-input/demo';
+import ModalDemo from '../packages/boundless-modal/demo';
+import PaginationDemo from '../packages/boundless-pagination/demo';
+import PopoverDemo from '../packages/boundless-popover/demo';
+import ProgressDemo from '../packages/boundless-progress/demo';
+import ProgressiveDisclosureDemo from '../packages/boundless-progressive-disclosure/demo';
+import SegmentedControlDemo from '../packages/boundless-segmented-control/demo';
+import TokenizedInputDemo from '../packages/boundless-tokenized-input/demo';
+import TooltipDemo from '../packages/boundless-tooltip/demo';
+import TypeaheadDemo from '../packages/boundless-typeahead/demo';
 
-import NotifyDemo from '../UIUtils/notify/demo';
+import NotificationDemo from '../packages/boundless-utils-web-notification/demo';
 
-import UITypeaheadInput from '../UITypeaheadInput';
+import Typeahead from '../packages/boundless-typeahead/index';
 
 import {
     Router,
@@ -65,11 +63,6 @@ const pages = {
         displayName: 'Changelog',
         readme: fs.readFileSync(__dirname + '/../CHANGELOG.md', 'utf8'),
     },
-    'changelog_policy': {
-        component: NullComponent,
-        displayName: 'Changelog Policy',
-        readme: fs.readFileSync(__dirname + '/../CHANGELOG_policy.md', 'utf8'),
-    },
     'contributing': {
         component: NullComponent,
         displayName: 'Contributor Policy',
@@ -78,89 +71,81 @@ const pages = {
 };
 
 const components = {
-    'UIArrowKeyNavigation': {
-        component: UIArrowKeyNavigationDemo,
-        readme: fs.readFileSync(__dirname + '/../UIArrowKeyNavigation/README.md', 'utf8'),
+    'ArrowKeyNavigation': {
+        component: ArrowKeyNavigationDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-arrow-key-navigation/README.md', 'utf8'),
     },
-    'UIButton': {
-        component: UIButtonDemo,
-        readme: fs.readFileSync(__dirname + '/../UIButton/README.md', 'utf8'),
+    'Button': {
+        component: ButtonDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-Button/README.md', 'utf8'),
     },
-    'UICheckbox': {
-        component: UICheckboxDemo,
-        readme: fs.readFileSync(__dirname + '/../UICheckbox/README.md', 'utf8'),
+    'CheckboxGroup': {
+        component: CheckboxGroupDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
     },
-    'UICheckboxGroup': {
-        component: UICheckboxGroupDemo,
-        readme: fs.readFileSync(__dirname + '/../UICheckboxGroup/README.md', 'utf8'),
+    'Dialog': {
+        component: DialogDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
     },
-    'UIDialog': {
-        component: UIDialogDemo,
-        readme: fs.readFileSync(__dirname + '/../UIDialog/README.md', 'utf8'),
+    'FittedText': {
+        component: FittedTextDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-fitted-text/README.md', 'utf8'),
     },
-    'UIFittedText': {
-        component: UIFittedTextDemo,
-        readme: fs.readFileSync(__dirname + '/../UIFittedText/README.md', 'utf8'),
+    'Image': {
+        component: ImageDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-image/README.md', 'utf8'),
     },
-    'UIImage': {
-        component: UIImageDemo,
-        readme: fs.readFileSync(__dirname + '/../UIImage/README.md', 'utf8'),
+    'Input': {
+        component: InputDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-input/README.md', 'utf8'),
     },
-    'UIModal': {
-        component: UIModalDemo,
-        readme: fs.readFileSync(__dirname + '/../UIModal/README.md', 'utf8'),
+    'Modal': {
+        component: ModalDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-modal/README.md', 'utf8'),
     },
-    'UIPagination': {
-        component: UIPaginationDemo,
-        readme: fs.readFileSync(__dirname + '/../UIPagination/README.md', 'utf8'),
+    'Pagination': {
+        component: PaginationDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-pagination/README.md', 'utf8'),
     },
-    'UIPopover': {
-        component: UIPopoverDemo,
-        readme: fs.readFileSync(__dirname + '/../UIPopover/README.md', 'utf8'),
+    'Popover': {
+        component: PopoverDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-popover/README.md', 'utf8'),
     },
-    'UIPortal': {
+    'Portal': {
         component: NullComponent,
-        readme: fs.readFileSync(__dirname + '/../UIPortal/README.md', 'utf8'),
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-portal/README.md', 'utf8'),
     },
-    'UIProgress': {
-        component: UIProgressDemo,
-        readme: fs.readFileSync(__dirname + '/../UIProgress/README.md', 'utf8'),
+    'Progress': {
+        component: ProgressDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-progress/README.md', 'utf8'),
     },
-    'UIProgressiveDisclosure': {
-        component: UIProgressiveDisclosureDemo,
-        readme: fs.readFileSync(__dirname + '/../UIProgressiveDisclosure/README.md', 'utf8'),
+    'ProgressiveDisclosure': {
+        component: ProgressiveDisclosureDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-progressive-disclosure/README.md', 'utf8'),
     },
-    'UIRadio': {
-        component: UIRadioDemo,
-        readme: fs.readFileSync(__dirname + '/../UIRadio/README.md', 'utf8'),
+    'SegmentedControl': {
+        component: SegmentedControlDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-segmented-control/README.md', 'utf8'),
     },
-    'UISegmentedControl': {
-        component: UISegmentedControlDemo,
-        readme: fs.readFileSync(__dirname + '/../UISegmentedControl/README.md', 'utf8'),
+    'TokenizedInput': {
+        component: TokenizedInputDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-tokenized-input/README.md', 'utf8'),
     },
-    'UITextualInput': {
-        component: UITextualInputDemo,
-        readme: fs.readFileSync(__dirname + '/../UITextualInput/README.md', 'utf8'),
+    'Tooltip': {
+        component: TooltipDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-tooltip/README.md', 'utf8'),
     },
-    'UITokenizedInput': {
-        component: UITokenizedInputDemo,
-        readme: fs.readFileSync(__dirname + '/../UITokenizedInput/README.md', 'utf8'),
-    },
-    'UITooltip': {
-        component: UITooltipDemo,
-        readme: fs.readFileSync(__dirname + '/../UITooltip/README.md', 'utf8'),
-    },
-    'UITypeaheadInput': {
-        component: UITypeaheadInputDemo,
-        readme: fs.readFileSync(__dirname + '/../UITypeaheadInput/README.md', 'utf8'),
+    'Typeahead': {
+        component: TypeaheadDemo,
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-typeahead/README.md', 'utf8'),
     },
 };
 
 const utilities = {
-    'notify': {
-        component: NotifyDemo,
-        displayName: 'UIUtils/notify',
-        readme: fs.readFileSync(__dirname + '/../UIUtils/notify/README.md', 'utf8'),
+    'notification': {
+        component: NotificationDemo,
+        displayName: 'notification',
+        readme: fs.readFileSync(__dirname + '/../packages/boundless-utils-web-notification/README.md', 'utf8'),
     },
 };
 
@@ -275,8 +260,8 @@ class Sidebar extends React.PureComponent {
 
                 <sub className='ui-demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
 
-                <UITypeaheadInput
-                    algorithm={UITypeaheadInput.mode.FUZZY}
+                <Typeahead
+                    algorithm={Typeahead.mode.FUZZY}
                     className='ui-demo-header-search'
                     entities={this.state.entities}
                     onEntitySelected={this.handleEntitySelected}

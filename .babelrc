@@ -12,15 +12,17 @@
         },
 
         "rollup-development": {
+            "comments": false,
+            "compact": true,
             "plugins": [
                 "external-helpers",
-                "transform-class-properties",
+                "transform-class-properties"
             ],
             "presets": [
                 ["es2015", {"modules": false}],
                 "react",
                 "stage-2"
-            ],
+            ]
         },
 
         "production": {
@@ -33,7 +35,7 @@
                 ["es2015", {"modules": false}],
                 "react",
                 "stage-2"
-            ],
+            ]
         },
 
         "site-production": {

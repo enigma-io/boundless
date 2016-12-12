@@ -1,8 +1,7 @@
 {
-  "name": "enigma-uikit",
+  "name": "boundless",
   "description": "Intuitive, accessible solutions for common UI needs in React.",
-  "private": true,
-  "version": "2.0.1",
+  "version": "1.0.0",
   "contributors": [
     "Evan Scott <evan.scott@enigma.io>",
     "Abe Rubenstein <abe.rubenstein@enigma.io>",
@@ -10,9 +9,7 @@
   ],
   "main": "public/uikit.commonjs.js",
   "dependencies": {
-    "classnames": "^2.1.5",
-    "escape-string-regexp": "^1.0.3",
-    "lodash.isinteger": "^4.0.4"
+    "classnames": "^2.1.5"
   },
   "devDependencies": {
     "autoprefixer-stylus": "^0.11.0",
@@ -33,10 +30,9 @@
     "coveralls": "^2.11.9",
     "eslint": "^3.7.0",
     "eslint-plugin-react": "^6.3.0",
-    "exposify": "^0.5.0",
     "jest-cli": "^17.0.0",
+    "lerna": "2.0.0-beta.30",
     "lodash": "^4.6.1",
-    "minami": "^1.1.1",
     "mkdirp": "^0.5.1",
     "prismjs": "^1.4.1",
     "react": "^15.3.0",
@@ -48,6 +44,7 @@
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^5.0.5",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
     "sinon": "^1.17.3",
     "stylus": "^0.54.2",
     "through": "^2.3.8",
@@ -59,15 +56,19 @@
     "react-dom": ">= 15.3"
   },
   "jest": {
-    "cacheDirectory": "node_modules/.jest-cache",
+    "cacheDirectory": "node_modules/.cache/jest-cli",
     "coverageReporters": [
       "text",
       "cobertura",
       "lcov"
+    ],
+    "testRegex": "\\.spec\\.js$",
+    "transformIgnorePatterns": [
+      "/node_modules/(?!boundless).*"
     ]
   },
   "scripts": {
-    "postinstall": "mkdirp site/public/assets",
+    "postinstall": "lerna bootstrap && mkdirp site/public/assets",
     "lint": "eslint --quiet .",
     "test": "jest",
     "coverage": "jest --coverage",
@@ -78,14 +79,14 @@
     "site:js:watch": "budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t [ brfs --transformer site/prepare.js ] -p bundle-collapser/plugin",
     "site:release": "npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
-    "start": "sh parallelize.sh \"npm run site:css:watch\" \"npm run site:js:watch\"",
+    "start": "sh scripts/parallelize.sh \"npm run site:css:watch\" \"npm run site:js:watch\"",
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "css:watch": "npm run css -- -w",
-    "js:standalone:dev": "BABEL_ENV=rollup-development rollup -c rollup.config.js -g react:React,react-dom:ReactDOM > public/uikit.standalone.js",
-    "js:standalone:release": "NODE_ENV=production rollup -c rollup.config.js -g react:React,react-dom:ReactDOM | uglifyjs -mc drop_console --screw-ie8 > public/uikit.standalone.min.js",
-    "js:commonjs:dev": "BABEL_ENV=rollup-development rollup -c rollup.config.js --format cjs > public/uikit.commonjs.js",
-    "js:commonjs:release": "NODE_ENV=production rollup -c rollup.config.js --format cjs | uglifyjs -mc drop_console --screw-ie8 > public/uikit.commonjs.min.js",
-    "all": "npm run css && npm run css:release && npm run js:standalone:dev && npm run js:standalone:release && npm run js:commonjs:dev && npm run js:commonjs:release"
+
+    "build:master": "NODE_ENV=production node scripts/build-master.js",
+    "build:packages": "NODE_ENV=production node scripts/build-packages.js",
+
+    "all": "npm run css && npm run css:release && npm run build:master && npm run build:packages"
   }
 }

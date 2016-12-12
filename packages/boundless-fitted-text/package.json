@@ -1,0 +1,37 @@
+{
+  "name": "boundless-fitted-text",
+  "version": "1.0.0",
+  "description": "Fit given text inside a parent container, obeying implict and explicit constraints.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "keywords": [
+    "react",
+    "hoc",
+    "text",
+    "i10n",
+    "layout",
+    "boundless"
+  ],
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>",
+    "Abe Rubenstein <abe.rubenstein@enigma.io>",
+    "Jenn Creighton <jenn.creighton@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "dependencies": {
+    "boundless-utils-omit-keys": "^1.0.0",
+    "classnames": "^2.1.5"
+  },
+  "peerDependencies": {
+    "react": ">= 15.3",
+    "react-dom": ">= 15.3"
+  }
+}

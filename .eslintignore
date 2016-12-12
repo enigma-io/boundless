@@ -1,3 +1,4 @@
-coverage/
-public/
-**/*.spec.js
+coverage
+public
+**/dist
+**/node_modules

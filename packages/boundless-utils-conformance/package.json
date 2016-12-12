@@ -1,0 +1,27 @@
+{
+  "name": "boundless-utils-conformance",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Used in testing boundless components for prop passing, etc.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "peerDependencies": {
+    "react": ">= 15.3",
+    "react-dom": ">= 15.3"
+  },
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  }
+}

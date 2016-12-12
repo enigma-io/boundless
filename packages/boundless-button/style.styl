@@ -1,0 +1,58 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+.ui-button {
+    appearance: none;
+    background: background-Button;
+    border: 1px solid borderColor-Button;
+    border-radius: borderRadius;
+    color: color-Button;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0.5rem 0.75rem;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    transition: all 200ms ease;
+}
+
+.ui-button:hover {
+    background: background-Button-hover;
+    border-color: borderColor-Button-hover;
+    color: color-Button-hover;
+}
+
+.ui-button:focus {
+    background: background-Button-focus;
+    border-color: borderColor-Button-focus;
+    color: color-Button-focus;
+}
+
+.ui-button:active {
+    background: background-Button-active;
+    border-color: borderColor-Button-active;
+    color: color-Button-active;
+}
+
+.ui-button.ui-button-pressed {
+    background: background-Button-pressed;
+    border-color: borderColor-Button-pressed;
+    color: color-Button-pressed;
+}
+
+.ui-button[disabled] {
+    background: background-Button-disabled;
+    border-color: borderColor-Button-disabled;
+    color: color-Button-disabled;
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.ui-button + .ui-button {
+    margin-left: 15px;
+}
+
+.ui-button-pressable {
+    width: 100px;
+}

@@ -1,0 +1,126 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+.ui-tokenfield-wrapper {
+    background: background-TokenizedInput;
+    border: 1px solid borderColor-TokenizedInput;
+    border-radius: borderRadius;
+    display: flex;
+    font-size: fontSize-input;
+}
+
+.ui-tokenfield-wrapper .ui-typeahead-wrapper {
+    flex-grow: 1;
+}
+
+.ui-tokenfield-wrapper .ui-typeahead,
+.ui-tokenfield-wrapper .ui-typeahead-hint {
+    align-self: stretch;
+    background: transparent;
+    border-color: transparent !important;
+    padding: size-TokenizedInput_token_spacer * 2;
+}
+
+.ui-tokenfield {
+    display: flex;
+}
+
+.ui-tokenfield-tokens {
+    display: flex;
+    flex-shrink: 0;
+    margin: size-TokenizedInput_token_spacer 0 size-TokenizedInput_token_spacer size-TokenizedInput_token_spacer;
+}
+
+.ui-tokenfield-tokens:empty {
+    margin: 0;
+}
+
+.ui-tokenfield-token {
+    align-items: center;
+    align-self: stretch;
+    background: background-TokenizedInput_token;
+    border: 1px solid borderColor-TokenizedInput_token;
+    border-radius: borderRadius;
+    color: color-TokenizedInput_token;
+    cursor: pointer;
+    display: flex;
+    line-height: 1;
+
+    margin-right: size-TokenizedInput_token_spacer;
+    padding: size-TokenizedInput_token_spacer (size-TokenizedInput_token_spacer * 2);
+
+    white-space: nowrap;
+
+    transition: color 200ms ease-in-out,
+                border-color 200ms ease-in-out,
+                background 200ms ease-in-out;
+
+    &:focus {
+        background: background-TokenizedInput_token-focus;
+        border-color: borderColor-TokenizedInput_token-focus;
+        color: color-TokenizedInput_token-focus;
+
+        .ui-tokenfield-token-close {
+            color: color-TokenizedInput_token_close-focus;
+        }
+    }
+
+    &:hover {
+        background: background-TokenizedInput_token-hover;
+        border-color: borderColor-TokenizedInput_token-hover;
+        color: color-TokenizedInput_token-hover;
+
+        .ui-tokenfield-token-close {
+            color: color-TokenizedInput_token_close-hover;
+        }
+    }
+
+    &:active {
+        background: background-TokenizedInput_token-active;
+        border-color: borderColor-TokenizedInput_token-active;
+        color: color-TokenizedInput_token-active;
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.ui-tokenfield-token-selected {
+    background: background-TokenizedInput_token-selected;
+    border-color: borderColor-TokenizedInput_token-selected;
+    color: color-TokenizedInput_token-selected;
+
+    &:focus {
+        background: background-TokenizedInput_token-selected;
+        border-color: borderColor-TokenizedInput_token-selected;
+        color: color-TokenizedInput_token-selected;
+
+        .ui-tokenfield-token-close {
+            color: color-TokenizedInput_token_close-selected-focus;
+        }
+    }
+
+    &:hover {
+        background: background-TokenizedInput_token-selected;
+        border-color: borderColor-TokenizedInput_token-selected;
+        color: color-TokenizedInput_token-selected;
+
+        .ui-tokenfield-token-close {
+            color: color-TokenizedInput_token_close-selected-hover;
+        }
+    }
+
+    .ui-tokenfield-token-close {
+        color: color-TokenizedInput_token_close-selected;
+    }
+}
+
+.ui-tokenfield-token-close {
+    color: color-TokenizedInput_token_close;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.85em;
+    margin-left: 0.5rem;
+
+    transition: color 200ms ease-in-out;
+}

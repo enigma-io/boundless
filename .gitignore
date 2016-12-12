@@ -10,3 +10,4 @@ site/public/index.html
 site/public/**/*.css
 site/public/**/*.js
 docs/sdk/
+packages/*/dist

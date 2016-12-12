@@ -1,0 +1,36 @@
+{
+  "name": "boundless-progress",
+  "version": "1.0.0",
+  "description": "An unopinionated progress implementation, allowing for a variety of shapes and effects.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "keywords": [
+    "react",
+    "progress",
+    "boundless"
+  ],
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>",
+    "Abe Rubenstein <abe.rubenstein@enigma.io>",
+    "Jenn Creighton <jenn.creighton@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "dependencies": {
+    "boundless-button": "^1.0.0",
+    "boundless-utils-noop": "^1.0.0",
+    "boundless-utils-omit-keys": "^1.0.0",
+    "classnames": "^2.1.5"
+  },
+  "peerDependencies": {
+    "react": ">= 15.3",
+    "react-dom": ">= 15.3"
+  }
+}

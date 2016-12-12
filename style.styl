@@ -18,96 +18,96 @@ color-focus-ring ?= color-accent
 color-neutral-light ?= #CCC
 color-neutral-dark ?= #444
 
-// UIButton
-background-UIButton ?= background-body
-background-UIButton-active ?= color-accent
-background-UIButton-disabled ?= background-body
-background-UIButton-focus ?= background-body
-background-UIButton-hover ?= color-accent
-background-UIButton-pressed ?= color-accent
-borderColor-UIButton ?= color-accent
-borderColor-UIButton-active ?= color-accent
-borderColor-UIButton-disabled ?= color-accent
-borderColor-UIButton-focus ?= color-accent
-borderColor-UIButton-hover ?= color-accent
-borderColor-UIButton-pressed ?= color-accent
-color-UIButton ?= color-body
-color-UIButton-active ?= get_contrasting_color(background-UIButton-active)
-color-UIButton-disabled ?= get_contrasting_color(background-UIButton-disabled)
-color-UIButton-focus ?= get_contrasting_color(background-UIButton-focus)
-color-UIButton-hover ?= get_contrasting_color(background-UIButton-hover)
-color-UIButton-pressed ?= get_contrasting_color(background-UIButton-pressed)
+// Button
+background-Button ?= background-body
+background-Button-active ?= color-accent
+background-Button-disabled ?= background-body
+background-Button-focus ?= background-body
+background-Button-hover ?= color-accent
+background-Button-pressed ?= color-accent
+borderColor-Button ?= color-accent
+borderColor-Button-active ?= color-accent
+borderColor-Button-disabled ?= color-accent
+borderColor-Button-focus ?= color-accent
+borderColor-Button-hover ?= color-accent
+borderColor-Button-pressed ?= color-accent
+color-Button ?= color-body
+color-Button-active ?= get_contrasting_color(background-Button-active)
+color-Button-disabled ?= get_contrasting_color(background-Button-disabled)
+color-Button-focus ?= get_contrasting_color(background-Button-focus)
+color-Button-hover ?= get_contrasting_color(background-Button-hover)
+color-Button-pressed ?= get_contrasting_color(background-Button-pressed)
 
-// UICheckbox
-background-UICheckbox ?= color-accent
-background-UICheckbox-checked ?= color-accent
-background-UICheckbox-indeterminate ?= linear-gradient(135deg, background-UICheckbox 50%, rgba(#fff, 0) 50%, rgba(#fff, 0) 100%)
-borderColor-UICheckbox ?= color-neutral-light
-borderColor-UICheckbox-focus ?= color-accent
-borderColor-UICheckbox-hover ?= color-accent
-borderColor-UICheckbox-checked ?= color-neutral-light
-boxShadowColor-UICheckbox ?= background-body
+// Checkbox
+background-Checkbox ?= color-accent
+background-Checkbox-checked ?= color-accent
+background-Checkbox-indeterminate ?= linear-gradient(135deg, background-Checkbox 50%, rgba(#fff, 0) 50%, rgba(#fff, 0) 100%)
+borderColor-Checkbox ?= color-neutral-light
+borderColor-Checkbox-focus ?= color-accent
+borderColor-Checkbox-hover ?= color-accent
+borderColor-Checkbox-checked ?= color-neutral-light
+boxShadowColor-Checkbox ?= background-body
 
-// UIDialog
-background-UIDialog ?= background-body
-borderColor-UIDialog ?= color-accent
-borderWidth-UIDialog ?= 1px
-boxShadowColor-UIDialog ?= color-neutral-light
+// Dialog
+background-Dialog ?= background-body
+borderColor-Dialog ?= color-accent
+borderWidth-Dialog ?= 1px
+boxShadowColor-Dialog ?= color-neutral-light
 
-// UIImage
-background-UIImage ?= color-neutral-light
-background-UIImage-error ?= color-neutral-light
-background-UIImage-loading ?= color-neutral-light
-background-UIImage_error_icon ?= color-neutral-dark
+// Image
+background-Image ?= color-neutral-light
+background-Image-error ?= color-neutral-light
+background-Image-loading ?= color-neutral-light
+background-Image_error_icon ?= color-neutral-dark
 
-// UIModal
-backgroundColor-UIModal_mask ?= background-body
-background-UIModal_mask ?= rgba(backgroundColor-UIModal_mask, 0.9)
+// Modal
+backgroundColor-Modal_mask ?= background-body
+background-Modal_mask ?= rgba(backgroundColor-Modal_mask, 0.9)
 
-// UIPagination
-background-UIPagination_control ?= background-body
-background-UIPagination_control-focus ?= halve_alpha(color-accent)
-background-UIPagination_control-selected ?= color-accent
-background-UIPagination_item-loading ?= color-accent
-borderColor-UIPagination_control ?= color-accent
-color-UIPagination_control ?= get_contrasting_color(background-UIPagination_control)
-color-UIPagination_control-focus ?= get_contrasting_color(background-UIPagination_control-focus)
-color-UIPagination_control-selected ?= get_contrasting_color(background-UIPagination_control-selected)
+// Pagination
+background-Pagination_control ?= background-body
+background-Pagination_control-focus ?= halve_alpha(color-accent)
+background-Pagination_control-selected ?= color-accent
+background-Pagination_item-loading ?= color-accent
+borderColor-Pagination_control ?= color-accent
+color-Pagination_control ?= get_contrasting_color(background-Pagination_control)
+color-Pagination_control-focus ?= get_contrasting_color(background-Pagination_control-focus)
+color-Pagination_control-selected ?= get_contrasting_color(background-Pagination_control-selected)
 
-// UIPopover
-borderColor-UIPopover ?= #FFF
-borderColor-UIPopover_outline ?= color-accent
+// Popover
+borderColor-Popover ?= #FFF
+borderColor-Popover_outline ?= color-accent
 
-// UIProgress
-background-UIProgress ?= color-accent
-borderColor-UIProgress ?= color-accent
-color-UIProgress ?= get_contrasting_color(background-UIProgress)
+// Progress
+background-Progress ?= color-accent
+borderColor-Progress ?= color-accent
+color-Progress ?= get_contrasting_color(background-Progress)
 
-// UIProgressiveDisclosure
-borderColor-UIProgressiveDisclosure_arrow ?= color-neutral-dark
-color-UIProgressiveDisclosure ?= color-neutral-dark
+// ProgressiveDisclosure
+borderColor-ProgressiveDisclosure_arrow ?= color-neutral-dark
+color-ProgressiveDisclosure ?= color-neutral-dark
 
-// UIRadio
-background-UIRadio ?= background-body
-background-UIRadio-focus ?= background-UIRadio
-background-UIRadio-hover ?= background-UIRadio
-background-UIRadio-selected ?= color-accent
-borderColor-UIRadio ?= color-neutral-light
-borderColor-UIRadio-focus ?= color-accent
-borderColor-UIRadio-hover ?= color-accent
-borderColor-UIRadio-selected ?= color-accent
-boxShadowColor-UIRadio-selected ?= background-body // separation region between the outer border and inner background
+// Radio
+background-Radio ?= background-body
+background-Radio-focus ?= background-Radio
+background-Radio-hover ?= background-Radio
+background-Radio-selected ?= color-accent
+borderColor-Radio ?= color-neutral-light
+borderColor-Radio-focus ?= color-accent
+borderColor-Radio-hover ?= color-accent
+borderColor-Radio-selected ?= color-accent
+boxShadowColor-Radio-selected ?= background-body // separation region between the outer border and inner background
 
-// UISegmentedControl
-background-UISegmentedControl_option ?= background-body
-background-UISegmentedControl_option-active ?= color-accent
-background-UISegmentedControl_option-focus ?= halve_alpha(color-accent)
-background-UISegmentedControl_option-selected ?= color-accent
-borderColor-UISegmentedControl_option ?= color-accent
-color-UISegmentedControl_option ?= get_contrasting_color(background-UISegmentedControl_option)
-color-UISegmentedControl_option-active ?= get_contrasting_color(background-UISegmentedControl_option-active)
-color-UISegmentedControl_option-focus ?= get_contrasting_color(background-UISegmentedControl_option-focus)
-color-UISegmentedControl_option-selected ?= get_contrasting_color(background-UISegmentedControl_option-selected)
+// SegmentedControl
+background-SegmentedControl_option ?= background-body
+background-SegmentedControl_option-active ?= color-accent
+background-SegmentedControl_option-focus ?= halve_alpha(color-accent)
+background-SegmentedControl_option-selected ?= color-accent
+borderColor-SegmentedControl_option ?= color-accent
+color-SegmentedControl_option ?= get_contrasting_color(background-SegmentedControl_option)
+color-SegmentedControl_option-active ?= get_contrasting_color(background-SegmentedControl_option-active)
+color-SegmentedControl_option-focus ?= get_contrasting_color(background-SegmentedControl_option-focus)
+color-SegmentedControl_option-selected ?= get_contrasting_color(background-SegmentedControl_option-selected)
 
 // UITable
 background-UITable_column_resize_handle ?= get_contrasting_color(background-UITable_header)
@@ -127,63 +127,63 @@ paddingX-UITable_cell ?= 0.75em
 size-UITable_scroll_track ?= 8px
 size-UITable_scroll_track-expanded ?= 12px
 
-// UITextualInput
-background-UITextualInput ?= background-body
-borderColor-UITextualInput ?= color-accent
-borderColor-UITextualInput-focus ?= color-accent
-borderColor-UITextualInput-hover ?= color-accent
-color-UITextualInput ?= get_contrasting_color(background-UITextualInput)
-color-UITextualInput_placeholder ?= halve_alpha(get_contrasting_color(background-UITextualInput))
+// Input
+background-Input ?= background-body
+borderColor-Input ?= color-accent
+borderColor-Input-focus ?= color-accent
+borderColor-Input-hover ?= color-accent
+color-Input ?= get_contrasting_color(background-Input)
+color-Input_placeholder ?= halve_alpha(get_contrasting_color(background-Input))
 
-// UITokenizedInput
-background-UITokenizedInput ?= background-body
-background-UITokenizedInput_highlight ?= rgba(color-accent, 0.25)
-background-UITokenizedInput_token ?= background-body
-background-UITokenizedInput_token-active ?= halve_alpha(color-accent)
-background-UITokenizedInput_token-focus ?= background-body
-background-UITokenizedInput_token-hover ?= background-body
-background-UITokenizedInput_token-selected ?= halve_alpha(color-accent)
-borderColor-UITokenizedInput ?= color-accent
-borderColor-UITokenizedInput_token ?= color-neutral-light
-borderColor-UITokenizedInput_token-active ?= color-body
-borderColor-UITokenizedInput_token-focus ?= color-neutral-dark
-borderColor-UITokenizedInput_token-hover ?= color-neutral-dark
-borderColor-UITokenizedInput_token-selected ?= color-neutral-dark
-color-UITokenizedInput_token ?= get_contrasting_color(background-UITokenizedInput_token)
-color-UITokenizedInput_token-active ?= get_contrasting_color(background-UITokenizedInput_token-active)
-color-UITokenizedInput_token-focus ?= get_contrasting_color(background-UITokenizedInput_token-focus)
-color-UITokenizedInput_token-hover ?= get_contrasting_color(background-UITokenizedInput_token-hover)
-color-UITokenizedInput_token-selected ?= get_contrasting_color(background-UITokenizedInput_token-selected)
-color-UITokenizedInput_token_close ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token))
-color-UITokenizedInput_token_close-focus ?= get_contrasting_color(background-UITokenizedInput_token-focus)
-color-UITokenizedInput_token_close-hover ?= get_contrasting_color(background-UITokenizedInput_token-hover)
-color-UITokenizedInput_token_close-selected ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token-selected))
-color-UITokenizedInput_token_close-selected-focus ?= halve_alpha(get_contrasting_color(background-UITokenizedInput_token-selected))
-color-UITokenizedInput_token_close-selected-hover ?= get_contrasting_color(background-UITokenizedInput_token-selected)
-size-UITokenizedInput_token_spacer = 0.25rem
+// TokenizedInput
+background-TokenizedInput ?= background-body
+background-TokenizedInput_highlight ?= rgba(color-accent, 0.25)
+background-TokenizedInput_token ?= background-body
+background-TokenizedInput_token-active ?= halve_alpha(color-accent)
+background-TokenizedInput_token-focus ?= background-body
+background-TokenizedInput_token-hover ?= background-body
+background-TokenizedInput_token-selected ?= halve_alpha(color-accent)
+borderColor-TokenizedInput ?= color-accent
+borderColor-TokenizedInput_token ?= color-neutral-light
+borderColor-TokenizedInput_token-active ?= color-body
+borderColor-TokenizedInput_token-focus ?= color-neutral-dark
+borderColor-TokenizedInput_token-hover ?= color-neutral-dark
+borderColor-TokenizedInput_token-selected ?= color-neutral-dark
+color-TokenizedInput_token ?= get_contrasting_color(background-TokenizedInput_token)
+color-TokenizedInput_token-active ?= get_contrasting_color(background-TokenizedInput_token-active)
+color-TokenizedInput_token-focus ?= get_contrasting_color(background-TokenizedInput_token-focus)
+color-TokenizedInput_token-hover ?= get_contrasting_color(background-TokenizedInput_token-hover)
+color-TokenizedInput_token-selected ?= get_contrasting_color(background-TokenizedInput_token-selected)
+color-TokenizedInput_token_close ?= halve_alpha(get_contrasting_color(background-TokenizedInput_token))
+color-TokenizedInput_token_close-focus ?= get_contrasting_color(background-TokenizedInput_token-focus)
+color-TokenizedInput_token_close-hover ?= get_contrasting_color(background-TokenizedInput_token-hover)
+color-TokenizedInput_token_close-selected ?= halve_alpha(get_contrasting_color(background-TokenizedInput_token-selected))
+color-TokenizedInput_token_close-selected-focus ?= halve_alpha(get_contrasting_color(background-TokenizedInput_token-selected))
+color-TokenizedInput_token_close-selected-hover ?= get_contrasting_color(background-TokenizedInput_token-selected)
+size-TokenizedInput_token_spacer = 0.25rem
 
-// UITooltip
-background-UITooltip ?= color-accent
-background-UITooltip_arrow ?= color-accent
-color-UITooltip ?= get_contrasting_color(color-accent)
+// Tooltip
+background-Tooltip ?= color-accent
+background-Tooltip_arrow ?= color-accent
+color-Tooltip ?= get_contrasting_color(color-accent)
 
-// UITypeaheadInput
-background-UITypeaheadInput_match-hover ?= rgba(color-accent, 0.2)
-background-UITypeaheadInput_match-selected ?= color-accent
-background-UITypeaheadInput_match_highlight ?= background-UITextualInput
-background-UITypeaheadInput_match_highlight-hover ?= transparent
-background-UITypeaheadInput_match_highlight-selected ?= background-UITypeaheadInput_match-selected
-background-UITypeaheadInput_match_highlight-selected-hover ?= background-UITypeaheadInput_match-selected
-background-UITypeaheadInput_match_wrapper ?= background-UITextualInput
-boxShadowColor-UITypeaheadInput_match_wrapper ?= color-neutral-light
-boxShadow-UITypeaheadInput_match_wrapper ?= 0 0 0 1px boxShadowColor-UITypeaheadInput_match_wrapper inset
-color-UITypeaheadInput_match ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
-color-UITypeaheadInput_match-highlight ?= get_contrasting_color(background-UITypeaheadInput_match_highlight)
-color-UITypeaheadInput_match-hover ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
-color-UITypeaheadInput_match-hover-highlight ?= get_contrasting_color(background-UITypeaheadInput_match_wrapper)
-color-UITypeaheadInput_match-selected ?= get_contrasting_color(background-UITypeaheadInput_match-selected)
-color-UITypeaheadInput_match_highlight-selected ?= get_contrasting_color(background-UITypeaheadInput_match-selected)
-color-UITypeaheadInput_match_highlight-selected-hover ?= get_contrasting_color(background-UITypeaheadInput_match_highlight-selected)
+// Typeahead
+background-Typeahead_match-hover ?= rgba(color-accent, 0.2)
+background-Typeahead_match-selected ?= color-accent
+background-Typeahead_match_highlight ?= background-Input
+background-Typeahead_match_highlight-hover ?= transparent
+background-Typeahead_match_highlight-selected ?= background-Typeahead_match-selected
+background-Typeahead_match_highlight-selected-hover ?= background-Typeahead_match-selected
+background-Typeahead_match_wrapper ?= background-Input
+boxShadowColor-Typeahead_match_wrapper ?= color-neutral-light
+boxShadow-Typeahead_match_wrapper ?= 0 0 0 1px boxShadowColor-Typeahead_match_wrapper inset
+color-Typeahead_match ?= get_contrasting_color(background-Typeahead_match_wrapper)
+color-Typeahead_match-highlight ?= get_contrasting_color(background-Typeahead_match_highlight)
+color-Typeahead_match-hover ?= get_contrasting_color(background-Typeahead_match_wrapper)
+color-Typeahead_match-hover-highlight ?= get_contrasting_color(background-Typeahead_match_wrapper)
+color-Typeahead_match-selected ?= get_contrasting_color(background-Typeahead_match-selected)
+color-Typeahead_match_highlight-selected ?= get_contrasting_color(background-Typeahead_match-selected)
+color-Typeahead_match_highlight-selected-hover ?= get_contrasting_color(background-Typeahead_match_highlight-selected)
 
 halve_alpha(color) {
     return rgba(color, 0.5)
@@ -215,4 +215,4 @@ get_contrasting_color(color) {
 
 
 // Children receive the variables, etc from above.
-@import "UI*/*.styl"
+@import "packages/*/*.styl"

@@ -1,0 +1,35 @@
+{
+  "name": "boundless-portal",
+  "version": "1.0.0",
+  "description": "A higher-order component for the rendering of components outside the normal React tree.",
+  "main": "dist/index.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enigma-io/boundless.git"
+  },
+  "keywords": [
+    "react",
+    "hoc",
+    "portal",
+    "boundless"
+  ],
+  "contributors": [
+    "Evan Scott <evan.scott@enigma.io>",
+    "Abe Rubenstein <abe.rubenstein@enigma.io>",
+    "Jenn Creighton <jenn.creighton@enigma.io>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
+  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "dependencies": {
+    "boundless-utils-omit-keys": "^1.0.0",
+    "boundless-utils-uuid": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">= 15.3",
+    "react-dom": ">= 15.3"
+  }
+}

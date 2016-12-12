@@ -1,0 +1,26 @@
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+
+.ui-dialog-wrapper {
+    line-height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.ui-dialog {
+    background: background-Dialog;
+    border: borderWidth-Dialog solid borderColor-Dialog;
+    border-radius: borderRadius;
+    box-shadow: 1px 2px 3px boxShadowColor-Dialog;
+    padding: 1.5em;
+}
+
+.ui-dialog-body {
+    line-height: 1.5;
+    padding: 1em 0;
+}
+
+.ui-dialog *:last-child {
+    margin-bottom: 0;
+}

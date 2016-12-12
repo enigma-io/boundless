@@ -1,31 +1,24 @@
 /**
- * Used to create an ES5-compatible standalone build, and so it's possible to `require('enigma-uikit')``
- * and directly use a component like: `require('enigma-uikit').UIButton`
+ * Used to create an ES5-compatible standalone build, and so it's possible to `require('boundless')``
+ * and directly use a component like: `require('boundless').Button`
  */
 
-export {default as UIArrowKeyNavigation} from './UIArrowKeyNavigation';
-export {default as UIButton} from './UIButton';
-export {default as UICheckbox} from './UICheckbox';
-export {default as UICheckboxGroup} from './UICheckboxGroup';
-export {default as UIDialog} from './UIDialog';
-export {default as UIFittedText} from './UIFittedText';
-export {default as UIImage} from './UIImage';
-export {default as UIModal} from './UIModal';
-export {default as UIPagination} from './UIPagination';
-export {default as UIPopover} from './UIPopover';
-export {default as UIPortal} from './UIPortal';
-export {default as UIProgress} from './UIProgress';
-export {default as UIProgressiveDisclosure} from './UIProgressiveDisclosure';
-export {default as UIRadio} from './UIRadio';
-export {default as UISegmentedControl} from './UISegmentedControl';
-export {default as UITokenizedInput} from './UITokenizedInput';
-export {default as UITextualInput} from './UITextualInput';
-export {default as UITypeaheadInput} from './UITypeaheadInput';
-export {default as UITooltip} from './UITooltip';
-
-import extractChildProps from './UIUtils/extractChildProps';
-import notify from './UIUtils/notify';
-import transformProperty from './UIUtils/transformProperty';
-import uuid from './UIUtils/uuid';
-
-export const UIUtils = {extractChildProps, notify, transformProperty, uuid};
+export {default as ArrowKeyNavigation} from './packages/boundless-arrow-key-navigation/index';
+export {default as Button} from './packages/boundless-button/index';
+export {default as Checkbox} from './packages/boundless-checkbox/index';
+export {default as CheckboxGroup} from './packages/boundless-checkbox-group/index';
+export {default as Dialog} from './packages/boundless-dialog/index';
+export {default as FittedText} from './packages/boundless-fitted-text/index';
+export {default as Image} from './packages/boundless-image/index';
+export {default as Input} from './packages/boundless-input/index';
+export {default as Modal} from './packages/boundless-modal/index';
+export {default as Pagination} from './packages/boundless-pagination/index';
+export {default as Popover} from './packages/boundless-popover/index';
+export {default as Portal} from './packages/boundless-portal/index';
+export {default as ProgressiveDisclosure} from './packages/boundless-progressive-disclosure/index';
+export {default as Progress} from './packages/boundless-progress/index';
+export {default as Radio} from './packages/boundless-radio/index';
+export {default as SegmentedControl} from './packages/boundless-segmented-control/index';
+export {default as TokenizedInput} from './packages/boundless-tokenized-input/index';
+export {default as Tooltip} from './packages/boundless-tooltip/index';
+export {default as Typeahead} from './packages/boundless-typeahead/index';

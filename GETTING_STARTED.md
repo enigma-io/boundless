@@ -1,5 +1,5 @@
-# Getting started with UIKit
-__A guide to creating a UIKit-ready React web app__
+# Getting started with Boundless
+__A guide to creating a Boundless-ready React web app__
 
 ---
 
@@ -39,32 +39,30 @@ After answering some very basic questions, your new React web app will begin its
 
 ---
 
-### Install UIKit
+### Install Boundless
 
-The boilerplate React web app does not include UIKit by default.
+The boilerplate React web app does not include Boundless by default.
 
 ```bash
-npm install --save enigma-uikit@bibliotech/uikit#1.0.0-beta-12
+npm install --save boundless
 ```
 
 The `--save` option updates `package.json` automatically.
 
-> Because UIKit is not currently available via `npm`, the common semver protections are not automatically available. It is highly recommended to scope your usage of UIKit to a specific version tag to avoid any breaking changes that may result from an update (e.g. `bibliotech/uikit#1.0.0-beta-13`).
+#### Add the Boundless CSS skin
 
-#### Add the UIKit CSS skin
-
-UIKit has a default style skin which can be imported via Stylus. Add the following line to `your-app/style.styl`:
+Boundless has a default style skin which can be imported via Stylus. Add the following line to `your-app/style.styl`:
 
 ```styl
-@import "node_modules/enigma-uikit/style.styl"
+@import "node_modules/boundless/style.styl"
 ```
 
-If you want to do any custom theming, feel free to redeclare any variables present in [UIKit's style.styl](./style.styl) above where you are importing it, like:
+If you want to do any custom theming, feel free to redeclare any variables present in [Boundless's style.styl](./style.styl) above where you are importing it, like:
 
 ```styl
 color-accent = royalblue
 
-@import "node_modules/enigma-uikit/style.styl"
+@import "node_modules/boundless/style.styl"
 ```
 
 ---
@@ -73,34 +71,34 @@ color-accent = royalblue
 
 `npm start` builds and launches the app. Any changes you make while the app is running are automatically applied and cause the app to rebuild on the fly.
 
-Let's add a UIKit component to the app by modifying `your-app/example/index.js`. First, import [`UITooltip`](http://uikit.platform.enigma/UITooltip):
+Let's add a Boundless component to the app by modifying `your-app/example/index.js`. First, import [`Tooltip`](./packages/boundless-tooltip):
 
 ```js
 import React from 'react';
-import {UITooltip} from 'enigma-uikit';
+import Tooltip from 'boundless-tooltip';
 // ...
 ```
 
-Enclose a `p` tag within a `UITooltip`:
+Enclose a `p` tag within a `Tooltip`:
 
-```js
+```jsx
 // ...
 renderDescription() {
     if (this.props.description) {
         return (
-            <UITooltip text='Hello again!'>
-                <p ref='description' className='ui-example-desc'>{this.props.description}</p>
-            </UITooltip>
+            <Tooltip component='p' text='Hello again!'>
+                <p>{this.props.description}</p>
+            </Tooltip>
         );
     }
 }
 // ...
 ```
 
-A `UITooltip` should now render when you hover over the paragraph text.
+A `Tooltip` should now render when you hover over the paragraph text.
 
 ---
 
 ### Further reference
 
-For a complete list of UIKit components, as well as documentation and usage examples, refer to the __[UIKit demos and documentation](http://uikit.platform.enigma/)__ (VPN).
+For a complete list of Boundless components, as well as documentation and usage examples, refer to the __[Boundless demos and documentation](http://uikit.platform.enigma/)__ (VPN).
