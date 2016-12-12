@@ -6,8 +6,12 @@ import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
 
+import ArrowKeyNavigation from '../packages/boundless-arrow-key-navigation';
 import ArrowKeyNavigationDemo from '../packages/boundless-arrow-key-navigation/demo';
+import Button from '../packages/boundless-button';
 import ButtonDemo from '../packages/boundless-button/demo';
+import Checkbox from '../packages/boundless-checkbox';
+import CheckboxDemo from '../packages/boundless-checkbox/demo';
 import CheckboxGroupDemo from '../packages/boundless-checkbox-group/demo';
 import DialogDemo from '../packages/boundless-dialog/demo';
 import FittedTextDemo from '../packages/boundless-fitted-text/demo';
@@ -73,72 +77,80 @@ const pages = {
 const components = {
     'ArrowKeyNavigation': {
         component: ArrowKeyNavigationDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-arrow-key-navigation/README.md', 'utf8'),
+        readme: ArrowKeyNavigation.__docgenInfo.description,
+        propInfo: ArrowKeyNavigation.__docgenInfo.props,
     },
     'Button': {
         component: ButtonDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-Button/README.md', 'utf8'),
+        readme: Button.__docgenInfo.description,
+        propInfo: Button.__docgenInfo.props,
     },
-    'CheckboxGroup': {
-        component: CheckboxGroupDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
+    'Checkbox': {
+        component: CheckboxDemo,
+        readme: Checkbox.__docgenInfo.description,
+        propInfo: Checkbox.__docgenInfo.props,
+        defaultProps: Checkbox.defaultProps,
     },
-    'Dialog': {
-        component: DialogDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
-    },
-    'FittedText': {
-        component: FittedTextDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-fitted-text/README.md', 'utf8'),
-    },
-    'Image': {
-        component: ImageDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-image/README.md', 'utf8'),
-    },
-    'Input': {
-        component: InputDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-input/README.md', 'utf8'),
-    },
-    'Modal': {
-        component: ModalDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-modal/README.md', 'utf8'),
-    },
-    'Pagination': {
-        component: PaginationDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-pagination/README.md', 'utf8'),
-    },
-    'Popover': {
-        component: PopoverDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-popover/README.md', 'utf8'),
-    },
-    'Portal': {
-        component: NullComponent,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-portal/README.md', 'utf8'),
-    },
-    'Progress': {
-        component: ProgressDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-progress/README.md', 'utf8'),
-    },
-    'ProgressiveDisclosure': {
-        component: ProgressiveDisclosureDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-progressive-disclosure/README.md', 'utf8'),
-    },
-    'SegmentedControl': {
-        component: SegmentedControlDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-segmented-control/README.md', 'utf8'),
-    },
-    'TokenizedInput': {
-        component: TokenizedInputDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-tokenized-input/README.md', 'utf8'),
-    },
-    'Tooltip': {
-        component: TooltipDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-tooltip/README.md', 'utf8'),
-    },
-    'Typeahead': {
-        component: TypeaheadDemo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-typeahead/README.md', 'utf8'),
-    },
+    // 'CheckboxGroup': {
+    //     component: CheckboxGroupDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
+    // },
+    // 'Dialog': {
+    //     component: DialogDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
+    // },
+    // 'FittedText': {
+    //     component: FittedTextDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-fitted-text/README.md', 'utf8'),
+    // },
+    // 'Image': {
+    //     component: ImageDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-image/README.md', 'utf8'),
+    // },
+    // 'Input': {
+    //     component: InputDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-input/README.md', 'utf8'),
+    // },
+    // 'Modal': {
+    //     component: ModalDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-modal/README.md', 'utf8'),
+    // },
+    // 'Pagination': {
+    //     component: PaginationDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-pagination/README.md', 'utf8'),
+    // },
+    // 'Popover': {
+    //     component: PopoverDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-popover/README.md', 'utf8'),
+    // },
+    // 'Portal': {
+    //     component: NullComponent,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-portal/README.md', 'utf8'),
+    // },
+    // 'Progress': {
+    //     component: ProgressDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-progress/README.md', 'utf8'),
+    // },
+    // 'ProgressiveDisclosure': {
+    //     component: ProgressiveDisclosureDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-progressive-disclosure/README.md', 'utf8'),
+    // },
+    // 'SegmentedControl': {
+    //     component: SegmentedControlDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-segmented-control/README.md', 'utf8'),
+    // },
+    // 'TokenizedInput': {
+    //     component: TokenizedInputDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-tokenized-input/README.md', 'utf8'),
+    // },
+    // 'Tooltip': {
+    //     component: TooltipDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-tooltip/README.md', 'utf8'),
+    // },
+    // 'Typeahead': {
+    //     component: TypeaheadDemo,
+    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-typeahead/README.md', 'utf8'),
+    // },
 };
 
 const utilities = {
@@ -371,6 +383,103 @@ class Container extends React.PureComponent {
         }
     }
 
+    maybeRenderSubProps(prop) {
+        if (prop.type.value) {
+            return (
+                <dl>
+                    <dt>
+                        <Markdown container='div' options={{html: true}}>
+                            {prop.description}
+                        </Markdown>
+                    </dt>
+                    {Object.keys(prop.type.value).map((name) => {
+                        return (
+                            <dd key={name}>{name}</dd>
+                        );
+                    })}
+                </dl>
+            );
+        }
+
+        return (
+            <Markdown container='div' options={{html: true}}>
+                {prop.description}
+            </Markdown>
+        );
+    }
+
+    renderPropTableRows(propInfo, name) {
+        const hasSubProps = !!propInfo[name].type.value;
+        const rows = [
+            <tr key={name} className='ui-prop-row'>
+                <td><strong>{name}</strong></td>
+                <td>{hasSubProps ? 'object' : propInfo[name].type.name}</td>
+                <td><Markdown>{propInfo[name].description}</Markdown></td>
+                <td>{propInfo[name].required ? 'Yes' : 'No'}</td>
+                <td>{hasSubProps ? '–' : <code>{propInfo[name].defaultValue.value}</code>}</td>
+            </tr>
+        ];
+
+        if (hasSubProps) {
+            const subProps = propInfo[name].type.value;
+
+            Object.keys(subProps).forEach((name) => {
+                rows.push(
+                    <tr key={name} className='ui-prop-row-sub'>
+                        <td><strong>{name}</strong></td>
+                        <td>{subProps[name].name}</td>
+                        <td><Markdown>{subProps[name].description}</Markdown></td>
+                        <td>{subProps[name].required ? 'Yes' : 'No'}</td>
+                        <td><code>Default</code></td>
+                    </tr>
+                );
+            });
+        }
+
+        return rows;
+    }
+
+    renderPropTable(propInfo) {
+        console.log(propInfo)
+        return (
+            <table>
+                <thead>
+                    <tr className='ui-prop-row'>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Required</th>
+                        <th>Default value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name))}
+                </tbody>
+            </table>
+        );
+    }
+
+    maybeRenderPropInfo() {
+        // console.log(this.props.children.props.route.defaultProps)
+        // s.replace(/[^\x20-\x7E]/gmi, "")
+        const propInfo =   this.props.children
+                         ? this.props.children.props.route.propInfo
+                         : this.props.route.propInfo;
+
+        if (propInfo) {
+            return (
+                <div className='ui-props-section'>
+                    <h3 id='props'>Props</h3>
+                    <p>
+                        Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
+                    </p>
+
+                    {this.renderPropTable(propInfo)}
+                </div>
+            );
+        }
+    }
+
     render() {
         return (
             <div onClick={this.handleClick}>
@@ -378,7 +487,6 @@ class Container extends React.PureComponent {
 
                 <main className='demo-section'>
                     {this.maybeRenderGithubLinks()}
-                    {this.maybeRenderDemo()}
 
                     <Markdown container='div' options={{html: true}}>
                         {   this.props.children
@@ -386,6 +494,10 @@ class Container extends React.PureComponent {
                           : this.props.route.readme
                         }
                     </Markdown>
+
+                    {this.maybeRenderDemo()}
+
+                    {this.maybeRenderPropInfo()}
                 </main>
             </div>
         );

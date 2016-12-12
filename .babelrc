@@ -2,7 +2,6 @@
     "env": {
         "development": {
             "plugins": [
-                "react-docgen",
                 "transform-class-properties"
             ],
             "presets": [
@@ -17,7 +16,6 @@
             "compact": true,
             "plugins": [
                 "external-helpers",
-                "react-docgen",
                 "transform-class-properties"
             ],
             "presets": [
@@ -30,12 +28,23 @@
         "production": {
             "plugins": [
                 "external-helpers",
-                "react-docgen",
                 "transform-class-properties",
                 "transform-react-remove-prop-types"
             ],
             "presets": [
                 ["es2015", {"modules": false}],
+                "react",
+                "stage-2"
+            ]
+        },
+
+        "site-development": {
+            "plugins": [
+                "react-docgen",
+                "transform-class-properties"
+            ],
+            "presets": [
+                "es2015",
                 "react",
                 "stage-2"
             ]
@@ -58,7 +67,6 @@
             "compact": true,
             "comments": false,
             "plugins": [
-                "react-docgen",
                 "transform-class-properties"
             ],
             "presets": [
