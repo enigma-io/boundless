@@ -4,6 +4,15 @@ import {findDOMNode} from 'react-dom';
 import isFunction from '../boundless-utils-is-function/index';
 import omit from '../boundless-utils-omit-keys/index';
 
+/**
+ * A higher-order component for arrow key navigation on a grouping of children.
+ * ArrowKeyNavigation is designed not to care about the component types it is
+ * wrapping. Due to this, you can pass whatever HTML tag you like into
+ * `props.component` or even a React component you've made elsewhere. Additional
+ * props passed to `<ArrowKeyNavigation ...>` will be forwarded on to the component
+ * or HTML tag name you've supplied.
+ * The children, similarly, can be any type of component.
+ */
 export default class ArrowKeyNavigation extends React.PureComponent {
     static mode = {
         HORIZONTAL: 'HORIZONTAL',
@@ -12,13 +21,26 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     static propTypes = {
+        /**
+         * any valid HTML tag name or a React component factory, anything that can
+         * be passed as the first argument to `React.createElement`
+         */
         component: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]),
 
+        /**
+         * (default `0`) allows for a particular child to be initially reachable
+         * via tabbing
+         */
         defaultActiveChildIndex: PropTypes.number,
 
+        /**
+         * (default `ArrowKeyNavigation.mode.BOTH`) controls when arrow key presses
+         * will be caught by component and result in the active item being
+         * incremented or decremented
+         */
         mode: PropTypes.oneOf([
             ArrowKeyNavigation.mode.HORIZONTAL,
             ArrowKeyNavigation.mode.VERTICAL,
