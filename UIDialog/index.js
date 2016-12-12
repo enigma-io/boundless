@@ -192,7 +192,7 @@ export default class UIDialog extends React.PureComponent {
                 <div
                     {...omit(this.props, UIDialog.internalKeys)}
                     ref={(node) => (this.$dialog = node)}
-                    className={cx('ui-dialog': true, this.props.className)}
+                    className={cx('ui-dialog', this.props.className)}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
                     aria-labelledby={this.uuidHeader}
