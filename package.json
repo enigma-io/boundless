@@ -87,6 +87,8 @@
     "build:master": "NODE_ENV=production node scripts/build-master.js",
     "build:packages": "NODE_ENV=production node scripts/build-packages.js",
 
-    "all": "npm run css && npm run css:release && npm run build:master && npm run build:packages"
+    "all": "npm run css && npm run css:release && npm run build:master && npm run build:packages",
+
+    "prerelease": "npm run all"
   }
 }
