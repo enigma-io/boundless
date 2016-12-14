@@ -12,6 +12,7 @@ import Button from '../packages/boundless-button';
 import ButtonDemo from '../packages/boundless-button/demo';
 import Checkbox from '../packages/boundless-checkbox';
 import CheckboxDemo from '../packages/boundless-checkbox/demo';
+import CheckboxGroup from '../packages/boundless-checkbox-group';
 import CheckboxGroupDemo from '../packages/boundless-checkbox-group/demo';
 import DialogDemo from '../packages/boundless-dialog/demo';
 import FittedTextDemo from '../packages/boundless-fitted-text/demo';
@@ -77,24 +78,28 @@ const pages = {
 const components = {
     'ArrowKeyNavigation': {
         component: ArrowKeyNavigationDemo,
-        readme: ArrowKeyNavigation.__docgenInfo.description,
+        defaultProps: ArrowKeyNavigation.defaultProps,
         propInfo: ArrowKeyNavigation.__docgenInfo.props,
+        readme: ArrowKeyNavigation.__docgenInfo.description,
     },
     'Button': {
         component: ButtonDemo,
-        readme: Button.__docgenInfo.description,
+        defaultProps: Button.defaultProps,
         propInfo: Button.__docgenInfo.props,
+        readme: Button.__docgenInfo.description,
     },
     'Checkbox': {
         component: CheckboxDemo,
-        readme: Checkbox.__docgenInfo.description,
-        propInfo: Checkbox.__docgenInfo.props,
         defaultProps: Checkbox.defaultProps,
+        propInfo: Checkbox.__docgenInfo.props,
+        readme: Checkbox.__docgenInfo.description,
     },
-    // 'CheckboxGroup': {
-    //     component: CheckboxGroupDemo,
-    //     readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
-    // },
+    'CheckboxGroup': {
+        component: CheckboxGroupDemo,
+        defaultProps: CheckboxGroup.defaultProps,
+        propInfo: CheckboxGroup.__docgenInfo.props,
+        readme: CheckboxGroup.__docgenInfo.description,
+    },
     // 'Dialog': {
     //     component: DialogDemo,
     //     readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
@@ -354,9 +359,12 @@ class Container extends React.PureComponent {
     maybeRenderDemo() {
         if (this.props.children && this.props.children.type !== NullComponent) {
             return (
-                <article className='demo-section-example'>
-                    {this.props.children}
-                </article>
+                <div className='demo-section-wrapper'>
+                    <h3>Demo</h3>
+                    <article className='demo-section-example'>
+                        {this.props.children}
+                    </article>
+                </div>
             );
         } // don't render if not a composite
     }
@@ -402,7 +410,7 @@ class Container extends React.PureComponent {
                 <td>{hasSubProps ? 'object' : type}</td>
                 <td><Markdown>{prop.description}</Markdown></td>
                 <td>{prop.required ? 'Yes' : 'No'}</td>
-                <td>{hasSubProps ? '–' : <code>{prop.defaultValue.value}</code>}</td>
+                <td><pre><code className='lang-js'>{prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}</code></pre></td>
             </tr>
         ];
 
@@ -419,8 +427,7 @@ class Container extends React.PureComponent {
                         <td><strong>{name}</strong></td>
                         <td>{subProps[name].name}</td>
                         <td><Markdown>{subProps[name].description}</Markdown></td>
-                        <td>{subProps[name].required ? 'Yes' : 'No'}</td>
-                        <td>{defaultValue ? <code>{defaultValue}</code> : '–'}</td>
+                        <td colSpan={2}>{subProps[name].required ? 'Yes' : 'No'}</td>
                     </tr>
                 );
             });
@@ -433,6 +440,8 @@ class Container extends React.PureComponent {
         const defaultProps =   this.props.children
                          ? this.props.children.props.route.defaultProps
                          : this.props.route.defaultProps;
+
+        console.log(propInfo)
 
         return (
             <table>

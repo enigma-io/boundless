@@ -6,7 +6,24 @@ import omit from '../boundless-utils-omit-keys/index';
 import noop from '../boundless-utils-noop/index';
 
 /**
- * A controller view for managing the aggregate state of multiple, related checkboxes.
+ * # CheckboxGroup
+
+ * __A controller view for managing the aggregate state of multiple, related checkboxes.__
+
+ * Content to render is given to `CheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [Checkbox spec](../Checkbox/README.md) for more details.
+
+ * The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `selectAll` prop.
+
+ * > The UIKit Team recommends reviewing the [Checkbox](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW9) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Checkbox` in your project.
+
+ * ### Interactions
+
+ * Type | Context | Expectation
+ * ---- | ------- | -----------
+ * __Keyboard__ | `[Enter, Space]` on "Select All" | should toggle the `checked` state for all children to fully on or fully off
+ * __Keyboard__ | `[Enter, Space]` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
+ * __Mouse__ | `click` on "Select All" | should toggle the `checked` state for all children
+ * __Mouse__ | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
  */
 export default class CheckboxGroup extends React.PureComponent {
     static Constants = {
@@ -15,22 +32,50 @@ export default class CheckboxGroup extends React.PureComponent {
     }
 
     static propTypes = {
-        items: PropTypes.arrayOf(
-            PropTypes.shape({
-                inputProps: PropTypes.shape({
-                    checked: PropTypes.bool.isRequired,
-                    label: PropTypes.string,
-                    name: PropTypes.string.isRequired,
-                    value: PropTypes.string,
-                }),
-            })
-        ).isRequired,
+        /**
+         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)
+         */
+        items: PropTypes.arrayOf(Checkbox.propTypes.inputProps).isRequired,
+
+        /**
+         * called when all children become checked (not fired on first render), no return
+         */
         onAllChecked: PropTypes.func,
+
+        /**
+         * called when all children become unchecked (not fired on first render), no return
+         */
         onAllUnchecked: PropTypes.func,
+
+        /**
+         * called when a specific child has become checked, returns the child definition
+         */
         onChildChecked: PropTypes.func,
+
+        /**
+         * called when a specific child has become checked, returns the child definition
+         */
         onChildUnchecked: PropTypes.func,
+
+        /**
+         * renders a master checkbox that can manipulate the values of all children simultaneously
+         */
         selectAll: PropTypes.bool,
-        selectAllProps: PropTypes.object,
+
+        /**
+         * must conform to the [Checkbox prop spec](../Checkbox#props)
+         */
+        selectAllProps: PropTypes.shape({
+            /**
+             * the text or renderable node to display next to the checkbox
+             */
+            label: PropTypes.string,
+            inputProps: PropTypes.object,
+        }),
+
+        /**
+         * (see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"
+         */
         selectAllPosition: PropTypes.oneOf([
             CheckboxGroup.Constants.SELECT_ALL_BEFORE,
             CheckboxGroup.Constants.SELECT_ALL_AFTER,
