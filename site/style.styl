@@ -343,7 +343,7 @@ tbody tr:nth-child(even) {
         border-collapse: collapse;
 
         thead tr {
-            background: rgba(color-accent, 0.06);
+            background: #ddd;
 
             th {
                 padding: 0 0.5em;
@@ -352,21 +352,26 @@ tbody tr:nth-child(even) {
     }
 
     .ui-prop-row {
-        border-top: 1px solid #eee;
+        border-left: 1px solid #ddd
+        border-top: 1px solid #ddd;
 
         &:first-child {
             border-top: none;
         }
+
+        &:last-child {
+            border-bottom: 1px solid #ddd;
+        }
     }
 
     .ui-prop-row-sub {
-        td {
-            &:first-child {
-                padding-left: 40px;
-            }
+        border-left: 1px solid #ddd;
 
-            &:last-child {
-                border-bottom: 1px solid #eee;
+        td {
+            font-size: 14px;
+
+            &:first-child {
+                padding-left: 50px;
             }
         }
     }

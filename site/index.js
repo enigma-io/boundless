@@ -383,54 +383,44 @@ class Container extends React.PureComponent {
         }
     }
 
-    maybeRenderSubProps(prop) {
-        if (prop.type.value) {
-            return (
-                <dl>
-                    <dt>
-                        <Markdown container='div' options={{html: true}}>
-                            {prop.description}
-                        </Markdown>
-                    </dt>
-                    {Object.keys(prop.type.value).map((name) => {
-                        return (
-                            <dd key={name}>{name}</dd>
-                        );
-                    })}
-                </dl>
-            );
-        }
+    renderPropTableRows(propInfo, name, defaultProps = {}) {
+        defaultProps = defaultProps[name];
 
-        return (
-            <Markdown container='div' options={{html: true}}>
-                {prop.description}
-            </Markdown>
-        );
-    }
+        const prop = propInfo[name];
 
-    renderPropTableRows(propInfo, name) {
-        const hasSubProps = !!propInfo[name].type.value;
+        const hasSubProps = !!prop.type.value
+                            && prop.type.name !== 'enum'
+                            && prop.type.name !== 'union';
+
+        const type = prop.type.name === 'union'
+                     ? prop.type.value.map((v) => v.name).join(' | ')
+                     : prop.type.name;
+
         const rows = [
             <tr key={name} className='ui-prop-row'>
                 <td><strong>{name}</strong></td>
-                <td>{hasSubProps ? 'object' : propInfo[name].type.name}</td>
-                <td><Markdown>{propInfo[name].description}</Markdown></td>
-                <td>{propInfo[name].required ? 'Yes' : 'No'}</td>
-                <td>{hasSubProps ? '–' : <code>{propInfo[name].defaultValue.value}</code>}</td>
+                <td>{hasSubProps ? 'object' : type}</td>
+                <td><Markdown>{prop.description}</Markdown></td>
+                <td>{prop.required ? 'Yes' : 'No'}</td>
+                <td>{hasSubProps ? '–' : <code>{prop.defaultValue.value}</code>}</td>
             </tr>
         ];
 
         if (hasSubProps) {
-            const subProps = propInfo[name].type.value;
+            const subProps = prop.type.value;
 
             Object.keys(subProps).forEach((name) => {
+                const defaultValue = defaultProps && defaultProps[name] !== undefined
+                                     ? defaultProps[name].toString()
+                                     : null;
+
                 rows.push(
                     <tr key={name} className='ui-prop-row-sub'>
                         <td><strong>{name}</strong></td>
                         <td>{subProps[name].name}</td>
                         <td><Markdown>{subProps[name].description}</Markdown></td>
                         <td>{subProps[name].required ? 'Yes' : 'No'}</td>
-                        <td><code>Default</code></td>
+                        <td>{defaultValue ? <code>{defaultValue}</code> : '–'}</td>
                     </tr>
                 );
             });
@@ -440,7 +430,10 @@ class Container extends React.PureComponent {
     }
 
     renderPropTable(propInfo) {
-        console.log(propInfo)
+        const defaultProps =   this.props.children
+                         ? this.props.children.props.route.defaultProps
+                         : this.props.route.defaultProps;
+
         return (
             <table>
                 <thead>
@@ -453,15 +446,13 @@ class Container extends React.PureComponent {
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name))}
+                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name, defaultProps))}
                 </tbody>
             </table>
         );
     }
 
     maybeRenderPropInfo() {
-        // console.log(this.props.children.props.route.defaultProps)
-        // s.replace(/[^\x20-\x7E]/gmi, "")
         const propInfo =   this.props.children
                          ? this.props.children.props.route.propInfo
                          : this.props.route.propInfo;
