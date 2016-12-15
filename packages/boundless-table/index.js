@@ -518,7 +518,7 @@ export default class Table {
         preserveScrollState = true,
         throttleInterval = 300,
         totalRows = 0,
-        ...others,
+        ...others
     }) {
         validateConfiguration(
             (this.c = {
