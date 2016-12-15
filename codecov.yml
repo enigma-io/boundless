@@ -1,3 +1,6 @@
+codecov:
+  bot: "enigma-bot"
+
 coverage:
   ignore:
     - "__tests__/*"
