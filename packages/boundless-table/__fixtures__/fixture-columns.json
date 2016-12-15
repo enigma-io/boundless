@@ -1,0 +1,48 @@
+[
+    {
+        "title": "FirstName",
+        "mapping": "first_name",
+        "resizable": true
+    },
+    {
+        "title": "LastName",
+        "mapping": "last_name",
+        "resizable": true
+    },
+    {
+        "width": 100,
+        "title": "JobTitle",
+        "mapping": "job_title",
+        "resizable": true
+    },
+    {
+        "title": "Phone",
+        "mapping": "phone",
+        "resizable": true
+    },
+    {
+        "title": "EmailAddress",
+        "mapping": "email",
+        "resizable": true
+    },
+    {
+        "title": "StreetAddress",
+        "mapping": "address1",
+        "resizable": true
+    },
+    {
+        "title": "City",
+        "mapping": "city",
+        "resizable": true
+    },
+    {
+        "title": "Country",
+        "mapping": "country",
+        "resizable": true
+    },
+    {
+        "title": "CountryCode",
+        "mapping": "country_code",
+        "resizable": true
+    }
+]
