@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+import {get} from 'lodash';
 import Markdown from 'react-remarkable';
 
 import Prism from 'prismjs';
@@ -78,25 +79,21 @@ const pages = {
 const components = {
     'ArrowKeyNavigation': {
         component: ArrowKeyNavigationDemo,
-        defaultProps: ArrowKeyNavigation.defaultProps,
         propInfo: ArrowKeyNavigation.__docgenInfo.props,
         readme: ArrowKeyNavigation.__docgenInfo.description,
     },
     'Button': {
         component: ButtonDemo,
-        defaultProps: Button.defaultProps,
         propInfo: Button.__docgenInfo.props,
         readme: Button.__docgenInfo.description,
     },
     'Checkbox': {
         component: CheckboxDemo,
-        defaultProps: Checkbox.defaultProps,
         propInfo: Checkbox.__docgenInfo.props,
         readme: Checkbox.__docgenInfo.description,
     },
     'CheckboxGroup': {
         component: CheckboxGroupDemo,
-        defaultProps: CheckboxGroup.defaultProps,
         propInfo: CheckboxGroup.__docgenInfo.props,
         readme: CheckboxGroup.__docgenInfo.description,
     },
@@ -391,9 +388,16 @@ class Container extends React.PureComponent {
         }
     }
 
-    renderPropTableRows(propInfo, name, defaultProps = {}) {
-        defaultProps = defaultProps[name];
+    renderSubPropTableRow = (props, name, depth) => (
+        <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
+            <td><strong>{name}</strong></td>
+            <td><code>{props[name].name}</code></td>
+            <td><Markdown>{props[name].description}</Markdown></td>
+            <td colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
+        </tr>
+    )
 
+    renderPropTableRows(propInfo, name, depth = 0) {
         const prop = propInfo[name];
 
         const hasSubProps = !!prop.type.value
@@ -405,44 +409,53 @@ class Container extends React.PureComponent {
                      : prop.type.name;
 
         const rows = [
-            <tr key={name} className='ui-prop-row'>
-                <td><strong>{name}</strong></td>
-                <td>{hasSubProps ? 'object' : type}</td>
-                <td><Markdown>{prop.description}</Markdown></td>
+            <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
+                <td>
+                    <strong>{name}</strong>
+                </td>
+                <td>
+                    <code>{type}</code>
+                </td>
+                <td>
+                    <Markdown>{prop.description}</Markdown>
+                </td>
                 <td>{prop.required ? 'Yes' : 'No'}</td>
-                <td><pre><code className='lang-js'>{prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}</code></pre></td>
+                <td>
+                    <pre>
+                        <code className='lang-js'>
+                            {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
+                        </code>
+                    </pre>
+                </td>
             </tr>
         ];
 
         if (hasSubProps) {
             const subProps = prop.type.value;
 
-            Object.keys(subProps).forEach((name) => {
-                const defaultValue = defaultProps && defaultProps[name] !== undefined
-                                     ? defaultProps[name].toString()
-                                     : null;
+            if (subProps.name && subProps.name === 'custom') {
+                const subPropsRaw = subProps.raw.split('.');
+                const component = subPropsRaw[0];
+                const subPropName = subPropsRaw[2];
 
-                rows.push(
-                    <tr key={name} className='ui-prop-row-sub'>
-                        <td><strong>{name}</strong></td>
-                        <td>{subProps[name].name}</td>
-                        <td><Markdown>{subProps[name].description}</Markdown></td>
-                        <td colSpan={2}>{subProps[name].required ? 'Yes' : 'No'}</td>
-                    </tr>
-                );
-            });
+                return rows.concat(this.renderPropTableRows(
+                    {
+                        [subPropName]: get(components[component], `propInfo[${subPropName}]`, {}),
+                    },
+                    subPropName,
+                    depth + 1,
+                ));
+            }
+
+            return rows.concat(
+                Object.keys(subProps).map((name) => this.renderSubPropTableRow(subProps, name, depth + 1))
+            );
         }
 
         return rows;
     }
 
     renderPropTable(propInfo) {
-        const defaultProps =   this.props.children
-                         ? this.props.children.props.route.defaultProps
-                         : this.props.route.defaultProps;
-
-        console.log(propInfo)
-
         return (
             <table>
                 <thead>
@@ -455,7 +468,7 @@ class Container extends React.PureComponent {
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name, defaultProps))}
+                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name))}
                 </tbody>
             </table>
         );
@@ -489,7 +502,8 @@ class Container extends React.PureComponent {
                     {this.maybeRenderGithubLinks()}
 
                     <Markdown container='div' options={{html: true}}>
-                        {   this.props.children
+                        {
+                            this.props.children
                           ? this.props.children.props.route.readme
                           : this.props.route.readme
                         }

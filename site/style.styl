@@ -366,16 +366,28 @@ tbody tr:nth-child(even) {
         &:last-child {
             border-bottom: 1px solid #ddd;
         }
-    }
 
-    .ui-prop-row-sub {
-        border-left: 1px solid #ddd;
+        &.prop-depth-1 {
+            border-top: none;
 
-        td {
-            font-size: 14px;
+            td {
+                font-size: 15px;
 
-            &:first-child {
-                padding-left: 50px;
+                &:first-child {
+                    padding-left: 40px;
+                }
+            }
+        }
+
+        &.prop-depth-2 {
+            border-top: none;
+
+            td {
+                font-size: 14px;
+
+                &:first-child {
+                    padding-left: 80px;
+                }
             }
         }
     }
