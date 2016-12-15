@@ -97,14 +97,14 @@ const t = new Table({
     throttleInterval: 200,
     totalRows: rows.length,
 
-    wrapper: document.querySelector('.ui-table-wrapper'),
-    header: document.querySelector('.ui-table-header'),
-    body: document.querySelector('.ui-table-body'),
-    aria: document.querySelector('.ui-offscreen'),
-    'x-scroll-track': document.querySelector('.ui-table-x-scroll-track'),
-    'y-scroll-track': document.querySelector('.ui-table-y-scroll-track'),
-    'x-scroll-handle': document.querySelector('.ui-table-x-scroll-handle'),
-    'y-scroll-handle': document.querySelector('.ui-table-y-scroll-handle'),
+    wrapper: document.querySelector('.b-table-wrapper'),
+    header: document.querySelector('.b-table-header'),
+    body: document.querySelector('.b-table-body'),
+    aria: document.querySelector('.b-offscreen'),
+    'x-scroll-track': document.querySelector('.b-table-x-scroll-track'),
+    'y-scroll-track': document.querySelector('.b-table-y-scroll-track'),
+    'x-scroll-handle': document.querySelector('.b-table-x-scroll-handle'),
+    'y-scroll-handle': document.querySelector('.b-table-y-scroll-handle'),
 });
 
 window.t = t;

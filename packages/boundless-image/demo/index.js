@@ -15,7 +15,7 @@ export default class ImageDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='ui-spread-even ui-center'>
+            <div className='spread center'>
                 <figure>
                     <h5>Normal</h5>
                     <Image ref='normal'

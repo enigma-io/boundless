@@ -35,15 +35,15 @@ export default class Modal extends React.PureComponent {
                 <div
                     {...omit(props, Modal.internalKeys)}
                     ref={(node) => (this.$modal = node)}
-                    className={cx('ui-modal-wrapper', props.className)}>
+                    className={cx('b-modal-wrapper', props.className)}>
                     <div
                         {...props.maskProps}
-                        className={cx('ui-modal-mask', props.maskProps.className)} />
+                        className={cx('b-modal-mask', props.maskProps.className)} />
 
                     <Dialog
                         {...extractChildProps(props, Dialog.defaultProps)}
                         {...props.modalProps}
-                        className={cx('ui-modal', props.modalProps.className)}>
+                        className={cx('b-modal', props.modalProps.className)}>
                         {props.children}
                     </Dialog>
                 </div>

@@ -1,20 +1,20 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-checkbox-wrapper {
+.b-checkbox-wrapper {
     display: flex;
 }
 
-.ui-checkbox,
-.ui-checkbox-label {
+.b-checkbox,
+.b-checkbox-label {
     cursor: pointer;
 }
 
-.ui-checkbox-label {
+.b-checkbox-label {
     line-height: 1.1;
     padding-left: 0.25em;
 }
 
-.ui-checkbox {
+.b-checkbox {
     appearance: none;
     border: 1px solid borderColor-Checkbox;
     border-radius: borderRadius;
@@ -28,24 +28,24 @@
     transition: border-color 200ms ease;
 }
 
-.ui-checkbox:hover {
+.b-checkbox:hover {
     border-color: borderColor-Checkbox-hover;
 }
 
-.ui-checkbox:focus {
+.b-checkbox:focus {
     border-color: borderColor-Checkbox-focus;
 }
 
-.ui-checkbox-checked {
+.b-checkbox-checked {
     background: background-Checkbox-checked;
     border-color: borderColor-Checkbox-checked;
 }
 
-.ui-checkbox-mixed {
+.b-checkbox-mixed {
     background: background-Checkbox-indeterminate;
 }
 
-.ui-checkbox-checked,
-.ui-checkbox-mixed {
+.b-checkbox-checked,
+.b-checkbox-mixed {
     box-shadow: 0 0 0 1px boxShadowColor-Checkbox inset;
 }

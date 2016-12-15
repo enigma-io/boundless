@@ -94,7 +94,7 @@ export default class FittedText extends React.PureComponent {
         return (
             <this.props.component
                 {...omit(this.props, FittedText.internalKeys)}
-                className={cx('ui-text', this.props.className)}>
+                className={cx('b-text', this.props.className)}>
                 {this.props.children}
             </this.props.component>
         );

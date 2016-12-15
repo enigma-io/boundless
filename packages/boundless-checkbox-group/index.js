@@ -68,7 +68,7 @@ export default class CheckboxGroup extends React.PureComponent {
                     {...this.props.selectAllProps}
                     ref='select_all'
                     key='cb_select_all'
-                    className={cx('ui-checkbox-group-selectall', this.props.selectAllProps.className)}
+                    className={cx('b-checkbox-group-selectall', this.props.selectAllProps.className)}
                     inputProps={{
                         ...inputProps,
                         checked: allChecked,
@@ -119,7 +119,7 @@ export default class CheckboxGroup extends React.PureComponent {
             <div
                 {...omit(this.props, CheckboxGroup.internalKeys)}
                 ref='group'
-                className={cx('ui-checkbox-group', this.props.className)}>
+                className={cx('b-checkbox-group', this.props.className)}>
                 {this.renderChildren()}
             </div>
         );

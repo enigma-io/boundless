@@ -21,7 +21,7 @@ Events will not be proxied if the input is in "disabled" state, via the HTML5 `d
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-wrapper` node
 
 - __inputProps__ `Object`
     all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
@@ -42,14 +42,14 @@ Events will not be proxied if the input is in "disabled" state, via the HTML5 `d
       passed-through to the input node, like `name`
 
     - __inputProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
 
 - __label__ `Node`
   any React-renderable content, most commonly a simple string
 
 - __labelProps__ `Object`
     - __labelProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
 
 - __onChecked__ `Function`
   called when the element becomes checked; backing data must be updated to persist the state change

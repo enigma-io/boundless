@@ -65,10 +65,10 @@ class Item extends React.PureComponent {
     componentWillUnmount()               { this.mounted = false; }
 
     getClasses(extraClasses) {
-        return cx('ui-pagination-item', extraClasses, {
-            'ui-pagination-item-even': this.props.even,
-            'ui-pagination-item-odd': !this.props.even,
-            'ui-pagination-item-loading': this.state.component === null,
+        return cx('b-pagination-item', extraClasses, {
+            'b-pagination-item-even': this.props.even,
+            'b-pagination-item-odd': !this.props.even,
+            'b-pagination-item-loading': this.state.component === null,
         });
     }
 
@@ -247,7 +247,7 @@ export default class Pagination extends React.PureComponent {
                          : `${currentPage} of ${totalPages}`,
                 value: '',
                 disabled: true,
-                className: 'ui-pagination-control ui-pagination-control-state',
+                className: 'b-pagination-control b-pagination-control-state',
             });
         }
 
@@ -257,7 +257,7 @@ export default class Pagination extends React.PureComponent {
                 content: this.props.jumpToFirstControlContent,
                 value: Pagination.controls.FIRST,
                 disabled: this.currentPage() === 1,
-                className: 'ui-pagination-control ui-pagination-control-first',
+                className: 'b-pagination-control b-pagination-control-first',
             });
         }
 
@@ -266,12 +266,12 @@ export default class Pagination extends React.PureComponent {
             content: this.props.previousPageControlContent,
             value: Pagination.controls.PREVIOUS,
             disabled: this.currentPage() === 1,
-            className: 'ui-pagination-control ui-pagination-control-previous',
+            className: 'b-pagination-control b-pagination-control-previous',
         });
 
         for (let i = startPage; i <= endPage; i++) {
             options.push({
-                className: 'ui-pagination-control',
+                className: 'b-pagination-control',
                 'data-page-number': i,
                 selected: i === this.currentPage(),
                 content: i,
@@ -284,7 +284,7 @@ export default class Pagination extends React.PureComponent {
             content: this.props.nextPageControlContent,
             value: Pagination.controls.NEXT,
             disabled: this.currentPage() === totalPages,
-            className: 'ui-pagination-control ui-pagination-control-next',
+            className: 'b-pagination-control b-pagination-control-next',
         });
 
         if (this.props.showJumpToLast) {
@@ -293,7 +293,7 @@ export default class Pagination extends React.PureComponent {
                 content: this.props.jumpToLastControlContent,
                 value: Pagination.controls.LAST,
                 disabled: this.currentPage() === totalPages,
-                className: 'ui-pagination-control ui-pagination-control-last',
+                className: 'b-pagination-control b-pagination-control-last',
             });
         }
 
@@ -303,7 +303,7 @@ export default class Pagination extends React.PureComponent {
                 content: this.props.customControlContent,
                 value: uuid(),
                 disabled: true,
-                className: 'ui-pagination-control ui-pagination-control-custom',
+                className: 'b-pagination-control b-pagination-control-custom',
             });
         }
 
@@ -356,7 +356,7 @@ export default class Pagination extends React.PureComponent {
             <ArrowKeyNavigation
                 {...props}
                 ref='itemList'
-                className={cx('ui-pagination-items', props.className)}>
+                className={cx('b-pagination-items', props.className)}>
                 {this.generateItems().map((item, index) => {
                     return (
                         <Item
@@ -387,8 +387,8 @@ export default class Pagination extends React.PureComponent {
             <SegmentedControl
                 {...props}
                 ref={`segmentedControl${positionCapitalized}`}
-                className={cx('ui-pagination-controls', props.className, {
-                    [`ui-pagination-controls-${positionLower}`]: true,
+                className={cx('b-pagination-controls', props.className, {
+                    [`b-pagination-controls-${positionLower}`]: true,
                 })}
                 options={this.createPageButtonOptions()}
                 onOptionSelected={this.handleClick} />
@@ -402,7 +402,7 @@ export default class Pagination extends React.PureComponent {
         return (
             <div
                 ref='paginatedView'
-                className='ui-pagination'>
+                className='b-pagination'>
                 {
                       (props.position === position.ABOVE || props.position === position.BOTH)
                     ? this.renderControls(position.ABOVE)
@@ -428,7 +428,7 @@ export default class Pagination extends React.PureComponent {
             <div
                 {...omit(this.props, Pagination.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-pagination-wrapper', this.props.className)}>
+                className={cx('b-pagination-wrapper', this.props.className)}>
                 {this.renderView()}
             </div>
         );

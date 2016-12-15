@@ -37,11 +37,11 @@ export default class Tooltip extends React.PureComponent {
         return (
             <this.props.component
                 {...omit(this.props, Tooltip.internalKeys)}
-                className={cx('ui-tooltip', this.props.className, {
-                    'ui-tooltip-position-above': position === Tooltip.position.ABOVE,
-                    'ui-tooltip-position-below': position === Tooltip.position.BELOW,
-                    'ui-tooltip-position-before': position === Tooltip.position.BEFORE,
-                    'ui-tooltip-position-after': position === Tooltip.position.AFTER,
+                className={cx('b-tooltip', this.props.className, {
+                    'b-tooltip-position-above': position === Tooltip.position.ABOVE,
+                    'b-tooltip-position-below': position === Tooltip.position.BELOW,
+                    'b-tooltip-position-before': position === Tooltip.position.BEFORE,
+                    'b-tooltip-position-after': position === Tooltip.position.AFTER,
                 })}
                 data-tooltip={this.props.text}
                 aria-label={this.props['aria-label'] || this.props.text}>

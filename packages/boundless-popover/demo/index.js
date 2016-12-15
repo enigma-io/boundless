@@ -116,7 +116,7 @@ export default class PopoverDemo extends React.PureComponent {
             <div>
                 <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
 
-                <div className='ui-spread-even'>
+                <div className='spread'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <div key={definition.word}>

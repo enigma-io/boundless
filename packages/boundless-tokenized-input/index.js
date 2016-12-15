@@ -201,7 +201,7 @@ export default class TokenizedInput extends React.PureComponent {
     renderTokenClose(index) {
         if (this.props.tokenCloseVisible) {
             return React.cloneElement(this.props.tokenCloseComponent, {
-                className: cx('ui-tokenfield-token-close', this.props.tokenCloseComponent.props.className),
+                className: cx('b-tokenfield-token-close', this.props.tokenCloseComponent.props.className),
                 onClick: this.handleTokenCloseClick.bind(this, index),
             });
         }
@@ -225,14 +225,14 @@ export default class TokenizedInput extends React.PureComponent {
 
     renderTokens() {
         return (
-            <div className='ui-tokenfield-tokens'>
+            <div className='b-tokenfield-tokens'>
                 {this.props.tokens.map((index) => {
                     return (
                         <div
                             ref={`token_${index}`}
                             key={index}
-                            className={cx('ui-tokenfield-token', {
-                               'ui-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
+                            className={cx('b-tokenfield-token', {
+                               'b-tokenfield-token-selected': this.props.tokensSelected.indexOf(index) !== -1,
                             })}
                             onClick={this.selectToken.bind(this, index)}
                             onKeyDown={this.handleTokenKeyDown.bind(this, index)}
@@ -251,14 +251,14 @@ export default class TokenizedInput extends React.PureComponent {
             <div
                 {...omit(this.props, TokenizedInput.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-tokenfield-wrapper', this.props.className)}
+                className={cx('b-tokenfield-wrapper', this.props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderTokens()}
 
                 <Typeahead
                     {...extractChildProps(this.props, Typeahead.defaultProps)}
                     ref='typeahead'
-                    className='ui-tokenfield'
+                    className='b-tokenfield'
                     clearPartialInputOnSelection={true}
                     inputProps={{
                         ...this.props.inputProps,

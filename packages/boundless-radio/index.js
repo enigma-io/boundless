@@ -52,8 +52,8 @@ export default class Radio extends React.PureComponent {
                 ref='input'
                 type='radio'
                 id={this.props.id || this.props.inputProps.id || this.uuid}
-                className={cx('ui-radio', this.props.inputProps.className, {
-                    'ui-radio-selected': this.props.selected,
+                className={cx('b-radio', this.props.inputProps.className, {
+                    'b-radio-selected': this.props.selected,
                 })}
                 name={this.props.name}
                 value={this.props.value}
@@ -69,7 +69,7 @@ export default class Radio extends React.PureComponent {
                 <label
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx('ui-radio-label', this.props.labelProps.className)}
+                    className={cx('b-radio-label', this.props.labelProps.className)}
                     htmlFor={this.props.id || this.props.inputProps.id || this.uuid}>
                     {this.props.label}
                 </label>
@@ -82,7 +82,7 @@ export default class Radio extends React.PureComponent {
             <div
                 {...omit(this.props, Radio.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-radio-wrapper', this.props.className)}>
+                className={cx('b-radio-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>

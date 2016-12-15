@@ -18,7 +18,7 @@ describe('fitted text component', () => {
         it('an additional class as a string without replacing the core hook', () => {
             const text = render(<FittedText className='foo' />);
 
-            expect(ReactDOM.findDOMNode(text).classList.contains('ui-text')).toBe(true);
+            expect(ReactDOM.findDOMNode(text).classList.contains('b-text')).toBe(true);
             expect(ReactDOM.findDOMNode(text).classList.contains('foo')).toBe(true);
         });
 
@@ -38,10 +38,10 @@ describe('fitted text component', () => {
     });
 
     describe('CSS hooks', () => {
-        it('renders .ui-text', () => {
+        it('renders .b-text', () => {
             const text = render(<FittedText />);
 
-            expect(ReactDOM.findDOMNode(text).classList.contains('ui-text')).toBe(true);
+            expect(ReactDOM.findDOMNode(text).classList.contains('b-text')).toBe(true);
         });
     });
 

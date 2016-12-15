@@ -81,27 +81,27 @@ describe('Image component', () => {
         it('an additional class as a string without replacing the core hook', () => {
             const element = render(<Image {...baseProps} className='hero-image' />);
 
-            ['ui-image-wrapper', 'hero-image'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
+            ['b-image-wrapper', 'hero-image'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
         });
     });
 
     describe('CSS hook', () => {
-        it('renders .ui-image-wrapper', () => {
+        it('renders .b-image-wrapper', () => {
             const element = render(<Image {...baseProps} />);
 
-            expect(element.refs.wrapper.classList.contains('ui-image-wrapper')).toBe(true);
+            expect(element.refs.wrapper.classList.contains('b-image-wrapper')).toBe(true);
         });
 
-        it('renders .ui-image', () => {
+        it('renders .b-image', () => {
             const element = render(<Image {...baseProps} />);
 
-            expect(element.refs.image.classList.contains('ui-image')).toBe(true);
+            expect(element.refs.image.classList.contains('b-image')).toBe(true);
         });
 
-        it('renders .ui-image-status', () => {
+        it('renders .b-image-status', () => {
             const element = render(<Image {...baseProps} />);
 
-            expect(element.refs.status.classList.contains('ui-image-status')).toBe(true);
+            expect(element.refs.status.classList.contains('b-image-status')).toBe(true);
         });
     });
 
@@ -146,21 +146,21 @@ describe('Image component', () => {
 
         it('returns the correct class hook for error', (done) => {
             element.setState({ status: Image.status.ERROR }, () => {
-                expect(element.refs.status.classList.contains('ui-image-error')).toBe(true);
+                expect(element.refs.status.classList.contains('b-image-error')).toBe(true);
                 done();
             });
         });
 
         it('returns the correct class hook for loading', (done) => {
             element.setState({ status: Image.status.LOADING }, () => {
-                expect(element.refs.status.classList.contains('ui-image-loading')).toBe(true);
+                expect(element.refs.status.classList.contains('b-image-loading')).toBe(true);
                 done();
             });
         });
 
         it('returns the correct class hook for loaded', (done) => {
             element.setState({ status: Image.status.LOADED }, () => {
-                expect(element.refs.status.classList.contains('ui-image-loaded')).toBe(true);
+                expect(element.refs.status.classList.contains('b-image-loaded')).toBe(true);
                 done();
             });
         });

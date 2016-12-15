@@ -45,7 +45,7 @@ export default class Progress extends React.PureComponent {
                 <div
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx('ui-progress-label', this.props.labelProps.className)}>
+                    className={cx('b-progress-label', this.props.labelProps.className)}>
                     {this.props.label}
                 </div>
             );
@@ -58,7 +58,7 @@ export default class Progress extends React.PureComponent {
                 <Button
                     {...this.props.cancelProps}
                     ref='cancel'
-                    className={cx('ui-progress-cancel', this.props.cancelProps.className)}
+                    className={cx('b-progress-cancel', this.props.cancelProps.className)}
                     onPressed={this.props.onCancel} />
             );
         }
@@ -69,8 +69,8 @@ export default class Progress extends React.PureComponent {
             <div
                 {...this.props.progressProps}
                 ref='progress'
-                className={cx('ui-progress', this.props.progressProps.className, {
-                    'ui-progress-indeterminate': typeof this.props.progress === 'undefined',
+                className={cx('b-progress', this.props.progressProps.className, {
+                    'b-progress-indeterminate': typeof this.props.progress === 'undefined',
                 })}
                 role='presentation'
                 style={{
@@ -85,7 +85,7 @@ export default class Progress extends React.PureComponent {
             <this.props.component
                 {...omit(this.props, Progress.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-progress-wrapper', this.props.className)}>
+                className={cx('b-progress-wrapper', this.props.className)}>
                 {this.renderProgress()}
                 {this.renderLabel()}
                 {this.renderCancel()}

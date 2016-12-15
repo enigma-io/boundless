@@ -30,7 +30,7 @@ describe('Typeahead component', () => {
     it('accepts an additional class as a string without replacing the core hook', () => {
         const element = render(<Typeahead className='foo bar' />);
 
-        ['ui-typeahead-wrapper', 'foo', 'bar'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
+        ['b-typeahead-wrapper', 'foo', 'bar'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
     });
 
     it('accepts a custom offscreen class for the ARIA notification element', () => {
@@ -125,7 +125,7 @@ describe('Typeahead component', () => {
                 inputProps={{defaultValue: 'ap'}} />
         );
 
-        expect(document.querySelectorAll('.ui-typeahead-match').length).toEqual(2);
+        expect(document.querySelectorAll('.b-typeahead-match').length).toEqual(2);
 
         render(
             <Typeahead
@@ -134,57 +134,57 @@ describe('Typeahead component', () => {
                 inputProps={{defaultValue: 'ap'}} />
         );
 
-        expect(document.querySelectorAll('.ui-typeahead-match').length).toEqual(1);
+        expect(document.querySelectorAll('.b-typeahead-match').length).toEqual(1);
     });
 
     describe('CSS hook', () => {
-        it('ui-typeahead-wrapper is rendered', () => {
+        it('b-typeahead-wrapper is rendered', () => {
             const element = render(<Typeahead />);
             const node = element.refs.wrapper;
 
-            expect(node.classList.contains('ui-typeahead-wrapper')).toBe(true);
+            expect(node.classList.contains('b-typeahead-wrapper')).toBe(true);
         });
 
-        it('ui-typeahead is rendered', () => {
+        it('b-typeahead is rendered', () => {
             const element = render(<Typeahead />);
 
-            expect(element.getInputNode().classList.contains('ui-typeahead')).toBe(true);
+            expect(element.getInputNode().classList.contains('b-typeahead')).toBe(true);
         });
 
-        it('ui-typeahead-hint is rendered', () => {
+        it('b-typeahead-hint is rendered', () => {
             const element = render(<Typeahead hint={true} />);
 
-            expect(element.refs.hint.classList.contains('ui-typeahead-hint')).toBe(true);
+            expect(element.refs.hint.classList.contains('b-typeahead-hint')).toBe(true);
         });
 
-        it('ui-typeahead-match-wrapper is rendered', () => {
+        it('b-typeahead-match-wrapper is rendered', () => {
             const element = render(
                 <Typeahead
                     entities={entities}
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            expect(element.refs.matches.classList.contains('ui-typeahead-match-wrapper')).toBe(true);
+            expect(element.refs.matches.classList.contains('b-typeahead-match-wrapper')).toBe(true);
         });
 
-        it('ui-typeahead-match is rendered', () => {
+        it('b-typeahead-match is rendered', () => {
             render(
                 <Typeahead
                     entities={entities}
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            expect(document.querySelector('.ui-typeahead-match')).not.toBe(null);
+            expect(document.querySelector('.b-typeahead-match')).not.toBe(null);
         });
 
-        it('ui-typeahead-match-selected is rendered', () => {
+        it('b-typeahead-match-selected is rendered', () => {
             render(
                 <Typeahead
                     entities={entities}
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            expect(document.querySelector('.ui-typeahead-match-selected')).not.toBe(null);
+            expect(document.querySelector('.b-typeahead-match-selected')).not.toBe(null);
         });
 
         it('is added for the marked text inside each match', () => {
@@ -195,7 +195,7 @@ describe('Typeahead component', () => {
             );
 
             const node = element.refs.matches;
-            const matches = node.querySelectorAll('.ui-typeahead-match-highlight');
+            const matches = node.querySelectorAll('.b-typeahead-match-highlight');
 
             expect(matches.length).toBe(3);
         });
@@ -449,7 +449,7 @@ describe('Typeahead component', () => {
             expect(node.value).toBe('ap');
 
             // default selected should be 'apple'
-            document.querySelector('.ui-typeahead-match-selected').click();
+            document.querySelector('.b-typeahead-match-selected').click();
 
             expect(node.value).toBe('apple');
         });
@@ -459,19 +459,19 @@ describe('Typeahead component', () => {
 
             expect(node.value).toBe('ap');
 
-            expect(document.querySelector('.ui-typeahead-match-wrapper')).not.toBeNull();
+            expect(document.querySelector('.b-typeahead-match-wrapper')).not.toBeNull();
 
             // default selected should be 'apple'
-            document.querySelector('.ui-typeahead-match-selected').click();
+            document.querySelector('.b-typeahead-match-selected').click();
 
-            expect(document.querySelector('.ui-typeahead-match-wrapper')).toBeNull();
+            expect(document.querySelector('.b-typeahead-match-wrapper')).toBeNull();
         });
 
         it('contains a marked substring with the proper class', () => {
-            let node = document.querySelector('.ui-typeahead-match');
+            let node = document.querySelector('.b-typeahead-match');
 
             expect(node.textContent).toBe('apple');
-            expect(node.querySelector('.ui-typeahead-match-highlight').textContent).toBe('ap');
+            expect(node.querySelector('.b-typeahead-match-highlight').textContent).toBe('ap');
         });
     });
 
@@ -487,7 +487,7 @@ describe('Typeahead component', () => {
             expect(element.getValue()).toBe('ap');
 
             // default selected should be 'apple'
-            document.querySelector('.ui-typeahead-match-selected').click();
+            document.querySelector('.b-typeahead-match-selected').click();
 
             expect(element.getValue()).toBe('');
         });
@@ -514,7 +514,7 @@ describe('Typeahead component', () => {
             );
 
             expect(element.refs.match_$0.textContent).toBe('grappa');
-            expect(element.refs.match_$0.querySelectorAll('.ui-typeahead-match-highlight').length).toBe(2);
+            expect(element.refs.match_$0.querySelectorAll('.b-typeahead-match-highlight').length).toBe(2);
         });
     });
 
@@ -589,7 +589,7 @@ describe('Typeahead component', () => {
                     }} />
             );
 
-            expect(document.querySelectorAll('.ui-typeahead-match').length).toBe(3);
+            expect(document.querySelectorAll('.b-typeahead-match').length).toBe(3);
 
             render(
                 <Typeahead
@@ -600,7 +600,7 @@ describe('Typeahead component', () => {
                     }} />
             );
 
-            expect(document.querySelectorAll('.ui-typeahead-match').length).toBe(1);
+            expect(document.querySelectorAll('.b-typeahead-match').length).toBe(1);
         });
     });
 

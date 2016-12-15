@@ -17,11 +17,11 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-wrapper` node
 
 - __cancelProps__ `Object`
     - __cancelProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
 
 - __component__ `string|function`
   any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
@@ -31,7 +31,7 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 - __labelProps__ `Object`
     - __labelProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-label` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node
 
 - __onCancel__ `Function`
   if supplied, adds a cancel element and calls this function when that element is clicked
@@ -41,7 +41,7 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 - __progressProps__ `Object`
     - __progressProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
 
 - __tweenProperty__ `String`
   the CSS property to tween (must accept percentages) - defaults to "width"

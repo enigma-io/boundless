@@ -3,7 +3,7 @@ import Button from '../../boundless-button/index';
 import FittedText from '../index';
 
 export default () => (
-    <div className='ui-spread-even'>
+    <div className='spread'>
         <Button className='tall-button'>
             <FittedText maxFontSize={24}>Welcome</FittedText>
         </Button>

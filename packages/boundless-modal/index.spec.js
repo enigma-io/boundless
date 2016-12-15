@@ -14,39 +14,39 @@ describe('Modal component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Modal, {}, '$modal'));
 
-    it('renders .ui-modal', () => {
+    it('renders .b-modal', () => {
         render(<Modal>foo</Modal>);
-        expect(document.querySelector('.ui-modal')).not.toBe(null);
+        expect(document.querySelector('.b-modal')).not.toBe(null);
     });
 
-    it('renders .ui-modal-mask', () => {
+    it('renders .b-modal-mask', () => {
         render(<Modal>foo</Modal>);
-        expect(document.querySelector('.ui-modal-mask')).not.toBe(null);
+        expect(document.querySelector('.b-modal-mask')).not.toBe(null);
     });
 
-    it('renders .ui-modal-wrapper', () => {
+    it('renders .b-modal-wrapper', () => {
         render(<Modal>foo</Modal>);
-        expect(document.querySelector('.ui-modal-wrapper')).not.toBe(null);
+        expect(document.querySelector('.b-modal-wrapper')).not.toBe(null);
     });
 
     it('accepts arbitrary HTML attributes via props.modalProps', () => {
         render(<Modal modalProps={{'data-id': 'foo'}} />);
-        expect(document.querySelector('.ui-modal').getAttribute('data-id')).toBe('foo');
+        expect(document.querySelector('.b-modal').getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts extra classes via props.modalProps.className', () => {
         render(<Modal modalProps={{className: 'foo'}} />);
-        expect(document.querySelector('.ui-modal').classList.contains('foo')).toBe(true);
+        expect(document.querySelector('.b-modal').classList.contains('foo')).toBe(true);
     });
 
     it('accepts arbitrary HTML attributes via props.maskProps', () => {
         render(<Modal maskProps={{'data-id': 'foo'}} />);
-        expect(document.querySelector('.ui-modal-mask').getAttribute('data-id')).toBe('foo');
+        expect(document.querySelector('.b-modal-mask').getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts extra classes via props.maskProps.className', () => {
         render(<Modal maskProps={{className: 'foo'}} />);
-        expect(document.querySelector('.ui-modal-mask').classList.contains('foo')).toBe(true);
+        expect(document.querySelector('.b-modal-mask').classList.contains('foo')).toBe(true);
     });
 
     describe('passthrough to Dialog', () => {
@@ -64,28 +64,28 @@ describe('Modal component', () => {
         });
 
         it('passes down props.header', () => {
-            expect(document.querySelector('.ui-dialog-header').textContent).toContain('foo');
+            expect(document.querySelector('.b-dialog-header').textContent).toContain('foo');
         });
 
         it('passes down props.headerProps', () => {
-            expect(document.querySelector('.ui-dialog-header').classList.contains('foo')).toBe(true);
+            expect(document.querySelector('.b-dialog-header').classList.contains('foo')).toBe(true);
         });
 
         it('passes down nested children', () => {
             render(<Modal>foo</Modal>);
-            expect(document.querySelector('.ui-dialog-body').textContent).toContain('foo');
+            expect(document.querySelector('.b-dialog-body').textContent).toContain('foo');
         });
 
         it('passes down props.bodyProps', () => {
-            expect(document.querySelector('.ui-dialog-body').classList.contains('foo')).toBe(true);
+            expect(document.querySelector('.b-dialog-body').classList.contains('foo')).toBe(true);
         });
 
         it('passes down props.footer', () => {
-            expect(document.querySelector('.ui-dialog-footer').textContent).toContain('baz');
+            expect(document.querySelector('.b-dialog-footer').textContent).toContain('baz');
         });
 
         it('passes down props.footerProps', () => {
-            expect(document.querySelector('.ui-dialog-footer').classList.contains('foo')).toBe(true);
+            expect(document.querySelector('.b-dialog-footer').classList.contains('foo')).toBe(true);
         });
     });
 

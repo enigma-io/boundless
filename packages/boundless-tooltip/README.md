@@ -7,7 +7,7 @@ Nest any React-renderable content inside the `Tooltip` wrapper as you would a si
 
 ### Available `props`
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tooltip` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-tooltip` node
 
 - __component__ `string|function`
   any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`

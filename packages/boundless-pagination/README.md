@@ -30,7 +30,7 @@ When using `Pagination` in your project, you may call the following methods on a
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-pagination` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.b-pagination` node
 
 - __after__ `*`
   (default `null`) arbitrary content to be rendered after the items in the DOM
@@ -67,7 +67,7 @@ When using `Pagination` in your project, you may call the following methods on a
 
 - __listWrapperProps__ `Object`
     - __listWrapperProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-pagination-item-list` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-pagination-item-list` node
 
 - __nextPageControlContent__ `Node (any React-renderable content)`
   (default `'Next ›'`) content to be displayed inside of the "Next page" control button
@@ -88,7 +88,7 @@ When using `Pagination` in your project, you may call the following methods on a
   (default `true`) whether the "Last page" control button should be displayed
 
 - __showPaginationState__ `Boolean|Function`
-  (default `false`) renders an element called `.ui-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
+  (default `false`) renders an element called `.b-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
 
   ```jsx
   showPaginatedState={(currentPage, totalPages) => <div className='foo'>You're on page {currentPage} of {totalPages} pages!</div>}
@@ -102,4 +102,4 @@ When using `Pagination` in your project, you may call the following methods on a
 
 - __toggleWrapperProps__ `Object`
     - __toggleWrapperProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.ui-pagination-controls`
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.b-pagination-controls`

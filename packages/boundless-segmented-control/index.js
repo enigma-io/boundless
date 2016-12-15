@@ -150,8 +150,8 @@ export default class SegmentedControl extends React.PureComponent {
                     aria-checked={String(definition.selected)}
                     ref={'option_$' + index}
                     key={definition.value}
-                    className={cx('ui-segmented-control-option', definition.className, {
-                        'ui-segmented-control-option-selected': definition.selected,
+                    className={cx('b-segmented-control-option', definition.className, {
+                        'b-segmented-control-option-selected': definition.selected,
                     })}
                     tabIndex={definition.selected ? '0' : '-1'}
                     onBlur={this.handleOptionBlur.bind(this, definition)}
@@ -169,7 +169,7 @@ export default class SegmentedControl extends React.PureComponent {
                 {...omit(this.props, SegmentedControl.internalKeys)}
                 ref='wrapper'
                 role='radiogroup'
-                className={cx('ui-segmented-control', this.props.className)}
+                className={cx('b-segmented-control', this.props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderOptions()}
             </div>

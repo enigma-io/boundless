@@ -3,47 +3,47 @@
 caret-size = 16px
 caret-adjustment = -3px
 
-.ui-popover {
+.b-popover {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
     outline: 0;
 }
 
-.ui-popover .ui-dialog {
+.b-popover .b-dialog {
     border-color: borderColor-Popover_outline;
     box-shadow: none;
     max-width: 400px;
 }
 
-.ui-popover-caret {
+.b-popover-caret {
     position: relative;
     height: caret-size;
     width: caret-size;
 }
 
-.ui-popover-caret-border {
+.b-popover-caret-border {
     fill: borderColor-Popover_outline;
 }
 
-.ui-popover-caret-fill {
+.b-popover-caret-fill {
     fill: background-Dialog;
 }
 
-.ui-popover .ui-dialog-body {
+.b-popover .b-dialog-body {
     padding: 0;
 }
 
-.ui-popover-anchor-x-middle,
-.ui-popover-anchor-y-middle,
-.ui-popover-self-x-middle,
-.ui-popover-self-y-middle {
+.b-popover-anchor-x-middle,
+.b-popover-anchor-y-middle,
+.b-popover-self-x-middle,
+.b-popover-self-y-middle {
     align-items: center;
 }
 
 // above the anchor
-.ui-popover-anchor-y-start.ui-popover-self-y-end {
-    .ui-popover-caret {
+.b-popover-anchor-y-start.b-popover-self-y-end {
+    .b-popover-caret {
         margin-top: caret-adjustment;
         order: 2;
         transform: rotate(180deg);
@@ -51,17 +51,17 @@ caret-adjustment = -3px
 }
 
 // below the anchor
-.ui-popover-anchor-y-end.ui-popover-self-y-start {
-    .ui-popover-caret {
+.b-popover-anchor-y-end.b-popover-self-y-start {
+    .b-popover-caret {
         margin-bottom: caret-adjustment;
     }
 }
 
 // left of the anchor
-.ui-popover-anchor-x-start.ui-popover-self-x-end {
+.b-popover-anchor-x-start.b-popover-self-x-end {
     flex-direction: row;
 
-    .ui-popover-caret {
+    .b-popover-caret {
         margin-left: caret-adjustment;
         order: 2;
         transform: rotate(90deg);
@@ -69,10 +69,10 @@ caret-adjustment = -3px
 }
 
 // right of the anchor
-.ui-popover-anchor-x-end.ui-popover-self-x-start {
+.b-popover-anchor-x-end.b-popover-self-x-start {
     flex-direction: row;
 
-    .ui-popover-caret {
+    .b-popover-caret {
         margin-right: caret-adjustment;
         transform: rotate(-90deg);
     }

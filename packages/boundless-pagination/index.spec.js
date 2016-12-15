@@ -25,7 +25,7 @@ const itemToJSX = (data) => {
     );
 };
 
-// index 3 is for the ui-pagination-view-content-item-loading css hook test
+// index 3 is for the b-pagination-view-content-item-loading css hook test
 const itemGetter = (index) => index === 3 ? new Promise(noop) : itemToJSX(items[index]);
 const altItemGetter = (index) => index === 3 ? new Promise(noop) : itemToJSX(altItems[index]);
 const nonJSXItemGetter = (index) => index === 3 ? new Promise(noop) : items[index];
@@ -54,79 +54,79 @@ describe('Pagination component', () => {
     describe('CSS hooks', () => {
         beforeEach(() => render(<Pagination {...baseProps} />));
 
-        it('ui-pagination is rendered', () => {
-            expect(document.querySelector('.ui-pagination')).not.toBe(null);
+        it('b-pagination is rendered', () => {
+            expect(document.querySelector('.b-pagination')).not.toBe(null);
         });
 
-        it('ui-pagination-items is rendered', () => {
-            expect(document.querySelector('.ui-pagination-items')).not.toBe(null);
+        it('b-pagination-items is rendered', () => {
+            expect(document.querySelector('.b-pagination-items')).not.toBe(null);
         });
 
-        it('ui-pagination-item is rendered', () => {
-            expect(document.querySelector('.ui-pagination-item')).not.toBe(null);
+        it('b-pagination-item is rendered', () => {
+            expect(document.querySelector('.b-pagination-item')).not.toBe(null);
         });
 
-        it('ui-pagination-item-even is rendered', () => {
-            expect(document.querySelector('.ui-pagination-item-even')).not.toBe(null);
+        it('b-pagination-item-even is rendered', () => {
+            expect(document.querySelector('.b-pagination-item-even')).not.toBe(null);
         });
 
-        it('ui-pagination-item-loading is rendered', () => {
-            expect(document.querySelector('.ui-pagination-item-loading')).not.toBe(null);
+        it('b-pagination-item-loading is rendered', () => {
+            expect(document.querySelector('.b-pagination-item-loading')).not.toBe(null);
         });
 
-        it('ui-pagination-item-odd is rendered', () => {
-            expect(document.querySelector('.ui-pagination-item-odd')).not.toBe(null);
+        it('b-pagination-item-odd is rendered', () => {
+            expect(document.querySelector('.b-pagination-item-odd')).not.toBe(null);
         });
 
-        it('ui-pagination-controls is rendered', () => {
-            expect(document.querySelector('.ui-pagination-controls')).not.toBe(null);
+        it('b-pagination-controls is rendered', () => {
+            expect(document.querySelector('.b-pagination-controls')).not.toBe(null);
         });
 
-        it('ui-pagination-controls-above is rendered', () => {
-            expect(document.querySelector('.ui-pagination-controls-above')).not.toBe(null);
+        it('b-pagination-controls-above is rendered', () => {
+            expect(document.querySelector('.b-pagination-controls-above')).not.toBe(null);
         });
 
-        it('ui-pagination-controls-below is rendered', () => {
+        it('b-pagination-controls-below is rendered', () => {
             render(<Pagination {...baseProps} position={Pagination.positions.BELOW} />);
-            expect(document.querySelector('.ui-pagination-controls-below')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-controls-below')).not.toBe(null);
         });
 
-        it('ui-pagination-controls-above and ui-pagination-controls-below is rendered if `props.position` is set to BOTH', () => {
+        it('b-pagination-controls-above and b-pagination-controls-below is rendered if `props.position` is set to BOTH', () => {
             render(<Pagination {...baseProps} position={Pagination.positions.BOTH} />);
-            expect(document.querySelector('.ui-pagination-controls-above')).not.toBe(null);
-            expect(document.querySelector('.ui-pagination-controls-below')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-controls-above')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-controls-below')).not.toBe(null);
         });
 
-        it('ui-pagination-control-state is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-state')).not.toBe(null);
+        it('b-pagination-control-state is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-state')).not.toBe(null);
         });
 
-        it('ui-pagination-control-first is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-first')).not.toBe(null);
+        it('b-pagination-control-first is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-first')).not.toBe(null);
         });
 
-        it('ui-pagination-control-previous is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-previous')).not.toBe(null);
+        it('b-pagination-control-previous is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-previous')).not.toBe(null);
         });
 
-        it('ui-pagination-control-next is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-next')).not.toBe(null);
+        it('b-pagination-control-next is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-next')).not.toBe(null);
         });
 
-        it('ui-pagination-control-last is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-last')).not.toBe(null);
+        it('b-pagination-control-last is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-last')).not.toBe(null);
         });
 
-        it('ui-pagination-control is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control')).not.toBe(null);
+        it('b-pagination-control is rendered', () => {
+            expect(document.querySelector('.b-pagination-control')).not.toBe(null);
         });
 
-        it('ui-pagination-control-custom is rendered', () => {
-            expect(document.querySelector('.ui-pagination-control-custom')).not.toBe(null);
+        it('b-pagination-control-custom is rendered', () => {
+            expect(document.querySelector('.b-pagination-control-custom')).not.toBe(null);
         });
 
-        it('ui-pagination-wrapper is rendered', () => {
-            expect(document.querySelector('.ui-pagination-wrapper')).not.toBe(null);
+        it('b-pagination-wrapper is rendered', () => {
+            expect(document.querySelector('.b-pagination-wrapper')).not.toBe(null);
         });
     });
 
@@ -395,17 +395,17 @@ describe('Pagination component', () => {
             it('displays the first page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-first'));
+                Simulate.click(document.querySelector('.b-pagination-control-first'));
                 expect(element.currentPage()).toEqual(1);
             });
 
             it('does nothing when on first page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-first'));
+                Simulate.click(document.querySelector('.b-pagination-control-first'));
                 expect(element.currentPage()).toEqual(1);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-first'));
+                Simulate.click(document.querySelector('.b-pagination-control-first'));
                 expect(element.currentPage()).toEqual(1);
             });
         });
@@ -414,17 +414,17 @@ describe('Pagination component', () => {
             it('displays the last page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-last'));
+                Simulate.click(document.querySelector('.b-pagination-control-last'));
                 expect(element.currentPage()).toEqual(10);
             });
 
             it('does nothing when on the last page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-last'));
+                Simulate.click(document.querySelector('.b-pagination-control-last'));
                 expect(element.currentPage()).toEqual(10);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-last'));
+                Simulate.click(document.querySelector('.b-pagination-control-last'));
                 expect(element.currentPage()).toEqual(10);
             });
         });
@@ -433,17 +433,17 @@ describe('Pagination component', () => {
             it('displays the previous page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-previous'));
+                Simulate.click(document.querySelector('.b-pagination-control-previous'));
                 expect(element.currentPage()).toEqual(2);
             });
 
             it('does nothing when on the first page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-first'));
+                Simulate.click(document.querySelector('.b-pagination-control-first'));
                 expect(element.currentPage()).toEqual(1);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-previous'));
+                Simulate.click(document.querySelector('.b-pagination-control-previous'));
                 expect(element.currentPage()).toEqual(1);
             });
         });
@@ -452,30 +452,30 @@ describe('Pagination component', () => {
             it('displays the next page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-next'));
+                Simulate.click(document.querySelector('.b-pagination-control-next'));
                 expect(element.currentPage()).toEqual(4);
             });
 
             it('does nothing when on the last page', () => {
                 expect(element.currentPage()).toEqual(3);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-last'));
+                Simulate.click(document.querySelector('.b-pagination-control-last'));
                 expect(element.currentPage()).toEqual(10);
 
-                Simulate.click(document.querySelector('.ui-pagination-control-next'));
+                Simulate.click(document.querySelector('.b-pagination-control-next'));
                 expect(element.currentPage()).toEqual(10);
             });
         });
 
         describe('numerical controls', () => {
             it('displays that page', () => {
-                Simulate.click(document.querySelector('.ui-pagination-control[data-page-number="4"]'));
+                Simulate.click(document.querySelector('.b-pagination-control[data-page-number="4"]'));
                 expect(element.currentPage()).toEqual(4);
             });
         });
 
         it('focuses the first item in the resulting content list', () => {
-            Simulate.click(document.querySelector('.ui-pagination-control[data-page-number="4"]'));
+            Simulate.click(document.querySelector('.b-pagination-control[data-page-number="4"]'));
             expect(document.activeElement).toEqual(dom(element.refs.item_0));
         });
     });
@@ -518,7 +518,7 @@ describe('Pagination component', () => {
                     customControlContent={<div className='foo' />} />
             );
 
-            expect(document.querySelector('.ui-pagination-control-custom .foo')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-control-custom .foo')).not.toBe(null);
         });
     });
 
@@ -532,24 +532,24 @@ describe('Pagination component', () => {
     describe('showJumpToFirst', () => {
         it('set as `true` renders the "first" control button', () => {
             render(<Pagination {...baseProps} showJumpToFirst={true} />);
-            expect(document.querySelector('.ui-pagination-control-first')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-control-first')).not.toBe(null);
         });
 
         it('set as `false` will not render the "first" control button', () => {
             render(<Pagination {...baseProps} showJumpToFirst={false} />);
-            expect(document.querySelector('.ui-pagination-control-fist')).toBe(null);
+            expect(document.querySelector('.b-pagination-control-fist')).toBe(null);
         });
     });
 
     describe('showJumpToLast', () => {
         it('set as `true` renders the "last" control button', () => {
             render(<Pagination {...baseProps} showJumpToLast={true} />);
-            expect(document.querySelector('.ui-pagination-control-last')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-control-last')).not.toBe(null);
         });
 
         it('set as `false` will not render the "last" control button', () => {
             render(<Pagination {...baseProps} showJumpToLast={false} />);
-            expect(document.querySelector('.ui-pagination-control-last')).toBe(null);
+            expect(document.querySelector('.b-pagination-control-last')).toBe(null);
         });
     });
 
@@ -562,7 +562,7 @@ describe('Pagination component', () => {
                     showPaginationState={true} />
             );
 
-            expect(document.querySelector('.ui-pagination-control-state').textContent).toEqual(`1 of ${Math.ceil(items.length / 2)}`);
+            expect(document.querySelector('.b-pagination-control-state').textContent).toEqual(`1 of ${Math.ceil(items.length / 2)}`);
         });
 
         it('set as `false` does not render the current page index and total number of pages', () => {
@@ -573,7 +573,7 @@ describe('Pagination component', () => {
                     showPaginationState={false} />
             );
 
-            expect(document.querySelector('.ui-pagination-control-state')).toBe(null);
+            expect(document.querySelector('.b-pagination-control-state')).toBe(null);
         });
 
         it('set as a function calls the given function with the current and total pages and renders returned JSX', () => {
@@ -584,7 +584,7 @@ describe('Pagination component', () => {
                     showPaginationState={(currentPage, totalPages) => <span>foo {currentPage} bar {totalPages}</span>} />
             );
 
-            expect(document.querySelector('.ui-pagination-control-state').textContent).toEqual(`foo 1 bar ${Math.ceil(items.length / 2)}`);
+            expect(document.querySelector('.b-pagination-control-state').textContent).toEqual(`foo 1 bar ${Math.ceil(items.length / 2)}`);
         });
     });
 
@@ -643,7 +643,7 @@ describe('Pagination component', () => {
                     numPageToggles={3} />
             );
 
-            const nodes = document.querySelectorAll('.ui-pagination-control[data-page-number]');
+            const nodes = document.querySelectorAll('.b-pagination-control[data-page-number]');
 
             expect(nodes.length).toEqual(3);
         });
@@ -659,7 +659,7 @@ describe('Pagination component', () => {
                     numPageToggles={3} />
             );
 
-            expect(document.querySelector('.ui-pagination-controls')).toBe(null);
+            expect(document.querySelector('.b-pagination-controls')).toBe(null);
         });
 
         it('renders the pager if total items are less than or equal to the requested number of items per page when set to `false`', () => {
@@ -671,7 +671,7 @@ describe('Pagination component', () => {
                     numPageToggles={3} />
             );
 
-            expect(document.querySelector('.ui-pagination-controls')).not.toBe(null);
+            expect(document.querySelector('.b-pagination-controls')).not.toBe(null);
         });
     });
 

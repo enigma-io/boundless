@@ -44,7 +44,7 @@ describe('TokenizedInput component', () => {
         const element = render(<TokenizedInput className='foo' />);
         const node = element.refs.wrapper;
 
-        ['ui-tokenfield-wrapper', 'foo'].forEach((name) => {
+        ['b-tokenfield-wrapper', 'foo'].forEach((name) => {
             expect(node.classList.contains(name)).toBe(true);
 
         });
@@ -60,43 +60,43 @@ describe('TokenizedInput component', () => {
 
         const node = element.refs.wrapper;
 
-        expect(node.querySelector('.ui-tokenfield-token-close').textContent).toBe('foo');
+        expect(node.querySelector('.b-tokenfield-token-close').textContent).toBe('foo');
     });
 
-    it('renders .ui-tokenfield-wrapper', () => {
+    it('renders .b-tokenfield-wrapper', () => {
         const element = render(<TokenizedInput />);
         const node = element.refs.wrapper;
 
-        expect(node.className).toContain('ui-tokenfield-wrapper');
+        expect(node.className).toContain('b-tokenfield-wrapper');
     });
 
-    it('renders .ui-tokenfield', () => {
+    it('renders .b-tokenfield', () => {
         const element = render(<TokenizedInput />);
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield');
 
         expect(node).not.toBe(null);
     });
 
-    it('renders .ui-tokenfield-tokens', () => {
+    it('renders .b-tokenfield-tokens', () => {
         const element = render(<TokenizedInput />);
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield-tokens');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield-tokens');
 
         expect(node).not.toBe(null);
     });
 
-    it('renders .ui-tokenfield-token', () => {
+    it('renders .b-tokenfield-token', () => {
         const element = render(
             <TokenizedInput
                 entities={entities}
                 tokens={[0]} />
         );
 
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield-token');
 
         expect(node).not.toBe(null);
     });
 
-    it('renders .ui-tokenfield-token-selected', () => {
+    it('renders .b-tokenfield-token-selected', () => {
         const element = render(
             <TokenizedInput
                 entities={entities}
@@ -104,12 +104,12 @@ describe('TokenizedInput component', () => {
                 tokensSelected={[0]} />
         );
 
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-selected');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-selected');
 
         expect(node).not.toBe(null);
     });
 
-    it('renders .ui-tokenfield-token-close', () => {
+    it('renders .b-tokenfield-token-close', () => {
         const element = render(
             <TokenizedInput
                 entities={entities}
@@ -117,12 +117,12 @@ describe('TokenizedInput component', () => {
                 tokensSelected={[0]} />
         );
 
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-close');
 
         expect(node).not.toBe(null);
     });
 
-    it('does not render .ui-tokenfield-token-close if `tokenCloseVisible` is `false`', () => {
+    it('does not render .b-tokenfield-token-close if `tokenCloseVisible` is `false`', () => {
         const element = render(
             <TokenizedInput
                 entities={entities}
@@ -131,7 +131,7 @@ describe('TokenizedInput component', () => {
                 tokensSelected={[0]} />
         );
 
-        const node = element.refs.wrapper.querySelector('.ui-tokenfield-token-close');
+        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-close');
 
         expect(node).toBe(null);
     });
@@ -321,7 +321,7 @@ describe('TokenizedInput component', () => {
                     tokensSelected={[0]} />
             );
 
-            element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
+            element.refs.wrapper.querySelector('.b-tokenfield-token').focus();
             element.handleKeyDown({which: 39});
 
             expect(stub.called).toBe(true);
@@ -338,7 +338,7 @@ describe('TokenizedInput component', () => {
                     tokensSelected={[0]} />
             );
 
-            element.refs.wrapper.querySelector('.ui-tokenfield-token').focus();
+            element.refs.wrapper.querySelector('.b-tokenfield-token').focus();
             element.handleKeyDown({which: 39});
 
             expect(stub.called).toBe(true);

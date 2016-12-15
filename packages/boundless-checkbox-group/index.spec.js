@@ -66,20 +66,20 @@ describe('CheckboxGroup component', () => {
         const element = render(<CheckboxGroup className='foo bar' />);
         const node = element.refs.group;
 
-        ['ui-checkbox-group', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
+        ['b-checkbox-group', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
     });
 
-    it('renders .ui-checkbox-group', () => {
+    it('renders .b-checkbox-group', () => {
         const element = render(<CheckboxGroup items={items} />);
         const node = element.refs.group;
 
-        expect(node.classList.contains('ui-checkbox-group')).toBe(true);
+        expect(node.classList.contains('b-checkbox-group')).toBe(true);
     });
 
-    it('renders .ui-checkbox-group-selectall', () => {
+    it('renders .b-checkbox-group-selectall', () => {
         const element = render(<CheckboxGroup items={items} selectAll={true} />);
 
-        expect(ReactDOM.findDOMNode(element.refs.select_all).classList.contains('ui-checkbox-group-selectall')).toBe(true);
+        expect(ReactDOM.findDOMNode(element.refs.select_all).classList.contains('b-checkbox-group-selectall')).toBe(true);
     });
 
     describe('select all', () => {

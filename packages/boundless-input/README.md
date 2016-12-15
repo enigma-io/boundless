@@ -31,13 +31,13 @@ When using `Input` in your project, you may call the following methods on a rend
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-textual-input-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-input-wrapper` node
 
 - __hidePlaceholderOnFocus__ `Boolean`
   (default: true) triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
 - __inputProps__ `Object`
-  props to be passed through to the input node, `.ui-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+  props to be passed through to the input node, `.b-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
 
   - __inputProps.type__ `String`
     (default: "text")

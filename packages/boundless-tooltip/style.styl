@@ -1,10 +1,10 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-tooltip {
+.b-tooltip {
     position: relative;
 }
 
-.ui-tooltip::before {
+.b-tooltip::before {
     background: background-Tooltip;
     color: color-Tooltip;
     padding: 0.25rem 0.5rem;
@@ -12,62 +12,62 @@
     z-index: 1;
 }
 
-.ui-tooltip::after {
+.b-tooltip::after {
     border: 5px solid transparent;
     position: absolute;
     z-index: 1;
 }
 
-.ui-tooltip:hover::before {
+.b-tooltip:hover::before {
     content: attr(data-tooltip);
 }
 
-.ui-tooltip:hover::after {
+.b-tooltip:hover::after {
     content: '';
 }
 
-.ui-tooltip-position-above::before {
+.b-tooltip-position-above::before {
     bottom: 100%;
     margin-bottom: 0.5rem;
 }
 
-.ui-tooltip-position-above::after {
+.b-tooltip-position-above::after {
     border-top-color: background-Tooltip_arrow;
     bottom: 100%;
     left: 10px;
     margin-bottom: -2px;
 }
 
-.ui-tooltip-position-below::before {
+.b-tooltip-position-below::before {
     top: 100%;
     margin-top: 0.5rem;
 }
 
-.ui-tooltip-position-below::after {
+.b-tooltip-position-below::after {
     border-bottom-color: background-Tooltip_arrow;
     top: 100%;
     left: 10px;
     margin-top: -2px;
 }
 
-.ui-tooltip-position-before::before {
+.b-tooltip-position-before::before {
     right: 100%;
     margin-right: 0.5rem;
 }
 
-.ui-tooltip-position-before::after {
+.b-tooltip-position-before::after {
     border-left-color: background-Tooltip_arrow;
     right: 100%;
     top: 10px;
     margin-right: -2px;
 }
 
-.ui-tooltip-position-after::before {
+.b-tooltip-position-after::before {
     left: 100%;
     margin-left: 0.5rem;
 }
 
-.ui-tooltip-position-after::after {
+.b-tooltip-position-after::after {
     border-right-color: background-Tooltip_arrow;
     left: 100%;
     top: 10px;

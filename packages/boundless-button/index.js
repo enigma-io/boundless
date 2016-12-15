@@ -58,9 +58,9 @@ export default class Button extends React.PureComponent {
             <button
                 {...omit(this.props, Button.internalKeys)}
                 ref='button'
-                className={cx('ui-button', this.props.className, {
-                    'ui-button-pressable': typeof this.props.pressed !== 'undefined',
-                    'ui-button-pressed': this.props.pressed,
+                className={cx('b-button', this.props.className, {
+                    'b-button-pressable': typeof this.props.pressed !== 'undefined',
+                    'b-button-pressed': this.props.pressed,
                 })}
                 aria-pressed={this.props.pressed}
                 onKeyDown={this.handleKeyDown}

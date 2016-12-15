@@ -76,7 +76,7 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         if (this.state.expanded) {
             return (
                 <div ref='content'
-                     className='ui-disclosure-content'>
+                     className='b-disclosure-content'>
                     {this.props.children}
                 </div>
             );
@@ -88,14 +88,14 @@ export default class ProgressiveDisclosure extends React.PureComponent {
             <this.props.component
                 {...omit(this.props, ProgressiveDisclosure.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-disclosure', this.props.className, {
-                   'ui-disclosure-expanded': this.state.expanded,
+                className={cx('b-disclosure', this.props.className, {
+                   'b-disclosure-expanded': this.state.expanded,
                 })}>
 
                 <div
                     {...this.props.toggleProps}
                     ref='toggle'
-                    className={cx('ui-disclosure-toggle', this.props.toggleProps.className)}
+                    className={cx('b-disclosure-toggle', this.props.toggleProps.className)}
                     onClick={this.handleClick}
                     onKeyDown={this.handleKeyDown}
                     tabIndex='0'>

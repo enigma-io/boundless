@@ -64,25 +64,25 @@ describe('ProgressiveDisclosure component', () => {
     });
 
     describe('CSS hook', () => {
-        it('renders .ui-disclosure', () => {
+        it('renders .b-disclosure', () => {
             const element = render(<ProgressiveDisclosure />);
             const node = element.refs.wrapper;
 
-            expect(node.classList.contains('ui-disclosure')).toBe(true);
+            expect(node.classList.contains('b-disclosure')).toBe(true);
         });
 
-        it('renders .ui-disclosure-expanded when `props.expanded` is `true`', () => {
+        it('renders .b-disclosure-expanded when `props.expanded` is `true`', () => {
             const element = render(<ProgressiveDisclosure expanded={true} />);
             const node = element.refs.wrapper;
 
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
         });
 
-        it('does not render .ui-disclosure-expanded when `props.expanded` is falsy', () => {
+        it('does not render .b-disclosure-expanded when `props.expanded` is falsy', () => {
             const element = render(<ProgressiveDisclosure />);
             const node = element.refs.wrapper;
 
-            expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
         });
     });
 
@@ -102,7 +102,7 @@ describe('ProgressiveDisclosure component', () => {
             element.handleClick();
 
             expect(element.refs.toggle.textContent).toBe('bar');
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
         });
 
         it('renders the content in props.teaserExpanded while expanded', () => {
@@ -114,7 +114,7 @@ describe('ProgressiveDisclosure component', () => {
             element.handleClick();
 
             expect(element.refs.toggle.textContent).toBe('bar');
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
         });
 
         it('renders the content in props.teaser while expanded if props.teaserExpanded is not provided', () => {
@@ -126,7 +126,7 @@ describe('ProgressiveDisclosure component', () => {
             element.handleClick();
 
             expect(element.refs.toggle.textContent).toBe('foo');
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
         });
     });
 
@@ -136,10 +136,10 @@ describe('ProgressiveDisclosure component', () => {
             const node = element.refs.wrapper;
 
             element.handleClick();
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
 
             element.handleClick();
-            expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
         });
 
         it('proxies the event to `props.toggleProps.onClick` if provided', () => {
@@ -159,10 +159,10 @@ describe('ProgressiveDisclosure component', () => {
             const node = element.refs.wrapper;
 
             element.handleKeyDown({key: 'Enter', preventDefault: noop});
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
 
             element.handleKeyDown({key: 'Enter', preventDefault: noop});
-            expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
         });
 
         it('proxies the event to `props.toggleProps.onKeyDown` if provided', () => {
@@ -181,10 +181,10 @@ describe('ProgressiveDisclosure component', () => {
             let element = render(<ProgressiveDisclosure />);
             const node = element.refs.wrapper;
 
-            expect(node.classList.contains('ui-disclosure-expanded') === false).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
 
             element = render(<ProgressiveDisclosure expanded />);
-            expect(node.classList.contains('ui-disclosure-expanded')).toBe(true);
+            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
         });
 
         it('calls `props.onExpand` if `props.expanded` is now true', () => {

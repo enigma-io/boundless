@@ -66,7 +66,7 @@ export default class Typeahead extends React.PureComponent {
         hint: null,
         hintProps: {},
         matchWrapperProps: {},
-        offscreenClass: 'ui-offscreen',
+        offscreenClass: 'b-offscreen',
         onComplete: noop,
         onEntityHighlighted: noop,
         onEntitySelected: noop,
@@ -226,7 +226,7 @@ export default class Typeahead extends React.PureComponent {
 
         while (++i < threshold) {
             if (frags[i].toLowerCase() === normalizedUserText) {
-                frags[i] = <mark key={i} className='ui-typeahead-match-highlight'>{frags[i]}</mark>;
+                frags[i] = <mark key={i} className='b-typeahead-match-highlight'>{frags[i]}</mark>;
             }
         }
 
@@ -241,7 +241,7 @@ export default class Typeahead extends React.PureComponent {
 
         return [
             <span key='0'>{entityContent.slice(0, indexStart)}</span>,
-            <mark key='1' className='ui-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+            <mark key='1' className='b-typeahead-match-highlight'>{entityContent.slice(indexStart, indexEnd)}</mark>,
             <span key='2'>{entityContent.slice(indexEnd)}</span>,
         ];
     }
@@ -423,9 +423,9 @@ export default class Typeahead extends React.PureComponent {
                     {...this.props.hintProps}
                     ref='hint'
                     className={cx(
-                        'ui-textual-input',
-                        'ui-textual-input-placeholder',
-                        'ui-typeahead-hint',
+                        'b-input',
+                        'b-input-placeholder',
+                        'b-typeahead-hint',
                         this.props.hintProps.className,
                     )}
                     tabIndex='-1'>
@@ -443,7 +443,7 @@ export default class Typeahead extends React.PureComponent {
                 <div
                     {...props}
                     ref='matches'
-                    className={cx('ui-typeahead-match-wrapper', props.className)}>
+                    className={cx('b-typeahead-match-wrapper', props.className)}>
                     {this.state.entityMatchIndexes.map((index) => {
                         const entity = this.props.entities[index];
                         const {className, text, ...rest} = entity;
@@ -452,8 +452,8 @@ export default class Typeahead extends React.PureComponent {
                             <div
                                 {...rest}
                                 ref={`match_$${index}`}
-                                className={cx('ui-typeahead-match', className, {
-                                    'ui-typeahead-match-selected': this.state.selectedEntityIndex === index,
+                                className={cx('b-typeahead-match', className, {
+                                    'b-typeahead-match-selected': this.state.selectedEntityIndex === index,
                                 })}
                                 key={text}
                                 onClick={this.handleMatchClick.bind(this, index)}>
@@ -473,7 +473,7 @@ export default class Typeahead extends React.PureComponent {
             <div
                 {...omit(props, Typeahead.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-typeahead-wrapper', props.className)}
+                className={cx('b-typeahead-wrapper', props.className)}
                 onKeyDown={this.handleKeyDown}>
                 {this.renderNotification()}
                 {this.renderHint()}
@@ -484,7 +484,7 @@ export default class Typeahead extends React.PureComponent {
                     aria-controls={state.id}
                     inputProps={{
                         ...props.inputProps,
-                        className: cx('ui-typeahead', props.inputProps.className),
+                        className: cx('b-typeahead', props.inputProps.className),
                         onChange: this.handleChange,
                     }} />
 

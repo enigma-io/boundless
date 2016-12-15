@@ -20,7 +20,7 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog` node
 
 - __after__ `*`
   (default `null`) arbitrary content to be rendered after the dialog in the DOM
@@ -30,7 +30,7 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 
 - __bodyProps__ `Object`
     - __bodyProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
 
 - __captureFocus__ `Boolean`
   (default `true`) determines if focus is allowed to move away from the dialog
@@ -52,14 +52,14 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 
 - __footerProps__ `Object`
     - __footerProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
 
 - __header__ `any renderable content`
   text, ReactElements, etc. to represent the "title bar" area of the dialog
 
 - __headerProps__ `Object`
     - __headerProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
 
 - __onClose__ `Function`
   a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied

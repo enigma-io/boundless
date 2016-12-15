@@ -13,8 +13,8 @@ function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
 const DEFAULT_CARET_COMPONENT = (
     <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
         <g>
-            <polygon className='ui-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
-            <polygon className='ui-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
+            <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
+            <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
         </g>
     </svg>
 );
@@ -357,16 +357,16 @@ export default class Popover extends React.PureComponent {
                     before={
                         React.cloneElement(props.caretComponent, {
                             ref: (node) => (this.$caret = node),
-                            className: cx('ui-popover-caret', props.caretComponent.props.className),
+                            className: cx('b-popover-caret', props.caretComponent.props.className),
                         })
                     }
                     wrapperProps={{
                         ...props.wrapperProps,
-                        className: cx('ui-popover', props.wrapperProps.className, {
-                            [`ui-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
-                            [`ui-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
-                            [`ui-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
-                            [`ui-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
+                        className: cx('b-popover', props.wrapperProps.className, {
+                            [`b-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
+                            [`b-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
+                            [`b-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
+                            [`b-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
                         }),
                     }} />
             </Portal>

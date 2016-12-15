@@ -18,21 +18,21 @@ __Mouse__ | `click` (not selected) | should trigger `onSelected`
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-wrapper` node
 
 - __inputProps__ `Object`
     - __inputProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
 
 - __label__ `Node`
   any React-renderable content, most commonly a simple string
 
 - __labelProps__ `Object`
     - __labelProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
 
 - __name__ `String`
-  passthrough to the HTML `name` attribute on the `.ui-radio` node
+  passthrough to the HTML `name` attribute on the `.b-radio` node
 
 - __onSelected__ `Function`
   called when the element becomes selected; backing data must be updated to persist the state change
@@ -41,4 +41,4 @@ __Mouse__ | `click` (not selected) | should trigger `onSelected`
   determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
 - __value__ `String`
-  passthrough to the HTML `value` attribute on the `.ui-radio` node
+  passthrough to the HTML `value` attribute on the `.b-radio` node

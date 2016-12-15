@@ -10,7 +10,7 @@ export default class InputDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='ui-spread-even'>
+            <div className='spread'>
                 <div>
                     <h5><code>hidePlaceholderOnFocus=&#123;false&#125;</code></h5>
                     <Input

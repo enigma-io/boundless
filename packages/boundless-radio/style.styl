@@ -1,15 +1,15 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-radio-wrapper {
+.b-radio-wrapper {
     display: flex;
 }
 
-.ui-radio,
-.ui-radio-label {
+.b-radio,
+.b-radio-label {
     cursor: pointer;
 }
 
-.ui-radio {
+.b-radio {
     appearance: none;
     background: background-Radio;
     border: 1px solid borderColor-Radio;
@@ -23,25 +23,25 @@
     transition: border-color 200ms ease;
 }
 
-.ui-radio:hover {
+.b-radio:hover {
     background: background-Radio-hover;
     border-color: borderColor-Radio-hover;
 }
 
-.ui-radio:focus {
+.b-radio:focus {
     background: background-Radio-focus;
     border-color: borderColor-Radio-focus;
 }
 
-.ui-radio-selected,
-.ui-radio-selected:hover,
-.ui-radio-selected:focus,
-.ui-radio-selected:active {
+.b-radio-selected,
+.b-radio-selected:hover,
+.b-radio-selected:focus,
+.b-radio-selected:active {
     background: background-Radio-selected;
     box-shadow: 0 0 0 2px boxShadowColor-Radio-selected inset;
 }
 
-.ui-radio-label {
+.b-radio-label {
     line-height: 1.2;
     margin-left: 0.25em;
 }

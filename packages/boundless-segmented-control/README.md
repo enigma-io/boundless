@@ -21,7 +21,7 @@ __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused optio
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.ui-segmented-control` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes) is a valid prop for this element; applied to the rendered `.b-segmented-control` node
 
 - __onOptionSelected__ `Function`
   called when a child element becomes selected; backing data must be updated to persist the state change

@@ -139,7 +139,7 @@ export default class Dialog extends React.PureComponent {
             <div
                 {...this.props.bodyProps}
                 id={this.props.bodyProps.id || this.uuidBody}
-                className={cx('ui-dialog-body', this.props.bodyProps.className)}>
+                className={cx('b-dialog-body', this.props.bodyProps.className)}>
                 {this.props.children}
             </div>
         );
@@ -150,7 +150,7 @@ export default class Dialog extends React.PureComponent {
             return (
                 <footer
                     {...this.props.footerProps}
-                    className={cx('ui-dialog-footer', this.props.footerProps.className)}>
+                    className={cx('b-dialog-footer', this.props.footerProps.className)}>
                     {this.props.footer}
                 </footer>
             );
@@ -163,7 +163,7 @@ export default class Dialog extends React.PureComponent {
                 <header
                     {...this.props.headerProps}
                     id={this.props.headerProps.id || this.uuidHeader}
-                    className={cx('ui-dialog-header', this.props.headerProps.className)}>
+                    className={cx('b-dialog-header', this.props.headerProps.className)}>
                     {this.props.header}
                 </header>
             );
@@ -173,7 +173,7 @@ export default class Dialog extends React.PureComponent {
     renderFocusBoundary() {
         if (this.props.captureFocus) {
             return (
-                <div className='ui-offscreen' tabIndex='0' aria-hidden='true'>&nbsp;</div>
+                <div className='b-offscreen' tabIndex='0' aria-hidden='true'>&nbsp;</div>
             );
         }
     } // used to lock focus into a particular subset of DOM
@@ -183,7 +183,7 @@ export default class Dialog extends React.PureComponent {
             <div
                 {...this.props.wrapperProps}
                 ref={(node) => (this.$wrapper = node)}
-                className={cx('ui-dialog-wrapper', this.props.wrapperProps.className)}
+                className={cx('b-dialog-wrapper', this.props.wrapperProps.className)}
                 tabIndex='0'>
                 {this.renderFocusBoundary()}
 
@@ -192,7 +192,7 @@ export default class Dialog extends React.PureComponent {
                 <div
                     {...omit(this.props, Dialog.internalKeys)}
                     ref={(node) => (this.$dialog = node)}
-                    className={cx('ui-dialog', this.props.className)}
+                    className={cx('b-dialog', this.props.className)}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
                     aria-labelledby={this.uuidHeader}

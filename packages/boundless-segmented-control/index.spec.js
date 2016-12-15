@@ -45,20 +45,20 @@ describe('SegmentedControl component', () => {
 
         beforeEach(() => (element = render(<SegmentedControl {...baseProps} />)));
 
-        it('renders .ui-segmented-control', () => {
-            expect(element.refs.wrapper.className).toContain('ui-segmented-control');
+        it('renders .b-segmented-control', () => {
+            expect(element.refs.wrapper.className).toContain('b-segmented-control');
         });
 
-        it('renders .ui-segmented-control-option for child node', () => {
-            expect(element.refs.option_$0.props.className).toContain('ui-segmented-control-option');
+        it('renders .b-segmented-control-option for child node', () => {
+            expect(element.refs.option_$0.props.className).toContain('b-segmented-control-option');
         });
 
-        it('renders .ui-segmented-control-option-selected for child node when `props.selected` is `true`', () => {
-            expect(element.refs.option_$1.props.className).toContain('ui-segmented-control-option');
+        it('renders .b-segmented-control-option-selected for child node when `props.selected` is `true`', () => {
+            expect(element.refs.option_$1.props.className).toContain('b-segmented-control-option');
         });
 
-        it('does not render .ui-segmented-control-option-selected for child node when `props.selected` is falsy', () => {
-            expect(element.refs.option_$0.props.className).not.toContain('ui-segmented-control-option-selected');
+        it('does not render .b-segmented-control-option-selected for child node when `props.selected` is falsy', () => {
+            expect(element.refs.option_$0.props.className).not.toContain('b-segmented-control-option-selected');
         });
     });
 

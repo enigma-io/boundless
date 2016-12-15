@@ -40,7 +40,7 @@ Refer to [Dialog](boundless-dialog/README.md)
 
 - any/all supported [Dialog props](boundless-dialog/README.md)
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
 
 - __anchor__ `[ReactElement, HTMLElement]`
   a DOM element or React reference to one for positioning purposes

@@ -52,7 +52,7 @@ When using `TokenizedInput` in your project, you may call the following methods 
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-tokenfield-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-tokenfield-wrapper` node
 
 - all props accepted by [`Typeahead`](Typeahead/README.md)
 - all props accepted by [`Input`](../Input/README.md)
@@ -72,7 +72,7 @@ When using `TokenizedInput` in your project, you may call the following methods 
   (default `<div>X</div>`) the JSX used for the close button itself
 
 - __tokenCloseVisible__ `Boolean`
-  (default `true`) determines if the `.ui-tokenfield-token-close` element should be rendered for each token
+  (default `true`) determines if the `.b-tokenfield-token-close` element should be rendered for each token
 
 - __tokens__ `Array<Number>`
   the indexes of entities that should be rendered as "tokens" in the component UI

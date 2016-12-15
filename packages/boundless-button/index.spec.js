@@ -22,25 +22,25 @@ describe('Button component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Button));
 
-    it('renders ui-button', () => {
+    it('renders b-button', () => {
         const element = render(<Button />);
         const node = element.refs.button;
 
-        expect(node.classList.contains('ui-button')).toBe(true);
+        expect(node.classList.contains('b-button')).toBe(true);
     });
 
-    it('renders ui-button-pressable when provided `props.pressed`', () => {
+    it('renders b-button-pressable when provided `props.pressed`', () => {
         const element = render(<Button pressed={false} />);
         const node = element.refs.button;
 
-        expect(node.classList.contains('ui-button-pressable')).toBe(true);
+        expect(node.classList.contains('b-button-pressable')).toBe(true);
     });
 
-    it('renders ui-button-pressed when `props.pressed` is `true`', () => {
+    it('renders b-button-pressed when `props.pressed` is `true`', () => {
         const element = render(<Button pressed={true} />);
         const node = element.refs.button;
 
-        expect(node.classList.contains('ui-button-pressed')).toBe(true);
+        expect(node.classList.contains('b-button-pressed')).toBe(true);
     });
 
     describe('`aria-pressed` HTML attribute', () => {

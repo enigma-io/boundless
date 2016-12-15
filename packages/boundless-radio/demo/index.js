@@ -40,7 +40,7 @@ export default class RadioDemo extends React.PureComponent {
         return (
             <div>
                 <p>What is your academic major?</p>
-                <div className='ui-spread-even'>
+                <div className='spread'>
                     {this.state.options.map((definition) => {
                         let boundFunc = this.handleInteraction.bind(this, definition.value);
 

@@ -28,7 +28,7 @@ export default class CheckboxDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='ui-spread-even'>
+            <div className='spread'>
                 {this.state.checkboxes.map((definition) => {
                     let boundFunc = this.handleInteraction.bind(this, definition.name);
 

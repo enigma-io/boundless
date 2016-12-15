@@ -89,10 +89,10 @@ export default class Checkbox extends React.PureComponent {
                 {...omit(this.props.inputProps, 'indeterminate')}
                 ref='input'
                 type='checkbox'
-                className={cx('ui-checkbox', this.props.inputProps.className, {
-                    'ui-checkbox-mixed': this.props.inputProps.indeterminate,
-                    'ui-checkbox-checked': this.props.inputProps.checked,
-                    'ui-checkbox-unchecked': !this.props.inputProps.indeterminate && !this.props.inputProps.checked,
+                className={cx('b-checkbox', this.props.inputProps.className, {
+                    'b-checkbox-mixed': this.props.inputProps.indeterminate,
+                    'b-checkbox-checked': this.props.inputProps.checked,
+                    'b-checkbox-unchecked': !this.props.inputProps.indeterminate && !this.props.inputProps.checked,
                 })}
                 id={this.props.inputProps.id || this.id}
                 aria-checked={this.getAriaState()}
@@ -107,7 +107,7 @@ export default class Checkbox extends React.PureComponent {
                 <label
                     {...this.props.labelProps}
                     ref='label'
-                    className={cx('ui-checkbox-label', this.props.labelProps.className)}
+                    className={cx('b-checkbox-label', this.props.labelProps.className)}
                     htmlFor={this.props.inputProps.id || this.id}>
                     {this.props.label}
                 </label>
@@ -120,7 +120,7 @@ export default class Checkbox extends React.PureComponent {
             <div
                 {...omit(this.props, Checkbox.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-checkbox-wrapper', this.props.className)}>
+                className={cx('b-checkbox-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
             </div>

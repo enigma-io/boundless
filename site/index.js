@@ -226,7 +226,7 @@ class Sidebar extends React.PureComponent {
 
     renderLink(path, anchorText) {
         return (
-            <Link key={path} to={`/${path}`} className='ui-demo-nav-item'>
+            <Link key={path} to={`/${path}`} className='demo-nav-item'>
                 {anchorText}
             </Link>
         );
@@ -252,17 +252,17 @@ class Sidebar extends React.PureComponent {
         return (
             <header
                 ref='sidebar'
-                className='ui-demo-header'
+                className='demo-header'
                 onWheel={this.preventOverScroll}>
-                <h1 className='ui-demo-header-title'>
+                <h1 className='demo-header-title'>
                     <Link to='/'><LogoComponent /> UIKit</Link>
                 </h1>
 
-                <sub className='ui-demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
+                <sub className='demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
 
                 <Typeahead
                     algorithm={Typeahead.mode.FUZZY}
-                    className='ui-demo-header-search'
+                    className='demo-header-search'
                     entities={this.state.entities}
                     onEntitySelected={this.handleEntitySelected}
                     onComplete={this.handleComplete}
@@ -272,20 +272,20 @@ class Sidebar extends React.PureComponent {
                     }}
                     hint={true} />
 
-                <nav className='ui-demo-nav'>
-                    <div className='ui-demo-nav-section'>
+                <nav className='demo-nav'>
+                    <div className='demo-nav-section'>
                         {Object.keys(pages).map((page) => {
                             return this.renderLink(page, pages[page].displayName || page);
                         })}
                     </div>
-                    <div className='ui-demo-nav-section'>
-                        <h5 className='ui-demo-nav-section-title'>Documentation & Demos</h5>
+                    <div className='demo-nav-section'>
+                        <h5 className='demo-nav-section-title'>Documentation & Demos</h5>
                         {Object.keys(components).map((component) => {
                             return this.renderLink(component, components[component].displayName || component);
                         })}
                     </div>
-                    <div className='ui-demo-nav-section'>
-                        <h5 className='ui-demo-nav-section-title'>Utilities</h5>
+                    <div className='demo-nav-section'>
+                        <h5 className='demo-nav-section-title'>Utilities</h5>
                         {Object.keys(utilities).map((utility) => {
                             return this.renderLink(utility, utilities[utility].displayName || utility);
                         })}
@@ -342,7 +342,7 @@ class Container extends React.PureComponent {
     maybeRenderDemo() {
         if (this.props.children && this.props.children.type !== NullComponent) {
             return (
-                <article className='ui-demo-section-example'>
+                <article className='demo-section-example'>
                     {this.props.children}
                 </article>
             );
@@ -354,7 +354,7 @@ class Container extends React.PureComponent {
             return [(
                 <a
                     key='source'
-                    className='ui-demo-component-link'
+                    className='demo-component-link'
                     href={`https://github.com/bibliotech/uikit/blob/master/${this.props.routes[1].displayName || this.props.routes[1].path}/index.js`}
                     target='_blank'>
                     Component Source
@@ -362,7 +362,7 @@ class Container extends React.PureComponent {
             ), (
                 <a
                     key='demo-source'
-                    className='ui-demo-implementation-link'
+                    className='demo-implementation-link'
                     href={`https://github.com/bibliotech/uikit/blob/master/${this.props.routes[1].displayName || this.props.routes[1].path}/demo/index.js`}
                     target='_blank'>
                     Demo Source
@@ -376,7 +376,7 @@ class Container extends React.PureComponent {
             <div onClick={this.handleClick}>
                 <Sidebar />
 
-                <main className='ui-demo-section'>
+                <main className='demo-section'>
                     {this.maybeRenderGithubLinks()}
                     {this.maybeRenderDemo()}
 

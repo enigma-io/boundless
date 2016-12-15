@@ -104,7 +104,7 @@ export default class Input extends React.PureComponent {
 
     renderPlaceholder() {
         return (
-            <div ref='placeholder' className='ui-textual-input-placeholder ui-textual-input'>
+            <div ref='placeholder' className='b-input-placeholder b-input'>
                 {this.getPlaceholderText()}
             </div>
         );
@@ -117,14 +117,14 @@ export default class Input extends React.PureComponent {
             <div
                 {...omit(props, Input.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-textual-input-wrapper', props.className)}
+                className={cx('b-input-wrapper', props.className)}
                 title={this.getPlaceholderText()}>
                 {this.renderPlaceholder()}
 
                 <input
                     {...props.inputProps}
                     ref='field'
-                    className={cx('ui-textual-input', props.inputProps.className)}
+                    className={cx('b-input', props.inputProps.className)}
                     placeholder={null}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}

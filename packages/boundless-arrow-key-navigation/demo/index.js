@@ -8,7 +8,7 @@ export default class ArrowKeyNavigationDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='ui-spread-even'>
+            <div className='spread'>
                 <section>
                     <h6>Horizontal-only</h6>
                     <ArrowKeyNavigation className='demo-loose-list' mode={ArrowKeyNavigation.mode.HORIZONTAL}>

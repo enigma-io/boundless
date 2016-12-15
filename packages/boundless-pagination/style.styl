@@ -1,31 +1,31 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-pagination-controls .ui-pagination-control {
+.b-pagination-controls .b-pagination-control {
     background: background-Pagination_control;
     border-color: borderColor-Pagination_control;
     color: color-Pagination_control;
 }
 
-.ui-pagination-controls .ui-pagination-control:not(.ui-segmented-control-option-selected):focus {
+.b-pagination-controls .b-pagination-control:not(.b-segmented-control-option-selected):focus {
     background: background-Pagination_control-focus;
     color: color-Pagination_control-focus;
 }
 
-.ui-pagination-controls .ui-segmented-control-option-selected {
+.b-pagination-controls .b-segmented-control-option-selected {
     background: background-Pagination_control-selected;
     color: color-Pagination_control-selected;
 }
 
-.ui-pagination .ui-pagination-item {
+.b-pagination .b-pagination-item {
     display: flex;
 }
 
-.ui-pagination-item-loading {
+.b-pagination-item-loading {
     position: relative;
 }
 
-.ui-pagination-item-loading::before,
-.ui-pagination-item-loading::after {
+.b-pagination-item-loading::before,
+.b-pagination-item-loading::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -38,11 +38,11 @@
     background: background-Pagination_item-loading;
 }
 
-.ui-pagination-item-loading::before {
+.b-pagination-item-loading::before {
     animation: loaderBefore 0.7s ease-in-out alternate infinite;
 }
 
-.ui-pagination-item-loading::after {
+.b-pagination-item-loading::after {
     animation: loaderAfter 0.7s ease-in-out alternate infinite;
 }
 

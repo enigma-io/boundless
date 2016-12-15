@@ -1,10 +1,10 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-disclosure {
+.b-disclosure {
     cursor: pointer;
 }
 
-.ui-disclosure-toggle {
+.b-disclosure-toggle {
     color: color-ProgressiveDisclosure;
     display: inline-block;
     font-size: 0.75rem;
@@ -12,7 +12,7 @@
     position: relative;
 }
 
-.ui-disclosure-toggle::before {
+.b-disclosure-toggle::before {
     content: '';
     border-width: 5px;
     border-color: transparent;
@@ -24,14 +24,14 @@
     left: 4px;
 }
 
-.ui-disclosure-expanded > .ui-disclosure-toggle::before {
+.b-disclosure-expanded > .b-disclosure-toggle::before {
     border-top-color: borderColor-ProgressiveDisclosure_arrow;
     border-left-color: transparent;
     margin-top: -3px;
     left: 0;
 }
 
-.ui-disclosure-content {
+.b-disclosure-content {
     margin-top: 0.5rem;
     width: 100%;
 }

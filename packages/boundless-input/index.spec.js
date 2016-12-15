@@ -61,16 +61,16 @@ describe('Input component', () => {
     describe('CSS hook', () => {
         const hasClass = (dom, name) => dom.classList.contains(name);
 
-        it('renders .ui-textual-input-wrapper', () => {
+        it('renders .b-input-wrapper', () => {
             const element = render(<Input {...props} />);
 
-            expect(hasClass(element.refs.wrapper, 'ui-textual-input-wrapper')).toBe(true);
+            expect(hasClass(element.refs.wrapper, 'b-input-wrapper')).toBe(true);
         });
 
-        it('renders .ui-textual-input', () => {
+        it('renders .b-input', () => {
             const element = render(<Input {...props} />);
 
-            expect(hasClass(element.refs.field, 'ui-textual-input')).toBe(true);
+            expect(hasClass(element.refs.field, 'b-input')).toBe(true);
         });
     });
 
@@ -78,7 +78,7 @@ describe('Input component', () => {
         const element = render(<Input {...props} />);
 
         expect(element.refs.placeholder).not.toBeUndefined();
-        expect(element.refs.placeholder.classList.contains('ui-textual-input-placeholder')).toBe(true);
+        expect(element.refs.placeholder.classList.contains('b-input-placeholder')).toBe(true);
     });
 
     it('uses the proper placeholder text (via props.inputProps.placeholder)', () => {

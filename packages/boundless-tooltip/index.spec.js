@@ -29,39 +29,39 @@ describe('Tooltip', () => {
     });
 
     describe('CSS hook', () => {
-        it('renders .ui-tooltip', () => {
+        it('renders .b-tooltip', () => {
             const element = render(<Tooltip />);
             const node = ReactDOM.findDOMNode(element);
 
-            expect(node.classList.contains('ui-tooltip')).toBe(true);
+            expect(node.classList.contains('b-tooltip')).toBe(true);
         });
 
-        it('renders .ui-tooltip-position-above if props.position === Tooltip.position.ABOVE', () => {
+        it('renders .b-tooltip-position-above if props.position === Tooltip.position.ABOVE', () => {
             const element = render(<Tooltip position={Tooltip.position.ABOVE} />);
             const node = ReactDOM.findDOMNode(element);
 
-            expect(node.classList.contains('ui-tooltip-position-above')).toBe(true);
+            expect(node.classList.contains('b-tooltip-position-above')).toBe(true);
         });
 
-        it('renders .ui-tooltip-position-below if props.position === Tooltip.position.BELOW', () => {
+        it('renders .b-tooltip-position-below if props.position === Tooltip.position.BELOW', () => {
             const element = render(<Tooltip position={Tooltip.position.BELOW} />);
             const node = ReactDOM.findDOMNode(element);
 
-            expect(node.classList.contains('ui-tooltip-position-below')).toBe(true);
+            expect(node.classList.contains('b-tooltip-position-below')).toBe(true);
         });
 
-        it('renders .ui-tooltip-position-before if props.position === Tooltip.position.BEFORE', () => {
+        it('renders .b-tooltip-position-before if props.position === Tooltip.position.BEFORE', () => {
             const element = render(<Tooltip position={Tooltip.position.BEFORE} />);
             const node = ReactDOM.findDOMNode(element);
 
-            expect(node.classList.contains('ui-tooltip-position-before')).toBe(true);
+            expect(node.classList.contains('b-tooltip-position-before')).toBe(true);
         });
 
-        it('renders .ui-tooltip-position-after if props.position === Tooltip.position.AFTER', () => {
+        it('renders .b-tooltip-position-after if props.position === Tooltip.position.AFTER', () => {
             const element = render(<Tooltip position={Tooltip.position.AFTER} />);
             const node = ReactDOM.findDOMNode(element);
 
-            expect(node.classList.contains('ui-tooltip-position-after')).toBe(true);
+            expect(node.classList.contains('b-tooltip-position-after')).toBe(true);
         });
     });
 });

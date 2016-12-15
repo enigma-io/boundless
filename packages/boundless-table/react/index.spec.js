@@ -11,7 +11,7 @@ window.requestAnimationFrame = (callback) => callback();  // make it synchronous
 
 const rows = [{'id': 1, 'first_name': 'Louise', 'last_name': 'Fernandez', 'job_title': 'Database Administrator I', 'phone': '6-(697)972-8601', 'email': 'lfernandez1@opera.com', 'address1': '5049 Barnett Road', 'city': 'Nglengkir', 'country': 'Indonesia', 'country_code': 'ID'}, {'id': 2, 'first_name': 'Dennis', 'last_name': 'Nichols', 'job_title': 'Nurse', 'phone': '9-(896)552-6623', 'email': 'dnichols0@ycombinator.com', 'address1': '0 Drewry Drive', 'city': 'Canggetelo', 'country': 'Indonesia', 'country_code': 'ID'}, {'id': 3, 'first_name': 'Stephen', 'last_name': 'Hamilton', 'job_title': 'Dental Hygienist', 'phone': '1-(274)517-4270', 'email': 'shamilton2@amazon.co.jp', 'address1': '11 David Crossing', 'city': 'Kotabaru', 'country': 'Indonesia', 'country_code': 'ID'}, {'id': 4, 'first_name': 'Shawn', 'last_name': 'Richards', 'job_title': 'Librarian', 'phone': '1-(173)205-8062', 'email': 'srichards3@4shared.com', 'address1': '47533 Sherman Street', 'city': 'Viengxay', 'country': 'Laos', 'country_code': 'LA'}, {'id': 5, 'first_name': 'John', 'last_name': 'Hansen', 'job_title': 'Staff Scientist', 'phone': '5-(650)401-5661', 'email': 'jhansen4@sfgate.com', 'address1': '955 Jackson Park', 'city': 'South Tangerang', 'country': 'Indonesia', 'country_code': 'ID'}, {'id': 6, 'first_name': 'Ronald', 'last_name': 'Alexander', 'job_title': 'Structural Engineer', 'phone': '7-(675)732-2723', 'email': 'ralexander5@usgs.gov', 'address1': '0858 Hooker Court', 'city': 'Kardítsa', 'country': 'Greece', 'country_code': 'GR'}, {'id': 7, 'first_name': 'Shawn', 'last_name': 'Myers', 'job_title': 'Executive Secretary', 'phone': '0-(903)830-7054', 'email': 'smyers6@addtoany.com', 'address1': '69605 Rusk Junction', 'city': 'Erpeldange', 'country': 'Luxembourg', 'country_code': 'LU'}, {'id': 8, 'first_name': 'Andrew', 'last_name': 'Hill', 'job_title': 'Research Nurse', 'phone': '9-(825)250-8207', 'email': 'ahill7@sohu.com', 'address1': '4 Lunder Junction', 'city': 'Naji', 'country': 'China', 'country_code': 'CN'}, {'id': 9, 'first_name': 'Susan', 'last_name': 'Fowler', 'job_title': 'Product Engineer', 'phone': '2-(891)897-3096', 'email': 'sfowler8@addtoany.com', 'address1': '17 Artisan Pass', 'city': 'Oslomej', 'country': 'Macedonia', 'country_code': 'MK'}, {'id': 10, 'first_name': 'Denise', 'last_name': 'Gonzalez', 'job_title': 'Associate Professor', 'phone': '7-(665)859-5877', 'email': 'dgonzalez9@answers.com', 'address1': '8538 Sage Hill', 'city': 'Baiima', 'country': 'Sierra Leone', 'country_code': 'SL'}];
 
-// index 3 is for the ui-table-row-loading css hook test
+// index 3 is for the b-table-row-loading css hook test
 const rowGetter = (index) => index === 3 ? new Promise(noop) : rows[index];
 
 const rowsAlt = [{'id': 1, 'first_name': 'Lana', 'last_name': 'Fernandez', 'job_title': 'Database Administrator I', 'phone': '6-(697)972-8601', 'email': 'lfernandez1@opera.com', 'address1': '5049 Barnett Road', 'city': 'Nglengkir', 'country': 'Indonesia', 'country_code': 'ID'}];
@@ -43,92 +43,92 @@ describe('ReactTable component', () => {
 
         beforeEach(() => (element = render(<ReactTable {...baseProps} />)));
 
-        it('ui-table-wrapper is rendered', () => {
+        it('b-table-wrapper is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.className).toContain('ui-table-wrapper');
+            expect(node.className).toContain('b-table-wrapper');
         });
 
-        it('ui-table-body is rendered', () => {
-            expect(element.refs.body.className).toContain('ui-table-body');
+        it('b-table-body is rendered', () => {
+            expect(element.refs.body.className).toContain('b-table-body');
         });
 
-        it('ui-table-row is rendered', () => {
+        it('b-table-row is rendered', () => {
             const node = element.refs.body;
 
-            expect(node.querySelector('.ui-table-row')).not.toBe(null);
+            expect(node.querySelector('.b-table-row')).not.toBe(null);
         });
 
-        it('ui-table-row-even is rendered', () => {
+        it('b-table-row-even is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-row-even')).not.toBe(null);
+            expect(node.querySelector('.b-table-row-even')).not.toBe(null);
         });
 
-        it('ui-table-row-odd is rendered', () => {
+        it('b-table-row-odd is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-row-odd')).not.toBe(null);
+            expect(node.querySelector('.b-table-row-odd')).not.toBe(null);
         });
 
-        it('ui-table-row-loading is rendered', () => {
+        it('b-table-row-loading is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-row-loading')).not.toBe(null);
+            expect(node.querySelector('.b-table-row-loading')).not.toBe(null);
         });
 
-        it('ui-table-cell is rendered', () => {
+        it('b-table-cell is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-cell')).not.toBe(null);
+            expect(node.querySelector('.b-table-cell')).not.toBe(null);
         });
 
-        it('ui-table-cell-even is rendered', () => {
+        it('b-table-cell-even is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-cell-even')).not.toBe(null);
+            expect(node.querySelector('.b-table-cell-even')).not.toBe(null);
         });
 
-        it('ui-table-cell-odd is rendered', () => {
+        it('b-table-cell-odd is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-cell-odd')).not.toBe(null);
+            expect(node.querySelector('.b-table-cell-odd')).not.toBe(null);
         });
 
-        it('ui-table-header-cell is rendered', () => {
+        it('b-table-header-cell is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-header-cell')).not.toBe(null);
+            expect(node.querySelector('.b-table-header-cell')).not.toBe(null);
         });
 
-        it('ui-table-header-cell-resize-handle is rendered', () => {
+        it('b-table-header-cell-resize-handle is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-header-cell-resize-handle')).not.toBe(null);
+            expect(node.querySelector('.b-table-header-cell-resize-handle')).not.toBe(null);
         });
 
-        it('ui-table-x-scroll-track is rendered', () => {
+        it('b-table-x-scroll-track is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-x-scroll-track')).not.toBe(null);
+            expect(node.querySelector('.b-table-x-scroll-track')).not.toBe(null);
         });
 
-        it('ui-table-x-scroll-handle is rendered', () => {
+        it('b-table-x-scroll-handle is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-x-scroll-handle')).not.toBe(null);
+            expect(node.querySelector('.b-table-x-scroll-handle')).not.toBe(null);
         });
 
-        it('ui-table-y-scroll-track is rendered', () => {
+        it('b-table-y-scroll-track is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-y-scroll-track')).not.toBe(null);
+            expect(node.querySelector('.b-table-y-scroll-track')).not.toBe(null);
         });
 
-        it('ui-table-y-scroll-handle is rendered', () => {
+        it('b-table-y-scroll-handle is rendered', () => {
             const node = element.refs.wrapper;
 
-            expect(node.querySelector('.ui-table-y-scroll-handle')).not.toBe(null);
+            expect(node.querySelector('.b-table-y-scroll-handle')).not.toBe(null);
         });
     });
 
@@ -143,13 +143,13 @@ describe('ReactTable component', () => {
         it('fully resets the table when changed', () => {
             let element = render(<ReactTable {...baseProps} />);
 
-            expect(element.refs.body.querySelector('.ui-table-cell').textContent).toBe('Louise');
+            expect(element.refs.body.querySelector('.b-table-cell').textContent).toBe('Louise');
 
             element = render(
                 <ReactTable {...baseProps} identifier='alternate' totalRows={rowsAlt.length} getRow={altRowGetter} />
             );
 
-            expect(element.refs.body.querySelector('.ui-table-cell').textContent).toBe('Lana');
+            expect(element.refs.body.querySelector('.b-table-cell').textContent).toBe('Lana');
         });
     });
 

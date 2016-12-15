@@ -35,7 +35,7 @@ export default class SegmentedControlDemo extends React.PureComponent {
         switch (this.getSelectedOptionValue()) {
         case 'planets':
             return (
-                <div className='ui-spread-even'>
+                <div className='spread'>
                     <Image
                         displayAsBackgroundImage={true}
                         src='https://c1.staticflickr.com/9/8228/8497927563_00dcb3fe09_b.jpg'
@@ -61,7 +61,7 @@ export default class SegmentedControlDemo extends React.PureComponent {
 
         case 'nebulae':
             return (
-                <div className='ui-spread-even'>
+                <div className='spread'>
                     <Image
                         displayAsBackgroundImage={true}
                         src='https://c1.staticflickr.com/9/8244/8663227196_1e3719be69_b.jpg'
@@ -87,7 +87,7 @@ export default class SegmentedControlDemo extends React.PureComponent {
 
         case 'galaxies':
             return (
-                <div className='ui-spread-even'>
+                <div className='spread'>
                     <Image
                         displayAsBackgroundImage={true}
                         src='https://c1.staticflickr.com/5/4128/5043159769_f382995a9b_b.jpg'

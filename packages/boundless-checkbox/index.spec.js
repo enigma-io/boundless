@@ -62,40 +62,40 @@ describe('Checkbox component', () => {
         expect(element.refs.label.textContent).toBe('foo');
     });
 
-    it('renders .ui-checkbox-wrapper', () => {
+    it('renders .b-checkbox-wrapper', () => {
         const element = render(<Checkbox {...props} />);
 
-        expect(element.refs.wrapper.classList.contains('ui-checkbox-wrapper')).toBe(true);
+        expect(element.refs.wrapper.classList.contains('b-checkbox-wrapper')).toBe(true);
     });
 
-    it('renders .ui-checkbox-label', () => {
+    it('renders .b-checkbox-label', () => {
         const element = render(<Checkbox {...props} label='foo' />);
 
-        expect(element.refs.label.classList.contains('ui-checkbox-label')).toBe(true);
+        expect(element.refs.label.classList.contains('b-checkbox-label')).toBe(true);
     });
 
-    it('renders .ui-checkbox', () => {
+    it('renders .b-checkbox', () => {
         const element = render(<Checkbox {...props} />);
 
-        expect(element.refs.input.classList.contains('ui-checkbox')).toBe(true);
+        expect(element.refs.input.classList.contains('b-checkbox')).toBe(true);
     });
 
-    it('renders .ui-checkbox-checked when the checkbox value is truthy', () => {
+    it('renders .b-checkbox-checked when the checkbox value is truthy', () => {
         const element = render(<Checkbox {...props} inputProps={{...props.inputProps, checked: true}} />);
 
-        expect(element.refs.input.classList.contains('ui-checkbox-checked')).toBe(true);
+        expect(element.refs.input.classList.contains('b-checkbox-checked')).toBe(true);
     });
 
-    it('renders .ui-checkbox-unchecked when the checkbox value is falsy', () => {
+    it('renders .b-checkbox-unchecked when the checkbox value is falsy', () => {
         const element = render(<Checkbox {...props} />);
 
-        expect(element.refs.input.classList.contains('ui-checkbox-unchecked')).toBe(true);
+        expect(element.refs.input.classList.contains('b-checkbox-unchecked')).toBe(true);
     });
 
-    it('renders .ui-checkbox-mixed when the checkbox is indeterminate', () => {
+    it('renders .b-checkbox-mixed when the checkbox is indeterminate', () => {
         const element = render(<Checkbox {...props} inputProps={{...props.inputProps, checked: true, indeterminate: true}} />);
 
-        expect(element.refs.input.classList.contains('ui-checkbox-mixed')).toBe(true);
+        expect(element.refs.input.classList.contains('b-checkbox-mixed')).toBe(true);
     });
 
     it('associates a provided label with the underlying input', () => {

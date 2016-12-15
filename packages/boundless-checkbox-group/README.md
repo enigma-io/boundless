@@ -22,7 +22,7 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-group` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-group` node
 
 - __items__ `Array<Object>`
   the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox/README.md)

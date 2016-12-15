@@ -26,7 +26,7 @@ describe('Progress component', () => {
             const element = render(<Progress className='foo bar' />);
             const node = element.refs.wrapper;
 
-            ['ui-progress-wrapper', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
+            ['b-progress-wrapper', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
         });
 
         it('a specific style property to tween', () => {
@@ -88,24 +88,24 @@ describe('Progress component', () => {
             element = render(<Progress label='foo' />);
         });
 
-        it('renders .ui-progress-wrapper', () => {
-            expect(element.refs.wrapper.classList.contains('ui-progress-wrapper')).toBe(true);
+        it('renders .b-progress-wrapper', () => {
+            expect(element.refs.wrapper.classList.contains('b-progress-wrapper')).toBe(true);
         });
 
-        it('renders .ui-progress', () => {
-            expect(element.refs.progress.classList.contains('ui-progress')).toBe(true);
+        it('renders .b-progress', () => {
+            expect(element.refs.progress.classList.contains('b-progress')).toBe(true);
         });
 
-        it('renders .ui-progress-indeterminate', () => {
-            expect(element.refs.progress.classList.contains('ui-progress-indeterminate')).toBe(true);
+        it('renders .b-progress-indeterminate', () => {
+            expect(element.refs.progress.classList.contains('b-progress-indeterminate')).toBe(true);
         });
 
-        it('renders .ui-progress-cancel', () => {
-            expect(ReactDOM.findDOMNode(element.refs.cancel).classList.contains('ui-progress-cancel')).toBe(true);
+        it('renders .b-progress-cancel', () => {
+            expect(ReactDOM.findDOMNode(element.refs.cancel).classList.contains('b-progress-cancel')).toBe(true);
         });
 
-        it('renders .ui-progress-label', () => {
-            expect(element.refs.label.classList.contains('ui-progress-label')).toBe(true);
+        it('renders .b-progress-label', () => {
+            expect(element.refs.label.classList.contains('b-progress-label')).toBe(true);
         });
     });
 
@@ -124,7 +124,7 @@ describe('Progress component', () => {
         it('does not show as indeterminate if `progress` is passed', () => {
             const element = render(<Progress progress='0%' />);
 
-            expect(element.refs.progress.classList.contains('ui-progress-indeterminate')).toBe(false);
+            expect(element.refs.progress.classList.contains('b-progress-indeterminate')).toBe(false);
         });
     });
 

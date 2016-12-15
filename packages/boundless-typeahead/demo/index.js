@@ -263,7 +263,7 @@ export default class TypeaheadDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='ui-spread-even'>
+            <div className='spread'>
                 <div>
                     <h5>Starts-with matching</h5>
                     <Typeahead

@@ -5,7 +5,7 @@ Typeahead is an enhancement upon [Input](../Input/README.md) which provides two 
 
 > The UIKit Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Typeahead` in your project.
 
-Typeahead offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="ui-typeahead-match-highlight"></div>`:
+Typeahead offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="b-typeahead-match-highlight"></div>`:
 
 1. __"Starts-with" matching & marking__ `algorithm={UITypeahead.mode.STARTS_WITH}`
    For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
@@ -65,9 +65,9 @@ When using `Typeahead` in your project, you may call the following methods on a 
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-wrapper` node
 
-- all supported [Input props](../Input/README.md#available-props); applied to the `.ui-textual-input-wrapper` node
+- all supported [Input props](../Input/README.md#available-props); applied to the `.b-input-wrapper` node
 
 - __algorithm__ `Object|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
   (default `Typeahead.mode.FUZZY`) the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
@@ -98,7 +98,7 @@ When using `Typeahead` in your project, you may call the following methods on a 
 
 - __entities__ `Array<Object>`
     - __entities[].*__ `*`
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.ui-typeahead-match` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` node
     - __entities[].text__ `String`
       the text to be used to do string comparison and match against
 
@@ -107,15 +107,15 @@ When using `Typeahead` in your project, you may call the following methods on a 
 
 - __hintProps__ `Object`
     - __hintProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-hint` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` node
 
 - __inputProps__ `Object`
     - __inputProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the main input node, `.ui-typeahead`
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the main input node, `.b-typeahead`
 
 - __matchWrapperProps__ `Object`
     - __matchWrapperProps.*__
-      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
+      any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` node
 
 - __onEntityHighlighted__ `Function(index: number)`
   called with the index of the highlighted entity due to keyboard selection

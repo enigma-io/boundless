@@ -1,10 +1,10 @@
-.ui-textual-input-wrapper {
+.b-input-wrapper {
     font-size: fontSize-input;
     position: relative;
     width: 100%;
 }
 
-.ui-textual-input {
+.b-input {
     appearance: none;
     background: background-Input;
     border: 1px solid borderColor-Input;
@@ -18,22 +18,22 @@
     width: 100%;
 }
 
-.ui-textual-input {
+.b-input {
     position: relative;
     z-index: 1;
 
     transition: border-color 200ms ease;
 }
 
-.ui-textual-input:hover {
+.b-input:hover {
     border-color: borderColor-Input-hover;
 }
 
-.ui-textual-input:focus {
+.b-input:focus {
     border-color: borderColor-Input-focus;
 }
 
-.ui-textual-input-placeholder {
+.b-input-placeholder {
     color: color-Input_placeholder;
     border-color: transparent;
     overflow: hidden;
@@ -46,6 +46,6 @@
     text-overflow: ellipsis;
 }
 
-.ui-textual-input-placeholder + .ui-textual-input {
+.b-input-placeholder + .b-input {
     background: transparent;
 }

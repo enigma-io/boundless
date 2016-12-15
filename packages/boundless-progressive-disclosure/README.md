@@ -18,7 +18,7 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 
 ### Props
 
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure` node
 
 - __component__ `string|function`
   any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
@@ -40,4 +40,4 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 
 - __toggleProps__ `Object`
   __toggleProps.*__
-  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure-toggle` node
+  any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node

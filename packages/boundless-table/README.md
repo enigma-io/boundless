@@ -26,16 +26,16 @@ npm i --save boundless-table
 1. Create the necessary HTML in your base page. `Table` requires the following DOM structure:
 
     ```html
-    <div class="ui-table-wrapper" tabindex="0">
-        <div class="ui-table-header"></div>
-        <div class="ui-table-body"></div>
-        <div class="ui-table-x-scroll-track">
-            <div class="ui-table-x-scroll-handle"></div>
+    <div class="b-table-wrapper" tabindex="0">
+        <div class="b-table-header"></div>
+        <div class="b-table-body"></div>
+        <div class="b-table-x-scroll-track">
+            <div class="b-table-x-scroll-handle"></div>
         </div>
-        <div class="ui-table-y-scroll-track">
-            <div class="ui-table-y-scroll-handle"></div>
+        <div class="b-table-y-scroll-track">
+            <div class="b-table-y-scroll-handle"></div>
         </div>
-        <div class="ui-offscreen" aria-live="polite" />
+        <div class="b-offscreen" aria-live="polite" />
     </div>
     ```
 
@@ -173,7 +173,7 @@ npm i --save boundless-table
       (default `false`) automatically try to exactly fit the columns to the available space, respecting detected min/max column widths
 
     - __offscreenClass__ `String`<br />
-      (default `ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
+      (default `b-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
     - __preserveScrollState__ `Boolean`<br />
       (default `true`) prompts the table view to remember the row numbers, X and Y coordinates when regenerating and attempt to restore them
@@ -213,14 +213,14 @@ npm i --save boundless-table
         throttleInterval: 200,
         totalRows: rows.length,
 
-        wrapper: document.querySelector('.ui-table-wrapper'),
-        header: document.querySelector('.ui-table-header'),
-        body: document.querySelector('.ui-table-body'),
-        aria: document.querySelector('.ui-offscreen'),
-        'x-scroll-track': document.querySelector('.ui-table-x-scroll-track'),
-        'y-scroll-track': document.querySelector('.ui-table-y-scroll-track'),
-        'x-scroll-handle': document.querySelector('.ui-table-x-scroll-handle'),
-        'y-scroll-handle': document.querySelector('.ui-table-y-scroll-handle'),
+        wrapper: document.querySelector('.b-table-wrapper'),
+        header: document.querySelector('.b-table-header'),
+        body: document.querySelector('.b-table-body'),
+        aria: document.querySelector('.b-offscreen'),
+        'x-scroll-track': document.querySelector('.b-table-x-scroll-track'),
+        'y-scroll-track': document.querySelector('.b-table-y-scroll-track'),
+        'x-scroll-handle': document.querySelector('.b-table-x-scroll-handle'),
+        'y-scroll-handle': document.querySelector('.b-table-y-scroll-handle'),
     });
     ```
 
@@ -283,42 +283,42 @@ render() {
 renders:
 
 ```html
-<div class="ui-table-wrapper" tabindex="0" data-set-identifier="foo">
-    <div class="ui-table-header">
-        <div class="ui-table-row ui-table-header-row">
-            <div class="ui-table-cell ui-table-cell-even ui-table-header-cell" title="First Name" style="width:75px;">
-                <div class="ui-table-cell-inner">First Name</div>
-                <div class="ui-table-header-cell-resize-handle" data-column-index="0"></div>
+<div class="b-table-wrapper" tabindex="0" data-set-identifier="foo">
+    <div class="b-table-header">
+        <div class="b-table-row b-table-header-row">
+            <div class="b-table-cell b-table-cell-even b-table-header-cell" title="First Name" style="width:75px;">
+                <div class="b-table-cell-inner">First Name</div>
+                <div class="b-table-header-cell-resize-handle" data-column-index="0"></div>
             </div>
-            <div class="ui-table-cell ui-table-cell-odd ui-table-header-cell" title="Last Name" style="width:100px;">
-                <div class="ui-table-cell-inner">Last Name</div>
-                <div class="ui-table-header-cell-resize-handle" data-column-index="1"></div>
+            <div class="b-table-cell b-table-cell-odd b-table-header-cell" title="Last Name" style="width:100px;">
+                <div class="b-table-cell-inner">Last Name</div>
+                <div class="b-table-header-cell-resize-handle" data-column-index="1"></div>
             </div>
-            <div class="ui-table-cell ui-table-cell-even ui-table-header-cell" title="Primary Phone #" style="width:143px;">
-                <div class="ui-table-cell-inner">Primary Phone #</div>
-            </div>
-        </div>
-    </div>
-    <div class="ui-table-body">
-        <div class="ui-table-row ui-table-row-even" style="transform:translate3d(0px, 0px, 0px);">
-            <div class="ui-table-cell ui-table-cell-even" style="width: 75px;">
-                <div class="ui-table-cell-inner">Alex</div>
-            </div>
-            <div class="ui-table-cell ui-table-cell-odd" style="width: 100px;">
-                <div class="ui-table-cell-inner">Zimmerman</div>
-            </div>
-            <div class="ui-table-cell ui-table-cell-even" style="width: 143px;">
-                <div class="ui-table-cell-inner">555-555-5555</div>
+            <div class="b-table-cell b-table-cell-even b-table-header-cell" title="Primary Phone #" style="width:143px;">
+                <div class="b-table-cell-inner">Primary Phone #</div>
             </div>
         </div>
     </div>
-    <div class="ui-offscreen" aria-live="polite"></div>
+    <div class="b-table-body">
+        <div class="b-table-row b-table-row-even" style="transform:translate3d(0px, 0px, 0px);">
+            <div class="b-table-cell b-table-cell-even" style="width: 75px;">
+                <div class="b-table-cell-inner">Alex</div>
+            </div>
+            <div class="b-table-cell b-table-cell-odd" style="width: 100px;">
+                <div class="b-table-cell-inner">Zimmerman</div>
+            </div>
+            <div class="b-table-cell b-table-cell-even" style="width: 143px;">
+                <div class="b-table-cell-inner">555-555-5555</div>
+            </div>
+        </div>
+    </div>
+    <div class="b-offscreen" aria-live="polite"></div>
     <div>
-        <div class="ui-table-x-scroll-track">
-            <div class="ui-table-x-scroll-handle" style="width: 947px;"></div>
+        <div class="b-table-x-scroll-track">
+            <div class="b-table-x-scroll-handle" style="width: 947px;"></div>
         </div>
-        <div class="ui-table-y-scroll-track">
-            <div class="ui-table-y-scroll-handle" style="height: 12px;"></div>
+        <div class="b-table-y-scroll-track">
+            <div class="b-table-y-scroll-handle" style="height: 12px;"></div>
         </div>
     </div>
 </div>
@@ -335,21 +335,21 @@ const rows = [
 
 Styling of the element will be provided via the CSS hooks:
 
-- `.ui-table-wrapper`
-- `.ui-table-body`
-- `.ui-table-row`
-- `.ui-table-row-even`
-- `.ui-table-row-odd`
-- `.ui-table-row-loading`
-- `.ui-table-cell`
-- `.ui-table-cell-even`
-- `.ui-table-cell-odd`
-- `.ui-table-header-cell`
-- `.ui-table-header-cell-resize-handle`
-- `.ui-table-x-scroll-track`
-- `.ui-table-x-scroll-handle`
-- `.ui-table-y-scroll-track`
-- `.ui-table-y-scroll-handle`
+- `.b-table-wrapper`
+- `.b-table-body`
+- `.b-table-row`
+- `.b-table-row-even`
+- `.b-table-row-odd`
+- `.b-table-row-loading`
+- `.b-table-cell`
+- `.b-table-cell-even`
+- `.b-table-cell-odd`
+- `.b-table-header-cell`
+- `.b-table-header-cell-resize-handle`
+- `.b-table-x-scroll-track`
+- `.b-table-x-scroll-handle`
+- `.b-table-y-scroll-track`
+- `.b-table-y-scroll-handle`
 
 
 ### interactions
@@ -369,7 +369,7 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
 
 
 ### available `props`
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-table-wrapper` node
+- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-table-wrapper` node
 
 - __allowScrollPropagation__ `Boolean`<br />
   (default `false`) allows wheel events captured by the table component to propagate into scroll events and potentially move the page around it; this could be disorienting, use with caution
@@ -425,7 +425,7 @@ __resize__ | window | recompute scrollbar sizing; if the height of the table cha
   fast-forwards scrolling within the table to the specified row index (zero-based) and sets it as the active row
 
 - __offscreenClass__ `String`<br />
-  (default `.ui-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
+  (default `.b-offscreen`) provide a custom class for hiding elements if desired (must not use `display: none`)
 
 - __onActiveRowChanged__ `Function(activeRowIndex: number|undefined)`<br />
   invoked when the table's active row is changed via arrow key, programmatically, etc.

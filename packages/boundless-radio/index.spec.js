@@ -69,35 +69,35 @@ describe('Radio component', () => {
     describe('CSS hook', () => {
         const hasClass = (dom, name) => dom.classList.contains(name);
 
-        it('renders .ui-radio-wrapper', () => {
+        it('renders .b-radio-wrapper', () => {
             const element = render(<Radio {...baseProps} />);
             const node = element.refs.wrapper;
 
-            expect(hasClass(node, 'ui-radio-wrapper')).toBe(true);
+            expect(hasClass(node, 'b-radio-wrapper')).toBe(true);
         });
 
-        it('renders .ui-radio-label', () => {
+        it('renders .b-radio-label', () => {
             const element = render(<Radio {...baseProps} label='foo' />);
 
-            expect(hasClass(element.refs.label, 'ui-radio-label')).toBe(true);
+            expect(hasClass(element.refs.label, 'b-radio-label')).toBe(true);
         });
 
-        it('renders .ui-radio', () => {
+        it('renders .b-radio', () => {
             const element = render(<Radio {...baseProps} />);
 
-            expect(hasClass(element.refs.input, 'ui-radio')).toBe(true);
+            expect(hasClass(element.refs.input, 'b-radio')).toBe(true);
         });
 
-        it('renders .ui-radio-selected when `props.selected` is `true`', () => {
+        it('renders .b-radio-selected when `props.selected` is `true`', () => {
             const element = render(<Radio {...baseProps} selected={true} />);
 
-            expect(hasClass(element.refs.input, 'ui-radio-selected')).toBe(true);
+            expect(hasClass(element.refs.input, 'b-radio-selected')).toBe(true);
         });
 
-        it('does not render .ui-radio-selected when `props.selected` is falsy', () => {
+        it('does not render .b-radio-selected when `props.selected` is falsy', () => {
             const element = render(<Radio {...baseProps} />);
 
-            expect(hasClass(element.refs.input, 'ui-radio-selected')).toBe(false);
+            expect(hasClass(element.refs.input, 'b-radio-selected')).toBe(false);
         });
     });
 

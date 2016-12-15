@@ -78,7 +78,7 @@ export default class Image extends React.PureComponent {
                 <div
                     {...this.props.imageProps}
                     ref='image'
-                    className={cx('ui-image', this.props.imageProps.className)}
+                    className={cx('b-image', this.props.imageProps.className)}
                     title={this.props.alt}
                     style={{
                         ...this.props.imageProps.style,
@@ -91,7 +91,7 @@ export default class Image extends React.PureComponent {
             <img
                 {...this.props.imageProps}
                 ref='image'
-                className={cx('ui-image', this.props.imageProps.className)}
+                className={cx('b-image', this.props.imageProps.className)}
                 src={this.props.src}
                 alt={this.props.alt}
                 onLoad={noop}
@@ -103,10 +103,10 @@ export default class Image extends React.PureComponent {
         return (
             <div {...this.props.statusProps}
                  ref='status'
-                 className={cx('ui-image-status', this.props.statusProps.className, {
-                    'ui-image-loading': this.state.status === Image.status.LOADING,
-                    'ui-image-loaded': this.state.status === Image.status.LOADED,
-                    'ui-image-error': this.state.status === Image.status.ERROR,
+                 className={cx('b-image-status', this.props.statusProps.className, {
+                    'b-image-loading': this.state.status === Image.status.LOADING,
+                    'b-image-loaded': this.state.status === Image.status.LOADED,
+                    'b-image-error': this.state.status === Image.status.ERROR,
                  })}
                  role='presentation' />
         );
@@ -117,7 +117,7 @@ export default class Image extends React.PureComponent {
             <div
                 {...omit(this.props, Image.internalKeys)}
                 ref='wrapper'
-                className={cx('ui-image-wrapper', this.props.className)}>
+                className={cx('b-image-wrapper', this.props.className)}>
                 {this.renderImage()}
                 {this.renderStatus()}
             </div>

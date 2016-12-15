@@ -47,12 +47,12 @@ get_contrasting_color(color) {
     }
 }
 
-.ui-table-wrapper,
-.ui-table-wrapper * {
+.b-table-wrapper,
+.b-table-wrapper * {
     box-sizing: border-box;
 }
 
-.ui-table-wrapper {
+.b-table-wrapper {
     overflow: hidden;
     position: relative;
     height: 100%;
@@ -60,38 +60,38 @@ get_contrasting_color(color) {
     white-space: nowrap;
 }
 
-.ui-table-header,
-.ui-table-body,
-.ui-table-row {
+.b-table-header,
+.b-table-body,
+.b-table-row {
     backface-visibility: hidden;
     will-change: transform;
 }
 
-.ui-table-header {
+.b-table-header {
     border-bottom: 1px solid color-accent;
     position: relative;
     z-index: 1;
 }
 
-.ui-table-header,
-.ui-table-row {
+.b-table-header,
+.b-table-row {
     position: absolute;
 }
 
-.ui-table-body {
+.b-table-body {
     position: absolute;
     top: height-UITable_cell;
     bottom: 0;
     transform: translate3d(0, 0, 0);
 }
 
-.ui-table-row,
-.ui-table-cell {
+.b-table-row,
+.b-table-cell {
     height: height-UITable_cell;
     line-height: height-UITable_cell;
 }
 
-.ui-table-row {
+.b-table-row {
     position: absolute;
     top: 0;
     left: 0;
@@ -99,12 +99,12 @@ get_contrasting_color(color) {
     overflow: hidden;
 }
 
-.ui-table-row-even {
+.b-table-row-even {
     background: background-UITable_row-even;
     color: color-UITable_row-even;
 }
 
-.ui-table-row-odd {
+.b-table-row-odd {
     background: background-UITable_row-odd;
     color: color-UITable_row-odd;
 }
@@ -124,7 +124,7 @@ get_contrasting_color(color) {
   100%      {transform: translateX(-100%)}
 }
 
-.ui-table-row-loading::before {
+.b-table-row-loading::before {
    content: '';
    position: absolute;
    top: 50%;
@@ -138,12 +138,12 @@ get_contrasting_color(color) {
    animation: indeterminate 2s linear infinite;
 }
 
-.ui-table-row-active {
+.b-table-row-active {
     background: background-UITable_row-active;
     color: color-UITable_row-active;
 }
 
-.ui-table-cell {
+.b-table-cell {
     display: inline-block;
     vertical-align: top;
     max-width: 500px;
@@ -153,27 +153,27 @@ get_contrasting_color(color) {
     user-select: none;
 }
 
-.ui-table-cell-inner {
+.b-table-cell-inner {
     overflow: hidden;
     text-overflow: ellipsis;
     will-change: contents;
     height: height-UITable_cell;
 }
 
-.ui-table-header-cell {
+.b-table-header-cell {
     background: background-UITable_header;
     color: color-UITable_header;
 }
 
-.ui-table-header-cell .ui-table-cell-inner {
+.b-table-header-cell .b-table-cell-inner {
     right: paddingX-UITable_cell + 0.5em;
 }
 
-.ui-table-header-cell:hover .ui-table-header-cell-resize-handle {
+.b-table-header-cell:hover .b-table-header-cell-resize-handle {
     opacity: 1;
 }
 
-.ui-table-header-cell-resize-handle {
+.b-table-header-cell-resize-handle {
     border-right: 2px dotted background-UITable_column_resize_handle;
     cursor: col-resize;
     opacity: 0;
@@ -185,8 +185,8 @@ get_contrasting_color(color) {
     transition: opacity 200ms ease;
 }
 
-.ui-table-x-scroll-track,
-.ui-table-y-scroll-track {
+.b-table-x-scroll-track,
+.b-table-y-scroll-track {
     background: background-UITable_scroll_track;
     cursor: move;
     position: absolute;
@@ -199,41 +199,41 @@ get_contrasting_color(color) {
     z-index: 2;
 }
 
-.ui-table-x-scroll-track {
+.b-table-x-scroll-track {
     height: size-UITable_scroll_track;
     top: auto;
     transition-property: height;
 }
 
-.ui-table-x-scroll-track:hover {
+.b-table-x-scroll-track:hover {
     height: size-UITable_scroll_track-expanded;
 }
 
-.ui-table-y-scroll-track {
+.b-table-y-scroll-track {
     width: size-UITable_scroll_track;
     left: auto;
     transition-property: width;
 }
 
-.ui-table-y-scroll-track:hover {
+.b-table-y-scroll-track:hover {
     width: size-UITable_scroll_track-expanded;
 }
 
-.ui-table-x-scroll-handle,
-.ui-table-y-scroll-handle {
+.b-table-x-scroll-handle,
+.b-table-y-scroll-handle {
     backface-visibility: hidden;
     background-color: background-UITable_scroll_handle;
     position: absolute;
 }
 
-.ui-table-x-scroll-handle {
+.b-table-x-scroll-handle {
     top: 0;
     bottom: 0;
 }
 
-.ui-table-y-scroll-handle {
+.b-table-y-scroll-handle {
     left: 0;
     right: 0;
 }
 
-@require '**/*.styl';
+@require 'react/**/*.styl';

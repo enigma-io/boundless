@@ -1,15 +1,15 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-typeahead-wrapper {
+.b-typeahead-wrapper {
     font-size: fontSize-input;
     position: relative;
 }
 
-.ui-typeahead-hint + .ui-textual-input-wrapper .ui-textual-input-placeholder {
+.b-typeahead-hint + .b-input-wrapper .b-input-placeholder {
     background: transparent;
 }
 
-.ui-typeahead-match-wrapper {
+.b-typeahead-match-wrapper {
     background: background-Typeahead_match_wrapper;
     border-bottom-left-radius: borderRadius;
     border-bottom-right-radius: borderRadius;
@@ -25,7 +25,7 @@
     z-index: 99;
 }
 
-.ui-typeahead-match {
+.b-typeahead-match {
     color: color-Typeahead_match;
     cursor: pointer;
     font-size: 13px;
@@ -33,36 +33,36 @@
     padding: 0.25em 0.5em;
 }
 
-.ui-typeahead-match:hover {
+.b-typeahead-match:hover {
     background: background-Typeahead_match-hover;
     color: color-Typeahead_match-hover;
 
-    .ui-typeahead-match-highlight {
+    .b-typeahead-match-highlight {
         background: background-Typeahead_match_highlight-hover;
         color: color-Typeahead_match_highlight-hover;
         font-weight: bolder;
     }
 }
 
-.ui-typeahead-match-selected,
-.ui-typeahead-match-selected:hover {
+.b-typeahead-match-selected,
+.b-typeahead-match-selected:hover {
     background: background-Typeahead_match-selected;
     color: color-Typeahead_match-selected;
 
-    .ui-typeahead-match-highlight {
+    .b-typeahead-match-highlight {
         background: background-Typeahead_match_highlight-selected-hover;
         color: color-Typeahead_match_highlight-selected-hover;
         font-weight: bolder;
     }
 }
 
-.ui-typeahead-match-highlight {
+.b-typeahead-match-highlight {
     background: background-Typeahead_match_highlight;
     color: color-Typeahead_match_highlight;
     font-weight: bolder;
 }
 
-.ui-typeahead-match-selected .ui-typeahead-match-highlight {
+.b-typeahead-match-selected .b-typeahead-match-highlight {
     background: background-Typeahead_match_highlight-selected;
     color: color-Typeahead_match_highlight-selected;
 }

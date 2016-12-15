@@ -36,7 +36,7 @@ export default class ProgressDemo extends React.PureComponent {
 
     render() {
         return (
-            <div className='progress-demo ui-spread-even ui-align-end'>
+            <div className='progress-demo spread align-end'>
                 <figure>
                     <h5>Horizontal Progress Bar</h5>
                     <Progress

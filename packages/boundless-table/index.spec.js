@@ -27,20 +27,20 @@ describe('Table', () => {
 
     columns[0].cellChangeFunc = sandbox.stub();
 
-    // index 3 is for the `.ui-table-row-loading` css hook test
+    // index 3 is for the `.b-table-row-loading` css hook test
     const getRow = (index) => index === 3 ? new Promise(noop) : rows[index];
 
     document.body.innerHTML = `
-        <div class="ui-table-wrapper" tabindex="0">
-            <div class="ui-table-header"></div>
-            <div class="ui-table-body"></div>
-            <div class="ui-table-x-scroll-track">
-                <div class="ui-table-x-scroll-handle"></div>
+        <div class="b-table-wrapper" tabindex="0">
+            <div class="b-table-header"></div>
+            <div class="b-table-body"></div>
+            <div class="b-table-x-scroll-track">
+                <div class="b-table-x-scroll-handle"></div>
             </div>
-            <div class="ui-table-y-scroll-track">
-                <div class="ui-table-y-scroll-handle"></div>
+            <div class="b-table-y-scroll-track">
+                <div class="b-table-y-scroll-handle"></div>
             </div>
-            <div class="ui-offscreen" aria-live="polite" />
+            <div class="b-offscreen" aria-live="polite" />
         </div>
     `;
 
@@ -50,14 +50,14 @@ describe('Table', () => {
         columns: columns,
         totalRows: rows.length,
 
-        wrapper: document.querySelector('.ui-table-wrapper'),
-        header: document.querySelector('.ui-table-header'),
-        body: document.querySelector('.ui-table-body'),
-        aria: document.querySelector('.ui-offscreen'),
-        'x-scroll-track': document.querySelector('.ui-table-x-scroll-track'),
-        'y-scroll-track': document.querySelector('.ui-table-y-scroll-track'),
-        'x-scroll-handle': document.querySelector('.ui-table-x-scroll-handle'),
-        'y-scroll-handle': document.querySelector('.ui-table-y-scroll-handle'),
+        wrapper: document.querySelector('.b-table-wrapper'),
+        header: document.querySelector('.b-table-header'),
+        body: document.querySelector('.b-table-body'),
+        aria: document.querySelector('.b-offscreen'),
+        'x-scroll-track': document.querySelector('.b-table-x-scroll-track'),
+        'y-scroll-track': document.querySelector('.b-table-y-scroll-track'),
+        'x-scroll-handle': document.querySelector('.b-table-x-scroll-handle'),
+        'y-scroll-handle': document.querySelector('.b-table-y-scroll-handle'),
     };
 
     const create = (modification) => (new T({...base, ...modification}));
@@ -452,7 +452,7 @@ describe('Table', () => {
             expect(t.getActiveRowIndex()).toBeUndefined();
         });
 
-        it('are tagged with .ui-table-row-(even|odd) based on index', () => {
+        it('are tagged with .b-table-row-(even|odd) based on index', () => {
             t = new T(base);
 
             expect(t.rows[0].node.classList.contains(ROW_EVEN)).toBe(true);
@@ -528,7 +528,7 @@ describe('Table', () => {
             expect(t.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
         });
 
-        it('are tagged with .ui-table-cell-(even|odd) based on index', () => {
+        it('are tagged with .b-table-cell-(even|odd) based on index', () => {
             t = new T(base);
 
             expect(t.rows[0].cells[0].node.className).toContain(CELL_EVEN);
@@ -601,7 +601,7 @@ describe('Table', () => {
             expect(t.rows[0].cells[0].node.getAttribute('data-column')).toBe('first_name');
         });
 
-        it('are tagged with .ui-table-cell-(even|odd) based on index', () => {
+        it('are tagged with .b-table-cell-(even|odd) based on index', () => {
             t = new T({...base, getRow: arrayStyleGetRow, totalRows: arrayStyleRows.length});
 
             expect(t.rows[0].cells[0].node.className).toContain(CELL_EVEN);
@@ -906,7 +906,7 @@ describe('Table', () => {
             expect(t.columns[0].title).toBe('abc');
         });
 
-        it('are tagged with .ui-table-cell-(even|odd) based on index', () => {
+        it('are tagged with .b-table-cell-(even|odd) based on index', () => {
             t = new T(base);
 
             expect(t.columns[0].node.classList.contains(CELL_EVEN)).toBe(true);

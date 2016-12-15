@@ -85,7 +85,7 @@ export default class ReactTable extends React.PureComponent {
         allowScrollPropagation: false,
         className: '',
         fitColumnsToTableWidth: false,
-        offscreenClass: 'ui-offscreen',
+        offscreenClass: 'b-offscreen',
         preserveScrollState: true,
     }
 

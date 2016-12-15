@@ -1,40 +1,40 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.ui-image-wrapper {
+.b-image-wrapper {
     display: inline-block;
     position: relative;
     width: 100%;
 }
 
-.ui-image,
-.ui-image-loading,
-.ui-image-error {
+.b-image,
+.b-image-loading,
+.b-image-error {
     width: 100%;
 }
 
-.ui-image {
+.b-image {
     background: background-Image;
     background-size: cover;
     background-position: center;
 }
 
-.ui-image::after,
-.ui-image-loading::before,
-.ui-image-error::before {
+.b-image::after,
+.b-image-loading::before,
+.b-image-error::before {
     content: '';
     display: block;
     padding-top: 100%;
     width: 100%;
 }
 
-.ui-image-loading,
-.ui-image-error {
+.b-image-loading,
+.b-image-error {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-.ui-image-loading {
+.b-image-loading {
     background: background-Image-loading;
 
     &::before {
@@ -42,7 +42,7 @@
     }
 }
 
-.ui-image-error {
+.b-image-error {
     background: background-Image-error;
 
     &::before {
