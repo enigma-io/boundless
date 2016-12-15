@@ -1,6 +1,6 @@
 # boundless
 
-## Installation (coming soon)
+## installation (coming soon)
 
 ```bash
 npm i boundless         # the whole library, or...
