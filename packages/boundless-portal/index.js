@@ -13,8 +13,48 @@ export const PORTAL_DATA_ATTRIBUTE = 'data-portal-id';
 export default class Portal extends React.Component {
     static propTypes = {
         // single child only - arrays not allowed
+
+        /**
+         * any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
+
+         * ✅ OK:
+
+         * ```jsx
+         * <Portal>
+         *   foo
+         * </Portal>
+
+         * <Portal>
+         *   <div>foo</div>
+         * </Portal>
+
+         * <Portal>
+         *   <div>
+         *       <div>foo</div>
+         *       <div>bar</div>
+         *   </div>
+         * </Portal>
+         * ```
+
+         * ⛔️ Not OK:
+
+         * ```jsx
+         * <Portal>
+         *   <div>foo</div>
+         *   <div>bar</div>
+         * </Portal>
+         * ```
+         */
         children: React.PropTypes.node.isRequired,
+
+        /**
+         * the location to append the generated portal and child elements
+         */
         destination: PropTypes.instanceOf(HTMLElement),
+
+        /**
+         * the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node
+         */
         portalId: PropTypes.string,
     }
 

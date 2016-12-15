@@ -16,12 +16,40 @@ const last = (array) => array[array.length - 1];
 export default class TokenizedInput extends React.PureComponent {
     static propTypes = {
         ...Typeahead.propTypes,
+
+        /**
+         * function handler that is called when an entity is selected by the user and a token should be created
+         */
         handleAddToken: PropTypes.func,
+
+        /**
+         * function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected
+         */
         handleRemoveTokens: PropTypes.func,
+
+        /**
+         * function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be
+         */
         handleNewSelection: PropTypes.func,
+
+        /**
+         * the JSX used for the close button itself
+         */
         tokenCloseComponent: PropTypes.element,
+
+        /**
+         * determines if the `.ui-tokenfield-token-close` element should be rendered for each token
+         */
         tokenCloseVisible: PropTypes.bool,
+
+        /**
+         * the indexes of entities that should be rendered as "tokens" in the component UI
+         */
         tokens: PropTypes.arrayOf(PropTypes.number),
+
+        /**
+         * the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`
+         */
         tokensSelected: PropTypes.arrayOf(PropTypes.number),
     }
 

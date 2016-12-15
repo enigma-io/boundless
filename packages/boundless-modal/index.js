@@ -12,8 +12,20 @@ import omit from '../boundless-utils-omit-keys/index';
 export default class Modal extends React.PureComponent {
     static propTypes = {
         ...Dialog.propTypes,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-mask` node
+         */
         maskProps: PropTypes.object,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+         */
         modalProps: PropTypes.object,
+
+        /**
+         * any/all supported [Portal props](boundless-portal/README.md)
+         */
         portalProps: PropTypes.object,
     }
 

@@ -15,18 +15,3 @@ __Keyboard__ | `[Enter, Space]` (unpressed) | trigger the `onPressed` handler
 __Keyboard__ | `[Enter, Space]` (pressed) | trigger the `onUnpressed` handler
 __Mouse__ | `click` (unpressed) | trigger the `onPressed` handler
 __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
-
----
-
-### Props
-
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-button` node
-
-- __onPressed(event)__ `Function`
-  called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed
-
-- __onUnpressed(event)__ `Function`
-  called when the element becomes "unpressed"; backing data must be updated to persist the state change
-
-- __pressed__ `Boolean`
-  enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)

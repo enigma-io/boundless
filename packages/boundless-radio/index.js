@@ -11,12 +11,39 @@ import uuid from '../boundless-utils-uuid/index';
  */
 export default class Radio extends React.PureComponent {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
+         */
         inputProps: PropTypes.object,
+
+        /**
+         * any React-renderable content, most commonly a simple string
+         */
         label: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
+         */
         labelProps: PropTypes.object,
+
+        /**
+         * passthrough to the HTML `name` attribute on the `.ui-radio` node
+         */
         name: PropTypes.string.isRequired,
+
+        /**
+         * called when the element becomes selected; backing data must be updated to persist the state change
+         */
         onSelected: PropTypes.func,
+
+        /**
+         * determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+         */
         selected: PropTypes.bool,
+
+        /**
+         * passthrough to the HTML `value` attribute on the `.ui-radio` node
+         */
         value: PropTypes.string.isRequired,
     }
 

@@ -10,15 +10,3 @@ The most common use case for this class is fitting single-line text of unknown/v
 ### Interactions
 
 There are no expected user interactions. The component emits normal text and merely changes the presentation; accessibility is not obstructed.
-
----
-
-### Props
-
-- any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-text` node
-
-- __component__ `string|function`
-  any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
-
-- __maxFontSize__ `Number`
-  an upper-boundary for how large the UI text is allowed to grow

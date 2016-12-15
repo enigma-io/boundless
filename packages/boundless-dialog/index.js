@@ -14,20 +14,76 @@ const toArray = Array.prototype.slice;
  */
 export default class Dialog extends React.PureComponent {
     static propTypes = {
+        /**
+         * arbitrary content to be rendered after the dialog in the DOM
+         */
         after: PropTypes.node,
+
+        /**
+         * arbitrary content to be rendered before the dialog in the DOM
+         */
         before: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
+         */
         bodyProps: PropTypes.object,
+
+        /**
+         * determines if focus is allowed to move away from the dialog
+         */
         captureFocus: PropTypes.bool,
+
         children: PropTypes.node,
+
+        /**
+         * enable detection of "Escape" keypresses to trigger `props.onClose`
+         */
         closeOnEscKey: PropTypes.bool,
+
+        /**
+         * enable detection of clicks outside the dialog area to trigger `props.onClose`
+         */
         closeOnOutsideClick: PropTypes.bool,
+
+        /**
+         * enable detection of focus outside the dialog area to trigger `props.onClose`
+         */
         closeOnOutsideFocus: PropTypes.bool,
+
+        /**
+         * enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`
+         */
         closeOnOutsideScroll: PropTypes.bool,
+
+        /**
+         * text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+         */
         footer: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
+         */
         footerProps: PropTypes.object,
+
+        /**
+         * text, ReactElements, etc. to represent the "title bar" area of the dialog
+         */
         header: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
+         */
         headerProps: PropTypes.object,
+
+        /**
+         * a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+         */
         onClose: PropTypes.func,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-wrapper` node
+         */
         wrapperProps: PropTypes.object,
     }
 

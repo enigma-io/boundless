@@ -107,13 +107,39 @@ export default class Pagination extends React.PureComponent {
     }
 
     static propTypes = {
+        /**
+         * arbitrary content to be rendered after the items in the DOM
+         */
         after: PropTypes.node,
+
+        /**
+         * arbitrary content to be rendered before the items in the DOM
+         */
         before: PropTypes.node,
+
+        /**
+         * allows for arbitrary content to be rendered into the control area
+         */
         customControlContent: PropTypes.node,
+
+        /**
+         * called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously
+         */
         getItem: PropTypes.func,
+
+        /**
+         * does not render the paging controls if the number of items supplied to the view is less-than-or-equal-to the number of items to show per page via `props.numItemsPerPage`
+         */
         hidePagerIfNotNeeded: PropTypes.bool,
+
+        /**
+         * a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data
+         */
         identifier: PropTypes.string.isRequired,
 
+        /**
+         * the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages
+         */
         initialPage: function validateInitialPage(props) {
             if (isInteger(props.initialPage) === false) {
                 return new Error('`initialPage` must be an integer.');
@@ -126,13 +152,39 @@ export default class Pagination extends React.PureComponent {
             }
         },
 
+        /**
+         * allows for arbitrary content to be rendered into pagination items as they're loading if the backing data is a `Promise`
+         */
         itemLoadingContent: PropTypes.node,
+
+        /**
+         * an optional function to specify how an item should be converted to JSX, if it is not already renderable by React
+         */
         itemToJSXConverterFunc: PropTypes.func,
+
+        /**
+         * content to be displayed inside of the "First page" control button
+         */
         jumpToFirstControlContent: PropTypes.node,
+
+        /**
+         * content to be displayed inside of the "Last page" control button
+         */
         jumpToLastControlContent: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-pagination-item-list` node
+         */
         listWrapperProps: PropTypes.object,
+
+        /**
+         * content to be displayed inside of the "Next page" control button
+         */
         nextPageControlContent: PropTypes.node,
 
+        /**
+         * the maximum number of items to be displayed on each page; must be greater than zero
+         */
         numItemsPerPage: function validateNumItemsPerPage(props) {
             if (isInteger(props.numItemsPerPage) === false) {
                 return new Error('`numItemsPerPage` must be an integer.');
@@ -141,16 +193,57 @@ export default class Pagination extends React.PureComponent {
             }
         },
 
+        /**
+         * the maximum number of pages to be displayed in the control bar at one time
+         */
         numPageToggles: PropTypes.number,
+
+        /**
+         * determines whether the pagination controls are displayed above, below, or both above and below the content
+         */
         position: PropTypes.oneOf(Object.keys(Pagination.positions)),
+
+        /**
+         * content to be displayed inside of the "Previous page" control button
+         */
         previousPageControlContent: PropTypes.node,
+
+        /**
+         * whether the "First page" control button should be displayed
+         */
         showJumpToFirst: PropTypes.bool,
+
+        /**
+         * whether the "Last page" control button should be displayed
+         */
         showJumpToLast: PropTypes.bool,
+
+        /**
+         * renders an element called `.ui-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
+
+         * ```jsx
+         * showPaginatedState={
+         *     (currentPage, totalPages) => (
+         *         <div className='foo'>
+         *             You're on page {currentPage} of {totalPages} pages!
+         *         </div>
+         *     )
+         * }
+         * ```
+         */
         showPaginationState: PropTypes.oneOfType([
             PropTypes.bool,
             PropTypes.func,
         ]),
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.ui-pagination-controls`
+         */
         toggleWrapperProps: PropTypes.object,
+
+        /**
+         * the total number of items to be displayed in the view
+         */
         totalItems: PropTypes.number.isRequired,
     }
 

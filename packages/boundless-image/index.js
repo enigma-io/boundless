@@ -15,10 +15,29 @@ export default class Image extends React.PureComponent {
     }
 
     static propTypes = {
+        /**
+         * a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.ui-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
+         */
         alt: PropTypes.string,
+
+        /**
+         * emits the image as a `<div>` with `background-image` css property set instead of `<img>`
+         */
         displayAsBackgroundImage: PropTypes.bool,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image` node
+         */
         imageProps: PropTypes.object,
+
+        /**
+         * a valid path to the desired image
+         */
         src: PropTypes.string.isRequired,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-image-status` node
+         */
         statusProps: PropTypes.object,
     }
 
