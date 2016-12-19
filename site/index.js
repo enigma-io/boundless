@@ -424,7 +424,9 @@ class Container extends React.PureComponent {
     renderSubPropTableRow = (props, name, depth) => (
         <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
             <td><strong>{name}</strong></td>
-            <td><pre><code>{props[name].name}</code></pre></td>
+            <td>
+                <pre><code>{props[name].name}</code></pre>
+            </td>
             <td><Markdown>{props[name].description}</Markdown></td>
             <td colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
         </tr>
@@ -440,11 +442,7 @@ class Container extends React.PureComponent {
             break;
 
         case 'enum':
-            if (typeof type.value === 'string') {
-                return `enum(${type.value})`;
-            }
-
-            return `enum([\n${type.value.map((v) => `  ${v.value}`).join(',\n')},\n])`;
+            return `enum(${type.value})`;
 
         case 'union':
             return type.value.map((v) => v.name).join('|');
@@ -460,13 +458,11 @@ class Container extends React.PureComponent {
 
         const rows = [
             <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
+                <td><strong>{name}</strong></td>
                 <td>
-                    <strong>{name}</strong>
+                    <pre><code>{this.formatPropType(prop.type)}</code></pre>
                 </td>
-                <td><pre><code>{this.formatPropType(prop.type)}</code></pre></td>
-                <td>
-                    <Markdown>{prop.description}</Markdown>
-                </td>
+                <td><Markdown>{prop.description}</Markdown></td>
                 <td>{prop.required ? 'Yes' : 'No'}</td>
                 <td>
                     <pre>
@@ -478,16 +474,12 @@ class Container extends React.PureComponent {
             </tr>
         ];
 
-        const hasSubProps = !!prop.type.value
-                            && (prop.type.value.value || prop.type.value.raw)
-                            && prop.type.name !== 'enum'
-                            && prop.type.name !== 'union'
-                            && prop.type.name !== 'instanceOf';
-
-        if (hasSubProps) {
-            const subProps = prop.type.value.name === 'shape'
-                             ? prop.type.value.value
-                             : prop.type.value;
+        if (!!prop.type.value
+            && (prop.type.value.value || prop.type.value.raw)
+            && prop.type.name !== 'enum'
+            && prop.type.name !== 'union'
+            && prop.type.name !== 'instanceOf') {
+            const subProps = prop.type.value.name === 'shape' ? prop.type.value.value : prop.type.value;
 
             if (subProps.name && subProps.name === 'custom') {
                 const subPropsRaw = subProps.raw.split('.');
@@ -495,9 +487,7 @@ class Container extends React.PureComponent {
                 const subPropName = subPropsRaw[2];
 
                 return rows.concat(this.renderPropTableRows(
-                    {
-                        [subPropName]: get(components[component], `docgenInfo.props[${subPropName}]`, {}),
-                    },
+                    { [subPropName]: get(components[component], `docgenInfo.props[${subPropName}]`, {}), },
                     subPropName,
                     depth + 1,
                 ));
@@ -534,11 +524,10 @@ class Container extends React.PureComponent {
         if (docgenInfo && docgenInfo.props) {
             return (
                 <div className='ui-props-section'>
-                    <h3 id='props'>Props</h3>
+                    <h3>Props</h3>
                     <p>
                         Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
                     </p>
-
                     {this.renderPropTable(docgenInfo.props)}
                 </div>
             );
@@ -546,9 +535,9 @@ class Container extends React.PureComponent {
     }
 
     render() {
-        const docgenInfo =   this.props.children
-                         ? this.props.children.props.route.docgenInfo
-                         : this.props.route.docgenInfo;
+        const docgenInfo = this.props.children
+                           ? this.props.children.props.route.docgenInfo
+                           : this.props.route.docgenInfo;
 
         return (
             <div onClick={this.handleClick}>
@@ -560,8 +549,8 @@ class Container extends React.PureComponent {
                     <Markdown container='div' options={{html: true}}>
                         {
                             this.props.children
-                          ? this.props.children.props.route.readme
-                          : this.props.route.readme
+                            ? this.props.children.props.route.readme
+                            : this.props.route.readme
                         }
                     </Markdown>
 
