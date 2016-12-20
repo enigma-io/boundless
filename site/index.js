@@ -422,7 +422,7 @@ class Container extends React.PureComponent {
     }
 
     renderSubPropTableRow = (props, name, depth) => (
-        <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
+        <tr key={name} className={`prop-row prop-depth-${depth}`}>
             <td><strong>{name}</strong></td>
             <td>
                 <pre><code>{props[name].name}</code></pre>
@@ -457,7 +457,7 @@ class Container extends React.PureComponent {
         if (!prop.type) { return null; }
 
         const rows = [
-            <tr key={name} className={`ui-prop-row prop-depth-${depth}`}>
+            <tr key={name} className={`prop-row prop-depth-${depth}`}>
                 <td><strong>{name}</strong></td>
                 <td>
                     <pre><code>{this.formatPropType(prop.type)}</code></pre>
@@ -505,7 +505,7 @@ class Container extends React.PureComponent {
         return (
             <table>
                 <thead>
-                    <tr className='ui-prop-row'>
+                    <tr className='prop-row'>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Description</th>
@@ -523,7 +523,7 @@ class Container extends React.PureComponent {
     maybeRenderPropInfo(docgenInfo) {
         if (docgenInfo && docgenInfo.props) {
             return (
-                <div className='ui-props-section'>
+                <div className='props-section'>
                     <h3>Props</h3>
                     <p>
                         Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
