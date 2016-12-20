@@ -67,7 +67,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
     });
 
     it('defaults to the first child being "active" and included in the tabbing context', () => {
-        expect(node.querySelector('[data-index="0"][tabindex="0"]')).not.toBeNull();
+        expect(node.querySelector('[data-focus-index="0"][tabindex="0"]')).not.toBeNull();
     });
 
     it('allows the specification of a default child to be made "active" and included in the tabbing context', () => {
@@ -81,7 +81,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
 
         node = element.refs.wrapper;
 
-        expect(node.querySelector('[data-index="1"][tabindex="0"]')).not.toBeNull();
+        expect(node.querySelector('[data-focus-index="1"][tabindex="0"]')).not.toBeNull();
     });
 
     describe('setFocus(index)', () => {

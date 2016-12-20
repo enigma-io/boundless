@@ -84,7 +84,7 @@ class Item extends React.PureComponent {
         return React.cloneElement(this.state.component, {
             ...omit(this.props, Item.internalKeys),
             className: this.getClasses(this.state.component.props && this.state.component.props.className),
-            'data-index': this.props.index,
+            'data-pagination-index': this.props.index,
         });
     }
 }
