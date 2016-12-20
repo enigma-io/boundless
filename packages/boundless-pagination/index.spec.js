@@ -597,40 +597,40 @@ describe('Pagination component', () => {
         it('keeps the first visible index in view if changed and the identifier remains the same', () => {
             // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
             let element = render(<Pagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
-            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="2"]')).not.toBe(null);
 
             element = render(<Pagination {...baseProps} numItemsPerPage={1} />);
-            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="2"]')).not.toBe(null);
         });
 
         it('keeps the last paged-to index in view if the user has not paged backward or forward yet', () => {
             // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
             let element = render(<Pagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
-            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="2"]')).not.toBe(null);
 
             element.pageToIndex(4);
-            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="4"]')).not.toBe(null);
 
             element = render(<Pagination {...baseProps} numItemsPerPage={1} />);
-            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="4"]')).not.toBe(null);
         });
 
         it('keeps the first visible index in view if the user pages back/forward after programmatic pageToIndex()', () => {
             // starting on page 2 with 2 items per page, so the significant index is index 2 (0, 1)
             let element = render(<Pagination {...baseProps} numItemsPerPage={2} initialPage={2} />);
-            expect(dom(element).querySelector('[data-index="2"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="2"]')).not.toBe(null);
 
             element.pageToIndex(4);
-            expect(dom(element).querySelector('[data-index="4"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="4"]')).not.toBe(null);
 
             element.handleClick(Pagination.controls.NEXT);
-            expect(dom(element).querySelector('[data-index="6"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="6"]')).not.toBe(null);
 
             element = render(<Pagination {...baseProps} numItemsPerPage={1} />);
-            expect(dom(element).querySelector('[data-index="6"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="6"]')).not.toBe(null);
 
             element.handleClick(Pagination.controls.PREVIOUS);
-            expect(dom(element).querySelector('[data-index="5"]')).not.toBe(null);
+            expect(dom(element).querySelector('[data-pagination-index="5"]')).not.toBe(null);
         });
     });
 
