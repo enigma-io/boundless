@@ -140,8 +140,8 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     handleFocus = (event) => {
-        if (event.target.hasAttribute('data-index')) {
-            const index = parseInt(event.target.getAttribute('data-index'), 10);
+        if (event.target.hasAttribute('data-focus-index')) {
+            const index = parseInt(event.target.getAttribute('data-focus-index'), 10);
             const child = React.Children.toArray(this.props.children)[index];
 
             this.setState({activeChildIndex: index});
@@ -155,7 +155,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     children() {
         return React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
-                'data-index': index,
+                'data-focus-index': index,
                 'data-skip': parseInt(child.props.tabIndex, 10) === -1 || undefined,
                 key: child.key || index,
                 tabIndex: this.state.activeChildIndex === index ? 0 : -1,
