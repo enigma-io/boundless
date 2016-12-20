@@ -29,8 +29,6 @@ export default class Popover extends React.PureComponent {
         END: 'END',
     }
 
-    static positionValues = values(Popover.position)
-
     static preset = {
         'ABOVE': {
             anchorXAlign: Popover.position.MIDDLE,
@@ -85,7 +83,7 @@ export default class Popover extends React.PureComponent {
          * - `Popover.position.END`
          *   equates to `{100, ?}` on a 100x100 cartesian plane
          */
-        anchorXAlign: PropTypes.oneOf(Popover.positionValues),
+        anchorXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * location on the anchor Y-axis to use for alignment calculations
@@ -98,7 +96,7 @@ export default class Popover extends React.PureComponent {
          * - `Popover.position.END`
          *   equates to `{?, 100}` on a 100x100 cartesian plane
          */
-        anchorYAlign: PropTypes.oneOf(Popover.positionValues),
+        anchorYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
@@ -140,7 +138,7 @@ export default class Popover extends React.PureComponent {
          * - `Popover.position.END`
          *   equates to `{100, ?}` on a 100x100 cartesian plane
          */
-        selfXAlign: PropTypes.oneOf(Popover.positionValues),
+        selfXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * location on the popover Y-axis to use for alignment calculations
@@ -153,7 +151,7 @@ export default class Popover extends React.PureComponent {
          * - `Popover.position.END`
          *   equates to `{?, 100}` on a 100x100 cartesian plane
          */
-        selfYAlign: PropTypes.oneOf(Popover.positionValues),
+        selfYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node

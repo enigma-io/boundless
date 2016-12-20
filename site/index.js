@@ -92,96 +92,115 @@ const pages = {
 
 const components = {
     'ArrowKeyNavigation': {
+        ...ArrowKeyNavigation,
         component: ArrowKeyNavigationDemo,
         docgenInfo: ArrowKeyNavigation.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-arrow-key-navigation/README.md', 'utf8'),
     },
     'Button': {
+        ...Button,
         component: ButtonDemo,
         docgenInfo: Button.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-button/README.md', 'utf8'),
     },
     'Checkbox': {
+        ...Checkbox,
         component: CheckboxDemo,
         docgenInfo: Checkbox.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox/README.md', 'utf8'),
     },
     'CheckboxGroup': {
+        ...CheckboxGroup,
         component: CheckboxGroupDemo,
         docgenInfo: CheckboxGroup.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
     },
     'Dialog': {
+        ...Dialog,
         component: DialogDemo,
         docgenInfo: Dialog.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
     },
     'FittedText': {
+        ...FittedText,
         component: FittedTextDemo,
         docgenInfo: FittedText.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-fitted-text/README.md', 'utf8'),
     },
     'Image': {
+        ...Image,
         component: ImageDemo,
         docgenInfo: Image.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-image/README.md', 'utf8'),
     },
     'Input': {
+        ...Input,
         component: InputDemo,
         docgenInfo: Input.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-input/README.md', 'utf8'),
     },
     'Modal': {
+        ...Modal,
         component: ModalDemo,
         docgenInfo: Modal.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-modal/README.md', 'utf8'),
     },
     'Pagination': {
+        ...Pagination,
         component: PaginationDemo,
         docgenInfo: Pagination.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-pagination/README.md', 'utf8'),
     },
     'Popover': {
+        ...Popover,
         component: PopoverDemo,
         docgenInfo: Popover.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-popover/README.md', 'utf8'),
     },
     'Portal': {
+        ...Portal,
         component: NullComponent,
         docgenInfo: Portal.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-portal/README.md', 'utf8'),
     },
     'Progress': {
+        ...Progress,
         component: ProgressDemo,
         docgenInfo: Progress.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-progress/README.md', 'utf8'),
     },
     'ProgressiveDisclosure': {
+        ...ProgressiveDisclosure,
         component: ProgressiveDisclosureDemo,
         docgenInfo: ProgressiveDisclosure.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-progressive-disclosure/README.md', 'utf8'),
     },
     'Radio': {
+        ...Radio,
         component: RadioDemo,
         docgenInfo: Radio.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-radio/README.md', 'utf8'),
     },
     'SegmentedControl': {
+        ...SegmentedControl,
         component: SegmentedControlDemo,
         docgenInfo: SegmentedControl.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-segmented-control/README.md', 'utf8'),
     },
     'TokenizedInput': {
+        ...TokenizedInput,
         component: TokenizedInputDemo,
         docgenInfo: TokenizedInput.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-tokenized-input/README.md', 'utf8'),
     },
     'Tooltip': {
+        ...Tooltip,
         component: TooltipDemo,
         docgenInfo: Tooltip.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-tooltip/README.md', 'utf8'),
     },
     'Typeahead': {
+        ...Typeahead,
         component: TypeaheadDemo,
         docgenInfo: Typeahead.__docgenInfo,
         readme: fs.readFileSync(__dirname + '/../packages/boundless-typeahead/README.md', 'utf8'),
@@ -442,6 +461,14 @@ class Container extends React.PureComponent {
             break;
 
         case 'enum':
+            if (type.computed === true) {
+                const prefix = type.value.split(/[()]+/)[1];
+
+                return 'enum([\n  ' + Object.keys(
+                    get(components, prefix, {})
+                ).map((key) => `${prefix}.${key}`).join('\n  ') + '\n])';
+            }
+
             return `enum(${type.value})`;
 
         case 'union':
