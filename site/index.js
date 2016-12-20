@@ -471,7 +471,7 @@ class Container extends React.PureComponent {
                         </code>
                     </pre>
                 </td>
-            </tr>
+            </tr>,
         ];
 
         if (!!prop.type.value
@@ -487,14 +487,14 @@ class Container extends React.PureComponent {
                 const subPropName = subPropsRaw[2];
 
                 return rows.concat(this.renderPropTableRows(
-                    { [subPropName]: get(components[component], `docgenInfo.props[${subPropName}]`, {}), },
+                    { [subPropName]: get(components[component], `docgenInfo.props[${subPropName}]`, {}) },
                     subPropName,
                     depth + 1,
                 ));
             }
 
             return rows.concat(
-                Object.keys(subProps).map((name) => this.renderSubPropTableRow(subProps, name, depth + 1))
+                Object.keys(subProps).map((subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1))
             );
         }
 
