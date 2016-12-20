@@ -14,12 +14,12 @@ export default class Modal extends React.PureComponent {
         ...Dialog.propTypes,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal-mask` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` node
          */
         maskProps: PropTypes.object,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-modal` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` node
          */
         modalProps: PropTypes.object,
 

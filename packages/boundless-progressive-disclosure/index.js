@@ -46,7 +46,7 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         teaserExpanded: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-disclosure-toggle` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
          */
         toggleProps: PropTypes.object,
     }

@@ -13,7 +13,7 @@ export default class Input extends React.PureComponent {
         hidePlaceholderOnFocus: PropTypes.bool,
 
         /**
-         * props to be passed through to the input node, `.ui-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+         * props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
          */
         inputProps: PropTypes.shape({
             defaultValue: PropTypes.string,

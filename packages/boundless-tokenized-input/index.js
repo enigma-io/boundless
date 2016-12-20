@@ -38,7 +38,7 @@ export default class TokenizedInput extends React.PureComponent {
         tokenCloseComponent: PropTypes.element,
 
         /**
-         * determines if the `.ui-tokenfield-token-close` element should be rendered for each token
+         * determines if the `.b-tokenfield-token-close` element should be rendered for each token
          */
         tokenCloseVisible: PropTypes.bool,
 

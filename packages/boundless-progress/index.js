@@ -11,7 +11,7 @@ import omit from '../boundless-utils-omit-keys/index';
 export default class Progress extends React.PureComponent {
     static propTypes = {
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-cancel` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
          */
         cancelProps: PropTypes.object,
 
@@ -29,7 +29,7 @@ export default class Progress extends React.PureComponent {
         label: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress-label` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node
          */
         labelProps: PropTypes.object,
 
@@ -47,7 +47,7 @@ export default class Progress extends React.PureComponent {
         ]),
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-progress` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
          */
         progressProps: PropTypes.object,
 

@@ -154,7 +154,7 @@ export default class Popover extends React.PureComponent {
         selfYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-popover` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
          */
         wrapperProps: PropTypes.object,
     }

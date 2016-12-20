@@ -12,7 +12,7 @@ import uuid from '../boundless-utils-uuid/index';
 export default class Radio extends React.PureComponent {
     static propTypes = {
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
          */
         inputProps: PropTypes.object,
 
@@ -22,12 +22,12 @@ export default class Radio extends React.PureComponent {
         label: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-radio-label` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
          */
         labelProps: PropTypes.object,
 
         /**
-         * passthrough to the HTML `name` attribute on the `.ui-radio` node
+         * passthrough to the HTML `name` attribute on the `.b-radio` node
          */
         name: PropTypes.string.isRequired,
 
@@ -42,7 +42,7 @@ export default class Radio extends React.PureComponent {
         selected: PropTypes.bool,
 
         /**
-         * passthrough to the HTML `value` attribute on the `.ui-radio` node
+         * passthrough to the HTML `value` attribute on the `.b-radio` node
          */
         value: PropTypes.string.isRequired,
     }

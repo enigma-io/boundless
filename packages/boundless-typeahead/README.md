@@ -24,7 +24,7 @@ Typeahead offers two built-in matching algorithms: "fuzzy" (the default) and "st
 
    Follow the guide in the [props summary for algorithm](#available-props).
 
-__Typeahead accepts all supported [Input props](../Input/README.md#available-props); applied to the `.ui-textual-input-wrapper` node__
+__Typeahead accepts all supported [Input props](../Input/README.md#available-props); applied to the `.b-textual-input-wrapper` node__
 
 ---
 

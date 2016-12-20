@@ -21,7 +21,7 @@ export default class Button extends React.PureComponent {
         onUnpressed: PropTypes.func,
 
         /**
-         * enables "pressed" support and adds the `aria-pressed` attribute to the `.ui-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
+         * enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
          */
         pressed: PropTypes.bool,
     }

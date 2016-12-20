@@ -173,7 +173,7 @@ export default class Pagination extends React.PureComponent {
         jumpToLastControlContent: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-pagination-item-list` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-pagination-item-list` node
          */
         listWrapperProps: PropTypes.object,
 
@@ -219,7 +219,7 @@ export default class Pagination extends React.PureComponent {
         showJumpToLast: PropTypes.bool,
 
         /**
-         * renders an element called `.ui-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
+         * renders an element called `.b-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
 
          * ```jsx
          * showPaginatedState={
@@ -237,7 +237,7 @@ export default class Pagination extends React.PureComponent {
         ]),
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.ui-pagination-controls`
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.b-pagination-controls`
          */
         toggleWrapperProps: PropTypes.object,
 

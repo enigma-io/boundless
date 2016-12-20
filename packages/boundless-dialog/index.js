@@ -25,7 +25,7 @@ export default class Dialog extends React.PureComponent {
         before: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-body` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
          */
         bodyProps: PropTypes.object,
 
@@ -62,7 +62,7 @@ export default class Dialog extends React.PureComponent {
         footer: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-footer` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
          */
         footerProps: PropTypes.object,
 
@@ -72,7 +72,7 @@ export default class Dialog extends React.PureComponent {
         header: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-header` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
          */
         headerProps: PropTypes.object,
 
@@ -82,7 +82,7 @@ export default class Dialog extends React.PureComponent {
         onClose: PropTypes.func,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-dialog-wrapper` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
          */
         wrapperProps: PropTypes.object,
     }

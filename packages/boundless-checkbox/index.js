@@ -10,7 +10,7 @@ export default class Checkbox extends React.PureComponent {
     static propTypes = {
         /**
          * all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-         * Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox` node
+         * Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
          */
         inputProps: PropTypes.shape({
             /**
@@ -51,7 +51,7 @@ export default class Checkbox extends React.PureComponent {
         label: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-checkbox-label` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
          */
         labelProps: PropTypes.object,
 

@@ -75,7 +75,7 @@ export default class Typeahead extends React.PureComponent {
         clearPartialInputOnSelection: PropTypes.bool,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.ui-typeahead-match` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` node
          */
         entities: PropTypes.arrayOf(
             PropTypes.shape({
@@ -92,12 +92,12 @@ export default class Typeahead extends React.PureComponent {
         hint: PropTypes.bool,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-hint` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` node
          */
         hintProps: PropTypes.object,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.ui-typeahead-match-wrapper` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` node
          */
         matchWrapperProps: PropTypes.object,
 
