@@ -6,17 +6,41 @@ import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
-/**
- * An accessible radio form control.
- */
 export default class Radio extends React.PureComponent {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
+         */
         inputProps: PropTypes.object,
+
+        /**
+         * any React-renderable content, most commonly a simple string
+         */
         label: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
+         */
         labelProps: PropTypes.object,
+
+        /**
+         * passthrough to the HTML `name` attribute on the `.b-radio` node
+         */
         name: PropTypes.string.isRequired,
+
+        /**
+         * called when the element becomes selected; backing data must be updated to persist the state change
+         */
         onSelected: PropTypes.func,
+
+        /**
+         * determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+         */
         selected: PropTypes.bool,
+
+        /**
+         * passthrough to the HTML `value` attribute on the `.b-radio` node
+         */
         value: PropTypes.string.isRequired,
     }
 

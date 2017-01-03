@@ -5,24 +5,52 @@ import Button from '../boundless-button/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * An unopinionated progress implementation that allows for a variety of shapes and effects.
- */
 export default class Progress extends React.PureComponent {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
+         */
         cancelProps: PropTypes.object,
+
+        /**
+         * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+         */
         component: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.func,
         ]),
+
+        /**
+         * the value to show as a label of the progress, e.g. "50%"
+         */
         label: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node
+         */
         labelProps: PropTypes.object,
+
+        /**
+         * if supplied, adds a cancel element and calls this function when that element is clicked
+         */
         onCancel: PropTypes.func,
+
+        /**
+         * the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
+         */
         progress: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.number,
         ]),
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
+         */
         progressProps: PropTypes.object,
+
+        /**
+         * the CSS property to tween (must accept percentages) - defaults to "width"
+         */
         tweenProperty: PropTypes.string,
     }
 

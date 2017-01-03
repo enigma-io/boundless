@@ -38,8 +38,21 @@
             ]
         },
 
+        "site-development": {
+            "plugins": [
+                "react-docgen",
+                "transform-class-properties"
+            ],
+            "presets": [
+                "es2015",
+                "react",
+                "stage-2"
+            ]
+        },
+
         "site-production": {
             "plugins": [
+                "react-docgen",
                 "transform-class-properties",
                 "transform-react-remove-prop-types"
             ],

@@ -7,7 +7,14 @@ import omit from '../boundless-utils-omit-keys/index';
 
 export default class Input extends React.PureComponent {
     static propTypes = {
+        /**
+         * triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
+         */
         hidePlaceholderOnFocus: PropTypes.bool,
+
+        /**
+         * props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+         */
         inputProps: PropTypes.shape({
             defaultValue: PropTypes.string,
             onBlur: PropTypes.func,

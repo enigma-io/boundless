@@ -50,19 +50,24 @@ function unregisterInstance(instance) {
     }
 }
 
-/**
- * Fit given text inside a parent container, obeying implict and explicit constraints.
- */
 export default class FittedText extends React.PureComponent {
     static propTypes = {
         children: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
         ]),
+
+        /**
+         * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+         */
         component: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.function,
+            PropTypes.func,
         ]),
+
+        /**
+         * an upper bound (in pixels) for how large the text is allowed to grow
+         */
         maxFontSize: PropTypes.number,
     }
 

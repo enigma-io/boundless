@@ -7,13 +7,25 @@ import extractChildProps from '../boundless-utils-object-intersection/index';
 import omit from '../boundless-utils-omit-keys/index';
 
 /**
- * A blocking, focus-stealing container.
+ * __Modal supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-modal` node__
  */
 export default class Modal extends React.PureComponent {
     static propTypes = {
         ...Dialog.propTypes,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` node
+         */
         maskProps: PropTypes.object,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` node
+         */
         modalProps: PropTypes.object,
+
+        /**
+         * any/all supported [Portal props](boundless-portal/README.md)
+         */
         portalProps: PropTypes.object,
     }
 

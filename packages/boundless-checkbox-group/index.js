@@ -5,9 +5,6 @@ import Checkbox from '../boundless-checkbox/index';
 import omit from '../boundless-utils-omit-keys/index';
 import noop from '../boundless-utils-noop/index';
 
-/**
- * A controller view for managing the aggregate state of multiple, related checkboxes.
- */
 export default class CheckboxGroup extends React.PureComponent {
     static Constants = {
         SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
@@ -15,26 +12,51 @@ export default class CheckboxGroup extends React.PureComponent {
     }
 
     static propTypes = {
-        items: PropTypes.arrayOf(
-            PropTypes.shape({
-                inputProps: PropTypes.shape({
-                    checked: PropTypes.bool.isRequired,
-                    label: PropTypes.string,
-                    name: PropTypes.string.isRequired,
-                    value: PropTypes.string,
-                }),
-            })
-        ).isRequired,
+        /**
+         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)
+         */
+        items: PropTypes.arrayOf(Checkbox.propTypes.inputProps).isRequired,
+
+        /**
+         * called when all children become checked (not fired on first render), no return
+         */
         onAllChecked: PropTypes.func,
+
+        /**
+         * called when all children become unchecked (not fired on first render), no return
+         */
         onAllUnchecked: PropTypes.func,
+
+        /**
+         * called when a specific child has become checked, returns the child definition
+         */
         onChildChecked: PropTypes.func,
+
+        /**
+         * called when a specific child has become checked, returns the child definition
+         */
         onChildUnchecked: PropTypes.func,
+
+        /**
+         * renders a master checkbox that can manipulate the values of all children simultaneously
+         */
         selectAll: PropTypes.bool,
-        selectAllProps: PropTypes.object,
-        selectAllPosition: PropTypes.oneOf([
-            CheckboxGroup.Constants.SELECT_ALL_BEFORE,
-            CheckboxGroup.Constants.SELECT_ALL_AFTER,
-        ]),
+
+        /**
+         * must conform to the [Checkbox prop spec](../Checkbox#props)
+         */
+        selectAllProps: PropTypes.shape({
+            /**
+             * the text or renderable node to display next to the checkbox
+             */
+            label: PropTypes.string,
+            inputProps: PropTypes.object,
+        }),
+
+        /**
+         * (see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"
+         */
+        selectAllPosition: PropTypes.oneOf(Object.keys(CheckboxGroup.Constants)),
     }
 
     static defaultProps = {

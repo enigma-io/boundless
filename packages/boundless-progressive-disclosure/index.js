@@ -5,21 +5,46 @@ import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * Hide content until it's needed.
- */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
+
+        /**
+         * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+         */
         component: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]),
+
+        /**
+         * allows the disclosure to be rendered expanded by default
+         */
         expanded: PropTypes.bool,
+
+        /**
+         * called when the content is shown; not called on initial render
+         */
         onExpand: PropTypes.func,
+
+        /**
+         * called when the content is hidden; not called on initial render
+         */
         onHide: PropTypes.func,
+
+        /**
+         * content to be shown next to the expansion toggle, e.g. "Advanced Options"
+         */
         teaser: PropTypes.node,
+
+        /**
+         * content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
+         */
         teaserExpanded: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
+         */
         toggleProps: PropTypes.object,
     }
 

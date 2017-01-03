@@ -6,25 +6,63 @@ import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
-/**
- * An accessible checkbox with indeterminate support.
- */
 export default class Checkbox extends React.PureComponent {
     static propTypes = {
+        /**
+         * all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
+         * Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
+         */
         inputProps: PropTypes.shape({
+            /**
+             * determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+             */
             checked: PropTypes.bool,
+
             className: PropTypes.string,
+
+            /**
+             * prevents the `on{Checked,Unchecked}` events from firing when `true`
+             */
             disabled: PropTypes.bool,
             id: PropTypes.string,
+
+            /**
+             * enables or disables "mixed" checkbox state, read this [CSS-Tricks article](https://css-tricks.com/indeterminate-checkboxes/)  for more information and examples
+             */
             indeterminate: PropTypes.bool,
+
             onChange: PropTypes.func,
             onClick: PropTypes.func,
+
+            /**
+             * rendered as the input control's form name
+             */
             name: PropTypes.string,
+
+            /**
+             *  passed-through to the input node, like `name`
+             */
             value: PropTypes.string,
         }),
+
+        /**
+         * any React-renderable content, most commonly a simple string
+         */
         label: PropTypes.node,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
+         */
         labelProps: PropTypes.object,
+
+        /**
+         * called when the element becomes checked; backing data must be updated to persist the state change
+         */
         onChecked: PropTypes.func,
+
+        /**
+         * called when the element becomes unchecked; backing data must be updated to persist the state change
+         */
         onUnchecked: PropTypes.func,
     }
 

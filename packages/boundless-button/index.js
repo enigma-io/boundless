@@ -9,8 +9,20 @@ export default class Button extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
         onClick: PropTypes.func,
+
+        /**
+         * called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed
+         */
         onPressed: PropTypes.func,
+
+        /**
+         * called when the element becomes "unpressed"; backing data must be updated to persist the state change
+         */
         onUnpressed: PropTypes.func,
+
+        /**
+         * enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
+         */
         pressed: PropTypes.bool,
     }
 

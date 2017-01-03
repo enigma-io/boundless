@@ -12,18 +12,23 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     static propTypes = {
+        /**
+            Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+        */
         component: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]),
 
+        /**
+            Allows for a particular child to be initially reachable via tabbing
+        */
         defaultActiveChildIndex: PropTypes.number,
 
-        mode: PropTypes.oneOf([
-            ArrowKeyNavigation.mode.HORIZONTAL,
-            ArrowKeyNavigation.mode.VERTICAL,
-            ArrowKeyNavigation.mode.BOTH,
-        ]),
+        /**
+            Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented
+        */
+        mode: PropTypes.oneOf(Object.keys(ArrowKeyNavigation.mode)),
     }
 
     static defaultProps = {

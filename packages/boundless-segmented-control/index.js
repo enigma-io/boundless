@@ -7,12 +7,27 @@ import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * A controller view for managing the aggregate state of multiple, related radio-style buttons.
- */
 export default class SegmentedControl extends React.PureComponent {
     static propTypes = {
+        /**
+         * called when a child element becomes selected; backing data must be updated to persist the state change
+         */
         onOptionSelected: PropTypes.func,
+
+        /**
+         * the backing data for the segments of the rendered control
+
+         * > __Validation Criteria:__
+         * >
+         * > 1. There must be at least two `options` (a segmented control with one button is not allowed)
+         * > 1. There must only be one `option` whose `selected` attribute is `true` (multiple selections are not allowed)
+         * > 1. Each `value` attribute must be unique across the set of `options`
+
+         * - __options[].selected__ `Boolean`
+         * - __options[].value__ `String`
+         * - __options[].content__ `*`
+           * the content to go inside the button
+         */
         options: function validateOptions(props) {
             if (props.options.length < 2) {
                 throw new Error('Must provide at least two options.');

@@ -11,7 +11,7 @@ import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
 /**
- * Intelligently recommend entities via customizable, fuzzy recognition.
+ * __Typeahead accepts all supported [Input props](../Input/README.md#available-props); applied to the `.b-textual-input-wrapper` node__
  */
 export default class Typeahead extends React.PureComponent {
     static mode = {
@@ -21,6 +21,31 @@ export default class Typeahead extends React.PureComponent {
 
     static propTypes = {
         ...Input.propTypes,
+
+        /**
+         * the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
+
+         * - __algorithm.matcher__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
+             provide a custom matching algorithm, adhering to this format:
+
+         * ```js
+         * myMatchFunc(inputText, entities) {
+         *     // ...
+         *     return [match1Index, match2Index, ... ];
+         * }
+         * ```
+
+         * the index is stored instead of the entire entity to conserve memory and reduce data duplication
+
+         * - __algorithm.marker__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
+         *   provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks, adhering to this format:
+
+         * ```js
+         * myMarkFunc(inputText, entity) {
+         *     return <desired JSX templating> ];
+         * }
+         * ```
+         */
         algorithm: PropTypes.oneOfType([
             PropTypes.oneOf([
                 Typeahead.mode.STARTS_WITH,
@@ -43,18 +68,57 @@ export default class Typeahead extends React.PureComponent {
                 ]),
             }),
         ]),
+
+        /**
+         * if `true`, clears the input text when a (partial) match is selected
+         */
         clearPartialInputOnSelection: PropTypes.bool,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` node
+         */
         entities: PropTypes.arrayOf(
             PropTypes.shape({
+                /**
+                 * the text to be used to do string comparison and match against
+                 */
                 text: PropTypes.string,
             })
         ),
+
+        /**
+         * renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input
+         */
         hint: PropTypes.bool,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` node
+         */
         hintProps: PropTypes.object,
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` node
+         */
         matchWrapperProps: PropTypes.object,
+
+        /**
+         * the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
+         */
         offscreenClass: PropTypes.string,
+
+        /**
+         * called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
+         */
         onComplete: PropTypes.func,
+
+        /**
+         * called with the index of the highlighted entity due to keyboard selection
+         */
         onEntityHighlighted: PropTypes.func,
+
+        /**
+         * called with the index of the entity selected by the user
+         */
         onEntitySelected: PropTypes.func,
     }
 

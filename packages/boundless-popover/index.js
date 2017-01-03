@@ -20,7 +20,7 @@ const DEFAULT_CARET_COMPONENT = (
 );
 
 /**
- * A non-blocking container positioned to a specific anchor element.
+ * __Popover supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-popover` node__
  */
 export default class Popover extends React.PureComponent {
     static position = {
@@ -28,8 +28,6 @@ export default class Popover extends React.PureComponent {
         MIDDLE: 'MIDDLE',
         END: 'END',
     }
-
-    static positionValues = values(Popover.position)
 
     static preset = {
         'ABOVE': {
@@ -62,6 +60,10 @@ export default class Popover extends React.PureComponent {
 
     static propTypes = {
         ...Dialog.propTypes,
+
+        /**
+         * a DOM element or React reference to one for positioning purposes
+         */
         anchor: PropTypes.oneOfType([
             PropTypes.instanceOf(HTMLElement),
             PropTypes.shape({
@@ -69,14 +71,91 @@ export default class Popover extends React.PureComponent {
                 state: PropTypes.object,
             }), // a react element of some fashion, PropTypes.element wasn't working
         ]).isRequired,
-        anchorXAlign: PropTypes.oneOf(Popover.positionValues),
-        anchorYAlign: PropTypes.oneOf(Popover.positionValues),
+
+        /**
+         * location on the anchor X-axis to use for alignment calculations
+         * - `Popover.position.START`
+         *   equates to `{0, ?}` on a 100x100 cartesian plane
+
+         * - `Popover.position.MIDDLE`
+         *   equates to `{50, ?}` on a 100x100 cartesian plane
+
+         * - `Popover.position.END`
+         *   equates to `{100, ?}` on a 100x100 cartesian plane
+         */
+        anchorXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
+
+        /**
+         * location on the anchor Y-axis to use for alignment calculations
+         * - `Popover.position.START`
+         *   equates to `{?, 0}` on a 100x100 cartesian plane
+
+         * - `Popover.position.MIDDLE`
+         *   equates to `{?, 50}` on a 100x100 cartesian plane
+
+         * - `Popover.position.END`
+         *   equates to `{?, 100}` on a 100x100 cartesian plane
+         */
+        anchorYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
+
+        /**
+         * if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
+         */
         autoReposition: PropTypes.bool,
+
+        /**
+         * the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover
+         */
         caretComponent: PropTypes.element,
+
+        /**
+         * any/all supported [Portal props](boundless-portal/README.md)
+         */
         portalProps: PropTypes.object,
+
+        /**
+         * a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well:
+
+         * ```jsx
+         * <Popover
+         *     anchor={HTMLElement}
+         *     preset={Popover.preset.BELOW}
+         *     selfXAlign={Popover.position.START}>
+         *     My popover content!
+         * </Popover>
+         * ```
+         */
         preset: PropTypes.oneOf(Popover.presetValues),
-        selfXAlign: PropTypes.oneOf(Popover.positionValues),
-        selfYAlign: PropTypes.oneOf(Popover.positionValues),
+
+        /**
+         * location on the popover X-axis to use for alignment calculations
+         * - `Popover.position.START`
+         *   equates to `{0, ?}` on a 100x100 cartesian plane
+
+         * - `Popover.position.MIDDLE`
+         *   equates to `{50, ?}` on a 100x100 cartesian plane
+
+         * - `Popover.position.END`
+         *   equates to `{100, ?}` on a 100x100 cartesian plane
+         */
+        selfXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
+
+        /**
+         * location on the popover Y-axis to use for alignment calculations
+         * - `Popover.position.START`
+         *   equates to `{?, 0}` on a 100x100 cartesian plane
+
+         * - `Popover.position.MIDDLE`
+         *   equates to `{?, 50}` on a 100x100 cartesian plane
+
+         * - `Popover.position.END`
+         *   equates to `{?, 100}` on a 100x100 cartesian plane
+         */
+        selfYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
+
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
+         */
         wrapperProps: PropTypes.object,
     }
 
