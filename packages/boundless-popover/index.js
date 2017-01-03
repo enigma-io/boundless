@@ -192,14 +192,17 @@ export default class Popover extends React.PureComponent {
 
     cacheViewportCartography(anchor) {
         const anchorRect = anchor.getBoundingClientRect();
+        const bodyRect = document.body.getBoundingClientRect();
 
         this.anchorLeft = anchorRect.left;
         this.anchorTop = anchorRect.top;
         this.anchorHeight = anchorRect.height;
         this.anchorWidth = anchorRect.width;
 
-        this.bodyLeft = document.body.scrollLeft;
-        this.bodyTop = document.body.scrollTop;
+        // normally we'd use scrollTop/scrollLeft, but scroll behavior changes when position: sticky is enabled in Chrome
+        // and inverting the negative viewport rect value seems to work more consistently
+        this.bodyLeft = bodyRect.left * -1;
+        this.bodyTop = bodyRect.top * -1;
     }
 
     getNextCaretXPosition(anchor, caret = this.$caret) {
