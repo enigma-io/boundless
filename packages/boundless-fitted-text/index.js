@@ -50,9 +50,6 @@ function unregisterInstance(instance) {
     }
 }
 
-/**
- * Fit given text inside a parent container, obeying implict and explicit constraints.
- */
 export default class FittedText extends React.PureComponent {
     static propTypes = {
         children: PropTypes.oneOfType([

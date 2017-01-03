@@ -20,7 +20,7 @@ const DEFAULT_CARET_COMPONENT = (
 );
 
 /**
- * A non-blocking container positioned to a specific anchor element.
+ * __Popover supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-popover` node__
  */
 export default class Popover extends React.PureComponent {
     static position = {

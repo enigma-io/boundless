@@ -89,9 +89,6 @@ class Item extends React.PureComponent {
     }
 }
 
-/**
- * A utility component for paging the display of many data items, possibly varying in DOM layout/size.
- */
 export default class Pagination extends React.PureComponent {
     static controls = {
         FIRST: 'FIRST',

@@ -3,9 +3,6 @@ import cx from 'classnames';
 
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * A wrapper that displays provided text on hover.
- */
 export default class Tooltip extends React.PureComponent {
     static position = {
         ABOVE: 'ABOVE',

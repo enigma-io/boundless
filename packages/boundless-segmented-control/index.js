@@ -7,9 +7,6 @@ import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * A controller view for managing the aggregate state of multiple, related radio-style buttons.
- */
 export default class SegmentedControl extends React.PureComponent {
     static propTypes = {
         /**

@@ -5,9 +5,6 @@ import Button from '../boundless-button/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * An unopinionated progress implementation that allows for a variety of shapes and effects.
- */
 export default class Progress extends React.PureComponent {
     static propTypes = {
         /**

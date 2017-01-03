@@ -6,10 +6,6 @@ import uuid from '../boundless-utils-uuid/index';
 
 export const PORTAL_DATA_ATTRIBUTE = 'data-portal-id';
 
-/**
- * A higher-order component for the rendering of components outside the normal React tree.
- * Only accepts a single top-level child; naked text, etc will be wrapped in a <div>.
- */
 export default class Portal extends React.Component {
     static propTypes = {
         // single child only - arrays not allowed

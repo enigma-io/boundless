@@ -6,9 +6,6 @@ import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
-/**
- * An accessible radio form control.
- */
 export default class Radio extends React.PureComponent {
     static propTypes = {
         /**

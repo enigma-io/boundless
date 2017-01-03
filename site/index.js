@@ -555,6 +555,7 @@ class Container extends React.PureComponent {
                     <p>
                         Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
                     </p>
+                    {docgenInfo.description ? <p><Markdown>{docgenInfo.description}</Markdown></p> : null}
                     {this.renderPropTable(docgenInfo.props)}
                 </div>
             );

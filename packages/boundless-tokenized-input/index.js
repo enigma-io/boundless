@@ -11,7 +11,7 @@ const first = (array) => array[0];
 const last = (array) => array[array.length - 1];
 
 /**
- * Distill rich entity data matched via typeahead input into simple visual abstractions.
+ * __TokenizedInput accepts all [`Typeahead`](Typeahead/README.md) and [`Input`](../Input/README.md) props__
  */
 export default class TokenizedInput extends React.PureComponent {
     static propTypes = {

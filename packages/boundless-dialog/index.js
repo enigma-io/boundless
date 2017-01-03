@@ -9,9 +9,6 @@ import uuid from '../boundless-utils-uuid/index';
 
 const toArray = Array.prototype.slice;
 
-/**
- * A non-blocking, focus-stealing container.
- */
 export default class Dialog extends React.PureComponent {
     static propTypes = {
         /**

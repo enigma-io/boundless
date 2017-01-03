@@ -5,8 +5,6 @@ Basic usage of this component is identical to that of [Typeahead](Typeahead/READ
 
 > The UIKit Team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `TokenizedInput` in your project.
 
-__TokenizedInput accepts all [`Typeahead`](Typeahead/README.md) and [`Input`](../Input/README.md) props__
-
 ---
 
 ### Interactions

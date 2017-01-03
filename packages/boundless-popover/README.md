@@ -26,8 +26,6 @@ For more advanced positioning, combine the {element}{Axis}Align properties to cr
 </Popover>
 ```
 
-__Popover supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-popover` node__
-
 _*NOTE: Demo reference styles are only provided for the preset use cases._
 
 ---

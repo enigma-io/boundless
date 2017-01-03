@@ -7,7 +7,7 @@ import extractChildProps from '../boundless-utils-object-intersection/index';
 import omit from '../boundless-utils-omit-keys/index';
 
 /**
- * A blocking, focus-stealing container.
+ * __Modal supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-modal` node__
  */
 export default class Modal extends React.PureComponent {
     static propTypes = {

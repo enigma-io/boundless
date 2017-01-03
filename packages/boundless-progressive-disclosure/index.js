@@ -5,9 +5,6 @@ import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
-/**
- * Hide content until it's needed.
- */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
