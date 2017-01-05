@@ -8,6 +8,7 @@ node_modules/
 coverage/
 site/public/index.html
 site/public/**/*.css
-site/public/**/*.js
+site/public/**/bundle.js
+site/public/**/bundle.min.js
 docs/sdk/
 packages/*/dist

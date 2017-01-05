@@ -7,42 +7,45 @@ import Markdown from 'react-remarkable';
 import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
 
-import ArrowKeyNavigation from '../packages/boundless-arrow-key-navigation';
+import {
+    ArrowKeyNavigation,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    Dialog,
+    FittedText,
+    Image,
+    Input,
+    Modal,
+    Pagination,
+    Popover,
+    Portal,
+    Progress,
+    ProgressiveDisclosure,
+    Radio,
+    SegmentedControl,
+    TokenizedInput,
+    Tooltip,
+    Typeahead,
+} from '../exports';
+
 import ArrowKeyNavigationDemo from '../packages/boundless-arrow-key-navigation/demo';
-import Button from '../packages/boundless-button';
 import ButtonDemo from '../packages/boundless-button/demo';
-import Checkbox from '../packages/boundless-checkbox';
 import CheckboxDemo from '../packages/boundless-checkbox/demo';
-import CheckboxGroup from '../packages/boundless-checkbox-group';
 import CheckboxGroupDemo from '../packages/boundless-checkbox-group/demo';
-import Dialog from '../packages/boundless-dialog';
 import DialogDemo from '../packages/boundless-dialog/demo';
-import FittedText from '../packages/boundless-fitted-text';
 import FittedTextDemo from '../packages/boundless-fitted-text/demo';
-import Image from '../packages/boundless-image';
 import ImageDemo from '../packages/boundless-image/demo';
-import Input from '../packages/boundless-input';
 import InputDemo from '../packages/boundless-input/demo';
-import Modal from '../packages/boundless-modal';
 import ModalDemo from '../packages/boundless-modal/demo';
-import Pagination from '../packages/boundless-pagination';
 import PaginationDemo from '../packages/boundless-pagination/demo';
-import Popover from '../packages/boundless-popover';
 import PopoverDemo from '../packages/boundless-popover/demo';
-import Portal from '../packages/boundless-portal';
-import Progress from '../packages/boundless-progress';
 import ProgressDemo from '../packages/boundless-progress/demo';
-import ProgressiveDisclosure from '../packages/boundless-progressive-disclosure';
 import ProgressiveDisclosureDemo from '../packages/boundless-progressive-disclosure/demo';
-import Radio from '../packages/boundless-radio';
 import RadioDemo from '../packages/boundless-radio/demo';
-import SegmentedControl from '../packages/boundless-segmented-control';
 import SegmentedControlDemo from '../packages/boundless-segmented-control/demo';
-import TokenizedInput from '../packages/boundless-tokenized-input';
 import TokenizedInputDemo from '../packages/boundless-tokenized-input/demo';
-import Tooltip from '../packages/boundless-tooltip';
 import TooltipDemo from '../packages/boundless-tooltip/demo';
-import Typeahead from '../packages/boundless-typeahead';
 import TypeaheadDemo from '../packages/boundless-typeahead/demo';
 
 import NotificationDemo from '../packages/boundless-utils-web-notification/demo';
