@@ -58,37 +58,12 @@ const fs = require('fs');
 const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
 
 // Pages using NullComponent do not render the demo area
-const NullComponent = () => <div />;
-
-const LogoComponent = () => (
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-        <path
-            style={{fill: 'currentColor'}}
-            d='M80.644 87.982l16.592-41.483c.054-.128.088-.26.108-.394.006-.039.007-.077.011-.116a1.737 1.737 0 0 0-.075-.659c-.012-.034-.019-.069-.031-.103a1.736 1.736 0 0 0-.178-.335l-.01-.018L67.999 3.358c-.01-.013-.003-.026-.013-.04L68 3.315V4h-.037c-.403-1-1.094-1.124-1.752-.976 0 .004-.004-.012-.007-.012-.003.004-.01-.012-.01-.012h-.017-.007c-.003 0-.003-.151-.007-.151L20.495 15.227c-.025.007-.046-.019-.071-.011-.087.028-.172.041-.253.083a1.602 1.602 0 0 0-.152.085c-.051.033-.101.061-.147.099a1.661 1.661 0 0 0-.26.265c-.03.039-.059.076-.085.117a1.7 1.7 0 0 0-.12.223c-.011.023-.027.042-.036.066l-16.46 41.51c-.02.051.089.104.089.156V58.404c0 .074-.002.15.012.223.003.004-.012.004-.012.006V58.657c0 .191-.046.377.06.545 0-.002-.03.004-.03.004 0 .004-.03.004-.03.004v.002l-.045.004c.03.047.036.09.068.133l29.049 37.359c.002.004 0 .006.002.01.002.002 0 .004.002.008.006.008.014.014.021.021.024.029.052.051.078.078.027.029.053.057.082.082.03.027.055.062.086.088.026.02.057.033.084.053.04.027.081.053.123.076.005.004.01.008.016.01.087.051.176.09.269.123.042.014.082.031.125.043.021.006.041.018.062.021.123.027.249.043.375.043.099 0 .202-.012.304-.027l45.669-8.303a1.48 1.48 0 0 0 .163-.037c.014-.005.029.003.042.003h.004c.021 0 .039-.027.06-.035.041-.014.08-.034.12-.052.021-.01.044-.019.064-.03a.17.17 0 0 1 .033-.017c.014-.008.023-.021.037-.028.14-.078.269-.174.38-.285.014-.016.024-.034.038-.048.109-.119.201-.252.271-.398.006-.01.016-.018.021-.029a.203.203 0 0 0 .011-.026l.005-.01.025-.06zm-3.033-3.521L48.805 66.453l32.407-25.202-3.601 43.21zM46.817 63.709L35.863 23.542 79.681 38.15 46.817 63.709zm37.851-23.167l8.926 5.952-11.902 29.75 2.976-35.702zm4.46-1.096L84.53 36.38l-6.129-12.257 10.727 15.323zm-9.252-4.801L37.807 20.622 65.854 6.599l14.022 28.046zM33.268 19.107l-6.485-2.162 23.781-6.487-17.296 8.649zm-11.348-.212l8.67 2.891-20.233 26.012L21.92 18.895zm10.732 5.754l10.845 39.757-36.146-7.228 25.301-32.529zm10.82 43.208L32.969 92.363 8.462 60.855l35.01 7.002zm3.159 1.233l27.826 17.393-38.263 6.959L46.631 69.09z' />
-    </svg>
-);
+const NullComponent = () => (<div />);
+const SvgCaret = (<svg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'><path d='M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z'/></svg>);
 
 /*
     each one needs to be listed out explicitly so brfs will pick it up and inline the readme
  */
-
-const pages = {
-    'getting_started': {
-        component: NullComponent,
-        displayName: 'Getting Started',
-        readme: fs.readFileSync(__dirname + '/../GETTING_STARTED.md', 'utf8'),
-    },
-    'changelog': {
-        component: NullComponent,
-        displayName: 'Changelog',
-        readme: fs.readFileSync(__dirname + '/../CHANGELOG.md', 'utf8'),
-    },
-    'contributing': {
-        component: NullComponent,
-        displayName: 'Contributor Policy',
-        readme: fs.readFileSync(__dirname + '/../CONTRIBUTING.md', 'utf8'),
-    },
-};
 
 const components = {
     'ArrowKeyNavigation': {
@@ -215,9 +190,31 @@ const utilities = {
     },
 };
 
-class Sidebar extends React.PureComponent {
+/*
+    markdown-created links don't use React Router's <Link /> mechanism
+    so we have to programmatically trigger the route to avoid a page refresh
+ */
+const handleNormalLinkClick = (event, history) => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+        if (   event.target.hostname === window.location.hostname
+            && event.target.pathname[0] === '/') {
+            if (event.target.getAttribute('href')[0] !== '#') {
+                event.preventDefault();
+                history.push(event.target.pathname);
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
+        } else {
+            event.preventDefault();
+            window.open(event.target.href);
+        }
+    }
+};
+
+class StickyBar extends React.PureComponent {
     state = {
         entities: [],
+        shouldRenderComponentsMenu: false,
+        shouldRenderUtilitiesMenu: false,
     }
 
     componentWillMount() {
@@ -235,19 +232,6 @@ class Sidebar extends React.PureComponent {
             this.createSubEntities(path, name, entities, components[path].readme);
         });
 
-        Object.keys(pages).forEach((page) => {
-            const path = page;
-            const name = pages[page].displayName || page;
-
-            entities.push({
-                'data-path': path,
-                key: path,
-                text: name,
-            });
-
-            this.createSubEntities(path, name, entities, pages[page].readme);
-        });
-
         Object.keys(utilities).forEach((utility) => {
             const path = utility;
             const name = utilities[utility].displayName || utility;
@@ -262,6 +246,18 @@ class Sidebar extends React.PureComponent {
         });
 
         this.setState({entities});
+    }
+
+    componentDidMount() {
+        this.mounted = true;
+
+        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+
+        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
     }
 
     createSubEntities(path, text, entities, markdown) {
@@ -281,21 +277,8 @@ class Sidebar extends React.PureComponent {
         });
     }
 
-    preventOverScroll(event) {
-        const top = event.currentTarget.scrollTop;
-
-        if (   (top === 0 && event.deltaY < 0)
-            || (top + window.innerHeight >= event.currentTarget.scrollHeight && event.deltaY > 0)) {
-            event.preventDefault();
-        }
-    }
-
-    renderLink(path, anchorText) {
-        return (
-            <Link key={path} to={`/${path}`} className='demo-nav-item'>
-                {anchorText}
-            </Link>
-        );
+    renderLink(path) {
+        return (<a key={path} href={`/${path}`}>{path}</a>);
     }
 
     handleEntitySelected = (index) => {
@@ -314,49 +297,75 @@ class Sidebar extends React.PureComponent {
         }
     }
 
+    maybeRenderStickyBarMenu(anchor, collection, stateAttrName) {
+        if (this.mounted && this.state[stateAttrName]) {
+            return (
+                <Popover
+                    anchor={anchor}
+                    anchorXAlign={Popover.position.START}
+                    className='sticky-bar-menu'
+                    onClick={(e) => handleNormalLinkClick(e, browserHistory)}
+                    onClose={() => {
+                        if (this.mounted) { this.setState({[stateAttrName]: false}); }
+                    }}
+                    selfXAlign={Popover.position.START}>
+                    {Object.keys(collection).map((item) => {
+                        return this.renderLink(item);
+                    })}
+                </Popover>
+            );
+        }
+    }
+
     render() {
         return (
-            <header
-                ref='sidebar'
-                className='demo-header'
-                onWheel={this.preventOverScroll}>
-                <h1 className='demo-header-title'>
-                    <Link to='/'><LogoComponent /> UIKit</Link>
-                </h1>
+            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
+                <div className='stars1' />
+                <div className='stars2' />
+                <div className='stars3' />
 
-                <sub className='demo-header-desc'>All presentational styles are limited to this website &ndash; the React components do not come bundled with CSS.</sub>
+                <div className='sticky-bar-inner'>
+                    <a className='sticky-bar-brand' href='/'>Boundless</a>
 
-                <Typeahead
-                    algorithm={Typeahead.mode.FUZZY}
-                    className='demo-header-search'
-                    entities={this.state.entities}
-                    onEntitySelected={this.handleEntitySelected}
-                    onComplete={this.handleComplete}
-                    inputProps={{
-                        autoFocus: true,
-                        placeholder: 'Search for a page...',
-                    }}
-                    hint={true} />
+                    <Button
+                        className='sticky-bar-menu-button'
+                        onPressed={() => this.setState({
+                            shouldRenderComponentsMenu: true,
+                            shouldRenderUtilitiesMenu: false,
+                        })}
+                        onUnpressed={() => this.setState({shouldRenderComponentsMenu: false})}
+                        pressed={this.state.shouldRenderComponentsMenu}
+                        ref={(instance) => (this.$componentsMenuTrigger = instance)}>
+                        <div className='sticky-bar-menu-button-inner'>Components {SvgCaret}</div>
+                    </Button>
 
-                <nav className='demo-nav'>
-                    <div className='demo-nav-section'>
-                        {Object.keys(pages).map((page) => {
-                            return this.renderLink(page, pages[page].displayName || page);
+                    <Button
+                        className='sticky-bar-menu-button'
+                        onPressed={() => this.setState({
+                            shouldRenderComponentsMenu: false,
+                            shouldRenderUtilitiesMenu: true,
                         })}
-                    </div>
-                    <div className='demo-nav-section'>
-                        <h5 className='demo-nav-section-title'>Documentation & Demos</h5>
-                        {Object.keys(components).map((component) => {
-                            return this.renderLink(component, components[component].displayName || component);
-                        })}
-                    </div>
-                    <div className='demo-nav-section'>
-                        <h5 className='demo-nav-section-title'>Utilities</h5>
-                        {Object.keys(utilities).map((utility) => {
-                            return this.renderLink(utility, utilities[utility].displayName || utility);
-                        })}
-                    </div>
-                </nav>
+                        onUnpressed={() => this.setState({shouldRenderUtilitiesMenu: false})}
+                        pressed={this.state.shouldRenderUtilitiesMenu}
+                        ref={(instance) => (this.$utilitiesMenuTrigger = instance)}>
+                        <div className='sticky-bar-menu-button-inner'>Utilities {SvgCaret}</div>
+                    </Button>
+
+                    {this.maybeRenderStickyBarMenu(this.$componentsMenuTrigger, components, 'shouldRenderComponentsMenu')}
+                    {this.maybeRenderStickyBarMenu(this.$utilitiesMenuTrigger, utilities, 'shouldRenderUtilitiesMenu')}
+
+                    <Typeahead
+                        algorithm={Typeahead.mode.FUZZY}
+                        className='sticky-bar-search'
+                        entities={this.state.entities}
+                        onEntitySelected={this.handleEntitySelected}
+                        onComplete={this.handleComplete}
+                        inputProps={{
+                            autoFocus: true,
+                            placeholder: 'Search Boundless...',
+                        }}
+                        hint={true} />
+                </div>
             </header>
         );
     }
@@ -381,28 +390,6 @@ class Container extends React.PureComponent {
                 return node.scrollIntoView();
             }
         } // autoscroll to the anchor node
-
-        document.body.scrollTop = 0;
-    }
-
-    handleClick = (event) => {
-        /*
-            markdown-created links don't use React Router's <Link /> mechanism, so we have to programmatically
-            trigger the route to avoid a page refresh
-         */
-        if (event.target.tagName.toLowerCase() === 'a') {
-            if (   event.target.hostname === window.location.hostname
-                && event.target.pathname[0] === '/') {
-                if (event.target.getAttribute('href')[0] !== '#') {
-                    event.preventDefault();
-                    browserHistory.push(event.target.pathname);
-                    document.body.scrollTop = 0;
-                }
-            } else {
-                event.preventDefault();
-                window.open(event.target.href);
-            }
-        }
     }
 
     maybeRenderDemo() {
@@ -562,17 +549,42 @@ class Container extends React.PureComponent {
         }
     }
 
-    render() {
-        const docgenInfo = this.props.children
-                           ? this.props.children.props.route.docgenInfo
-                           : this.props.route.docgenInfo;
-
+    renderSplash() {
         return (
-            <div onClick={this.handleClick}>
-                <Sidebar />
+            <section className='splash'>
+                <div className='stars1' />
+                <div className='stars2' />
+                <div className='stars3' />
+
+                <div className='splash-overlay'>
+                    <div className='splash-tab splash-tab-upper'>
+                        an <a href='http://enigma.io/' target='_blank'>Enigma</a> creation
+                    </div>
+
+                    <div className='splash-inner'>
+                        <h1>Boundless</h1>
+                        <p>Battle-tested, versatile React components with infinite composability.</p>
+                    </div>
+
+                    <div
+                        className='splash-tab splash-tab-lower'
+                        onClick={() => (document.body.scrollTop = window.innerHeight)}>
+                        {SvgCaret}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    render() {
+        return (
+            <div onClick={(e) => handleNormalLinkClick(e, browserHistory)}>
+                {this.props.children ? null : this.renderSplash()}
+
+                <StickyBar />
 
                 <main className='demo-section'>
-                    {this.maybeRenderGithubLinks()}
+                    {this.props.children ? this.maybeRenderGithubLinks() : null}
 
                     <Markdown container='div' options={{html: true}}>
                         {
@@ -582,9 +594,13 @@ class Container extends React.PureComponent {
                         }
                     </Markdown>
 
-                    {this.maybeRenderDemo()}
+                    {this.props.children ? this.maybeRenderDemo() : null}
 
-                    {this.maybeRenderPropInfo(docgenInfo)}
+                    {
+                        this.props.children
+                        ? this.maybeRenderPropInfo(this.props.children.props.route.docgenInfo)
+                        : null
+                    }
                 </main>
             </div>
         );
@@ -594,9 +610,6 @@ class Container extends React.PureComponent {
 render(
     <Router history={browserHistory}>
         <Route path='/' component={Container} readme={readme}>
-            {Object.keys(pages).map((page) => {
-                return <Route {...pages[page]} key={page} path={page} />;
-            })}
             {Object.keys(components).map((component) => {
                 return <Route {...components[component]} key={component} path={component} />;
             })}
