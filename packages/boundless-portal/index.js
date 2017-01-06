@@ -83,7 +83,7 @@ export default class Portal extends React.Component {
         // update the portal ID link if needed
         this.$portal.id = this.props.portalId || this.id;
 
-        ReactDOM.render(child, this.$portal);
+        ReactDOM.unstable_renderSubtreeIntoContainer(this, child, this.$portal);
         this.$passenger = this.$portal.children[0];
     }
 
