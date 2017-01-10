@@ -59,7 +59,7 @@ export default class Progress extends React.PureComponent {
         component: 'div',
         label: null,
         labelProps: {},
-        onCancel: noop,
+        onCancel: null,
         progress: undefined,
         progressProps: {},
         tweenProperty: 'width',

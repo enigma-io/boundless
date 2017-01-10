@@ -1,13 +1,13 @@
-# boundless
+# Boundless
 
-## installation (coming soon)
+## Installation (coming soon)
 
 ```bash
 npm i boundless         # the whole library, or...
 npm i boundless-button  # a specific part of the library
 ```
 
-## developing boundless
+## Developing boundless
 
 ```bash
 npm i -g lerna@prerelease # install lerna (handles the monorepo, currently in beta for the 2.x branch)
@@ -116,12 +116,5 @@ renderDescription() {
 ```
 
 A `Tooltip` should now render when you hover over the paragraph text.
-
----
-
-### Further reference
-
-For a complete list of Boundless components, as well as documentation and usage examples, refer to the __[Boundless demos and documentation](http://uikit.platform.enigma/)__ (VPN).
-
 
 <sub>MIT License</sub>

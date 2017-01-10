@@ -1,9 +1,9 @@
 # Typeahead
 __Intelligently recommend entities via customizable, fuzzy recognition.__
 
-Typeahead is an enhancement upon [Input](../Input/README.md) which provides two built-in matching algorithms and supports the use of custom matching and marking functions.
+Typeahead is an enhancement upon [Input](https://github.com/bibliotech/uikit/tree/master/packages/boundless-input) which provides two built-in matching algorithms and supports the use of custom matching and marking functions.
 
-> The UIKit Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Typeahead` in your project.
+> The Boundless Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Typeahead` in your project.
 
 Typeahead offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="b-typeahead-match-highlight"></div>`:
 

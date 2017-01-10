@@ -1,8 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {get} from 'lodash';
-import Markdown from 'react-remarkable';
+import * as _ from 'lodash';
+import compiler from 'markdown-to-jsx';
 
 import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
@@ -63,6 +63,8 @@ const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
 // Pages using NullComponent do not render the demo area
 const NullComponent = () => (<div />);
 const SvgCaret = (<svg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'><path d='M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z'/></svg>);
+
+_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
 
 /*
     each one needs to be listed out explicitly so brfs will pick it up and inline the readme
@@ -193,26 +195,6 @@ const utilities = {
     },
 };
 
-/*
-    markdown-created links don't use React Router's <Link /> mechanism
-    so we have to programmatically trigger the route to avoid a page refresh
- */
-const handleNormalLinkClick = (event, history) => {
-    if (event.target.tagName.toLowerCase() === 'a') {
-        if (   event.target.hostname === window.location.hostname
-            && event.target.pathname[0] === '/') {
-            if (event.target.getAttribute('href')[0] !== '#') {
-                event.preventDefault();
-                history.push(event.target.pathname);
-                document.body.scrollTop = document.documentElement.scrollTop = 0;
-            }
-        } else {
-            event.preventDefault();
-            window.open(event.target.href);
-        }
-    }
-};
-
 class StickyBar extends React.PureComponent {
     state = {
         entities: [],
@@ -281,7 +263,7 @@ class StickyBar extends React.PureComponent {
     }
 
     renderLink(path) {
-        return (<a key={path} href={`/${path}`}>{path}</a>);
+        return (<Link key={path} to={`/${path}`}>{path}</Link>);
     }
 
     handleEntitySelected = (index) => {
@@ -307,7 +289,6 @@ class StickyBar extends React.PureComponent {
                     anchor={anchor}
                     anchorXAlign={Popover.position.START}
                     className='sticky-bar-menu'
-                    onClick={(e) => handleNormalLinkClick(e, browserHistory)}
                     onClose={() => {
                         if (this.mounted) { this.setState({[stateAttrName]: false}); }
                     }}
@@ -323,9 +304,11 @@ class StickyBar extends React.PureComponent {
     render() {
         return (
             <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
-                <div className='stars1' />
-                <div className='stars2' />
-                <div className='stars3' />
+                <div className='star-wrapper'>
+                    <div className='stars1' />
+                    <div className='stars2' />
+                    <div className='stars3' />
+                </div>
 
                 <div className='sticky-bar-inner'>
                     <a className='sticky-bar-brand' href='/'>Boundless</a>
@@ -364,7 +347,6 @@ class StickyBar extends React.PureComponent {
                         onEntitySelected={this.handleEntitySelected}
                         onComplete={this.handleComplete}
                         inputProps={{
-                            autoFocus: true,
                             placeholder: 'Search Boundless...',
                         }}
                         hint={true} />
@@ -373,6 +355,39 @@ class StickyBar extends React.PureComponent {
         );
     }
 }
+
+/**
+ * Attempts to resolve various forms of links to internal resources into appropriate
+ * react-router <Link /> tags.
+ */
+const EnhancedLink = ({children, href, ...props}) => {
+    if (href.indexOf('boundless-') !== -1) {
+        const frags = href.split('/');
+        const component = _.pascalCase(frags[frags.length - 2].replace('boundless-', ''));
+
+        return (
+            <Link to={`/${component}`}>{children}</Link>
+        );
+    } else if (href.indexOf('http') === -1) {
+        const [path, hash] = href.split('#');
+
+        return (
+            <Link to={path} hash={hash ? `#${hash}` : null}>{children}</Link>
+        );
+    } else {
+        return (
+            <a {...props} href={href} target='_blank'>{children}</a>
+        );
+    }
+};
+
+const markdownCompilerOptions = {
+    overrides: {
+        a: {
+            component: EnhancedLink,
+        },
+    },
+};
 
 class Container extends React.PureComponent {
     componentDidMount() {
@@ -436,7 +451,7 @@ class Container extends React.PureComponent {
             <td>
                 <pre><code>{props[name].name}</code></pre>
             </td>
-            <td><Markdown>{props[name].description}</Markdown></td>
+            <td>{compiler(props[name].description || '', markdownCompilerOptions)}</td>
             <td colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
         </tr>
     )
@@ -455,7 +470,7 @@ class Container extends React.PureComponent {
                 const prefix = type.value.split(/[()]+/)[1];
 
                 return 'enum([\n  ' + Object.keys(
-                    get(components, prefix, {})
+                    _.get(components, prefix, {})
                 ).map((key) => `${prefix}.${key}`).join('\n  ') + '\n])';
             }
 
@@ -479,7 +494,7 @@ class Container extends React.PureComponent {
                 <td>
                     <pre><code>{this.formatPropType(prop.type)}</code></pre>
                 </td>
-                <td><Markdown>{prop.description}</Markdown></td>
+                <td>{compiler(prop.description || '', markdownCompilerOptions)}</td>
                 <td>{prop.required ? 'Yes' : 'No'}</td>
                 <td>
                     <pre>
@@ -504,7 +519,7 @@ class Container extends React.PureComponent {
                 const subPropName = subPropsRaw[2];
 
                 return rows.concat(this.renderPropTableRows(
-                    { [subPropName]: get(components[component], `docgenInfo.props[${subPropName}]`, {}) },
+                    { [subPropName]: _.get(components[component], `docgenInfo.props[${subPropName}]`, {}) },
                     subPropName,
                     depth + 1,
                 ));
@@ -545,7 +560,7 @@ class Container extends React.PureComponent {
                     <p>
                         Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
                     </p>
-                    {docgenInfo.description ? <p><Markdown>{docgenInfo.description}</Markdown></p> : null}
+                    {docgenInfo.description ? compiler(docgenInfo.description, markdownCompilerOptions) : null}
                     {this.renderPropTable(docgenInfo.props)}
                 </div>
             );
@@ -581,23 +596,21 @@ class Container extends React.PureComponent {
 
     render() {
         return (
-            <div onClick={(e) => handleNormalLinkClick(e, browserHistory)}>
+            <div>
                 {this.props.children ? null : this.renderSplash()}
 
                 <StickyBar />
 
                 <main className='demo-section'>
-                    {this.props.children ? this.maybeRenderGithubLinks() : null}
+                    {this.maybeRenderGithubLinks()}
 
-                    <Markdown container='div' options={{html: true}}>
-                        {
-                            this.props.children
-                            ? this.props.children.props.route.readme
-                            : this.props.route.readme
-                        }
-                    </Markdown>
+                    {compiler(
+                        this.props.children
+                        ? this.props.children.props.route.readme
+                        : this.props.route.readme, markdownCompilerOptions
+                    )}
 
-                    {this.props.children ? this.maybeRenderDemo() : null}
+                    {this.maybeRenderDemo()}
 
                     {
                         this.props.children

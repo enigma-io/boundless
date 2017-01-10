@@ -1,11 +1,9 @@
 # CheckboxGroup
 __A controller view for managing the aggregate state of multiple, related checkboxes.__
 
-Content to render is given to `CheckboxGroup` via the `items` prop with a specific shape. Additional attributes can be added if desired, see the [Checkbox spec](../Checkbox/README.md) for more details.
-
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular configuration is built-in and is activated by passing the `selectAll` prop.
 
-> The UIKit Team recommends reviewing the [Checkbox](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW9) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Checkbox` in your project.
+> The Boundless Team recommends reviewing the [Checkbox](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW9) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Checkbox` in your project.
 
 ---
 

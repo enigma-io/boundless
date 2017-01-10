@@ -11,7 +11,7 @@ import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
 /**
- * __Typeahead accepts all supported [Input props](../Input/README.md#available-props); applied to the `.b-textual-input-wrapper` node__
+ * __Typeahead accepts all supported [Input props](/Input#props); applied to the `.b-textual-input-wrapper` node__
  */
 export default class Typeahead extends React.PureComponent {
     static mode = {

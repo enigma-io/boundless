@@ -1,9 +1,9 @@
 # TokenizedInput
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
-Basic usage of this component is identical to that of [Typeahead](Typeahead/README.md). Additional props are available to take advantage of the tokenization functionality.
+Basic usage of this component is identical to that of [Typeahead](https://github.com/bibliotech/uikit/tree/master/packages/boundless-typeahead). Additional props are available to take advantage of the tokenization functionality.
 
-> The UIKit Team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `TokenizedInput` in your project.
+> The Boundless Team recommends reviewing the [Token Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW4) of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `TokenizedInput` in your project.
 
 ---
 

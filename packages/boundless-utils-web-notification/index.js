@@ -1,8 +1,3 @@
-/**
- * Trigger native toasts in supporting browsers.
- * @class UINotificationService
- */
-
 import isFunction from '../boundless-utils-is-function/index';
 import isString from '../boundless-utils-is-string/index';
 
@@ -76,6 +71,9 @@ function checkPermission() {
     });
 }
 
+/**
+ * Trigger native toasts in supporting browsers.
+ */
 export default function notify(config) {
     return new Promise((resolve, reject) => {
         if (config === undefined) {

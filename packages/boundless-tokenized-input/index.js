@@ -11,7 +11,7 @@ const first = (array) => array[0];
 const last = (array) => array[array.length - 1];
 
 /**
- * __TokenizedInput accepts all [`Typeahead`](Typeahead/README.md) and [`Input`](../Input/README.md) props__
+ * __TokenizedInput accepts all [`Typeahead`](/Typeahead#props) and [`Input`](/Input#props) props__
  */
 export default class TokenizedInput extends React.PureComponent {
     static propTypes = {

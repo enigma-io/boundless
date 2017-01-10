@@ -20,7 +20,7 @@ const DEFAULT_CARET_COMPONENT = (
 );
 
 /**
- * __Popover supports all [Dialog props](boundless-dialog/README.md#available-props); applied to the `.b-popover` node__
+ * __Popover supports all [Dialog props](/Dialog#props); applied to the `.b-popover` node__
  */
 export default class Popover extends React.PureComponent {
     static position = {

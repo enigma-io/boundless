@@ -85,7 +85,7 @@ describe('Progress component', () => {
         let element;
 
         beforeEach(() => {
-            element = render(<Progress label='foo' />);
+            element = render(<Progress label='foo' onCancel={() => {}} />);
         });
 
         it('renders .b-progress-wrapper', () => {
@@ -134,6 +134,13 @@ describe('Progress component', () => {
             const element = render(<Progress onCancel={stub} />);
 
             expect(element.refs.cancel).not.toBe(undefined);
+        });
+
+        it('does not render if no handler is provided', () => {
+            const stub = sandbox.stub();
+            const element = render(<Progress />);
+
+            expect(element.refs.cancel).toBe(undefined);
         });
 
         it('calls the cancel handler on click', () => {
