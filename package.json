@@ -41,7 +41,7 @@
     "react-dom": "^15.3.0",
     "react-remarkable": "^1.1.1",
     "react-router": "^2.7.0",
-    "rollup": "^0.36.3",
+    "rollup": "^0.41.0",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^5.0.5",
     "rollup-plugin-node-resolve": "^2.0.0",
@@ -88,7 +88,7 @@
     "build:master": "NODE_ENV=production node scripts/build-master.js",
     "build:packages": "NODE_ENV=production node scripts/build-packages.js",
 
-    "all": "npm run css && npm run css:release && npm run build:master && npm run build:packages",
+    "all": "npm run css && npm run css:release && npm run build:master",
 
     "prerelease": "npm run all"
   }

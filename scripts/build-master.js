@@ -42,6 +42,7 @@ Promise.all([
             'react-dom': 'ReactDOM',
         },
         moduleName: 'Boundless',
+        sourceMap: 'inline',
     })),
 ]).then(() => {
     process.env.BABEL_ENV = 'production';
