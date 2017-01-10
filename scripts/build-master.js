@@ -11,7 +11,7 @@ const base = __dirname + '/../';
 
 mkdirp.sync(path.resolve(base + '/public'));
 
-process.env.BABEL_ENV = 'rollup-development';
+process.env.BABEL_ENV = 'development';
 
 Promise.all([
     rollup.rollup(_.assign({}, baseConfig, {
