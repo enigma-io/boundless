@@ -9,8 +9,8 @@ describe('exports', () => {
         Object.keys(Boundless).forEach((key) => expect(Boundless[key]).not.toBeUndefined());
     });
 
-    it('has as many keys as there are component folders (except table and utils)', () => {
-        const folders = fs.readdirSync('packages').filter((name) => /^boundless-(?!utils|table)/.test(name));
+    it('has as many keys as there are component folders (except utils)', () => {
+        const folders = fs.readdirSync('packages').filter((name) => /^boundless-(?!utils)/.test(name));
 
         folders.forEach((name) => {
             const exportName = _.pascalCase(name.replace('boundless-', ''));
