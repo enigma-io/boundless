@@ -2,7 +2,7 @@
   "name": "boundless-dialog",
   "version": "1.0.0",
   "description": "A non-blocking, focus-stealing container.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@
   "name": "boundless-arrow-key-navigation",
   "version": "1.0.0",
   "description": "A higher-order component for arrow key navigation on a grouping of children.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

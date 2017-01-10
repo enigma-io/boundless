@@ -2,7 +2,7 @@
   "name": "boundless-image",
   "version": "1.0.0",
   "description": "An image block with placeholder support for loading and fallback scenarios.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

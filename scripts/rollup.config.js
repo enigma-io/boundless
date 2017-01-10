@@ -12,7 +12,6 @@ module.exports = {
     format: 'iife',
     plugins: [
         resolve({
-            jsnext: true,
             main: true,
             module: true,
         }),

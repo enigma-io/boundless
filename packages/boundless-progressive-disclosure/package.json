@@ -2,7 +2,7 @@
   "name": "boundless-progressive-disclosure",
   "version": "1.0.0",
   "description": "Hide content until it's needed, with configurable teasers.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

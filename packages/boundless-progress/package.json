@@ -2,7 +2,7 @@
   "name": "boundless-progress",
   "version": "1.0.0",
   "description": "An unopinionated progress implementation, allowing for a variety of shapes and effects.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

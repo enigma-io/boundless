@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "A dummy function with no side effects. Commonly used when mocking interfaces.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@
   "name": "boundless-radio",
   "version": "1.0.0",
   "description": "An accessible radio form control.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

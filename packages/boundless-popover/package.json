@@ -2,7 +2,7 @@
   "name": "boundless-popover",
   "version": "1.0.0",
   "description": "A non-blocking container positioned to a specific anchor element.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

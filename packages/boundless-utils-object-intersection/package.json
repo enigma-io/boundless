@@ -2,7 +2,7 @@
   "name": "boundless-utils-object-intersection",
   "version": "1.0.0",
   "description": "Returns an intersection of the first argument against the second argument's keys.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

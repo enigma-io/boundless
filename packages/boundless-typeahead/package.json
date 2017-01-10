@@ -2,7 +2,7 @@
   "name": "boundless-typeahead",
   "version": "1.0.0",
   "description": "Intelligently recommend entities via customizable, fuzzy recognition.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

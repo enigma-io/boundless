@@ -8,7 +8,7 @@
     "Evan Jacobs <evan.scott@enigma.io> (http://yaycmyk.com)",
     "Abe Rubenstein <abe.rubenstein@enigma.io> (http://abe.sh)"
   ],
-  "main": "dist/index.js",
+  "module": "index.js",
   "dependencies": {
     "lodash.omit": "^4.5.0"
   },

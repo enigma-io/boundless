@@ -2,7 +2,7 @@
   "name": "boundless-tooltip",
   "version": "1.0.0",
   "description": "A simple wrapper that displays provided text on mouseover.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

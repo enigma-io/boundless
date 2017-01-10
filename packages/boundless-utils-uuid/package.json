@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Generates a unique ID. Adds a prefix so it is suitable for use as an HTML ID.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

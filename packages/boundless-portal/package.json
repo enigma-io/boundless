@@ -2,7 +2,7 @@
   "name": "boundless-portal",
   "version": "1.0.0",
   "description": "A higher-order component for the rendering of components outside the normal React tree.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

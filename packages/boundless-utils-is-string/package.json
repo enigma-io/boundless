@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Tests for string-ness.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",

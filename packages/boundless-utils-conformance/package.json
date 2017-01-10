@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Used in testing boundless components for prop passing, etc.",
-  "main": "dist/index.js",
+  "module": "index.js",
 
   "repository": {
     "type": "git",
