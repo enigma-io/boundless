@@ -25,9 +25,10 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "babelify": "^7.0.0",
-    "brfs": "yaycmyk/brfs#enhancement/file-stream-transforms",
     "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
     "budo": "^9.2.1",
+    "bulkify": "^1.4.2",
     "bundle-collapser": "^1.2.1",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.9",
@@ -36,7 +37,7 @@
     "jest-cli": "^18.0.0",
     "lerna": "2.0.0-beta.32",
     "lodash": "^4.6.1",
-    "markdown-to-jsx": "^4.0.3",
+    "markdown-to-jsx": "^4.0.0",
     "mkdirp": "^0.5.1",
     "prismjs": "^1.4.1",
     "react": "^15.3.0",
@@ -49,6 +50,7 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-uglify": "^1.0.1",
     "sinon": "^1.17.3",
+    "stringify": "^5.1.0",
     "stylus": "^0.54.2",
     "through": "^2.3.8",
     "uglify-js": "^2.6.2",
@@ -70,24 +72,49 @@
       "/node_modules/(?!boundless).*"
     ]
   },
+  "browser": {
+    "./exports.js": "./public/boundless.js"
+  },
+  "browserify-shim": {
+    "lodash": "global:_",
+    "react": "global:React",
+    "react-dom": "global:ReactDOM",
+    "react-router": "global:ReactRouter"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "stringify",
+        {
+          "extensions": [
+            ".md"
+          ]
+        }
+      ],
+      "babelify",
+      "bulkify",
+      "browserify-shim"
+    ]
+  },
   "scripts": {
     "postinstall": "lerna bootstrap && mkdirp site/public/assets",
-    "lint": "eslint --quiet .",
-    "test": "jest",
-    "coverage": "jest --coverage",
+    "prerelease": "npm run all",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
     "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",
     "site:css:watch": "stylus -w -c -m -l -u autoprefixer-stylus site/style.styl -o site/public/style.css --sourcemap-inline",
-    "site:js:release": "BABEL_ENV=site-production NODE_ENV=production browserify site/index.js -t babelify -t [ brfs --transformer site/prepare.js ] | uglifyjs -mc drop_console --screw-ie8 > site/public/assets/bundle.min.js",
-    "site:js:watch": "BABEL_ENV=site-development budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -t babelify -t brfs -p bundle-collapser/plugin",
+    "site:js:release": "BABEL_ENV=site-production NODE_ENV=production browserify site/index.js -p bundle-collapser/plugin | uglifyjs -mc drop_console --screw-ie8 > site/public/assets/bundle.min.js",
+    "site:js:watch": "BABEL_ENV=site-development budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -p bundle-collapser/plugin",
     "site:release": "npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
-    "start": "sh scripts/parallelize.sh \"npm run site:css:watch\" \"npm run site:js:watch\"",
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "css:watch": "npm run css -- -w",
     "build:master": "NODE_ENV=production node scripts/build-master.js",
-    "all": "npm run css && npm run css:release && npm run build:master",
-    "prerelease": "npm run all"
+
+    "lint": "eslint --quiet .",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "start": "sh scripts/parallelize.sh \"npm run site:css:watch\" \"npm run site:js:watch\"",
+    "all": "npm run css && npm run css:release && npm run build:master"
   }
 }

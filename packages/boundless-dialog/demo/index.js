@@ -24,23 +24,27 @@ export default class DialogDemo extends React.PureComponent {
     renderDialog() {
         if (this.state.showDialog) {
             return (
-                <Dialog closeOnEscKey={true}
-                          closeOnOutsideClick={true}
-                          closeOnOutsideScroll={true}
-                          onClose={this.toggleDialog}
-                          style={{
-                              left: this.state.leftPosition,
-                              top: this.state.topPosition,
-                          }}>
-                    <iframe className='dialog-demo-video-frame'
-                            width='560'
-                            height='315'
-                            src='https://www.youtube.com/embed/jtnKv7GrOz0?autoplay=1&showinfo=0&autohide=1'
-                            frameBorder='0'
-                            allowFullScreen />
-                    <Button className='dialog-demo-close-button'
-                              title='Close'
-                              onPressed={this.toggleDialog} />
+                <Dialog
+                    closeOnEscKey={true}
+                    closeOnOutsideClick={true}
+                    onClose={this.toggleDialog}
+                    wrapperProps={{
+                        style: {
+                            left: this.state.leftPosition,
+                            top: this.state.topPosition,
+                        },
+                    }}>
+                    <iframe
+                        className='dialog-demo-video-frame'
+                        width='560'
+                        height='315'
+                        src='https://www.youtube.com/embed/HEheh1BH34Q?autoplay=1&showinfo=0&autohide=1'
+                        frameBorder='0'
+                        allowFullScreen />
+                    <Button
+                        className='dialog-demo-close-button'
+                        title='Close'
+                        onPressed={this.toggleDialog} />
                 </Dialog>
             );
         }

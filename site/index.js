@@ -1,360 +1,56 @@
 import React from 'react';
-import {render} from 'react-dom';
-
+import {findDOMNode, render} from 'react-dom';
 import * as _ from 'lodash';
-import compiler from 'markdown-to-jsx';
-
+import MarkdownToJSX from 'markdown-to-jsx';
 import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
+import {Router, Route, Link, browserHistory} from 'react-router';
 
-import {
-    ArrowKeyNavigation,
-    Button,
-    Checkbox,
-    CheckboxGroup,
-    Dialog,
-    FittedText,
-    Image,
-    Input,
-    Modal,
-    Pagination,
-    Popover,
-    Portal,
-    Progress,
-    ProgressiveDisclosure,
-    Radio,
-    SegmentedControl,
-    TokenizedInput,
-    Tooltip,
-    Typeahead,
-} from '../exports';
-
-import ArrowKeyNavigationDemo from '../packages/boundless-arrow-key-navigation/demo';
-import ButtonDemo from '../packages/boundless-button/demo';
-import CheckboxDemo from '../packages/boundless-checkbox/demo';
-import CheckboxGroupDemo from '../packages/boundless-checkbox-group/demo';
-import DialogDemo from '../packages/boundless-dialog/demo';
-import FittedTextDemo from '../packages/boundless-fitted-text/demo';
-import ImageDemo from '../packages/boundless-image/demo';
-import InputDemo from '../packages/boundless-input/demo';
-import ModalDemo from '../packages/boundless-modal/demo';
-import PaginationDemo from '../packages/boundless-pagination/demo';
-import PopoverDemo from '../packages/boundless-popover/demo';
-import ProgressDemo from '../packages/boundless-progress/demo';
-import ProgressiveDisclosureDemo from '../packages/boundless-progressive-disclosure/demo';
-import RadioDemo from '../packages/boundless-radio/demo';
-import SegmentedControlDemo from '../packages/boundless-segmented-control/demo';
-import TokenizedInputDemo from '../packages/boundless-tokenized-input/demo';
-import TooltipDemo from '../packages/boundless-tooltip/demo';
-import TypeaheadDemo from '../packages/boundless-typeahead/demo';
-
-import NotificationDemo from '../packages/boundless-utils-web-notification/demo';
-
-import {
-    Router,
-    Route,
-    Link,
-    browserHistory,
-} from 'react-router';
-
-const fs = require('fs');
-const readme = fs.readFileSync(__dirname + '/../README.md', 'utf8');
+_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 // Pages using NullComponent do not render the demo area
 const NullComponent = () => (<div />);
-const SvgCaret = (<svg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'><path d='M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z'/></svg>);
 
-_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
+// provided by bulkify, stringify handles the markdown files (must go before bulkify)
+const assets = require('bulk-require')(`${__dirname}/..`, [
+    'README.md',
+    'packages/!(boundless-utils*)/README.md',
+    'packages/!(boundless-utils*)/index.js',
+    'packages/!(boundless-utils*)/demo/index.js'
+]);
 
-/*
-    each one needs to be listed out explicitly so brfs will pick it up and inline the readme
- */
+const Button = _.get(assets, `packages.boundless-button.index.default`);
+const Popover = _.get(assets, `packages.boundless-popover.index.default`);
+const Typeahead = _.get(assets, `packages.boundless-typeahead.index.default`);
 
-const components = {
-    'ArrowKeyNavigation': {
-        ...ArrowKeyNavigation,
-        component: ArrowKeyNavigationDemo,
-        docgenInfo: ArrowKeyNavigation.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-arrow-key-navigation/README.md', 'utf8'),
-    },
-    'Button': {
-        ...Button,
-        component: ButtonDemo,
-        docgenInfo: Button.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-button/README.md', 'utf8'),
-    },
-    'Checkbox': {
-        ...Checkbox,
-        component: CheckboxDemo,
-        docgenInfo: Checkbox.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox/README.md', 'utf8'),
-    },
-    'CheckboxGroup': {
-        ...CheckboxGroup,
-        component: CheckboxGroupDemo,
-        docgenInfo: CheckboxGroup.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-checkbox-group/README.md', 'utf8'),
-    },
-    'Dialog': {
-        ...Dialog,
-        component: DialogDemo,
-        docgenInfo: Dialog.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-dialog/README.md', 'utf8'),
-    },
-    'FittedText': {
-        ...FittedText,
-        component: FittedTextDemo,
-        docgenInfo: FittedText.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-fitted-text/README.md', 'utf8'),
-    },
-    'Image': {
-        ...Image,
-        component: ImageDemo,
-        docgenInfo: Image.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-image/README.md', 'utf8'),
-    },
-    'Input': {
-        ...Input,
-        component: InputDemo,
-        docgenInfo: Input.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-input/README.md', 'utf8'),
-    },
-    'Modal': {
-        ...Modal,
-        component: ModalDemo,
-        docgenInfo: Modal.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-modal/README.md', 'utf8'),
-    },
-    'Pagination': {
-        ...Pagination,
-        component: PaginationDemo,
-        docgenInfo: Pagination.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-pagination/README.md', 'utf8'),
-    },
-    'Popover': {
-        ...Popover,
-        component: PopoverDemo,
-        docgenInfo: Popover.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-popover/README.md', 'utf8'),
-    },
-    'Portal': {
-        ...Portal,
-        component: NullComponent,
-        docgenInfo: Portal.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-portal/README.md', 'utf8'),
-    },
-    'Progress': {
-        ...Progress,
-        component: ProgressDemo,
-        docgenInfo: Progress.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-progress/README.md', 'utf8'),
-    },
-    'ProgressiveDisclosure': {
-        ...ProgressiveDisclosure,
-        component: ProgressiveDisclosureDemo,
-        docgenInfo: ProgressiveDisclosure.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-progressive-disclosure/README.md', 'utf8'),
-    },
-    'Radio': {
-        ...Radio,
-        component: RadioDemo,
-        docgenInfo: Radio.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-radio/README.md', 'utf8'),
-    },
-    'SegmentedControl': {
-        ...SegmentedControl,
-        component: SegmentedControlDemo,
-        docgenInfo: SegmentedControl.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-segmented-control/README.md', 'utf8'),
-    },
-    'TokenizedInput': {
-        ...TokenizedInput,
-        component: TokenizedInputDemo,
-        docgenInfo: TokenizedInput.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-tokenized-input/README.md', 'utf8'),
-    },
-    'Tooltip': {
-        ...Tooltip,
-        component: TooltipDemo,
-        docgenInfo: Tooltip.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-tooltip/README.md', 'utf8'),
-    },
-    'Typeahead': {
-        ...Typeahead,
-        component: TypeaheadDemo,
-        docgenInfo: Typeahead.__docgenInfo,
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-typeahead/README.md', 'utf8'),
-    },
+const components = Object.keys(assets.packages).map((name) => {
+    const prettyName = _.pascalCase(name.replace('boundless-', ''));
+
+    return {
+        demo: _.get(assets, `packages.${name}.demo.default`, NullComponent),
+        docgenInfo: _.get(assets, `packages.${name}.index.default.__docgenInfo`),
+        readme: _.get(assets, `packages.${name}.README`),
+        name: name,
+        path: prettyName,
+    };
+});
+
+const svgCaretComponent = (
+    <svg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z'/>
+    </svg>
+);
+
+const repositoryURL = 'https://github.com/bibliotech/uikit';
+
+const LinkedHeaderText = ({component = 'h1', children, ...props}) => {
+    const normalizedId = _.kebabCase(children);
+
+    return React.createElement(component, {...props, id: normalizedId}, [
+        children,
+        (<a key='link' href={`#${normalizedId}`}>#</a>)
+    ]);
 };
-
-const utilities = {
-    'notification': {
-        component: NotificationDemo,
-        displayName: 'notification',
-        readme: fs.readFileSync(__dirname + '/../packages/boundless-utils-web-notification/README.md', 'utf8'),
-    },
-};
-
-class StickyBar extends React.PureComponent {
-    state = {
-        entities: [],
-        shouldRenderComponentsMenu: false,
-        shouldRenderUtilitiesMenu: false,
-    }
-
-    componentWillMount() {
-        const entities = [];
-
-        Object.keys(components).forEach((path) => {
-            const name = components[path].displayName || path;
-
-            entities.push({
-                'data-path': path,
-                key: path,
-                text: name,
-            });
-
-            this.createSubEntities(path, name, entities, components[path].readme);
-        });
-
-        Object.keys(utilities).forEach((utility) => {
-            const path = utility;
-            const name = utilities[utility].displayName || utility;
-
-            entities.push({
-                'data-path': path,
-                key: path,
-                text: name,
-            });
-
-            this.createSubEntities(path, name, entities, utilities[utility].readme);
-        });
-
-        this.setState({entities});
-    }
-
-    componentDidMount() {
-        this.mounted = true;
-
-        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-
-        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
-    }
-
-    createSubEntities(path, text, entities, markdown) {
-        const headerTextRegex = /#+\s?([^<]+)/;
-        const headerHashRegex = /#+\s?.*?href="(.*?)"/;
-
-        markdown.split('\n').filter((line) => line.indexOf('### ') === 0).forEach((line) => {
-            if (line.match(headerHashRegex)) {
-                const formedPath = `${path}${line.match(headerHashRegex)[1]}`;
-
-                entities.push({
-                    'data-path': formedPath,
-                    key: formedPath,
-                    text: `${text} - ${line.match(headerTextRegex)[1]}`,
-                });
-            }
-        });
-    }
-
-    renderLink(path) {
-        return (<Link key={path} to={`/${path}`}>{path}</Link>);
-    }
-
-    handleEntitySelected = (index) => {
-        browserHistory.push(this.state.entities[index]['data-path']);
-    }
-
-    handleComplete = (value) => {
-        if (!value) {
-            return browserHistory.push('');
-        }
-
-        const found = this.state.entities.find((entity) => entity.text === value);
-
-        if (found) {
-            browserHistory.push(found['data-path']);
-        }
-    }
-
-    maybeRenderStickyBarMenu(anchor, collection, stateAttrName) {
-        if (this.mounted && this.state[stateAttrName]) {
-            return (
-                <Popover
-                    anchor={anchor}
-                    anchorXAlign={Popover.position.START}
-                    className='sticky-bar-menu'
-                    onClose={() => {
-                        if (this.mounted) { this.setState({[stateAttrName]: false}); }
-                    }}
-                    selfXAlign={Popover.position.START}>
-                    {Object.keys(collection).map((item) => {
-                        return this.renderLink(item);
-                    })}
-                </Popover>
-            );
-        }
-    }
-
-    render() {
-        return (
-            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
-                <div className='star-wrapper'>
-                    <div className='stars1' />
-                    <div className='stars2' />
-                    <div className='stars3' />
-                </div>
-
-                <div className='sticky-bar-inner'>
-                    <a className='sticky-bar-brand' href='/'>Boundless</a>
-
-                    <Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderComponentsMenu: true,
-                            shouldRenderUtilitiesMenu: false,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderComponentsMenu: false})}
-                        pressed={this.state.shouldRenderComponentsMenu}
-                        ref={(instance) => (this.$componentsMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Components {SvgCaret}</div>
-                    </Button>
-
-                    <Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderComponentsMenu: false,
-                            shouldRenderUtilitiesMenu: true,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderUtilitiesMenu: false})}
-                        pressed={this.state.shouldRenderUtilitiesMenu}
-                        ref={(instance) => (this.$utilitiesMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Utilities {SvgCaret}</div>
-                    </Button>
-
-                    {this.maybeRenderStickyBarMenu(this.$componentsMenuTrigger, components, 'shouldRenderComponentsMenu')}
-                    {this.maybeRenderStickyBarMenu(this.$utilitiesMenuTrigger, utilities, 'shouldRenderUtilitiesMenu')}
-
-                    <Typeahead
-                        algorithm={Typeahead.mode.FUZZY}
-                        className='sticky-bar-search'
-                        entities={this.state.entities}
-                        onEntitySelected={this.handleEntitySelected}
-                        onComplete={this.handleComplete}
-                        inputProps={{
-                            placeholder: 'Search Boundless...',
-                        }}
-                        hint={true} />
-                </div>
-            </header>
-        );
-    }
-}
 
 /**
  * Attempts to resolve various forms of links to internal resources into appropriate
@@ -381,13 +77,138 @@ const EnhancedLink = ({children, href, ...props}) => {
     }
 };
 
-const markdownCompilerOptions = {
+const md2jsx = _.partialRight(MarkdownToJSX, {
     overrides: {
-        a: {
-            component: EnhancedLink,
-        },
+        a: {component: EnhancedLink},
+        h1: {component: LinkedHeaderText, props: {component: 'h1'}},
+        h2: {component: LinkedHeaderText, props: {component: 'h2'}},
+        h3: {component: LinkedHeaderText, props: {component: 'h3'}},
+        h4: {component: LinkedHeaderText, props: {component: 'h4'}},
+        h5: {component: LinkedHeaderText, props: {component: 'h5'}},
+        h6: {component: LinkedHeaderText, props: {component: 'h6'}},
     },
-};
+});
+
+class StickyBar extends React.PureComponent {
+    state = {
+        entities: [],
+        shouldRenderComponentsMenu: false,
+        shouldRenderUtilitiesMenu: false,
+    }
+
+    componentWillMount() {
+        const entities = [];
+
+        components.forEach((definition) => {
+            entities.push({
+                'data-path': definition.path,
+                key: definition.path,
+                text: definition.path,
+            });
+        });
+
+        this.setState({entities});
+    }
+
+    componentDidMount() {
+        this.mounted = true;
+
+        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+
+        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
+    }
+
+    renderLink({path}) {
+        return (<Link key={path} to={`/${path}`}>{path}</Link>);
+    }
+
+    handleEntitySelected = (index) => {
+        browserHistory.push(this.state.entities[index]['data-path']);
+    }
+
+    handleComplete = (value) => {
+        if (!value) {
+            return browserHistory.push('');
+        }
+
+        const found = this.state.entities.find((entity) => entity.text === value);
+
+        if (found) {
+            browserHistory.push(found['data-path']);
+        }
+    }
+
+    maybeRenderStickyBarMenu(anchor, collection, stateAttrName) {
+        if (this.mounted && this.state[stateAttrName]) {
+            return (
+                <Popover
+                    anchor={anchor}
+                    anchorXAlign={Popover.position.START}
+                    className='sticky-bar-menu'
+                    onClick={() => this.mounted && this.setState({[stateAttrName]: false})}
+                    onClose={() => this.mounted && this.setState({[stateAttrName]: false})}
+                    selfXAlign={Popover.position.START}>
+                    {collection.map((definition) => this.renderLink(definition))}
+                </Popover>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
+                <div className='star-wrapper'>
+                    <div className='stars1' />
+                    <div className='stars2' />
+                    <div className='stars3' />
+                </div>
+
+                <div className='sticky-bar-inner'>
+                    <a className='sticky-bar-brand' href='/'>Boundless</a>
+
+                    <Button
+                        className='sticky-bar-menu-button'
+                        onPressed={() => this.setState({
+                            shouldRenderComponentsMenu: true,
+                        })}
+                        onUnpressed={() => this.setState({shouldRenderComponentsMenu: false})}
+                        pressed={this.state.shouldRenderComponentsMenu}
+                        ref={(instance) => (this.$componentsMenuTrigger = instance)}>
+                        <div className='sticky-bar-menu-button-inner'>Components {svgCaretComponent}</div>
+                    </Button>
+
+                    {/*<Button
+                        className='sticky-bar-menu-button'
+                        onPressed={() => this.setState({
+                            shouldRenderUtilitiesMenu: true,
+                        })}
+                        onUnpressed={() => this.setState({shouldRenderUtilitiesMenu: false})}
+                        pressed={this.state.shouldRenderUtilitiesMenu}
+                        ref={(instance) => (this.$utilitiesMenuTrigger = instance)}>
+                        <div className='sticky-bar-menu-button-inner'>Utilities {svgCaretComponent}</div>
+                    </Button>*/}
+
+                    {this.maybeRenderStickyBarMenu(this.$componentsMenuTrigger, components, 'shouldRenderComponentsMenu')}
+
+                    <Typeahead
+                        algorithm={Typeahead.mode.FUZZY}
+                        className='sticky-bar-search'
+                        entities={this.state.entities}
+                        onEntitySelected={this.handleEntitySelected}
+                        onComplete={this.handleComplete}
+                        inputProps={{
+                            placeholder: 'Search Boundless...',
+                        }}
+                        hint={true} />
+                </div>
+            </header>
+        );
+    }
+}
 
 class Container extends React.PureComponent {
     componentDidMount() {
@@ -405,7 +226,8 @@ class Container extends React.PureComponent {
             const node = document.getElementById(window.location.hash.slice(1));
 
             if (node) {
-                return node.scrollIntoView();
+                node.scrollIntoView();
+                document.body.scrollTop -= 100;
             }
         } // autoscroll to the anchor node
     }
@@ -429,7 +251,7 @@ class Container extends React.PureComponent {
                 <a
                     key='source'
                     className='demo-component-link'
-                    href={`https://github.com/bibliotech/uikit/blob/master/${this.props.routes[1].displayName || this.props.routes[1].path}/index.js`}
+                    href={`${repositoryURL}/blob/master/packages/${_.last(this.props.routes).path}/index.js`}
                     target='_blank'>
                     Component Source
                 </a>
@@ -437,7 +259,7 @@ class Container extends React.PureComponent {
                 <a
                     key='demo-source'
                     className='demo-implementation-link'
-                    href={`https://github.com/bibliotech/uikit/blob/master/${this.props.routes[1].displayName || this.props.routes[1].path}/demo/index.js`}
+                    href={`${repositoryURL}/blob/master/packages/${_.last(this.props.routes).path}/demo/index.js`}
                     target='_blank'>
                     Demo Source
                 </a>
@@ -447,12 +269,12 @@ class Container extends React.PureComponent {
 
     renderSubPropTableRow = (props, name, depth) => (
         <tr key={name} className={`prop-row prop-depth-${depth}`}>
-            <td><strong>{name}</strong></td>
-            <td>
+            <td className='prop-name'><strong>{name}</strong></td>
+            <td className='prop-type'>
                 <pre><code>{props[name].name}</code></pre>
             </td>
-            <td>{compiler(props[name].description || '', markdownCompilerOptions)}</td>
-            <td colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
+            <td className='prop-description'>{md2jsx(props[name].description || '')}</td>
+            <td className='prop-required' colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
         </tr>
     )
 
@@ -469,42 +291,60 @@ class Container extends React.PureComponent {
             if (type.computed === true) {
                 const prefix = type.value.split(/[()]+/)[1];
 
-                return 'enum([\n  ' + Object.keys(
-                    _.get(components, prefix, {})
+                return 'enum([\n  ' + _.keys(
+                    _.get(assets, `packages.boundless-${_.kebabCase(prefix)}`, {})
                 ).map((key) => `${prefix}.${key}`).join('\n  ') + '\n])';
             }
 
             return `enum(${type.value})`;
 
         case 'union':
-            return type.value.map((v) => v.name).join('|');
+            return type.value.map((v) => v.name.trim()).join('|');
         }
 
         return type.name;
     }
 
-    renderPropTableRows(propInfo, name, depth = 0) {
-        const prop = propInfo[name];
+    /**
+     * @param  {Object}         docgenData
+     * @param  {String}         name       the prop's name, may be a subprop (e.g. foo.bar)
+     * @param  {Number}         depth      [description]
+     * @return {jsx}
+     */
+    renderPropTableRows(docgenData, name, depth = 0) {
+        if (!docgenData.props[name].type) { return null; }
 
-        if (!prop.type) { return null; }
+        const prop = _.get(docgenData.props, name);
 
-        const rows = [
+        const rows = [(
             <tr key={name} className={`prop-row prop-depth-${depth}`}>
-                <td><strong>{name}</strong></td>
-                <td>
-                    <pre><code>{this.formatPropType(prop.type)}</code></pre>
+                <td className='prop-name'>
+                    <strong>{name}</strong>
                 </td>
-                <td>{compiler(prop.description || '', markdownCompilerOptions)}</td>
-                <td>{prop.required ? 'Yes' : 'No'}</td>
-                <td>
+
+                <td className='prop-type'>
+                    <pre>
+                        <code>{this.formatPropType(prop.type)}</code>
+                    </pre>
+                </td>
+
+                <td className='prop-description'>
+                    {prop.description ? md2jsx(prop.description) : ''}
+                </td>
+
+                <td className='prop-required'>
+                    {prop.required ? 'Yes' : 'No'}
+                </td>
+
+                <td className='prop-default'>
                     <pre>
                         <code className='lang-js'>
                             {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
                         </code>
                     </pre>
                 </td>
-            </tr>,
-        ];
+            </tr>
+        )];
 
         if (!!prop.type.value
             && (prop.type.value.value || prop.type.value.raw)
@@ -518,50 +358,54 @@ class Container extends React.PureComponent {
                 const component = subPropsRaw[0];
                 const subPropName = subPropsRaw[2];
 
-                return rows.concat(this.renderPropTableRows(
-                    { [subPropName]: _.get(components[component], `docgenInfo.props[${subPropName}]`, {}) },
-                    subPropName,
-                    depth + 1,
-                ));
+                return rows.concat(
+                    this.renderPropTableRows(
+                        _.get(assets, `packages.boundless-${_.kebabCase(component)}.index.default.__docgenInfo`), subPropName, depth + 1
+                    )
+                );
             }
 
             return rows.concat(
-                Object.keys(subProps).map((subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1))
+                Object.keys(subProps).map(
+                    (subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1)
+                )
             );
         }
 
         return rows;
     }
 
-    renderPropTable(propInfo) {
+    renderPropTable(docgenData) {
         return (
             <table>
                 <thead>
                     <tr className='prop-row'>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th>Required</th>
-                        <th>Default value</th>
+                        <th className='prop-name'>Name</th>
+                        <th className='prop-type'>Type</th>
+                        <th className='prop-description'>Description</th>
+                        <th className='prop-required'>Required</th>
+                        <th className='prop-default'>Default value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.keys(propInfo).map((name) => this.renderPropTableRows(propInfo, name))}
+                    {Object.keys(docgenData.props).map((propName) => {
+                        return this.renderPropTableRows(docgenData, propName);
+                    })}
                 </tbody>
             </table>
         );
     }
 
-    maybeRenderPropInfo(docgenInfo) {
+    maybeRenderPropInfo({docgenInfo}) {
         if (docgenInfo && docgenInfo.props) {
             return (
                 <div className='props-section'>
-                    <h3>Props</h3>
-                    <p>
-                        Any <Link to='https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes'>React-supported attribute</Link> is a valid prop for this element; forwarded to <code>props.component</code>
-                    </p>
-                    {docgenInfo.description ? compiler(docgenInfo.description, markdownCompilerOptions) : null}
-                    {this.renderPropTable(docgenInfo.props)}
+                    <LinkedHeaderText component='h3'>
+                        Props
+                    </LinkedHeaderText>
+
+                    {docgenInfo.description ? md2jsx(docgenInfo.description) : null}
+                    {this.renderPropTable(docgenInfo)}
                 </div>
             );
         }
@@ -586,8 +430,8 @@ class Container extends React.PureComponent {
 
                     <div
                         className='splash-tab splash-tab-lower'
-                        onClick={() => (document.body.scrollTop = window.innerHeight)}>
-                        {SvgCaret}
+                        onClick={() => this.$sticky.scrollIntoView()}>
+                        {svgCaretComponent}
                     </div>
                 </div>
             </section>
@@ -597,24 +441,20 @@ class Container extends React.PureComponent {
     render() {
         return (
             <div>
-                {this.props.children ? null : this.renderSplash()}
+                {!this.props.children ? this.renderSplash() : null}
 
-                <StickyBar />
+                <StickyBar ref={(instance) => (this.$sticky = findDOMNode(instance))} />
 
                 <main className='demo-section'>
                     {this.maybeRenderGithubLinks()}
 
-                    {compiler(
-                        this.props.children
-                        ? this.props.children.props.route.readme
-                        : this.props.route.readme, markdownCompilerOptions
-                    )}
+                    {md2jsx(_.get(this.props, 'children.props.route.readme', this.props.route.readme))}
 
                     {this.maybeRenderDemo()}
 
                     {
                         this.props.children
-                        ? this.maybeRenderPropInfo(this.props.children.props.route.docgenInfo)
+                        ? this.maybeRenderPropInfo(this.props.children.props.route)
                         : null
                     }
                 </main>
@@ -625,13 +465,14 @@ class Container extends React.PureComponent {
 
 render(
     <Router history={browserHistory}>
-        <Route path='/' component={Container} readme={readme}>
-            {Object.keys(components).map((component) => {
-                return <Route {...components[component]} key={component} path={component} />;
-            })}
-            {Object.keys(utilities).map((utility) => {
-                return <Route {...utilities[utility]} key={utility} path={utility} />;
-            })}
+        <Route path='/' component={Container} readme={assets.README}>
+            {components.map((definition) => (
+                <Route
+                    {...definition}
+                    key={definition.path}
+                    path={definition.path}
+                    component={definition.demo} />
+            ))}
         </Route>
     </Router>, document.getElementById('root')
 );

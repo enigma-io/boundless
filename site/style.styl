@@ -28,6 +28,13 @@ figure {
 h1, h2, h3, h4, h5, h6 {
     margin: 1em 0 0.75rem;
 
+    > a {
+        color: #CCC;
+        font-weight: 400;
+        margin-left: 0.5rem;
+        text-decoration: none;
+    }
+
     + h1, + h2, + h3, + h4, + h5, + h6 {
         margin-top: 0.5rem;
     }
@@ -224,7 +231,7 @@ tbody tr:nth-child(even) {
 
 .splash {
     align-items: center;
-    background: #000;
+    background: linear-gradient(to top, #1A1A1A 0%, #000 100%)
     height: 100vh;
     overflow: hidden; /* needed for starfield */
     position: relative;
@@ -285,7 +292,7 @@ tbody tr:nth-child(even) {
 
 .sticky-bar {
     align-items: center;
-    background: #000;
+    background: #1A1A1A;
     border-bottom: 1px solid #111;
     display: flex;
     // overflow: hidden;
@@ -374,6 +381,8 @@ tbody tr:nth-child(even) {
     border-top: none;
     padding: 7.5px 24px;
     transform: translate(-12px, 17px);
+    max-height: 300px;
+    overflow-y: auto;
 
     a {
         display: block;
@@ -455,19 +464,21 @@ tbody tr:nth-child(even) {
 
     table {
         border-collapse: collapse;
-        table-layout: fixed;
+        overflow: hidden;
 
         thead tr {
             background: #ddd;
 
             th {
-                padding: 0 0.5em;
+                padding: 0.5em;
+                white-space: nowrap;
             }
         }
     }
 
     .prop-row {
-        border-left: 1px solid #ddd
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
         border-top: 1px solid #ddd;
 
         &:first-child {
