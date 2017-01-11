@@ -5,35 +5,49 @@
 
   handlers:
     - name: Restart NGINX
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       service: name=nginx enabled=yes state=restarted
 
   tasks:
     - name: Install server dependencies
-      sudo: yes
+      become: true
+      become_user: root
+      become_method: su
       pkgng: name={{ item }}
       with_items:
         - nginx
 
     - name: Create nginx directory
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       file: path={{ nginx_dir }} state=directory mode=0774
 
     - name: Install the NGINX config
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       template: src=server.conf dest={{ nginx_dir }}/nginx.conf mode=0774
       notify: Restart NGINX
 
     - name: Create vhost sites-available directory
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       file: path={{ nginx_dir }}/sites-available state=directory mode=0774
 
     - name: Create vhost sites-enabled directory
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       file: path={{ nginx_dir }}/sites-enabled state=directory mode=0774
 
     - name: Enable NGINX
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       lineinfile:
         dest=/etc/rc.conf
         line="nginx_enable=\"YES\""
@@ -41,5 +55,7 @@
         insertafter=EOF
 
     - name: Start NGINX
-      sudo: true
+      become: true
+      become_user: root
+      become_method: su
       service: name=nginx enabled=yes state=started

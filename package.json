@@ -105,7 +105,7 @@
     "site:js:release": "BABEL_ENV=site-production NODE_ENV=production browserify site/index.js -p bundle-collapser/plugin | uglifyjs -mc drop_console --screw-ie8 > site/public/assets/bundle.min.js",
     "site:js:watch": "BABEL_ENV=site-development budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw -- -p bundle-collapser/plugin",
     "site:release": "npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
-    "site:deploy": "ansible-playbook deploy/playbook.yml -i /etc/ansible/hosts",
+    "site:deploy": "ansible-playbook deploy/playbook.yml -i deploy/inventory",
     "css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "css:watch": "npm run css -- -w",
