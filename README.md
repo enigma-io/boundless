@@ -10,13 +10,11 @@ npm i boundless-button  # a specific part of the library
 ## Developing boundless
 
 ```bash
-npm i -g lerna@prerelease # install lerna (handles the monorepo, currently in beta for the 2.x branch)
-
 git clone git@github.com:bibliotech/uikit.git boundless
 cd boundless
 
 npm i
-npm run bootstrap
+npm start # runs the development server so you can make changes live ✨
 ```
 
 # Getting started with Boundless
