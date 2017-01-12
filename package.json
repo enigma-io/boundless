@@ -97,8 +97,9 @@
     ]
   },
   "scripts": {
-    "postinstall": "lerna bootstrap && mkdirp site/public/assets",
+    "postinstall": "mkdirp site/public/assets",
     "prerelease": "npm run all",
+    "bootstrap": "lerna bootstrap",
     "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
     "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",
     "site:css:watch": "stylus -w -c -m -l -u autoprefixer-stylus site/style.styl -o site/public/style.css --sourcemap-inline",

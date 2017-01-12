@@ -15,7 +15,8 @@ npm i -g lerna@prerelease # install lerna (handles the monorepo, currently in be
 git clone git@github.com:bibliotech/uikit.git boundless
 cd boundless
 
-npm i  # installs the dependencies and also performs the lerna "bootstrap" to get everything symlinked
+npm i
+npm run bootstrap
 ```
 
 # Getting started with Boundless
