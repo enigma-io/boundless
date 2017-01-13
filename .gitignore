@@ -6,9 +6,8 @@ node_modules/
 
 # build things
 coverage/
-site/public/index.html
 site/public/**/*.css
+site/public/**/*.css.map
 site/public/**/bundle.js
-site/public/**/bundle.min.js
 docs/sdk/
 packages/*/dist

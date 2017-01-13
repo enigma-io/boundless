@@ -6,30 +6,40 @@ import Prism from 'prismjs';
 import {} from 'prismjs/components/prism-jsx.min.js';
 import {Router, Route, Link, browserHistory} from 'react-router';
 
+import * as Boundless from '../exports';
+import masterREADME from '../README.md';
+import {} from './style.styl';
+
+const {
+    Button,
+    Popover,
+    Typeahead,
+} = Boundless;
+
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 // Pages using NullComponent do not render the demo area
 const NullComponent = () => (<div />);
 
-// provided by bulkify, stringify handles the markdown files (must go before bulkify)
-const assets = require('bulk-require')(`${__dirname}/..`, [
-    'README.md',
-    'packages/!(boundless-utils*)/README.md',
-    'packages/!(boundless-utils*)/index.js',
-    'packages/!(boundless-utils*)/demo/index.js'
-]);
+const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|README\.md|demo\/index\.js)$/);
+const reqKeys = req.keys();
 
-const Button = _.get(assets, `packages.boundless-button.index.default`);
-const Popover = _.get(assets, `packages.boundless-popover.index.default`);
-const Typeahead = _.get(assets, `packages.boundless-typeahead.index.default`);
-
-const components = Object.keys(assets.packages).map((name) => {
-    const prettyName = _.pascalCase(name.replace('boundless-', ''));
+const components = _.keys(Boundless).map((prettyName) => {
+    const name = 'boundless-' + _.kebabCase(prettyName);
+    const demoPath = `./packages/${name}/demo/index.js`;
+    const readmePath = `./packages/${name}/README.md`;
 
     return {
-        demo: _.get(assets, `packages.${name}.demo.default`, NullComponent),
-        docgenInfo: _.get(assets, `packages.${name}.index.default.__docgenInfo`),
-        readme: _.get(assets, `packages.${name}.README`),
+        demo: _.includes(reqKeys, demoPath)
+              ? req(demoPath).default
+              : NullComponent,
+
+        docgenInfo: req(`./packages/${name}/index.js`).default.__docgenInfo,
+
+        readme: _.includes(reqKeys, readmePath)
+              ? req(readmePath)
+              : '',
+
         name: name,
         path: prettyName,
     };
@@ -292,7 +302,7 @@ class Container extends React.PureComponent {
                 const prefix = type.value.split(/[()]+/)[1];
 
                 return 'enum([\n  ' + _.keys(
-                    _.get(assets, `packages.boundless-${_.kebabCase(prefix)}`, {})
+                    _.get(Boundless, prefix, {})
                 ).map((key) => `${prefix}.${key}`).join('\n  ') + '\n])';
             }
 
@@ -360,7 +370,7 @@ class Container extends React.PureComponent {
 
                 return rows.concat(
                     this.renderPropTableRows(
-                        _.get(assets, `packages.boundless-${_.kebabCase(component)}.index.default.__docgenInfo`), subPropName, depth + 1
+                        _.get(Boundless, `${component}.__docgenInfo`), subPropName, depth + 1
                     )
                 );
             }
@@ -465,7 +475,7 @@ class Container extends React.PureComponent {
 
 render(
     <Router history={browserHistory}>
-        <Route path='/' component={Container} readme={assets.README}>
+        <Route path='/' component={Container} readme={masterREADME}>
             {components.map((definition) => (
                 <Route
                     {...definition}

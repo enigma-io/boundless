@@ -13,9 +13,10 @@
     "classnames": "^2.1.5"
   },
   "devDependencies": {
-    "autoprefixer-stylus": "^0.11.0",
+    "autoprefixer-stylus": "^0.13.0",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^18.0.0",
+    "babel-loader": "^6.2.10",
     "babel-plugin-external-helpers": "^6.8.0",
     "babel-plugin-react-docgen": "^1.4.1",
     "babel-plugin-transform-class-properties": "^6.6.0",
@@ -25,37 +26,34 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
-    "babelify": "^7.0.0",
-    "browserify": "^13.0.0",
-    "browserify-shim": "^3.8.12",
-    "budo": "^9.2.1",
-    "bulkify": "^1.4.2",
-    "bundle-collapser": "^1.2.1",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.9",
+    "css-loader": "^0.26.1",
     "eslint": "^3.7.0",
     "eslint-plugin-react": "^6.3.0",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "jest-cli": "^18.0.0",
     "lerna": "2.0.0-beta.32",
     "lodash": "^4.6.1",
     "markdown-to-jsx": "^4.0.0",
     "mkdirp": "^0.5.1",
     "prismjs": "^1.4.1",
+    "raw-loader": "^0.5.1",
     "react": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-router": "^2.7.0",
     "rollup": "^0.41.0",
     "rollup-plugin-babel": "^2.6.1",
-    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-uglify": "^1.0.1",
     "sinon": "^1.17.3",
-    "stringify": "^5.1.0",
     "stylus": "^0.54.2",
-    "through": "^2.3.8",
+    "stylus-loader": "^2.4.0",
     "uglify-js": "^2.6.2",
-    "watchify": "^3.7.0"
+    "webpack": "^2.2.0-rc.4",
+    "webpack-dev-server": "^2.2.0-rc.0"
   },
   "peerDependencies": {
     "react": ">= 15.3",
@@ -73,53 +71,20 @@
       "/node_modules/(?!boundless).*"
     ]
   },
-  "browser": {
-    "./exports.js": "./public/boundless.js"
-  },
-  "browserify-shim": {
-    "lodash": "global:_",
-    "react": "global:React",
-    "react-dom": "global:ReactDOM",
-    "react-router": "global:ReactRouter"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "stringify",
-        {
-          "extensions": [
-            ".md"
-          ]
-        }
-      ],
-      "babelify",
-      "bulkify",
-      "browserify-shim"
-    ]
-  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "postinstall": "mkdirp site/public/assets",
-
-    "site:css": "stylus -c -u autoprefixer-stylus site/style.styl -o site/public/style.css",
-    "site:css:release": "npm run site:css && mv site/public/style.css site/public/assets/style.css",
-    "site:css:watch": "stylus -w -c -m -l -u autoprefixer-stylus site/style.styl -o site/public/style.css --sourcemap-inline",
-    "site:js:release": "BABEL_ENV=site-production NODE_ENV=production browserify site/index.js -p bundle-collapser/plugin | uglifyjs -mc drop_console --screw-ie8 > site/public/assets/bundle.min.js",
-    "site:js:watch": "BABEL_ENV=site-development budo site/index.js:public/bundle.js -d site -H 0.0.0.0 --colors --live --open --pushstate --iw",
-    "site:release": "npm run site:css:release && npm run site:js:release && sed -e 's/bundle.js/bundle.min.js/g' -e 's/public/assets/g' < site/index.html > site/public/index.html",
+    "site:release": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
+    "site:watch": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --open",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i deploy/inventory",
-
     "build:js:master": "NODE_ENV=production node scripts/build-master.js",
     "build:css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "build:css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
-
     "lint": "eslint --quiet .",
     "test": "jest",
     "coverage": "jest --coverage",
-
     "prestart": "npm i && npm run bootstrap",
-    "start": "sh scripts/parallelize.sh \"npm run build:css -- -w\" \"npm run site:js:watch\"",
-
+    "start": "npm run site:watch",
     "prerelease": "npm i && npm run bootstrap",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master"
   }
