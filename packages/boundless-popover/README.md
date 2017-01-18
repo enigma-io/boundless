@@ -49,15 +49,19 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>anchor</td>
-        <td>`instanceOf|shape`</td>
+        <td><pre><code>instanceOf|shape</code></pre></td>
         <td>a DOM element or React reference to one for positioning purposes</td>
         <td>true</td>
-        <td>document.body</td>
+        <td><pre><code>document.body</code></pre></td>
     </tr>
     
     <tr>
         <td>anchorXAlign</td>
-        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Popover.position.START
+&nbsp;&nbsp;Popover.position.MIDDLE
+&nbsp;&nbsp;Popover.position.END
+])</code></pre></td>
         <td>location on the anchor X-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{0, ?}` on a 100x100 cartesian plane
@@ -68,12 +72,16 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{100, ?}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>anchorYAlign</td>
-        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Popover.position.START
+&nbsp;&nbsp;Popover.position.MIDDLE
+&nbsp;&nbsp;Popover.position.END
+])</code></pre></td>
         <td>location on the anchor Y-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{?, 0}` on a 100x100 cartesian plane
@@ -84,41 +92,43 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{?, 100}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>autoReposition</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>caretComponent</td>
-        <td>`element`</td>
+        <td><pre><code>element</code></pre></td>
         <td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
         <td>false</td>
-        <td><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+        <td><pre><code><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
     <g>
         <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
     </g>
-</svg></td>
+</svg></code></pre></td>
     </tr>
     
     <tr>
         <td>portalProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any/all supported [Portal props](boundless-portal/README.md)</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>preset</td>
-        <td>`enum([])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;
+])</code></pre></td>
         <td>a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well:
 
 ```jsx
@@ -130,12 +140,16 @@ _Note: only top-level props are in the README, for the full list check out the [
 </Popover>
 ```</td>
         <td>false</td>
-        <td>Popover.preset.BELOW</td>
+        <td><pre><code>Popover.preset.BELOW</code></pre></td>
     </tr>
     
     <tr>
         <td>selfXAlign</td>
-        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Popover.position.START
+&nbsp;&nbsp;Popover.position.MIDDLE
+&nbsp;&nbsp;Popover.position.END
+])</code></pre></td>
         <td>location on the popover X-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{0, ?}` on a 100x100 cartesian plane
@@ -146,12 +160,16 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{100, ?}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>selfYAlign</td>
-        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Popover.position.START
+&nbsp;&nbsp;Popover.position.MIDDLE
+&nbsp;&nbsp;Popover.position.END
+])</code></pre></td>
         <td>location on the popover Y-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{?, 0}` on a 100x100 cartesian plane
@@ -162,47 +180,47 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{?, 100}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>wrapperProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>captureFocus</td>
-        <td>`undefined`</td>
+        <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td>false</td>
+        <td><pre><code>false</code></pre></td>
     </tr>
     
     <tr>
         <td>closeOnEscKey</td>
-        <td>`undefined`</td>
+        <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>closeOnOutsideClick</td>
-        <td>`undefined`</td>
+        <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>closeOnOutsideScroll</td>
-        <td>`undefined`</td>
+        <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
 </table>

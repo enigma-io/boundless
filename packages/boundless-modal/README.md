@@ -26,34 +26,34 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>maskProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>modalProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>portalProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any/all supported [Portal props](/Portal/README.md)</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>captureFocus</td>
-        <td>`undefined`</td>
+        <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
 </table>

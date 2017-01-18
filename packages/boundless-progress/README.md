@@ -28,66 +28,66 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>cancelProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>component</td>
-        <td>`string|func`</td>
+        <td><pre><code>string|func</code></pre></td>
         <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td>'div'</td>
+        <td><pre><code>'div'</code></pre></td>
     </tr>
     
     <tr>
         <td>label</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>the value to show as a label of the progress, e.g. "50%"</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>labelProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>onCancel</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>if supplied, adds a cancel element and calls this function when that element is clicked</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>progress</td>
-        <td>`string|number`</td>
+        <td><pre><code>string|number</code></pre></td>
         <td>the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>progressProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>tweenProperty</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>the CSS property to tween (must accept percentages) - defaults to "width"</td>
         <td>false</td>
-        <td>'width'</td>
+        <td><pre><code>'width'</code></pre></td>
     </tr>
     
 </table>

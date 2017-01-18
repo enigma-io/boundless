@@ -41,159 +41,163 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>after</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>arbitrary content to be rendered after the items in the DOM</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>before</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>arbitrary content to be rendered before the items in the DOM</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>customControlContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>allows for arbitrary content to be rendered into the control area</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>getItem</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>hidePagerIfNotNeeded</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>does not render the paging controls if the number of items supplied to the view is less-than-or-equal-to the number of items to show per page via `props.numItemsPerPage`</td>
         <td>false</td>
-        <td>false</td>
+        <td><pre><code>false</code></pre></td>
     </tr>
     
     <tr>
         <td>identifier</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data</td>
         <td>true</td>
-        <td>uuid()</td>
+        <td><pre><code>uuid()</code></pre></td>
     </tr>
     
     <tr>
         <td>initialPage</td>
-        <td>`custom`</td>
+        <td><pre><code>custom</code></pre></td>
         <td>the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages</td>
         <td>false</td>
-        <td>1</td>
+        <td><pre><code>1</code></pre></td>
     </tr>
     
     <tr>
         <td>itemLoadingContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>allows for arbitrary content to be rendered into pagination items as they're loading if the backing data is a `Promise`</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>itemToJSXConverterFunc</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>an optional function to specify how an item should be converted to JSX, if it is not already renderable by React</td>
         <td>false</td>
-        <td>(x) => x</td>
+        <td><pre><code>(x) => x</code></pre></td>
     </tr>
     
     <tr>
         <td>jumpToFirstControlContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>content to be displayed inside of the "First page" control button</td>
         <td>false</td>
-        <td>'« First'</td>
+        <td><pre><code>'« First'</code></pre></td>
     </tr>
     
     <tr>
         <td>jumpToLastControlContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>content to be displayed inside of the "Last page" control button</td>
         <td>false</td>
-        <td>'Last »'</td>
+        <td><pre><code>'Last »'</code></pre></td>
     </tr>
     
     <tr>
         <td>listWrapperProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-pagination-item-list` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>nextPageControlContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>content to be displayed inside of the "Next page" control button</td>
         <td>false</td>
-        <td>'Next ›'</td>
+        <td><pre><code>'Next ›'</code></pre></td>
     </tr>
     
     <tr>
         <td>numItemsPerPage</td>
-        <td>`custom`</td>
+        <td><pre><code>custom</code></pre></td>
         <td>the maximum number of items to be displayed on each page; must be greater than zero</td>
         <td>false</td>
-        <td>10</td>
+        <td><pre><code>10</code></pre></td>
     </tr>
     
     <tr>
         <td>numPageToggles</td>
-        <td>`number`</td>
+        <td><pre><code>number</code></pre></td>
         <td>the maximum number of pages to be displayed in the control bar at one time</td>
         <td>false</td>
-        <td>5</td>
+        <td><pre><code>5</code></pre></td>
     </tr>
     
     <tr>
         <td>position</td>
-        <td>`enum([Pagination.positions.ABOVE, Pagination.positions.BELOW, Pagination.positions.BOTH])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Pagination.positions.ABOVE
+&nbsp;&nbsp;Pagination.positions.BELOW
+&nbsp;&nbsp;Pagination.positions.BOTH
+])</code></pre></td>
         <td>determines whether the pagination controls are displayed above, below, or both above and below the content</td>
         <td>false</td>
-        <td>Pagination.positions.ABOVE</td>
+        <td><pre><code>Pagination.positions.ABOVE</code></pre></td>
     </tr>
     
     <tr>
         <td>previousPageControlContent</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>content to be displayed inside of the "Previous page" control button</td>
         <td>false</td>
-        <td>'‹ Previous'</td>
+        <td><pre><code>'‹ Previous'</code></pre></td>
     </tr>
     
     <tr>
         <td>showJumpToFirst</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>whether the "First page" control button should be displayed</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>showJumpToLast</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>whether the "Last page" control button should be displayed</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>showPaginationState</td>
-        <td>`bool|func`</td>
+        <td><pre><code>bool|func</code></pre></td>
         <td>renders an element called `.b-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
 
 ```jsx
@@ -206,23 +210,23 @@ showPaginatedState={
 }
 ```</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>toggleWrapperProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.b-pagination-controls`</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>totalItems</td>
-        <td>`number`</td>
+        <td><pre><code>number</code></pre></td>
         <td>the total number of items to be displayed in the view</td>
         <td>true</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
 </table>

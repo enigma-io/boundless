@@ -36,46 +36,46 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>inputProps</td>
-        <td>`shape`</td>
+        <td><pre><code>shape</code></pre></td>
         <td>all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
 Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node</td>
         <td>false</td>
-        <td>{
+        <td><pre><code>{
     checked: false,
     indeterminate: false,
-}</td>
+}</code></pre></td>
     </tr>
     
     <tr>
         <td>label</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td>any React-renderable content, most commonly a simple string</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>labelProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>onChecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when the element becomes checked; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onUnchecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
 </table>

@@ -34,42 +34,42 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>children</td>
-        <td>`node`</td>
+        <td><pre><code>node</code></pre></td>
         <td></td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>onClick</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td></td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onPressed</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onUnpressed</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>pressed</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
         <td>false</td>
-        <td>undefined</td>
+        <td><pre><code>undefined</code></pre></td>
     </tr>
     
 </table>

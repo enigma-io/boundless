@@ -61,58 +61,58 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>handleAddToken</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>function handler that is called when an entity is selected by the user and a token should be created</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>handleRemoveTokens</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>handleNewSelection</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>tokenCloseComponent</td>
-        <td>`element`</td>
+        <td><pre><code>element</code></pre></td>
         <td>the JSX used for the close button itself</td>
         <td>false</td>
-        <td><div>X</div></td>
+        <td><pre><code><div>X</div></code></pre></td>
     </tr>
     
     <tr>
         <td>tokenCloseVisible</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>tokens</td>
-        <td>`arrayOf(number)`</td>
+        <td><pre><code>arrayOf(number)</code></pre></td>
         <td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
         <td>false</td>
-        <td>[]</td>
+        <td><pre><code>[]</code></pre></td>
     </tr>
     
     <tr>
         <td>tokensSelected</td>
-        <td>`arrayOf(number)`</td>
+        <td><pre><code>arrayOf(number)</code></pre></td>
         <td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
         <td>false</td>
-        <td>[]</td>
+        <td><pre><code>[]</code></pre></td>
     </tr>
     
 </table>

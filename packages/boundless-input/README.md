@@ -38,20 +38,20 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>hidePlaceholderOnFocus</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
         <td>false</td>
-        <td>true</td>
+        <td><pre><code>true</code></pre></td>
     </tr>
     
     <tr>
         <td>inputProps</td>
-        <td>`shape`</td>
+        <td><pre><code>shape</code></pre></td>
         <td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
         <td>false</td>
-        <td>{
+        <td><pre><code>{
     type: 'text',
-}</td>
+}</code></pre></td>
     </tr>
     
 </table>

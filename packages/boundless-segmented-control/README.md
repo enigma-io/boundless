@@ -32,15 +32,15 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>onOptionSelected</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>options</td>
-        <td>`custom`</td>
+        <td><pre><code>custom</code></pre></td>
         <td>the backing data for the segments of the rendered control
 
 > __Validation Criteria:__
@@ -54,7 +54,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - __options[].content__ `*`
 the content to go inside the button</td>
         <td>false</td>
-        <td>[]</td>
+        <td><pre><code>[]</code></pre></td>
     </tr>
     
 </table>

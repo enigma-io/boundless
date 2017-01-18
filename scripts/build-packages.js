@@ -36,14 +36,14 @@ _Note: only top-level props are in the README, for the full list check out the [
     <% _.forIn(props, function(data, propName) { %>
     <tr>
         <td><%= propName %></td>
-        <td><%= typeParser(data.type) %></td>
+        <td><pre><code><%= typeParser(data.type) %></code></pre></td>
         <td><%= data.description %></td>
         <td><%= data.required %></td>
-        <td><%= data.defaultValue.value %></td>
+        <td><pre><code class="language-js"><%= data.defaultValue.value %></code></pre></td>
     </tr>
     <% }) %>
 </table>
-`.trim();
+`.trimLeft();
 const componentReadmeGenerator = _.template(componentReadmeTemplate);
 
 /*
@@ -61,35 +61,28 @@ require('jsdom').env('', [
     }
 
     const formatPropType = (type = {}) => {
-        let str = type.name;
-
         switch (type.name) {
         case 'arrayOf':
             if (type.value.name !== 'custom') {
-                str = `${type.name}(${type.value.name})`;
+                return `${type.name}(${type.value.name})`;
             }
-
-            break;
 
         case 'enum':
             if (type.computed === true) {
                 const prefix = type.value.split(/[()]+/)[1];
 
-                str = 'enum([' + _.keys(
+                return 'enum([\n&nbsp;&nbsp;' + _.keys(
                     _.get(window.Boundless, prefix, {})
-                ).map((key) => `${prefix}.${key}`).join(', ') + '])';
-            } else {
-                str = `enum(${type.value})`;
+                ).map((key) => `${prefix}.${key}`).join('\n&nbsp;&nbsp;') + '\n])';
             }
 
-            break;
+            return `enum(${type.value})`;
 
         case 'union':
-            str = type.value.map((v) => v.name.trim()).join('|');
-            break;
+            return type.value.map((v) => v.name.trim()).join('|');
         }
 
-        return `\`${str}\``;
+        return type.name;
     };
 
     packages.forEach((name) => {

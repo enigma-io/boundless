@@ -33,26 +33,30 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>component</td>
-        <td>`string|func`</td>
+        <td><pre><code>string|func</code></pre></td>
         <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td>'div'</td>
+        <td><pre><code>'div'</code></pre></td>
     </tr>
     
     <tr>
         <td>defaultActiveChildIndex</td>
-        <td>`number`</td>
+        <td><pre><code>number</code></pre></td>
         <td>Allows for a particular child to be initially reachable via tabbing</td>
         <td>false</td>
-        <td>0</td>
+        <td><pre><code>0</code></pre></td>
     </tr>
     
     <tr>
         <td>mode</td>
-        <td>`enum([ArrowKeyNavigation.mode.HORIZONTAL, ArrowKeyNavigation.mode.VERTICAL, ArrowKeyNavigation.mode.BOTH])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;ArrowKeyNavigation.mode.HORIZONTAL
+&nbsp;&nbsp;ArrowKeyNavigation.mode.VERTICAL
+&nbsp;&nbsp;ArrowKeyNavigation.mode.BOTH
+])</code></pre></td>
         <td>Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented</td>
         <td>false</td>
-        <td>ArrowKeyNavigation.mode.BOTH</td>
+        <td><pre><code>ArrowKeyNavigation.mode.BOTH</code></pre></td>
     </tr>
     
 </table>

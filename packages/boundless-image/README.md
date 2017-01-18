@@ -18,42 +18,42 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>alt</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.b-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>displayAsBackgroundImage</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>emits the image as a `<div>` with `background-image` css property set instead of `<img>`</td>
         <td>false</td>
-        <td>false</td>
+        <td><pre><code>false</code></pre></td>
     </tr>
     
     <tr>
         <td>imageProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>src</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>a valid path to the desired image</td>
         <td>true</td>
-        <td>'about:blank'</td>
+        <td><pre><code>'about:blank'</code></pre></td>
     </tr>
     
     <tr>
         <td>statusProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image-status` node</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
 </table>

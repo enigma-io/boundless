@@ -74,7 +74,7 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>algorithm</td>
-        <td>`enum|shape`</td>
+        <td><pre><code>enum|shape</code></pre></td>
         <td>the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
 
 - __algorithm.matcher__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
@@ -98,79 +98,79 @@ myMarkFunc(inputText, entity) {
 }
 ```</td>
         <td>false</td>
-        <td>Typeahead.mode.FUZZY</td>
+        <td><pre><code>Typeahead.mode.FUZZY</code></pre></td>
     </tr>
     
     <tr>
         <td>clearPartialInputOnSelection</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>if `true`, clears the input text when a (partial) match is selected</td>
         <td>false</td>
-        <td>false</td>
+        <td><pre><code>false</code></pre></td>
     </tr>
     
     <tr>
         <td>entities</td>
-        <td>`arrayOf(shape)`</td>
+        <td><pre><code>arrayOf(shape)</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` HTML element</td>
         <td>false</td>
-        <td>[]</td>
+        <td><pre><code>[]</code></pre></td>
     </tr>
     
     <tr>
         <td>hint</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
         <td>false</td>
-        <td>null</td>
+        <td><pre><code>null</code></pre></td>
     </tr>
     
     <tr>
         <td>hintProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>matchWrapperProps</td>
-        <td>`object`</td>
+        <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>offscreenClass</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
         <td>false</td>
-        <td>'b-offscreen'</td>
+        <td><pre><code>'b-offscreen'</code></pre></td>
     </tr>
     
     <tr>
         <td>onComplete</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onEntityHighlighted</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called with the index of the highlighted entity due to keyboard selection</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onEntitySelected</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called with the index of the entity selected by the user</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
 </table>

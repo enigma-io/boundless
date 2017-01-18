@@ -36,66 +36,69 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>items</td>
-        <td>`arrayOf`</td>
+        <td><pre><code>enum([object Object])</code></pre></td>
         <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)</td>
         <td>true</td>
-        <td>[]</td>
+        <td><pre><code>[]</code></pre></td>
     </tr>
     
     <tr>
         <td>onAllChecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when all children become checked (not fired on first render), no return</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onAllUnchecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when all children become unchecked (not fired on first render), no return</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onChildChecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when a specific child has become checked, returns the child definition</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>onChildUnchecked</td>
-        <td>`func`</td>
+        <td><pre><code>func</code></pre></td>
         <td>called when a specific child has become checked, returns the child definition</td>
         <td>false</td>
-        <td>noop</td>
+        <td><pre><code>noop</code></pre></td>
     </tr>
     
     <tr>
         <td>selectAll</td>
-        <td>`bool`</td>
+        <td><pre><code>bool</code></pre></td>
         <td>renders a master checkbox that can manipulate the values of all children simultaneously</td>
         <td>false</td>
-        <td>false</td>
+        <td><pre><code>false</code></pre></td>
     </tr>
     
     <tr>
         <td>selectAllProps</td>
-        <td>`shape`</td>
+        <td><pre><code>shape</code></pre></td>
         <td>must conform to the [Checkbox prop spec](../Checkbox#props)</td>
         <td>false</td>
-        <td>{}</td>
+        <td><pre><code>{}</code></pre></td>
     </tr>
     
     <tr>
         <td>selectAllPosition</td>
-        <td>`enum([CheckboxGroup.Constants.SELECT_ALL_BEFORE, CheckboxGroup.Constants.SELECT_ALL_AFTER])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;CheckboxGroup.Constants.SELECT_ALL_BEFORE
+&nbsp;&nbsp;CheckboxGroup.Constants.SELECT_ALL_AFTER
+])</code></pre></td>
         <td>(see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"</td>
         <td>false</td>
-        <td>CheckboxGroup.Constants.SELECT_ALL_BEFORE</td>
+        <td><pre><code>CheckboxGroup.Constants.SELECT_ALL_BEFORE</code></pre></td>
     </tr>
     
 </table>

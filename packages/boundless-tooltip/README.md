@@ -20,26 +20,31 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>component</td>
-        <td>`string|func`</td>
+        <td><pre><code>string|func</code></pre></td>
         <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td>'div'</td>
+        <td><pre><code>'div'</code></pre></td>
     </tr>
     
     <tr>
         <td>position</td>
-        <td>`enum([Tooltip.position.ABOVE, Tooltip.position.BELOW, Tooltip.position.BEFORE, Tooltip.position.AFTER])`</td>
+        <td><pre><code>enum([
+&nbsp;&nbsp;Tooltip.position.ABOVE
+&nbsp;&nbsp;Tooltip.position.BELOW
+&nbsp;&nbsp;Tooltip.position.BEFORE
+&nbsp;&nbsp;Tooltip.position.AFTER
+])</code></pre></td>
         <td>determines the correct class to apply to position the tooltip</td>
         <td>false</td>
-        <td>Tooltip.position.ABOVE</td>
+        <td><pre><code>Tooltip.position.ABOVE</code></pre></td>
     </tr>
     
     <tr>
         <td>text</td>
-        <td>`string`</td>
+        <td><pre><code>string</code></pre></td>
         <td>the content to be shown in the tooltip</td>
         <td>false</td>
-        <td>''</td>
+        <td><pre><code>''</code></pre></td>
     </tr>
     
 </table>
