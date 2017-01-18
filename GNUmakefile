@@ -2,6 +2,7 @@ all: install test
 
 install:
 	npm i
+	npm run bootstrap
 
 test: install
 	npm run lint
