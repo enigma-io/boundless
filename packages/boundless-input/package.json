@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An input control with placeholder emulation for non-supporting platforms.",
   "module": "index.js",
-
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

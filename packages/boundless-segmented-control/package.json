@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A control containing multiple buttons, only one of which can be active at a time.",
   "module": "index.js",
-
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

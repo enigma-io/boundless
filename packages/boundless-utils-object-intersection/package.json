@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Returns an intersection of the first argument against the second argument's keys.",
   "module": "index.js",
-
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

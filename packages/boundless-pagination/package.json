@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "View and navigate heterogenious content one page at a time.",
   "module": "index.js",
-
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

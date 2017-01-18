@@ -10,4 +10,4 @@ site/public/**/*.css
 site/public/**/*.css.map
 site/public/**/bundle.js
 docs/sdk/
-packages/*/dist
+packages/*/build

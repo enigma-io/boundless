@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A non-blocking container positioned to a specific anchor element.",
   "module": "index.js",
-
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

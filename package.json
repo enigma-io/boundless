@@ -26,6 +26,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
+    "chalk": "^1.1.3",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.9",
     "css-loader": "^0.26.1",
@@ -78,6 +79,7 @@
     "site:watch": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --open",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i deploy/inventory",
     "build:js:master": "NODE_ENV=production node scripts/build-master.js",
+    "build:js:packages": "NODE_ENV=production node scripts/build-packages.js",
     "build:css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
     "build:css:release": "stylus -c -u autoprefixer-stylus style.styl -o public/skin.min.css",
     "lint": "eslint --quiet .",
@@ -86,6 +88,6 @@
     "prestart": "npm i && npm run bootstrap",
     "start": "npm run site:watch",
     "prerelease": "npm i && npm run bootstrap",
-    "release": "npm run build:css && npm run build:css:release && npm run build:js:master"
+    "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages"
   }
 }
