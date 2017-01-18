@@ -1,5 +1,8 @@
 # Boundless
 
+[![Build Status](https://travis-ci.com/enigma-io/boundless.svg?token=hxqSwGHKT9sQ6YJSerRg&branch=master)](https://travis-ci.com/enigma-io/boundless)[![codecov](https://codecov.io/gh/enigma-io/boundless/branch/master/graph/badge.svg?token=p755jHqDqi)](https://codecov.io/gh/enigma-io/boundless)
+
+
 ## Installation (coming soon)
 
 ```bash
