@@ -21,25 +21,18 @@ _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 // Pages using NullComponent do not render the demo area
 const NullComponent = () => (<div />);
 
-const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|README\.md|demo\/index\.js)$/);
+const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|demo\/index\.js)$/);
 const reqKeys = req.keys();
 
 const components = _.keys(Boundless).map((prettyName) => {
     const name = 'boundless-' + _.kebabCase(prettyName);
     const demoPath = `./packages/${name}/demo/index.js`;
-    const readmePath = `./packages/${name}/README.md`;
 
     return {
         demo: _.includes(reqKeys, demoPath)
               ? req(demoPath).default
               : NullComponent,
-
         docgenInfo: req(`./packages/${name}/index.js`).default.__docgenInfo,
-
-        readme: _.includes(reqKeys, readmePath)
-              ? req(readmePath)
-              : '',
-
         name: name,
         path: prettyName,
     };
@@ -237,9 +230,6 @@ class Container extends React.PureComponent {
     static propTypes = {
         children: PropTypes.any,
         routes: PropTypes.array,
-        route: PropTypes.shape({
-            readme: PropTypes.string,
-        }),
     }
 
     componentDidMount() {
@@ -431,11 +421,13 @@ class Container extends React.PureComponent {
         if (docgenInfo && docgenInfo.props) {
             return (
                 <div className='props-section'>
+                    {docgenInfo.description ? md2jsx(docgenInfo.description) : null}
+                    {this.maybeRenderDemo()}
+
                     <LinkedHeaderText component='h3'>
                         Props
                     </LinkedHeaderText>
 
-                    {docgenInfo.description ? md2jsx(docgenInfo.description) : null}
                     {this.renderPropTable(docgenInfo)}
                 </div>
             );
@@ -478,10 +470,6 @@ class Container extends React.PureComponent {
 
                 <main className='demo-section'>
                     {this.maybeRenderGithubLinks()}
-
-                    {md2jsx(_.get(this.props, 'children.props.route.readme', this.props.route.readme))}
-
-                    {this.maybeRenderDemo()}
 
                     {
                         this.props.children

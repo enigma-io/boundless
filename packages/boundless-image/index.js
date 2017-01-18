@@ -4,6 +4,10 @@ import cx from 'classnames';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
+/**
+# Image
+__An image block with placeholder support for loading and fallback scenarios.__
+ */
 export default class Image extends React.PureComponent {
     static status = {
         LOADING: 'LOADING',

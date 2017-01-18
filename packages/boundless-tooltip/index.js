@@ -3,6 +3,12 @@ import cx from 'classnames';
 
 import omit from '../boundless-utils-omit-keys/index';
 
+/**
+# Tooltip
+__A simple wrapper that displays provided text on mouseover.__
+
+Nest any React-renderable content inside the `Tooltip` wrapper as you would a simple `<div>`.
+ */
 export default class Tooltip extends React.PureComponent {
     static position = {
         ABOVE: 'ABOVE',
