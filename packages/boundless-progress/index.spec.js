@@ -137,7 +137,6 @@ describe('Progress component', () => {
         });
 
         it('does not render if no handler is provided', () => {
-            const stub = sandbox.stub();
             const element = render(<Progress />);
 
             expect(element.refs.cancel).toBe(undefined);

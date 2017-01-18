@@ -58,7 +58,7 @@ const LinkedHeaderText = ({component = 'h1', children, ...props}) => {
 
     return React.createElement(component, {...props, id: normalizedId}, [
         children,
-        (<a key='link' href={`#${normalizedId}`}>#</a>)
+        (<a key='link' href={`#${normalizedId}`}>#</a>),
     ]);
 };
 
@@ -80,11 +80,11 @@ const EnhancedLink = ({children, href, ...props}) => {
         return (
             <Link to={path} hash={hash ? `#${hash}` : null}>{children}</Link>
         );
-    } else {
-        return (
-            <a {...props} href={href} target='_blank'>{children}</a>
-        );
     }
+
+    return (
+        <a {...props} href={href} target='_blank'>{children}</a>
+    );
 };
 
 const md2jsx = _.partialRight(MarkdownToJSX, {

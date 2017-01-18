@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Button from '../boundless-button/index';
-import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
 
 export default class Progress extends React.PureComponent {
