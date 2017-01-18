@@ -51,7 +51,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 </Portal>
 ```</td>
         <td>true</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -59,7 +59,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>instanceOf</code></pre></td>
         <td>the location to append the generated portal and child elements</td>
         <td>false</td>
-        <td><pre><code>document.body</code></pre></td>
+        <td><pre><code class="language-js">document.body</code></pre></td>
     </tr>
     
     <tr>
@@ -67,7 +67,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string</code></pre></td>
         <td>the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
 </table>

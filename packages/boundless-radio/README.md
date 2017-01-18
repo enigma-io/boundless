@@ -32,7 +32,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -40,7 +40,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>any React-renderable content, most commonly a simple string</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -48,7 +48,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -56,7 +56,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string</code></pre></td>
         <td>passthrough to the HTML `name` attribute on the `.b-radio` node</td>
         <td>true</td>
-        <td><pre><code>''</code></pre></td>
+        <td><pre><code class="language-js">''</code></pre></td>
     </tr>
     
     <tr>
@@ -64,7 +64,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when the element becomes selected; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -72,7 +72,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -80,7 +80,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string</code></pre></td>
         <td>passthrough to the HTML `value` attribute on the `.b-radio` node</td>
         <td>true</td>
-        <td><pre><code>''</code></pre></td>
+        <td><pre><code class="language-js">''</code></pre></td>
     </tr>
     
 </table>

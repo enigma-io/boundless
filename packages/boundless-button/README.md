@@ -37,7 +37,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td></td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -45,7 +45,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td></td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -53,7 +53,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -61,7 +61,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -69,7 +69,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
         <td>false</td>
-        <td><pre><code>undefined</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
 </table>

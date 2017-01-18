@@ -36,7 +36,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string|func</code></pre></td>
         <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td><pre><code>'div'</code></pre></td>
+        <td><pre><code class="language-js">'div'</code></pre></td>
     </tr>
     
     <tr>
@@ -44,7 +44,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>number</code></pre></td>
         <td>Allows for a particular child to be initially reachable via tabbing</td>
         <td>false</td>
-        <td><pre><code>0</code></pre></td>
+        <td><pre><code class="language-js">0</code></pre></td>
     </tr>
     
     <tr>
@@ -56,7 +56,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 ])</code></pre></td>
         <td>Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented</td>
         <td>false</td>
-        <td><pre><code>ArrowKeyNavigation.mode.BOTH</code></pre></td>
+        <td><pre><code class="language-js">ArrowKeyNavigation.mode.BOTH</code></pre></td>
     </tr>
     
 </table>

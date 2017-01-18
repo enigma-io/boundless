@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 import omit from '../boundless-utils-omit-keys/index';
 import uuid from '../boundless-utils-uuid/index';
 
-export const PORTAL_DATA_ATTRIBUTE = 'data-portal-id';
-
 /**
 # Portal
 __A higher-order component for the rendering of components outside the normal React tree.__
@@ -68,6 +66,8 @@ export default class Portal extends React.Component {
 
     static internalKeys = Object.keys(Portal.defaultProps)
 
+    static PORTAL_DATA_ATTRIBUTE = 'data-portal-id'
+
     id = uuid()
 
     // the <div> that the children are rendered into
@@ -104,7 +104,7 @@ export default class Portal extends React.Component {
         return (
             <span
                 {...omit(this.props, Portal.internalKeys)}
-                {...{[PORTAL_DATA_ATTRIBUTE]: this.props.portalId || this.id}} />
+                {...{[Portal.PORTAL_DATA_ATTRIBUTE]: this.props.portalId || this.id}} />
         );
     }
 }

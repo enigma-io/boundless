@@ -115,41 +115,42 @@ require('jsdom').env('', [
         Promise.all([
             devRollupInstance.then((bundle) => bundle.write({
                 dest: path.resolve(base + name + '/build/index.js'),
+                exports: 'default',
                 format: 'cjs',
                 sourceMap: 'inline',
             }), error),
 
-            devRollupInstance.then((bundle) => bundle.write({
-                dest: path.resolve(base + name + '/build/index.standalone.js'),
-                format: 'iife',
-                globals: {
-                    'react': 'React',
-                    'react-dom': 'ReactDOM',
-                },
-                moduleName: pascalName,
-            }), error),
+            // devRollupInstance.then((bundle) => bundle.write({
+            //     dest: path.resolve(base + name + '/build/index.standalone.js'),
+            //     format: 'iife',
+            //     globals: {
+            //         'react': 'React',
+            //         'react-dom': 'ReactDOM',
+            //     },
+            //     moduleName: pascalName,
+            // }), error),
         ]).then(() => {
-            process.env.BABEL_ENV = 'production';
+            // process.env.BABEL_ENV = 'production';
 
-            rollup.rollup(_.assign({}, baseConfig, {
-                entry: entryPath,
-                plugins: baseConfig.plugins.concat(
-                    uglify({
-                        compress: {
-                            'drop_console': true,
-                        },
-                        screwIE8: true,
-                    })
-                ),
-            })).then((bundle) => bundle.write({
-                dest: path.resolve(base + name + '/build/index.standalone.min.js'),
-                format: 'iife',
-                globals: {
-                    'react': 'React',
-                    'react-dom': 'ReactDOM',
-                },
-                moduleName: pascalName,
-            })).catch(error);
+            // rollup.rollup(_.assign({}, baseConfig, {
+            //     entry: entryPath,
+            //     plugins: baseConfig.plugins.concat(
+            //         uglify({
+            //             compress: {
+            //                 'drop_console': true,
+            //             },
+            //             screwIE8: true,
+            //         })
+            //     ),
+            // })).then((bundle) => bundle.write({
+            //     dest: path.resolve(base + name + '/build/index.standalone.min.js'),
+            //     format: 'iife',
+            //     globals: {
+            //         'react': 'React',
+            //         'react-dom': 'ReactDOM',
+            //     },
+            //     moduleName: pascalName,
+            // })).catch(error);
         }, error).then(() => console.log(chalk.bold.green(`Built ${name}.`)), error);
     });
 });

@@ -32,7 +32,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td></td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -40,7 +40,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string|func</code></pre></td>
         <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td><pre><code>'div'</code></pre></td>
+        <td><pre><code class="language-js">'div'</code></pre></td>
     </tr>
     
     <tr>
@@ -48,7 +48,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>allows the disclosure to be rendered expanded by default</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -56,7 +56,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when the content is shown; not called on initial render</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -64,7 +64,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when the content is hidden; not called on initial render</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -72,7 +72,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>content to be shown next to the expansion toggle, e.g. "Advanced Options"</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -80,7 +80,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -88,7 +88,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
 </table>

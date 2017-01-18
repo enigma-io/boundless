@@ -64,7 +64,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>function handler that is called when an entity is selected by the user and a token should be created</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -72,7 +72,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -80,7 +80,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -88,7 +88,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>element</code></pre></td>
         <td>the JSX used for the close button itself</td>
         <td>false</td>
-        <td><pre><code><div>X</div></code></pre></td>
+        <td><pre><code class="language-js"><div>X</div></code></pre></td>
     </tr>
     
     <tr>
@@ -96,7 +96,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
         <td>false</td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
@@ -104,7 +104,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>arrayOf(number)</code></pre></td>
         <td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
         <td>false</td>
-        <td><pre><code>[]</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
     <tr>
@@ -112,7 +112,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>arrayOf(number)</code></pre></td>
         <td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
         <td>false</td>
-        <td><pre><code>[]</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
 </table>

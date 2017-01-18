@@ -98,7 +98,7 @@ myMarkFunc(inputText, entity) {
 }
 ```</td>
         <td>false</td>
-        <td><pre><code>Typeahead.mode.FUZZY</code></pre></td>
+        <td><pre><code class="language-js">Typeahead.mode.FUZZY</code></pre></td>
     </tr>
     
     <tr>
@@ -106,7 +106,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>bool</code></pre></td>
         <td>if `true`, clears the input text when a (partial) match is selected</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -114,7 +114,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>arrayOf(shape)</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` HTML element</td>
         <td>false</td>
-        <td><pre><code>[]</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
     <tr>
@@ -122,7 +122,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>bool</code></pre></td>
         <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -130,7 +130,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -138,7 +138,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -146,7 +146,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>string</code></pre></td>
         <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
         <td>false</td>
-        <td><pre><code>'b-offscreen'</code></pre></td>
+        <td><pre><code class="language-js">'b-offscreen'</code></pre></td>
     </tr>
     
     <tr>
@@ -154,7 +154,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>func</code></pre></td>
         <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -162,7 +162,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>func</code></pre></td>
         <td>called with the index of the highlighted entity due to keyboard selection</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -170,7 +170,7 @@ myMarkFunc(inputText, entity) {
         <td><pre><code>func</code></pre></td>
         <td>called with the index of the entity selected by the user</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
 </table>

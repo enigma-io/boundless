@@ -29,7 +29,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -37,7 +37,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -45,7 +45,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any/all supported [Portal props](/Portal/README.md)</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -53,7 +53,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
 </table>

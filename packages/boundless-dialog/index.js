@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-import {PORTAL_DATA_ATTRIBUTE} from '../boundless-portal/index';
+import Portal from '../boundless-portal/index';
 import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
@@ -135,8 +135,8 @@ export default class Dialog extends React.PureComponent {
 
         const roots = [this.$wrapper].concat(
             toArray.call(
-                this.$wrapper.querySelectorAll(`[${PORTAL_DATA_ATTRIBUTE}]`)
-            ).map((dom) => document.getElementById(dom.getAttribute(PORTAL_DATA_ATTRIBUTE)))
+                this.$wrapper.querySelectorAll(`[${Portal.PORTAL_DATA_ATTRIBUTE}]`)
+            ).map((dom) => document.getElementById(dom.getAttribute(Portal.PORTAL_DATA_ATTRIBUTE)))
         );
 
         const element = node.nodeType !== Node.ELEMENT_NODE ? node.parentNode : node;

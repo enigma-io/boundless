@@ -30,7 +30,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string|number</code></pre></td>
         <td></td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -38,7 +38,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string|func</code></pre></td>
         <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td><pre><code>'span'</code></pre></td>
+        <td><pre><code class="language-js">'span'</code></pre></td>
     </tr>
     
     <tr>
@@ -46,7 +46,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>number</code></pre></td>
         <td>an upper bound (in pixels) for how large the text is allowed to grow</td>
         <td>false</td>
-        <td><pre><code>Number.MAX_VALUE</code></pre></td>
+        <td><pre><code class="language-js">Number.MAX_VALUE</code></pre></td>
     </tr>
     
 </table>

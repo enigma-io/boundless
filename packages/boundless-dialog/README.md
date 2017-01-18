@@ -37,7 +37,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>arbitrary content to be rendered after the dialog in the DOM</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -45,7 +45,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>arbitrary content to be rendered before the dialog in the DOM</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -53,7 +53,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -61,7 +61,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>determines if focus is allowed to move away from the dialog</td>
         <td>false</td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
@@ -69,7 +69,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td></td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -77,7 +77,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>enable detection of "Escape" keypresses to trigger `props.onClose`</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -85,7 +85,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>enable detection of clicks outside the dialog area to trigger `props.onClose`</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -93,7 +93,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>enable detection of focus outside the dialog area to trigger `props.onClose`</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -101,7 +101,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -109,7 +109,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -117,7 +117,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -125,7 +125,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>node</code></pre></td>
         <td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
         <td>false</td>
-        <td><pre><code>null</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
@@ -133,7 +133,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -141,7 +141,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -149,7 +149,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
 </table>

@@ -39,7 +39,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>enum([object Object])</code></pre></td>
         <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)</td>
         <td>true</td>
-        <td><pre><code>[]</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
     <tr>
@@ -47,7 +47,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when all children become checked (not fired on first render), no return</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -55,7 +55,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when all children become unchecked (not fired on first render), no return</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -63,7 +63,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when a specific child has become checked, returns the child definition</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -71,7 +71,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when a specific child has become checked, returns the child definition</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -79,7 +79,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>renders a master checkbox that can manipulate the values of all children simultaneously</td>
         <td>false</td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -87,7 +87,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>shape</code></pre></td>
         <td>must conform to the [Checkbox prop spec](../Checkbox#props)</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -98,7 +98,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 ])</code></pre></td>
         <td>(see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"</td>
         <td>false</td>
-        <td><pre><code>CheckboxGroup.Constants.SELECT_ALL_BEFORE</code></pre></td>
+        <td><pre><code class="language-js">CheckboxGroup.Constants.SELECT_ALL_BEFORE</code></pre></td>
     </tr>
     
 </table>

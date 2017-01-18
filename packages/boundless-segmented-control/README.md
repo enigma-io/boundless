@@ -35,7 +35,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>func</code></pre></td>
         <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
         <td>false</td>
-        <td><pre><code>noop</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
     </tr>
     
     <tr>
@@ -54,7 +54,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - __options[].content__ `*`
 the content to go inside the button</td>
         <td>false</td>
-        <td><pre><code>[]</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
 </table>

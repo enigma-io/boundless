@@ -52,7 +52,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>instanceOf|shape</code></pre></td>
         <td>a DOM element or React reference to one for positioning purposes</td>
         <td>true</td>
-        <td><pre><code>document.body</code></pre></td>
+        <td><pre><code class="language-js">document.body</code></pre></td>
     </tr>
     
     <tr>
@@ -72,7 +72,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{100, ?}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td><pre><code>undefined</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
     <tr>
@@ -92,7 +92,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{?, 100}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td><pre><code>undefined</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
     <tr>
@@ -100,7 +100,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>bool</code></pre></td>
         <td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
         <td>false</td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
@@ -108,7 +108,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>element</code></pre></td>
         <td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
         <td>false</td>
-        <td><pre><code><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+        <td><pre><code class="language-js"><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
     <g>
         <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
@@ -121,7 +121,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any/all supported [Portal props](boundless-portal/README.md)</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -140,7 +140,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 </Popover>
 ```</td>
         <td>false</td>
-        <td><pre><code>Popover.preset.BELOW</code></pre></td>
+        <td><pre><code class="language-js">Popover.preset.BELOW</code></pre></td>
     </tr>
     
     <tr>
@@ -160,7 +160,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{100, ?}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td><pre><code>undefined</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
     <tr>
@@ -180,7 +180,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - `Popover.position.END`
   equates to `{?, 100}` on a 100x100 cartesian plane</td>
         <td>false</td>
-        <td><pre><code>undefined</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
     <tr>
@@ -188,7 +188,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>object</code></pre></td>
         <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node</td>
         <td>false</td>
-        <td><pre><code>{}</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
@@ -196,7 +196,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td><pre><code>false</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
     </tr>
     
     <tr>
@@ -204,7 +204,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
@@ -212,7 +212,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
@@ -220,7 +220,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code></code></pre></td>
         <td></td>
         <td></td>
-        <td><pre><code>true</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
 </table>

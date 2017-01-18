@@ -23,7 +23,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string|func</code></pre></td>
         <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
         <td>false</td>
-        <td><pre><code>'div'</code></pre></td>
+        <td><pre><code class="language-js">'div'</code></pre></td>
     </tr>
     
     <tr>
@@ -36,7 +36,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 ])</code></pre></td>
         <td>determines the correct class to apply to position the tooltip</td>
         <td>false</td>
-        <td><pre><code>Tooltip.position.ABOVE</code></pre></td>
+        <td><pre><code class="language-js">Tooltip.position.ABOVE</code></pre></td>
     </tr>
     
     <tr>
@@ -44,7 +44,7 @@ _Note: only top-level props are in the README, for the full list check out the [
         <td><pre><code>string</code></pre></td>
         <td>the content to be shown in the tooltip</td>
         <td>false</td>
-        <td><pre><code>''</code></pre></td>
+        <td><pre><code class="language-js">''</code></pre></td>
     </tr>
     
 </table>
