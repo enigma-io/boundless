@@ -43,7 +43,6 @@
     "react": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
-    "react-router": "^2.7.0",
     "rollup": "^0.41.0",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^7.0.0",
@@ -53,8 +52,8 @@
     "stylus": "^0.54.2",
     "stylus-loader": "^2.4.0",
     "uglify-js": "^2.6.2",
-    "webpack": "^2.2.0-rc.4",
-    "webpack-dev-server": "^2.2.0-rc.0"
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   },
   "peerDependencies": {
     "react": ">= 15.3",
