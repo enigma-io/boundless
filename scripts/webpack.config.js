@@ -47,6 +47,6 @@ module.exports = {
                 },
             },
         }),
-        new ExtractTextPlugin('style.css')
+        new ExtractTextPlugin('style.css'),
     ],
-}
+};
