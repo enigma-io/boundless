@@ -27,9 +27,31 @@ When using `Input` in your project, you may call the following methods on a rend
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Input#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-hidePlaceholderOnFocus | `bool` | triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved | false | `true`
-inputProps | `shape` | props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc. | false | `{
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>hidePlaceholderOnFocus</td>
+        <td>`bool`</td>
+        <td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
+        <td>false</td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>inputProps</td>
+        <td>`shape`</td>
+        <td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
+        <td>false</td>
+        <td>{
     type: 'text',
-}`
+}</td>
+    </tr>
+    
+</table>

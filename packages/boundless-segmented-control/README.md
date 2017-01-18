@@ -21,10 +21,27 @@ __Keyboard__ | `['Enter']` | should trigger `onOptionSelected` for focused optio
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/SegmentedControl#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-onOptionSelected | `func` | called when a child element becomes selected; backing data must be updated to persist the state change | false | `noop`
-options | `custom` | the backing data for the segments of the rendered control
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>onOptionSelected</td>
+        <td>`func`</td>
+        <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>options</td>
+        <td>`custom`</td>
+        <td>the backing data for the segments of the rendered control
 
 > __Validation Criteria:__
 >
@@ -35,4 +52,9 @@ options | `custom` | the backing data for the segments of the rendered control
 - __options[].selected__ `Boolean`
 - __options[].value__ `String`
 - __options[].content__ `*`
-the content to go inside the button | false | `[]`
+the content to go inside the button</td>
+        <td>false</td>
+        <td>[]</td>
+    </tr>
+    
+</table>

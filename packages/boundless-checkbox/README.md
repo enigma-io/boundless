@@ -25,14 +25,57 @@ Events will not be proxied if the input is in "disabled" state, via the HTML5 `d
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Checkbox#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-inputProps | `shape` | all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node | false | `{
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>inputProps</td>
+        <td>`shape`</td>
+        <td>all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
+Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node</td>
+        <td>false</td>
+        <td>{
     checked: false,
     indeterminate: false,
-}`
-label | `node` | any React-renderable content, most commonly a simple string | false | `null`
-labelProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node | false | `{}`
-onChecked | `func` | called when the element becomes checked; backing data must be updated to persist the state change | false | `noop`
-onUnchecked | `func` | called when the element becomes unchecked; backing data must be updated to persist the state change | false | `noop`
+}</td>
+    </tr>
+    
+    <tr>
+        <td>label</td>
+        <td>`node`</td>
+        <td>any React-renderable content, most commonly a simple string</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>labelProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>onChecked</td>
+        <td>`func`</td>
+        <td>called when the element becomes checked; backing data must be updated to persist the state change</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onUnchecked</td>
+        <td>`func`</td>
+        <td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+</table>

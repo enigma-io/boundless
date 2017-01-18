@@ -18,13 +18,77 @@ __Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, tri
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/ProgressiveDisclosure#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-children | `node` |  | false | `null`
-component | `string|func` | any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement` | false | `'div'`
-expanded | `bool` | allows the disclosure to be rendered expanded by default | false | `false`
-onExpand | `func` | called when the content is shown; not called on initial render | false | `noop`
-onHide | `func` | called when the content is hidden; not called on initial render | false | `noop`
-teaser | `node` | content to be shown next to the expansion toggle, e.g. "Advanced Options" | false | `null`
-teaserExpanded | `node` | content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options" | false | `null`
-toggleProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node | false | `{}`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td>`node`</td>
+        <td></td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>component</td>
+        <td>`string|func`</td>
+        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td>'div'</td>
+    </tr>
+    
+    <tr>
+        <td>expanded</td>
+        <td>`bool`</td>
+        <td>allows the disclosure to be rendered expanded by default</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>onExpand</td>
+        <td>`func`</td>
+        <td>called when the content is shown; not called on initial render</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onHide</td>
+        <td>`func`</td>
+        <td>called when the content is hidden; not called on initial render</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>teaser</td>
+        <td>`node`</td>
+        <td>content to be shown next to the expansion toggle, e.g. "Advanced Options"</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>teaserExpanded</td>
+        <td>`node`</td>
+        <td>content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>toggleProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+</table>

@@ -16,8 +16,37 @@ There are no expected user interactions. The component emits normal text and mer
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/FittedText#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-children | `string|number` |  | false | `null`
-component | `string|func` | any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement` | false | `'span'`
-maxFontSize | `number` | an upper bound (in pixels) for how large the text is allowed to grow | false | `Number.MAX_VALUE`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td>`string|number`</td>
+        <td></td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>component</td>
+        <td>`string|func`</td>
+        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td>'span'</td>
+    </tr>
+    
+    <tr>
+        <td>maxFontSize</td>
+        <td>`number`</td>
+        <td>an upper bound (in pixels) for how large the text is allowed to grow</td>
+        <td>false</td>
+        <td>Number.MAX_VALUE</td>
+    </tr>
+    
+</table>

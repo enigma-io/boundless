@@ -23,20 +23,133 @@ __Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `close
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Dialog#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-after | `node` | arbitrary content to be rendered after the dialog in the DOM | false | `null`
-before | `node` | arbitrary content to be rendered before the dialog in the DOM | false | `null`
-bodyProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node | false | `{}`
-captureFocus | `bool` | determines if focus is allowed to move away from the dialog | false | `true`
-children | `node` |  | false | `null`
-closeOnEscKey | `bool` | enable detection of "Escape" keypresses to trigger `props.onClose` | false | `false`
-closeOnOutsideClick | `bool` | enable detection of clicks outside the dialog area to trigger `props.onClose` | false | `false`
-closeOnOutsideFocus | `bool` | enable detection of focus outside the dialog area to trigger `props.onClose` | false | `false`
-closeOnOutsideScroll | `bool` | enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose` | false | `false`
-footer | `node` | text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons | false | `null`
-footerProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node | false | `{}`
-header | `node` | text, ReactElements, etc. to represent the "title bar" area of the dialog | false | `null`
-headerProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node | false | `{}`
-onClose | `func` | a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied | false | `noop`
-wrapperProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node | false | `{}`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>after</td>
+        <td>`node`</td>
+        <td>arbitrary content to be rendered after the dialog in the DOM</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>before</td>
+        <td>`node`</td>
+        <td>arbitrary content to be rendered before the dialog in the DOM</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>bodyProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>captureFocus</td>
+        <td>`bool`</td>
+        <td>determines if focus is allowed to move away from the dialog</td>
+        <td>false</td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td>`node`</td>
+        <td></td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnEscKey</td>
+        <td>`bool`</td>
+        <td>enable detection of "Escape" keypresses to trigger `props.onClose`</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideClick</td>
+        <td>`bool`</td>
+        <td>enable detection of clicks outside the dialog area to trigger `props.onClose`</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideFocus</td>
+        <td>`bool`</td>
+        <td>enable detection of focus outside the dialog area to trigger `props.onClose`</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideScroll</td>
+        <td>`bool`</td>
+        <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>footer</td>
+        <td>`node`</td>
+        <td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>footerProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>header</td>
+        <td>`node`</td>
+        <td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>headerProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>onClose</td>
+        <td>`func`</td>
+        <td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>wrapperProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+</table>

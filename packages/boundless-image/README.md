@@ -7,10 +7,53 @@ __An image block with placeholder support for loading and fallback scenarios.__
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Image#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-alt | `string` | a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.b-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node | false | `null`
-displayAsBackgroundImage | `bool` | emits the image as a `<div>` with `background-image` css property set instead of `<img>` | false | `false`
-imageProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image` node | false | `{}`
-src | `string` | a valid path to the desired image | true | `'about:blank'`
-statusProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image-status` node | false | `{}`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>alt</td>
+        <td>`string`</td>
+        <td>a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.b-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>displayAsBackgroundImage</td>
+        <td>`bool`</td>
+        <td>emits the image as a `<div>` with `background-image` css property set instead of `<img>`</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>imageProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>src</td>
+        <td>`string`</td>
+        <td>a valid path to the desired image</td>
+        <td>true</td>
+        <td>'about:blank'</td>
+    </tr>
+    
+    <tr>
+        <td>statusProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image-status` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+</table>

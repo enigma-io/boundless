@@ -15,9 +15,45 @@ Refer to [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/bound
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Modal#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-maskProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element | false | `{}`
-modalProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element | false | `{}`
-portalProps | `object` | any/all supported [Portal props](/Portal/README.md) | false | `{}`
-captureFocus | `undefined` |  |  | `true`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>maskProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>modalProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>portalProps</td>
+        <td>`object`</td>
+        <td>any/all supported [Portal props](/Portal/README.md)</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>captureFocus</td>
+        <td>`undefined`</td>
+        <td></td>
+        <td></td>
+        <td>true</td>
+    </tr>
+    
+</table>

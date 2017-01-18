@@ -18,12 +18,69 @@ __Mouse__ | `click` (not selected) | should trigger `onSelected`
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Radio#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-inputProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node | false | `{}`
-label | `node` | any React-renderable content, most commonly a simple string | false | `null`
-labelProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node | false | `{}`
-name | `string` | passthrough to the HTML `name` attribute on the `.b-radio` node | true | `''`
-onSelected | `func` | called when the element becomes selected; backing data must be updated to persist the state change | false | `noop`
-selected | `bool` | determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components)) | false | `false`
-value | `string` | passthrough to the HTML `value` attribute on the `.b-radio` node | true | `''`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>inputProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>label</td>
+        <td>`node`</td>
+        <td>any React-renderable content, most commonly a simple string</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>labelProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>name</td>
+        <td>`string`</td>
+        <td>passthrough to the HTML `name` attribute on the `.b-radio` node</td>
+        <td>true</td>
+        <td>''</td>
+    </tr>
+    
+    <tr>
+        <td>onSelected</td>
+        <td>`func`</td>
+        <td>called when the element becomes selected; backing data must be updated to persist the state change</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>selected</td>
+        <td>`bool`</td>
+        <td>determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>value</td>
+        <td>`string`</td>
+        <td>passthrough to the HTML `value` attribute on the `.b-radio` node</td>
+        <td>true</td>
+        <td>''</td>
+    </tr>
+    
+</table>

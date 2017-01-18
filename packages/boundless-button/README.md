@@ -23,10 +23,53 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Button#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-children | `node` |  | false | `null`
-onClick | `func` |  | false | `noop`
-onPressed | `func` | called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed | false | `noop`
-onUnpressed | `func` | called when the element becomes "unpressed"; backing data must be updated to persist the state change | false | `noop`
-pressed | `bool` | enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above) | false | `undefined`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td>`node`</td>
+        <td></td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>onClick</td>
+        <td>`func`</td>
+        <td></td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onPressed</td>
+        <td>`func`</td>
+        <td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onUnpressed</td>
+        <td>`func`</td>
+        <td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>pressed</td>
+        <td>`bool`</td>
+        <td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+</table>

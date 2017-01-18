@@ -17,13 +17,77 @@ __Mouse__ | `click` on cancel element | should trigger the onCancel handler
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Progress#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-cancelProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node | false | `{}`
-component | `string|func` | any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement` | false | `'div'`
-label | `node` | the value to show as a label of the progress, e.g. "50%" | false | `null`
-labelProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node | false | `{}`
-onCancel | `func` | if supplied, adds a cancel element and calls this function when that element is clicked | false | `null`
-progress | `string|number` | the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity) | false | `undefined`
-progressProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node | false | `{}`
-tweenProperty | `string` | the CSS property to tween (must accept percentages) - defaults to "width" | false | `'width'`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>cancelProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>component</td>
+        <td>`string|func`</td>
+        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td>'div'</td>
+    </tr>
+    
+    <tr>
+        <td>label</td>
+        <td>`node`</td>
+        <td>the value to show as a label of the progress, e.g. "50%"</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>labelProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>onCancel</td>
+        <td>`func`</td>
+        <td>if supplied, adds a cancel element and calls this function when that element is clicked</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>progress</td>
+        <td>`string|number`</td>
+        <td>the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+    <tr>
+        <td>progressProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>tweenProperty</td>
+        <td>`string`</td>
+        <td>the CSS property to tween (must accept percentages) - defaults to "width"</td>
+        <td>false</td>
+        <td>'width'</td>
+    </tr>
+    
+</table>

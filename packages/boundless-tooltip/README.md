@@ -9,8 +9,37 @@ Nest any React-renderable content inside the `Tooltip` wrapper as you would a si
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Tooltip#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-component | `string|func` | any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement` | false | `'div'`
-position | `enum([Tooltip.position.ABOVE, Tooltip.position.BELOW, Tooltip.position.BEFORE, Tooltip.position.AFTER])` | determines the correct class to apply to position the tooltip | false | `Tooltip.position.ABOVE`
-text | `string` | the content to be shown in the tooltip | false | `''`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>component</td>
+        <td>`string|func`</td>
+        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td>'div'</td>
+    </tr>
+    
+    <tr>
+        <td>position</td>
+        <td>`enum([Tooltip.position.ABOVE, Tooltip.position.BELOW, Tooltip.position.BEFORE, Tooltip.position.AFTER])`</td>
+        <td>determines the correct class to apply to position the tooltip</td>
+        <td>false</td>
+        <td>Tooltip.position.ABOVE</td>
+    </tr>
+    
+    <tr>
+        <td>text</td>
+        <td>`string`</td>
+        <td>the content to be shown in the tooltip</td>
+        <td>false</td>
+        <td>''</td>
+    </tr>
+    
+</table>

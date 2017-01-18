@@ -50,12 +50,69 @@ When using `TokenizedInput` in your project, you may call the following methods 
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/TokenizedInput#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-handleAddToken | `func` | function handler that is called when an entity is selected by the user and a token should be created | false | `noop`
-handleRemoveTokens | `func` | function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected | false | `noop`
-handleNewSelection | `func` | function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be | false | `noop`
-tokenCloseComponent | `element` | the JSX used for the close button itself | false | `<div>X</div>`
-tokenCloseVisible | `bool` | determines if the `.b-tokenfield-token-close` element should be rendered for each token | false | `true`
-tokens | `arrayOf(number)` | the indexes of entities that should be rendered as "tokens" in the component UI | false | `[]`
-tokensSelected | `arrayOf(number)` | the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens` | false | `[]`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>handleAddToken</td>
+        <td>`func`</td>
+        <td>function handler that is called when an entity is selected by the user and a token should be created</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>handleRemoveTokens</td>
+        <td>`func`</td>
+        <td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>handleNewSelection</td>
+        <td>`func`</td>
+        <td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>tokenCloseComponent</td>
+        <td>`element`</td>
+        <td>the JSX used for the close button itself</td>
+        <td>false</td>
+        <td><div>X</div></td>
+    </tr>
+    
+    <tr>
+        <td>tokenCloseVisible</td>
+        <td>`bool`</td>
+        <td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
+        <td>false</td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>tokens</td>
+        <td>`arrayOf(number)`</td>
+        <td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
+        <td>false</td>
+        <td>[]</td>
+    </tr>
+    
+    <tr>
+        <td>tokensSelected</td>
+        <td>`arrayOf(number)`</td>
+        <td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
+        <td>false</td>
+        <td>[]</td>
+    </tr>
+    
+</table>

@@ -63,9 +63,19 @@ When using `Typeahead` in your project, you may call the following methods on a 
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Typeahead#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-algorithm | `enum|shape` | the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>algorithm</td>
+        <td>`enum|shape`</td>
+        <td>the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
 
 - __algorithm.matcher__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
              provide a custom matching algorithm, adhering to this format:
@@ -86,13 +96,81 @@ the index is stored instead of the entire entity to conserve memory and reduce d
 myMarkFunc(inputText, entity) {
     return <desired JSX templating> ];
 }
-``` | false | `Typeahead.mode.FUZZY`
-clearPartialInputOnSelection | `bool` | if `true`, clears the input text when a (partial) match is selected | false | `false`
-entities | `arrayOf(shape)` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` HTML element | false | `[]`
-hint | `bool` | renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input | false | `null`
-hintProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element | false | `{}`
-matchWrapperProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element | false | `{}`
-offscreenClass | `string` | the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration | false | `'b-offscreen'`
-onComplete | `func` | called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete | false | `noop`
-onEntityHighlighted | `func` | called with the index of the highlighted entity due to keyboard selection | false | `noop`
-onEntitySelected | `func` | called with the index of the entity selected by the user | false | `noop`
+```</td>
+        <td>false</td>
+        <td>Typeahead.mode.FUZZY</td>
+    </tr>
+    
+    <tr>
+        <td>clearPartialInputOnSelection</td>
+        <td>`bool`</td>
+        <td>if `true`, clears the input text when a (partial) match is selected</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>entities</td>
+        <td>`arrayOf(shape)`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` HTML element</td>
+        <td>false</td>
+        <td>[]</td>
+    </tr>
+    
+    <tr>
+        <td>hint</td>
+        <td>`bool`</td>
+        <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>hintProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>matchWrapperProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>offscreenClass</td>
+        <td>`string`</td>
+        <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
+        <td>false</td>
+        <td>'b-offscreen'</td>
+    </tr>
+    
+    <tr>
+        <td>onComplete</td>
+        <td>`func`</td>
+        <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onEntityHighlighted</td>
+        <td>`func`</td>
+        <td>called with the index of the highlighted entity due to keyboard selection</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onEntitySelected</td>
+        <td>`func`</td>
+        <td>called with the index of the entity selected by the user</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+</table>

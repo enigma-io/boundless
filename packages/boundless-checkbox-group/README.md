@@ -25,13 +25,77 @@ __Mouse__ | `click` on child | should trigger indeterminate state on "select all
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/CheckboxGroup#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-items | `arrayOf` | the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props) | true | `[]`
-onAllChecked | `func` | called when all children become checked (not fired on first render), no return | false | `noop`
-onAllUnchecked | `func` | called when all children become unchecked (not fired on first render), no return | false | `noop`
-onChildChecked | `func` | called when a specific child has become checked, returns the child definition | false | `noop`
-onChildUnchecked | `func` | called when a specific child has become checked, returns the child definition | false | `noop`
-selectAll | `bool` | renders a master checkbox that can manipulate the values of all children simultaneously | false | `false`
-selectAllProps | `shape` | must conform to the [Checkbox prop spec](../Checkbox#props) | false | `{}`
-selectAllPosition | `enum([CheckboxGroup.Constants.SELECT_ALL_BEFORE, CheckboxGroup.Constants.SELECT_ALL_AFTER])` | (see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before" | false | `CheckboxGroup.Constants.SELECT_ALL_BEFORE`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>items</td>
+        <td>`arrayOf`</td>
+        <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)</td>
+        <td>true</td>
+        <td>[]</td>
+    </tr>
+    
+    <tr>
+        <td>onAllChecked</td>
+        <td>`func`</td>
+        <td>called when all children become checked (not fired on first render), no return</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onAllUnchecked</td>
+        <td>`func`</td>
+        <td>called when all children become unchecked (not fired on first render), no return</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onChildChecked</td>
+        <td>`func`</td>
+        <td>called when a specific child has become checked, returns the child definition</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>onChildUnchecked</td>
+        <td>`func`</td>
+        <td>called when a specific child has become checked, returns the child definition</td>
+        <td>false</td>
+        <td>noop</td>
+    </tr>
+    
+    <tr>
+        <td>selectAll</td>
+        <td>`bool`</td>
+        <td>renders a master checkbox that can manipulate the values of all children simultaneously</td>
+        <td>false</td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>selectAllProps</td>
+        <td>`shape`</td>
+        <td>must conform to the [Checkbox prop spec](../Checkbox#props)</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>selectAllPosition</td>
+        <td>`enum([CheckboxGroup.Constants.SELECT_ALL_BEFORE, CheckboxGroup.Constants.SELECT_ALL_AFTER])`</td>
+        <td>(see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"</td>
+        <td>false</td>
+        <td>CheckboxGroup.Constants.SELECT_ALL_BEFORE</td>
+    </tr>
+    
+</table>

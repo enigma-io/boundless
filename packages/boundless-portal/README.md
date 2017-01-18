@@ -9,9 +9,19 @@ __A higher-order component for the rendering of components outside the normal Re
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Portal#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-children | `node` | any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td>`node`</td>
+        <td>any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
 
 ✅ OK:
 
@@ -39,6 +49,25 @@ children | `node` | any normal React child, but must be singular; multiple sibli
   <div>foo</div>
   <div>bar</div>
 </Portal>
-``` | true | `null`
-destination | `instanceOf` | the location to append the generated portal and child elements | false | `document.body`
-portalId | `string` | the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node | false | `null`
+```</td>
+        <td>true</td>
+        <td>null</td>
+    </tr>
+    
+    <tr>
+        <td>destination</td>
+        <td>`instanceOf`</td>
+        <td>the location to append the generated portal and child elements</td>
+        <td>false</td>
+        <td>document.body</td>
+    </tr>
+    
+    <tr>
+        <td>portalId</td>
+        <td>`string`</td>
+        <td>the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node</td>
+        <td>false</td>
+        <td>null</td>
+    </tr>
+    
+</table>

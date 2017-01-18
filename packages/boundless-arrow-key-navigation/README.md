@@ -22,8 +22,37 @@ __Keyboard__ | ⬇️ `Down` | move focus to next child if `props.mode` is `Arro
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/ArrowKeyNavigation#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-component | `string|func` | Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement` | false | `'div'`
-defaultActiveChildIndex | `number` | Allows for a particular child to be initially reachable via tabbing | false | `0`
-mode | `enum([ArrowKeyNavigation.mode.HORIZONTAL, ArrowKeyNavigation.mode.VERTICAL, ArrowKeyNavigation.mode.BOTH])` | Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented | false | `ArrowKeyNavigation.mode.BOTH`
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>component</td>
+        <td>`string|func`</td>
+        <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td>'div'</td>
+    </tr>
+    
+    <tr>
+        <td>defaultActiveChildIndex</td>
+        <td>`number`</td>
+        <td>Allows for a particular child to be initially reachable via tabbing</td>
+        <td>false</td>
+        <td>0</td>
+    </tr>
+    
+    <tr>
+        <td>mode</td>
+        <td>`enum([ArrowKeyNavigation.mode.HORIZONTAL, ArrowKeyNavigation.mode.VERTICAL, ArrowKeyNavigation.mode.BOTH])`</td>
+        <td>Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented</td>
+        <td>false</td>
+        <td>ArrowKeyNavigation.mode.BOTH</td>
+    </tr>
+    
+</table>

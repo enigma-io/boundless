@@ -38,10 +38,27 @@ Refer to [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/bound
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Popover#props)._
 
-Name | Type | Description | Required | Default Value
----- | ---- | ----------- | -------- | -------------
-anchor | `instanceOf|shape` | a DOM element or React reference to one for positioning purposes | true | `document.body`
-anchorXAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])` | location on the anchor X-axis to use for alignment calculations
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Required</th>
+        <th>Default Value</th>
+    </tr>
+    
+    <tr>
+        <td>anchor</td>
+        <td>`instanceOf|shape`</td>
+        <td>a DOM element or React reference to one for positioning purposes</td>
+        <td>true</td>
+        <td>document.body</td>
+    </tr>
+    
+    <tr>
+        <td>anchorXAlign</td>
+        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td>location on the anchor X-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{0, ?}` on a 100x100 cartesian plane
 
@@ -49,8 +66,15 @@ anchorXAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.p
   equates to `{50, ?}` on a 100x100 cartesian plane
 
 - `Popover.position.END`
-  equates to `{100, ?}` on a 100x100 cartesian plane | false | `undefined`
-anchorYAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])` | location on the anchor Y-axis to use for alignment calculations
+  equates to `{100, ?}` on a 100x100 cartesian plane</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+    <tr>
+        <td>anchorYAlign</td>
+        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td>location on the anchor Y-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{?, 0}` on a 100x100 cartesian plane
 
@@ -58,16 +82,44 @@ anchorYAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.p
   equates to `{?, 50}` on a 100x100 cartesian plane
 
 - `Popover.position.END`
-  equates to `{?, 100}` on a 100x100 cartesian plane | false | `undefined`
-autoReposition | `bool` | if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport | false | `true`
-caretComponent | `element` | the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover | false | `<svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+  equates to `{?, 100}` on a 100x100 cartesian plane</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+    <tr>
+        <td>autoReposition</td>
+        <td>`bool`</td>
+        <td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
+        <td>false</td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>caretComponent</td>
+        <td>`element`</td>
+        <td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
+        <td>false</td>
+        <td><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
     <g>
         <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
     </g>
-</svg>`
-portalProps | `object` | any/all supported [Portal props](boundless-portal/README.md) | false | `{}`
-preset | `enum([])` | a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well:
+</svg></td>
+    </tr>
+    
+    <tr>
+        <td>portalProps</td>
+        <td>`object`</td>
+        <td>any/all supported [Portal props](boundless-portal/README.md)</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>preset</td>
+        <td>`enum([])`</td>
+        <td>a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well:
 
 ```jsx
 <Popover
@@ -76,8 +128,15 @@ preset | `enum([])` | a baseline set of alignment properties that cover most use
     selfXAlign={Popover.position.START}>
     My popover content!
 </Popover>
-``` | false | `Popover.preset.BELOW`
-selfXAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])` | location on the popover X-axis to use for alignment calculations
+```</td>
+        <td>false</td>
+        <td>Popover.preset.BELOW</td>
+    </tr>
+    
+    <tr>
+        <td>selfXAlign</td>
+        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td>location on the popover X-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{0, ?}` on a 100x100 cartesian plane
 
@@ -85,8 +144,15 @@ selfXAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.pos
   equates to `{50, ?}` on a 100x100 cartesian plane
 
 - `Popover.position.END`
-  equates to `{100, ?}` on a 100x100 cartesian plane | false | `undefined`
-selfYAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])` | location on the popover Y-axis to use for alignment calculations
+  equates to `{100, ?}` on a 100x100 cartesian plane</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+    <tr>
+        <td>selfYAlign</td>
+        <td>`enum([Popover.position.START, Popover.position.MIDDLE, Popover.position.END])`</td>
+        <td>location on the popover Y-axis to use for alignment calculations
 - `Popover.position.START`
   equates to `{?, 0}` on a 100x100 cartesian plane
 
@@ -94,9 +160,49 @@ selfYAlign | `enum([Popover.position.START, Popover.position.MIDDLE, Popover.pos
   equates to `{?, 50}` on a 100x100 cartesian plane
 
 - `Popover.position.END`
-  equates to `{?, 100}` on a 100x100 cartesian plane | false | `undefined`
-wrapperProps | `object` | any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node | false | `{}`
-captureFocus | `undefined` |  |  | `false`
-closeOnEscKey | `undefined` |  |  | `true`
-closeOnOutsideClick | `undefined` |  |  | `true`
-closeOnOutsideScroll | `undefined` |  |  | `true`
+  equates to `{?, 100}` on a 100x100 cartesian plane</td>
+        <td>false</td>
+        <td>undefined</td>
+    </tr>
+    
+    <tr>
+        <td>wrapperProps</td>
+        <td>`object`</td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node</td>
+        <td>false</td>
+        <td>{}</td>
+    </tr>
+    
+    <tr>
+        <td>captureFocus</td>
+        <td>`undefined`</td>
+        <td></td>
+        <td></td>
+        <td>false</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnEscKey</td>
+        <td>`undefined`</td>
+        <td></td>
+        <td></td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideClick</td>
+        <td>`undefined`</td>
+        <td></td>
+        <td></td>
+        <td>true</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideScroll</td>
+        <td>`undefined`</td>
+        <td></td>
+        <td></td>
+        <td>true</td>
+    </tr>
+    
+</table>
