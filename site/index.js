@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode, render} from 'react-dom';
 import * as _ from 'lodash';
 import MarkdownToJSX from 'markdown-to-jsx';
@@ -62,6 +62,14 @@ const LinkedHeaderText = ({component = 'h1', children, ...props}) => {
     ]);
 };
 
+LinkedHeaderText.propTypes = {
+    children: PropTypes.any,
+    component: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+    ]),
+};
+
 /**
  * Attempts to resolve various forms of links to internal resources into appropriate
  * react-router <Link /> tags.
@@ -85,6 +93,11 @@ const EnhancedLink = ({children, href, ...props}) => {
     return (
         <a {...props} href={href} target='_blank'>{children}</a>
     );
+};
+
+EnhancedLink.propTypes = {
+    children: PropTypes.any,
+    href: PropTypes.string,
 };
 
 const md2jsx = _.partialRight(MarkdownToJSX, {
@@ -221,6 +234,14 @@ class StickyBar extends React.PureComponent {
 }
 
 class Container extends React.PureComponent {
+    static propTypes = {
+        children: PropTypes.any,
+        routes: PropTypes.array,
+        route: PropTypes.shape({
+            readme: PropTypes.string,
+        }),
+    }
+
     componentDidMount() {
         Prism.highlightAll();
         this.autoscroll();
