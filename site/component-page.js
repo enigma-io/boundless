@@ -13,14 +13,17 @@ export default class ComponentPage extends React.PureComponent {
 
     renderSubPropTableRow = (props, name, depth) => (
         <tr key={name} className={`prop-row prop-depth-${depth}`}>
-            <td className='prop-name'><strong>{name}</strong></td>
-            <td className='prop-type'>
+            <td className='prop-name'>
+                <h5>Name</h5>
+                <strong>{name}</strong>
+
+                <h5>Type</h5>
                 <pre><code>{props[name].name}</code></pre>
             </td>
+            <td className='prop-required'>{props[name].required ? 'Yes' : 'No'}</td>
             <td className='prop-description'>
                 <Markdown>{props[name].description}</Markdown>
             </td>
-            <td className='prop-required' colSpan={2}>{props[name].required ? 'Yes' : 'No'}</td>
         </tr>
     )
 
@@ -33,19 +36,22 @@ export default class ComponentPage extends React.PureComponent {
 
             break;
 
+        case 'instanceOf':
+           return type.value;
+
         case 'enum':
             if (type.computed === true) {
                 const prefix = type.value.split(/[()]+/)[1];
 
-                return 'enum([\n  ' + keys(
+                return keys(
                     get(Boundless, prefix, {})
-                ).map((key) => `${prefix}.${key}`).join('\n  ') + '\n])';
+                ).map((key) => `${prefix}.${key}`).join(' or\n');
             }
 
-            return `enum(${type.value})`;
+            return `oneOf(${type.value})`;
 
         case 'union':
-            return type.value.map((v) => v.name.trim()).join('|');
+            return type.value.map((v) => v.name.trim()).join(' or ');
         }
 
         return type.name;
@@ -65,29 +71,28 @@ export default class ComponentPage extends React.PureComponent {
         const rows = [(
             <tr key={name} className={`prop-row prop-depth-${depth}`}>
                 <td className='prop-name'>
+                    <h5>Name</h5>
                     <strong>{name}</strong>
-                </td>
 
-                <td className='prop-type'>
+                    <h5>Type</h5>
                     <pre>
                         <code>{this.formatPropType(prop.type)}</code>
                     </pre>
-                </td>
 
-                <td className='prop-description'>
-                    <Markdown>{prop.description}</Markdown>
+                    <h5>Default Value</h5>
+                    <pre>
+                        <code className='lang-js'>
+                            {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
+                        </code>
+                    </pre>
                 </td>
 
                 <td className='prop-required'>
                     {prop.required ? 'Yes' : 'No'}
                 </td>
 
-                <td className='prop-default'>
-                    <pre>
-                        <code className='lang-js'>
-                            {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
-                        </code>
-                    </pre>
+                <td className='prop-description'>
+                    <Markdown>{prop.description}</Markdown>
                 </td>
             </tr>
         )];
@@ -126,11 +131,9 @@ export default class ComponentPage extends React.PureComponent {
             <table>
                 <thead>
                     <tr className='prop-row'>
-                        <th className='prop-name'>Name</th>
-                        <th className='prop-type'>Type</th>
-                        <th className='prop-description'>Description</th>
+                        <th className='prop-name'>Implementation</th>
                         <th className='prop-required'>Required</th>
-                        <th className='prop-default'>Default value</th>
+                        <th className='prop-description'>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,19 +159,17 @@ export default class ComponentPage extends React.PureComponent {
     }
 
     render({docgenInfo} = this.props) {
-        if (docgenInfo && docgenInfo.props) {
-            return (
-                <div className='props-section'>
-                    <Markdown>{docgenInfo.description}</Markdown>
-                    {this.maybeRenderDemo()}
+        return (
+            <div>
+                <Markdown>{docgenInfo.description}</Markdown>
+                {this.maybeRenderDemo()}
 
-                    <LinkedHeaderText component='h3'>
-                        Props
-                    </LinkedHeaderText>
+                <LinkedHeaderText component='h3'>
+                    Props
+                </LinkedHeaderText>
 
-                    {this.renderPropTable(docgenInfo)}
-                </div>
-            );
-        }
+                {this.renderPropTable(docgenInfo)}
+            </div>
+        );
     }
 }

@@ -68,6 +68,9 @@ require('jsdom').env('', [
                 return `${type.name}(${type.value.name})`;
             }
 
+        case 'instanceOf':
+           return type.value;
+
         case 'enum':
             if (type.computed === true) {
                 const prefix = type.value.split(/[()]+/)[1];

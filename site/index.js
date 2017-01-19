@@ -1,8 +1,6 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode, render} from 'react-dom';
 import * as _ from 'lodash';
-import Prism from 'prismjs';
-import {} from 'prismjs/components/prism-jsx.min.js';
 import {Router, Route, Link, browserHistory} from 'react-router';
 
 import * as Boundless from '../exports';
@@ -44,10 +42,35 @@ const svgCaretComponent = (
 const repositoryURL = 'https://github.com/bibliotech/uikit';
 
 class StickyBar extends React.PureComponent {
+    componentDidMount() {
+        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
+    }
+
+    componentWillUnmount() {
+        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
+    }
+
+
+    render() {
+        return (
+            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
+                <div className='star-wrapper'>
+                    <div className='stars1' />
+                    <div className='stars2' />
+                    <div className='stars3' />
+                </div>
+
+                <div className='sticky-bar-inner'>
+                    <Link className='sticky-bar-brand' to='/'>boundless</Link>
+                </div>
+            </header>
+        );
+    }
+}
+
+class Search extends React.PureComponent {
     state = {
         entities: [],
-        shouldRenderComponentsMenu: false,
-        shouldRenderUtilitiesMenu: false,
     }
 
     componentWillMount() {
@@ -64,20 +87,14 @@ class StickyBar extends React.PureComponent {
         this.setState({entities});
     }
 
-    componentDidMount() {
-        this.mounted = true;
-
-        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-
-        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
-    }
-
     renderLink({path}) {
-        return (<Link key={path} to={`/${path}`}>{path}</Link>);
+        return (
+            <Link
+                key={path}
+                to={`/${path}`}>
+                {path}
+            </Link>
+        );
     }
 
     handleEntitySelected = (index) => {
@@ -96,69 +113,16 @@ class StickyBar extends React.PureComponent {
         }
     }
 
-    maybeRenderStickyBarMenu(anchor, collection, stateAttrName) {
-        if (this.mounted && this.state[stateAttrName]) {
-            return (
-                <Popover
-                    anchor={anchor}
-                    preset={Popover.preset.SSW}
-                    onClick={() => this.mounted && this.setState({[stateAttrName]: false})}
-                    onClose={() => this.mounted && this.setState({[stateAttrName]: false})}
-                    wrapperProps={{className: 'sticky-bar-menu'}}>
-                    {collection.map((definition) => this.renderLink(definition))}
-                </Popover>
-            );
-        }
-    }
-
     render() {
         return (
-            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
-                <div className='star-wrapper'>
-                    <div className='stars1' />
-                    <div className='stars2' />
-                    <div className='stars3' />
-                </div>
-
-                <div className='sticky-bar-inner'>
-                    <Link className='sticky-bar-brand' to='/'>Boundless</Link>
-
-                    <Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderComponentsMenu: true,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderComponentsMenu: false})}
-                        pressed={this.state.shouldRenderComponentsMenu}
-                        ref={(instance) => (this.$componentsMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Components {svgCaretComponent}</div>
-                    </Button>
-
-                    {/*<Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderUtilitiesMenu: true,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderUtilitiesMenu: false})}
-                        pressed={this.state.shouldRenderUtilitiesMenu}
-                        ref={(instance) => (this.$utilitiesMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Utilities {svgCaretComponent}</div>
-                    </Button>*/}
-
-                    {this.maybeRenderStickyBarMenu(this.$componentsMenuTrigger, components, 'shouldRenderComponentsMenu')}
-
-                    <Typeahead
-                        algorithm={Typeahead.mode.FUZZY}
-                        className='sticky-bar-search'
-                        entities={this.state.entities}
-                        onEntitySelected={this.handleEntitySelected}
-                        onComplete={this.handleComplete}
-                        inputProps={{
-                            placeholder: 'Search Boundless...',
-                        }}
-                        hint={true} />
-                </div>
-            </header>
+            <Typeahead
+                algorithm={Typeahead.mode.FUZZY}
+                className='search'
+                entities={this.state.entities}
+                onEntitySelected={this.handleEntitySelected}
+                onComplete={this.handleComplete}
+                hint={true}
+                inputProps={{placeholder: 'Search'}} />
         );
     }
 }
@@ -170,12 +134,12 @@ class Container extends React.PureComponent {
     }
 
     componentDidMount() {
-        Prism.highlightAll();
+        window.Prism.highlightAll();
         this.autoscroll();
     }
 
     componentDidUpdate() {
-        Prism.highlightAll();
+        window.Prism.highlightAll();
         this.autoscroll();
     }
 
@@ -225,7 +189,7 @@ class Container extends React.PureComponent {
                     </div>
 
                     <div className='splash-inner'>
-                        <h1>Boundless</h1>
+                        <h1>boundless</h1>
                         <p>Battle-tested, versatile React components with infinite composability.</p>
                     </div>
 
@@ -248,14 +212,32 @@ class Container extends React.PureComponent {
 
                 <StickyBar ref={(instance) => (this.$sticky = findDOMNode(instance))} />
 
-                <main className='demo-section'>
-                    {this.maybeRenderGithubLinks(route)}
-                    {route.docgenInfo ? (
-                        <ComponentPage
-                            demo={route.demo}
-                            docgenInfo={route.docgenInfo}
-                            />
-                    ) : <Markdown>{route.readme}</Markdown>}
+                <main>
+                    <article>
+                        {this.maybeRenderGithubLinks(route)}
+                        {route.docgenInfo ? (
+                            <ComponentPage
+                                demo={route.demo}
+                                docgenInfo={route.docgenInfo}
+                                />
+                        ) : <Markdown>{route.readme}</Markdown>}
+                    </article>
+                    <aside>
+                        <Search />
+
+                        <nav>
+                            <h4>Components</h4>
+                            {components.map((component) => (
+                                <Link
+                                    activeClassName='active'
+                                    className=''
+                                    key={component.name}
+                                    to={component.path}>
+                                    {component.path}
+                                </Link>
+                            ))}
+                        </nav>
+                    </aside>
                 </main>
             </div>
         );
