@@ -38,7 +38,6 @@
     "lodash": "^4.6.1",
     "markdown-to-jsx": "^4.0.0",
     "mkdirp": "^0.5.1",
-    "prismjs": "^1.4.1",
     "raw-loader": "^0.5.1",
     "react": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
@@ -77,7 +76,6 @@
     "bootstrap": "lerna bootstrap",
     "postinstall": "mkdirp site/public/assets",
     "site:release": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
-    "site:watch": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --open --hot --inline",
     "site:deploy": "ansible-playbook deploy/playbook.yml -i deploy/inventory",
     "build:js:master": "NODE_ENV=production node scripts/build-master.js",
     "build:js:packages": "NODE_ENV=production node scripts/build-packages.js",
@@ -87,7 +85,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "prestart": "npm i && npm run bootstrap",
-    "start": "npm run site:watch",
+    "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --content-base site/public --open --hot",
     "prerelease": "npm i && npm run bootstrap",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages"
   }
