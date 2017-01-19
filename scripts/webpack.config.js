@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer-stylus');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../site/index.js'),
@@ -19,9 +18,7 @@ module.exports = {
             loader: 'raw-loader',
         }, {
             test: /\.styl$/,
-            loader: ExtractTextPlugin.extract({
-                loader: 'css-loader!stylus-loader',
-            }),
+            loader: 'style-loader!css-loader!stylus-loader',
         }],
     },
     devServer: {
@@ -47,6 +44,5 @@ module.exports = {
                 },
             },
         }),
-        new ExtractTextPlugin('style.css'),
     ],
 };
