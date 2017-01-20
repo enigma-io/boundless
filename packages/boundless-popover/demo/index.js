@@ -18,16 +18,14 @@ export default class PopoverDemo extends React.PureComponent {
             word: 'obstetrics',
             syllabicRepresentation: 'ob·stet·rics',
             type: 'noun',
-            preset: Popover.preset.ABOVE,
+            preset: Popover.preset.N,
             primaryDefinition: 'the branch of medicine and surgery concerned with childbirth and the care of women giving birth',
             secondaryDefinitions: [],
-            anchorXAlign: Popover.position.END,
-            selfXAlign: Popover.position.END,
         }, {
             word: 'olio',
             syllabicRepresentation: 'o·li·o',
             type: 'noun',
-            preset: Popover.preset.RIGHT,
+            preset: Popover.preset.E,
             primaryDefinition: [
                 <span key='1'>another term for </span>,
                 <a key='2' href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>,
@@ -40,14 +38,14 @@ export default class PopoverDemo extends React.PureComponent {
             word: 'anastrophe',
             syllabicRepresentation: 'a·nas·tro·phe',
             type: 'noun',
-            preset: Popover.preset.BELOW,
+            preset: Popover.preset.W,
             primaryDefinition: 'the inversion of the usual order of words or clauses',
             secondaryDefinitions: [],
         }, {
             word: 'octothorp',
             syllabicRepresentation: 'oc·to·thorp',
             type: 'noun',
-            preset: Popover.preset.LEFT,
+            preset: Popover.preset.WNW,
             primaryDefinition: 'another term for the pound sign (#)',
             secondaryDefinitions: [],
         }],
@@ -97,14 +95,10 @@ export default class PopoverDemo extends React.PureComponent {
                 <Popover
                     key={definition.word}
                     anchor={this.refs['word' + index]}
-                    anchorXAlign={definition.anchorXAlign}
-                    anchorYAlign={definition.anchorYAlign}
                     className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
-                    onClose={this.closePopover.bind(this, index)}
-                    selfXAlign={definition.selfXAlign}
-                    selfYAlign={definition.selfYAlign}>
+                    onClose={this.closePopover.bind(this, index)}>
                     {this.renderBody(definition)}
                 </Popover>
             ) : undefined;

@@ -11,8 +11,8 @@ describe('Popover component', () => {
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
     const body = mountNode;
-    const baseProps = {anchor: body};
-    const position = Popover.position;
+    const baseProps = {anchor: body, autoReposition: false};
+    const preset = Popover.preset;
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 
@@ -25,69 +25,80 @@ describe('Popover component', () => {
         });
 
         it('renders .b-popover-anchor-x-start', () => {
-            render(<Popover {...baseProps} anchorXAlign={position.START} />);
+            render(<Popover {...baseProps} preset={preset.W} />);
             expect(document.querySelector('.b-popover-anchor-x-start')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-x-middle', () => {
-            render(<Popover {...baseProps} anchorXAlign={position.MIDDLE} />);
+            render(<Popover {...baseProps} preset={preset.N} />);
             expect(document.querySelector('.b-popover-anchor-x-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-x-end', () => {
-            render(<Popover {...baseProps} anchorXAlign={position.END} />);
+            render(<Popover {...baseProps} preset={preset.E} />);
             expect(document.querySelector('.b-popover-anchor-x-end')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-start', () => {
-            render(<Popover {...baseProps} anchorYAlign={position.START} />);
+            render(<Popover {...baseProps} preset={preset.N} />);
             expect(document.querySelector('.b-popover-anchor-y-start')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-middle', () => {
-            render(<Popover {...baseProps} anchorYAlign={position.MIDDLE} />);
+            render(<Popover {...baseProps} preset={preset.W} />);
             expect(document.querySelector('.b-popover-anchor-y-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-end', () => {
-            render(<Popover {...baseProps} anchorYAlign={position.END} />);
+            render(<Popover {...baseProps} preset={preset.S} />);
             expect(document.querySelector('.b-popover-anchor-y-end')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-start', () => {
-            render(<Popover {...baseProps} selfXAlign={position.START} />);
+            render(<Popover {...baseProps} preset={preset.E} />);
             expect(document.querySelector('.b-popover-self-x-start')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-middle', () => {
-            render(<Popover {...baseProps} selfXAlign={position.MIDDLE} />);
+            render(<Popover {...baseProps} preset={preset.N} />);
             expect(document.querySelector('.b-popover-self-x-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-end', () => {
-            render(<Popover {...baseProps} selfXAlign={position.END} />);
+            render(<Popover {...baseProps} preset={preset.W} />);
             expect(document.querySelector('.b-popover-self-x-end')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-start', () => {
-            render(<Popover {...baseProps} selfYAlign={position.START} />);
+            render(<Popover {...baseProps} preset={preset.S} />);
             expect(document.querySelector('.b-popover-self-y-start')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-middle', () => {
-            render(<Popover {...baseProps} selfYAlign={position.MIDDLE} />);
+            render(<Popover {...baseProps} preset={preset.W} />);
             expect(document.querySelector('.b-popover-self-y-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-end', () => {
-            render(<Popover {...baseProps} selfYAlign={position.END} />);
+            render(<Popover {...baseProps} preset={preset.N} />);
             expect(document.querySelector('.b-popover-self-y-end')).not.toBe(null);
         });
     });
 
     describe('presets', () => {
-        it('configures the popover for the ABOVE preset', () => {
-            render(<Popover {...baseProps} autoReposition={false} preset={Popover.preset.ABOVE} />);
+        it('configures the popover for the NNW preset', () => {
+            render(<Popover {...baseProps} preset={preset.NNW} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('configures the popover for the N preset', () => {
+            render(<Popover {...baseProps} preset={preset.N} />);
 
             const popoverNode = document.querySelector('.b-popover');
 
@@ -97,8 +108,63 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
         });
 
-        it('configures the popover for the BELOW preset', () => {
-            render(<Popover {...baseProps} autoReposition={false} preset={Popover.preset.BELOW} />);
+        it('configures the popover for the NNE preset', () => {
+            render(<Popover {...baseProps} preset={preset.NNE} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('configures the popover for the ENE preset', () => {
+            render(<Popover {...baseProps} preset={preset.ENE} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('configures the popover for the E preset', () => {
+            render(<Popover {...baseProps} preset={preset.E} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
+        });
+
+        it('configures the popover for the ESE preset', () => {
+            render(<Popover {...baseProps} preset={preset.ESE} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('configures the popover for the SSE preset', () => {
+            render(<Popover {...baseProps} preset={preset.SSE} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('configures the popover for the S preset', () => {
+            render(<Popover {...baseProps} preset={preset.S} />);
 
             const popoverNode = document.querySelector('.b-popover');
 
@@ -108,8 +174,30 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
         });
 
-        it('configures the popover for the LEFT preset', () => {
-            render(<Popover {...baseProps} autoReposition={false} preset={Popover.preset.LEFT} />);
+        it('configures the popover for the SSW preset', () => {
+            render(<Popover {...baseProps} preset={preset.SSW} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('configures the popover for the WSW preset', () => {
+            render(<Popover {...baseProps} preset={preset.WSW} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('configures the popover for the W preset', () => {
+            render(<Popover {...baseProps} preset={preset.W} />);
 
             const popoverNode = document.querySelector('.b-popover');
 
@@ -119,15 +207,15 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
         });
 
-        it('configures the popover for the RIGHT preset', () => {
-            render(<Popover {...baseProps} autoReposition={false} preset={Popover.preset.RIGHT} />);
+        it('configures the popover for the WNW preset', () => {
+            render(<Popover {...baseProps} preset={preset.WNW} />);
 
             const popoverNode = document.querySelector('.b-popover');
 
-            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
-            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
-            expect(popoverNode.classList.contains('b-popover-anchor-y-middle')).toBeTruthy();
-            expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
         });
     });
 
