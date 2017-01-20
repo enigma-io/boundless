@@ -29,6 +29,15 @@ __Mouse__ | `click` (pressed) | trigger the `onUnpressed` handler
 export default class Button extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
+
+        /**
+            Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+        */
+        component: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+        ]),
+
         onClick: PropTypes.func,
 
         /**
@@ -49,6 +58,7 @@ export default class Button extends React.PureComponent {
 
     static defaultProps = {
         children: null,
+        component: 'button',
         onClick: noop,
         onPressed: noop,
         onUnpressed: noop,
@@ -88,7 +98,7 @@ export default class Button extends React.PureComponent {
 
     render() {
         return (
-            <button
+            <this.props.component
                 {...omit(this.props, Button.internalKeys)}
                 ref='button'
                 className={cx('b-button', this.props.className, {
@@ -99,7 +109,7 @@ export default class Button extends React.PureComponent {
                 onKeyDown={this.handleKeyDown}
                 onClick={this.handleClick}>
                 {this.props.children}
-            </button>
+            </this.props.component>
         );
     }
 }
