@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
 
 import Popover from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
@@ -9,12 +10,16 @@ import conformanceChecker from '../boundless-utils-conformance/index';
 describe('Popover component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
+    const sandbox = sinon.sandbox.create();
 
     const body = mountNode;
     const baseProps = {anchor: body, autoReposition: false};
     const preset = Popover.preset;
 
-    afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
+    afterEach(() => {
+        ReactDOM.unmountComponentAtNode(mountNode);
+        sinon.sandbox.restore();
+    });
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Popover, baseProps, 'dialog.$dialog'));
 
@@ -216,6 +221,101 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+    });
+
+    describe('autoReposition', () => {
+        let anchor;
+
+        beforeEach(() => {
+            anchor = document.createElement('div');
+
+            anchor.height = 10;
+            anchor.width = 10;
+
+            document.body.appendChild(anchor);
+        });
+
+        afterEach(() => {
+            document.body.removeChild(anchor);
+        });
+
+        /* JSDOM doesn't have a layout engine, so we have to fake all the viewport-related stuff */
+
+        it('our JSDOM layout assumptions are valid', () => {
+            expect(window.innerWidth).toBe(1024);
+            expect(window.innerHeight).toBe(768);
+        });
+
+        it('selects a different option from the same cardinal if one is valid', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: 0, left: 0, right: 5, bottom: 5, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
+
+            // should become SSW
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('selects a different option from the opposite cardinal if one is valid', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: window.innerHeight - 5, left: 0, right: 5, bottom: window.innerHeight, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
+
+            // should become NNW
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('selects any valid fallback if the same or opposite cardinals will not be valid', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: 300, left: 0, right: 5, bottom: 305, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 1;
+
+            // 300 - 500 is neg and 300 + 500 > 768, so that should force the popover to the E or ENE cardinal
+            popoverNode.clientHeight = 500;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
+
+            // should become E
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-middle')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
         });
     });
 
