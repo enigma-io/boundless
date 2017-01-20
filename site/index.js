@@ -101,11 +101,10 @@ class StickyBar extends React.PureComponent {
             return (
                 <Popover
                     anchor={anchor}
-                    anchorXAlign={Popover.position.START}
-                    className='sticky-bar-menu'
+                    preset={Popover.preset.SSW}
                     onClick={() => this.mounted && this.setState({[stateAttrName]: false})}
                     onClose={() => this.mounted && this.setState({[stateAttrName]: false})}
-                    selfXAlign={Popover.position.START}>
+                    wrapperProps={{className: 'sticky-bar-menu'}}>
                     {collection.map((definition) => this.renderLink(definition))}
                 </Popover>
             );

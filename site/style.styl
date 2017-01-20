@@ -379,10 +379,15 @@ tbody tr:nth-child(even) {
 .sticky-bar-menu {
     border-radius: 0 0 3px 3px;
     border-top: none;
-    padding: 7.5px 24px;
-    transform: translate(-12px, 17px);
-    max-height: 300px;
-    overflow-y: auto;
+
+    .b-dialog {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .b-popover-caret {
+        display: none;
+    }
 
     a {
         display: block;
