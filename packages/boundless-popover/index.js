@@ -173,15 +173,6 @@ export default class Popover extends React.PureComponent {
         this.setState(this.props.preset);
     }
 
-    applyTranslation(node, x, y) {
-        if (transformProp) {
-            node.style[transformProp] = `translate(${x}px, ${y}px)`;
-        } else {
-            node.style.left = x + 'px';
-            node.style.top = y + 'px';
-        }
-    }
-
     cacheViewportCartography(anchor, caretAnchor) {
         const bodyRect = document.body.getBoundingClientRect();
 
@@ -195,40 +186,32 @@ export default class Popover extends React.PureComponent {
         this.bodyTop = bodyRect.top * -1;
     }
 
-    getNextCaretXPosition({ax, dx, ay, dy}, caret = this.$caret) {
+    getNextCaretXPosition({name, ax, dx, ay, dy}, caret = this.$caret) {
         let nextX = 0;
 
-        // we only want to change the X position when we're
-        // fully above or below the anchor and dx isn't MIDDLE
+        if (name[0] === 'N' || name[0] === 'S') {
+            // popover is above/below, so we need to detect the X position of the caret anchor
+            nextX = this.caretAnchorRect.left - this.anchorRect.left + this.caretAnchorRect.width / 2;
 
-        if (dx !== MIDDLE && ((ay === START && dy === END) || (ay === END && dy === START))) {
-            if (ax === START) {
-                nextX += this.caretAnchorRect.width / 2 - caret.clientWidth / 2;
-            } else if (ax === END) {
-                nextX += this.dialog.$wrapper.clientWidth - this.caretAnchorRect.width / 2 - caret.clientWidth / 2;
+            if (dx === MIDDLE) {
+                nextX += (this.dialog.$wrapper.clientWidth - this.anchorRect.width) / 2;
+            } else if (dx === END) {
+                nextX += this.dialog.$wrapper.clientWidth - this.anchorRect.width;
+            }
+        } else {
+            // popover is left/right, so we need to detect the Y position of the caret anchor (caret is rotated via CSS)
+            nextX = this.caretAnchorRect.top - this.anchorRect.top + this.caretAnchorRect.height / 2;
+
+            if (dy === MIDDLE) {
+                nextX += (this.dialog.$wrapper.clientHeight - this.anchorRect.height) / 2;
+            } else if (dy === END) {
+                nextX += this.dialog.$wrapper.clientHeight - this.anchorRect.height;
             }
         }
+
+        nextX -= caret.clientWidth / 2;
 
         return nextX;
-    }
-
-    getNextCaretYPosition({ax, dx, ay, dy}, caret = this.$caret) {
-        let nextY = 0;
-
-        // we only want to change the Y position when we're
-        // fully to the left or right of the anchor (start,end | end,start)
-        // dy isn't MIDDLE
-
-        if (dy !== MIDDLE && ((ax === START && dx === END) || (ax === END && dx === START))) {
-
-            if (ay === START) {
-                nextY += this.caretAnchorRect.height / 2 - caret.clientHeight / 2;
-            } else if (ay === END) {
-                nextY += this.dialog.$wrapper.clientHeight - this.caretAnchorRect.height / 2 - caret.clientHeight / 2;
-            }
-        }
-
-        return nextY;
     }
 
     getNextDialogXPosition({ax, dx}, dialog = this.dialog.$wrapper) {
@@ -296,44 +279,56 @@ export default class Popover extends React.PureComponent {
      *
      * @return {Boolean}
      */
-    isPositionValid({ax, ay, dx, dy}, pHeight, pWidth) {
-        if ((ay === START && dy === END) || (ay === END && dy === START)) {
-            if ((ay === START && dy === END) && this.anchorRect.top - pHeight < 0) {
-                return false;   // would occlude above
-            } else if ((ay === END && dy === START) && this.anchorRect.bottom + pHeight > window.innerHeight) {
-                return false;   // would occlude below
+    isPositionValid({name, ax, ay, dx, dy}, pHeight, pWidth) {
+        const cardinal = name[0];
+
+        if (cardinal === 'N' || cardinal === 'S') {
+            if (cardinal === 'N' && this.anchorRect.top - pHeight < 0) {
+                return false;   /* would occlude above */
+            } else if (cardinal === 'S' && this.anchorRect.bottom + pHeight > window.innerHeight) {
+                return false;   /* would occlude below */
             }
 
             if (ax === START) {
-                // might occlude right
-                return !(this.anchorRect.left + pWidth > window.innerWidth);
+                return !(
+                       (this.anchorRect.left + pWidth > window.innerWidth)      /* would occlude right */
+                    || (this.anchorRect.left < 0)                               /* anchor is partially offscreen to the left */
+                );
             } else if (ax === MIDDLE) {
-                // might occlude left or right
-                return !((this.anchorRect.left - (pWidth / 2) > window.innerWidth)
-                         || (this.anchorRect.left - (pWidth / 2) < 0));
+                return !(
+                       (this.anchorRect.left - pWidth / 2 < 0)                  /* would occlude left */
+                    || (this.anchorRect.left + pWidth / 2 > window.innerWidth)  /* would occlude right */
+                );
             }
 
-            // might occlude left
-            return !(this.anchorRect.right - pWidth < this.bodyLeft);
+            return !(
+                   (this.anchorRect.left - pWidth < 0)                  /* would occlude left */
+                || (this.anchorRect.right > window.innerWidth)          /* anchor is partially offscreen to the right */
+            );
 
-        } else if ((ax === START && dx === END) || (ax === END && dx === START)) {
-            if ((ax === START && dx === END) && this.anchorRect.left - pWidth < 0) {
-                return false;   // would occlude left
-            } else if ((ax === END && dx === START) && this.anchorRect.right + pWidth > window.innerWidth) {
-                return false;   // would occlude right
+        } else if (cardinal === 'W' || cardinal === 'E') {
+            if (cardinal === 'W' && this.anchorRect.left - pWidth < 0) {
+                return false;   /* would occlude left */
+            } else if (cardinal === 'E' && this.anchorRect.right + pWidth > window.innerWidth) {
+                return false;   /* would occlude right */
             }
 
             if (ay === START) {
-                // might occlude below
-                return !(this.anchorRect.top + pHeight > window.innerHeight);
+                return !(
+                       (this.anchorRect.top + pHeight > window.innerHeight)    /* would occlude below */
+                    || (this.anchorRect.top < 0)                               /* anchor is partially offscreen above */
+                );
             } else if (ay === MIDDLE) {
-                // might occlude above or below
-                return !((this.anchorRect.top - (pHeight / 2) < 0)
-                         || (this.anchorRect.top - (pHeight / 2) > window.innerHeight));
+                return !(
+                       (this.anchorRect.top + this.anchorRect.height / 2 - pHeight / 2 < 0)                     /* would occlude above */
+                    || (this.anchorRect.top + this.anchorRect.height / 2 + pHeight / 2 > window.innerHeight)    /* would occlude below */
+                );
             }
 
-            // might occlude above
-            return !(this.anchorRect.bottom - pHeight < 0);
+            return !(
+                   (this.anchorRect.top - pHeight < 0)              /* would occlude above */
+                || (this.anchorRect.bottom > window.innerHeight)    /* anchor is partially offscreen below */
+            );
         }
 
         return true;
@@ -397,16 +392,16 @@ export default class Popover extends React.PureComponent {
             const dx = Math.round(this.getNextDialogXPosition(this.state));
             const dy = Math.round(this.getNextDialogYPosition(this.state));
 
+            this.dialog.$wrapper.style[transformProp] = `translate(${dx}px, ${dy}px)`;
+
+            const cardinal = this.state.name[0];
+
             // the caret is initially positioned at 0,0 inside the dialog
             // which is already positioned at the anchor, so we just need to
             // make small adjustments as necessary to line up the caret
             // with the visual center of the anchor
-
-            this.$caret.style.left = Math.round(this.getNextCaretXPosition(this.state)) + 'px';
-            this.$caret.style.top = Math.round(this.getNextCaretYPosition(this.state)) + 'px';
-
-            this.applyTranslation(this.$caret, cx, 0);
-            this.applyTranslation(this.dialog.$wrapper, dx, dy);
+            this.$caret.style[cardinal === 'N' || cardinal === 'S' ? 'left' : 'top'] = Math.round(this.getNextCaretXPosition(this.state)) + 'px';
+            this.$caret.style[cardinal === 'N' || cardinal === 'S' ? 'top' : 'left'] = '0px';
         });
     }
 

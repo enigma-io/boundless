@@ -317,6 +317,29 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-anchor-y-middle')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
         });
+
+        it('takes into account if the anchor itself is occluded, and thus the popover would occluded too', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: 768, left: 0, right: 5, bottom: 773, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.W} />);
+
+            // should become NNW
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
     });
 
     describe('passthrough to Dialog', () => {

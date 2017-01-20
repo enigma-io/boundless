@@ -95,6 +95,7 @@ export default class PopoverDemo extends React.PureComponent {
                 <Popover
                     key={definition.word}
                     anchor={this.refs['word' + index]}
+                    caretAnchor={this.refs['word-caret-anchor' + index]}
                     className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
@@ -120,7 +121,7 @@ export default class PopoverDemo extends React.PureComponent {
                                     onClick={this.openPopover.bind(this, index)}
                                     onKeyDown={this.handleKeyDown.bind(this, index)}
                                     tabIndex='0'>
-                                    {definition.word}
+                                    {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
                                 </abbr>
                             </div>
                         );
