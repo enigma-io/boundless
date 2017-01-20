@@ -26,14 +26,16 @@ export default class ButtonDemo extends React.PureComponent {
                     Click Me
                 </Button>
 
-                <Button onPressed={this.handlePressed}
-                          onUnpressed={this.handleUnpressed}
-                          pressed={this.state.pressed}>
+                <Button
+                    onPressed={this.handlePressed}
+                    onUnpressed={this.handleUnpressed}
+                    pressed={this.state.pressed}>
                     {this.state.pressed ? 'Pressed' : 'Unpressed'}
                 </Button>
 
-                <Button onPressed={this.handleClick}
-                          disabled={true}>
+                <Button
+                    onPressed={this.handleClick}
+                    disabled={true}>
                     Disabled
                 </Button>
             </div>

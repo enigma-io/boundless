@@ -29,6 +29,12 @@ describe('Button component', () => {
         expect(node.classList.contains('b-button')).toBe(true);
     });
 
+    it('renders b-button as custom element when provided `props.component`', () => {
+        const element = render(<Button component='div'/>);
+
+        expect(element._reactInternalInstance._renderedComponent._tag).toBe('div');
+    });
+
     it('renders b-button-pressable when provided `props.pressed`', () => {
         const element = render(<Button pressed={false} />);
         const node = element.refs.button;
