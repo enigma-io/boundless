@@ -41,6 +41,14 @@ _Note: only top-level props are in the README, for the full list check out the [
     </tr>
     
     <tr>
+        <td>component</td>
+        <td><pre><code>string|func</code></pre></td>
+        <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+        <td>false</td>
+        <td><pre><code class="language-js">'button'</code></pre></td>
+    </tr>
+    
+    <tr>
         <td>onClick</td>
         <td><pre><code>func</code></pre></td>
         <td></td>
