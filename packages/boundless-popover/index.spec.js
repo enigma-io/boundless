@@ -318,7 +318,7 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-y-middle')).toBeTruthy();
         });
 
-        it('takes into account if the anchor itself is occluded, and thus the popover would occluded too', () => {
+        it('takes into account if the anchor is bottom-occluded', () => {
             sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
@@ -339,6 +339,75 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-y-end')).toBeTruthy();
+        });
+
+        it('takes into account if the anchor is left-occluded', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: 0, left: -2, right: 3, bottom: 5, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.SSW} />);
+
+            // should become ENE
+            expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('takes into account if the anchor is top-occluded', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: -2, left: 0, right: 5, bottom: 3, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
+
+            // should become SSW
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
+        });
+
+        it('takes into account if the anchor is right-occluded', () => {
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+
+            render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
+
+            const popoverNode = document.querySelector('.b-popover');
+
+            sandbox.stub(anchor, 'getBoundingClientRect').returns({
+                top: 0, left: window.innerWidth - 4, right: window.innerWidth + 1, bottom: 5, height: 5, width: 5,
+            });
+
+            popoverNode.clientWidth = 50;
+            popoverNode.clientHeight = 50;
+
+            render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
+
+            // should become WNW
+            expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
+            expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
         });
     });
 
