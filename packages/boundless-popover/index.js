@@ -22,6 +22,8 @@ function getOppositeHemispherePrefix(direction) {
 
 function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
 
+const CLASS_REMOVAL_REGEX = /\s?b-popover-(anchor|self)-(start|middle|end)/g;
+
 const DEFAULT_CARET_COMPONENT = (
     <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
         <g>
@@ -102,7 +104,6 @@ export default class Popover extends React.PureComponent {
             PropTypes.instanceOf(HTMLElement),
             PropTypes.shape({
                 props: PropTypes.object,
-                state: PropTypes.object,
             }), // a react element of some fashion, PropTypes.element wasn't working
         ]).isRequired,
 
@@ -119,7 +120,6 @@ export default class Popover extends React.PureComponent {
             PropTypes.instanceOf(HTMLElement),
             PropTypes.shape({
                 props: PropTypes.object,
-                state: PropTypes.object,
             }), // a react element of some fashion, PropTypes.element wasn't working
         ]),
 
@@ -167,10 +167,17 @@ export default class Popover extends React.PureComponent {
 
     static internalKeys = without(Object.keys(Popover.defaultProps), Dialog.internalKeys)
 
-    alignmentVerified = false
+    static getAlignmentClassFragment(constant) {
+        switch (constant) {
+        case START:
+            return 'start';
 
-    componentWillMount() {
-        this.setState(this.props.preset);
+        case MIDDLE:
+            return 'middle';
+
+        case END:
+            return 'end';
+        }
     }
 
     cacheViewportCartography(anchor, caretAnchor) {
@@ -386,23 +393,29 @@ export default class Popover extends React.PureComponent {
 
         this.cacheViewportCartography(anchor, caretAnchor);
 
-        this.alignmentVerified = true;
+        const preset = this.getValidAlignmentPreset();
+        const frag = Popover.getAlignmentClassFragment;
 
-        this.setState(this.getValidAlignmentPreset(), () => {
-            const dx = Math.round(this.getNextDialogXPosition(this.state));
-            const dy = Math.round(this.getNextDialogYPosition(this.state));
+        this.dialog.$wrapper.className = this.dialog.$wrapper.className.replace(CLASS_REMOVAL_REGEX, '')
+                                         + ` b-popover-anchor-x-${frag(preset.ax)}`
+                                         + ` b-popover-anchor-y-${frag(preset.ay)}`
+                                         + ` b-popover-self-x-${frag(preset.dx)}`
+                                         + ` b-popover-self-y-${frag(preset.dy)}`;
 
-            this.dialog.$wrapper.style[transformProp] = `translate(${dx}px, ${dy}px)`;
+        const dx = Math.round(this.getNextDialogXPosition(preset));
+        const dy = Math.round(this.getNextDialogYPosition(preset));
 
-            const cardinal = this.state.name[0];
+        this.dialog.$wrapper.style[transformProp] = `translate(${dx}px, ${dy}px)`;
 
-            // the caret is initially positioned at 0,0 inside the dialog
-            // which is already positioned at the anchor, so we just need to
-            // make small adjustments as necessary to line up the caret
-            // with the visual center of the anchor
-            this.$caret.style[cardinal === 'N' || cardinal === 'S' ? 'left' : 'top'] = Math.round(this.getNextCaretXPosition(this.state)) + 'px';
-            this.$caret.style[cardinal === 'N' || cardinal === 'S' ? 'top' : 'left'] = '0px';
-        });
+        const cardinal = preset.name[0];
+        const longitudinal = cardinal === 'N' || cardinal === 'S';
+
+        // the caret is initially positioned at 0,0 inside the dialog
+        // which is already positioned at the anchor, so we just need to
+        // make small adjustments as necessary to line up the caret
+        // with the visual center of the anchor
+        this.$caret.style[longitudinal ? 'left' : 'top'] = Math.round(this.getNextCaretXPosition(preset)) + 'px';
+        this.$caret.style[longitudinal ? 'top' : 'left'] = '0px';
     }
 
     componentDidMount() {
@@ -410,33 +423,14 @@ export default class Popover extends React.PureComponent {
         window.addEventListener('resize', this.align, true);
     }
 
-    componentWillReceiveProps() {
-        this.alignmentVerified = false;
-    }
-
     componentDidUpdate() {
-        if (!this.alignmentVerified) {
-            this.align();
-        }
+        this.align();
     }
 
     componentWillUnmount() { window.removeEventListener('resize', this.align, true); }
 
-    getAlignmentClassFragment(constant) {
-        switch (constant) {
-        case START:
-            return 'start';
-
-        case MIDDLE:
-            return 'middle';
-
-        case END:
-            return 'end';
-        }
-    }
-
     render() {
-        const {getAlignmentClassFragment: getFrag, props, state} = this;
+        const {props} = this;
 
         return (
             <Portal {...props.portalProps}>
@@ -451,12 +445,7 @@ export default class Popover extends React.PureComponent {
                     }
                     wrapperProps={{
                         ...props.wrapperProps,
-                        className: cx('b-popover', props.wrapperProps.className, {
-                            [`b-popover-anchor-x-${getFrag(state.ax)}`]: true,
-                            [`b-popover-anchor-y-${getFrag(state.ay)}`]: true,
-                            [`b-popover-self-x-${getFrag(state.dx)}`]: true,
-                            [`b-popover-self-y-${getFrag(state.dy)}`]: true,
-                        }),
+                        className: cx('b-popover', props.wrapperProps.className),
                     }} />
             </Portal>
         );
