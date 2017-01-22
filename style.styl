@@ -1,5 +1,5 @@
 /*
-    UIKit theming variables are defined with the following schema:
+    Boundless theming variables are defined with the following schema:
     {property}-{component}-{state}
 
     Every variable in this file should roughly correspond to the above schema, with a few exceptions of
@@ -13,7 +13,7 @@ color-body ?= #111
 fontSize-input ?= 0.75rem
 
 // Default colors (attribute-independent)
-color-accent ?= #3d8feb
+color-accent ?= #111
 color-focus-ring ?= color-accent
 color-neutral-light ?= #CCC
 color-neutral-dark ?= #444
@@ -101,31 +101,15 @@ boxShadowColor-Radio-selected ?= background-body // separation region between th
 // SegmentedControl
 background-SegmentedControl_option ?= background-body
 background-SegmentedControl_option-active ?= color-accent
+background-SegmentedControl_option-hover ?= halve_alpha(color-accent)
 background-SegmentedControl_option-focus ?= halve_alpha(color-accent)
 background-SegmentedControl_option-selected ?= color-accent
 borderColor-SegmentedControl_option ?= color-accent
 color-SegmentedControl_option ?= get_contrasting_color(background-SegmentedControl_option)
 color-SegmentedControl_option-active ?= get_contrasting_color(background-SegmentedControl_option-active)
+color-SegmentedControl_option-hover ?= get_contrasting_color(background-SegmentedControl_option-hover)
 color-SegmentedControl_option-focus ?= get_contrasting_color(background-SegmentedControl_option-focus)
 color-SegmentedControl_option-selected ?= get_contrasting_color(background-SegmentedControl_option-selected)
-
-// UITable
-background-UITable_column_resize_handle ?= get_contrasting_color(background-UITable_header)
-background-UITable_header ?= color-accent
-background-UITable_row-even ?= background-body
-background-UITable_row-loading ?= halve_alpha(color-accent)
-background-UITable_row-odd ?= rgba(color-accent, 0.075)
-background-UITable_row-active ?= rgba(color-accent, 0.25)
-background-UITable_scroll_handle ?= color-neutral-dark
-background-UITable_scroll_track ?= color-neutral-light
-color-UITable_header ?= get_contrasting_color(background-UITable_header)
-color-UITable_row-even ?= color-body
-color-UITable_row-active ?= color-body
-color-UITable_row-odd ?= color-body
-height-UITable_cell ?= 40px
-paddingX-UITable_cell ?= 0.75em
-size-UITable_scroll_track ?= 8px
-size-UITable_scroll_track-expanded ?= 12px
 
 // Input
 background-Input ?= background-body

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer-stylus');
+const version = require('../package.json').version;
 
 module.exports = {
     entry: path.resolve(__dirname, '../site/index.js'),
@@ -42,6 +43,9 @@ module.exports = {
                     use: [autoprefixer()],
                 },
             },
+        }),
+        new webpack.DefinePlugin({
+          VERSION: JSON.stringify(version),
         }),
     ],
 };

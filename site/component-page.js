@@ -150,9 +150,9 @@ export default class ComponentPage extends React.PureComponent {
             return (
                 <div className='demo-section-wrapper'>
                     <h3>Demo</h3>
-                    <article className='demo-section-example'>
+                    <div className='demo-section-example'>
                         <this.props.demo />
-                    </article>
+                    </div>
                 </div>
             );
         }

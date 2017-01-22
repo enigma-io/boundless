@@ -1,3 +1,65 @@
+background-body = #272b33
+color-accent = #3d8feb
+color-body-text = #c5cfdb
+color-focus-ring = #c5cfdb
+color-neutral-dark = #979fa8
+
+background-Button = #535a66
+background-Button-active = #282d33
+background-Button-disabled = #282d33
+background-Button-focus = #666d7a
+background-Button-hover = #666d7a
+background-Button-pressed = #282d33
+borderColor-Button = transparent
+borderColor-Button-active = transparent
+borderColor-Button-disabled = transparent
+borderColor-Button-focus = transparent
+borderColor-Button-hover = transparent
+borderColor-Button-pressed = transparent
+color-Button = #FFF
+color-Button-active = #FFF
+color-Button-disabled = #FFF
+color-Button-focus = #FFF
+color-Button-hover = #FFF
+color-Button-pressed = #FFF
+
+color-Input = #FFF
+
+borderColor-Checkbox = transparent
+borderColor-Checkbox-focus = transparent
+borderColor-Checkbox-hover = transparent
+borderColor-Checkbox-checked = transparent
+borderColor-Dialog = transparent
+borderColor-Pagination_control = transparent
+borderColor-Popover = transparent
+borderColor-Popover_outline = transparent
+borderColor-Progress = transparent
+borderColor-Radio = transparent
+borderColor-Radio-focus = transparent
+borderColor-Radio-hover = transparent
+borderColor-Radio-selected = transparent
+borderColor-Input = transparent
+borderColor-Input-focus = transparent
+borderColor-Input-hover = transparent
+borderColor-TokenizedInput = transparent
+borderColor-TokenizedInput_token = transparent
+borderColor-TokenizedInput_token-active = transparent
+borderColor-TokenizedInput_token-focus = transparent
+borderColor-TokenizedInput_token-hover = transparent
+borderColor-TokenizedInput_token-selected = transparent
+
+background-SegmentedControl_option = background-Button
+background-SegmentedControl_option-active = background-Button-active
+background-SegmentedControl_option-hover = background-Button-hover
+background-SegmentedControl_option-focus = background-Button-focus
+background-SegmentedControl_option-selected = background-Button-active
+borderColor-SegmentedControl_option = transparent
+color-SegmentedControl_option = #FFF
+color-SegmentedControl_option-active = #FFF
+color-SegmentedControl_option-hover = #FFF
+color-SegmentedControl_option-focus = #FFF
+color-SegmentedControl_option-selected = #FFF
+
 @import "../style.styl"
 @import "../packages/*/demo/*.styl"
 @import "stars"
@@ -39,6 +101,12 @@
     src: url('/assets/fonts/lab-grotesque/LabGrotesque-Light.woff') format('woff');
 }
 
+*,
+*::before,
+*::after {
+    font-smoothing: antialiased;
+}
+
 *:last-child {
     margin-bottom: 0;
 }
@@ -49,8 +117,8 @@ html {
 }
 
 body {
-    background: #272b33;
-    color: #c5cfdb;
+    background: background-body;
+    color: color-body-text;
     line-height: 1.4;
     overflow-x: hidden;
     margin: 0;
@@ -59,6 +127,7 @@ body {
 
 main {
     display: flex;
+    justify-content: space-between;
 }
 
 article {
@@ -69,14 +138,14 @@ article {
 
 aside {
     background: #535a66;
-    color: #c5cfdb;
+    color: color-body-text;
     flex-shrink: 0;
     min-width: 360px;
     padding: 24px;
 
     nav {
         font-size: 14px;
-        line-height: 26px;
+        line-height: 1;
         margin-top: 20px;
 
         h4 {
@@ -92,7 +161,8 @@ aside {
             display: inline-block;
             float: left;
             clear: both;
-            margin-left: 10px;
+            margin: 6px 0;
+            padding-left: 10px;
             text-decoration: none;
 
             &:hover {
@@ -100,9 +170,35 @@ aside {
             }
 
             &.active {
+                border-left: 1px solid currentColor;
                 color: #FFF;
             }
         }
+    }
+}
+
+footer {
+    align-items: center;
+    background: #111;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 22px;
+    font-weight: 300;
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+
+    .enigma-careers-link {
+        background: color-accent;
+        border-radius: 3px;
+        color: #FFF;
+        font-size: 16px;
+        margin-top: 30px;
+        padding: 0.5em 0.75em;
+        position: relative;
+        text-decoration: none;
+        z-index: 1;
     }
 }
 
@@ -160,6 +256,7 @@ h1 {
 
 h2 {
     font-size: 18px;
+    margin-top: 3rem;
 }
 
 h3 {
@@ -178,7 +275,7 @@ strong {
 }
 
 p {
-    margin: 0 0 1em;
+    margin: 0 0 1.5rem;
 }
 
 ol ol {
@@ -239,14 +336,14 @@ li :not(pre) > code {
 hr {
     border: 0;
     border-top: 1px solid #CCC;
-    margin: 2rem -2rem;
+    margin: 2rem 0;
 }
 
 blockquote {
-    border-left: 3px solid #3d8feb;
+    border-left: 3px solid color-accent;
     font-size: 14px;
     font-style: italic;
-    margin: 0 0 1rem;
+    margin: 1.5rem 0;
     padding-left: 1rem;
 
     > ul,
@@ -270,7 +367,7 @@ th {
 
 pre {
     overflow-x: auto;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     padding: 0;
 
     > code {
@@ -339,16 +436,6 @@ tbody td {
             padding: 15px 30px;
             text-align: center;
 
-            &.splash-tab-upper {
-                border-radius: 0 0 3px 3px;
-
-                a {
-                    text-decoration: none;
-                    color: inherit;
-                    font-weight: bold;
-                }
-            }
-
             &.splash-tab-lower {
                 border-radius: 3px 3px 0 0;
                 background: transparent;
@@ -363,6 +450,7 @@ tbody td {
         }
 
         .splash-inner {
+            margin: auto;
             text-align: center;
 
             h1 {
@@ -378,126 +466,64 @@ tbody td {
     }
 }
 
-.sticky-bar {
+header {
     align-items: center;
     background: #3f454e;
     color: #979fa8;
     display: flex;
     height: 42px;
-    padding: 0 30px;
     position: sticky;
     top: 0;
     z-index: 2;
 
-    .sticky-bar-inner {
-        align-items: center;
-        display: flex;
-        width: 100%;
-        position: relative;
-        z-index: 1;
+    > *:not(.brand) {
+        border-left: 1px solid background-body;
+        border-right: 1px solid background-body;
+        color: inherit;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: @height;
+        padding: 0 15px;
+        text-decoration: none;
+        text-transform: uppercase;
 
-        .sticky-bar-brand {
-            color: #f5f5f5;
-            display: inline-block;
-            line-height:1;
-            font-size: 26px;
-            font-weight: bold;
-            margin-right: 30px;
-            text-decoration: none;
-
-            &:hover {
-                opacity: 0.5;
-            }
+        + * {
+            margin-left: -1px;
         }
 
-        .sticky-bar-menu-button {
-            background: inherit;
-            border: none;
-            color: #f5f5f5;
-            flex-shrink: 0;
-            font-size: 16px;
-            line-height: 1;
-            outline: 0;
-            width: auto;
+        &:hover {
+            background: background-body;
+        }
 
-            &:active,
-            &:hover,
-            &:focus {
-                background: inherit;
-                color: #f5f5f5;
-            }
+        &.active {
+            background: #242934;
+            box-shadow: inset 0 -2px 0 color-accent;
+            color: #FFF;
+        }
 
-            &:active, &:hover {opacity: 0.5;}
-
-            .sticky-bar-menu-button-inner {
-                align-items: center;
-                display: flex;
-
-                svg {
-                    margin-left: 3px;
-                    height: 18px;
-                    width: 18px;
-                    fill: #f5f5f5;
-                }
-            }
+        &.release-link {
+            margin-left: auto;
         }
     }
-}
 
-.sticky-bar-menu {
-    border-radius: 0 0 3px 3px;
-    border-top: none;
-
-    .b-dialog {
-        max-height: 300px;
-        overflow-y: auto;
-    }
-
-    .b-popover-caret {
-        display: none;
-    }
-
-    a {
-        display: block;
-        color: #111;
+    .brand {
+        color: #f5f5f5;
+        display: inline-block;
+        line-height: @height;
+        font-size: 26px;
+        font-weight: bold;
+        padding: 0 30px;
         text-decoration: none;
 
         &:hover {
-            cursor: pointer;
-            opacity: 0.5;
+            background: background-body;
         }
     }
-}
-
-.search {
-    flex-grow: 1;
-
-    .b-input-placeholder {
-        background: #3f454e;
-        color: #fff;
-    }
-
-    .b-input {
-        border: 0;
-        color: #fff;
-        font-size: 14px;
-        line-height: 1em;
-        padding: ((42px - 14px) / 2) 17px;
-        height: 42px;
-
-        &:focus {
-            outline: 0;
-        }
-    }
-}
-
-.b-popover-caret {
-    display: none;
 }
 
 .demo-section-wrapper {
     background: #3f454e;
-    border-bottom: 3px solid #3d8feb;
+    border-bottom: 3px solid color-accent;
     color: #979fa8;
     margin: 3rem 0 0;
     padding: 12px 16px;
@@ -505,7 +531,7 @@ tbody td {
 
 .demo-component-link,
 .demo-implementation-link {
-    background-color: #3d8feb;
+    background-color: color-accent;
     background-image: url("data:image/svg+xml;utf8,%3Csvg%20viewBox%3D'0%200%2033%2033'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M16.608.455C7.614.455.32%207.748.32%2016.745c0%207.197%204.667%2013.302%2011.14%2015.456.815.15%201.112-.353%201.112-.785%200-.386-.014-1.411-.022-2.77-4.531.984-5.487-2.184-5.487-2.184-.741-1.882-1.809-2.383-1.809-2.383-1.479-1.01.112-.99.112-.99%201.635.115%202.495%201.679%202.495%201.679%201.453%202.489%203.813%201.77%204.741%201.353.148-1.052.569-1.77%201.034-2.177-3.617-.411-7.42-1.809-7.42-8.051%200-1.778.635-3.233%201.677-4.371-.168-.412-.727-2.069.16-4.311%200%200%201.367-.438%204.479%201.67a15.602%2015.602%200%200%201%204.078-.549%2015.62%2015.62%200%200%201%204.078.549c3.11-2.108%204.475-1.67%204.475-1.67.889%202.242.33%203.899.163%204.311C26.37%2012.66%2027%2014.115%2027%2015.893c0%206.258-3.809%207.635-7.437%208.038.584.503%201.105%201.497%201.105%203.017%200%202.177-.02%203.934-.02%204.468%200%20.436.294.943%201.12.784%206.468-2.159%2011.131-8.26%2011.131-15.455%200-8.997-7.294-16.29-16.291-16.29'%20fill%3D'%23f5f5f5'%20fill-rule%3D'evenodd'%2F%3E%3C%2Fsvg%3E");
     background-size: 1.25em;
     background-repeat: no-repeat;

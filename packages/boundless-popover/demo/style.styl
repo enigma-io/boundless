@@ -3,4 +3,40 @@
 .show-help-popover {
     border-bottom: 1px dotted;
     cursor: help;
+
+    &:focus {
+        border-bottom-style: solid;
+        outline: 0;
+    }
+}
+
+.demo-popover {
+    .b-dialog {
+        background: #222;
+        border: 0;
+    }
+
+    .b-popover-caret-fill {
+        fill: color-accent;
+    }
+
+    // above the anchor
+    &.b-popover-anchor-y-start.b-popover-self-y-end .b-dialog {
+        border-bottom: 3px solid color-accent;
+    }
+
+    // below the anchor
+    &.b-popover-anchor-y-end.b-popover-self-y-start .b-dialog {
+        border-top: 3px solid color-accent;
+    }
+
+    // left of the anchor
+    &.b-popover-anchor-x-start.b-popover-self-x-end .b-dialog {
+        border-right: 3px solid color-accent;
+    }
+
+    // right of the anchor
+    &.b-popover-anchor-x-end.b-popover-self-x-start .b-dialog {
+        border-left: 3px solid color-accent;
+    }
 }

@@ -96,10 +96,10 @@ export default class PopoverDemo extends React.PureComponent {
                     key={definition.word}
                     anchor={this.refs['word' + index]}
                     caretAnchor={this.refs['word-caret-anchor' + index]}
-                    className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
-                    onClose={this.closePopover.bind(this, index)}>
+                    onClose={this.closePopover.bind(this, index)}
+                    wrapperProps={{className: 'demo-popover'}}>
                     {this.renderBody(definition)}
                 </Popover>
             ) : undefined;
