@@ -7,8 +7,22 @@ import Portal from '../boundless-portal/index';
 import omit from '../boundless-utils-omit-keys/index';
 import transformProp from '../boundless-utils-transform-property/index';
 
+function getOppositeHemispherePrefix(direction) {
+    switch (direction[0]) {
+    case 'N':
+        return 'S';
+    case 'S':
+        return 'N';
+    case 'E':
+        return 'W';
+    }
+
+    return 'E';
+}
+
 function without(arr1, arr2) { return arr1.filter((item) => arr2.indexOf(item) === -1); }
-function values(obj)         { return Object.keys(obj).map((key) => obj[key]); }
+
+const CLASS_REMOVAL_REGEX = /\s?b-popover-(anchor|self)-(start|middle|end)/g;
 
 const DEFAULT_CARET_COMPONENT = (
     <svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
@@ -19,76 +33,65 @@ const DEFAULT_CARET_COMPONENT = (
     </svg>
 );
 
+const START = 0;
+const MIDDLE = 1;
+const END = 2;
+
+const combinations = [
+    {name: 'NNW',   ax: START,     ay: START,      dx: START,   dy: END},
+    {name: 'N',     ax: MIDDLE,    ay: START,      dx: MIDDLE,  dy: END},
+    {name: 'NNE',   ax: END,       ay: START,      dx: END,     dy: END},
+    {name: 'ENE',   ax: END,       ay: START,      dx: START,   dy: START},
+    {name: 'E',     ax: END,       ay: MIDDLE,     dx: START,   dy: MIDDLE},
+    {name: 'ESE',   ax: END,       ay: END,        dx: START,   dy: END},
+    {name: 'SSE',   ax: END,       ay: END,        dx: END,     dy: START},
+    {name: 'S',     ax: MIDDLE,    ay: END,        dx: MIDDLE,  dy: START},
+    {name: 'SSW',   ax: START,     ay: END,        dx: START,   dy: START},
+    {name: 'WSW',   ax: START,     ay: END,        dx: END,     dy: END},
+    {name: 'W',     ax: START,     ay: MIDDLE,     dx: END,     dy: MIDDLE},
+    {name: 'WNW',   ax: START,     ay: START,      dx: END,     dy: START},
+];
+
 /**
 # Popover
 __A non-blocking container positioned to a specific anchor element.__
 
-A popover is a type of [dialog](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
+A popover is a type of [Dialog](./Dialog) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
 > The Boundless Team recommends reviewing the [Popover](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Popover` in your project.
 
-Use a positioning preset to align the popover, e.g.
+Alignment options for the popover are designed to mirror compass directions:
+
+```
+       →       ←
+      NNW  N  NNE
+↓ WNW             ENE ↓
+    W   ANCHOR    E
+↑ WSW             ESE ↑
+      SSW  S  SSE
+       →       ←
+```
+
+The arrows indicate which way the popover will extend, e.g. → means the popover is aligned to the left edge and extends in that direction. Diagonal corners (NW, NE, SE, SW) are currently not supported.
 
 ```jsx
 <Popover
-    anchor={HTMLElement}
-    preset={Popover.preset.BELOW}>
+    anchor={document.querySelector('.some-anchor-element')}
+    preset={Popover.preset.N}>
     My popover content!
 </Popover>
 ```
-
-For more advanced positioning, combine the {element}{Axis}Align properties to create complete alignment points*. e.g.
-
-```jsx
-<Popover
-    anchor={HTMLElement}
-    anchorXAlign={Popover.position.MIDDLE}
-    anchorYAlign={Popover.position.END}>
-    My popover content!
-</Popover>
-```
-
-_*NOTE: Demo reference styles are only provided for the preset use cases._
 
 ### Interactions
 
-Refer to [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md)
+Refer to [Dialog](./Dialog)
  */
 export default class Popover extends React.PureComponent {
-    static position = {
-        START: 'START',
-        MIDDLE: 'MIDDLE',
-        END: 'END',
-    }
+    // eslint-disable-next-line no-sequences
+    static preset = combinations.reduce((map, def) => ((map[def.name] = def), map), {})
 
-    static preset = {
-        'ABOVE': {
-            anchorXAlign: Popover.position.MIDDLE,
-            anchorYAlign: Popover.position.START,
-            selfXAlign: Popover.position.MIDDLE,
-            selfYAlign: Popover.position.END,
-        },
-        'BELOW': {
-            anchorXAlign: Popover.position.MIDDLE,
-            anchorYAlign: Popover.position.END,
-            selfXAlign: Popover.position.MIDDLE,
-            selfYAlign: Popover.position.START,
-        },
-        'LEFT': {
-            anchorXAlign: Popover.position.START,
-            anchorYAlign: Popover.position.MIDDLE,
-            selfXAlign: Popover.position.END,
-            selfYAlign: Popover.position.MIDDLE,
-        },
-        'RIGHT': {
-            anchorXAlign: Popover.position.END,
-            anchorYAlign: Popover.position.MIDDLE,
-            selfXAlign: Popover.position.START,
-            selfYAlign: Popover.position.MIDDLE,
-        },
-    }
-
-    static presetValues = values(Popover.preset)
+    // eslint-disable-next-line no-sequences
+    static presetValues = combinations.reduce((map, def) => (map.push(def), map), [])
 
     static propTypes = {
         /** Popover supports all [Dialog props](/Dialog#props) */
@@ -101,40 +104,24 @@ export default class Popover extends React.PureComponent {
             PropTypes.instanceOf(HTMLElement),
             PropTypes.shape({
                 props: PropTypes.object,
-                state: PropTypes.object,
             }), // a react element of some fashion, PropTypes.element wasn't working
         ]).isRequired,
-
-        /**
-         * location on the anchor X-axis to use for alignment calculations
-         * - `Popover.position.START`
-         *   equates to `{0, ?}` on a 100x100 cartesian plane
-
-         * - `Popover.position.MIDDLE`
-         *   equates to `{50, ?}` on a 100x100 cartesian plane
-
-         * - `Popover.position.END`
-         *   equates to `{100, ?}` on a 100x100 cartesian plane
-         */
-        anchorXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
-
-        /**
-         * location on the anchor Y-axis to use for alignment calculations
-         * - `Popover.position.START`
-         *   equates to `{?, 0}` on a 100x100 cartesian plane
-
-         * - `Popover.position.MIDDLE`
-         *   equates to `{?, 50}` on a 100x100 cartesian plane
-
-         * - `Popover.position.END`
-         *   equates to `{?, 100}` on a 100x100 cartesian plane
-         */
-        anchorYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
          */
         autoReposition: PropTypes.bool,
+
+        /**
+         * a DOM element or React reference to one for positioning purposes, the caret component will be automatically
+         * positioned to center on this provided anchor; by default it will center on `props.anchor`
+         */
+        caretAnchor: PropTypes.oneOfType([
+            PropTypes.instanceOf(HTMLElement),
+            PropTypes.shape({
+                props: PropTypes.object,
+            }), // a react element of some fashion, PropTypes.element wasn't working
+        ]),
 
         /**
          * the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover
@@ -147,44 +134,15 @@ export default class Popover extends React.PureComponent {
         portalProps: PropTypes.object,
 
         /**
-         * a baseline set of alignment properties that cover most use cases; override a particular subproperty by passing it as well:
-
          * ```jsx
          * <Popover
-         *     anchor={HTMLElement}
-         *     preset={Popover.preset.BELOW}
-         *     selfXAlign={Popover.position.START}>
+         *     anchor={document.querySelector('.some-anchor-element')}
+         *     preset={Popover.preset.NNE}>
          *     My popover content!
          * </Popover>
          * ```
          */
         preset: PropTypes.oneOf(Popover.presetValues),
-
-        /**
-         * location on the popover X-axis to use for alignment calculations
-         * - `Popover.position.START`
-         *   equates to `{0, ?}` on a 100x100 cartesian plane
-
-         * - `Popover.position.MIDDLE`
-         *   equates to `{50, ?}` on a 100x100 cartesian plane
-
-         * - `Popover.position.END`
-         *   equates to `{100, ?}` on a 100x100 cartesian plane
-         */
-        selfXAlign: PropTypes.oneOf(Object.keys(Popover.position)),
-
-        /**
-         * location on the popover Y-axis to use for alignment calculations
-         * - `Popover.position.START`
-         *   equates to `{?, 0}` on a 100x100 cartesian plane
-
-         * - `Popover.position.MIDDLE`
-         *   equates to `{?, 50}` on a 100x100 cartesian plane
-
-         * - `Popover.position.END`
-         *   equates to `{?, 100}` on a 100x100 cartesian plane
-         */
-        selfYAlign: PropTypes.oneOf(Object.keys(Popover.position)),
 
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
@@ -194,119 +152,94 @@ export default class Popover extends React.PureComponent {
 
     static defaultProps = {
         ...Dialog.defaultProps,
-        anchor: document.body,
-        anchorXAlign: undefined,
-        anchorYAlign: undefined,
+        anchor: undefined,
         autoReposition: true,
         captureFocus: false,
+        caretAnchor: undefined,
         caretComponent: DEFAULT_CARET_COMPONENT,
         closeOnEscKey: true,
         closeOnOutsideClick: true,
         closeOnOutsideScroll: true,
         portalProps: {},
-        preset: Popover.preset.BELOW,
-        selfXAlign: undefined,
-        selfYAlign: undefined,
+        preset: Popover.preset.S,
         wrapperProps: {},
     }
 
     static internalKeys = without(Object.keys(Popover.defaultProps), Dialog.internalKeys)
 
-    constructor(props) {
-        super();
+    static getAlignmentClassFragment(constant) {
+        switch (constant) {
+        case START:
+            return 'start';
 
-        this.state = {
-            anchorXAlign: props.anchorXAlign || props.preset.anchorXAlign,
-            anchorYAlign: props.anchorYAlign || props.preset.anchorYAlign,
-            selfXAlign: props.selfXAlign     || props.preset.selfXAlign,
-            selfYAlign: props.selfYAlign     || props.preset.selfYAlign,
-        };
+        case MIDDLE:
+            return 'middle';
+
+        case END:
+            return 'end';
+        }
     }
 
-    cacheViewportCartography(anchor) {
-        const anchorRect = anchor.getBoundingClientRect();
+    cacheViewportCartography(anchor, caretAnchor) {
         const bodyRect = document.body.getBoundingClientRect();
 
-        this.anchorLeft = anchorRect.left;
-        this.anchorTop = anchorRect.top;
-        this.anchorHeight = anchorRect.height;
-        this.anchorWidth = anchorRect.width;
+        this.anchorRect = anchor.getBoundingClientRect();
+        this.caretAnchorRect = caretAnchor.getBoundingClientRect();
 
-        // normally we'd use scrollTop/scrollLeft, but scroll behavior changes when position: sticky is enabled in Chrome
-        // and inverting the negative viewport rect value seems to work more consistently
+        // normally we'd use scrollTop/scrollLeft, but scroll behavior changes when position: sticky
+        // is enabled in Chrome and inverting the negative viewport rect value seems to work more
+        // consistently
         this.bodyLeft = bodyRect.left * -1;
         this.bodyTop = bodyRect.top * -1;
     }
 
-    getNextCaretXPosition(anchor, caret = this.$caret) {
-        const {anchorXAlign, selfXAlign, anchorYAlign, selfYAlign} = this.state;
-        const position = Popover.position;
-
+    getNextCaretXPosition({name, ax, dx, ay, dy}, caret = this.$caret) {
         let nextX = 0;
 
-        // we only want to change the X position when we're
-        // fully above or below the anchor and selfXAlign isn't MIDDLE
+        if (name[0] === 'N' || name[0] === 'S') {
+            // popover is above/below, so we need to detect the X position of the caret anchor
+            nextX = this.caretAnchorRect.left - this.anchorRect.left + this.caretAnchorRect.width / 2;
 
-        if (   selfXAlign !== position.MIDDLE
-            && (   anchorYAlign === position.START && selfYAlign === position.END
-                || anchorYAlign === position.END && selfYAlign === position.START)) {
+            if (dx === MIDDLE) {
+                nextX += (this.dialog.$wrapper.clientWidth - this.anchorRect.width) / 2;
+            } else if (dx === END) {
+                nextX += this.dialog.$wrapper.clientWidth - this.anchorRect.width;
+            }
+        } else {
+            // popover is left/right, so we need to detect the Y position of the caret anchor (caret is rotated via CSS)
+            nextX = this.caretAnchorRect.top - this.anchorRect.top + this.caretAnchorRect.height / 2;
 
-            if (anchorXAlign === position.START) {
-                nextX += this.anchorWidth / 2 - caret.clientWidth / 2;
-            } else if (anchorXAlign === position.END) {
-                nextX += this.dialog.$wrapper.clientWidth - this.anchorWidth / 2 - caret.clientWidth / 2;
+            if (dy === MIDDLE) {
+                nextX += (this.dialog.$wrapper.clientHeight - this.anchorRect.height) / 2;
+            } else if (dy === END) {
+                nextX += this.dialog.$wrapper.clientHeight - this.anchorRect.height;
             }
         }
+
+        nextX -= caret.clientWidth / 2;
 
         return nextX;
     }
 
-    getNextCaretYPosition(anchor, caret = this.$caret) {
-        const {anchorXAlign, selfXAlign, anchorYAlign, selfYAlign} = this.state;
-        const position = Popover.position;
+    getNextDialogXPosition({ax, dx}, dialog = this.dialog.$wrapper) {
+        let nextX = this.anchorRect.left + this.bodyLeft;
 
-        let nextY = 0;
-
-        // we only want to change the Y position when we're
-        // fully to the left or right of the anchor (start,end | end,start)
-        // selfYAlign isn't MIDDLE
-
-        if (   selfYAlign !== position.MIDDLE
-            && (   anchorXAlign === position.START && selfXAlign === position.END
-                || anchorXAlign === position.END && selfXAlign === position.START)) {
-
-            if (anchorYAlign === position.START) {
-                nextY += this.anchorHeight / 2 - caret.clientWidth / 2;
-            } else if (anchorYAlign === position.END) {
-                nextY += this.dialog.$wrapper.clientHeight - this.anchorWidth / 2 - caret.clientWidth / 2;
-            }
-        }
-
-        return nextY;
-    }
-
-    getNextDialogXPosition(anchor, dialog = this.dialog.$wrapper) {
-        const {anchorXAlign, selfXAlign} = this.state;
-        const position = Popover.position;
-
-        let nextX = this.anchorLeft + this.bodyLeft;
-
-        switch (anchorXAlign) {
-        case position.MIDDLE:
-            nextX += this.anchorWidth / 2;
+        switch (ax) {
+        case MIDDLE:
+            nextX += this.anchorRect.width / 2;
             break;
 
-        case position.END:
-            nextX += this.anchorWidth;
+        case END:
+            nextX += this.anchorRect.width;
             break;
         }
 
-        switch (selfXAlign) {
-        case position.MIDDLE:
+        switch (dx) {
+        case MIDDLE:
             nextX -= dialog.clientWidth / 2;
             break;
 
-        case position.END:
+        case END:
             nextX -= dialog.clientWidth;
             break;
         }
@@ -314,29 +247,25 @@ export default class Popover extends React.PureComponent {
         return nextX;
     }
 
-    getNextDialogYPosition(anchor, dialog = this.dialog.$wrapper) {
-        const state = this.state;
-        const position = Popover.position;
-        const anchorY = this.anchorTop + this.bodyTop;
+    getNextDialogYPosition({ay, dy}, dialog = this.dialog.$wrapper) {
+        let nextY = this.anchorRect.top + this.bodyTop;
 
-        let nextY = anchorY + this.anchorHeight;
-
-        switch (state.anchorYAlign) {
-        case position.START:
-            nextY = anchorY;
+        switch (ay) {
+        case MIDDLE:
+            nextY += this.anchorRect.height / 2;
             break;
 
-        case position.MIDDLE:
-            nextY = anchorY + this.anchorHeight / 2;
+        case END:
+            nextY += this.anchorRect.height;
             break;
         }
 
-        switch (state.selfYAlign) {
-        case position.MIDDLE:
+        switch (dy) {
+        case MIDDLE:
             nextY -= dialog.clientHeight / 2;
             break;
 
-        case position.END:
+        case END:
             nextY -= dialog.clientHeight;
             break;
         }
@@ -344,98 +273,149 @@ export default class Popover extends React.PureComponent {
         return nextY;
     }
 
-    getAlignmentCorrectionIfOverflowing(x, y) {
-        if (!this.props.autoReposition) {
-            return false;
+    /**
+     * Given a position combination, will the popover fit into the space without occlusion?
+     *
+     * @param  {Object}  config
+     * @param  {String}  config.ax
+     * @param  {String}  config.ay
+     * @param  {String}  config.dx
+     * @param  {String}  config.dy
+     * @param  {Number}  pHeight
+     * @param  {Number}  pWidth
+     *
+     * @return {Boolean}
+     */
+    isPositionValid({name, ax, ay, dx, dy}, pHeight, pWidth) {
+        const cardinal = name[0];
+
+        if (cardinal === 'N' || cardinal === 'S') {
+            if (cardinal === 'N' && this.anchorRect.top - pHeight < 0) {
+                return false;   /* would occlude above */
+            } else if (cardinal === 'S' && this.anchorRect.bottom + pHeight > window.innerHeight) {
+                return false;   /* would occlude below */
+            }
+
+            if (ax === START) {
+                return !(
+                       (this.anchorRect.left + pWidth > window.innerWidth)      /* would occlude right */
+                    || (this.anchorRect.left < 0)                               /* anchor is partially offscreen to the left */
+                );
+            } else if (ax === MIDDLE) {
+                return !(
+                       (this.anchorRect.left - pWidth / 2 < 0)                  /* would occlude left */
+                    || (this.anchorRect.left + pWidth / 2 > window.innerWidth)  /* would occlude right */
+                );
+            }
+
+            return !(
+                   (this.anchorRect.left - pWidth < 0)                  /* would occlude left */
+                || (this.anchorRect.right > window.innerWidth)          /* anchor is partially offscreen to the right */
+            );
+
+        } else if (cardinal === 'W' || cardinal === 'E') {
+            if (cardinal === 'W' && this.anchorRect.left - pWidth < 0) {
+                return false;   /* would occlude left */
+            } else if (cardinal === 'E' && this.anchorRect.right + pWidth > window.innerWidth) {
+                return false;   /* would occlude right */
+            }
+
+            if (ay === START) {
+                return !(
+                       (this.anchorRect.top + pHeight > window.innerHeight)    /* would occlude below */
+                    || (this.anchorRect.top < 0)                               /* anchor is partially offscreen above */
+                );
+            } else if (ay === MIDDLE) {
+                return !(
+                       (this.anchorRect.top + this.anchorRect.height / 2 - pHeight / 2 < 0)                     /* would occlude above */
+                    || (this.anchorRect.top + this.anchorRect.height / 2 + pHeight / 2 > window.innerHeight)    /* would occlude below */
+                );
+            }
+
+            return !(
+                   (this.anchorRect.top - pHeight < 0)              /* would occlude above */
+                || (this.anchorRect.bottom > window.innerHeight)    /* anchor is partially offscreen below */
+            );
         }
 
-        const corrections = {...this.state};
-        const position = Popover.position;
+        return true;
+    }
 
+    getValidAlignmentPreset() {
         const width = this.dialog.$wrapper.clientWidth;
         const height = this.dialog.$wrapper.clientHeight;
-        const xMax = document.body.scrollWidth;
-        const yMax = document.body.scrollHeight;
 
-        if (x + width > xMax) { // overflowing off to the right
-            corrections.anchorXAlign = position.START;
-            corrections.selfXAlign = position.END;
+        // given the current viewport cartography, where can we stick the popover
+        // so it won't be partially occluded?
+        const validCombos = combinations.filter((config) => {
+            return this.isPositionValid(config, height, width);
+        });
+
+        // 1. is the requested preset in the list?
+        // 2. does the consumer not want us auto-repositioning?
+        // 3. are no combos valid?
+        if (validCombos.indexOf(this.props.preset) !== -1 || !this.props.autoReposition || !validCombos.length) {
+            return this.props.preset; // just go with the requested preset
         }
 
-        if (x < 0) { // overflowing off to the left
-            corrections.anchorXAlign = position.END;
-            corrections.selfXAlign = position.START;
+        // otherwise... we try to find the best possible fallback option
+
+        // optimize for the requested preset hemisphere
+        const bestCombos = validCombos.filter(({name}) => name[0] === this.props.preset.name[0]);
+
+        if (bestCombos.length) {
+            return bestCombos[0];
         }
 
-        if (y + height > yMax) { // overflowing below
-            // if left/right
-            if (   (corrections.anchorXAlign === position.START && corrections.selfXAlign === position.END)
-                || (corrections.anchorXAlign === position.END && corrections.selfXAlign === position.START)) {
-                corrections.anchorYAlign = position.END;
-            } else {
-                corrections.anchorYAlign = position.START;
-            }
+        // then the opposite (e.g. the element is too low in the viewport so flip up instead of down)
+        const oppositeHemispherePrefix = getOppositeHemispherePrefix(this.props.preset.name);
+        const okayCombos = validCombos.filter(({name}) => name[0] === oppositeHemispherePrefix);
 
-            corrections.selfYAlign = position.END;
+        if (okayCombos.length) {
+            return okayCombos[0];
         }
 
-        if (y < 0) { // overflowing above
-            // if left/right
-            if (   (corrections.anchorXAlign === position.START && corrections.selfXAlign === position.END)
-                || (corrections.anchorXAlign === position.END && corrections.selfXAlign === position.START)) {
-                corrections.anchorYAlign = position.START;
-            } else {
-                corrections.anchorYAlign = position.END;
-            }
-
-            corrections.selfYAlign = position.START;
-        }
-
-        return corrections;
-    }
-
-    applyTranslation(node, x, y) {
-        if (transformProp) {
-            node.style[transformProp] = `translate(${x}px, ${y}px)`;
-        } else {
-            node.style.left = x + 'px';
-            node.style.top = y + 'px';
-        }
-    }
-
-    didAlignmentChange(nextAlignment, currentAlignment = this.state) {
-        return    nextAlignment.anchorXAlign !== currentAlignment.anchorXAlign
-               || nextAlignment.anchorYAlign !== currentAlignment.anchorYAlign
-               || nextAlignment.selfXAlign !== currentAlignment.selfXAlign
-               || nextAlignment.selfYAlign !== currentAlignment.selfYAlign;
+        // whatever's left will have to do
+        return validCombos[0];
     }
 
     align = () => {
-        const anchor =   this.props.anchor instanceof HTMLElement
+        const anchor = this.props.anchor instanceof HTMLElement
                        ? this.props.anchor
                        : findDOMNode(this.props.anchor);
 
-        this.cacheViewportCartography(anchor);
+        // eslint-disable-next-line no-nested-ternary
+        const caretAnchor = this.props.caretAnchor
+                            ? this.props.caretAnchor instanceof HTMLElement
+                              ? this.props.caretAnchor
+                              : findDOMNode(this.props.caretAnchor)
+                            : anchor;
 
-        const dx = Math.round(this.getNextDialogXPosition(anchor));
-        const dy = Math.round(this.getNextDialogYPosition(anchor));
+        this.cacheViewportCartography(anchor, caretAnchor);
 
-        const alignmentCorrection = this.getAlignmentCorrectionIfOverflowing(dx, dy);
+        const preset = this.getValidAlignmentPreset();
+        const frag = Popover.getAlignmentClassFragment;
 
-        if (alignmentCorrection && this.didAlignmentChange(alignmentCorrection)) {
-            return this.setState(alignmentCorrection);
-        }
+        this.dialog.$wrapper.className = this.dialog.$wrapper.className.replace(CLASS_REMOVAL_REGEX, '')
+                                         + ` b-popover-anchor-x-${frag(preset.ax)}`
+                                         + ` b-popover-anchor-y-${frag(preset.ay)}`
+                                         + ` b-popover-self-x-${frag(preset.dx)}`
+                                         + ` b-popover-self-y-${frag(preset.dy)}`;
+
+        const dx = Math.round(this.getNextDialogXPosition(preset));
+        const dy = Math.round(this.getNextDialogYPosition(preset));
+
+        this.dialog.$wrapper.style[transformProp] = `translate(${dx}px, ${dy}px)`;
+
+        const cardinal = preset.name[0];
+        const longitudinal = cardinal === 'N' || cardinal === 'S';
 
         // the caret is initially positioned at 0,0 inside the dialog
         // which is already positioned at the anchor, so we just need to
         // make small adjustments as necessary to line up the caret
         // with the visual center of the anchor
-
-        this.$caret.style.left = Math.round(this.getNextCaretXPosition(anchor)) + 'px';
-        this.$caret.style.top = Math.round(this.getNextCaretYPosition(anchor)) + 'px';
-
-        this.applyTranslation(this.$caret, cx, 0);
-        this.applyTranslation(this.dialog.$wrapper, dx, dy);
+        this.$caret.style[longitudinal ? 'left' : 'top'] = Math.round(this.getNextCaretXPosition(preset)) + 'px';
+        this.$caret.style[longitudinal ? 'top' : 'left'] = '0px';
     }
 
     componentDidMount() {
@@ -443,26 +423,14 @@ export default class Popover extends React.PureComponent {
         window.addEventListener('resize', this.align, true);
     }
 
-    componentDidUpdate() { this.align(); }
-    componentWillUnmount() { window.removeEventListener('resize', this.align, true); }
-
-    getClassAlignmentFragment(constant) {
-        const position = Popover.position;
-
-        switch (constant) {
-        case position.START:
-            return 'start';
-
-        case position.MIDDLE:
-            return 'middle';
-
-        case position.END:
-            return 'end';
-        }
+    componentDidUpdate() {
+        this.align();
     }
 
+    componentWillUnmount() { window.removeEventListener('resize', this.align, true); }
+
     render() {
-        const {getClassAlignmentFragment: getFrag, props, state} = this;
+        const {props} = this;
 
         return (
             <Portal {...props.portalProps}>
@@ -477,12 +445,7 @@ export default class Popover extends React.PureComponent {
                     }
                     wrapperProps={{
                         ...props.wrapperProps,
-                        className: cx('b-popover', props.wrapperProps.className, {
-                            [`b-popover-anchor-x-${getFrag(state.anchorXAlign)}`]: true,
-                            [`b-popover-anchor-y-${getFrag(state.anchorYAlign)}`]: true,
-                            [`b-popover-self-x-${getFrag(state.selfXAlign)}`]: true,
-                            [`b-popover-self-y-${getFrag(state.selfYAlign)}`]: true,
-                        }),
+                        className: cx('b-popover', props.wrapperProps.className),
                     }} />
             </Portal>
         );
