@@ -25,6 +25,14 @@ describe('Async higher-order component', () => {
         expect(document.querySelector('.bar')).not.toBeNull();
     });
 
+    it('calls contentRenderedFunc() upon successful rendering of passed data', () => {
+        const stub = sandbox.stub();
+
+        render(<Async contentRenderedFunc={stub} data={<span className='bar'>foo</span>} />);
+        expect(stub.calledOnce).toBe(true);
+        expect(document.querySelector('.bar')).not.toBeNull();
+    });
+
     describe('promise support', () => {
         it('accepts a promise as props.data', () => {
             const promise = Promise.resolve(<span className='bar'>foo</span>);
@@ -87,6 +95,22 @@ describe('Async higher-order component', () => {
                 expect(converter.calledOnce).toBe(true);
                 expect(document.querySelector('.bar')).not.toBeNull();
                 expect(document.querySelector('.fizz')).toBeNull();
+            });
+        });
+
+        it('calls contentRenderedFunc() once the promise has resolved', () => {
+            let resolver1;
+            const promise1 = new Promise((resolve) => (resolver1 = resolve));
+            const stub = sandbox.stub();
+
+            render(<Async contentRenderedFunc={stub} data={promise1} convertToJSXFunc={identity} />);
+            expect(stub.notCalled).toBe(true);
+
+            resolver1(<span className='fizz'>buzz</span>);
+
+            return Promise.resolve().then(() => {
+                expect(stub.calledOnce).toBe(true);
+                expect(document.querySelector('.fizz')).not.toBeNull();
             });
         });
     });

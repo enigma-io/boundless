@@ -1,7 +1,7 @@
 {
   "name": "boundless-async",
   "version": "1.0.0",
-  "description": "A higher-order component for handling data that may not have arrived yet.",
+  "description": "A higher-order component for rendering data that isn't ready yet.",
   "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
   "module": "index.js",
   "main": "build/index.js",
