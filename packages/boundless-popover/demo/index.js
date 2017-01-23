@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ArrowKeyNavigation from '../../boundless-arrow-key-navigation/index';
+import Button from '../../boundless-button/index';
 import Popover from '../index';
 
 export default class PopoverDemo extends React.PureComponent {
@@ -98,7 +99,7 @@ export default class PopoverDemo extends React.PureComponent {
                     caretAnchor={this.refs['word-caret-anchor' + index]}
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
-                    onClose={this.closePopover.bind(this, index)}
+                    onClose={() => this.closePopover(index)}
                     wrapperProps={{className: 'demo-popover'}}>
                     {this.renderBody(definition)}
                 </Popover>
@@ -114,16 +115,15 @@ export default class PopoverDemo extends React.PureComponent {
                 <div className='spread'>
                     {this.state.words.map((definition, index) => {
                         return (
-                            <div key={definition.word}>
-                                <abbr
-                                    ref={'word' + index}
-                                    className='show-help-popover'
-                                    onClick={this.openPopover.bind(this, index)}
-                                    onKeyDown={this.handleKeyDown.bind(this, index)}
-                                    tabIndex='0'>
-                                    {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
-                                </abbr>
-                            </div>
+                            <Button
+                                key={definition.word}
+                                ref={(i) => (this.refs[`word${index}`] = i)}
+                                className='show-help-popover'
+                                onPressed={() => this.openPopover(index)}
+                                pressed={this.state[`showPopover${index}`]}
+                                tabIndex='0'>
+                                {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
+                            </Button>
                         );
                     })}
                 </div>
