@@ -107,10 +107,9 @@ class Container extends React.PureComponent {
                 <div className='splash-inner'>
                     <h1>boundless</h1>
                     <p>Battle-tested, versatile React components with infinite composability.</p>
-                </div>
-
-                <div className='splash-tab splash-tab-lower'>
-                    {svgCaretComponent}
+                    <div className='splash-indicator'>
+                        <span className='splash-nudge'>👇</span>
+                    </div>
                 </div>
             </section>
         );
