@@ -2,8 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
-import {identity, noop} from 'lodash';
+import {identity} from 'lodash';
 import sinon from 'sinon';
 
 import Async from './index';
@@ -38,10 +37,7 @@ describe('Async higher-order component', () => {
         });
 
         it('displays loading content while the promise is pending', () => {
-            let resolver;
-            const promise = new Promise((resolve) => (resolver = resolve));
-
-            render(<Async data={promise} loadingContent='⏲' />);
+            render(<Async data={new Promise(() => {})} loadingContent='⏲' />);
 
             return Promise.resolve().then(() => {
                 expect(document.querySelector('.b-async-loading')).not.toBeNull();
