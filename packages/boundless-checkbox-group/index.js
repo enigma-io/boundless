@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Checkbox from '../boundless-checkbox/index';
 import omit from '../boundless-utils-omit-keys/index';
 import noop from '../boundless-utils-noop/index';
+import uuid from '../boundless-utils-uuid/index';
 
 /**
 # CheckboxGroup
@@ -14,8 +15,8 @@ configuration is built-in and is activated by passing the `selectAll` prop.
  */
 export default class CheckboxGroup extends React.PureComponent {
     static selectAllPosition = {
-        BEFORE: 'BEFORE',
-        AFTER: 'AFTER',
+        BEFORE: uuid(),
+        AFTER: uuid(),
     }
 
     static propTypes = {

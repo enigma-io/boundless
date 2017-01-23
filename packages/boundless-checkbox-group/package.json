@@ -30,6 +30,7 @@
     "boundless-checkbox": "^1.0.0",
     "boundless-utils-noop": "^1.0.0",
     "boundless-utils-omit-keys": "^1.0.0",
+    "boundless-utils-uuid": "^1.0.0",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {
