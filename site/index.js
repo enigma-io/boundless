@@ -1,7 +1,7 @@
 /* global VERSION */
 
 import React, {PropTypes} from 'react';
-import {findDOMNode, render} from 'react-dom';
+import {render} from 'react-dom';
 import * as _ from 'lodash';
 import {Router, Route, Link, browserHistory} from 'react-router';
 
@@ -15,12 +15,6 @@ import GettingStarted from '../GETTING_STARTED.md';
 import {} from './style.styl';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
-
-const {
-    Button,
-    Popover,
-    Typeahead,
-} = Boundless;
 
 const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|demo\/index\.js)$/);
 const reqKeys = req.keys();

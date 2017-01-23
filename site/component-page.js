@@ -115,8 +115,8 @@ export default class ComponentPage extends React.PureComponent {
             const resolvedProps = _.get(Boundless, `${component}.__docgenInfo.props`);
 
             return rows.concat(
-                _.map(resolvedProps, (_, subPropName) => {
-                    return this.renderPropTableRows(resolvedProps, subPropName, depth + 1)
+                _.map(resolvedProps, (x, subPropName) => {
+                    return this.renderPropTableRows(resolvedProps, subPropName, depth + 1);
                 })
             );
         }
@@ -143,7 +143,7 @@ export default class ComponentPage extends React.PureComponent {
             return rows.concat(
                 _.map(
                     subProps,
-                    (_, subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1)
+                    (x, subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1)
                 )
             );
         }
@@ -195,16 +195,18 @@ export default class ComponentPage extends React.PureComponent {
                         className='demo-implementation-disclosure'
                         teaser='Show Implementation'
                         teaserExpanded='Hide Implementation'>
-                        <Boundless.Async
-                            data={() => fetch(getPackageIndexURI(this.props.packageName))}
-                            convertToJSXFunc={(response) => (
-                                <pre className='demo-implementation'>
-                                    <code className='language-jsx'>
-                                        {atob(response.json().content)}
-                                    </code>
-                                </pre>
-                            )}
-                            errorContent='Content could not be loaded. You need to be logged into Github so the demo file can be fetched.' />
+                        {() => (
+                            <Boundless.Async
+                                data={fetch(getPackageIndexURI(this.props.packageName))}
+                                convertToJSXFunc={(response) => (
+                                    <pre className='demo-implementation'>
+                                        <code className='language-jsx'>
+                                            {atob(response.json().content)}
+                                        </code>
+                                    </pre>
+                                )}
+                                errorContent='Content could not be loaded. You need to be logged into Github so the demo file can be fetched.' />
+                        )}
                     </Boundless.ProgressiveDisclosure>
                 </div>
             );

@@ -13,7 +13,8 @@ Mechanically, hidden disclosure content is not rendered to the DOM until it is n
  */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
-        children: PropTypes.node,
+        /** if a function is passed, it will not be called until the disclosure content is due to be rendered */
+        children: PropTypes.any,
 
         /**
          * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
@@ -108,7 +109,7 @@ export default class ProgressiveDisclosure extends React.PureComponent {
             return (
                 <div ref='content'
                      className='b-disclosure-content'>
-                    {this.props.children}
+                    {isFunction(this.props.children) ? this.props.children() : this.props.children}
                 </div>
             );
         }

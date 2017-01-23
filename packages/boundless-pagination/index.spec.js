@@ -70,10 +70,6 @@ describe('Pagination component', () => {
             expect(document.querySelector('.b-pagination-item-even')).not.toBe(null);
         });
 
-        it('b-pagination-item-loading is rendered', () => {
-            expect(document.querySelector('.b-pagination-item-loading')).not.toBe(null);
-        });
-
         it('b-pagination-item-odd is rendered', () => {
             expect(document.querySelector('.b-pagination-item-odd')).not.toBe(null);
         });
@@ -166,21 +162,6 @@ describe('Pagination component', () => {
 
             expect(spy.calledWithMatch(nonJSXItemGetter(0))).toBe(true);
         });
-
-        it('receives the object index as the second argument', () => {
-            const spy = sandbox.spy(newItemToJSX);
-
-            render(
-                <Pagination
-                    getItem={nonJSXItemGetter}
-                    identifier='newId'
-                    itemToJSXConverterFunc={spy}
-                    numItemsPerPage={10}
-                    totalItems={items.length} />
-            );
-
-            expect(spy.calledWithMatch(sinon.match.object, 6)).toBe(true);
-        });
     });
 
     describe('JSX items', () => {
@@ -269,9 +250,8 @@ describe('Pagination component', () => {
             let promise1Resolver;
             let resolver;
 
-            const converter = sandbox.stub().returns((x) => <div>{x}</div>);
-
-            const getter = () => {
+            const converter = sandbox.spy((x) => <div>{x}</div>);
+            const getter = sandbox.spy(() => {
                 const promise = new Promise((resolve) => (resolver = resolve));
 
                 if (!promise1Resolver) {
@@ -279,7 +259,7 @@ describe('Pagination component', () => {
                 }
 
                 return promise;
-            };  // second call of getter() creates a new promise
+            });  // each call of getter() creates a new promise
 
             element = render(
                 <Pagination
@@ -300,13 +280,14 @@ describe('Pagination component', () => {
             );
 
             expect(converter.called).toBe(false);
+            expect(getter.calledTwice).toBe(true);
 
             promise1Resolver(promise1ResolveValue);
             resolver(promise2ResolveValue);
 
             return Promise.resolve().then(() => {
                 expect(converter.calledOnce).toBe(true);
-                expect(converter.calledWithMatch(promise2ResolveValue, 0)).toBe(true);
+                expect(converter.calledWithMatch(promise2ResolveValue)).toBe(true);
             });
         });
 
