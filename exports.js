@@ -21,5 +21,4 @@ export {default as Progress} from './packages/boundless-progress/index';
 export {default as Radio} from './packages/boundless-radio/index';
 export {default as SegmentedControl} from './packages/boundless-segmented-control/index';
 export {default as TokenizedInput} from './packages/boundless-tokenized-input/index';
-export {default as Tooltip} from './packages/boundless-tooltip/index';
 export {default as Typeahead} from './packages/boundless-typeahead/index';
