@@ -60,10 +60,10 @@ class Container extends React.PureComponent {
 
     componentDidUpdate() {
         window.Prism.highlightAll();
-        this.autoscroll();
+        this.autoscroll(true);
     }
 
-    autoscroll() {
+    autoscroll(switchedPage) {
         window.setTimeout(() => {
             if (window.location.hash.length > 1) {
                 const node = document.getElementById(window.location.hash.slice(1));
@@ -71,7 +71,7 @@ class Container extends React.PureComponent {
                 if (node) {
                     node.scrollIntoView();
                 }
-            } else {
+            } else if (switchedPage) {
                 document.body.scrollTop = 0;
             }
         }, 0);
@@ -104,15 +104,13 @@ class Container extends React.PureComponent {
             <section className='splash'>
                 <Starfield />
 
-                <div className='splash-overlay'>
-                    <div className='splash-inner'>
-                        <h1>boundless</h1>
-                        <p>Battle-tested, versatile React components with infinite composability.</p>
-                    </div>
+                <div className='splash-inner'>
+                    <h1>boundless</h1>
+                    <p>Battle-tested, versatile React components with infinite composability.</p>
+                </div>
 
-                    <div className='splash-tab splash-tab-lower'>
-                        {svgCaretComponent}
-                    </div>
+                <div className='splash-tab splash-tab-lower'>
+                    {svgCaretComponent}
                 </div>
             </section>
         );
@@ -144,15 +142,17 @@ class Container extends React.PureComponent {
                             <Link activeClassName='active' to='/quickstart'>Get Started</Link>
 
                             <h4>Components</h4>
-                            {components.map((component) => (
-                                <Link
-                                    activeClassName='active'
-                                    className=''
-                                    key={component.name}
-                                    to={component.path}>
-                                    {component.path}
-                                </Link>
-                            ))}
+                            <section>
+                                {components.map((component) => (
+                                    <Link
+                                        activeClassName='active'
+                                        className=''
+                                        key={component.name}
+                                        to={component.path}>
+                                        {component.path}
+                                    </Link>
+                                ))}
+                            </section>
                         </nav>
                     </aside>
                 </main>

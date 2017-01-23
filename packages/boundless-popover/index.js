@@ -79,10 +79,6 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
     My popover content!
 </Popover>
 ```
-
-## Interactions
-
-Refer to [Dialog](./Dialog)
  */
 export default class Popover extends React.PureComponent {
     // eslint-disable-next-line no-sequences

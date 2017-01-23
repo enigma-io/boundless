@@ -456,54 +456,46 @@ th, td {
 
 .splash {
     align-items: center;
-    background: linear-gradient(to top, #1A1A1A 0%, #000 100%)
+    background: linear-gradient(to top, #1A1A1A 0%, #000 100%);
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow: hidden; /* needed for starfield */
+    padding: 0 10vw;
     position: relative;
 
-    .splash-overlay {
-        align-items: center;
-        color: #f5f5f5;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        justify-content: space-between;
-        width: 100vw;
-        position: absolute;
-        top: 0;
+    .splash-tab {
+        background: #fcfcfc;
+        color: #111;
+        padding: 15px 30px;
+        text-align: center;
 
-        .splash-tab {
-            background: #fcfcfc;
-            color: #111;
-            padding: 15px 30px;
-            text-align: center;
+        &.splash-tab-lower {
+            border-radius: 3px 3px 0 0;
+            background: transparent;
+            cursor: pointer;
 
-            &.splash-tab-lower {
-                border-radius: 3px 3px 0 0;
-                background: transparent;
-                cursor: pointer;
-
-                svg {
-                    height: 50px;
-                    width: 50px;
-                    fill: #f5f5f5;
-                }
+            svg {
+                height: 50px;
+                width: 50px;
+                fill: #f5f5f5;
             }
         }
+    }
 
-        .splash-inner {
-            margin: auto;
-            text-align: center;
+    .splash-inner {
+        margin: auto;
+        text-align: center;
 
-            h1 {
-                font-size: 72px;
-                font-weight: 700;
-            }
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+        }
 
-            p {
-                font-size: 24px;
-                font-weight: 300;
-            }
+        p {
+            font-size: 24px;
+            font-weight: 300;
         }
     }
 }
@@ -694,4 +686,82 @@ article {
 
 .center {
     text-align: center;
+}
+
+@media all and (max-width: 600px) {
+    main {
+        flex-direction: column;
+
+        article {
+            order: 2;
+
+            table {
+                display: block;
+
+                thead {
+                    display: none;
+                }
+
+                tr {
+                    border: 0 !important;
+                    display: block;
+
+                    ~ tr {
+                        margin-top: 1.5rem;
+                    }
+
+                    &.prop-depth-1 {
+                        padding-left: 1.5rem;
+
+                        .prop-name::before {
+                            display: none !important;
+                        }
+                    }
+
+                    &.prop-depth-2 {
+                        padding-left: 3rem;
+                    }
+                }
+
+                td {
+                    border-left 2px solid color-neutral-dark;
+                    display: block;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                    max-width: 100% !important;
+
+                    &.prop-name {
+                        padding-left: 1rem !important;
+
+                        &::before {
+                            content: 'Name';
+                            display: block;
+                            @extend article .prop-implementation h5;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    nav {
+        section {
+            column-count: 3;
+        }
+    }
+
+    .spread {
+        flex-direction: column;
+
+        > * {
+            align-self: stretch;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: auto;
+
+            + * {
+                margin-top: 1.5rem;
+            }
+        }
+    }
 }
