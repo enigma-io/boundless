@@ -23,7 +23,7 @@ export default class ComponentPage extends React.PureComponent {
             </td>
             <td className='prop-implementation'>
                 <h5>Expects</h5>
-                <pre><code>{props[name].name}</code></pre>
+                <pre><code>{this.formatPropType(props[name])}</code></pre>
             </td>
             <td className='prop-description'>
                 <Markdown>{props[name].description}</Markdown>
