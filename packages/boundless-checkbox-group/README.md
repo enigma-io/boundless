@@ -6,21 +6,6 @@ __A controller view for managing the aggregate state of multiple, related checkb
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular
 configuration is built-in and is activated by passing the `selectAll` prop.
 
-> The Boundless Team recommends reviewing the [Checkbox](https://developer.apple.com/library/mac/documentation/
-UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW9) section of
-the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Checkbox`
-in your project.
-
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | `[Enter, Space]` on "Select All" | should toggle the `checked` state for all children to fully on or fully off
-__Keyboard__ | `[Enter, Space]` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
-__Mouse__ | `click` on "Select All" | should toggle the `checked` state for all children
-__Mouse__ | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
-
 ### Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/CheckboxGroup#props)._
@@ -36,8 +21,8 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>items</td>
-        <td><pre><code>enum([object Object])</code></pre></td>
-        <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)</td>
+        <td><pre><code>[object Object]</code></pre></td>
+        <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)</td>
         <td>true</td>
         <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
@@ -85,20 +70,17 @@ _Note: only top-level props are in the README, for the full list check out the [
     <tr>
         <td>selectAllProps</td>
         <td><pre><code>shape</code></pre></td>
-        <td>must conform to the [Checkbox prop spec](../Checkbox#props)</td>
+        <td>must conform to the [Checkbox prop spec](./Checkbox#props)</td>
         <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
         <td>selectAllPosition</td>
-        <td><pre><code>enum([
-&nbsp;&nbsp;CheckboxGroup.Constants.SELECT_ALL_BEFORE
-&nbsp;&nbsp;CheckboxGroup.Constants.SELECT_ALL_AFTER
-])</code></pre></td>
-        <td>(see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"</td>
+        <td><pre><code>enum([object Object],[object Object])</code></pre></td>
+        <td></td>
         <td>false</td>
-        <td><pre><code class="language-js">CheckboxGroup.Constants.SELECT_ALL_BEFORE</code></pre></td>
+        <td><pre><code class="language-js">CheckboxGroup.selectAllPosition.BEFORE</code></pre></td>
     </tr>
     
 </table>

@@ -475,11 +475,11 @@ describe('Typeahead component', () => {
         });
     });
 
-    describe('clearPartialInputOnSelection as `true`', () => {
+    describe('clearOnSelection as `true`', () => {
         it('blanks out the input field on selection of an entity', () => {
             const element = render(
                 <Typeahead
-                    clearPartialInputOnSelection={true}
+                    clearOnSelection={true}
                     entities={entities}
                     inputProps={{defaultValue: 'ap'}} />
             );

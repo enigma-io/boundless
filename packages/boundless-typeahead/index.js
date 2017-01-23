@@ -14,60 +14,72 @@ import uuid from '../boundless-utils-uuid/index';
 # Typeahead
 __Intelligently recommend entities via customizable, fuzzy recognition.__
 
-Typeahead is an enhancement upon [Input](https://github.com/bibliotech/uikit/tree/master/packages/boundless-input) which provides two built-in matching algorithms and supports the use of custom matching and marking functions.
+Typeahead is an enhancement upon [Input](https://github.com/bibliotech/uikit/tree/master/packages/boundless-input) which provides two built-in matching algorithms ("fuzzy" \[default\] and "starts-with") and supports the use of custom matching and marking functions.
 
-> The Boundless Team recommends reviewing the [Search Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW5) and [Text Input Field](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsText.html#//apple_ref/doc/uid/20000957-CH51-SW3) sections of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Typeahead` in your project.
+In the examples below, imagine the `<>` in the "marks" section is a wrapping `<mark>` element:
 
-Typeahead offers two built-in matching algorithms: "fuzzy" (the default) and "starts-with". For the examples below, imagine the `<>` in the "marked" section is a wrapping `<div class="b-typeahead-match-highlight"></div>`:
+1. __"Starts-with" matching & marking__
+   ```jsx
+   <Typeahead
+       algorithm={Typeahead.mode.STARTS_WITH}
+       entities={[
+           {text: 'apple'},
+           {text: 'apricot'},
+           {text: 'grape'},
+       ]}
+       inputProps={{value: 'a'}} />
+   ```
 
-1. __"Starts-with" matching & marking__ `algorithm={UITypeahead.mode.STARTS_WITH}`
-   For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
+   + matches: `"apple", "apricot"`
+   + marks: `"<a>pple", "<a>pricot"`
 
-   Matched: `["apple", "apricot"]`<br/>
-   Marked: `["<a>pple", "<a>pricot"]`<br/><br/>
+1. __"Fuzzy" matching & marking__
+   ```jsx
+   <Typeahead
+       algorithm={Typeahead.mode.FUZZY}
+       entities={[
+           {text: 'apple'},
+           {text: 'apricot'},
+           {text: 'grape'},
+       ]}
+       inputProps={{value: 'a'}} />
+   ```
 
-1. __"Fuzzy" matching & marking__ `algorithm={UITypeahead.mode.FUZZY}`
-   For user input `"a"` and entity texts `["apple", "grape", "apricot"]`:
+   + matches: `"apple", "apricot", "grape"`
+   + marks: `"<a>pple", "<a>pricot", "gr<a>pe"`
 
-   Matched: `["apple", "grape", "apricot"]`<br/>
-   Marked: `["<a>pple", "gr<a>pe", "<a>pricot"]`<br/><br/>
+1. __Custom matching & marking__
 
-1. __Custom matching & marking__ `algorithm={{matcher: yourMatchFunc, marker: yourMarkFunc}}`
-   Optionally, you can provide your own combination of matching and marking functions. For example, loosening the matching to include unicode variants of characters could be useful, e.g. ç &rarr; c
+    Optionally, you can provide your own combination of matching and marking functions. For example, loosening the matching to include unicode variants of characters could be useful, e.g. ç &rarr; c
 
-   Follow the guide in the [props summary for algorithm](#available-props).
+    ```jsx
+    <Typeahead
+        algorithm={{
+            matcher: yourMatchFunc,
+            marker: yourMarkFunc,
+        }} />
+    ```
 
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | `[Down]` | select the next available typeahead match, retain focus on input field, should not move cursor
-__Keyboard__ | `[Up]` | select the previous typeahead match, retain focus on input field, should not move cursor
-__Keyboard__ | `[Right, Tab]` | fill the currently-selected typeahead text into the input field, dismiss matches
-__Keyboard__ | `[Enter]` | select the current typeahead match if one exists; if no typeahead match, call `onComplete` if supplied
-__Keyboard__ | `[Escape]` | clear typeahead matches if they exist
-__Mouse__ | `[Click]` on typeahead match | fill the selected typeahead match text into the input field, dismiss matches, return focus to input
-
-### Component Instance Methods
+## Component Instance Methods
 
 When using `Typeahead` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
-- __focus()__
+- __`focus()`__
   focuses the browser oon the underlying textual input for immediate text entry
 
-- __getInputNode()__
+- __`getInputNode()`__
   returns the raw underlying textual input DOM node
 
-- __getSelectedEntityText()__
+- __`getSelectedEntityText()`__
   returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
 
-- __getValue()__
+- __`getValue()`__
   retrieves the current value of the underlying textual input
 
-- __select()__
+- __`select()`__
   programmatically creates a full selection on the underlying textual input such that a press of the Backspace key would fully clear the input
 
-- __setValue(value: string)__
+- __`setValue(value: string)`__
   sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
  */
 export default class Typeahead extends React.PureComponent {
@@ -81,28 +93,7 @@ export default class Typeahead extends React.PureComponent {
         ...Input.propTypes,
 
         /**
-         * the mechanism used to identify and mark matching substrings; a custom set can be provided with the Object format:<br/><br/>
-
-         * - __algorithm.matcher__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
-             provide a custom matching algorithm, adhering to this format:
-
-         * ```js
-         * myMatchFunc(inputText, entities) {
-         *     // ...
-         *     return [match1Index, match2Index, ... ];
-         * }
-         * ```
-
-         * the index is stored instead of the entire entity to conserve memory and reduce data duplication
-
-         * - __algorithm.marker__ `Function|Typeahead.mode.STARTS_WITH|Typeahead.mode.FUZZY`
-         *   provide a custom marking function, allows for the use of custom templating / developer-defined CSS hooks, adhering to this format:
-
-         * ```js
-         * myMarkFunc(inputText, entity) {
-         *     return <desired JSX templating> ];
-         * }
-         * ```
+            the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)
          */
         algorithm: PropTypes.oneOfType([
             PropTypes.oneOf([
@@ -110,6 +101,26 @@ export default class Typeahead extends React.PureComponent {
                 Typeahead.mode.FUZZY,
             ]),
             PropTypes.shape({
+                /**
+                    the return value of the function format will be what shows up in the typeahead dropdown list (JSX arrays are accepted, the component will provide the wrapper)
+
+                    an example marking function:
+
+                    ```js
+                    startsWithMarkingFunc(inputText, entity) {
+                        const entityContent = entity.text;
+                        const seekValue = input.toLowerCase();
+                        const indexStart = entityContent.toLowerCase().indexOf(seekValue);
+                        const indexEnd = indexStart + seekValue.length;
+
+                        return [
+                            <span key='before'>{entityContent.slice(0, indexStart)}</span>,
+                            <mark key='mark'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+                            <span key='after'>{entityContent.slice(indexEnd)}</span>,
+                        ];
+                    }
+                    ```
+                 */
                 marker: PropTypes.oneOfType([
                     PropTypes.func,
                     PropTypes.oneOf([
@@ -117,6 +128,26 @@ export default class Typeahead extends React.PureComponent {
                         Typeahead.mode.FUZZY,
                     ]),
                 ]),
+
+                /**
+                    the return value of the function format determines which entities will be passed to the marking function
+
+                    an example matching function:
+
+                    ```js
+                    startsWithMatchingFunc(inputText, entities) {
+                        const seekValue = userText.toLowerCase();
+
+                        return entities.reduce(function seekMatch(results, entity, index) {
+                            if (entity.text.toLowerCase().indexOf(seekValue) === 0) {
+                                results.push(index);
+                            }
+
+                            return results;
+                        }, []);
+                    }
+                    ```
+                 */
                 matcher: PropTypes.oneOfType([
                     PropTypes.func,
                     PropTypes.oneOf([
@@ -130,17 +161,17 @@ export default class Typeahead extends React.PureComponent {
         /**
          * if `true`, clears the input text when a (partial) match is selected
          */
-        clearPartialInputOnSelection: PropTypes.bool,
+        clearOnSelection: PropTypes.bool,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the appropriate `.b-typeahead-match` HTML element
+         * an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element
          */
         entities: PropTypes.arrayOf(
             PropTypes.shape({
                 /**
                  * the text to be used to do string comparison and match against
                  */
-                text: PropTypes.string,
+                text: PropTypes.string.isRequired,
             })
         ),
 
@@ -183,7 +214,7 @@ export default class Typeahead extends React.PureComponent {
     static defaultProps = {
         ...Input.defaultProps,
         algorithm: Typeahead.mode.FUZZY,
-        clearPartialInputOnSelection: false,
+        clearOnSelection: false,
         entities: [],
         hint: null,
         hintProps: {},
@@ -329,7 +360,7 @@ export default class Typeahead extends React.PureComponent {
     setValueWithSelectedEntity = () => {
         this.props.onEntitySelected(this.state.selectedEntityIndex);
 
-        if (this.props.clearPartialInputOnSelection) {
+        if (this.props.clearOnSelection) {
             this.setValue('');
         } else {
             this.setValue(this.getSelectedEntityText());

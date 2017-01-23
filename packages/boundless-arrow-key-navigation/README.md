@@ -9,15 +9,6 @@ props passed to `<ArrowKeyNavigation ...>` will be forwarded on to the component
 
 The children, similarly, can be any type of component.
 
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | ⬅️ `Left` | move focus to previous child if `props.mode` is `ArrowKeyNavigation.mode.HORIZONTAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ➡️ `Right` | move focus to next child if `props.mode` is `ArrowKeyNavigation.mode.HORIZONTAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ⬆️ `Up` | move focus to previous child if `props.mode` is `ArrowKeyNavigation.mode.VERTICAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ⬇️ `Down` | move focus to next child if `props.mode` is `ArrowKeyNavigation.mode.VERTICAL` or `ArrowKeyNavigation.mode.BOTH`
-
 ### Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/ArrowKeyNavigation#props)._
@@ -49,12 +40,16 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>mode</td>
-        <td><pre><code>enum([
-&nbsp;&nbsp;ArrowKeyNavigation.mode.HORIZONTAL
-&nbsp;&nbsp;ArrowKeyNavigation.mode.VERTICAL
-&nbsp;&nbsp;ArrowKeyNavigation.mode.BOTH
-])</code></pre></td>
-        <td>Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented</td>
+        <td><pre><code>enum([object Object],[object Object],[object Object])</code></pre></td>
+        <td>controls which arrow key events are captured to move active focus within the list:
+
+Mode                                 | Keys
+----                                 | ----
+`ArrowKeyNavigation.mode.BOTH`       | ⬅️ ➡️ ⬆️ ⬇️
+`ArrowKeyNavigation.mode.HORIZONTAL` | ⬅️ ➡️
+`ArrowKeyNavigation.mode.VERTICAL`   | ⬆️ ⬇️
+
+_Note: focus loops when arrowing past one of the boundaries; tabbing moves the user away from the list._</td>
         <td>false</td>
         <td><pre><code class="language-js">ArrowKeyNavigation.mode.BOTH</code></pre></td>
     </tr>

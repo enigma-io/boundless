@@ -11,7 +11,7 @@ Enigma's [React webapp generator for Yeoman](https://github.com/enigma-io/genera
 npm install -g generator-enigma
 ```
 
-## Generate a boilerplate React web app
+### Generate a boilerplate React web app
 
 Create a new folder to contain your project. Run the generator inside the new folder:
 
@@ -43,7 +43,7 @@ npm install --save boundless
 
 The `--save` option updates `package.json` automatically.
 
-### Add the Boundless CSS skin
+## Add the Boundless CSS skin
 
 Boundless has a default style skin which can be imported via Stylus. Add the following line to `your-app/style.styl`:
 

@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import isInteger from 'lodash.isinteger';
 
+import Async from '../boundless-async/index';
 import SegmentedControl from '../boundless-segmented-control/index';
 import ArrowKeyNavigation from '../boundless-arrow-key-navigation/index';
 import isFunction from '../boundless-utils-is-function/index';
@@ -13,109 +14,20 @@ import uuid from '../boundless-utils-uuid/index';
 const identity = (x) => x;
 
 /**
- * A utility component for handling promises as children and eventually doing something with their resolved payload.
- */
-class Item extends React.PureComponent {
-    static propTypes = {
-        convertToJSXFunc: PropTypes.func,
-        data: PropTypes.object,
-        even: PropTypes.bool,
-        index: PropTypes.number,
-        loadingContent: PropTypes.node,
-    }
-
-    static defaultProps = {
-        convertToJSXFunc: noop,
-        data: null,
-        even: true,
-        index: 0,
-        loadingContent: null,
-    }
-
-    static internalKeys = Object.keys(Item.defaultProps)
-
-    mounted = false
-    state = {}
-
-    convertDataToJSXOrWait(props = this.props) {
-        if (props.data instanceof Promise) {
-            this.setState({component: null});
-
-            const closurePromise = props.data;
-
-            props.data.then((resolvedPayload) => {
-                if (this.mounted) {
-                    this.setState((state, currentProps) => ({
-                        component: currentProps.data === closurePromise
-                                   ? currentProps.convertToJSXFunc(resolvedPayload, currentProps.index)
-                                   : state.component,
-                    }));
-                } // only replace if we're looking at the same promise, otherwise do nothing
-            }, noop);
-
-            return;
-        }
-
-        this.setState({component: props.convertToJSXFunc(props.data, props.index)});
-    }
-
-    componentWillMount()                 { this.convertDataToJSXOrWait(); }
-    componentDidMount()                  { this.mounted = true; }
-    componentWillReceiveProps(nextProps) { this.convertDataToJSXOrWait(nextProps); }
-    componentWillUnmount()               { this.mounted = false; }
-
-    getClasses(extraClasses) {
-        return cx('b-pagination-item', extraClasses, {
-            'b-pagination-item-even': this.props.even,
-            'b-pagination-item-odd': !this.props.even,
-            'b-pagination-item-loading': this.state.component === null,
-        });
-    }
-
-    render() {
-        if (this.state.component === null) {
-            return (
-                <div {...omit(this.props, Item.internalKeys)} className={this.getClasses()}>
-                    {this.props.loadingContent}
-                </div>
-            );
-        }
-
-        return React.cloneElement(this.state.component, {
-            ...omit(this.props, Item.internalKeys),
-            className: this.getClasses(this.state.component.props && this.state.component.props.className),
-            'data-pagination-index': this.props.index,
-        });
-    }
-}
-
-/**
 # Pagination
 __View and navigate heterogenious content one page at a time.__
 
 Pagination is implemented as an encapsulated view system, accepting an array of items as input.
 
----
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Mouse__ | `click` (not selected) | should trigger `onClick` on clicked control
-__Keyboard__ | page toggles `['Left', 'Right']` | should move focus to next/previous toggle; should loop
-__Keyboard__ | list items `['Up', 'Down']` | should move focus to next/previous toggle; should loop
-__Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for focused toggle
-
-### Component Instance Methods
+## Component Instance Methods
 
 When using `Pagination` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
-- __currentPage()__
+- __`currentPage()`__
   returns the ___one___-indexed page number currently in view
 
-- __pageToIndex(`Number`)__
+- __`pageToIndex(index: number)`__
   renders the page that contains the ___zero___-indexed item
-
  */
 export default class Pagination extends React.PureComponent {
     static controls = {
@@ -477,13 +389,16 @@ export default class Pagination extends React.PureComponent {
                 className={cx('b-pagination-items', props.className)}>
                 {this.generateItems().map((item, index) => {
                     return (
-                        <Item
+                        <Async
                             ref={`item_${index}`}
                             key={index}
+                            className={cx('b-pagination-item', {
+                                'b-pagination-item-even': index % 2 === 0,
+                                'b-pagination-item-odd': index % 2 !== 0,
+                            })}
                             convertToJSXFunc={this.props.itemToJSXConverterFunc}
                             data={item.data}
-                            even={index % 2 === 0}
-                            index={indexOffset + index}
+                            data-pagination-index={indexOffset + index}
                             loadingContent={this.props.itemLoadingContent} />
                     );
                 })}

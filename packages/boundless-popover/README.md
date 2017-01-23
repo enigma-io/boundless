@@ -5,8 +5,6 @@ __A non-blocking container positioned to a specific anchor element.__
 
 A popover is a type of [Dialog](./Dialog) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
-> The Boundless Team recommends reviewing the [Popover](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Popover` in your project.
-
 Alignment options for the popover are designed to mirror compass directions:
 
 ```
@@ -29,7 +27,7 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 </Popover>
 ```
 
-### Interactions
+## Interactions
 
 Refer to [Dialog](./Dialog)
 
@@ -48,8 +46,8 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>anchor</td>
-        <td><pre><code>instanceOf|shape</code></pre></td>
-        <td>a DOM element or React reference to one for positioning purposes</td>
+        <td><pre><code>instanceOf|element</code></pre></td>
+        <td>a DOM element or React reference (ref) to one for positioning purposes</td>
         <td>true</td>
         <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
@@ -64,9 +62,10 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>caretAnchor</td>
-        <td><pre><code>instanceOf|shape</code></pre></td>
-        <td>a DOM element or React reference to one for positioning purposes, the caret component will be automatically
-positioned to center on this provided anchor; by default it will center on `props.anchor`</td>
+        <td><pre><code>instanceOf|element</code></pre></td>
+        <td>a DOM element or React reference (ref) to one for positioning purposes, the caret component will
+be automatically positioned to center on this provided anchor; by default it will center
+on `props.anchor`</td>
         <td>false</td>
         <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
@@ -86,17 +85,15 @@ positioned to center on this provided anchor; by default it will center on `prop
     
     <tr>
         <td>portalProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td>any/all supported [Portal props](boundless-portal/README.md)</td>
+        <td><pre><code>shape</code></pre></td>
+        <td></td>
         <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
     </tr>
     
     <tr>
         <td>preset</td>
-        <td><pre><code>enum([
-&nbsp;&nbsp;
-])</code></pre></td>
+        <td><pre><code>enum([object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object])</code></pre></td>
         <td>```jsx
 <Popover
     anchor={document.querySelector('.some-anchor-element')}

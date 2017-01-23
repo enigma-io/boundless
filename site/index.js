@@ -70,14 +70,17 @@ class Container extends React.PureComponent {
     }
 
     autoscroll() {
-        if (window.location.hash.length > 1) {
-            const node = document.getElementById(window.location.hash.slice(1));
+        window.setTimeout(() => {
+            if (window.location.hash.length > 1) {
+                const node = document.getElementById(window.location.hash.slice(1));
 
-            if (node) {
-                node.scrollIntoView();
-                document.body.scrollTop -= 100;
+                if (node) {
+                    node.scrollIntoView();
+                }
+            } else {
+                document.body.scrollTop = 0;
             }
-        } // autoscroll to the anchor node
+        }, 0);
     }
 
     maybeRenderGithubLinks(route) {
@@ -128,13 +131,6 @@ class Container extends React.PureComponent {
             <div>
                 {route.path === '/' ? this.renderSplash() : null}
 
-                <header>
-                    <Link className='brand' to='/'>boundless</Link>
-                    <Link activeClassName='active' to='/quickstart'>Get Started</Link>
-                    <a className='release-link' href='https://github.com/enigma-io/boundless/releases' title='View all Boundless releases' target='_blank'>v {VERSION}</a>
-                    <a href='https://www.npmjs.com/package/boundless' title='View Boundless on NPM' target='_blank'>NPM</a>
-                </header>
-
                 <main>
                     <article>
                         {this.maybeRenderGithubLinks(route)}
@@ -142,11 +138,17 @@ class Container extends React.PureComponent {
                             <ComponentPage
                                 demo={route.demo}
                                 docgenInfo={route.docgenInfo}
-                                />
+                                packageName={route.name} />
                         ) : <Markdown>{route.markdown}</Markdown>}
                     </article>
-                    <aside>
+                    <aside className='boundless-nav'>
+                        <header>
+                            <Link className='brand' to='/'>boundless</Link>
+                            <a className='release-link' href='https://github.com/enigma-io/boundless/releases' title='View all Boundless releases' target='_blank'>v{VERSION}</a>
+                        </header>
                         <nav>
+                            <Link activeClassName='active' to='/quickstart'>Get Started</Link>
+
                             <h4>Components</h4>
                             {components.map((component) => (
                                 <Link
@@ -161,14 +163,14 @@ class Container extends React.PureComponent {
                     </aside>
                 </main>
 
-                <footer>
+                <footer className='boundless-footer'>
                     <Starfield />
 
                     <div>
                         <strong>boundless</strong>&nbsp;is developed in partnership with&nbsp;<a href='http://enigma.io'>enigma</a>
                     </div>
 
-                    <a className='enigma-careers-link' href='http://enigma.io/careers/' target='_blank'>See job openings</a>
+                    <a className='b-button' href='http://enigma.io/careers/' target='_blank'>See job openings</a>
                 </footer>
             </div>
         );
@@ -177,7 +179,7 @@ class Container extends React.PureComponent {
 
 render(
     <Router history={browserHistory}>
-        <Route path='/' component={Container} markdown={README}>
+        <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
             {components.map((definition) => (
                 <Route

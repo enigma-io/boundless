@@ -10,15 +10,6 @@ Specific areas (header, body, footer) are defined to provide easy conformance to
 [WAI-ARIA spec](http://www.w3.org * /TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby`
 and `aria-describedby` (screen reader  * accessibility). Their use is optional, but encouraged.
 
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Render__ | `N/A` | focus on dialog
-__Event__ | window `focus` | should be cancelled if moving inside -> outside dialog if `props.captureFocus` is rue`
-__Keyboard__ | `Esc` | should trigger `props.onClose` if `closeOnEscKey === true`
-__Mouse__ | `Click` outside of dialog | should trigger `props.onClose` if `closeOnOutsideClick === true`
-
 ### Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Dialog#props)._

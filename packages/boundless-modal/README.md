@@ -5,12 +5,6 @@ __A blocking, focus-stealing container.__
 
 Modal is an enhancement upon [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
-> The Boundless Team recommends reviewing the [Alerts](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/WindowAlerts.html#//apple_ref/doc/uid/20000957-CH44-SW1) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Modal` in your project.
-
-### Interactions
-
-Refer to [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md)
-
 ### Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Modal#props)._
@@ -42,8 +36,8 @@ _Note: only top-level props are in the README, for the full list check out the [
     
     <tr>
         <td>portalProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td>any/all supported [Portal props](/Portal/README.md)</td>
+        <td><pre><code>shape</code></pre></td>
+        <td>any/all supported [Portal props](https://github.com/bibliotech/uikit/blob/master/packages/boundless-portal/README.md#props)</td>
         <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
     </tr>

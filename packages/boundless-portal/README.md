@@ -50,13 +50,13 @@ _Note: only top-level props are in the README, for the full list check out the [
   <div>bar</div>
 </Portal>
 ```</td>
-        <td>true</td>
+        <td>false</td>
         <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
         <td>destination</td>
-        <td><pre><code>instanceOf</code></pre></td>
+        <td><pre><code>HTMLElement</code></pre></td>
         <td>the location to append the generated portal and child elements</td>
         <td>false</td>
         <td><pre><code class="language-js">document.body</code></pre></td>

@@ -4,6 +4,7 @@
  */
 
 export {default as ArrowKeyNavigation} from './packages/boundless-arrow-key-navigation/index';
+export {default as Async} from './packages/boundless-async/index';
 export {default as Button} from './packages/boundless-button/index';
 export {default as Checkbox} from './packages/boundless-checkbox/index';
 export {default as CheckboxGroup} from './packages/boundless-checkbox-group/index';

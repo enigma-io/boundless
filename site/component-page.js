@@ -1,26 +1,30 @@
 import React, {PropTypes} from 'react';
-import {get, keys} from 'lodash';
+import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
 import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
 
+_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+
+const getPackageIndexURI = (name) => `https://api.github.com/repos/enigma-io/boundless/contents/packages/${name}/demo/index.js`;
+
 export default class ComponentPage extends React.PureComponent {
     static propTypes = {
         demo: PropTypes.any,
         docgenInfo: PropTypes.object,
+        packageName: PropTypes.string,
     }
 
     renderSubPropTableRow = (props, name, depth) => (
         <tr key={name} className={`prop-row prop-depth-${depth}`}>
             <td className='prop-name'>
-                <h5>Name</h5>
-                <strong>{name}</strong>
-
-                <h5>Type</h5>
+                <strong name={`prop-${name}`}><code>{name}</code></strong>
+            </td>
+            <td className='prop-implementation'>
+                <h5>Expects</h5>
                 <pre><code>{props[name].name}</code></pre>
             </td>
-            <td className='prop-required'>{props[name].required ? 'Yes' : 'No'}</td>
             <td className='prop-description'>
                 <Markdown>{props[name].description}</Markdown>
             </td>
@@ -31,50 +35,63 @@ export default class ComponentPage extends React.PureComponent {
         switch (type.name) {
         case 'arrayOf':
             if (type.value.name !== 'custom') {
-                return `${type.name}(${type.value.name})`;
+                return `${type.name}(${this.formatPropType(type.value)})`;
             }
 
-            break;
+            return 'array';
 
-        case 'instanceOf':
-           return type.value;
+        case 'element':
+            return 'ReactElement';
 
         case 'enum':
             if (type.computed === true) {
-                const prefix = type.value.split(/[()]+/)[1];
-
-                return keys(
-                    get(Boundless, prefix, {})
-                ).map((key) => `${prefix}.${key}`).join(' or\n');
+                return _.keys(
+                    _.get(Boundless, type.value, {})
+                ).map((key) => `${type.value}.${key}`).join(' or\n');
+            } else if (Array.isArray(type.value)) {
+                return _.map(type.value, 'value').join(' or\n');
             }
 
             return `oneOf(${type.value})`;
 
+        case 'func':
+            return 'function';
+
+        case 'instanceOf':
+           return type.value;
+
+        case 'node':
+            return 'any renderable';
+
+        case 'shape':
+            return 'object';
+
         case 'union':
-            return type.value.map((v) => v.name.trim()).join(' or ');
+            return type.value.map((v) => this.formatPropType(v)).join(' or ');
         }
 
         return type.name;
     }
 
     /**
-     * @param  {Object}         docgenData
+     * @param  {Object}         allProps
      * @param  {String}         name       the prop's name, may be a subprop (e.g. foo.bar)
      * @param  {Number}         depth      [description]
      * @return {jsx}
      */
-    renderPropTableRows(docgenData, name, depth = 0) {
-        if (!docgenData.props[name].type) { return null; }
+    renderPropTableRows(allProps, name, depth = 0) {
+        if (!allProps[name].type) { return null; }
 
-        const prop = get(docgenData.props, name);
+        const prop = _.get(allProps, name);
 
         const rows = [(
             <tr key={name} className={`prop-row prop-depth-${depth}`}>
                 <td className='prop-name'>
-                    <h5>Name</h5>
-                    <strong>{name}</strong>
+                    <strong name={`prop-${name}`}><code>{name}</code></strong>
+                </td>
 
-                    <h5>Type</h5>
+                <td className='prop-implementation'>
+                    <h5>Expects</h5>
                     <pre>
                         <code>{this.formatPropType(prop.type)}</code>
                     </pre>
@@ -87,15 +104,22 @@ export default class ComponentPage extends React.PureComponent {
                     </pre>
                 </td>
 
-                <td className='prop-required'>
-                    {prop.required ? 'Yes' : 'No'}
-                </td>
-
                 <td className='prop-description'>
                     <Markdown>{prop.description}</Markdown>
                 </td>
             </tr>
         )];
+
+        if (prop.type.name === 'shape' && prop.type.computed && typeof prop.type.value === 'string') {
+            const component = prop.type.value.split('.')[0];
+            const resolvedProps = _.get(Boundless, `${component}.__docgenInfo.props`);
+
+            return rows.concat(
+                _.map(resolvedProps, (_, subPropName) => {
+                    return this.renderPropTableRows(resolvedProps, subPropName, depth + 1)
+                })
+            );
+        }
 
         if (!!prop.type.value
             && (prop.type.value.value || prop.type.value.raw)
@@ -111,14 +135,15 @@ export default class ComponentPage extends React.PureComponent {
 
                 return rows.concat(
                     this.renderPropTableRows(
-                        get(Boundless, `${component}.__docgenInfo`), subPropName, depth + 1
+                        _.get(Boundless, `${component}.__docgenInfo.props`), subPropName, depth + 1
                     )
                 );
             }
 
             return rows.concat(
-                Object.keys(subProps).map(
-                    (subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1)
+                _.map(
+                    subProps,
+                    (_, subPropName) => this.renderSubPropTableRow(subProps, subPropName, depth + 1)
                 )
             );
         }
@@ -126,49 +151,105 @@ export default class ComponentPage extends React.PureComponent {
         return rows;
     }
 
-    renderPropTable(docgenData) {
+    renderPropTable(props, required) {
+        if (_.size(props) === 0) {
+            return (
+                <p>
+                    There are no {required ? 'required' : 'optional'} props.
+                </p>
+            );
+        }
+
         return (
             <table>
                 <thead>
                     <tr className='prop-row'>
-                        <th className='prop-name'>Implementation</th>
-                        <th className='prop-required'>Required</th>
+                        <th className='prop-name'>Name</th>
+                        <th className='prop-detail'>Implementation</th>
                         <th className='prop-description'>Description</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.keys(docgenData.props).map((propName) => {
-                        return this.renderPropTableRows(docgenData, propName);
-                    })}
+                    {_.map(_.sortBy(_.keys(props), [_.identity]), (propName) => this.renderPropTableRows(
+                        props, propName
+                    ))}
                 </tbody>
             </table>
         );
     }
 
+    // the implementation won't be fetchable until the repo is made public
     maybeRenderDemo() {
         if (this.props.demo) {
             return (
                 <div className='demo-section-wrapper'>
-                    <h3>Demo</h3>
+                    <LinkedHeaderText component='h3'>
+                        Demo
+                    </LinkedHeaderText>
+
                     <div className='demo-section-example'>
                         <this.props.demo />
                     </div>
+
+                    <Boundless.ProgressiveDisclosure
+                        className='demo-implementation-disclosure'
+                        teaser='Show Implementation'
+                        teaserExpanded='Hide Implementation'>
+                        <Boundless.Async
+                            data={() => fetch(getPackageIndexURI(this.props.packageName))}
+                            convertToJSXFunc={(response) => (
+                                <pre className='demo-implementation'>
+                                    <code className='language-jsx'>
+                                        {atob(response.json().content)}
+                                    </code>
+                                </pre>
+                            )}
+                            errorContent='Content could not be loaded. You need to be logged into Github so the demo file can be fetched.' />
+                    </Boundless.ProgressiveDisclosure>
                 </div>
             );
         }
     }
 
     render({docgenInfo} = this.props) {
+        const descriptionParts = docgenInfo.description.split(/(\n#{1,}?.*?\n)/);
+
+        // assembles the props from composed components all the way down the chain
+        const coalesced = {...docgenInfo};
+        const stack = docgenInfo.composes || [];
+
+        while (stack.length) {
+            if (stack[0].indexOf('boundless-') !== -1) {
+                const component = stack[0].match(/boundless-(\w+)/)[1];
+                const componentDocgen = Boundless[_.pascalCase(component)].__docgenInfo;
+
+                coalesced.props = {
+                    ...coalesced.props,
+                    ...componentDocgen.props,
+                };
+
+                if (componentDocgen.composes) {
+                    stack.push.apply(stack, componentDocgen.composes);
+                }
+            }
+
+            stack.shift();
+        }
+
         return (
             <div>
-                <Markdown>{docgenInfo.description}</Markdown>
+                <Markdown>{descriptionParts[0]}</Markdown>
                 {this.maybeRenderDemo()}
 
-                <LinkedHeaderText component='h3'>
-                    Props
-                </LinkedHeaderText>
+                <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
 
-                {this.renderPropTable(docgenInfo)}
+                <LinkedHeaderText component='h2'>Props</LinkedHeaderText>
+
+                <LinkedHeaderText component='h3'>Required Props</LinkedHeaderText>
+                {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
+
+                <LinkedHeaderText component='h3'>Optional Props</LinkedHeaderText>
+                {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
             </div>
         );
     }

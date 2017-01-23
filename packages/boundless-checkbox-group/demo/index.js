@@ -93,7 +93,7 @@ export default class CheckboxGroupDemo extends React.PureComponent {
                     items={this.state.items}
                     selectAll={true}
                     selectAllProps={{label: 'All of the above'}}
-                    selectAllPosition={CheckboxGroup.Constants.SELECT_ALL_AFTER}
+                    selectAllPosition={CheckboxGroup.selectAllPosition.AFTER}
                     onAllChecked={this.handleAllChecked}
                     onAllUnchecked={this.handleAllUnchecked}
                     onChildChecked={this.handleChildChecked}

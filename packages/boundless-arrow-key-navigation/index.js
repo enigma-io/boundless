@@ -13,15 +13,6 @@ whatever HTML tag you like into `props.component` or even a React component you'
 props passed to `<ArrowKeyNavigation ...>` will be forwarded on to the component or HTML tag name you've supplied.
 
 The children, similarly, can be any type of component.
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | ⬅️ `Left` | move focus to previous child if `props.mode` is `ArrowKeyNavigation.mode.HORIZONTAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ➡️ `Right` | move focus to next child if `props.mode` is `ArrowKeyNavigation.mode.HORIZONTAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ⬆️ `Up` | move focus to previous child if `props.mode` is `ArrowKeyNavigation.mode.VERTICAL` or `ArrowKeyNavigation.mode.BOTH`
-__Keyboard__ | ⬇️ `Down` | move focus to next child if `props.mode` is `ArrowKeyNavigation.mode.VERTICAL` or `ArrowKeyNavigation.mode.BOTH`
  */
 export default class ArrowKeyNavigation extends React.PureComponent {
     static mode = {
@@ -45,9 +36,21 @@ export default class ArrowKeyNavigation extends React.PureComponent {
         defaultActiveChildIndex: PropTypes.number,
 
         /**
-            Controls when arrow key presses will be caught by component and result in the active item being incremented or decremented
+         * controls which arrow key events are captured to move active focus within the list:
+         *
+         * Mode                                 | Keys
+         * ----                                 | ----
+         * `ArrowKeyNavigation.mode.BOTH`       | ⬅️ ➡️ ⬆️ ⬇️
+         * `ArrowKeyNavigation.mode.HORIZONTAL` | ⬅️ ➡️
+         * `ArrowKeyNavigation.mode.VERTICAL`   | ⬆️ ⬇️
+         *
+         * _Note: focus loops when arrowing past one of the boundaries; tabbing moves the user away from the list._
         */
-        mode: PropTypes.oneOf(Object.keys(ArrowKeyNavigation.mode)),
+        mode: PropTypes.oneOf([
+            ArrowKeyNavigation.mode.BOTH,
+            ArrowKeyNavigation.mode.HORIZONTAL,
+            ArrowKeyNavigation.mode.VERTICAL,
+        ]),
     }
 
     static defaultProps = {
