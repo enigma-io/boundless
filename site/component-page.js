@@ -198,14 +198,15 @@ export default class ComponentPage extends React.PureComponent {
                         {() => (
                             <Boundless.Async
                                 data={fetch(getPackageIndexURI(this.props.packageName))}
-                                convertToJSXFunc={(response) => (
+                                contentRenderedFunc={() => window.Prism.highlightAll()}
+                                convertToJSXFunc={(response) => response.ok ? (
                                     <pre className='demo-implementation'>
                                         <code className='language-jsx'>
                                             {atob(response.json().content)}
                                         </code>
                                     </pre>
-                                )}
-                                errorContent='Content could not be loaded. You need to be logged into Github so the demo file can be fetched.' />
+                                ) : (<p>Content could not be loaded. You need to be logged into Github so the demo file can be fetched.</p>)}
+                                errorContent='There was a network failure retrieving the demo.' />
                         )}
                     </Boundless.ProgressiveDisclosure>
                 </div>
