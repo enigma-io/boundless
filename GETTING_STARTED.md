@@ -1,41 +1,12 @@
 # Getting started with Boundless
 __A guide to creating a Boundless-ready React web app__
 
-## Don't start from scratch!
-
-Enigma's [React webapp generator for Yeoman](https://github.com/enigma-io/generator-enigma) is a nifty tool that allows you to generate a boilerplate React web app built to official Enigma standards (more detailed usage instructions are available in that repo).
-
-### Install via `npm`
-
-```bash
-npm install -g generator-enigma
-```
-
-### Generate a boilerplate React web app
-
-Create a new folder to contain your project. Run the generator inside the new folder:
-
-```bash
-yo enigma
-```
-
-After answering some very basic questions, your new React web app will begin its install and build process. This can take a few minutes.
-
-```
-     _-----_
-    |       |    .--------------------------.
-    |--(o)--|    |      It's app time!      |
-   `---------´   |                          |
-    ( _´U`_ )    |  You're 4 questions from |
-    /___A___\    | a fully-functional React |
-     |  ~  |     |      app, built with     |
-   __'.___.'__   |   enigma.io standards.   |
- ´   `  |° ´ Y ` '--------------------------'
- ```
+> __Starting from scratch?__
+> Enigma's [React webapp generator for Yeoman](https://github.com/enigma-io/generator-enigma) is a nifty tool that allows you to generate a boilerplate React web app built to official Enigma standards (more detailed usage instructions are available in that repo).
 
 ## Install Boundless
 
-The boilerplate React web app does not include Boundless by default.
+Since Boundless is modular, you can use as little or as much of the library as you desire. We recommend starting out with all the components:
 
 ```bash
 npm install --save boundless
@@ -43,48 +14,54 @@ npm install --save boundless
 
 The `--save` option updates `package.json` automatically.
 
+Later on if you wish to only use a few specific components, they can easily be installed separately:
+
+```bash
+npm install --save boundless-button boundless-popover
+```
+
 ## Add the Boundless CSS skin
 
-Boundless has a default style skin which can be imported via Stylus. Add the following line to `your-app/style.styl`:
+Boundless has default styles which can be imported into your CSS build tool of choice (we recommend [Stylus](http://stylus-lang.com/).)
 
-```styl
+### If you're using Stylus
+
+```stylus
+// inside your main style.styl
 @import "node_modules/boundless/style.styl"
 ```
 
-If you want to do any custom theming, feel free to redeclare any variables present in [Boundless's style.styl](./style.styl) above where you are importing it, like:
+If you want to do any custom theming, feel free to redeclare variables present in [style.styl](https://github.com/enigma-io/boundless/blob/master/style.styl) above where you are importing it, like:
 
-```styl
+```stylus
 color-accent = royalblue
 
 @import "node_modules/boundless/style.styl"
 ```
 
+The above will automatically recolor the component styles to match your app's accent color.
+
+### If you're not using Stylus
+
+A precompiled version of the default styles is available at `node_modules/boundless/public/skin.css` or `node_modules/boundless/public/skin.css` (minified) for easy drop-in to your project.
+
 ## Try it out
 
-`npm start` builds and launches the app. Any changes you make while the app is running are automatically applied and cause the app to rebuild on the fly.
-
-Let's add a Boundless component to the app by modifying `your-app/example/index.js`. First, import [`Tooltip`](./packages/boundless-tooltip):
+Here's an example of using the Boundless "Button" component. First, import [Button](/Button) into your desired React file:
 
 ```js
-import React from 'react';
-import Tooltip from 'boundless-tooltip';
-// ...
+import {Button} from 'boundless';
 ```
 
-Enclose a `p` tag within a `Tooltip`:
+Based on the [Button props](/Button#props), we know we can give it children of our choice and hook into the "pressed" event by supplied an `onPressed` callback. Here's a minimal functional example:
 
 ```jsx
-// ...
-renderDescription() {
-    if (this.props.description) {
-        return (
-            <Tooltip component='p' text='Hello again!'>
-                <p>{this.props.description}</p>
-            </Tooltip>
-        );
-    }
-}
-// ...
-```
+import React from 'react';
+import {Button} from 'boundless';
 
-A `Tooltip` should now render when you hover over the paragraph text.
+export default () => (
+    <Button onPressed={() => alert('BORK! 🐶')}>
+        Learn to Bork
+    </Button>
+)
+```
