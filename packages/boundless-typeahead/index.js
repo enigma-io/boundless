@@ -84,8 +84,8 @@ When using `Typeahead` in your project, you may call the following methods on a 
  */
 export default class Typeahead extends React.PureComponent {
     static mode = {
-        'STARTS_WITH': 'STARTS_WITH',
-        'FUZZY': 'FUZZY',
+        'STARTS_WITH': uuid(),
+        'FUZZY': uuid(),
     }
 
     static propTypes = {
