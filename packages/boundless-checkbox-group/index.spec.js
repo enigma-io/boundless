@@ -107,7 +107,7 @@ describe('CheckboxGroup component', () => {
             const element = render(
                 <CheckboxGroup items={items}
                                  selectAll={true}
-                                 selectAllPosition={CheckboxGroup.Constants.SELECT_ALL_AFTER} />
+                                 selectAllPosition={CheckboxGroup.selectAllPosition.AFTER} />
             );
 
             const node = ReactDOM.findDOMNode(element.refs.select_all);

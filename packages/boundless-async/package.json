@@ -1,7 +1,8 @@
 {
-  "name": "boundless-tooltip",
+  "name": "boundless-async",
   "version": "1.0.0",
-  "description": "A simple wrapper that displays provided text on mouseover.",
+  "description": "A higher-order component for rendering data that isn't ready yet.",
+  "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
   "module": "index.js",
   "main": "build/index.js",
   "repository": {
@@ -11,13 +12,8 @@
   "keywords": [
     "react",
     "hoc",
-    "tooltip",
+    "async",
     "boundless"
-  ],
-  "contributors": [
-    "Evan Scott <evan.scott@enigma.io>",
-    "Abe Rubenstein <abe.rubenstein@enigma.io>",
-    "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
   "license": "MIT",
   "bugs": {

@@ -4,6 +4,7 @@
  */
 
 export {default as ArrowKeyNavigation} from './packages/boundless-arrow-key-navigation/index';
+export {default as Async} from './packages/boundless-async/index';
 export {default as Button} from './packages/boundless-button/index';
 export {default as Checkbox} from './packages/boundless-checkbox/index';
 export {default as CheckboxGroup} from './packages/boundless-checkbox-group/index';
@@ -20,5 +21,4 @@ export {default as Progress} from './packages/boundless-progress/index';
 export {default as Radio} from './packages/boundless-radio/index';
 export {default as SegmentedControl} from './packages/boundless-segmented-control/index';
 export {default as TokenizedInput} from './packages/boundless-tokenized-input/index';
-export {default as Tooltip} from './packages/boundless-tooltip/index';
 export {default as Typeahead} from './packages/boundless-typeahead/index';

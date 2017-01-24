@@ -45,12 +45,12 @@ export default class Portal extends React.Component {
          * </Portal>
          * ```
          */
-        children: React.PropTypes.node.isRequired,
+        children: React.PropTypes.node,
 
         /**
          * the location to append the generated portal and child elements
          */
-        destination: PropTypes.instanceOf(window.HTMLElement),
+        destination: PropTypes.instanceOf(HTMLElement),
 
         /**
          * the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node

@@ -267,6 +267,7 @@ export default class TypeaheadDemo extends React.PureComponent {
                 <div>
                     <h5>Starts-with matching</h5>
                     <Typeahead
+                        algorithm={Typeahead.mode.STARTS_WITH}
                         entities={this.state.countries}
                         hint={true}
                         inputProps={{

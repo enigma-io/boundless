@@ -7,7 +7,7 @@ import Portal from '../boundless-portal/index';
 import omit from '../boundless-utils-omit-keys/index';
 import transformProp from '../boundless-utils-transform-property/index';
 
-function getOppositeHemispherePrefix(direction) {
+function getOppositeCardinal(direction) {
     switch (direction[0]) {
     case 'N':
         return 'S';
@@ -58,8 +58,6 @@ __A non-blocking container positioned to a specific anchor element.__
 
 A popover is a type of [Dialog](./Dialog) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
-> The Boundless Team recommends reviewing the [Popover](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsView.html#//apple_ref/doc/uid/20000957-CH52-SW2) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Popover` in your project.
-
 Alignment options for the popover are designed to mirror compass directions:
 
 ```
@@ -81,30 +79,20 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
     My popover content!
 </Popover>
 ```
-
-### Interactions
-
-Refer to [Dialog](./Dialog)
  */
 export default class Popover extends React.PureComponent {
     // eslint-disable-next-line no-sequences
     static preset = combinations.reduce((map, def) => ((map[def.name] = def), map), {})
 
-    // eslint-disable-next-line no-sequences
-    static presetValues = combinations.reduce((map, def) => (map.push(def), map), [])
-
     static propTypes = {
-        /** Popover supports all [Dialog props](/Dialog#props) */
         ...Dialog.propTypes,
 
         /**
-         * a DOM element or React reference to one for positioning purposes
+         * a DOM element or React reference (ref) to one for positioning purposes
          */
         anchor: PropTypes.oneOfType([
             PropTypes.instanceOf(HTMLElement),
-            PropTypes.shape({
-                props: PropTypes.object,
-            }), // a react element of some fashion, PropTypes.element wasn't working
+            PropTypes.element,
         ]).isRequired,
 
         /**
@@ -113,14 +101,13 @@ export default class Popover extends React.PureComponent {
         autoReposition: PropTypes.bool,
 
         /**
-         * a DOM element or React reference to one for positioning purposes, the caret component will be automatically
-         * positioned to center on this provided anchor; by default it will center on `props.anchor`
+         * a DOM element or React reference (ref) to one for positioning purposes, the caret component will
+         * be automatically positioned to center on this provided anchor; by default it will center
+         * on `props.anchor`
          */
         caretAnchor: PropTypes.oneOfType([
             PropTypes.instanceOf(HTMLElement),
-            PropTypes.shape({
-                props: PropTypes.object,
-            }), // a react element of some fashion, PropTypes.element wasn't working
+            PropTypes.element,
         ]),
 
         /**
@@ -128,10 +115,7 @@ export default class Popover extends React.PureComponent {
          */
         caretComponent: PropTypes.element,
 
-        /**
-         * any/all supported [Portal props](boundless-portal/README.md)
-         */
-        portalProps: PropTypes.object,
+        portalProps: PropTypes.shape(Portal.PropTypes),
 
         /**
          * ```jsx
@@ -142,7 +126,20 @@ export default class Popover extends React.PureComponent {
          * </Popover>
          * ```
          */
-        preset: PropTypes.oneOf(Popover.presetValues),
+        preset: PropTypes.oneOf([
+            Popover.preset.NNW,
+            Popover.preset.N,
+            Popover.preset.NNE,
+            Popover.preset.ENE,
+            Popover.preset.E,
+            Popover.preset.ESE,
+            Popover.preset.SSE,
+            Popover.preset.S,
+            Popover.preset.SSW,
+            Popover.preset.WSW,
+            Popover.preset.W,
+            Popover.preset.WNW,
+        ]),
 
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
@@ -368,8 +365,8 @@ export default class Popover extends React.PureComponent {
         }
 
         // then the opposite (e.g. the element is too low in the viewport so flip up instead of down)
-        const oppositeHemispherePrefix = getOppositeHemispherePrefix(this.props.preset.name);
-        const okayCombos = validCombos.filter(({name}) => name[0] === oppositeHemispherePrefix);
+        const oppositeCardinal = getOppositeCardinal(this.props.preset.name);
+        const okayCombos = validCombos.filter(({name}) => name[0] === oppositeCardinal);
 
         if (okayCombos.length) {
             return okayCombos[0];

@@ -5,199 +5,187 @@ __View and navigate heterogenious content one page at a time.__
 
 Pagination is implemented as an encapsulated view system, accepting an array of items as input.
 
----
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Mouse__ | `click` (not selected) | should trigger `onClick` on clicked control
-__Keyboard__ | page toggles `['Left', 'Right']` | should move focus to next/previous toggle; should loop
-__Keyboard__ | list items `['Up', 'Down']` | should move focus to next/previous toggle; should loop
-__Keyboard__ | `['Enter']` | should trigger `onClick`/`onOptionSelected` for focused toggle
-
-### Component Instance Methods
+## Component Instance Methods
 
 When using `Pagination` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
 
-- __currentPage()__
+- __`currentPage()`__
   returns the ___one___-indexed page number currently in view
 
-- __pageToIndex(`Number`)__
+- __`pageToIndex(index: number)`__
   renders the page that contains the ___zero___-indexed item
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Pagination#props)._
+
+### Required Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
-    </tr>
-    
-    <tr>
-        <td>after</td>
-        <td><pre><code>node</code></pre></td>
-        <td>arbitrary content to be rendered after the items in the DOM</td>
-        <td>false</td>
-        <td><pre><code class="language-js">null</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>before</td>
-        <td><pre><code>node</code></pre></td>
-        <td>arbitrary content to be rendered before the items in the DOM</td>
-        <td>false</td>
-        <td><pre><code class="language-js">null</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>customControlContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>allows for arbitrary content to be rendered into the control area</td>
-        <td>false</td>
-        <td><pre><code class="language-js">null</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>getItem</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously</td>
-        <td>false</td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>hidePagerIfNotNeeded</td>
-        <td><pre><code>bool</code></pre></td>
-        <td>does not render the paging controls if the number of items supplied to the view is less-than-or-equal-to the number of items to show per page via `props.numItemsPerPage`</td>
-        <td>false</td>
-        <td><pre><code class="language-js">false</code></pre></td>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>identifier</td>
         <td><pre><code>string</code></pre></td>
-        <td>a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data</td>
-        <td>true</td>
         <td><pre><code class="language-js">uuid()</code></pre></td>
+        <td>a unique name for the dataset being consumed; pass a different name to cause the view to fully reset and pull brand new data</td>
+    </tr>
+    
+    <tr>
+        <td>totalItems</td>
+        <td><pre><code>number</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>the total number of items to be displayed in the view</td>
+    </tr>
+    
+</table>
+
+
+### Optional Props
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+    </tr>
+    
+    <tr>
+        <td>after</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>arbitrary content to be rendered after the items in the DOM</td>
+    </tr>
+    
+    <tr>
+        <td>before</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>arbitrary content to be rendered before the items in the DOM</td>
+    </tr>
+    
+    <tr>
+        <td>customControlContent</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>allows for arbitrary content to be rendered into the control area</td>
+    </tr>
+    
+    <tr>
+        <td>getItem</td>
+        <td><pre><code>function</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously</td>
+    </tr>
+    
+    <tr>
+        <td>hidePagerIfNotNeeded</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>does not render the paging controls if the number of items supplied to the view is less-than-or-equal-to the number of items to show per page via `props.numItemsPerPage`</td>
     </tr>
     
     <tr>
         <td>initialPage</td>
         <td><pre><code>custom</code></pre></td>
-        <td>the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages</td>
-        <td>false</td>
         <td><pre><code class="language-js">1</code></pre></td>
+        <td>the (_one-indexed_) number of the page that should be initially displayed; must be a positive integer less than or equal to the total number of pages</td>
     </tr>
     
     <tr>
         <td>itemLoadingContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>allows for arbitrary content to be rendered into pagination items as they're loading if the backing data is a `Promise`</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">null</code></pre></td>
+        <td>allows for arbitrary content to be rendered into pagination items as they're loading if the backing data is a `Promise`</td>
     </tr>
     
     <tr>
         <td>itemToJSXConverterFunc</td>
-        <td><pre><code>func</code></pre></td>
-        <td>an optional function to specify how an item should be converted to JSX, if it is not already renderable by React</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">(x) => x</code></pre></td>
+        <td>an optional function to specify how an item should be converted to JSX, if it is not already renderable by React</td>
     </tr>
     
     <tr>
         <td>jumpToFirstControlContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>content to be displayed inside of the "First page" control button</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">'« First'</code></pre></td>
+        <td>content to be displayed inside of the "First page" control button</td>
     </tr>
     
     <tr>
         <td>jumpToLastControlContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>content to be displayed inside of the "Last page" control button</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">'Last »'</code></pre></td>
+        <td>content to be displayed inside of the "Last page" control button</td>
     </tr>
     
     <tr>
         <td>listWrapperProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-pagination-item-list` node</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-pagination-item-list` node</td>
     </tr>
     
     <tr>
         <td>nextPageControlContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>content to be displayed inside of the "Next page" control button</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">'Next ›'</code></pre></td>
+        <td>content to be displayed inside of the "Next page" control button</td>
     </tr>
     
     <tr>
         <td>numItemsPerPage</td>
         <td><pre><code>custom</code></pre></td>
-        <td>the maximum number of items to be displayed on each page; must be greater than zero</td>
-        <td>false</td>
         <td><pre><code class="language-js">10</code></pre></td>
+        <td>the maximum number of items to be displayed on each page; must be greater than zero</td>
     </tr>
     
     <tr>
         <td>numPageToggles</td>
         <td><pre><code>number</code></pre></td>
-        <td>the maximum number of pages to be displayed in the control bar at one time</td>
-        <td>false</td>
         <td><pre><code class="language-js">5</code></pre></td>
+        <td>the maximum number of pages to be displayed in the control bar at one time</td>
     </tr>
     
     <tr>
         <td>position</td>
-        <td><pre><code>enum([
-&nbsp;&nbsp;Pagination.positions.ABOVE
-&nbsp;&nbsp;Pagination.positions.BELOW
-&nbsp;&nbsp;Pagination.positions.BOTH
-])</code></pre></td>
-        <td>determines whether the pagination controls are displayed above, below, or both above and below the content</td>
-        <td>false</td>
+        <td><pre><code></code></pre></td>
         <td><pre><code class="language-js">Pagination.positions.ABOVE</code></pre></td>
+        <td>determines whether the pagination controls are displayed above, below, or both above and below the content</td>
     </tr>
     
     <tr>
         <td>previousPageControlContent</td>
-        <td><pre><code>node</code></pre></td>
-        <td>content to be displayed inside of the "Previous page" control button</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">'‹ Previous'</code></pre></td>
+        <td>content to be displayed inside of the "Previous page" control button</td>
     </tr>
     
     <tr>
         <td>showJumpToFirst</td>
         <td><pre><code>bool</code></pre></td>
-        <td>whether the "First page" control button should be displayed</td>
-        <td>false</td>
         <td><pre><code class="language-js">true</code></pre></td>
+        <td>whether the "First page" control button should be displayed</td>
     </tr>
     
     <tr>
         <td>showJumpToLast</td>
         <td><pre><code>bool</code></pre></td>
-        <td>whether the "Last page" control button should be displayed</td>
-        <td>false</td>
         <td><pre><code class="language-js">true</code></pre></td>
+        <td>whether the "Last page" control button should be displayed</td>
     </tr>
     
     <tr>
         <td>showPaginationState</td>
-        <td><pre><code>bool|func</code></pre></td>
+        <td><pre><code>bool or function</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
         <td>renders an element called `.b-pagination-control-state` that contains the current state of the pagination like "1 of 10"; alternatively, this prop also accepts a function that it will call with the currentPage and totalPages for you to format:
 
 ```jsx
@@ -209,24 +197,14 @@ showPaginatedState={
     )
 }
 ```</td>
-        <td>false</td>
-        <td><pre><code class="language-js">true</code></pre></td>
     </tr>
     
     <tr>
         <td>toggleWrapperProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.b-pagination-controls`</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>totalItems</td>
-        <td><pre><code>number</code></pre></td>
-        <td>the total number of items to be displayed in the view</td>
-        <td>true</td>
-        <td><pre><code class="language-js">null</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the SegmentedControl node(s), `.b-pagination-controls`</td>
     </tr>
     
 </table>
+

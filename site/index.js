@@ -1,24 +1,20 @@
+/* global VERSION */
+
 import React, {PropTypes} from 'react';
-import {findDOMNode, render} from 'react-dom';
+import {render} from 'react-dom';
 import * as _ from 'lodash';
-import Prism from 'prismjs';
-import {} from 'prismjs/components/prism-jsx.min.js';
 import {Router, Route, Link, browserHistory} from 'react-router';
 
 import * as Boundless from '../exports';
 import ComponentPage from './component-page';
 import Markdown from './markdown';
 
-import masterREADME from '../README.md';
+import README from '../README.md';
+import GettingStarted from '../GETTING_STARTED.md';
+
 import {} from './style.styl';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
-
-const {
-    Button,
-    Popover,
-    Typeahead,
-} = Boundless;
 
 const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|demo\/index\.js)$/);
 const reqKeys = req.keys();
@@ -35,133 +31,15 @@ const components = _.keys(Boundless).map((prettyName) => {
     };
 });
 
-const svgCaretComponent = (
-    <svg width='1792' height='1792' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'>
-        <path d='M1408 704q0 26-19 45l-448 448q-19 19-45 19t-45-19l-448-448q-19-19-19-45t19-45 45-19h896q26 0 45 19t19 45z'/>
-    </svg>
+const starfield = (
+    <div className='starfield'>
+        <div className='starfield-seed-1' />
+        <div className='starfield-seed-2' />
+        <div className='starfield-seed-3' />
+    </div>
 );
 
 const repositoryURL = 'https://github.com/bibliotech/uikit';
-
-class StickyBar extends React.PureComponent {
-    state = {
-        entities: [],
-        shouldRenderComponentsMenu: false,
-        shouldRenderUtilitiesMenu: false,
-    }
-
-    componentWillMount() {
-        const entities = [];
-
-        components.forEach((definition) => {
-            entities.push({
-                'data-path': definition.path,
-                key: definition.path,
-                text: definition.path,
-            });
-        });
-
-        this.setState({entities});
-    }
-
-    componentDidMount() {
-        this.mounted = true;
-
-        Stickyfill.add(this.$stickyBar); // polyfill for position: sticky;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-
-        Stickyfill.remove(this.$stickyBar); // polyfill for position: sticky;
-    }
-
-    renderLink({path}) {
-        return (<Link key={path} to={`/${path}`}>{path}</Link>);
-    }
-
-    handleEntitySelected = (index) => {
-        browserHistory.push(this.state.entities[index]['data-path']);
-    }
-
-    handleComplete = (value) => {
-        if (!value) {
-            return browserHistory.push('');
-        }
-
-        const found = this.state.entities.find((entity) => entity.text === value);
-
-        if (found) {
-            browserHistory.push(found['data-path']);
-        }
-    }
-
-    maybeRenderStickyBarMenu(anchor, collection, stateAttrName) {
-        if (this.mounted && this.state[stateAttrName]) {
-            return (
-                <Popover
-                    anchor={anchor}
-                    preset={Popover.preset.SSW}
-                    onClick={() => this.mounted && this.setState({[stateAttrName]: false})}
-                    onClose={() => this.mounted && this.setState({[stateAttrName]: false})}
-                    wrapperProps={{className: 'sticky-bar-menu'}}>
-                    {collection.map((definition) => this.renderLink(definition))}
-                </Popover>
-            );
-        }
-    }
-
-    render() {
-        return (
-            <header ref={(instance) => (this.$stickyBar = instance)} className='sticky-bar'>
-                <div className='star-wrapper'>
-                    <div className='stars1' />
-                    <div className='stars2' />
-                    <div className='stars3' />
-                </div>
-
-                <div className='sticky-bar-inner'>
-                    <Link className='sticky-bar-brand' to='/'>Boundless</Link>
-
-                    <Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderComponentsMenu: true,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderComponentsMenu: false})}
-                        pressed={this.state.shouldRenderComponentsMenu}
-                        ref={(instance) => (this.$componentsMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Components {svgCaretComponent}</div>
-                    </Button>
-
-                    {/*<Button
-                        className='sticky-bar-menu-button'
-                        onPressed={() => this.setState({
-                            shouldRenderUtilitiesMenu: true,
-                        })}
-                        onUnpressed={() => this.setState({shouldRenderUtilitiesMenu: false})}
-                        pressed={this.state.shouldRenderUtilitiesMenu}
-                        ref={(instance) => (this.$utilitiesMenuTrigger = instance)}>
-                        <div className='sticky-bar-menu-button-inner'>Utilities {svgCaretComponent}</div>
-                    </Button>*/}
-
-                    {this.maybeRenderStickyBarMenu(this.$componentsMenuTrigger, components, 'shouldRenderComponentsMenu')}
-
-                    <Typeahead
-                        algorithm={Typeahead.mode.FUZZY}
-                        className='sticky-bar-search'
-                        entities={this.state.entities}
-                        onEntitySelected={this.handleEntitySelected}
-                        onComplete={this.handleComplete}
-                        inputProps={{
-                            placeholder: 'Search Boundless...',
-                        }}
-                        hint={true} />
-                </div>
-            </header>
-        );
-    }
-}
 
 class Container extends React.PureComponent {
     static propTypes = {
@@ -170,24 +48,27 @@ class Container extends React.PureComponent {
     }
 
     componentDidMount() {
-        Prism.highlightAll();
+        window.Prism.highlightAll();
         this.autoscroll();
     }
 
     componentDidUpdate() {
-        Prism.highlightAll();
-        this.autoscroll();
+        window.Prism.highlightAll();
+        this.autoscroll(true);
     }
 
-    autoscroll() {
-        if (window.location.hash.length > 1) {
-            const node = document.getElementById(window.location.hash.slice(1));
+    autoscroll(switchedPage) {
+        window.setTimeout(() => {
+            if (window.location.hash.length > 1) {
+                const node = document.getElementById(window.location.hash.slice(1));
 
-            if (node) {
-                node.scrollIntoView();
-                document.body.scrollTop -= 100;
+                if (node) {
+                    node.scrollIntoView();
+                }
+            } else if (switchedPage) {
+                document.body.scrollTop = 0;
             }
-        } // autoscroll to the anchor node
+        }, 0);
     }
 
     maybeRenderGithubLinks(route) {
@@ -215,24 +96,13 @@ class Container extends React.PureComponent {
     renderSplash() {
         return (
             <section className='splash'>
-                <div className='stars1' />
-                <div className='stars2' />
-                <div className='stars3' />
+                {starfield}
 
-                <div className='splash-overlay'>
-                    <div className='splash-tab splash-tab-upper'>
-                        an <a href='http://enigma.io/' target='_blank'>Enigma</a> creation
-                    </div>
-
-                    <div className='splash-inner'>
-                        <h1>Boundless</h1>
-                        <p>Battle-tested, versatile React components with infinite composability.</p>
-                    </div>
-
-                    <div
-                        className='splash-tab splash-tab-lower'
-                        onClick={() => this.$sticky.scrollIntoView()}>
-                        {svgCaretComponent}
+                <div className='splash-inner'>
+                    <h1>boundless</h1>
+                    <p>Battle-tested, versatile React components with infinite composability.</p>
+                    <div className='splash-indicator'>
+                        <span className='splash-nudge'>👇</span>
                     </div>
                 </div>
             </section>
@@ -246,17 +116,49 @@ class Container extends React.PureComponent {
             <div>
                 {route.path === '/' ? this.renderSplash() : null}
 
-                <StickyBar ref={(instance) => (this.$sticky = findDOMNode(instance))} />
+                <main>
+                    <article>
+                        {this.maybeRenderGithubLinks(route)}
+                        {route.docgenInfo ? (
+                            <ComponentPage
+                                demo={route.demo}
+                                docgenInfo={route.docgenInfo}
+                                packageName={route.name} />
+                        ) : <Markdown>{route.markdown}</Markdown>}
+                    </article>
+                    <aside className='boundless-nav'>
+                        <header>
+                            <Link className='brand' to='/'>boundless</Link>
+                            <a className='release-link' href='https://github.com/enigma-io/boundless/releases' title='View all Boundless releases' target='_blank'>v{VERSION}</a>
+                        </header>
+                        <nav>
+                            <Link activeClassName='active' to='/quickstart'>Get Started</Link>
 
-                <main className='demo-section'>
-                    {this.maybeRenderGithubLinks(route)}
-                    {route.docgenInfo ? (
-                        <ComponentPage
-                            demo={route.demo}
-                            docgenInfo={route.docgenInfo}
-                            />
-                    ) : <Markdown>{route.readme}</Markdown>}
+                            <h4>Components</h4>
+                            <section>
+                                {components.map((component) => (
+                                    <Link
+                                        activeClassName='active'
+                                        className=''
+                                        key={component.name}
+                                        to={component.path}>
+                                        {component.path}
+                                    </Link>
+                                ))}
+                            </section>
+                        </nav>
+                    </aside>
                 </main>
+
+                <footer className='boundless-footer'>
+                    {starfield}
+
+                    <div>
+                        <strong>boundless</strong>&nbsp;is developed in partnership with&nbsp;<a href='http://enigma.io'>enigma</a>
+                    </div>
+
+                    <a className='b-button' href='http://enigma.io/careers/' target='_blank'>See job openings</a>
+                </footer>
             </div>
         );
     }
@@ -264,7 +166,8 @@ class Container extends React.PureComponent {
 
 render(
     <Router history={browserHistory}>
-        <Route path='/' component={Container} readme={masterREADME}>
+        <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
+            <Route path='quickstart' markdown={GettingStarted} />
             {components.map((definition) => (
                 <Route
                     {...definition}

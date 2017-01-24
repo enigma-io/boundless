@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Checkbox from '../boundless-checkbox/index';
 import omit from '../boundless-utils-omit-keys/index';
 import noop from '../boundless-utils-noop/index';
+import uuid from '../boundless-utils-uuid/index';
 
 /**
 # CheckboxGroup
@@ -11,31 +12,16 @@ __A controller view for managing the aggregate state of multiple, related checkb
 
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular
 configuration is built-in and is activated by passing the `selectAll` prop.
-
-> The Boundless Team recommends reviewing the [Checkbox](https://developer.apple.com/library/mac/documentation/
-UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW9) section of
-the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `Checkbox`
-in your project.
-
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Keyboard__ | `[Enter, Space]` on "Select All" | should toggle the `checked` state for all children to fully on or fully off
-__Keyboard__ | `[Enter, Space]` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
-__Mouse__ | `click` on "Select All" | should toggle the `checked` state for all children
-__Mouse__ | `click` on child | should trigger indeterminate state on "select all" checkbox if all children are not the same state
  */
 export default class CheckboxGroup extends React.PureComponent {
-    static Constants = {
-        SELECT_ALL_BEFORE: 'SELECT_ALL_BEFORE',
-        SELECT_ALL_AFTER: 'SELECT_ALL_AFTER',
+    static selectAllPosition = {
+        BEFORE: uuid(),
+        AFTER: uuid(),
     }
 
     static propTypes = {
         /**
-         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](../Checkbox#props)
+         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)
          */
         items: PropTypes.arrayOf(Checkbox.propTypes.inputProps).isRequired,
 
@@ -65,7 +51,7 @@ export default class CheckboxGroup extends React.PureComponent {
         selectAll: PropTypes.bool,
 
         /**
-         * must conform to the [Checkbox prop spec](../Checkbox#props)
+         * must conform to the [Checkbox prop spec](./Checkbox#props)
          */
         selectAllProps: PropTypes.shape({
             /**
@@ -75,10 +61,10 @@ export default class CheckboxGroup extends React.PureComponent {
             inputProps: PropTypes.object,
         }),
 
-        /**
-         * (see [the implementation](index.js)) the rendering position of the "select all" checkbox, defaults to "before"
-         */
-        selectAllPosition: PropTypes.oneOf(Object.keys(CheckboxGroup.Constants)),
+        selectAllPosition: PropTypes.oneOf([
+            CheckboxGroup.selectAllPosition.BEFORE,
+            CheckboxGroup.selectAllPosition.AFTER,
+        ]),
     }
 
     static defaultProps = {
@@ -89,7 +75,7 @@ export default class CheckboxGroup extends React.PureComponent {
         onChildUnchecked: noop,
         selectAll: false,
         selectAllProps: {},
-        selectAllPosition: CheckboxGroup.Constants.SELECT_ALL_BEFORE,
+        selectAllPosition: CheckboxGroup.selectAllPosition.BEFORE,
     }
 
     static internalKeys = Object.keys(CheckboxGroup.defaultProps)
@@ -145,11 +131,11 @@ export default class CheckboxGroup extends React.PureComponent {
 
         if (this.props.selectAll && this.props.selectAllPosition) {
             switch (this.props.selectAllPosition) {
-            case CheckboxGroup.Constants.SELECT_ALL_BEFORE:
+            case CheckboxGroup.selectAllPosition.BEFORE:
                 toBeRendered.unshift(this.renderSelectAll());
                 break;
 
-            case CheckboxGroup.Constants.SELECT_ALL_AFTER:
+            case CheckboxGroup.selectAllPosition.AFTER:
                 toBeRendered.push(this.renderSelectAll());
                 break;
             }

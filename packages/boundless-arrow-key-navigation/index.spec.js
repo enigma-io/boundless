@@ -3,12 +3,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
+import {noop} from 'lodash';
+import sinon from 'sinon';
 
 import ArrowKeyNavigation from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
-
-import sinon from 'sinon';
 
 describe('ArrowKeyNavigation higher-order component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

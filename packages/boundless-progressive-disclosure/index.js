@@ -9,20 +9,12 @@ import omit from '../boundless-utils-omit-keys/index';
 # ProgressiveDisclosure
 __Hide content until it's needed, with configurable teasers.__
 
-> The Boundless Team recommends reviewing the [Disclosure](https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/OSXHIGuidelines/ControlsButtons.html#//apple_ref/doc/uid/20000957-CH48-SW12) section of the Apple Human Interface Guidelines for inspiration of design patterns and optimal usage of `ProgressiveDisclosure` in your project.
-
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
-
-### Interactions
-
-Type | Context | Expectation
----- | ------- | -----------
-__Mouse__ | `click` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
-__Keyboard__ | `[Enter]` on toggle | expand/contract the disclosure content, trigger the appropriate callback: `on(Expand|Hide)`
  */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
-        children: PropTypes.node,
+        /** if a function is passed, it will not be called until the disclosure content is due to be rendered */
+        children: PropTypes.any,
 
         /**
          * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
@@ -117,7 +109,7 @@ export default class ProgressiveDisclosure extends React.PureComponent {
             return (
                 <div ref='content'
                      className='b-disclosure-content'>
-                    {this.props.children}
+                    {isFunction(this.props.children) ? this.props.children() : this.props.children}
                 </div>
             );
         }
