@@ -58,11 +58,6 @@ The most common use case for this class is fitting single-line text of unknown/v
  */
 export default class FittedText extends React.PureComponent {
     static propTypes = {
-        children: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-
         /**
          * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
          */
@@ -78,7 +73,6 @@ export default class FittedText extends React.PureComponent {
     }
 
     static defaultProps = {
-        children: null,
         component: 'span',
         maxFontSize: Number.MAX_VALUE,
     }

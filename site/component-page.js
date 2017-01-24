@@ -19,7 +19,12 @@ export default class ComponentPage extends React.PureComponent {
     renderSubPropTableRow = (props, name, depth) => (
         <tr key={name} className={`prop-row prop-depth-${depth}`}>
             <td className='prop-name'>
-                <strong name={`prop-${name}`}><code>{name}</code></strong>
+                <Boundless.FittedText
+                    component='strong'
+                    maxFontSize={16}
+                    name={`prop-${name}`}>
+                    <code>{name}</code>
+                </Boundless.FittedText>
             </td>
             <td className='prop-implementation'>
                 <h5>Expects</h5>
@@ -87,7 +92,12 @@ export default class ComponentPage extends React.PureComponent {
         const rows = [(
             <tr key={name} className={`prop-row prop-depth-${depth}`}>
                 <td className='prop-name'>
-                    <strong name={`prop-${name}`}><code>{name}</code></strong>
+                    <Boundless.FittedText
+                        component='strong'
+                        maxFontSize={16}
+                        name={`prop-${name}`}>
+                        <code>{name}</code>
+                    </Boundless.FittedText>
                 </td>
 
                 <td className='prop-implementation'>

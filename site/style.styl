@@ -440,7 +440,6 @@ ol {
 }
 
 th, td {
-    min-width: 10vw;
     padding: 1rem;
 
     &:first-of-type {
@@ -577,6 +576,7 @@ article {
         border-collapse: collapse;
         font-size: 14px;
         overflow: hidden;
+        table-layout: fixed;
 
         thead tr {
             border-bottom: 4px solid #3f454e;
@@ -645,8 +645,10 @@ article {
     }
 
     .prop-name {
-        font-size: 1.2em;
+        font-size: 16px;
+        overflow: hidden;
         white-space: nowrap;
+        width: 10vw;
 
         code {
             background: none !important;
@@ -654,6 +656,8 @@ article {
     }
 
     .prop-implementation {
+        width: 33vw;
+
         h5 {
             font-size: 10px;
             font-weight: 400;
@@ -667,7 +671,7 @@ article {
     }
 
     .prop-description {
-        max-width: 33vw;
+        width: 33vw;
 
         table td {
             padding-right: 1rem;
@@ -692,6 +696,12 @@ article {
     text-align: center;
 }
 
+@media all and (max-width: 1200px) {
+    .boundless-nav {
+        min-width: 260px;
+    }
+}
+
 @media all and (max-width: 1024px) {
     main {
         flex-direction: column;
@@ -701,6 +711,10 @@ article {
 
             table {
                 display: block;
+
+                tbody {
+                    display: block;
+                }
 
                 thead {
                     display: none;
@@ -733,8 +747,10 @@ article {
                     padding-top: 0.5rem;
                     padding-bottom: 0.5rem;
                     max-width: 100% !important;
+                    width: auto !important;
 
                     &.prop-name {
+                        display: block;
                         padding-left: 1rem !important;
 
                         &::before {
