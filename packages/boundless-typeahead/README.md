@@ -71,97 +71,111 @@ When using `Typeahead` in your project, you may call the following methods on a 
 - __`setValue(value: string)`__
   sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Typeahead#props)._
+
+### Required Props
+
+There are no required props.
+
+
+### Optional Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>algorithm</td>
-        <td><pre><code>enum|shape</code></pre></td>
-        <td>the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)</td>
-        <td>false</td>
+        <td><pre><code>Typeahead.mode.STARTS_WITH or
+Typeahead.mode.FUZZY or object</code></pre></td>
         <td><pre><code class="language-js">Typeahead.mode.FUZZY</code></pre></td>
+        <td>the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)</td>
     </tr>
     
     <tr>
         <td>clearOnSelection</td>
         <td><pre><code>bool</code></pre></td>
-        <td>if `true`, clears the input text when a (partial) match is selected</td>
-        <td>false</td>
         <td><pre><code class="language-js">false</code></pre></td>
+        <td>if `true`, clears the input text when a (partial) match is selected</td>
     </tr>
     
     <tr>
         <td>entities</td>
-        <td><pre><code>arrayOf(shape)</code></pre></td>
-        <td>an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element</td>
-        <td>false</td>
+        <td><pre><code>arrayOf(object)</code></pre></td>
         <td><pre><code class="language-js">[]</code></pre></td>
+        <td>an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element</td>
+    </tr>
+    
+    <tr>
+        <td>hidePlaceholderOnFocus</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
+        <td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
     </tr>
     
     <tr>
         <td>hint</td>
         <td><pre><code>bool</code></pre></td>
-        <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
-        <td>false</td>
         <td><pre><code class="language-js">null</code></pre></td>
+        <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
     </tr>
     
     <tr>
         <td>hintProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
+    </tr>
+    
+    <tr>
+        <td>inputProps</td>
+        <td><pre><code>object</code></pre></td>
+        <td><pre><code class="language-js">{
+    type: 'text',
+}</code></pre></td>
+        <td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
     </tr>
     
     <tr>
         <td>matchWrapperProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
     </tr>
     
     <tr>
         <td>offscreenClass</td>
         <td><pre><code>string</code></pre></td>
-        <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
-        <td>false</td>
         <td><pre><code class="language-js">'b-offscreen'</code></pre></td>
+        <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
     </tr>
     
     <tr>
         <td>onComplete</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
     </tr>
     
     <tr>
         <td>onEntityHighlighted</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called with the index of the highlighted entity due to keyboard selection</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called with the index of the highlighted entity due to keyboard selection</td>
     </tr>
     
     <tr>
         <td>onEntitySelected</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called with the index of the entity selected by the user</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called with the index of the entity selected by the user</td>
     </tr>
     
 </table>
+

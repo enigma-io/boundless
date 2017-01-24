@@ -5,30 +5,36 @@ __A control containing multiple buttons, only one of which can be active at a ti
 
 SegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/SegmentedControl#props)._
+
+### Required Props
+
+There are no required props.
+
+
+### Optional Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>onOptionSelected</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
     </tr>
     
     <tr>
         <td>options</td>
         <td><pre><code>custom</code></pre></td>
+        <td><pre><code class="language-js">[]</code></pre></td>
         <td>the backing data for the segments of the rendered control
 
 > __Validation Criteria:__
@@ -41,8 +47,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 - __options[].value__ `String`
 - __options[].content__ `*`
 the content to go inside the button</td>
-        <td>false</td>
-        <td><pre><code class="language-js">[]</code></pre></td>
     </tr>
     
 </table>
+

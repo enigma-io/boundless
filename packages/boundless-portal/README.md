@@ -5,22 +5,29 @@ __A higher-order component for the rendering of components outside the normal Re
 
 `Portal` is used in other components such as `Popover` to render content to places like the HTML `<body>` tag, avoiding style leakage and parent layout contexts. Only accepts a single top-level child; naked text, etc will be wrapped in a `<div>`.
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Portal#props)._
+
+### Required Props
+
+There are no required props.
+
+
+### Optional Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>children</td>
-        <td><pre><code>node</code></pre></td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
         <td>any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
 
 ✅ OK:
@@ -50,24 +57,21 @@ _Note: only top-level props are in the README, for the full list check out the [
   <div>bar</div>
 </Portal>
 ```</td>
-        <td>false</td>
-        <td><pre><code class="language-js">null</code></pre></td>
     </tr>
     
     <tr>
         <td>destination</td>
         <td><pre><code>HTMLElement</code></pre></td>
-        <td>the location to append the generated portal and child elements</td>
-        <td>false</td>
         <td><pre><code class="language-js">document.body</code></pre></td>
+        <td>the location to append the generated portal and child elements</td>
     </tr>
     
     <tr>
         <td>portalId</td>
         <td><pre><code>string</code></pre></td>
-        <td>the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node</td>
-        <td>false</td>
         <td><pre><code class="language-js">null</code></pre></td>
+        <td>the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node</td>
     </tr>
     
 </table>
+

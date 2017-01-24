@@ -6,81 +6,89 @@ __A controller view for managing the aggregate state of multiple, related checkb
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular
 configuration is built-in and is activated by passing the `selectAll` prop.
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/CheckboxGroup#props)._
+
+### Required Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>items</td>
-        <td><pre><code>[object Object]</code></pre></td>
-        <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)</td>
-        <td>true</td>
+        <td><pre><code>array</code></pre></td>
         <td><pre><code class="language-js">[]</code></pre></td>
+        <td>the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)</td>
+    </tr>
+    
+</table>
+
+
+### Optional Props
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>onAllChecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when all children become checked (not fired on first render), no return</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when all children become checked (not fired on first render), no return</td>
     </tr>
     
     <tr>
         <td>onAllUnchecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when all children become unchecked (not fired on first render), no return</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when all children become unchecked (not fired on first render), no return</td>
     </tr>
     
     <tr>
         <td>onChildChecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when a specific child has become checked, returns the child definition</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when a specific child has become checked, returns the child definition</td>
     </tr>
     
     <tr>
         <td>onChildUnchecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when a specific child has become checked, returns the child definition</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when a specific child has become checked, returns the child definition</td>
     </tr>
     
     <tr>
         <td>selectAll</td>
         <td><pre><code>bool</code></pre></td>
-        <td>renders a master checkbox that can manipulate the values of all children simultaneously</td>
-        <td>false</td>
         <td><pre><code class="language-js">false</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>selectAllProps</td>
-        <td><pre><code>shape</code></pre></td>
-        <td>must conform to the [Checkbox prop spec](./Checkbox#props)</td>
-        <td>false</td>
-        <td><pre><code class="language-js">{}</code></pre></td>
+        <td>renders a master checkbox that can manipulate the values of all children simultaneously</td>
     </tr>
     
     <tr>
         <td>selectAllPosition</td>
-        <td><pre><code>enum([object Object],[object Object])</code></pre></td>
-        <td></td>
-        <td>false</td>
+        <td><pre><code>CheckboxGroup.selectAllPosition.BEFORE or
+CheckboxGroup.selectAllPosition.AFTER</code></pre></td>
         <td><pre><code class="language-js">CheckboxGroup.selectAllPosition.BEFORE</code></pre></td>
+        <td></td>
+    </tr>
+    
+    <tr>
+        <td>selectAllProps</td>
+        <td><pre><code>object</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
+        <td>must conform to the [Checkbox prop spec](./Checkbox#props)</td>
     </tr>
     
 </table>
+

@@ -27,73 +27,188 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 </Popover>
 ```
 
-## Interactions
-
-Refer to [Dialog](./Dialog)
-
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Popover#props)._
+
+### Required Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>anchor</td>
-        <td><pre><code>instanceOf|element</code></pre></td>
-        <td>a DOM element or React reference (ref) to one for positioning purposes</td>
-        <td>true</td>
+        <td><pre><code>HTMLElement or ReactElement</code></pre></td>
         <td><pre><code class="language-js">undefined</code></pre></td>
+        <td>a DOM element or React reference (ref) to one for positioning purposes</td>
+    </tr>
+    
+</table>
+
+
+### Optional Props
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+    </tr>
+    
+    <tr>
+        <td>after</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>arbitrary content to be rendered after the dialog in the DOM</td>
     </tr>
     
     <tr>
         <td>autoReposition</td>
         <td><pre><code>bool</code></pre></td>
-        <td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
-        <td>false</td>
         <td><pre><code class="language-js">true</code></pre></td>
+        <td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
+    </tr>
+    
+    <tr>
+        <td>before</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>arbitrary content to be rendered before the dialog in the DOM</td>
+    </tr>
+    
+    <tr>
+        <td>bodyProps</td>
+        <td><pre><code>object</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
+    </tr>
+    
+    <tr>
+        <td>captureFocus</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">true</code></pre></td>
+        <td>determines if focus is allowed to move away from the dialog</td>
     </tr>
     
     <tr>
         <td>caretAnchor</td>
-        <td><pre><code>instanceOf|element</code></pre></td>
+        <td><pre><code>HTMLElement or ReactElement</code></pre></td>
+        <td><pre><code class="language-js">undefined</code></pre></td>
         <td>a DOM element or React reference (ref) to one for positioning purposes, the caret component will
 be automatically positioned to center on this provided anchor; by default it will center
 on `props.anchor`</td>
-        <td>false</td>
-        <td><pre><code class="language-js">undefined</code></pre></td>
     </tr>
     
     <tr>
         <td>caretComponent</td>
-        <td><pre><code>element</code></pre></td>
-        <td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
-        <td>false</td>
+        <td><pre><code>ReactElement</code></pre></td>
         <td><pre><code class="language-js"><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
     <g>
         <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
     </g>
 </svg></code></pre></td>
+        <td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
+    </tr>
+    
+    <tr>
+        <td>children</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td></td>
+    </tr>
+    
+    <tr>
+        <td>closeOnEscKey</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>enable detection of "Escape" keypresses to trigger `props.onClose`</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideClick</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>enable detection of clicks outside the dialog area to trigger `props.onClose`</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideFocus</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>enable detection of focus outside the dialog area to trigger `props.onClose`</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnOutsideScroll</td>
+        <td><pre><code>bool</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`</td>
+    </tr>
+    
+    <tr>
+        <td>footer</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
+    </tr>
+    
+    <tr>
+        <td>footerProps</td>
+        <td><pre><code>object</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
+    </tr>
+    
+    <tr>
+        <td>header</td>
+        <td><pre><code>any renderable</code></pre></td>
+        <td><pre><code class="language-js">null</code></pre></td>
+        <td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
+    </tr>
+    
+    <tr>
+        <td>headerProps</td>
+        <td><pre><code>object</code></pre></td>
+        <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
+    </tr>
+    
+    <tr>
+        <td>onClose</td>
+        <td><pre><code>function</code></pre></td>
+        <td><pre><code class="language-js">noop</code></pre></td>
+        <td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
     </tr>
     
     <tr>
         <td>portalProps</td>
-        <td><pre><code>shape</code></pre></td>
-        <td></td>
-        <td>false</td>
+        <td><pre><code>object</code></pre></td>
         <td><pre><code class="language-js">{}</code></pre></td>
+        <td></td>
     </tr>
     
     <tr>
         <td>preset</td>
-        <td><pre><code>enum([object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object])</code></pre></td>
+        <td><pre><code>Popover.preset.NNW or
+Popover.preset.N or
+Popover.preset.NNE or
+Popover.preset.ENE or
+Popover.preset.E or
+Popover.preset.ESE or
+Popover.preset.SSE or
+Popover.preset.S or
+Popover.preset.SSW or
+Popover.preset.WSW or
+Popover.preset.W or
+Popover.preset.WNW</code></pre></td>
+        <td><pre><code class="language-js">Popover.preset.S</code></pre></td>
         <td>```jsx
 <Popover
     anchor={document.querySelector('.some-anchor-element')}
@@ -101,48 +216,14 @@ on `props.anchor`</td>
     My popover content!
 </Popover>
 ```</td>
-        <td>false</td>
-        <td><pre><code class="language-js">Popover.preset.S</code></pre></td>
     </tr>
     
     <tr>
         <td>wrapperProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>captureFocus</td>
-        <td><pre><code></code></pre></td>
-        <td></td>
-        <td></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>closeOnEscKey</td>
-        <td><pre><code></code></pre></td>
-        <td></td>
-        <td></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>closeOnOutsideClick</td>
-        <td><pre><code></code></pre></td>
-        <td></td>
-        <td></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-    </tr>
-    
-    <tr>
-        <td>closeOnOutsideScroll</td>
-        <td><pre><code></code></pre></td>
-        <td></td>
-        <td></td>
-        <td><pre><code class="language-js">true</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
     </tr>
     
 </table>
+

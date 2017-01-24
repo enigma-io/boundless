@@ -7,61 +7,63 @@ Checkbox is implemented as a "controlled input", meaning it is a direct represen
 inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller
 view must intercept and apply against the data provider.
 
-### Props
+## Props
 
 _Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Checkbox#props)._
+
+### Required Props
+
+There are no required props.
+
+
+### Optional Props
 
 <table>
     <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
-        <th>Required</th>
         <th>Default Value</th>
+        <th>Description</th>
     </tr>
     
     <tr>
         <td>inputProps</td>
-        <td><pre><code>shape</code></pre></td>
-        <td>all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node</td>
-        <td>false</td>
+        <td><pre><code>object</code></pre></td>
         <td><pre><code class="language-js">{
     checked: false,
     indeterminate: false,
 }</code></pre></td>
+        <td>all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
+Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node</td>
     </tr>
     
     <tr>
         <td>label</td>
-        <td><pre><code>node</code></pre></td>
-        <td>any React-renderable content, most commonly a simple string</td>
-        <td>false</td>
+        <td><pre><code>any renderable</code></pre></td>
         <td><pre><code class="language-js">null</code></pre></td>
+        <td>any React-renderable content, most commonly a simple string</td>
     </tr>
     
     <tr>
         <td>labelProps</td>
         <td><pre><code>object</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node</td>
-        <td>false</td>
         <td><pre><code class="language-js">{}</code></pre></td>
+        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node</td>
     </tr>
     
     <tr>
         <td>onChecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when the element becomes checked; backing data must be updated to persist the state change</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when the element becomes checked; backing data must be updated to persist the state change</td>
     </tr>
     
     <tr>
         <td>onUnchecked</td>
-        <td><pre><code>func</code></pre></td>
-        <td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
-        <td>false</td>
+        <td><pre><code>function</code></pre></td>
         <td><pre><code class="language-js">noop</code></pre></td>
+        <td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
     </tr>
     
 </table>
+
