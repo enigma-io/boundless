@@ -2,8 +2,7 @@
 
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import {Redirect, Router, Route, Link} from 'react-router';
-import {createHistory, useBasename} from 'history';
+import {browserHistory, Link, Redirect, Router, Route} from 'react-router';
 import _ from 'lodash';
 
 import * as Boundless from '../exports';
@@ -165,10 +164,8 @@ class Container extends React.PureComponent {
     }
 }
 
-const history = useBasename(createHistory)({basename: document.baseURI});
-
 render(
-    <Router history={history}>
+    <Router history={browserHistory}>
         <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
 
