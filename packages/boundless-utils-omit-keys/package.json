@@ -2,6 +2,7 @@
   "name": "boundless-utils-omit-keys",
   "version": "1.0.0-beta.3",
   "description": "Returns a modified version of the supplied object without the given keys.",
+  "private": true,
   "module": "index.js",
   "main": "build/index.js",
   "repository": {
