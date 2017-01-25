@@ -2,7 +2,7 @@
 
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import {Router, Route, Link} from 'react-router';
+import {Redirect, Router, Route, Link} from 'react-router';
 import {createHistory, useBasename} from 'history';
 import _ from 'lodash';
 
@@ -171,12 +171,15 @@ render(
     <Router history={history}>
         <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
+
             {components.map((definition) => (
                 <Route
                     {...definition}
                     key={definition.path}
                     path={definition.path} />
             ))}
+
+            <Redirect from='*' to='/' />
         </Route>
     </Router>, document.getElementById('root')
 );
