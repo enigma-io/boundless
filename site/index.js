@@ -39,7 +39,7 @@ const starfield = (
     </div>
 );
 
-const repositoryURL = 'https://github.com/bibliotech/uikit';
+const repositoryURL = 'https://github.com/enigma-io/boundless';
 
 class Container extends React.PureComponent {
     static propTypes = {

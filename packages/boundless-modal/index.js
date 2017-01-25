@@ -10,11 +10,11 @@ import omit from '../boundless-utils-omit-keys/index';
 # Modal
 __A blocking, focus-stealing container.__
 
-Modal is an enhancement upon [Dialog](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
+Modal is an enhancement upon [Dialog](https://github.com/enigma-io/boundless/blob/master/packages/boundless-dialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
  */
 export default class Modal extends React.PureComponent {
     static propTypes = {
-        /** Modal supports all [Dialog props](https://github.com/bibliotech/uikit/blob/master/packages/boundless-dialog/README.md#props) */
+        /** Modal supports all [Dialog props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-dialog/README.md#props) */
         ...Dialog.propTypes,
 
         /**
@@ -28,7 +28,7 @@ export default class Modal extends React.PureComponent {
         modalProps: PropTypes.object,
 
         /**
-         * any/all supported [Portal props](https://github.com/bibliotech/uikit/blob/master/packages/boundless-portal/README.md#props)
+         * any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)
          */
         portalProps: PropTypes.shape(Portal.propTypes),
     }

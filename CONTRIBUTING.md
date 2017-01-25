@@ -12,7 +12,7 @@
 
 ## Development Process
 
-Boundless is primarily developed by Enigma employees. The CHANGELOG will be updated with each release and a git tag will be created.
+Boundless is primarily developed by [Evan Scott](https://github.com/yaycmyk) and Enigma's FE team. The CHANGELOG will be updated with each release and a git tag will be created.
 
 ## Bug Reporting
 ### What is considered a bug?
@@ -21,7 +21,7 @@ If a component deviates from the spec outlined in its documentation (README.md),
 
 ### How do I report a bug?
 
-Create a new entry in the repository [issue tracker](https://github.com/bibliotech/uikit/issues).
+Create a new entry in the repository [issue tracker](https://github.com/enigma-io/boundless/issues).
 
 ### How quickly will my bug be fixed?
 
@@ -31,7 +31,7 @@ The Boundless team is committed to fixing verified bugs as soon as possible. Dep
 
 Boundless addresses a specific need: to normalize behavior in common UI patterns and provide easily-composable components that do not require significant rewriting or tweaking for every new project.
 
-If you have an idea for functionality or a new component to be added to the kit, we welcome such requests in our [issue tracker](https://github.com/bibliotech/uikit/issues). If the request is too specific to your project's implementation, it will likely be rejected.
+If you have an idea for functionality or a new component to be added to the kit, we welcome such requests in our [issue tracker](https://github.com/enigma-io/boundless/issues). If the request is too specific to your project's implementation, it will likely be rejected.
 
 ## Pull Requests
 
