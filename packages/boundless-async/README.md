@@ -20,47 +20,47 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>contentRenderedFunc</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">() => {}</code></pre></td>
-        <td>a callback for when real content has been rendered; either normal passed data or when a passed promise resolves</td>
-    </tr>
-    
-    <tr>
-        <td>convertToJSXFunc</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">(x) => x</code></pre></td>
-        <td>a function that takes the resolved payload of a promise provided by `props.data` and returns renderable JSX; defaults to trying to render the resolved value of the Promise</td>
-    </tr>
-    
-    <tr>
-        <td>data</td>
-        <td><pre><code>any</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>a promise, or some other piece of data to be run through `props.convertToJSXFunc`</td>
-    </tr>
-    
-    <tr>
-        <td>errorContent</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">'⚠️'</code></pre></td>
-        <td>content to be shown if the promise is rejected</td>
-    </tr>
-    
-    <tr>
-        <td>loadingContent</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>content to be shown while the promise is in pending state</td>
-    </tr>
-    
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>contentRenderedFunc</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
+<td>a callback for when real content has been rendered; either normal passed data or when a passed promise resolves</td>
+</tr>
+
+<tr>
+<td>convertToJSXFunc</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">(x) => x</code></pre></td>
+<td>a function that takes the resolved payload of a promise provided by `props.data` and returns renderable JSX; defaults to trying to render the resolved value of the Promise</td>
+</tr>
+
+<tr>
+<td>data</td>
+<td><pre><code>any</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>a promise, or some other piece of data to be run through `props.convertToJSXFunc`</td>
+</tr>
+
+<tr>
+<td>errorContent</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">'⚠️'</code></pre></td>
+<td>content to be shown if the promise is rejected</td>
+</tr>
+
+<tr>
+<td>loadingContent</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>content to be shown while the promise is in pending state</td>
+</tr>
+
 </table>
 

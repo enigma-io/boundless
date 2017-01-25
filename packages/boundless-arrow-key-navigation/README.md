@@ -21,34 +21,34 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>component</td>
-        <td><pre><code>string or function</code></pre></td>
-        <td><pre><code class="language-js">'div'</code></pre></td>
-        <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-    </tr>
-    
-    <tr>
-        <td>defaultActiveChildIndex</td>
-        <td><pre><code>number</code></pre></td>
-        <td><pre><code class="language-js">0</code></pre></td>
-        <td>Allows for a particular child to be initially reachable via tabbing</td>
-    </tr>
-    
-    <tr>
-        <td>mode</td>
-        <td><pre><code>ArrowKeyNavigation.mode.BOTH or
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>component</td>
+<td><pre><code>string or function</code></pre></td>
+<td><pre><code class="language-js">'div'</code></pre></td>
+<td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+</tr>
+
+<tr>
+<td>defaultActiveChildIndex</td>
+<td><pre><code>number</code></pre></td>
+<td><pre><code class="language-js">0</code></pre></td>
+<td>Allows for a particular child to be initially reachable via tabbing</td>
+</tr>
+
+<tr>
+<td>mode</td>
+<td><pre><code>ArrowKeyNavigation.mode.BOTH or
 ArrowKeyNavigation.mode.HORIZONTAL or
 ArrowKeyNavigation.mode.VERTICAL</code></pre></td>
-        <td><pre><code class="language-js">ArrowKeyNavigation.mode.BOTH</code></pre></td>
-        <td>controls which arrow key events are captured to move active focus within the list:
+<td><pre><code class="language-js">ArrowKeyNavigation.mode.BOTH</code></pre></td>
+<td>controls which arrow key events are captured to move active focus within the list:
 
 Mode                                 | Keys
 ----                                 | ----
@@ -57,7 +57,7 @@ Mode                                 | Keys
 `ArrowKeyNavigation.mode.VERTICAL`   | ⬆️ ⬇️
 
 _Note: focus loops when arrowing past one of the boundaries; tabbing moves the user away from the list._</td>
-    </tr>
-    
+</tr>
+
 </table>
 

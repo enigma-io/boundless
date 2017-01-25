@@ -17,26 +17,26 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>component</td>
-        <td><pre><code>string or function</code></pre></td>
-        <td><pre><code class="language-js">'span'</code></pre></td>
-        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-    </tr>
-    
-    <tr>
-        <td>maxFontSize</td>
-        <td><pre><code>number</code></pre></td>
-        <td><pre><code class="language-js">Number.MAX_VALUE</code></pre></td>
-        <td>an upper bound (in pixels) for how large the text is allowed to grow</td>
-    </tr>
-    
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>component</td>
+<td><pre><code>string or function</code></pre></td>
+<td><pre><code class="language-js">'span'</code></pre></td>
+<td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+</tr>
+
+<tr>
+<td>maxFontSize</td>
+<td><pre><code>number</code></pre></td>
+<td><pre><code class="language-js">Number.MAX_VALUE</code></pre></td>
+<td>an upper bound (in pixels) for how large the text is allowed to grow</td>
+</tr>
+
 </table>
 

@@ -17,68 +17,68 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>children</td>
-        <td><pre><code>any</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>if a function is passed, it will not be called until the disclosure content is due to be rendered</td>
-    </tr>
-    
-    <tr>
-        <td>component</td>
-        <td><pre><code>string or function</code></pre></td>
-        <td><pre><code class="language-js">'div'</code></pre></td>
-        <td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-    </tr>
-    
-    <tr>
-        <td>expanded</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>allows the disclosure to be rendered expanded by default</td>
-    </tr>
-    
-    <tr>
-        <td>onExpand</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called when the content is shown; not called on initial render</td>
-    </tr>
-    
-    <tr>
-        <td>onHide</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called when the content is hidden; not called on initial render</td>
-    </tr>
-    
-    <tr>
-        <td>teaser</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>content to be shown next to the expansion toggle, e.g. "Advanced Options"</td>
-    </tr>
-    
-    <tr>
-        <td>teaserExpanded</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"</td>
-    </tr>
-    
-    <tr>
-        <td>toggleProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node</td>
-    </tr>
-    
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>children</td>
+<td><pre><code>any</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>if a function is passed, it will not be called until the disclosure content is due to be rendered</td>
+</tr>
+
+<tr>
+<td>component</td>
+<td><pre><code>string or function</code></pre></td>
+<td><pre><code class="language-js">'div'</code></pre></td>
+<td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+</tr>
+
+<tr>
+<td>expanded</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>allows the disclosure to be rendered expanded by default</td>
+</tr>
+
+<tr>
+<td>onExpand</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called when the content is shown; not called on initial render</td>
+</tr>
+
+<tr>
+<td>onHide</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called when the content is hidden; not called on initial render</td>
+</tr>
+
+<tr>
+<td>teaser</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>content to be shown next to the expansion toggle, e.g. "Advanced Options"</td>
+</tr>
+
+<tr>
+<td>teaserExpanded</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"</td>
+</tr>
+
+<tr>
+<td>toggleProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node</td>
+</tr>
+
 </table>
 

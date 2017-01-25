@@ -37,54 +37,54 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>children</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td></td>
-    </tr>
-    
-    <tr>
-        <td>component</td>
-        <td><pre><code>string or function</code></pre></td>
-        <td><pre><code class="language-js">'button'</code></pre></td>
-        <td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-    </tr>
-    
-    <tr>
-        <td>onClick</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td></td>
-    </tr>
-    
-    <tr>
-        <td>onPressed</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
-    </tr>
-    
-    <tr>
-        <td>onUnpressed</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
-    </tr>
-    
-    <tr>
-        <td>pressed</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">undefined</code></pre></td>
-        <td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
-    </tr>
-    
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>children</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td></td>
+</tr>
+
+<tr>
+<td>component</td>
+<td><pre><code>string or function</code></pre></td>
+<td><pre><code class="language-js">'button'</code></pre></td>
+<td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
+</tr>
+
+<tr>
+<td>onClick</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td></td>
+</tr>
+
+<tr>
+<td>onPressed</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
+</tr>
+
+<tr>
+<td>onUnpressed</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
+</tr>
+
+<tr>
+<td>pressed</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">undefined</code></pre></td>
+<td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
+</tr>
+
 </table>
 

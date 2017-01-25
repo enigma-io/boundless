@@ -45,148 +45,148 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>algorithm</td>
-        <td><pre><code>Typeahead.mode.STARTS_WITH or
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>algorithm</td>
+<td><pre><code>Typeahead.mode.STARTS_WITH or
 Typeahead.mode.FUZZY or object</code></pre></td>
-        <td><pre><code class="language-js">Typeahead.mode.FUZZY</code></pre></td>
-        <td>the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)</td>
-    </tr>
-    
-    <tr>
-        <td>clearOnSelection</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>if `true`, clears the input text when a (partial) match is selected</td>
-    </tr>
-    
-    <tr>
-        <td>entities</td>
-        <td><pre><code>arrayOf(object)</code></pre></td>
-        <td><pre><code class="language-js">[]</code></pre></td>
-        <td>an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element</td>
-    </tr>
-    
-    <tr>
-        <td>handleAddToken</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>function handler that is called when an entity is selected by the user and a token should be created</td>
-    </tr>
-    
-    <tr>
-        <td>handleNewSelection</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
-    </tr>
-    
-    <tr>
-        <td>handleRemoveTokens</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
-    </tr>
-    
-    <tr>
-        <td>hidePlaceholderOnFocus</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-        <td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
-    </tr>
-    
-    <tr>
-        <td>hint</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
-    </tr>
-    
-    <tr>
-        <td>hintProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
-    </tr>
-    
-    <tr>
-        <td>inputProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{
+<td><pre><code class="language-js">Typeahead.mode.FUZZY</code></pre></td>
+<td>the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)</td>
+</tr>
+
+<tr>
+<td>clearOnSelection</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>if `true`, clears the input text when a (partial) match is selected</td>
+</tr>
+
+<tr>
+<td>entities</td>
+<td><pre><code>arrayOf(object)</code></pre></td>
+<td><pre><code class="language-js">[]</code></pre></td>
+<td>an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element</td>
+</tr>
+
+<tr>
+<td>handleAddToken</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>function handler that is called when an entity is selected by the user and a token should be created</td>
+</tr>
+
+<tr>
+<td>handleNewSelection</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
+</tr>
+
+<tr>
+<td>handleRemoveTokens</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
+</tr>
+
+<tr>
+<td>hidePlaceholderOnFocus</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">true</code></pre></td>
+<td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
+</tr>
+
+<tr>
+<td>hint</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
+</tr>
+
+<tr>
+<td>hintProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
+</tr>
+
+<tr>
+<td>inputProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{
     type: 'text',
 }</code></pre></td>
-        <td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
-    </tr>
-    
-    <tr>
-        <td>matchWrapperProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
-    </tr>
-    
-    <tr>
-        <td>offscreenClass</td>
-        <td><pre><code>string</code></pre></td>
-        <td><pre><code class="language-js">'b-offscreen'</code></pre></td>
-        <td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
-    </tr>
-    
-    <tr>
-        <td>onComplete</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
-    </tr>
-    
-    <tr>
-        <td>onEntityHighlighted</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called with the index of the highlighted entity due to keyboard selection</td>
-    </tr>
-    
-    <tr>
-        <td>onEntitySelected</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>called with the index of the entity selected by the user</td>
-    </tr>
-    
-    <tr>
-        <td>tokenCloseComponent</td>
-        <td><pre><code>ReactElement</code></pre></td>
-        <td><pre><code class="language-js"><div>X</div></code></pre></td>
-        <td>the JSX used for the close button itself</td>
-    </tr>
-    
-    <tr>
-        <td>tokenCloseVisible</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-        <td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
-    </tr>
-    
-    <tr>
-        <td>tokens</td>
-        <td><pre><code>arrayOf(number)</code></pre></td>
-        <td><pre><code class="language-js">[]</code></pre></td>
-        <td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
-    </tr>
-    
-    <tr>
-        <td>tokensSelected</td>
-        <td><pre><code>arrayOf(number)</code></pre></td>
-        <td><pre><code class="language-js">[]</code></pre></td>
-        <td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
-    </tr>
-    
+<td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
+</tr>
+
+<tr>
+<td>matchWrapperProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
+</tr>
+
+<tr>
+<td>offscreenClass</td>
+<td><pre><code>string</code></pre></td>
+<td><pre><code class="language-js">'b-offscreen'</code></pre></td>
+<td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
+</tr>
+
+<tr>
+<td>onComplete</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
+</tr>
+
+<tr>
+<td>onEntityHighlighted</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called with the index of the highlighted entity due to keyboard selection</td>
+</tr>
+
+<tr>
+<td>onEntitySelected</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>called with the index of the entity selected by the user</td>
+</tr>
+
+<tr>
+<td>tokenCloseComponent</td>
+<td><pre><code>ReactElement</code></pre></td>
+<td><pre><code class="language-js"><div>X</div></code></pre></td>
+<td>the JSX used for the close button itself</td>
+</tr>
+
+<tr>
+<td>tokenCloseVisible</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">true</code></pre></td>
+<td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
+</tr>
+
+<tr>
+<td>tokens</td>
+<td><pre><code>arrayOf(number)</code></pre></td>
+<td><pre><code class="language-js">[]</code></pre></td>
+<td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
+</tr>
+
+<tr>
+<td>tokensSelected</td>
+<td><pre><code>arrayOf(number)</code></pre></td>
+<td><pre><code class="language-js">[]</code></pre></td>
+<td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
+</tr>
+
 </table>
 

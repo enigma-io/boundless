@@ -34,20 +34,20 @@ _Note: only top-level props are in the README, for the full list check out the [
         const requiredPropsSortedKeys = _.sortBy(_.keys(requiredProps), [_.identity]);
 %>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    <% _.each(requiredPropsSortedKeys, function(propName) { %>
-    <tr>
-        <td><%= propName %></td>
-        <td><pre><code><%= typeParser(props[propName].type) %></code></pre></td>
-        <td><pre><code class="language-js"><%= props[propName].defaultValue.value %></code></pre></td>
-        <td><%= props[propName].description %></td>
-    </tr>
-    <% }) %>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+<% _.each(requiredPropsSortedKeys, function(propName) { %>
+<tr>
+<td><%= propName %></td>
+<td><pre><code><%= typeParser(props[propName].type) %></code></pre></td>
+<td><pre><code class="language-js"><%= props[propName].defaultValue.value %></code></pre></td>
+<td><%= props[propName].description %></td>
+</tr>
+<% }) %>
 </table>
 <% } else { %>
 There are no required props.
@@ -61,20 +61,20 @@ There are no required props.
         const optionalPropsSortedKeys = _.sortBy(_.keys(optionalProps), [_.identity]);
 %>
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    <% _.each(optionalPropsSortedKeys, function(propName) { %>
-    <tr>
-        <td><%= propName %></td>
-        <td><pre><code><%= typeParser(props[propName].type) %></code></pre></td>
-        <td><pre><code class="language-js"><%= props[propName].defaultValue.value %></code></pre></td>
-        <td><%= props[propName].description %></td>
-    </tr>
-    <% }) %>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+<% _.each(optionalPropsSortedKeys, function(propName) { %>
+<tr>
+<td><%= propName %></td>
+<td><pre><code><%= typeParser(props[propName].type) %></code></pre></td>
+<td><pre><code class="language-js"><%= props[propName].defaultValue.value %></code></pre></td>
+<td><%= props[propName].description %></td>
+</tr>
+<% }) %>
 </table>
 <% } else { %>
 There are no optional props.

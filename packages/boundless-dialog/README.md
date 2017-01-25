@@ -22,129 +22,129 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>after</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>arbitrary content to be rendered after the dialog in the DOM</td>
-    </tr>
-    
-    <tr>
-        <td>before</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>arbitrary content to be rendered before the dialog in the DOM</td>
-    </tr>
-    
-    <tr>
-        <td>bodyProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
-    </tr>
-    
-    <tr>
-        <td>captureFocus</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-        <td>determines if focus is allowed to move away from the dialog</td>
-    </tr>
-    
-    <tr>
-        <td>children</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td></td>
-    </tr>
-    
-    <tr>
-        <td>closeOnEscKey</td>
-        <td><pre><code>bool or function</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>after</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>arbitrary content to be rendered after the dialog in the DOM</td>
+</tr>
+
+<tr>
+<td>before</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>arbitrary content to be rendered before the dialog in the DOM</td>
+</tr>
+
+<tr>
+<td>bodyProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
+</tr>
+
+<tr>
+<td>captureFocus</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">true</code></pre></td>
+<td>determines if focus is allowed to move away from the dialog</td>
+</tr>
+
+<tr>
+<td>children</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td></td>
+</tr>
+
+<tr>
+<td>closeOnEscKey</td>
+<td><pre><code>bool or function</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
 value determines if the dialog will be closed</td>
-    </tr>
-    
-    <tr>
-        <td>closeOnInsideClick</td>
-        <td><pre><code>bool or function</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
+</tr>
+
+<tr>
+<td>closeOnInsideClick</td>
+<td><pre><code>bool or function</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
 value determines if the dialog will be closed</td>
-    </tr>
-    
-    <tr>
-        <td>closeOnOutsideClick</td>
-        <td><pre><code>bool or function</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+</tr>
+
+<tr>
+<td>closeOnOutsideClick</td>
+<td><pre><code>bool or function</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
 value determines if the dialog will be closed</td>
-    </tr>
-    
-    <tr>
-        <td>closeOnOutsideFocus</td>
-        <td><pre><code>bool or function</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+</tr>
+
+<tr>
+<td>closeOnOutsideFocus</td>
+<td><pre><code>bool or function</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
 value determines if the dialog will be closed</td>
-    </tr>
-    
-    <tr>
-        <td>closeOnOutsideScroll</td>
-        <td><pre><code>bool or function</code></pre></td>
-        <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+</tr>
+
+<tr>
+<td>closeOnOutsideScroll</td>
+<td><pre><code>bool or function</code></pre></td>
+<td><pre><code class="language-js">false</code></pre></td>
+<td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
 is provided, the return value determines if the dialog will be closed</td>
-    </tr>
-    
-    <tr>
-        <td>footer</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
-    </tr>
-    
-    <tr>
-        <td>footerProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
-    </tr>
-    
-    <tr>
-        <td>header</td>
-        <td><pre><code>any renderable</code></pre></td>
-        <td><pre><code class="language-js">null</code></pre></td>
-        <td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
-    </tr>
-    
-    <tr>
-        <td>headerProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
-    </tr>
-    
-    <tr>
-        <td>onClose</td>
-        <td><pre><code>function</code></pre></td>
-        <td><pre><code class="language-js">noop</code></pre></td>
-        <td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
-    </tr>
-    
-    <tr>
-        <td>wrapperProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{}</code></pre></td>
-        <td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
-    </tr>
-    
+</tr>
+
+<tr>
+<td>footer</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
+</tr>
+
+<tr>
+<td>footerProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
+</tr>
+
+<tr>
+<td>header</td>
+<td><pre><code>any renderable</code></pre></td>
+<td><pre><code class="language-js">null</code></pre></td>
+<td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
+</tr>
+
+<tr>
+<td>headerProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
+</tr>
+
+<tr>
+<td>onClose</td>
+<td><pre><code>function</code></pre></td>
+<td><pre><code class="language-js">noop</code></pre></td>
+<td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
+</tr>
+
+<tr>
+<td>wrapperProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{}</code></pre></td>
+<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
+</tr>
+
 </table>
 

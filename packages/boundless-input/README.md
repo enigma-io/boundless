@@ -27,28 +27,28 @@ There are no required props.
 ### Optional Props
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Description</th>
-    </tr>
-    
-    <tr>
-        <td>hidePlaceholderOnFocus</td>
-        <td><pre><code>bool</code></pre></td>
-        <td><pre><code class="language-js">true</code></pre></td>
-        <td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
-    </tr>
-    
-    <tr>
-        <td>inputProps</td>
-        <td><pre><code>object</code></pre></td>
-        <td><pre><code class="language-js">{
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>hidePlaceholderOnFocus</td>
+<td><pre><code>bool</code></pre></td>
+<td><pre><code class="language-js">true</code></pre></td>
+<td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
+</tr>
+
+<tr>
+<td>inputProps</td>
+<td><pre><code>object</code></pre></td>
+<td><pre><code class="language-js">{
     type: 'text',
 }</code></pre></td>
-        <td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
-    </tr>
-    
+<td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
+</tr>
+
 </table>
 
