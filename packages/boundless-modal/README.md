@@ -61,30 +61,42 @@ There are no required props.
     
     <tr>
         <td>closeOnEscKey</td>
-        <td><pre><code>bool</code></pre></td>
+        <td><pre><code>bool or function</code></pre></td>
         <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of "Escape" keypresses to trigger `props.onClose`</td>
+        <td>enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
+value determines if the dialog will be closed</td>
+    </tr>
+    
+    <tr>
+        <td>closeOnInsideClick</td>
+        <td><pre><code>bool or function</code></pre></td>
+        <td><pre><code class="language-js">false</code></pre></td>
+        <td>enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
+value determines if the dialog will be closed</td>
     </tr>
     
     <tr>
         <td>closeOnOutsideClick</td>
-        <td><pre><code>bool</code></pre></td>
+        <td><pre><code>bool or function</code></pre></td>
         <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of clicks outside the dialog area to trigger `props.onClose`</td>
+        <td>enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+value determines if the dialog will be closed</td>
     </tr>
     
     <tr>
         <td>closeOnOutsideFocus</td>
-        <td><pre><code>bool</code></pre></td>
+        <td><pre><code>bool or function</code></pre></td>
         <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of focus outside the dialog area to trigger `props.onClose`</td>
+        <td>enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+value determines if the dialog will be closed</td>
     </tr>
     
     <tr>
         <td>closeOnOutsideScroll</td>
-        <td><pre><code>bool</code></pre></td>
+        <td><pre><code>bool or function</code></pre></td>
         <td><pre><code class="language-js">false</code></pre></td>
-        <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`</td>
+        <td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+is provided, the return value determines if the dialog will be closed</td>
     </tr>
     
     <tr>
