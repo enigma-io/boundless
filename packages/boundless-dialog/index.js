@@ -45,24 +45,49 @@ export default class Dialog extends React.PureComponent {
         children: PropTypes.node,
 
         /**
-         * enable detection of "Escape" keypresses to trigger `props.onClose`
+         * enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
+         * value determines if the dialog will be closed
          */
-        closeOnEscKey: PropTypes.bool,
+        closeOnEscKey: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
 
         /**
-         * enable detection of clicks outside the dialog area to trigger `props.onClose`
+         * enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
+         * value determines if the dialog will be closed
          */
-        closeOnOutsideClick: PropTypes.bool,
+        closeOnInsideClick: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
 
         /**
-         * enable detection of focus outside the dialog area to trigger `props.onClose`
+         * enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+         * value determines if the dialog will be closed
          */
-        closeOnOutsideFocus: PropTypes.bool,
+        closeOnOutsideClick: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
 
         /**
-         * enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`
+         * enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+         * value determines if the dialog will be closed
          */
-        closeOnOutsideScroll: PropTypes.bool,
+        closeOnOutsideFocus: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
+
+        /**
+         * enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+         * is provided, the return value determines if the dialog will be closed
+         */
+        closeOnOutsideScroll: PropTypes.oneOfType([
+            PropTypes.bool,
+            PropTypes.func,
+        ]),
 
         /**
          * text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
@@ -102,6 +127,7 @@ export default class Dialog extends React.PureComponent {
         captureFocus: true,
         children: null,
         closeOnEscKey: false,
+        closeOnInsideClick: false,
         closeOnOutsideClick: false,
         closeOnOutsideFocus: false,
         closeOnOutsideScroll: false,
@@ -155,12 +181,14 @@ export default class Dialog extends React.PureComponent {
         window.removeEventListener('wheel', this.handleOutsideScrollWheel, true);
     }
 
+    shouldDialogCloseOnEvent(prop, event) {
+        return isFunction(this.props[prop]) ? this.props[prop](event) : this.props[prop];
+    }
+
     handleFocus = (nativeEvent) => {
         if (!this.props.captureFocus) {
-            if (this.props.closeOnOutsideFocus) {
-                if (!this.isPartOfDialog(nativeEvent.target)) {
-                    return window.setTimeout(this.props.onClose, 0);
-                }
+            if (this.shouldDialogCloseOnEvent('closeOnOutsideFocus', nativeEvent) && !this.isPartOfDialog(nativeEvent.target)) {
+                return window.setTimeout(this.props.onClose, 0);
             }
 
             return;
@@ -169,16 +197,17 @@ export default class Dialog extends React.PureComponent {
         // explicitOriginalTarget is for Firefox, as it doesn't support relatedTarget
         let previous = nativeEvent.explicitOriginalTarget || nativeEvent.relatedTarget;
 
-        if (   this.isPartOfDialog(previous)
-            && !this.isPartOfDialog(nativeEvent.target)) {
+        if (this.isPartOfDialog(previous) && !this.isPartOfDialog(nativeEvent.target)) {
             nativeEvent.preventDefault();
             previous.focus(); // restore focus
         }
     }
 
     handleKeyDown = (event) => {
-        if (this.props.closeOnEscKey && event.key === 'Escape') {
-            window.setTimeout(this.props.onClose, 0);
+        if (event.key === 'Escape') {
+            if (this.shouldDialogCloseOnEvent('closeOnEscKey', event)) {
+                window.setTimeout(this.props.onClose, 0)
+            }
         }
 
         if (isFunction(this.props.onKeyDown)) {
@@ -186,15 +215,21 @@ export default class Dialog extends React.PureComponent {
         }
     }
 
+    handleInsideClick = (event) => {
+        if (this.shouldDialogCloseOnEvent('closeOnInsideClick', event)) {
+            window.setTimeout(this.props.onClose, 0)
+        }
+    }
+
     handleOutsideClick = (nativeEvent) => {
-        if (this.props.closeOnOutsideClick && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.props.onClose, 0);
+        if (this.shouldDialogCloseOnEvent('closeOnOutsideClick', nativeEvent) && !this.isPartOfDialog(nativeEvent.target)) {
+            window.setTimeout(this.props.onClose, 0)
         }
     }
 
     handleOutsideScrollWheel = (nativeEvent) => {
-        if (this.props.closeOnOutsideScroll && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.props.onClose, 0);
+        if (this.shouldDialogCloseOnEvent('closeOnOutsideScroll', nativeEvent) && !this.isPartOfDialog(nativeEvent.target)) {
+            window.setTimeout(this.props.onClose, 0)
         }
     }
 
@@ -257,6 +292,7 @@ export default class Dialog extends React.PureComponent {
                     {...omit(this.props, Dialog.internalKeys)}
                     ref={(node) => (this.$dialog = node)}
                     className={cx('b-dialog', this.props.className)}
+                    onClick={this.handleInsideClick}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
                     aria-labelledby={this.uuidHeader}

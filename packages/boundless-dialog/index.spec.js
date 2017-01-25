@@ -81,28 +81,28 @@ describe('Dialog component', () => {
         expect(document.querySelector('.b-dialog-body').textContent).toBe('foo');
     });
 
-    it('renders focus boundary nodes if `props.captureFocus` is `true`', () => {
+    it('renders focus boundary nodes if props.captureFocus is true', () => {
         render(<Dialog captureFocus={true} />);
         expect(document.querySelectorAll('.b-offscreen[tabindex="0"]').length).toBe(2);
     });
 
-    it('will not render focus boundary nodes if `props.captureFocus` is `false`', () => {
+    it('will not render focus boundary nodes if props.captureFocus is false', () => {
         render(<Dialog captureFocus={false} />);
         expect(document.querySelectorAll('.b-offscreen[tabindex="0"]').length).toBe(0);
     });
 
     describe('focus', () => {
-        it('is applied to the dialog on render if `props.captureFocus` is `true`', () => {
+        it('is applied to the dialog on render if props.captureFocus is true', () => {
             render(<Dialog captureFocus={true} />);
             expect(document.activeElement).toBe(document.querySelector('.b-dialog'));
         });
 
-        it('is not applied to the dialog on render if `props.captureFocus` is `false`', () => {
+        it('is not applied to the dialog on render if props.captureFocus is false', () => {
             render(<Dialog captureFocus={false} />);
             expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
         });
 
-        it('will not leave the dialog if `props.captureFocus` is `true`', () => {
+        it('will not leave the dialog if props.captureFocus is true', () => {
             const element = render(<Dialog captureFocus={true} />);
 
             element.handleFocus({
@@ -116,7 +116,7 @@ describe('Dialog component', () => {
     });
 
     describe('keydown event', () => {
-        it('is forwarded if `props.onKeyDown` is passed', () => {
+        it('is forwarded if props.onKeyDown is passed', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog onKeyDown={stub} />);
 
@@ -128,7 +128,7 @@ describe('Dialog component', () => {
     });
 
     describe('closeOnEscKey', () => {
-        it('triggers `props.onClose` if `true`', () => {
+        it('triggers props.onClose if true', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnEscKey={true} onClose={stub} />);
 
@@ -137,9 +137,27 @@ describe('Dialog component', () => {
             expect(stub.calledOnce).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if falsy or not provided', () => {
+        it('triggers props.onClose if function form returns true', () => {
             const stub = sandbox.stub();
-            const element = render(<Dialog onClose={stub} />);
+            const element = render(<Dialog closeOnEscKey={() => true} onClose={stub} />);
+
+            element.handleKeyDown({key: 'Escape'});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('will not trigger props.onClose if false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnEscKey={false} onClose={stub} />);
+
+            element.handleKeyDown({key: 'Escape'});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if function form returns false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnEscKey={() => false} onClose={stub} />);
 
             element.handleKeyDown({key: 'Escape'});
             sandbox.clock.tick(1);
@@ -147,8 +165,46 @@ describe('Dialog component', () => {
         });
     });
 
+    describe('closeOnInsideClick', () => {
+        it('triggers props.onClose if true', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnInsideClick={true} onClose={stub} />);
+
+            element.handleInsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('triggers props.onClose if function form returns true', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnInsideClick={() => true} onClose={stub} />);
+
+            element.handleInsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('will not trigger props.onClose if false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnInsideClick={false} onClose={stub} />);
+
+            element.handleInsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if function form returns false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnInsideClick={() => false} onClose={stub} />);
+
+            element.handleInsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+    });
+
     describe('closeOnOutsideClick', () => {
-        it('triggers `props.onClose` if `true`', () => {
+        it('triggers props.onClose if true', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideClick={true} onClose={stub} />);
 
@@ -157,9 +213,27 @@ describe('Dialog component', () => {
             expect(stub.calledOnce).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if falsy or not provided', () => {
+        it('triggers props.onClose if function form returns true', () => {
             const stub = sandbox.stub();
-            const element = render(<Dialog onClose={stub} />);
+            const element = render(<Dialog closeOnOutsideClick={() => true} onClose={stub} />);
+
+            element.handleOutsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('will not trigger props.onClose if false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideClick={false} onClose={stub} />);
+
+            element.handleOutsideClick({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if function form returns false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideClick={() => false} onClose={stub} />);
 
             element.handleOutsideClick({target: mountNode});
             sandbox.clock.tick(1);
@@ -168,7 +242,7 @@ describe('Dialog component', () => {
     });
 
     describe('closeOnOutsideFocus', () => {
-        it('triggers `props.onClose` if truthy and `props.captureFocus` is falsy', () => {
+        it('triggers props.onClose if true and props.captureFocus is false', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={true} onClose={stub} />);
 
@@ -179,7 +253,18 @@ describe('Dialog component', () => {
             expect(stub.calledOnce).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if `props.captureFocus` is truthy', () => {
+        it('triggers props.onClose if function form returns true and props.captureFocus is false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={() => true} onClose={stub} />);
+
+            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+
+            element.handleFocus({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('will not trigger props.onClose if props.captureFocus is true', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={true} closeOnOutsideFocus={true} onClose={stub} />);
 
@@ -188,7 +273,7 @@ describe('Dialog component', () => {
             expect(stub.notCalled).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if falsy and `props.captureFocus` is falsy', () => {
+        it('will not trigger props.onClose if false and props.captureFocus is false', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={false} onClose={stub} />);
 
@@ -199,9 +284,29 @@ describe('Dialog component', () => {
             expect(stub.notCalled).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if falsy or not provided', () => {
+        it('will not trigger props.onClose if function form returns false and props.captureFocus is false', () => {
             const stub = sandbox.stub();
-            const element = render(<Dialog onClose={stub} />);
+            const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={() => false} onClose={stub} />);
+
+            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+
+            element.handleFocus({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideFocus={false} onClose={stub} />);
+
+            element.handleFocus({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if function form returns false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideFocus={() => false} onClose={stub} />);
 
             element.handleFocus({target: mountNode});
             sandbox.clock.tick(1);
@@ -210,7 +315,7 @@ describe('Dialog component', () => {
     });
 
     describe('closeOnOutsideScroll', () => {
-        it('triggers `props.onClose` if `true`', () => {
+        it('triggers props.onClose if true', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideScroll={true} onClose={stub} />);
 
@@ -219,9 +324,27 @@ describe('Dialog component', () => {
             expect(stub.calledOnce).toBe(true);
         });
 
-        it('will not trigger `props.onClose` if falsy or not provided', () => {
+        it('triggers props.onClose if function form returns true', () => {
             const stub = sandbox.stub();
-            const element = render(<Dialog onClose={stub} />);
+            const element = render(<Dialog closeOnOutsideScroll={() => true} onClose={stub} />);
+
+            element.handleOutsideScrollWheel({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.calledOnce).toBe(true);
+        });
+
+        it('will not trigger props.onClose if false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideScroll={false} onClose={stub} />);
+
+            element.handleOutsideScrollWheel({target: mountNode});
+            sandbox.clock.tick(1);
+            expect(stub.notCalled).toBe(true);
+        });
+
+        it('will not trigger props.onClose if function form returns false', () => {
+            const stub = sandbox.stub();
+            const element = render(<Dialog closeOnOutsideScroll={() => false} onClose={stub} />);
 
             element.handleOutsideScrollWheel({target: mountNode});
             sandbox.clock.tick(1);
