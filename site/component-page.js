@@ -188,6 +188,15 @@ export default class ComponentPage extends React.PureComponent {
         );
     }
 
+    fetchDemo = () => {
+        return new Promise((resolve, reject) => {
+            fetch(getPackageIndexURI(this.props.packageName)).then(
+                (response) => response.ok ? response.json().then(resolve, reject) : reject(error),
+                (error) => reject(error),
+            );
+        });
+    }
+
     // the implementation won't be fetchable until the repo is made public
     maybeRenderDemo() {
         if (this.props.demo) {
@@ -207,15 +216,15 @@ export default class ComponentPage extends React.PureComponent {
                         teaserExpanded='Hide Implementation'>
                         {() => (
                             <Boundless.Async
-                                data={fetch(getPackageIndexURI(this.props.packageName))}
+                                data={this.fetchDemo()}
                                 contentRenderedFunc={() => window.Prism.highlightAll()}
-                                convertToJSXFunc={(response) => response.ok ? (
+                                convertToJSXFunc={(json) => (
                                     <pre className='demo-implementation'>
                                         <code className='language-jsx'>
-                                            {atob(response.json().content)}
+                                            {atob(json.content)}
                                         </code>
                                     </pre>
-                                ) : (<p>Content could not be loaded. You need to be logged into Github so the demo file can be fetched.</p>)}
+                                )}
                                 errorContent='There was a network failure retrieving the demo.' />
                         )}
                     </Boundless.ProgressiveDisclosure>

@@ -34,7 +34,7 @@ Next time your project's CSS is built, Boundless's CSS will automatically be com
 ## Developing Boundless
 
 ```bash
-git clone git@github.com:bibliotech/uikit.git boundless
+git clone git@github.com:enigma-io/boundless.git boundless
 cd boundless
 
 npm i
