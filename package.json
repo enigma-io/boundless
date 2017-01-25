@@ -2,8 +2,8 @@
   "name": "boundless",
   "description": "Intuitive, accessible solutions for common UI needs in React.",
   "version": "1.0.0",
+  "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
   "contributors": [
-    "Evan Scott <evan.scott@enigma.io>",
     "Abe Rubenstein <abe.rubenstein@enigma.io>",
     "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
@@ -75,8 +75,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "postinstall": "mkdirp site/public/assets",
-    "site:release": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
-    "site:deploy": "ansible-playbook deploy/playbook.yml -i deploy/inventory",
+    "site": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
     "build:js:master": "NODE_ENV=production node scripts/build-master.js",
     "build:js:packages": "NODE_ENV=production node scripts/build-packages.js",
     "build:css": "stylus -m -u autoprefixer-stylus style.styl -o public/skin.css --sourcemap-inline",
@@ -86,7 +85,7 @@
     "coverage": "jest --coverage",
     "prestart": "npm i && npm run bootstrap",
     "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --content-base site/public --open --hot",
-    "prerelease": "npm i && npm run bootstrap",
-    "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages"
+    "prerelease": "npm i && npm run bootstrap && rm -f docs/assets/*.js && rm -f docs/assets/*.css",
+    "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site"
   }
 }

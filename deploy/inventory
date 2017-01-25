@@ -1,2 +1,0 @@
-[all]
-boundless-docs ansible_host=10.10.219.73 ansible_user=ec2-user ansible_python_interpreter="/usr/local/bin/python"

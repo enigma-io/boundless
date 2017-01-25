@@ -7,7 +7,7 @@ const releaseConf = _.cloneDeep(conf);
 
 releaseConf.devtool = 'none';
 
-releaseConf.modules.rules[2] = _.assign({}, releaseConf.modules.rules[2], {
+releaseConf.module.rules[2] = _.assign({}, releaseConf.module.rules[2], {
     loader: ExtractTextPlugin.extract({
         loader: 'css-loader!stylus-loader?compress',
     }),
