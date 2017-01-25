@@ -6,8 +6,7 @@
 ## Installation
 
 ```bash
-npm i boundless         # the whole library, or...
-npm i boundless-button  # a specific part of the library
+npm i boundless@beta
 ```
 
 ## Reference styles
