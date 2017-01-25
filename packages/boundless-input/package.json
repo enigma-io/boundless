@@ -1,6 +1,6 @@
 {
   "name": "boundless-input",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.3",
   "description": "An input control with placeholder emulation for non-supporting platforms.",
   "module": "index.js",
   "main": "build/index.js",
@@ -27,7 +27,7 @@
   "dependencies": {
     "boundless-utils-is-function": "^1.0.0",
     "boundless-utils-is-string": "^1.0.0",
-    "boundless-utils-omit-keys": "^1.0.0",
+    "boundless-utils-omit-keys": "^1.0.0-beta.3",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

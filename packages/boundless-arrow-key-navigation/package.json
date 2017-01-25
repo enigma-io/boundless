@@ -1,6 +1,6 @@
 {
   "name": "boundless-arrow-key-navigation",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.3",
   "description": "A higher-order component for arrow key navigation on a grouping of children.",
   "module": "index.js",
   "main": "build/index.js",
@@ -26,7 +26,7 @@
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
     "boundless-utils-is-function": "^1.0.0",
-    "boundless-utils-omit-keys": "^1.0.0"
+    "boundless-utils-omit-keys": "^1.0.0-beta.3"
   },
   "peerDependencies": {
     "react": ">= 15.3",

@@ -1,6 +1,6 @@
 {
   "name": "boundless-utils-transform-property",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.3",
   "description": "Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.",
   "module": "index.js",
   "main": "build/index.js",

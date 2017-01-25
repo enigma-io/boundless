@@ -1,6 +1,6 @@
 {
   "name": "boundless-checkbox-group",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.3",
   "description": "A controller view for managing the aggregate state of multiple, related checkboxes.",
   "module": "index.js",
   "main": "build/index.js",
@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-checkbox": "^1.0.0",
+    "boundless-checkbox": "^1.0.0-beta.3",
     "boundless-utils-noop": "^1.0.0",
-    "boundless-utils-omit-keys": "^1.0.0",
+    "boundless-utils-omit-keys": "^1.0.0-beta.3",
     "boundless-utils-uuid": "^1.0.0",
     "classnames": "^2.1.5"
   },
