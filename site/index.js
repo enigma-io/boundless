@@ -2,7 +2,8 @@
 
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import {Router, Route, Link, browserHistory} from 'react-router';
+import {browserHistory, Router, Route, Link} from 'react-router';
+// import createBrowserHistory from 'history/createBrowserHistory';
 import _ from 'lodash';
 
 import * as Boundless from '../exports';
@@ -163,6 +164,9 @@ class Container extends React.PureComponent {
         );
     }
 }
+
+// const basename = window.location.href.slice(0, window.location.href.lastIndexOf('/') + 1);
+// const history = createBrowserHistory({basename});
 
 render(
     <Router history={browserHistory}>

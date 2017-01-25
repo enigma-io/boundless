@@ -33,6 +33,10 @@
     "eslint": "^3.7.0",
     "eslint-plugin-react": "^6.3.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "git-rev-sync": "^1.8.0",
+    "history": "^4.5.1",
+    "html-entry-plugin": "^1.1.0",
+    "html-webpack-plugin": "^2.26.0",
     "jest-cli": "^18.0.0",
     "lerna": "2.0.0-beta.32",
     "lodash": "^4.6.1",
@@ -43,6 +47,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-docgen": "^2.13.0",
     "react-dom": "^15.3.0",
+    "react-router": "^3.0.2",
     "rollup": "^0.41.0",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^7.0.0",
@@ -83,7 +88,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "prestart": "npm i && npm run bootstrap",
-    "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.config.js --content-base site/public --open --hot",
+    "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.development.config.js --open --hot",
     "prerelease": "npm i && npm run bootstrap && rm -f docs/assets/*.js && rm -f docs/assets/*.css",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site"
   }
