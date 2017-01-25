@@ -2,8 +2,8 @@
 
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import {browserHistory, Router, Route, Link} from 'react-router';
-// import createBrowserHistory from 'history/createBrowserHistory';
+import {Router, Route, Link} from 'react-router';
+import {createHistory, useBasename} from 'history';
 import _ from 'lodash';
 
 import * as Boundless from '../exports';
@@ -165,11 +165,10 @@ class Container extends React.PureComponent {
     }
 }
 
-// const basename = window.location.href.slice(0, window.location.href.lastIndexOf('/') + 1);
-// const history = createBrowserHistory({basename});
+const history = useBasename(createHistory)({basename: document.baseURI});
 
 render(
-    <Router history={browserHistory}>
+    <Router history={history}>
         <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
             {components.map((definition) => (
