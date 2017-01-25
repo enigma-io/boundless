@@ -3,9 +3,9 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import isInteger from 'lodash.isinteger';
 
-import Async from '../boundless-async/index';
-import SegmentedControl from '../boundless-segmented-control/index';
-import ArrowKeyNavigation from '../boundless-arrow-key-navigation/index';
+import Async from 'boundless-async';
+import SegmentedControl from 'boundless-segmented-control';
+import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
 import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-import Portal from '../boundless-portal/index';
+import Portal from 'boundless-portal';
 import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';

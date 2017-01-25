@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
-import Input from '../boundless-input/index';
+import Input from 'boundless-input';
 import extractChildProps from '../boundless-utils-object-intersection/index';
 import isFunction from '../boundless-utils-is-function/index';
 import isString from '../boundless-utils-is-string/index';

@@ -17,13 +17,13 @@ const error = (err) => console.error(chalk.bold.red(err));
 
 const baseExternals = {
     "react": {
-        amd: "react",
+        commonjs: "react",
         commonjs2: "react",
         root: "React",
     },
 
     "react-dom": {
-        amd: "react-dom",
+        commonjs: "react-dom",
         commonjs2: "react-dom",
         root: "ReactDOM",
     },
@@ -165,10 +165,10 @@ require('jsdom').env('', [
 
         while (stack.length) {
             if (stack[0].indexOf('boundless-') !== -1) {
-                // comes back like "../boundless-whatever/index"
+                // comes back like "boundless-whatever"
                 const componentDocgen = docgen.parse(
                     fs.readFileSync(
-                        path.resolve(base, stack[0].slice(3) + '.js')
+                        path.resolve(base, stack[0], 'index.js')
                     )
                 );
 
@@ -194,7 +194,7 @@ require('jsdom').env('', [
         const webpack = require('webpack');
         const dependencies = Object.keys(require(jsonPath).dependencies || {});
         const externals = _.merge({}, baseExternals, dependencies.reduce((map, depName) => {
-            return /boundless-utils/.test(depName) || (map[depName] = {commonjs2: depName}), map;
+            return /boundless-utils/.test(depName) || (map[depName] = {commonjs: depName, commonjs2: depName}), map;
         }, {}));
 
         webpack({

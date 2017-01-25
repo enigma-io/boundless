@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-import Typeahead from '../boundless-typeahead/index';
+import Typeahead from 'boundless-typeahead';
 import extractChildProps from '../boundless-utils-object-intersection/index';
 import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';

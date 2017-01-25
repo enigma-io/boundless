@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
-import Button from '../boundless-button/index';
+import Button from 'boundless-button';
 import isFunction from '../boundless-utils-is-function/index';
 import noop from '../boundless-utils-noop/index';
 import omit from '../boundless-utils-omit-keys/index';
