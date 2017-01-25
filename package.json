@@ -34,7 +34,6 @@
     "eslint-plugin-react": "^6.3.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "git-rev-sync": "^1.8.0",
-    "html-entry-plugin": "^1.1.0",
     "html-webpack-plugin": "^2.26.0",
     "jest-cli": "^18.0.0",
     "lerna": "2.0.0-beta.32",
