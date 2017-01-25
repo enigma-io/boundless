@@ -102,7 +102,7 @@ class Container extends React.PureComponent {
                     <h1>boundless</h1>
                     <p>Battle-tested, versatile React components with infinite composability.</p>
                     <div className='splash-indicator'>
-                        <span className='splash-nudge'>👇</span>
+                        <span className='splash-nudge' onClick={() => this.main.scrollIntoView({behavior: 'smooth'})}>👇</span>
                     </div>
                 </div>
             </section>
@@ -116,7 +116,7 @@ class Container extends React.PureComponent {
             <div>
                 {route.path === '/' ? this.renderSplash() : null}
 
-                <main>
+                <main ref={node => (this.main = node)}>
                     <article>
                         {this.maybeRenderGithubLinks(route)}
                         {route.docgenInfo ? (
