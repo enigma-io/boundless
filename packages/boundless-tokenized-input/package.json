@@ -1,6 +1,6 @@
 {
   "name": "boundless-tokenized-input",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Distill rich entity data matched via typeahead input into simple visual abstractions.",
   "main": "build/index.js",
   "repository": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-typeahead": "^1.0.0-beta.3",
+    "boundless-typeahead": "^1.0.0-beta.4",
     "boundless-utils-is-function": "^1.0.0",
     "boundless-utils-noop": "^1.0.0",
     "boundless-utils-object-intersection": "^1.0.0-beta.3",

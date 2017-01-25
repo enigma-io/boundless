@@ -1,6 +1,6 @@
 {
   "name": "boundless-progress",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "An unopinionated progress implementation, allowing for a variety of shapes and effects.",
   "main": "build/index.js",
   "repository": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-button": "^1.0.0-beta.3",
+    "boundless-button": "^1.0.0-beta.4",
     "boundless-utils-omit-keys": "^1.0.0-beta.3",
     "classnames": "^2.1.5"
   },

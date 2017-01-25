@@ -1,6 +1,6 @@
 {
   "name": "boundless-image",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "An image block with placeholder support for loading and fallback scenarios.",
   "main": "build/index.js",
   "repository": {

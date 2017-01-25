@@ -1,6 +1,6 @@
 {
   "name": "boundless-segmented-control",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A control containing multiple buttons, only one of which can be active at a time.",
   "main": "build/index.js",
   "repository": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-button": "^1.0.0-beta.3",
+    "boundless-button": "^1.0.0-beta.4",
     "boundless-utils-is-function": "^1.0.0",
     "boundless-utils-noop": "^1.0.0",
     "boundless-utils-omit-keys": "^1.0.0-beta.3",
