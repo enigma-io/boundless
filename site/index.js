@@ -116,7 +116,7 @@ class Container extends React.PureComponent {
             <div>
                 {route.path === '/' ? this.renderSplash() : null}
 
-                <main ref={node => (this.main = node)}>
+                <main ref={(node) => (this.main = node)}>
                     <article>
                         {this.maybeRenderGithubLinks(route)}
                         {route.docgenInfo ? (

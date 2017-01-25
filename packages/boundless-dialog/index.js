@@ -206,7 +206,7 @@ export default class Dialog extends React.PureComponent {
     handleKeyDown = (event) => {
         if (event.key === 'Escape') {
             if (this.shouldDialogCloseOnEvent('closeOnEscKey', event)) {
-                window.setTimeout(this.props.onClose, 0)
+                window.setTimeout(this.props.onClose, 0);
             }
         }
 
@@ -217,19 +217,19 @@ export default class Dialog extends React.PureComponent {
 
     handleInsideClick = (event) => {
         if (this.shouldDialogCloseOnEvent('closeOnInsideClick', event)) {
-            window.setTimeout(this.props.onClose, 0)
+            window.setTimeout(this.props.onClose, 0);
         }
     }
 
     handleOutsideClick = (nativeEvent) => {
         if (this.shouldDialogCloseOnEvent('closeOnOutsideClick', nativeEvent) && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.props.onClose, 0)
+            window.setTimeout(this.props.onClose, 0);
         }
     }
 
     handleOutsideScrollWheel = (nativeEvent) => {
         if (this.shouldDialogCloseOnEvent('closeOnOutsideScroll', nativeEvent) && !this.isPartOfDialog(nativeEvent.target)) {
-            window.setTimeout(this.props.onClose, 0)
+            window.setTimeout(this.props.onClose, 0);
         }
     }
 
