@@ -2,7 +2,6 @@
   "name": "boundless-tokenized-input",
   "version": "1.0.0-beta.3",
   "description": "Distill rich entity data matched via typeahead input into simple visual abstractions.",
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

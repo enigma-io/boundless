@@ -2,7 +2,6 @@
   "name": "boundless-checkbox",
   "version": "1.0.0-beta.3",
   "description": "An accessible checkbox with indeterminate support.",
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

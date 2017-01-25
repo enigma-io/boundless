@@ -2,7 +2,6 @@
   "name": "boundless-checkbox-group",
   "version": "1.0.0-beta.3",
   "description": "A controller view for managing the aggregate state of multiple, related checkboxes.",
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

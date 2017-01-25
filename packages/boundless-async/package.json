@@ -3,7 +3,6 @@
   "version": "1.0.0-beta.3",
   "description": "A higher-order component for rendering data that isn't ready yet.",
   "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

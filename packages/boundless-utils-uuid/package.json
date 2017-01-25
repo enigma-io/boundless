@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "Generates a unique ID. Adds a prefix so it is suitable for use as an HTML ID.",
   "private": true,
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

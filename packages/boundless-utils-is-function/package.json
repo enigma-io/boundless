@@ -3,7 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "Tests for function-ness.",
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

@@ -3,7 +3,6 @@
   "version": "1.0.0-beta.3",
   "description": "Trigger native toasts in supporting browsers.",
   "private": true,
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",

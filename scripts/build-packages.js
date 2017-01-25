@@ -1,20 +1,33 @@
 /* eslint-disable no-console */
 /* eslint-disable no-fallthrough */
 
+process.env.BABEL_ENV = 'development';
+
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const chalk = require('chalk');
 const _ = require('lodash');
-const rollup = require('rollup');
-const uglify = require('rollup-plugin-uglify');
-const baseConfig = require('./rollup.config.js');
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 const base = __dirname + '/../packages/';
 const packages = fs.readdirSync(path.resolve(base)).filter((name) => /^boundless-(?!utils)/.test(name));
 const error = (err) => console.error(chalk.bold.red(err));
+
+const baseExternals = {
+    "react": {
+        amd: "react",
+        commonjs2: "react",
+        root: "React",
+    },
+
+    "react-dom": {
+        amd: "react-dom",
+        commonjs2: "react-dom",
+        root: "ReactDOM",
+    },
+};
 
 const docgen = require('react-docgen');
 const componentReadmeTemplate = `
@@ -140,8 +153,9 @@ require('jsdom').env('', [
 
     packages.forEach((name) => {
         const pascalName = _.pascalCase(name);
-        const entryPath = path.resolve(base + name + '/index.js');
-        const readmePath = path.resolve(base + name + '/README.md');
+        const entryPath = path.resolve(base, name, 'index.js');
+        const jsonPath = path.resolve(base, name, 'package.json');
+        const readmePath = path.resolve(base, name, 'README.md');
 
         const seedDocgen = docgen.parse(fs.readFileSync(entryPath));
 
@@ -175,25 +189,42 @@ require('jsdom').env('', [
             })
         ));
 
-        mkdirp.sync(path.resolve(base + name + '/build'));
+        mkdirp.sync(path.join(base, name, 'build'));
 
-        process.env.BABEL_ENV = 'development';
+        const webpack = require('webpack');
+        const dependencies = Object.keys(require(jsonPath).dependencies || {});
+        const externals = _.merge({}, baseExternals, dependencies.reduce((map, depName) => {
+            return /boundless-utils/.test(depName) || (map[depName] = {commonjs2: depName}), map;
+        }, {}));
 
-        const devRollupInstance = rollup.rollup(_.assign({}, baseConfig, {
+        webpack({
             entry: entryPath,
-            plugins: baseConfig.plugins.concat(
-                uglify({
-                    compress: false,
-                    screwIE8: true,
-                })
-            ),
-        }));
+            devtool: 'inline-source-map',
+            externals: externals,
+            module: {
+                rules: [{
+                    test: /\.jsx?$/,
+                    loader: 'babel-loader',
+                }],
+            },
+            output: {
+                filename: 'index.js',
+                libraryTarget: 'commonjs2',
+                path: path.resolve(base, name, 'build'),
+            },
+            plugins: [
+                new webpack.optimize.UglifyJsPlugin({
+                    comments: false,
+                    compress: true,
+                    sourceMap: true,
+                }),
+            ],
+        }, (err) => {
+            if (err) {
+                return error(err);
+            }
 
-        devRollupInstance.then((bundle) => bundle.write({
-            dest: path.resolve(base + name + '/build/index.js'),
-            exports: 'default',
-            format: 'cjs',
-            sourceMap: 'inline',
-        }), error).then(() => console.log(chalk.bold.green(`Built ${name}.`)), error);
+            console.log(chalk.bold.green(`Built ${name}.`));
+        });
     });
 });

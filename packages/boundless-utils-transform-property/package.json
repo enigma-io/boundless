@@ -3,7 +3,6 @@
   "version": "1.0.0-beta.3",
   "description": "Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.",
   "private": true,
-  "module": "index.js",
   "main": "build/index.js",
   "repository": {
     "type": "git",
