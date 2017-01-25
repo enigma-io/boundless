@@ -74,7 +74,6 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postinstall": "mkdirp site/public/assets",
     "site": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
     "build:js:master": "NODE_ENV=production node scripts/build-master.js",
     "build:js:packages": "NODE_ENV=production node scripts/build-packages.js",
