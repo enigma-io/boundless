@@ -20,7 +20,7 @@ const EnhancedLink = ({children, href, ...props}) => {
         const [path, hash] = href.split('#');
 
         return (
-            <Link to={path} hash={hash ? `#${hash}` : null}>{children}</Link>
+            <Link to={{pathname: path, hash: hash ? `#${hash}` : null}}>{children}</Link>
         );
     }
 

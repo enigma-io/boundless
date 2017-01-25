@@ -29,6 +29,8 @@
         },
 
         "production": {
+            "compact": true,
+            "comments": false,
             "plugins": [
                 "transform-class-properties",
                 "transform-react-remove-prop-types",
@@ -42,6 +44,8 @@
         },
 
         "site-development": {
+            "compact": true,
+            "comments": false,
             "plugins": [
                 "react-docgen",
                 "transform-class-properties",
@@ -55,6 +59,8 @@
         },
 
         "site-production": {
+            "compact": true,
+            "comments": false,
             "plugins": [
                 "react-docgen",
                 "transform-class-properties",

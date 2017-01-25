@@ -32,6 +32,7 @@ releaseConf.plugins.push(
         cache: true,
         customization: {
             githubSHA: git.long(),
+            PRODUCTION: true,
         },
         filename: '404.html',
         inject: 'body',

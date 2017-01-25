@@ -12,7 +12,6 @@ devConf.devServer = {
     contentBase: path.resolve(__dirname, '../docs'),
     historyApiFallback: true,
     host: '0.0.0.0',
-    publicPath: '/',
 };
 
 devConf.devtool = 'inline-source-map';
@@ -22,6 +21,7 @@ devConf.plugins.push(
         cache: true,
         customization: {
             githubSHA: git.long(),
+            PRODUCTION: false,
         },
         inject: 'body',
         minify: {
