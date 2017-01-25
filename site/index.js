@@ -2,8 +2,8 @@
 
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import * as _ from 'lodash';
 import {Router, Route, Link, browserHistory} from 'react-router';
+import _ from 'lodash';
 
 import * as Boundless from '../exports';
 import ComponentPage from './component-page';
@@ -12,7 +12,7 @@ import Markdown from './markdown';
 import README from '../README.md';
 import GettingStarted from '../GETTING_STARTED.md';
 
-import {} from './style.styl';
+import './style.styl';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 

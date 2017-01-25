@@ -14,7 +14,15 @@ releaseConf.module.rules[2] = _.assign({}, releaseConf.module.rules[2], {
 });
 
 releaseConf.plugins.push(
-    new ExtractTextPlugin('style.css'),
+    new webpack.DefinePlugin({
+        'module.hot': false,
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production'),
+        },
+    }),
+
+    new ExtractTextPlugin('assets/style.css'),
+
     new webpack.optimize.UglifyJsPlugin({
         comments: false,
         compress: true,

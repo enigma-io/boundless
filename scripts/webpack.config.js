@@ -6,9 +6,9 @@ const version = require('../package.json').version;
 module.exports = {
     entry: path.resolve(__dirname, '../site/index.js'),
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, '../docs/assets/'),
-        publicPath: 'assets/',
+        filename: 'assets/bundle.js',
+        path: path.resolve(__dirname, '../docs'),
+        publicPath: '/',
     },
     module: {
         rules: [{
@@ -24,9 +24,12 @@ module.exports = {
     },
     devServer: {
         compress: true,
-        historyApiFallback: true,
+        contentBase: path.resolve(__dirname, '../docs'),
+        historyApiFallback: {
+            index: '404.html',
+        },
         host: '0.0.0.0',
-        publicPath: '/assets/',
+        publicPath: '/',
     },
     devtool: 'inline-source-map',
     externals: {
