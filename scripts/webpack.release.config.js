@@ -12,7 +12,7 @@ releaseConf.devtool = 'none';
 
 releaseConf.module.rules[2] = _.assign({}, releaseConf.module.rules[2], {
     loader: ExtractTextPlugin.extract({
-        loader: 'css-loader!stylus-loader?compress',
+        loader: 'css-loader?url=false!stylus-loader?compress',
     }),
 });
 

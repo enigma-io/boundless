@@ -18,7 +18,7 @@ module.exports = {
             loader: 'raw-loader',
         }, {
             test: /\.styl$/,
-            loader: 'style-loader!css-loader!stylus-loader?sourceMap',
+            loader: 'style-loader!css-loader?url=fase!stylus-loader?sourceMap',
         }],
     },
     externals: {
@@ -37,6 +37,7 @@ module.exports = {
                 default: {
                     use: [autoprefixer()],
                 },
+                preferPathResolver: 'webpack',
             },
         }),
 
