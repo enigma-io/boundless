@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.0-beta.6 (2017-01-26)
+
+bd1801a Fix build issues, start publishing utils
+
 ### 1.0.0-beta.5 (2017-01-25)
 
 7927596 Fix all the things

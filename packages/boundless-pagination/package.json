@@ -1,6 +1,6 @@
 {
   "name": "boundless-pagination",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "View and navigate heterogenious content one page at a time.",
   "main": "build/index.js",
   "module": "index.js",
@@ -24,10 +24,10 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-arrow-key-navigation": "^1.0.0-beta.5",
-    "boundless-async": "^1.0.0-beta.5",
-    "boundless-segmented-control": "^1.0.0-beta.5",
-    "boundless-utils-omit-keys": "^1.0.0-beta.5",
+    "boundless-arrow-key-navigation": "^1.0.0-beta.6",
+    "boundless-async": "^1.0.0-beta.6",
+    "boundless-segmented-control": "^1.0.0-beta.6",
+    "boundless-utils-omit-keys": "^1.0.0-beta.6",
     "boundless-utils-uuid": "^1.0.0-beta.5",
     "classnames": "^2.1.5",
     "lodash.isinteger": "^4.0.4"
