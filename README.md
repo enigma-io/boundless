@@ -6,7 +6,11 @@
 ## Installation
 
 ```bash
-npm i boundless@beta
+# the whole library
+npm i boundless --save
+
+# or just a part of it
+npm i boundless-button --save
 ```
 
 ## Reference styles
