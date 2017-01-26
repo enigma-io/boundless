@@ -189,11 +189,12 @@ export default class ComponentPage extends React.PureComponent {
     }
 
     fetchDemo = () => {
-        return new Promise((resolve, reject) => {
-            fetch(getPackageIndexURI(this.props.packageName)).then(
-                (response) => response.ok ? response.json().then(resolve, reject) : reject(error),
-                (error) => reject(error),
-            );
+        return fetch(getPackageIndexURI(this.props.packageName)).then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+
+            return response.json();
         });
     }
 
