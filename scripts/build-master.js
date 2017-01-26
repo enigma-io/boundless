@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const _ = require('lodash');
@@ -38,7 +37,7 @@ const config = {
         alias: {
             classnames: require.resolve('classnames'),
         },
-        mainFields: ["module", "main"],
+        mainFields: ['module', 'main'],
     },
 };
 

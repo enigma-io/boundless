@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable no-console */
 /* eslint-disable no-fallthrough */
 
@@ -16,16 +17,16 @@ const packages = fs.readdirSync(path.resolve(base)).filter((name) => /^boundless
 const error = (err) => console.error(chalk.bold.red(err));
 
 const baseExternals = {
-    "classnames": {
-        commonjs2: "classnames",
+    'classnames': {
+        commonjs2: 'classnames',
     },
 
-    "react": {
-        commonjs2: "react",
+    'react': {
+        commonjs2: 'react',
     },
 
-    "react-dom": {
-        commonjs2: "react-dom",
+    'react-dom': {
+        commonjs2: 'react-dom',
     },
 };
 
@@ -104,9 +105,9 @@ require('jsdom').env('', [
     'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js',
     'http://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js',
     path.resolve(`${__dirname}/../public/boundless.standalone.min.js`),
-], (err, window) => {
-    if (err) {
-        return error(err);
+], (jsdomErr, window) => {
+    if (jsdomErr) {
+        return error(jsdomErr);
     }
 
     const formatPropType = (type = {}) => {
@@ -220,9 +221,9 @@ require('jsdom').env('', [
                 }),
             ],
             target: 'node',
-        }, (err) => {
-            if (err) {
-                return error(err);
+        }, (webpackErr) => {
+            if (webpackErr) {
+                return error(webpackErr);
             }
 
             console.log(chalk.bold.green(`Built ${name}.`));
