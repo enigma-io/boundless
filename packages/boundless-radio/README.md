@@ -70,7 +70,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 <tr>
 <td>onSelected</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the element becomes selected; backing data must be updated to persist the state change</td>
 </tr>
 
@@ -82,4 +82,5 @@ _Note: only top-level props are in the README, for the full list check out the [
 </tr>
 
 </table>
+
 

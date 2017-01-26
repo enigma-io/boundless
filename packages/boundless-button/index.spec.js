@@ -2,17 +2,16 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
 import sinon from 'sinon';
 
+import conformanceChecker from '../boundless-utils-conformance/index';
 import Button from './index';
 
 describe('Button component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const evt = {preventDefault: noop};
+    const evt = {preventDefault: () => {}};
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {

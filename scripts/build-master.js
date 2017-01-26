@@ -37,13 +37,12 @@ const config = {
         alias: {
             classnames: require.resolve('classnames'),
         },
-        mainFields: ['module', 'main'],
     },
 };
 
-process.env.NODE_ENV = 'development';
-
 new Promise((resolve) => {
+    process.env.BABEL_ENV = 'development';
+
     // minified development build
     webpack(_.merge({}, config, {
         devtool: 'inline-source-map',
@@ -54,11 +53,8 @@ new Promise((resolve) => {
             path: base,
         },
         plugins: [
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('development'),
-                },
-            }),
+            new webpack.NamedModulesPlugin(),
+
             new webpack.optimize.UglifyJsPlugin({
                 comments: false,
                 compress: true,
@@ -75,7 +71,7 @@ new Promise((resolve) => {
         resolve();
     });
 }).then(() => {
-    process.env.NODE_ENV = 'production';
+    process.env.BABEL_ENV = 'production';
 
     // minified production build
     webpack(_.merge({}, config, {
@@ -86,12 +82,6 @@ new Promise((resolve) => {
             path: base,
         },
         plugins: [
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('production'),
-                },
-            }),
-
             new webpack.optimize.UglifyJsPlugin({
                 comments: false,
                 compress: true,

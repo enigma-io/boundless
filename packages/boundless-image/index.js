@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-import noop from '../boundless-utils-noop/index';
-import omit from '../boundless-utils-omit-keys/index';
+import omit from 'boundless-utils-omit-keys';
+
+const noop = () => {};
 
 /**
 # Image

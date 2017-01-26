@@ -43,28 +43,28 @@ _Note: only top-level props are in the README, for the full list check out the [
 <tr>
 <td>onAllChecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when all children become checked (not fired on first render), no return</td>
 </tr>
 
 <tr>
 <td>onAllUnchecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when all children become unchecked (not fired on first render), no return</td>
 </tr>
 
 <tr>
 <td>onChildChecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when a specific child has become checked, returns the child definition</td>
 </tr>
 
 <tr>
 <td>onChildUnchecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when a specific child has become checked, returns the child definition</td>
 </tr>
 
@@ -91,4 +91,5 @@ CheckboxGroup.selectAllPosition.AFTER</code></pre></td>
 </tr>
 
 </table>
+
 

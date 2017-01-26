@@ -2,14 +2,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
+import {noop} from 'lodash';
 
 import Dialog from './index';
 import Button from '../boundless-button/index';
 import Popover from '../boundless-popover/index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
-
-import sinon from 'sinon';
 
 describe('Dialog component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

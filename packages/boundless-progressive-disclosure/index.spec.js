@@ -2,10 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {noop} from 'lodash';
 
 import ProgressiveDisclosure from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
 
 import sinon from 'sinon';
 

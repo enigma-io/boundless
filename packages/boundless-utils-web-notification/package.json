@@ -1,9 +1,8 @@
 {
   "name": "boundless-utils-web-notification",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.5",
   "description": "Trigger native toasts in supporting browsers.",
   "private": true,
-  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"
@@ -24,9 +23,5 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "https://github.com/enigma-io/boundless#readme",
-  "dependencies": {
-    "boundless-utils-is-function": "^1.0.0",
-    "boundless-utils-is-string": "^1.0.0"
-  }
+  "homepage": "https://github.com/enigma-io/boundless#readme"
 }

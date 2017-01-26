@@ -2,13 +2,13 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Typeahead from 'boundless-typeahead';
-import extractChildProps from '../boundless-utils-object-intersection/index';
-import isFunction from '../boundless-utils-is-function/index';
-import noop from '../boundless-utils-noop/index';
-import omit from '../boundless-utils-omit-keys/index';
+import extractChildProps from 'boundless-utils-object-intersection';
+import omit from 'boundless-utils-omit-keys';
 
 const first = (array) => array[0];
 const last = (array) => array[array.length - 1];
+const isFunction = (x) => typeof x === 'function';
+const noop = () => {};
 
 /**
 # TokenizedInput

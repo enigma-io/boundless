@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import isFunction from '../boundless-utils-is-function/index';
-import omit from '../boundless-utils-omit-keys/index';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
 
 /**
 # ArrowKeyNavigation
@@ -16,9 +16,9 @@ The children, similarly, can be any type of component.
  */
 export default class ArrowKeyNavigation extends React.PureComponent {
     static mode = {
-        HORIZONTAL: 'HORIZONTAL',
-        VERTICAL: 'VERTICAL',
-        BOTH: 'BOTH',
+        HORIZONTAL: uuid(),
+        VERTICAL: uuid(),
+        BOTH: uuid(),
     }
 
     static propTypes = {
@@ -57,6 +57,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
         component: 'div',
         defaultActiveChildIndex: 0,
         mode: ArrowKeyNavigation.mode.BOTH,
+        onKeyDown: () => {},
     }
 
     static internalKeys = Object.keys(ArrowKeyNavigation.defaultProps)
@@ -156,7 +157,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
             break;
         }
 
-        if (isFunction(this.props.onKeyDown)) {
+        if (this.props.onKeyDown) {
             this.props.onKeyDown(event);
         }
     }

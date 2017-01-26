@@ -1,9 +1,9 @@
 {
   "name": "boundless-utils-omit-keys",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.5",
   "description": "Returns a modified version of the supplied object without the given keys.",
-  "private": true,
-  "browser": "build/index.js",
+  "main": "build/index.js",
+  "module": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

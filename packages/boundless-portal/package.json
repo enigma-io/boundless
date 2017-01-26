@@ -2,7 +2,8 @@
   "name": "boundless-portal",
   "version": "1.0.0-beta.5",
   "description": "A higher-order component for the rendering of components outside the normal React tree.",
-  "browser": "build/index.js",
+  "main": "build/index.js",
+  "module": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"
@@ -23,9 +24,9 @@
     "url": "https://github.com/enigma-io/boundless/issues"
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
-  "devDependencies": {
-    "boundless-utils-omit-keys": "^1.0.0-beta.3",
-    "boundless-utils-uuid": "^1.0.0"
+  "dependencies": {
+    "boundless-utils-omit-keys": "^1.0.0-beta.5",
+    "boundless-utils-uuid": "^1.0.0-beta.5"
   },
   "peerDependencies": {
     "react": ">= 15.3",

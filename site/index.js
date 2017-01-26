@@ -16,7 +16,7 @@ import './style.styl';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
-const req = require.context('..', true, /packages\/boundless\-(?!utils)[^/]*?\/(index\.js|demo\/index\.js)$/);
+const req = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
 const reqKeys = req.keys();
 
 const components = _.keys(Boundless).map((prettyName) => {
@@ -25,7 +25,7 @@ const components = _.keys(Boundless).map((prettyName) => {
 
     return {
         demo: _.includes(reqKeys, demoPath) ? req(demoPath).default : null,
-        docgenInfo: req(`./packages/${name}/index.js`).default.__docgenInfo,
+        docgenInfo: Boundless[prettyName].__docgenInfo,
         name: name,
         path: prettyName,
     };

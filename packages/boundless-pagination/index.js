@@ -6,12 +6,12 @@ import isInteger from 'lodash.isinteger';
 import Async from 'boundless-async';
 import SegmentedControl from 'boundless-segmented-control';
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
-import isFunction from '../boundless-utils-is-function/index';
-import noop from '../boundless-utils-noop/index';
-import omit from '../boundless-utils-omit-keys/index';
-import uuid from '../boundless-utils-uuid/index';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
 
 const identity = (x) => x;
+const isFunction = (x) => typeof x === 'function';
+const noop = () => {};
 
 /**
 # Pagination

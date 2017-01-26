@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Button from 'boundless-button';
-import omit from '../boundless-utils-omit-keys/index';
+import omit from 'boundless-utils-omit-keys';
 
 /**
 # Progress

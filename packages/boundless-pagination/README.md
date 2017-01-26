@@ -80,7 +80,7 @@ _Note: only top-level props are in the README, for the full list check out the [
 <tr>
 <td>getItem</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called with a desired item index when that item comes into view; accepts a `Promise` if you need to fetch the row asynchronously</td>
 </tr>
 
@@ -207,4 +207,5 @@ showPaginatedState={
 </tr>
 
 </table>
+
 

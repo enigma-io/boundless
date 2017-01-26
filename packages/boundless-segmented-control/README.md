@@ -27,7 +27,7 @@ There are no required props.
 <tr>
 <td>onOptionSelected</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when a child element becomes selected; backing data must be updated to persist the state change</td>
 </tr>
 
@@ -50,4 +50,5 @@ the content to go inside the button</td>
 </tr>
 
 </table>
+
 

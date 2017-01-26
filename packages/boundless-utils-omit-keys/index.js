@@ -8,6 +8,5 @@ export default function omitKeysFromSourceObject(source, omittedKeys = []) {
         }
 
         return hash;
-
     }, {});
 }

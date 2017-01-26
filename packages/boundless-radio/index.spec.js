@@ -2,19 +2,17 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
 
 import Radio from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
-
-import sinon from 'sinon';
 
 describe('Radio component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
     const baseProps = {name: 'foo', value: 'bar'};
-    const event = {preventDefault: noop};
+    const event = {preventDefault: () => {}};
 
     const sandbox = sinon.sandbox.create();
 

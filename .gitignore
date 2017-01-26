@@ -7,3 +7,4 @@ node_modules/
 # build things
 coverage/
 packages/*/build
+lerna-debug.log

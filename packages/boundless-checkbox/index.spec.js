@@ -2,11 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
 
 import Checkbox from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-
-import sinon from 'sinon';
 
 describe('Checkbox component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

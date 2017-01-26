@@ -43,7 +43,10 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
 
     /* verify defaultProps are set for all propTypes; if we can be assured they're equivalent,
        we can generate "internal keys" off defaultProps instead and entirely drop propTypes in production */
-    expect(Object.keys(Constructor.defaultProps || {})).toEqual(Object.keys(Constructor.propTypes || {}));
+    const ownProps = Object.keys(Constructor.propTypes || {});
+    const defaults = Constructor.defaultProps || {};
+
+    ownProps.forEach((key) => expect(key in defaults).toBe(true));
 
     /* verify props.className */
     node = renderWithPropsAndGetNode({className: 'foo'});

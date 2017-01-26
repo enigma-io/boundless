@@ -2,7 +2,8 @@
   "name": "boundless-modal",
   "version": "1.0.0-beta.5",
   "description": "A blocking, focus-stealing container.",
-  "browser": "build/index.js",
+  "main": "build/index.js",
+  "module": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"
@@ -25,11 +26,9 @@
   "dependencies": {
     "boundless-dialog": "^1.0.0-beta.5",
     "boundless-portal": "^1.0.0-beta.5",
+    "boundless-utils-object-intersection": "^1.0.0-beta.5",
+    "boundless-utils-omit-keys": "^1.0.0-beta.5",
     "classnames": "^2.1.5"
-  },
-  "devDependencies": {
-    "boundless-utils-object-intersection": "^1.0.0-beta.3",
-    "boundless-utils-omit-keys": "^1.0.0-beta.3"
   },
   "peerDependencies": {
     "react": ">= 15.3",

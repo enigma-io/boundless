@@ -144,7 +144,7 @@ is provided, the return value determines if the dialog will be closed</td>
 <tr>
 <td>onClose</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
 </tr>
 
@@ -163,4 +163,5 @@ is provided, the return value determines if the dialog will be closed</td>
 </tr>
 
 </table>
+
 

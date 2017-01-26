@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
-import isFunction from '../boundless-utils-is-function/index';
-import isString from '../boundless-utils-is-string/index';
-import omit from '../boundless-utils-omit-keys/index';
+import omit from 'boundless-utils-omit-keys';
+
+const isFunction = (x) => typeof x === 'function';
 
 /**
 # Input
@@ -54,7 +54,7 @@ export default class Input extends React.PureComponent {
 
     state = {
         input: '',
-        isControlled: isString(this.props.inputProps.value),
+        isControlled: typeof this.props.inputProps.value === 'string',
         isFocused: false,
     }
 

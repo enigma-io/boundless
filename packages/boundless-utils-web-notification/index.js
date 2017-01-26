@@ -1,6 +1,3 @@
-import isFunction from '../boundless-utils-is-function/index';
-import isString from '../boundless-utils-is-string/index';
-
 export const errors = {
     DISABLED: 'UIUtils/notify: web notifications are currently disabled by user settings.',
     NOT_AVAILABLE: 'UIUtils/notify: web notifications are not supported on this platform.',
@@ -13,6 +10,9 @@ export const errors = {
     ICON_TYPE: 'UIUtils/notify: `icon` must be a URL string.',
     ONCLICK_TYPE: 'UIUtils/notify: `onClick` must be a function.',
 };
+
+const isFunction = (x) => typeof x === 'function';
+const isString = (x) => typeof x === 'string';
 
 const NotificationAPI = (function detectSupport() {
     if (window.Notification) {

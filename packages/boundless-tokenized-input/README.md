@@ -77,21 +77,21 @@ Typeahead.mode.FUZZY or object</code></pre></td>
 <tr>
 <td>handleAddToken</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>function handler that is called when an entity is selected by the user and a token should be created</td>
 </tr>
 
 <tr>
 <td>handleNewSelection</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
 </tr>
 
 <tr>
 <td>handleRemoveTokens</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
 </tr>
 
@@ -142,21 +142,21 @@ Typeahead.mode.FUZZY or object</code></pre></td>
 <tr>
 <td>onComplete</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
 </tr>
 
 <tr>
 <td>onEntityHighlighted</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called with the index of the highlighted entity due to keyboard selection</td>
 </tr>
 
 <tr>
 <td>onEntitySelected</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called with the index of the entity selected by the user</td>
 </tr>
 
@@ -189,4 +189,5 @@ Typeahead.mode.FUZZY or object</code></pre></td>
 </tr>
 
 </table>
+
 

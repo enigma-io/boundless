@@ -2,7 +2,8 @@
   "name": "boundless-input",
   "version": "1.0.0-beta.5",
   "description": "An input control with placeholder emulation for non-supporting platforms.",
-  "browser": "build/index.js",
+  "main": "build/index.js",
+  "module": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"
@@ -24,12 +25,8 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
+    "boundless-utils-omit-keys": "^1.0.0-beta.5",
     "classnames": "^2.1.5"
-  },
-  "devDependencies": {
-    "boundless-utils-is-function": "^1.0.0",
-    "boundless-utils-is-string": "^1.0.0",
-    "boundless-utils-omit-keys": "^1.0.0-beta.3"
   },
   "peerDependencies": {
     "react": ">= 15.3",

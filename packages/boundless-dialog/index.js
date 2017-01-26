@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Portal from 'boundless-portal';
-import isFunction from '../boundless-utils-is-function/index';
-import noop from '../boundless-utils-noop/index';
-import omit from '../boundless-utils-omit-keys/index';
-import uuid from '../boundless-utils-uuid/index';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
 
+const isFunction = (x) => typeof x === 'function';
+const noop = () => {};
 const toArray = Array.prototype.slice;
 
 /**
@@ -136,6 +136,7 @@ export default class Dialog extends React.PureComponent {
         header: null,
         headerProps: {},
         onClose: noop,
+        onKeyDown: noop,
         wrapperProps: {},
     }
 
@@ -210,7 +211,7 @@ export default class Dialog extends React.PureComponent {
             }
         }
 
-        if (isFunction(this.props.onKeyDown)) {
+        if (this.props.onKeyDown) {
             this.props.onKeyDown(event);
         }
     }

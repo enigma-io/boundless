@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
-import omit from '../boundless-utils-omit-keys/index';
-import uuid from '../boundless-utils-uuid/index';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
 
 /**
 # Portal

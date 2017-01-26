@@ -4,8 +4,8 @@ import cx from 'classnames';
 
 import Dialog from 'boundless-dialog';
 import Portal from 'boundless-portal';
-import omit from '../boundless-utils-omit-keys/index';
-import transformProp from '../boundless-utils-transform-property/index';
+import omit from 'boundless-utils-omit-keys';
+import transformProp from 'boundless-utils-transform-property';
 
 function getOppositeCardinal(direction) {
     switch (direction[0]) {

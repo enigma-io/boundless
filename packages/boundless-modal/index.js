@@ -3,8 +3,8 @@ import cx from 'classnames';
 
 import Dialog from 'boundless-dialog';
 import Portal from 'boundless-portal';
-import extractChildProps from '../boundless-utils-object-intersection/index';
-import omit from '../boundless-utils-omit-keys/index';
+import extractChildProps from 'boundless-utils-object-intersection';
+import omit from 'boundless-utils-omit-keys';
 
 /**
 # Modal

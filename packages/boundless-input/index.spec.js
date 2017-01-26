@@ -2,12 +2,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
+import {noop} from 'lodash';
 
 import Input from './index';
 import checker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
-
-import sinon from 'sinon';
 
 describe('Input component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

@@ -48,14 +48,14 @@ There are no required props.
 <tr>
 <td>onExpand</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the content is shown; not called on initial render</td>
 </tr>
 
 <tr>
 <td>onHide</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the content is hidden; not called on initial render</td>
 </tr>
 
@@ -81,4 +81,5 @@ There are no required props.
 </tr>
 
 </table>
+
 

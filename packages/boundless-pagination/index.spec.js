@@ -3,12 +3,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
+import sinon from 'sinon';
+import {noop} from 'lodash';
 
 import Pagination from './index';
 import conformanceChecker from '../boundless-utils-conformance/index';
-import noop from '../boundless-utils-noop/index';
-
-import sinon from 'sinon';
 
 const dom = ReactDOM.findDOMNode;
 const sandbox = sinon.sandbox.create();

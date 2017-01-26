@@ -61,21 +61,21 @@ There are no required props.
 <tr>
 <td>onClick</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td></td>
 </tr>
 
 <tr>
 <td>onPressed</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
 </tr>
 
 <tr>
 <td>onUnpressed</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
 </tr>
 
@@ -87,4 +87,5 @@ There are no required props.
 </tr>
 
 </table>
+
 

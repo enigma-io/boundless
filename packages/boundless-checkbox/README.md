@@ -54,16 +54,17 @@ Also supports any [React-supported attribute](https://facebook.github.io/react/d
 <tr>
 <td>onChecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the element becomes checked; backing data must be updated to persist the state change</td>
 </tr>
 
 <tr>
 <td>onUnchecked</td>
 <td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">noop</code></pre></td>
+<td><pre><code class="language-js">() => {}</code></pre></td>
 <td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
 </tr>
 
 </table>
+
 

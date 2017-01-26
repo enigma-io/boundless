@@ -2,9 +2,10 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import Checkbox from 'boundless-checkbox';
-import omit from '../boundless-utils-omit-keys/index';
-import noop from '../boundless-utils-noop/index';
-import uuid from '../boundless-utils-uuid/index';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
+
+const noop = () => {};
 
 /**
 # CheckboxGroup

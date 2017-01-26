@@ -3,12 +3,13 @@ import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
 import Input from 'boundless-input';
-import extractChildProps from '../boundless-utils-object-intersection/index';
-import isFunction from '../boundless-utils-is-function/index';
-import isString from '../boundless-utils-is-string/index';
-import noop from '../boundless-utils-noop/index';
-import omit from '../boundless-utils-omit-keys/index';
-import uuid from '../boundless-utils-uuid/index';
+import extractChildProps from 'boundless-utils-object-intersection';
+import omit from 'boundless-utils-omit-keys';
+import uuid from 'boundless-utils-uuid';
+
+const isFunction = (x) => typeof x === 'function';
+const isString = (x) => typeof x === 'string';
+const noop = () => {};
 
 /**
 # Typeahead
