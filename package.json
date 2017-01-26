@@ -1,8 +1,8 @@
 {
   "name": "boundless",
   "description": "Intuitive, accessible solutions for common UI needs in React.",
-  "version": "1.0.0-beta.4",
-  "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
+  "version": "1.0.0-beta.5",
+  "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com) (http://yaycmyk.com)",
   "contributors": [
     "Abe Rubenstein <abe.rubenstein@enigma.io>",
     "Jenn Creighton <jenn.creighton@enigma.io>"

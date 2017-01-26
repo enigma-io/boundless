@@ -18,14 +18,12 @@ const config = {
     externals: {
         'react': {
             'amd': 'react',
-            'commonjs': 'react',
             'commonjs2': 'react',
             'root': 'React',
         },
 
         'react-dom': {
             'amd': 'react-dom',
-            'commonjs': 'react-dom',
             'commonjs2': 'react-dom',
             'root': 'ReactDOM',
         },
@@ -98,7 +96,6 @@ new Promise((resolve) => {
             new webpack.optimize.UglifyJsPlugin({
                 comments: false,
                 compress: true,
-                sourceMap: true,
             }),
         ],
     }), (err) => {

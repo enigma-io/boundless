@@ -16,16 +16,16 @@ const packages = fs.readdirSync(path.resolve(base)).filter((name) => /^boundless
 const error = (err) => console.error(chalk.bold.red(err));
 
 const baseExternals = {
+    "classnames": {
+        commonjs2: "classnames",
+    },
+
     "react": {
-        commonjs: "react",
         commonjs2: "react",
-        root: "React",
     },
 
     "react-dom": {
-        commonjs: "react-dom",
         commonjs2: "react-dom",
-        root: "ReactDOM",
     },
 };
 
@@ -194,7 +194,7 @@ require('jsdom').env('', [
         const webpack = require('webpack');
         const dependencies = Object.keys(require(jsonPath).dependencies || {});
         const externals = _.merge({}, baseExternals, dependencies.reduce((map, depName) => {
-            return /boundless-utils/.test(depName) || (map[depName] = {commonjs: depName, commonjs2: depName}), map;
+            return /boundless-utils/.test(depName) || (map[depName] = {commonjs2: depName}), map;
         }, {}));
 
         webpack({
@@ -219,6 +219,7 @@ require('jsdom').env('', [
                     sourceMap: true,
                 }),
             ],
+            target: 'node',
         }, (err) => {
             if (err) {
                 return error(err);

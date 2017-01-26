@@ -26,6 +26,10 @@ releaseConf.plugins.push(
         },
     }),
 
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest',
+    }),
+
     new ExtractTextPlugin('assets/[name].[contenthash].css'),
 
     new HTMLEntryPlugin({
