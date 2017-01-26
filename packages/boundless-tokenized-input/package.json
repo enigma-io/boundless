@@ -2,7 +2,7 @@
   "name": "boundless-tokenized-input",
   "version": "1.0.0-beta.4",
   "description": "Distill rich entity data matched via typeahead input into simple visual abstractions.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Generates a unique ID. Adds a prefix so it is suitable for use as an HTML ID.",
   "private": true,
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

@@ -2,7 +2,7 @@
   "name": "boundless-pagination",
   "version": "1.0.0-beta.4",
   "description": "View and navigate heterogenious content one page at a time.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

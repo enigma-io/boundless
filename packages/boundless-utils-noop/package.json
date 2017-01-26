@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "A dummy function with no side effects. Commonly used when mocking interfaces.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

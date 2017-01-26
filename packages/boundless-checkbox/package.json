@@ -2,7 +2,7 @@
   "name": "boundless-checkbox",
   "version": "1.0.0-beta.4",
   "description": "An accessible checkbox with indeterminate support.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

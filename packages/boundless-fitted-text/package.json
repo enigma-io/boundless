@@ -2,7 +2,7 @@
   "name": "boundless-fitted-text",
   "version": "1.0.0-beta.4",
   "description": "Fit given text inside a parent container, obeying implict and explicit constraints.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

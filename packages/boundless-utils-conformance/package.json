@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Used in testing boundless components for prop passing, etc.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

@@ -2,7 +2,7 @@
   "name": "boundless-radio",
   "version": "1.0.0-beta.4",
   "description": "An accessible radio form control.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

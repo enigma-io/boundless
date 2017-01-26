@@ -2,7 +2,7 @@
   "name": "boundless-arrow-key-navigation",
   "version": "1.0.0-beta.4",
   "description": "A higher-order component for arrow key navigation on a grouping of children.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

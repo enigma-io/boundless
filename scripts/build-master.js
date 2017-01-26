@@ -1,71 +1,111 @@
 /* eslint-disable no-console */
 
+const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const chalk = require('chalk');
-const rollup = require('rollup');
-const uglify = require('rollup-plugin-uglify');
-const baseConfig = require('./rollup.config.js');
 
-const base = __dirname + '/../';
+const base = path.resolve(__dirname, '..', 'public');
 const error = (err) => console.error(chalk.bold.red(err));
+const log = (msg) => console.log(chalk.bold.green(msg));
 
-mkdirp.sync(path.resolve(base + '/public'));
+mkdirp.sync(base);
 
-process.env.BABEL_ENV = 'development';
-
-Promise.all([
-    rollup.rollup(_.assign({}, baseConfig, {
-        plugins: baseConfig.plugins.concat(
-            uglify({
-                compress: false,
-                screwIE8: true,
-            })
-        ),
-    })).then((bundle) => bundle.write({
-        dest: path.resolve(base + '/public/boundless.js'),
-        format: 'cjs',
-        sourceMap: 'inline',
-    }), error),
-
-    rollup.rollup(_.assign({}, baseConfig, {
-        plugins: baseConfig.plugins.concat(
-            uglify({
-                compress: false,
-                screwIE8: true,
-            })
-        ),
-    })).then((bundle) => bundle.write({
-        dest: path.resolve(base + '/public/boundless.standalone.js'),
-        format: 'iife',
-        globals: {
-            'react': 'React',
-            'react-dom': 'ReactDOM',
+const webpack = require('webpack');
+const config = {
+    entry: path.resolve(__dirname, '..', 'exports.js'),
+    externals: {
+        'react': {
+            'amd': 'react',
+            'commonjs': 'react',
+            'commonjs2': 'react',
+            'root': 'React',
         },
-        moduleName: 'Boundless',
-        sourceMap: 'inline',
-    }), error),
-]).then(() => {
-    process.env.BABEL_ENV = 'production';
 
-    rollup.rollup(_.assign({}, baseConfig, {
-        plugins: baseConfig.plugins.concat(
-            uglify({
-                compress: {
-                    'drop_console': true,
+        'react-dom': {
+            'amd': 'react-dom',
+            'commonjs': 'react-dom',
+            'commonjs2': 'react-dom',
+            'root': 'ReactDOM',
+        },
+    },
+    module: {
+        rules: [{
+            test: /\.jsx?$/,
+            loader: 'babel-loader',
+        }],
+    },
+    resolve: {
+        alias: {
+            classnames: require.resolve('classnames'),
+        },
+        mainFields: ["module", "main"],
+    },
+};
+
+process.env.NODE_ENV = 'development';
+
+new Promise((resolve) => {
+    // minified development build
+    webpack(_.merge({}, config, {
+        devtool: 'inline-source-map',
+        output: {
+            filename: 'boundless.js',
+            library: 'Boundless',
+            libraryTarget: 'umd',
+            path: base,
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('development'),
                 },
-                screwIE8: true,
-                warnings: true,
-            })
-        ),
-    })).then((bundle) => bundle.write({
-        dest: path.resolve(base + '/public/boundless.standalone.min.js'),
-        format: 'iife',
-        globals: {
-            'react': 'React',
-            'react-dom': 'ReactDOM',
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+                comments: false,
+                compress: true,
+                sourceMap: true,
+            }),
+        ],
+    }), (err) => {
+        if (err) {
+            return error(err);
+        }
+
+        log(chalk.bold.green('Built master development bundle.'));
+
+        resolve();
+    });
+}).then(() => {
+    process.env.NODE_ENV = 'production';
+
+    // minified production build
+    webpack(_.merge({}, config, {
+        output: {
+            filename: 'boundless.min.js',
+            library: 'Boundless',
+            libraryTarget: 'umd',
+            path: base,
         },
-        moduleName: 'Boundless',
-    })).then(() => console.log(chalk.bold.green('\nBuilt the master JS files.')), error);
-}, error);
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('production'),
+                },
+            }),
+
+            new webpack.optimize.UglifyJsPlugin({
+                comments: false,
+                compress: true,
+                sourceMap: true,
+            }),
+        ],
+    }), (err) => {
+        if (err) {
+            return error(err);
+        }
+
+        log(chalk.bold.green('Built master production bundle.'));
+    });
+});

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Tests for string-ness.",
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"

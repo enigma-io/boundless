@@ -22,7 +22,7 @@
                 "transform-inline-environment-variables"
             ],
             "presets": [
-                "es2015-rollup",
+                ["es2015", {"modules": false}],
                 "react",
                 "stage-2"
             ]
@@ -37,7 +37,7 @@
                 "transform-inline-environment-variables"
             ],
             "presets": [
-                "es2015-rollup",
+                ["es2015", {"modules": false}],
                 "react",
                 "stage-2"
             ]

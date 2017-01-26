@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.3",
   "description": "Returns a modified version of the supplied object without the given keys.",
   "private": true,
-  "main": "build/index.js",
+  "browser": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/enigma-io/boundless.git"
