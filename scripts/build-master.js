@@ -56,8 +56,9 @@ new Promise((resolve) => {
             new webpack.NamedModulesPlugin(),
 
             new webpack.optimize.UglifyJsPlugin({
-                comments: false,
+                comments: /(license|sourceMappingURL)/,
                 compress: true,
+                mangle: false,
                 sourceMap: true,
             }),
         ],
@@ -75,6 +76,7 @@ new Promise((resolve) => {
 
     // minified production build
     webpack(_.merge({}, config, {
+        devtool: 'inline-source-map',
         output: {
             filename: 'boundless.min.js',
             library: 'Boundless',
@@ -83,7 +85,7 @@ new Promise((resolve) => {
         },
         plugins: [
             new webpack.optimize.UglifyJsPlugin({
-                comments: false,
+                comments: /(license)/,
                 compress: true,
             }),
         ],
