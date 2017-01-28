@@ -117,7 +117,7 @@ borderColor-Input ?= color-accent
 borderColor-Input-focus ?= color-accent
 borderColor-Input-hover ?= color-accent
 color-Input ?= get_contrasting_color(background-Input)
-color-Input_placeholder ?= halve_alpha(get_contrasting_color(background-Input))
+color-Input_placeholder ?= halve_alpha(color-Input)
 
 // TokenizedInput
 background-TokenizedInput ?= background-body
@@ -174,7 +174,7 @@ halve_alpha(color) {
 }
 
 get_contrasting_color(color) {
-    luminance = 1 - ( 0.299 * red(color) + 0.587 * green(color) + 0.114 * blue(color) ) / 255
+    luminance = math((0.299 * red(color) ** 2) + (0.587 * green(color) ** 2) + (0.114 * blue(color) ** 2), 'sqrt')
 
     if (luminance < 0.5) {
         return #000
