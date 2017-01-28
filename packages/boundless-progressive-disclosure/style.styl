@@ -1,34 +1,35 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.b-disclosure {
-    cursor: pointer;
-}
-
 .b-disclosure-toggle {
-    color: color-ProgressiveDisclosure;
+    color: ProgressiveDisclosure-teaser-color;
+    cursor: pointer;
     display: inline-block;
     font-size: 0.75rem;
     padding-left: 15px;
     position: relative;
+    
+    &::before {
+        content: '';
+        border-width: 5px;
+        border-color: transparent;
+        border-left-color: ProgressiveDisclosure-caret-backgroundColor;
+        border-style: solid;
+        position: absolute;
+        margin-top: -5px;
+        top: 50%;
+        left: 4px;
+    }
 }
 
-.b-disclosure-toggle::before {
-    content: '';
-    border-width: 5px;
-    border-color: transparent;
-    border-left-color: borderColor-ProgressiveDisclosure_arrow;
-    border-style: solid;
-    position: absolute;
-    margin-top: -5px;
-    top: 50%;
-    left: 4px;
-}
+.b-disclosure-expanded {
+    color: ProgressiveDisclosure-teaser-color-expanded;
 
-.b-disclosure-expanded > .b-disclosure-toggle::before {
-    border-top-color: borderColor-ProgressiveDisclosure_arrow;
-    border-left-color: transparent;
-    margin-top: -3px;
-    left: 0;
+    & > .b-disclosure-toggle::before {
+        border-top-color: ProgressiveDisclosure-caret-backgroundColor;
+        border-left-color: transparent;
+        margin-top: -3px;
+        left: 0;
+    }
 }
 
 .b-disclosure-content {

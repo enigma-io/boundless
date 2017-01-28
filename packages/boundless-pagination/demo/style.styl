@@ -1,28 +1,49 @@
 // Demo-specific styles go here. Skin-specific styles go in ../style.styl.
 
-.b-pagination-item {
-    padding: 1rem;
-    height: 7em;
-    display: flex;
+.demo-pagination {
+    .b-segmented-control-option-selected {
+        font-weight: 700;
+    }
+
+    .b-pagination-item {
+        display: flex;
+        height: 7em;
+        margin: 0;
+        padding: 1rem;
+        
+        & + .b-pagination-item {
+            border-top: 1px solid color-neutral-dark;
+        }
+    }
+
+    .b-pagination-item .card-left {
+        flex-basis: 50%;
+    }
+
+    .b-pagination-item .card-right {
+        flex-basis: 50%;
+        font-size: 11pt;
+    }
+
+    .b-pagination-item .card-left strong {
+        font-size: 18pt;
+    }
 }
 
-.b-pagination-item + .b-pagination-item {
-    border-top: 1px solid color-neutral-dark;
-}
+@media all and (max-width: 800px) {
+    .demo-pagination {
+        .b-pagination-control {
+            padding-left: 0.25em;
+            padding-right: 0.25em;
+        }
+        
+        .b-pagination-control-custom {
+            display: none;
+        }
 
-.b-pagination .b-pagination-item {
-    margin: 0;
-}
-
-.b-pagination-item > .card-left {
-    flex-basis: 50%;
-}
-
-.b-pagination-item > .card-right {
-    flex-basis: 50%;
-    font-size: 11pt;
-}
-
-.b-pagination-item > .card-left > strong {
-    font-size: 18pt;
+        .b-pagination-item {
+            flex-direction: column;
+            height: auto;
+        }
+    }
 }

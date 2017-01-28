@@ -128,7 +128,13 @@ class Container extends React.PureComponent {
     }
 
     renderMainContent(route) {
-        if (route.docgenInfo) {
+        if (route.markdown) {
+            return (
+                <Markdown>
+                    {route.markdown}
+                </Markdown>
+            );
+        } else if (route.docgenInfo) {
             return (
                 <ComponentPage
                     demo={route.demo}
@@ -138,12 +144,6 @@ class Container extends React.PureComponent {
         } else if (route.component) {
             return (<route.component />);
         }
-
-        return (
-            <Markdown>
-                {route.markdown}
-            </Markdown>
-        );
     }
 
     render() {

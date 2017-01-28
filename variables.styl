@@ -1,0 +1,346 @@
+/*
+    Boundless theming variables are defined with the following schema:
+    {component}-{context?†}-{property‡}-{state}
+
+    Most things can be overridden purely through variables, but effort has been made to make style generation
+    as "automagical" as possible, resulting in a totally usable and unopinionated base style.
+
+
+    † ? = optional
+    ‡ aligns to CSS property names as closely as possible
+*/
+
+halve_alpha(color) {
+    return alpha(color, 0.5)
+}
+
+get_luminance(color) {
+    return math((0.299 * red(color) ** 2) + (0.587 * green(color) ** 2) + (0.114 * blue(color) ** 2), 'sqrt')
+}
+
+get_adjusted_color(color, amount) {
+    if (get_luminance(color) < 0.5) {
+        return lighten(color, amount)
+    } else {
+        return darken(color, amount)
+    }
+}
+
+get_contrasting_color(color) {
+    if (get_luminance(color) < 0.5) {
+        return #000
+    } else {
+        return #FFF
+    }
+}
+
+// Default styles
+body-backgroundColor ?= #FFF
+body-color ?= #111
+borderRadius ?= 2px
+
+// Default colors (attribute-independent)
+color-accent ?= #111
+color-neutral-light ?= #CCC
+color-neutral-dark ?= #444
+
+// Async
+Async-backgroundColor-loading ?= color-accent
+
+// Button
+Button-backgroundColor ?= color-accent
+Button-backgroundColor-active ?= get_adjusted_color(color-accent, 30%)
+Button-backgroundColor-disabled ?= Button-backgroundColor
+Button-backgroundColor-hover ?= get_adjusted_color(color-accent, 20%)
+Button-backgroundColor-focus ?= get_adjusted_color(color-accent, 20%)
+Button-borderColor ?= transparent
+Button-borderColor-active ?= transparent
+Button-borderColor-disabled ?= transparent
+Button-borderColor-focus ?= transparent
+Button-borderColor-hover ?= transparent
+Button-color ?= get_contrasting_color(Button-backgroundColor)
+Button-color-active ?= get_contrasting_color(Button-backgroundColor-active)
+Button-color-disabled ?= Button-color
+Button-color-focus ?= get_contrasting_color(Button-backgroundColor-focus)
+Button-color-hover ?= get_contrasting_color(Button-backgroundColor-hover)
+Button-opacity-disabled ?= 0.3
+
+// Checkbox
+Checkbox-backgroundColor ?= transparent
+Checkbox-backgroundColor-disabled ?= Checkbox-backgroundColor
+Checkbox-backgroundColor-focus ?= Checkbox-backgroundColor
+Checkbox-backgroundColor-hover ?= Checkbox-backgroundColor
+Checkbox-borderColor ?= body-color
+Checkbox-borderColor-disabled ?= Checkbox-borderColor
+Checkbox-borderColor-focus ?= get_adjusted_color(Checkbox-borderColor, 20%)
+Checkbox-borderColor-hover ?= get_adjusted_color(Checkbox-borderColor, 20%)
+Checkbox-opacity-disabled ?= 0.3
+
+Checkbox-checked-backgroundColor ?= color-accent
+Checkbox-checked-backgroundColor-disabled ?= Checkbox-checked-backgroundColor
+Checkbox-checked-backgroundColor-focus ?= Checkbox-checked-backgroundColor
+Checkbox-checked-backgroundColor-hover ?= Checkbox-checked-backgroundColor
+Checkbox-checked-borderColor ?= body-color
+Checkbox-checked-borderColor-disabled ?= Checkbox-checked-borderColor
+Checkbox-checked-borderColor-focus ?= get_adjusted_color(Checkbox-checked-borderColor, 20%)
+Checkbox-checked-borderColor-hover ?= get_adjusted_color(Checkbox-checked-borderColor, 20%)
+Checkbox-checked-color ?= get_contrasting_color(Checkbox-checked-backgroundColor)
+Checkbox-checked-color-disabled ?= Checkbox-checked-color
+Checkbox-checked-color-focus ?= Checkbox-checked-color
+Checkbox-checked-color-hover ?= Checkbox-checked-color
+
+Checkbox-indeterminate-backgroundColor ?= Checkbox-checked-backgroundColor
+Checkbox-indeterminate-backgroundColor-disabled ?= Checkbox-indeterminate-backgroundColor
+Checkbox-indeterminate-backgroundColor-focus ?= Checkbox-indeterminate-backgroundColor
+Checkbox-indeterminate-backgroundColor-hover ?= Checkbox-indeterminate-backgroundColor
+Checkbox-indeterminate-borderColor ?= Checkbox-checked-backgroundColor
+Checkbox-indeterminate-borderColor-disabled ?= Checkbox-indeterminate-borderColor
+Checkbox-indeterminate-borderColor-focus ?= Checkbox-indeterminate-borderColor
+Checkbox-indeterminate-borderColor-hover ?= get_adjusted_color(Checkbox-indeterminate-borderColor, 20%)
+Checkbox-indeterminate-color ?= get_contrasting_color(Checkbox-indeterminate-backgroundColor)
+Checkbox-indeterminate-color-disabled ?= Checkbox-indeterminate-color
+Checkbox-indeterminate-color-focus ?= Checkbox-indeterminate-color
+Checkbox-indeterminate-color-hover ?= Checkbox-indeterminate-color
+
+// Dialog
+Dialog-backgroundColor ?= body-backgroundColor
+Dialog-borderColor ?= get_adjusted_color(Dialog-backgroundColor, 10%)
+Dialog-boxShadowColor ?= get_adjusted_color(Dialog-backgroundColor, 10%)
+Dialog-color ?= body-color
+
+// Image
+Image-backgroundColor ?= color-neutral-light
+Image-backgroundColor-error ?= Image-backgroundColor
+Image-backgroundColor-loading ?= Image-backgroundColor
+Image-borderColor ?= transparent
+Image-borderColor-error ?= transparent
+Image-borderColor-loading ?= transparent
+
+Image-icon-backgroundColor-error ?= color-neutral-dark
+Image-icon-backgroundColor-loading ?= color-neutral-dark
+
+// Input
+Input-backgroundColor ?= body-backgroundColor
+Input-backgroundColor-active ?= Input-backgroundColor
+Input-backgroundColor-disabled ?= Input-backgroundColor
+Input-backgroundColor-focus ?= Input-backgroundColor
+Input-backgroundColor-hover ?= Input-backgroundColor
+Input-borderColor ?= body-color
+Input-borderColor-active ?= color-accent
+Input-borderColor-disabled ?= Input-borderColor
+Input-borderColor-focus ?= get_adjusted_color(Input-borderColor, 20%)
+Input-borderColor-hover ?= get_adjusted_color(Input-borderColor, 20%)
+Input-color ?= body-color
+Input-color-active ?= Input-color
+Input-color-disabled ?= Input-color
+Input-color-focus ?= Input-color
+Input-color-hover ?= Input-color
+Input-fontSize ?= 0.75rem
+Input-opacity-disabled ?= 0.3
+
+Input-placeholder-color ?= halve_alpha(Input-color)
+Input-placeholder-color-active ?= Input-placeholder-color
+Input-placeholder-color-disabled ?= Input-placeholder-color
+Input-placeholder-color-focus ?= Input-placeholder-color
+Input-placeholder-color-hover ?= Input-placeholder-color
+
+// Modal
+Modal-backgroundColor ?= Dialog-backgroundColor
+Modal-borderColor ?= get_adjusted_color(Modal-backgroundColor, 10%)
+Modal-boxShadowColor ?= get_adjusted_color(Modal-backgroundColor, 10%)
+Modal-color ?= Dialog-color
+
+Modal-mask-backgroundColor ?= rgba(body-backgroundColor, 0.9)
+
+// Pagination
+Pagination-control-backgroundColor ?= Button-backgroundColor
+Pagination-control-backgroundColor-active ?= Button-backgroundColor-active
+Pagination-control-backgroundColor-disabled ?= Button-backgroundColor-disabled
+Pagination-control-backgroundColor-focus ?= Button-backgroundColor-focus
+Pagination-control-backgroundColor-hover ?= Button-backgroundColor-hover
+Pagination-control-borderColor ?= Button-borderColor
+Pagination-control-borderColor-active ?= Button-borderColor-active
+Pagination-control-borderColor-disabled ?= Button-borderColor-disabled
+Pagination-control-borderColor-focus ?= Button-borderColor-focus
+Pagination-control-borderColor-hover ?= Button-borderColor-hover
+Pagination-control-color ?= Button-color
+Pagination-control-color-active ?= Button-color-active
+Pagination-control-color-disabled ?= Button-color-disabled
+Pagination-control-color-focus ?= Button-color-focus
+Pagination-control-color-hover ?= Button-color-hover
+
+Pagination-selectedControl-backgroundColor ?= Button-backgroundColor-active
+Pagination-selectedControl-backgroundColor-active ?= Button-backgroundColor-active
+Pagination-selectedControl-backgroundColor-disabled ?= Button-backgroundColor-active
+Pagination-selectedControl-backgroundColor-focus ?= Button-backgroundColor-active
+Pagination-selectedControl-backgroundColor-hover ?= Button-backgroundColor-active
+Pagination-selectedControl-borderColor ?= Button-borderColor-active
+Pagination-selectedControl-borderColor-active ?= Button-borderColor-active
+Pagination-selectedControl-borderColor-disabled ?= Button-borderColor-active
+Pagination-selectedControl-borderColor-focus ?= Button-borderColor-active
+Pagination-selectedControl-borderColor-hover ?= Button-borderColor-active
+Pagination-selectedControl-color ?= Button-color-active
+Pagination-selectedControl-color-active ?= Button-color-active
+Pagination-selectedControl-color-disabled ?= Button-color-active
+Pagination-selectedControl-color-focus ?= Button-color-active
+Pagination-selectedControl-color-hover ?= Button-color-active
+
+// Popover
+Popover-backgroundColor ?= Dialog-backgroundColor
+Popover-borderColor ?= Dialog-borderColor
+Popover-boxShadowColor ?= transparent
+Popover-color ?= body-color
+
+Popover-caret-backgroundColor ?= Popover-backgroundColor
+Popover-caret-borderColor ?= Popover-borderColor
+Popover-caret-height ?= 16px
+Popover-caret-width ?= 16px
+
+// Progress
+Progress-backgroundColor ?= color-accent
+Progress-backgroundColor-indeterminate ?= Progress-backgroundColor
+Progress-borderColor ?= Progress-backgroundColor
+Progress-borderColor-indeterminate ?= Progress-borderColor
+Progress-borderWidth ?= 1px
+Progress-height = 30px
+Progress-width = 100%
+
+Progress-label-color ?= get_contrasting_color(Progress-backgroundColor)
+Progress-label-color-indeterminate ?= Progress-label-color
+
+// ProgressiveDisclosure
+ProgressiveDisclosure-caret-backgroundColor ?= body-color
+ProgressiveDisclosure-teaser-color ?= body-color
+ProgressiveDisclosure-teaser-color-expanded ?= ProgressiveDisclosure-teaser-color
+
+// Radio
+Radio-backgroundColor ?= transparent
+Radio-backgroundColor-active ?= color-accent
+Radio-backgroundColor-disabled ?= Radio-backgroundColor
+Radio-backgroundColor-focus ?= Radio-backgroundColor
+Radio-backgroundColor-hover ?= Radio-backgroundColor
+Radio-borderColor ?= body-color
+Radio-borderColor-active ?= Radio-borderColor
+Radio-borderColor-disabled ?= Radio-borderColor
+Radio-borderColor-focus ?= get_adjusted_color(Radio-borderColor, 20%)
+Radio-borderColor-hover ?= get_adjusted_color(Radio-borderColor, 20%)
+Radio-opacity-disabled ?= 0.3
+
+// SegmentedControl
+SegmentedControl-backgroundColor ?= Button-backgroundColor
+SegmentedControl-backgroundColor-active ?= Button-backgroundColor-active
+SegmentedControl-backgroundColor-disabled ?= Button-backgroundColor-disabled
+SegmentedControl-backgroundColor-focus ?= Button-backgroundColor-focus
+SegmentedControl-backgroundColor-hover ?= Button-backgroundColor-hover
+SegmentedControl-borderColor ?= Button-borderColor
+SegmentedControl-borderColor-active ?= Button-borderColor-active
+SegmentedControl-borderColor-disabled ?= Button-borderColor-disabled
+SegmentedControl-borderColor-focus ?= Button-borderColor-focus
+SegmentedControl-borderColor-hover ?= Button-borderColor-hover
+SegmentedControl-color ?= Button-color
+SegmentedControl-color-active ?= Button-color-active
+SegmentedControl-color-disabled ?= Button-color-disabled
+SegmentedControl-color-focus ?= Button-color-focus
+SegmentedControl-color-hover ?= Button-color-hover
+SegmentedControl-opacity-disabled ?= 0.3
+
+// TokenizedInput
+TokenizedInput-backgroundColor ?= Input-backgroundColor
+TokenizedInput-backgroundColor-active ?= Input-backgroundColor-active
+TokenizedInput-backgroundColor-disabled ?= Input-backgroundColor-disabled
+TokenizedInput-backgroundColor-focus ?= Input-backgroundColor-focus
+TokenizedInput-backgroundColor-hover ?= Input-backgroundColor-hover
+TokenizedInput-borderColor ?= Input-borderColor
+TokenizedInput-borderColor-active ?= Input-borderColor-active
+TokenizedInput-borderColor-disabled ?= Input-borderColor-disabled
+TokenizedInput-borderColor-focus ?= Input-borderColor-focus
+TokenizedInput-borderColor-hover ?= Input-borderColor-hover
+TokenizedInput-color ?= Input-color
+TokenizedInput-color-active ?= Input-color-active
+TokenizedInput-color-disabled ?= Input-color-disabled
+TokenizedInput-color-focus ?= Input-color-focus
+TokenizedInput-color-hover ?= Input-color-hover
+TokenizedInput-opacity-disabled ?= 0.3
+
+TokenizedInput-placeholder-color ?= Input-placeholder-color
+TokenizedInput-placeholder-color-active ?= Input-placeholder-color-active
+TokenizedInput-placeholder-color-disabled ?= Input-placeholder-color-disabled
+TokenizedInput-placeholder-color-focus ?= Input-placeholder-color-focus
+TokenizedInput-placeholder-color-hover ?= Input-placeholder-color-hover
+
+TokenizedInput-token-backgroundColor ?= transparent
+TokenizedInput-token-backgroundColor-active ?= transparent
+TokenizedInput-token-backgroundColor-focus ?= transparent
+TokenizedInput-token-backgroundColor-hover ?= transparent
+TokenizedInput-token-borderColor ?= TokenizedInput-borderColor
+TokenizedInput-token-borderColor-active ?= TokenizedInput-borderColor-active
+TokenizedInput-token-borderColor-focus ?= TokenizedInput-borderColor-focus
+TokenizedInput-token-borderColor-hover ?= TokenizedInput-borderColor-hover
+TokenizedInput-token-color ?= TokenizedInput-color
+TokenizedInput-token-color-active ?= TokenizedInput-color-active
+TokenizedInput-token-color-focus ?= TokenizedInput-color-focus
+TokenizedInput-token-color-hover ?= TokenizedInput-color-hover
+TokenizedInput-token-margin = 5px
+
+TokenizedInput-tokenClose-color ?= halve_alpha(TokenizedInput-token-color)
+TokenizedInput-tokenClose-color-focus ?= TokenizedInput-token-color
+TokenizedInput-tokenClose-color-hover ?= TokenizedInput-token-color
+
+TokenizedInput-tokenSelected-backgroundColor ?= color-accent
+TokenizedInput-tokenSelected-backgroundColor-focus ?= TokenizedInput-tokenSelected-backgroundColor
+TokenizedInput-tokenSelected-backgroundColor-hover ?= TokenizedInput-tokenSelected-backgroundColor
+TokenizedInput-tokenSelected-borderColor ?= TokenizedInput-token-borderColor
+TokenizedInput-tokenSelected-borderColor-focus ?= TokenizedInput-tokenSelected-borderColor
+TokenizedInput-tokenSelected-borderColor-hover ?= TokenizedInput-tokenSelected-borderColor
+TokenizedInput-tokenSelected-color ?= get_contrasting_color(TokenizedInput-tokenSelected-backgroundColor)
+TokenizedInput-tokenSelected-color-focus ?= TokenizedInput-tokenSelected-color
+TokenizedInput-tokenSelected-color-hover ?= TokenizedInput-tokenSelected-color
+
+TokenizedInput-tokenSelectedClose-color ?= halve_alpha(get_contrasting_color(TokenizedInput-tokenSelected-backgroundColor))
+TokenizedInput-tokenSelectedClose-color-focus ?= get_contrasting_color(TokenizedInput-tokenSelected-backgroundColor)
+TokenizedInput-tokenSelectedClose-color-hover ?= get_contrasting_color(TokenizedInput-tokenSelected-backgroundColor)
+
+// Typeahead
+Typeahead-backgroundColor ?= Input-backgroundColor
+Typeahead-backgroundColor-active ?= Input-backgroundColor-active
+Typeahead-backgroundColor-disabled ?= Input-backgroundColor-disabled
+Typeahead-backgroundColor-focus ?= Input-backgroundColor-focus
+Typeahead-backgroundColor-hover ?= Input-backgroundColor-hover
+Typeahead-borderColor ?= Input-borderColor
+Typeahead-borderColor-active ?= Input-borderColor-active
+Typeahead-borderColor-disabled ?= Input-borderColor-disabled
+Typeahead-borderColor-focus ?= Input-borderColor-focus
+Typeahead-borderColor-hover ?= Input-borderColor-hover
+Typeahead-color ?= Input-color
+Typeahead-color-active ?= Input-color-active
+Typeahead-color-disabled ?= Input-color-disabled
+Typeahead-color-focus ?= Input-color-focus
+Typeahead-color-hover ?= Input-color-hover
+Typeahead-opacity-disabled ?= 0.3
+
+Typeahead-placeholder-color ?= Input-placeholder-color
+Typeahead-placeholder-color-active ?= Input-placeholder-color-active
+Typeahead-placeholder-color-disabled ?= Input-placeholder-color-disabled
+Typeahead-placeholder-color-focus ?= Input-placeholder-color-focus
+Typeahead-placeholder-color-hover ?= Input-placeholder-color-hover
+
+Typeahead-matchWrapper-backgroundColor ?= Input-backgroundColor
+Typeahead-matchWrapper-borderColor ?= Input-borderColor
+
+Typeahead-match-backgroundColor ?= Typeahead-matchWrapper-backgroundColor
+Typeahead-match-backgroundColor-active ?= color-accent
+Typeahead-match-backgroundColor-focus ?= Typeahead-matchWrapper-backgroundColor
+Typeahead-match-backgroundColor-hover ?= get_adjusted_color(Typeahead-match-backgroundColor, 20%)
+Typeahead-match-color ?= get_adjusted_color(get_contrasting_color(Typeahead-match-backgroundColor), 30%)
+Typeahead-match-color-active ?= get_adjusted_color(get_contrasting_color(Typeahead-match-backgroundColor-active), 20%)
+Typeahead-match-color-focus ?= get_adjusted_color(get_contrasting_color(Typeahead-match-backgroundColor-focus), 30%)
+Typeahead-match-color-hover ?= get_adjusted_color(get_contrasting_color(Typeahead-match-backgroundColor-hover), 30%)
+
+Typeahead-mark-backgroundColor ?= Typeahead-match-backgroundColor
+Typeahead-mark-backgroundColor-active ?= Typeahead-match-backgroundColor-active
+Typeahead-mark-backgroundColor-focus ?= Typeahead-match-backgroundColor-focus
+Typeahead-mark-backgroundColor-hover ?= Typeahead-match-backgroundColor-hover
+Typeahead-mark-color ?= get_contrasting_color(Typeahead-match-backgroundColor)
+Typeahead-mark-color-active ?= get_contrasting_color(Typeahead-match-backgroundColor-active)
+Typeahead-mark-color-focus ?= get_contrasting_color(Typeahead-match-backgroundColor-focus)
+Typeahead-mark-color-hover ?= get_contrasting_color(Typeahead-match-backgroundColor-hover)

@@ -1,5 +1,9 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
+get_radio_bg_gradient(color) {
+    return radial-gradient(circle at center, color 0%, color calc(100% - 5px), transparent calc(100% - 5px), transparent 100%)
+}
+
 .b-radio-wrapper {
     display: flex;
 }
@@ -11,8 +15,8 @@
 
 .b-radio {
     appearance: none;
-    background: background-Radio;
-    border: 1px solid borderColor-Radio;
+    background: get_radio_bg_gradient(Radio-backgroundColor);
+    border: 1px solid Radio-borderColor;
     border-radius: 50%;
     flex-shrink: 0;
     margin: 1px 3px 0;
@@ -20,25 +24,40 @@
     height: 16px;
     width: 16px;
 
-    transition: border-color 200ms ease;
-}
+    transition: all 200ms ease;
+    
+    &[disabled],
+    &[disabled]:active,
+    &[disabled]:focus,
+    &[disabled]:hover {
+        background: get_radio_bg_gradient(Radio-backgroundColor-disabled);
+        border-color: Radio-borderColor-disabled;
+        cursor: not-allowed;
+        opacity: Radio-opacity-disabled;
+    }
 
-.b-radio:hover {
-    background: background-Radio-hover;
-    border-color: borderColor-Radio-hover;
-}
+    &:active {
+        background: get_radio_bg_gradient(Radio-backgroundColor-active);
+        border-color: Radio-borderColor-active;
+    }
 
-.b-radio:focus {
-    background: background-Radio-focus;
-    border-color: borderColor-Radio-focus;
-}
+    &:focus {
+        background: get_radio_bg_gradient(Radio-backgroundColor-focus);
+        border-color: Radio-borderColor-focus;
+    }
 
-.b-radio-selected,
-.b-radio-selected:hover,
-.b-radio-selected:focus,
-.b-radio-selected:active {
-    background: background-Radio-selected;
-    box-shadow: 0 0 0 2px boxShadowColor-Radio-selected inset;
+    &:hover {
+        background: get_radio_bg_gradient(Radio-backgroundColor-hover);
+        border-color: Radio-borderColor-hover;
+    }
+    
+    &.b-radio-selected,
+    &.b-radio-selected:hover,
+    &.b-radio-selected:focus,
+    &.b-radio-selected:active {
+        background: get_radio_bg_gradient(Radio-backgroundColor-active);
+        border-color: Radio-borderColor-active;
+    }
 }
 
 .b-radio-label {

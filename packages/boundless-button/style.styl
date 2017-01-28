@@ -2,10 +2,10 @@
 
 .b-button {
     appearance: none;
-    background: background-Button;
-    border: 1px solid borderColor-Button;
+    background: Button-backgroundColor;
+    border: 1px solid Button-borderColor;
     border-radius: borderRadius;
-    color: color-Button;
+    color: Button-color;
     cursor: pointer;
     font-size: 14px;
     margin: 0;
@@ -16,44 +16,37 @@
     white-space: nowrap;
 
     transition: all 200ms ease;
-}
+    
+    &[disabled],
+    &[disabled]:active,
+    &[disabled]:focus,
+    &[disabled]:hover {
+        background: Button-backgroundColor-disabled;
+        border-color: Button-borderColor-disabled;
+        color: Button-color-disabled;
+        cursor: not-allowed;
+        opacity: Button-opacity-disabled;
+    }
 
-.b-button:hover {
-    background: background-Button-hover;
-    border-color: borderColor-Button-hover;
-    color: color-Button-hover;
-}
+    &:active {
+        background: Button-backgroundColor-active;
+        border-color: Button-borderColor-active;
+        color: Button-color-active;
+    }
 
-.b-button:focus {
-    background: background-Button-focus;
-    border-color: borderColor-Button-focus;
-    color: color-Button-focus;
-}
+    &:focus {
+        background: Button-backgroundColor-focus;
+        border-color: Button-borderColor-focus;
+        color: Button-color-focus;
+    }
 
-.b-button:active {
-    background: background-Button-active;
-    border-color: borderColor-Button-active;
-    color: color-Button-active;
-}
-
-.b-button.b-button-pressed {
-    background: background-Button-pressed;
-    border-color: borderColor-Button-pressed;
-    color: color-Button-pressed;
-}
-
-.b-button[disabled] {
-    background: background-Button-disabled;
-    border-color: borderColor-Button-disabled;
-    color: color-Button-disabled;
-    cursor: not-allowed;
-    opacity: 0.3;
+    &:hover {
+        background: Button-backgroundColor-hover;
+        border-color: Button-borderColor-hover;
+        color: Button-color-hover;
+    }
 }
 
 .b-button + .b-button {
     margin-left: 15px;
-}
-
-.b-button-pressable {
-    width: 100px;
 }

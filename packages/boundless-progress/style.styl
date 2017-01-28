@@ -1,15 +1,16 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-progress-wrapper {
-    border: 1px solid borderColor-Progress;
+    border: Progress-borderWidth solid Progress-borderColor;
     border-radius: borderRadius;
-    height: 30px;
     overflow: hidden;
     position: relative;
+    height: Progress-height;
+    width: Progress-width;
 }
 
 .b-progress {
-    background: background-Progress;
+    background: Progress-backgroundColor;
     position: absolute;
     top: 0;
     left: 0;
@@ -17,8 +18,8 @@
 }
 
 .b-progress-label {
-    color: color-Progress;
-    line-height: 28px;
+    color: Progress-label-color;
+    line-height: Progress-height;
     padding-left: 10px;
     position: relative;
     text-align: left;
@@ -31,9 +32,15 @@
 }
 
 .b-progress-indeterminate {
-    background: background-Progress;
-    border-radius: 0;
+    background: Progress-backgroundColor-indeterminate;
+    border-color: Progress-borderColor-indeterminate;
+    top: 0;
+    left: 0;
+    bottom: 0;
     right: 0;
-    opacity: 0.25;
     animation: interdeterminate-progress-bar 2.5s ease-in-out alternate infinite;
+    
+    ~ .b-progress-label {
+        color: Progress-label-color-indeterminate;
+    }
 }

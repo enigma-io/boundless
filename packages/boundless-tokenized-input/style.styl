@@ -1,23 +1,75 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-tokenfield-wrapper {
-    background: background-TokenizedInput;
-    border: 1px solid borderColor-TokenizedInput;
+    background: TokenizedInput-backgroundColor;
+    border: 1px solid TokenizedInput-borderColor;
     border-radius: borderRadius;
     display: flex;
-    font-size: fontSize-input;
-}
+    font-size: Input-fontSize;
 
-.b-tokenfield-wrapper .b-typeahead-wrapper {
-    flex-grow: 1;
+    .b-typeahead-wrapper {
+        background: transparent;
+        border: 0;
+        flex-grow: 1;
+
+        .b-input {
+            color: TokenizedInput-color;
+
+            // only applying overrides on top of the existing Input styles
+
+            & + .b-input-placeholder {
+                background: transparent;
+                border-color: transparent;
+                color: TokenizedInput-placeholder-color;
+            }
+
+            &[disabled] {
+                color: TokenizedInput-color-disabled;
+                opacity: TokenizedInput-opacity-disabled;
+
+                & + .b-input-placeholder,
+                &:active + .b-input-placeholder,
+                &:focus + .b-input-placeholder,
+                &:hover + .b-input-placeholder {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
+
+            &:active {
+                color: TokenizedInput-color-active;
+
+                & + .b-input-placeholder {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
+
+            &:focus {
+                color: TokenizedInput-color-focus;
+
+                & + .b-input-placeholder {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
+
+            &:hover {
+                color: TokenizedInput-color-hover;
+
+                & + .b-input-placeholder {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
+        }
+    }
 }
 
 .b-tokenfield-wrapper .b-typeahead,
 .b-tokenfield-wrapper .b-typeahead-hint {
     align-self: stretch;
-    background: transparent;
-    border-color: transparent !important;
-    padding: size-TokenizedInput_token_spacer * 2;
+    padding: TokenizedInput-token-margin * 2;
 }
 
 .b-tokenfield {
@@ -27,100 +79,95 @@
 .b-tokenfield-tokens {
     display: flex;
     flex-shrink: 0;
-    margin: size-TokenizedInput_token_spacer 0 size-TokenizedInput_token_spacer size-TokenizedInput_token_spacer;
-}
+    margin: TokenizedInput-token-margin 0 TokenizedInput-token-margin TokenizedInput-token-margin;
 
-.b-tokenfield-tokens:empty {
-    margin: 0;
+    &:empty {
+        margin: 0;
+    }
 }
 
 .b-tokenfield-token {
     align-items: center;
     align-self: stretch;
-    background: background-TokenizedInput_token;
-    border: 1px solid borderColor-TokenizedInput_token;
+    background: TokenizedInput-token-backgroundColor;
+    border: 1px solid TokenizedInput-token-borderColor;
     border-radius: borderRadius;
-    color: color-TokenizedInput_token;
+    color: TokenizedInput-token-color;
     cursor: pointer;
     display: flex;
     line-height: 1;
-
-    margin-right: size-TokenizedInput_token_spacer;
-    padding: size-TokenizedInput_token_spacer (size-TokenizedInput_token_spacer * 2);
-
+    margin-right: TokenizedInput-token-margin;
+    padding: TokenizedInput-token-margin (TokenizedInput-token-margin * 2);
     white-space: nowrap;
-
-    transition: color 200ms ease-in-out,
-                border-color 200ms ease-in-out,
-                background 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
 
     &:focus {
-        background: background-TokenizedInput_token-focus;
-        border-color: borderColor-TokenizedInput_token-focus;
-        color: color-TokenizedInput_token-focus;
+        background: TokenizedInput-token-backgroundColor-focus;
+        border-color: TokenizedInput-token-borderColor-focus;
+        color: TokenizedInput-token-color-focus;
 
         .b-tokenfield-token-close {
-            color: color-TokenizedInput_token_close-focus;
+            color: TokenizedInput-tokenClose-color-focus;
         }
     }
 
     &:hover {
-        background: background-TokenizedInput_token-hover;
-        border-color: borderColor-TokenizedInput_token-hover;
-        color: color-TokenizedInput_token-hover;
+        background: TokenizedInput-token-backgroundColor-hover;
+        border-color: TokenizedInput-token-borderColor-hover;
+        color: TokenizedInput-token-color-hover;
 
         .b-tokenfield-token-close {
-            color: color-TokenizedInput_token_close-hover;
+            color: TokenizedInput-tokenClose-color-hover;
         }
     }
 
     &:active {
-        background: background-TokenizedInput_token-active;
-        border-color: borderColor-TokenizedInput_token-active;
-        color: color-TokenizedInput_token-active;
+        background: TokenizedInput-token-backgroundColor-active;
+        border-color: TokenizedInput-token-borderColor-active;
+        color: TokenizedInput-token-color-active;
     }
 
     &:last-child {
         margin-right: 0;
     }
-}
 
-.b-tokenfield-token-selected {
-    background: background-TokenizedInput_token-selected;
-    border-color: borderColor-TokenizedInput_token-selected;
-    color: color-TokenizedInput_token-selected;
-
-    &:focus {
-        background: background-TokenizedInput_token-selected;
-        border-color: borderColor-TokenizedInput_token-selected;
-        color: color-TokenizedInput_token-selected;
+    &.b-tokenfield-token-selected {
+        background: TokenizedInput-tokenSelected-backgroundColor;
+        border-color: TokenizedInput-tokenSelected-borderColor;
+        color: TokenizedInput-tokenSelected-color;
 
         .b-tokenfield-token-close {
-            color: color-TokenizedInput_token_close-selected-focus;
+            color: TokenizedInput-tokenSelectedClose-color;
         }
-    }
 
-    &:hover {
-        background: background-TokenizedInput_token-selected;
-        border-color: borderColor-TokenizedInput_token-selected;
-        color: color-TokenizedInput_token-selected;
+        &:focus {
+            background: TokenizedInput-tokenSelected-backgroundColor-focus;
+            border-color: TokenizedInput-tokenSelected-borderColor-focus;
+            color: TokenizedInput-tokenSelected-color-focus;
 
-        .b-tokenfield-token-close {
-            color: color-TokenizedInput_token_close-selected-hover;
+            .b-tokenfield-token-close {
+                color: TokenizedInput-tokenSelectedClose-color-focus;
+            }
         }
-    }
 
-    .b-tokenfield-token-close {
-        color: color-TokenizedInput_token_close-selected;
+        &:hover {
+            background: TokenizedInput-tokenSelected-backgroundColor-hover;
+            border-color: TokenizedInput-tokenSelected-borderColor-hover;
+            color: TokenizedInput-tokenSelected-color-hover;
+
+            .b-tokenfield-token-close {
+                color: TokenizedInput-tokenSelectedClose-color-hover;
+            }
+        }
     }
 }
 
 .b-tokenfield-token-close {
-    color: color-TokenizedInput_token_close;
+    color: TokenizedInput-tokenClose-color;
     cursor: pointer;
     display: inline-block;
     font-size: 0.85em;
     margin-left: 0.5rem;
 
-    transition: color 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
 }

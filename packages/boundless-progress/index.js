@@ -100,7 +100,7 @@ export default class Progress extends React.PureComponent {
                 {...this.props.progressProps}
                 ref='progress'
                 className={cx('b-progress', this.props.progressProps.className, {
-                    'b-progress-indeterminate': typeof this.props.progress === 'undefined',
+                    'b-progress-indeterminate': this.props.progress === undefined,
                 })}
                 role='presentation'
                 style={{

@@ -125,14 +125,6 @@ export default class Input extends React.PureComponent {
         return shouldShowPlaceholder ? this.props.inputProps.placeholder : '';
     }
 
-    renderPlaceholder() {
-        return (
-            <div ref='placeholder' className='b-input-placeholder b-input'>
-                {this.getPlaceholderText()}
-            </div>
-        );
-    }
-
     render() {
         const {props} = this;
 
@@ -142,8 +134,6 @@ export default class Input extends React.PureComponent {
                 ref='wrapper'
                 className={cx('b-input-wrapper', props.className)}
                 title={this.getPlaceholderText()}>
-                {this.renderPlaceholder()}
-
                 <input
                     {...props.inputProps}
                     ref='field'
@@ -152,6 +142,10 @@ export default class Input extends React.PureComponent {
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}
                     onChange={this.handleChange} />
+
+                <div ref='placeholder' className='b-input-placeholder b-input'>
+                    {this.getPlaceholderText()}
+                </div>
             </div>
         );
     }

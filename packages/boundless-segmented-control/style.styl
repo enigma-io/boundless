@@ -6,54 +6,70 @@
     justify-content: center;
 }
 
-.b-segmented-control .b-segmented-control-option {
+.b-segmented-control-option.b-button {
     align-self: stretch;
-    background: background-SegmentedControl_option;
-    border: 1px solid borderColor-SegmentedControl_option;
+    background: SegmentedControl-backgroundColor;
+    border: 1px solid SegmentedControl-borderColor;
     border-radius: 0;
-    color: color-SegmentedControl_option;
+    color: SegmentedControl-color;
     cursor: pointer;
     flex-grow: 1;
     font-size: 14px;
     margin: 0;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5em 0.75em;
     text-align: center;
     white-space: nowrap;
 
     transition: all 200ms ease;
-}
 
-.b-segmented-control .b-segmented-control-option:not(:first-of-type) {
-    margin-left: -1px;
-}
+    &:first-of-type {
+        border-top-left-radius: borderRadius;
+        border-bottom-left-radius: borderRadius;
+    }
+    
+    &:last-of-type {
+        border-top-right-radius: borderRadius;
+        border-bottom-right-radius: borderRadius;
+    }
 
-.b-segmented-control .b-segmented-control-option:first-of-type {
-    border-top-left-radius: borderRadius;
-    border-bottom-left-radius: borderRadius;
-}
-
-.b-segmented-control .b-segmented-control-option:last-of-type {
-    border-top-right-radius: borderRadius;
-    border-bottom-right-radius: borderRadius;
-}
-
-.b-segmented-control .b-segmented-control-option:not(.b-segmented-control-option-selected):hover {
-    background: background-SegmentedControl_option-hover;
-    color: color-SegmentedControl_option-hover;
-}
-
-.b-segmented-control .b-segmented-control-option:not(.b-segmented-control-option-selected):focus {
-    background: background-SegmentedControl_option-focus;
-    color: color-SegmentedControl_option-focus;
-}
-
-.b-segmented-control .b-segmented-control-option-selected {
-    background: background-SegmentedControl_option-selected;
-    color: color-SegmentedControl_option-selected;
-    z-index: 1;
-}
-
-.b-segmented-control .b-segmented-control-option:active {
-    background: background-SegmentedControl_option-active;
-    color: background-SegmentedControl_option-active;
+    &:not(:first-of-type) {
+        margin-left: -1px;
+    }
+    
+    &[disabled],
+    &[disabled]:active,
+    &[disabled]:focus,
+    &[disabled]:hover,
+    &[disabled]:active,
+    &.b-segmented-control-option-selected[disabled] {
+        background: SegmentedControl-backgroundColor-disabled;
+        border-color: SegmentedControl-borderColor-disabled;
+        color: SegmentedControl-color-disabled;
+        opacity: SegmentedControl-opacity-disabled;
+    }
+    
+    &:focus {
+        background: SegmentedControl-backgroundColor-focus;
+        border-color: SegmentedControl-borderColor-focus;
+        color: SegmentedControl-color-focus;
+    }
+    
+    &:hover {
+        background: SegmentedControl-backgroundColor-hover;
+        border-color: SegmentedControl-borderColor-hover;
+        color: SegmentedControl-color-hover;
+    }
+    
+    &:active,
+    &.b-segmented-control-option-selected,
+    &.b-segmented-control-option-selected:focus,
+    &.b-segmented-control-option-selected:hover {
+        background: SegmentedControl-backgroundColor-active;
+        border-color: SegmentedControl-borderColor-active;
+        color: SegmentedControl-color-active;
+    }
+    
+    &.b-segmented-control-option-selected {
+        z-index: 1;
+    }
 }

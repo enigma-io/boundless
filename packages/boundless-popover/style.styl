@@ -1,38 +1,33 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-caret-size = 16px
 caret-adjustment = -3px
 
 .b-popover {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    outline: 0;
-}
 
-.b-popover .b-dialog {
-    border-color: borderColor-Popover_outline;
-    box-shadow: none;
-    max-width: 400px;
+    .b-dialog {
+        background: Popover-backgroundColor;
+        border: 1px solid Popover-borderColor;
+        box-shadow: 1px 2px 3px Popover-boxShadowColor;
+        color: Popover-color;
+    }
 }
 
 .b-popover-caret {
     position: relative;
-    height: caret-size;
-    width: caret-size;
     transform-origin: center;
+    height: Popover-caret-height;
+    width: Popover-caret-width;
 }
 
 .b-popover-caret-border {
-    fill: borderColor-Popover_outline;
+    fill: Popover-caret-borderColor;
 }
 
 .b-popover-caret-fill {
-    fill: background-Dialog;
-}
-
-.b-popover .b-dialog-body {
-    padding: 0;
+    fill: Popover-caret-backgroundColor;
 }
 
 // above the anchor

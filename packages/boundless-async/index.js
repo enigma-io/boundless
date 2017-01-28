@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
 
-
 /**
  * __A higher-order component for rendering data that isn't ready yet.__
  *

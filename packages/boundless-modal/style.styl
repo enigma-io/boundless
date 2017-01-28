@@ -12,16 +12,23 @@
     right: 0;
     bottom: 0;
     z-index: 999;
-}
-
-.b-modal-wrapper .b-dialog-wrapper {
-    flex-shrink: 0;
-    max-width: 80vw;
-    position: relative;
+    
+    .b-dialog-wrapper {
+        flex-shrink: 0;
+        max-width: 80vw;
+        position: relative;
+    }
+    
+    .b-dialog {
+        background: Modal-backgroundColor;
+        border: 1px solid Modal-borderColor;
+        box-shadow: 1px 2px 3px Modal-boxShadowColor;
+        color: Modal-color;
+    }
 }
 
 .b-modal-mask {
-    background: background-Modal_mask;
+    background: Modal-mask-backgroundColor;
     position: fixed;
     top: 0;
     left: 0;

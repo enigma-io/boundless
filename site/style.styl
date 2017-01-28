@@ -1,69 +1,86 @@
-background-body = #272b33
+body-backgroundColor = #272b33
 color-accent = #3d8feb
-color-body-text = #c5cfdb
-color-focus-ring = #c5cfdb
+body-color = #c5cfdb
 color-neutral-dark = #979fa8
 
-background-Button = #535a66
-background-Button-active = #282d33
-background-Button-disabled = #282d33
-background-Button-focus = #666d7a
-background-Button-hover = #666d7a
-background-Button-pressed = #282d33
-borderColor-Button = transparent
-borderColor-Button-active = transparent
-borderColor-Button-disabled = transparent
-borderColor-Button-focus = transparent
-borderColor-Button-hover = transparent
-borderColor-Button-pressed = transparent
-color-Button = #FFF
-color-Button-active = #FFF
-color-Button-disabled = #FFF
-color-Button-focus = #FFF
-color-Button-hover = #FFF
-color-Button-pressed = #FFF
+Button-backgroundColor = #535a66
+Button-backgroundColor-active = #282d33
+Button-backgroundColor-disabled = #282d33
+Button-backgroundColor-focus = #666d7a
+Button-backgroundColor-hover = #666d7a
+Button-borderColor = transparent
+Button-borderColor-active = transparent
+Button-borderColor-disabled = transparent
+Button-borderColor-focus = transparent
+Button-borderColor-hover = transparent
+Button-color = #FFF
+Button-color-active = #FFF
+Button-color-disabled = #FFF
+Button-color-focus = #FFF
+Button-color-hover = #FFF
 
-background-Dialog = #111
-boxShadowColor-Dialog = transparent
+Checkbox-backgroundColor = #FFF
+Checkbox-backgroundColor-focus = darken(color-accent, 20%)
+Checkbox-backgroundColor-hover = darken(color-accent, 20%)
+Checkbox-borderColor = #000
+Checkbox-borderColor-focus = #000
+Checkbox-borderColor-hover = #000
+Checkbox-checked-backgroundColor = color-accent
+Checkbox-checked-backgroundColor-focus = darken(color-accent, 20%)
+Checkbox-checked-backgroundColor-hover = darken(color-accent, 20%)
+Checkbox-checked-borderColor = Checkbox-borderColor
+Checkbox-checked-borderColor-focus = Checkbox-borderColor
+Checkbox-checked-borderColor-hover = Checkbox-borderColor
+Checkbox-checked-color = #000
+Checkbox-indeterminate-backgroundColor = color-accent
+Checkbox-indeterminate-backgroundColor-focus = darken(color-accent, 20%)
+Checkbox-indeterminate-backgroundColor-hover = darken(color-accent, 20%)
+Checkbox-indeterminate-borderColor = Checkbox-borderColor
+Checkbox-indeterminate-borderColor-focus = Checkbox-borderColor
+Checkbox-indeterminate-borderColor-hover = Checkbox-borderColor
+Checkbox-indeterminate-color = #000
 
-borderColor-Checkbox = #000
-borderColor-Checkbox-focus = #000
-borderColor-Checkbox-hover = #000
-borderColor-Checkbox-checked = #000
-background-Checkbox = #FFF
-background-Checkbox-checked = color-accent
-background-Checkbox-indeterminate = color-accent linear-gradient(to bottom, color-accent 0%, color-accent calc(50% - 1px), #000 calc(50% - 1px), #000 calc(50% + 1px), color-accent calc(50% + 1px), color-accent 100%) center \/ 50% 50% no-repeat
-boxShadowColor-Checkbox = transparent
+Dialog-backgroundColor = #FFF
+Dialog-borderColor = transparent
+Dialog-boxShadowColor = transparent
+Dialog-color = #111
 
-borderColor-Dialog = transparent
-borderColor-Pagination_control = transparent
-borderColor-Popover = transparent
-borderColor-Popover_outline = transparent
-borderColor-Progress = transparent
-borderColor-Radio = transparent
-borderColor-Radio-focus = transparent
-borderColor-Radio-hover = transparent
-borderColor-Radio-selected = transparent
-borderColor-Input = transparent
-borderColor-Input-focus = transparent
-borderColor-Input-hover = transparent
-borderColor-TokenizedInput = transparent
-borderColor-TokenizedInput_token = transparent
-borderColor-TokenizedInput_token-active = transparent
-borderColor-TokenizedInput_token-focus = transparent
-borderColor-TokenizedInput_token-hover = transparent
-borderColor-TokenizedInput_token-selected = transparent
+Input-borderColor = transparent
 
-background-SegmentedControl_option = background-Button
-background-SegmentedControl_option-active = background-Button-active
-background-SegmentedControl_option-hover = background-Button-hover
-background-SegmentedControl_option-focus = background-Button-focus
-background-SegmentedControl_option-selected = background-Button-active
-borderColor-SegmentedControl_option = transparent
+Pagination-control-backgroundColor = transparent
+Pagination-control-backgroundColor-disabled = transparent
+Pagination-control-backgroundColor-focus = transparent
+Pagination-control-backgroundColor-hover = transparent
+Pagination-control-color = color-neutral-dark
+Pagination-control-color-disabled = Pagination-control-color
+Pagination-control-color-focus = mix(color-neutral-dark, #FFF)
+Pagination-control-color-hover = mix(color-neutral-dark, #FFF)
+Pagination-selectedControl-backgroundColor = transparent
+Pagination-selectedControl-backgroundColor-disabled = transparent
+Pagination-selectedControl-backgroundColor-focus = transparent
+Pagination-selectedControl-backgroundColor-hover = transparent
+Pagination-selectedControl-color = #FFF
+Pagination-selectedControl-color-disabled = #FFF
+Pagination-selectedControl-color-focus = #FFF
+Pagination-selectedControl-color-hover = #FFF
 
-boxShadowColor-Typeahead_match_wrapper = color-neutral-dark
-color-Typeahead_match = color-neutral-dark
-color-Typeahead_match-selected = color-neutral-light
+Popover-backgroundColor = body-backgroundColor
+Popover-borderColor = #000
+Popover-color = body-color
+Popover-caret-backgroundColor = color-accent
+
+Radio-backgroundColor = transparent
+Radio-backgroundColor-active = color-accent
+Radio-backgroundColor-focus = transparent
+Radio-backgroundColor-hover = transparent
+Radio-borderColor = body-color
+Radio-borderColor-active = Radio-backgroundColor-active
+Radio-borderColor-focus = #FFF
+Radio-borderColor-hover = #FFF
+
+TokenizedInput-token-borderColor = lighten(body-backgroundColor, 20%)
+
+Typeahead-matchWrapper-borderColor = #000
 
 @require "../style"
 @require "../packages/*/demo/style"
@@ -135,8 +152,8 @@ html {
 }
 
 body {
-    background: background-body;
-    color: color-body-text;
+    background: body-backgroundColor;
+    color: body-color;
     line-height: 1.4;
     overflow-x: hidden;
     margin: 0;
@@ -154,7 +171,7 @@ main {
 
 .boundless-nav {
     background: #535a66;
-    color: color-body-text;
+    color: body-color;
     flex-shrink: 0;
     min-width: 360px;
     padding: 24px;
@@ -545,7 +562,7 @@ th, td {
 }
 
 article {
-    flex-shrink: 1;
+    flex: 1 1 auto;
     overflow: hidden;
     padding: 33px;
 

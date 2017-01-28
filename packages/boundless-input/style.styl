@@ -1,42 +1,78 @@
 .b-input-wrapper {
-    font-size: fontSize-input;
+    font-size: Input-fontSize;
     position: relative;
     width: 100%;
 }
 
 .b-input {
     appearance: none;
-    background: background-Input;
-    border: 1px solid borderColor-Input;
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: borderRadius;
-    color: color-Input;
+    color: Input-color;
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
     line-height: inherit;
     margin: 0;
     padding: 0.75em;
-    width: 100%;
-}
-
-.b-input {
     position: relative;
     z-index: 1;
+    width: 100%;
+    
+    transition: all 200ms ease;
+    
+    // the placeholder sits after the primary input, so we'll apply styling to that instead
 
-    transition: border-color 200ms ease;
-}
+    & + .b-input-placeholder {
+        background: Input-backgroundColor;
+        border-color: Input-borderColor;
+        color: Input-placeholder-color;
+    }
 
-.b-input:hover {
-    border-color: borderColor-Input-hover;
-}
+    &[disabled] {
+        color: Input-color-disabled;
+        cursor: not-allowed;
+        opacity: Input-opacity-disabled;
+        
+        & + .b-input-placeholder,
+        &:active + .b-input-placeholder,
+        &:focus + .b-input-placeholder,
+        &:hover + .b-input-placeholder {
+            background: Input-backgroundColor-disabled;
+            border-color: Input-borderColor-disabled;
+        }
+    }
+    
+    &:active {
+        color: Input-color-active;
+        
+        & + .b-input-placeholder {
+            background: Input-backgroundColor-active;
+            border-color: Input-borderColor-active;
+        }
+    }
+    
+    &:focus {
+        color: Input-color-focus;
+        
+        & + .b-input-placeholder {
+            background: Input-backgroundColor-focus;
+            border-color: Input-borderColor-focus;
+        }
+    }
 
-.b-input:focus {
-    border-color: borderColor-Input-focus;
+    &:hover {
+        color: Input-color-hover;
+        
+        & + .b-input-placeholder {
+            background: Input-backgroundColor-hover;
+            border-color: Input-borderColor-hover;
+        }
+    }
 }
 
 .b-input-placeholder {
-    color: color-Input_placeholder;
-    border-color: transparent;
     overflow: hidden;
     position: absolute;
     top: 0;
@@ -45,8 +81,5 @@
     right: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.b-input-placeholder + .b-input {
-    background: transparent;
+    z-index: 0;
 }

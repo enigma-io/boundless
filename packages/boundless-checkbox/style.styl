@@ -1,5 +1,17 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
+get_checkbox_svg(color) {
+    return "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><path fill='none' stroke='%s' stroke-width='5' d='M14.1 27.2l7.1 7.2 16.7-16.8'/></svg>" % color
+}
+
+get_checked_background(bg, color) {
+    return bg 'url("data:image/svg+xml;utf8,%s")' % get_checkbox_svg(color) center \/ 100% no-repeat
+}
+
+get_indeterminate_background(bg, dash) {
+    return "%s linear-gradient(to bottom, %s 0%, %s calc(50% - 1px), %s calc(50% - 1px), %s calc(50% + 1px), %s calc(50% + 1px), %s 100%) center / 50% 50% no-repeat" % (bg bg bg dash dash bg bg);
+}
+
 .b-checkbox-wrapper {
     display: flex;
 }
@@ -16,8 +28,8 @@
 
 .b-checkbox {
     appearance: none;
-    background: background-Checkbox;
-    border: 1px solid borderColor-Checkbox;
+    background: Checkbox-backgroundColor;
+    border: 1px solid Checkbox-borderColor;
     border-radius: borderRadius;
     box-shadow: none;
     flex-shrink: 0;
@@ -27,22 +39,66 @@
     height: 16px;
     width: 16px;
 
-    transition: border-color 200ms ease;
-}
+    transition: all 200ms ease;
+    
+    &[disabled] {
+        background: Checkbox-backgroundColor-disabled;
+        border-color: Checkbox-borderColor-disabled;
+        cursor: not-allowed;
+        opacity: Checkbox-opacity-disabled;
+    }
+    
+    &:focus {
+        background: Checkbox-backgroundColor-focus;
+        border-color: Checkbox-borderColor-focus;
+    }
+    
+    &:hover {
+        background: Checkbox-backgroundColor-hover;
+        border-color: Checkbox-borderColor-hover;
+    }
+    
+    &.b-checkbox-checked {
+        background: get_checked_background(Checkbox-checked-backgroundColor, Checkbox-checked-color);
+        border-color: Checkbox-checked-borderColor;
+        
+        &[disabled] {
+            background: get_checked_background(Checkbox-checked-backgroundColor-disabled, Checkbox-checked-color-disabled);
+            border-color: Checkbox-checked-borderColor-disabled;
+            cursor: not-allowed;
+            opacity: Checkbox-opacity-disabled;
+        }
+        
+        &:focus {
+            background: get_checked_background(Checkbox-checked-backgroundColor-focus, Checkbox-checked-color-focus);
+            border-color: Checkbox-checked-borderColor-focus;
+        }
+        
+        &:hover {
+            background: get_checked_background(Checkbox-checked-backgroundColor-hover, Checkbox-checked-color-hover);
+            border-color: Checkbox-checked-borderColor-hover;
+        }
+    }
 
-.b-checkbox:hover {
-    border-color: borderColor-Checkbox-hover;
-}
-
-.b-checkbox:focus {
-    border-color: borderColor-Checkbox-focus;
-}
-
-.b-checkbox-checked {
-    background: background-Checkbox-checked;
-    border-color: borderColor-Checkbox-checked;
-}
-
-.b-checkbox-mixed {
-    background: background-Checkbox-indeterminate;
+    &.b-checkbox-mixed {
+        background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor, Checkbox-indeterminate-color);
+        border-color: Checkbox-indeterminate-borderColor;
+        
+        &[disabled] {
+            background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-disabled, Checkbox-indeterminate-color-disabled);
+            border-color: Checkbox-borderColor-disabled;
+            cursor: not-allowed;
+            opacity: Checkbox-opacity-disabled;
+        }
+        
+        &:focus {
+            background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-focus, Checkbox-indeterminate-color-focus);
+            border-color: Checkbox-borderColor-focus;
+        }
+        
+        &:hover {
+            background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-hover, Checkbox-indeterminate-color-hover);
+            border-color: Checkbox-borderColor-hover;
+        }
+    }
 }
