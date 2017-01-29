@@ -7,82 +7,118 @@ __An accessible radio form control.__
 
 Radio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
 
+### Example Usage
+```jsx
+import React from 'react';
+import Radio from '../index';
+
+export default class RadioDemo extends React.PureComponent {
+    state = {
+        options: [{
+            selected: false,
+            label: 'Business',
+            value: 'bus',
+            name: 'major',
+        }, {
+            selected: true,
+            label: 'Engineering',
+            value: 'eng',
+            name: 'major',
+        }, {
+            selected: false,
+            label: 'Physical Sciences',
+            value: 'phys-sci',
+            name: 'major',
+        }, {
+            selected: false,
+            label: 'Psychology',
+            value: 'psy',
+            name: 'major',
+        }, {
+            selected: false,
+            label: 'Law',
+            value: 'law',
+            name: 'major',
+        }],
+    }
+
+    handleInteraction(code) {
+        // eslint-disable-next-line no-alert
+        alert(`${code} selected!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
+    }
+
+    render() {
+        return (
+            <div>
+                <p>What is your academic major?</p>
+                <div className='spread'>
+                    {this.state.options.map((definition) => {
+                        let boundFunc = this.handleInteraction.bind(this, definition.value);
+
+                        return (
+                            <Radio {...definition}
+                                     key={definition.value}
+                                     label={definition.label}
+                                     onSelected={boundFunc} />
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Radio#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Radio#props).
 
 ### Required Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`name`__ ・ passthrough to the HTML `name` attribute on the `.b-radio` node
 
-<tr>
-<td>name</td>
-<td><pre><code>string</code></pre></td>
-<td><pre><code class="language-js">''</code></pre></td>
-<td>passthrough to the HTML `name` attribute on the `.b-radio` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `string` | `''`
 
-<tr>
-<td>value</td>
-<td><pre><code>string</code></pre></td>
-<td><pre><code class="language-js">''</code></pre></td>
-<td>passthrough to the HTML `value` attribute on the `.b-radio` node</td>
-</tr>
+- __`value`__ ・ passthrough to the HTML `value` attribute on the `.b-radio` node
 
-</table>
+  Expects | Default Value
+  -       | -
+  `string` | `''`
 
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`inputProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
 
-<tr>
-<td>inputProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 
-<tr>
-<td>label</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>any React-renderable content, most commonly a simple string</td>
-</tr>
+- __`label`__ ・ any React-renderable content, most commonly a simple string
 
-<tr>
-<td>labelProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>onSelected</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the element becomes selected; backing data must be updated to persist the state change</td>
-</tr>
+- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
 
-<tr>
-<td>selected</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 
-</table>
+- __`onSelected`__ ・ called when the element becomes selected; backing data must be updated to persist the state change
 
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`selected`__ ・ determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+
+  Expects | Default Value
+  -       | -
+  `bool` | `false`
 

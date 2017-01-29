@@ -27,9 +27,59 @@ Button has two modes of operation:
    </Button>
    ```
 
+### Example Usage
+```jsx
+import React from 'react';
+import Button from '../index';
+
+export default class ButtonDemo extends React.PureComponent {
+    state = {
+        pressed: false,
+    }
+
+    handleClick = () => {
+        // eslint-disable-next-line no-alert
+        alert('A single-click was detected.');
+    }
+
+    handlePressed = () => {
+        this.setState({pressed: true});
+    }
+
+    handleUnpressed = () => {
+        this.setState({pressed: false});
+    }
+
+    render() {
+        return (
+            <div>
+                <Button onPressed={this.handleClick}>
+                    Click Me
+                </Button>
+
+                <Button
+                    onPressed={this.handlePressed}
+                    onUnpressed={this.handleUnpressed}
+                    pressed={this.state.pressed}>
+                    {this.state.pressed ? 'Pressed' : 'Unpressed'}
+                </Button>
+
+                <Button
+                    onPressed={this.handleClick}
+                    disabled={true}>
+                    Disabled
+                </Button>
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Button#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Button#props).
 
 ### Required Props
 
@@ -38,56 +88,39 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`children`__
 
-<tr>
-<td>children</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td></td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>component</td>
-<td><pre><code>string or function</code></pre></td>
-<td><pre><code class="language-js">'button'</code></pre></td>
-<td>Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-</tr>
+- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
 
-<tr>
-<td>onClick</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td></td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `string or function` | `'button'`
 
-<tr>
-<td>onPressed</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed</td>
-</tr>
+- __`onClick`__
 
-<tr>
-<td>onUnpressed</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the element becomes "unpressed"; backing data must be updated to persist the state change</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>pressed</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">undefined</code></pre></td>
-<td>enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)</td>
-</tr>
+- __`onPressed`__ ・ called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed
 
-</table>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
+- __`onUnpressed`__ ・ called when the element becomes "unpressed"; backing data must be updated to persist the state change
+
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`pressed`__ ・ enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
+
+  Expects | Default Value
+  -       | -
+  `bool` | `undefined`
 

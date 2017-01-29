@@ -7,9 +7,57 @@ __A blocking, focus-stealing container.__
 
 Modal is an enhancement upon [Dialog](https://github.com/enigma-io/boundless/blob/master/packages/boundless-dialog/README.md). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
 
+### Example Usage
+```jsx
+import React from 'react';
+import Button from '../../boundless-button/index';
+import Modal from '../index';
+
+export default class ModalDemo extends React.PureComponent {
+    state = {
+        showModal: false,
+    }
+
+    toggleModal = () => {
+        this.setState({showModal: !this.state.showModal});
+    }
+
+    renderModal() {
+        if (this.state.showModal) {
+            const buttons = [
+                <Button key='y' onPressed={this.toggleModal}>Yes</Button>,
+                <Button key='n' className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</Button>,
+            ];
+
+            return (
+                <Modal
+                    className='demo-modal'
+                    header='Account Deletion'
+                    footer={buttons}>
+                    Are you sure you want to remove your account permanently?
+                </Modal>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Button ref='trigger' onPressed={this.toggleModal}>
+                    Delete Account
+                </Button>
+                {this.renderModal()}
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Modal#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Modal#props).
 
 ### Required Props
 
@@ -18,152 +66,122 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`after`__ ・ arbitrary content to be rendered after the dialog in the DOM
 
-<tr>
-<td>after</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>arbitrary content to be rendered after the dialog in the DOM</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>before</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>arbitrary content to be rendered before the dialog in the DOM</td>
-</tr>
+- __`before`__ ・ arbitrary content to be rendered before the dialog in the DOM
 
-<tr>
-<td>bodyProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>captureFocus</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>determines if focus is allowed to move away from the dialog</td>
-</tr>
+- __`bodyProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
 
-<tr>
-<td>children</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td></td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 
-<tr>
-<td>closeOnEscKey</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+- __`captureFocus`__ ・ determines if focus is allowed to move away from the dialog
 
-<tr>
-<td>closeOnInsideClick</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
 
-<tr>
-<td>closeOnOutsideClick</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+- __`children`__
 
-<tr>
-<td>closeOnOutsideFocus</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>closeOnOutsideScroll</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
-is provided, the return value determines if the dialog will be closed</td>
-</tr>
+- __`closeOnEscKey`__ ・ enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>footer</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>footerProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
-</tr>
+- __`closeOnInsideClick`__ ・ enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>header</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>headerProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
-</tr>
+- __`closeOnOutsideClick`__ ・ enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>maskProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>modalProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element</td>
-</tr>
+- __`closeOnOutsideFocus`__ ・ enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>onClose</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>portalProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)</td>
-</tr>
+- __`closeOnOutsideScroll`__ ・ enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+  is provided, the return value determines if the dialog will be closed
 
-<tr>
-<td>wrapperProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-</table>
+- __`footer`__ ・ text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
 
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+- __`footerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`header`__ ・ text, ReactElements, etc. to represent the "title bar" area of the dialog
+
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+- __`headerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`maskProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`modalProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`portalProps`__ ・ any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`wrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 

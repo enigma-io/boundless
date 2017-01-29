@@ -35,9 +35,309 @@ When using `TokenizedInput` in your project, you may call the following methods 
 - __`setValue(value: string)`__
   sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
 
+### Example Usage
+```jsx
+import React from 'react';
+import TokenizedInput from '../index';
+import Typeahead from '../../boundless-typeahead/index';
+import {without} from 'lodash';
+
+export default class TokenizedInputDemo extends React.PureComponent {
+    state = {
+        countries: [
+            {text: 'Afghanistan'},
+            {text: 'Albania'},
+            {text: 'Algeria'},
+            {text: 'American Samoa'},
+            {text: 'Andorra'},
+            {text: 'Angola'},
+            {text: 'Anguilla'},
+            {text: 'Antarctica'},
+            {text: 'Antigua and Barbuda'},
+            {text: 'Argentina'},
+            {text: 'Armenia'},
+            {text: 'Aruba'},
+            {text: 'Australia'},
+            {text: 'Austria'},
+            {text: 'Azerbaijan'},
+            {text: 'Bahamas'},
+            {text: 'Bahrain'},
+            {text: 'Bangladesh'},
+            {text: 'Barbados'},
+            {text: 'Belarus'},
+            {text: 'Belgium'},
+            {text: 'Belize'},
+            {text: 'Benin'},
+            {text: 'Bermuda'},
+            {text: 'Bhutan'},
+            {text: 'Bolivia'},
+            {text: 'Bosnia and Herzegovina'},
+            {text: 'Botswana'},
+            {text: 'Bouvet Island'},
+            {text: 'Brazil'},
+            {text: 'British Indian Ocean Territory'},
+            {text: 'Brunei Darussalam'},
+            {text: 'Bulgaria'},
+            {text: 'Burkina Faso'},
+            {text: 'Burundi'},
+            {text: 'Cambodia'},
+            {text: 'Cameroon'},
+            {text: 'Canada'},
+            {text: 'Cape Verde'},
+            {text: 'Caribbean Netherlands'},
+            {text: 'Cayman Islands'},
+            {text: 'Central African Republic'},
+            {text: 'Chad'},
+            {text: 'Chile'},
+            {text: 'China'},
+            {text: 'Christmas Island'},
+            {text: 'Cocos (Keeling) Islands'},
+            {text: 'Colombia'},
+            {text: 'Comoros'},
+            {text: 'Congo'},
+            {text: 'Congo, Democratic Republic of'},
+            {text: 'Cook Islands'},
+            {text: 'Costa Rica'},
+            {text: 'Croatia'},
+            {text: 'Cuba'},
+            {text: 'Curaçao'},
+            {text: 'Cyprus'},
+            {text: 'Czech Republic'},
+            {text: 'Côte d\'Ivoire'},
+            {text: 'Denmark'},
+            {text: 'Djibouti'},
+            {text: 'Dominica'},
+            {text: 'Dominican Republic'},
+            {text: 'Ecuador'},
+            {text: 'Egypt'},
+            {text: 'El Salvador'},
+            {text: 'Equatorial Guinea'},
+            {text: 'Eritrea'},
+            {text: 'Estonia'},
+            {text: 'Ethiopia'},
+            {text: 'Falkland Islands'},
+            {text: 'Faroe Islands'},
+            {text: 'Fiji'},
+            {text: 'Finland'},
+            {text: 'France'},
+            {text: 'French Guiana'},
+            {text: 'French Polynesia'},
+            {text: 'French Southern Territories'},
+            {text: 'Gabon'},
+            {text: 'Gambia'},
+            {text: 'Georgia'},
+            {text: 'Germany'},
+            {text: 'Ghana'},
+            {text: 'Gibraltar'},
+            {text: 'Greece'},
+            {text: 'Greenland'},
+            {text: 'Grenada'},
+            {text: 'Guadeloupe'},
+            {text: 'Guam'},
+            {text: 'Guatemala'},
+            {text: 'Guernsey'},
+            {text: 'Guinea'},
+            {text: 'Guinea-Bissau'},
+            {text: 'Guyana'},
+            {text: 'Haiti'},
+            {text: 'Heard and McDonald Islands'},
+            {text: 'Honduras'},
+            {text: 'Hong Kong'},
+            {text: 'Hungary'},
+            {text: 'Iceland'},
+            {text: 'India'},
+            {text: 'Indonesia'},
+            {text: 'Iran'},
+            {text: 'Iraq'},
+            {text: 'Ireland'},
+            {text: 'Isle of Man'},
+            {text: 'Israel'},
+            {text: 'Italy'},
+            {text: 'Jamaica'},
+            {text: 'Japan'},
+            {text: 'Jersey'},
+            {text: 'Jordan'},
+            {text: 'Kazakhstan'},
+            {text: 'Kenya'},
+            {text: 'Kiribati'},
+            {text: 'Kuwait'},
+            {text: 'Kyrgyzstan'},
+            {text: 'Lao People\'s Democratic Republic'},
+            {text: 'Latvia'},
+            {text: 'Lebanon'},
+            {text: 'Lesotho'},
+            {text: 'Liberia'},
+            {text: 'Libya'},
+            {text: 'Liechtenstein'},
+            {text: 'Lithuania'},
+            {text: 'Luxembourg'},
+            {text: 'Macau'},
+            {text: 'Macedonia'},
+            {text: 'Madagascar'},
+            {text: 'Malawi'},
+            {text: 'Malaysia'},
+            {text: 'Maldives'},
+            {text: 'Mali'},
+            {text: 'Malta'},
+            {text: 'Marshall Islands'},
+            {text: 'Martinique'},
+            {text: 'Mauritania'},
+            {text: 'Mauritius'},
+            {text: 'Mayotte'},
+            {text: 'Mexico'},
+            {text: 'Micronesia, Federated States of'},
+            {text: 'Moldova'},
+            {text: 'Monaco'},
+            {text: 'Mongolia'},
+            {text: 'Montenegro'},
+            {text: 'Montserrat'},
+            {text: 'Morocco'},
+            {text: 'Mozambique'},
+            {text: 'Myanmar'},
+            {text: 'Namibia'},
+            {text: 'Nauru'},
+            {text: 'Nepal'},
+            {text: 'New Caledonia'},
+            {text: 'New Zealand'},
+            {text: 'Nicaragua'},
+            {text: 'Niger'},
+            {text: 'Nigeria'},
+            {text: 'Niue'},
+            {text: 'Norfolk Island'},
+            {text: 'North Korea'},
+            {text: 'Northern Mariana Islands'},
+            {text: 'Norway'},
+            {text: 'Oman'},
+            {text: 'Pakistan'},
+            {text: 'Palau'},
+            {text: 'Palestine, State of'},
+            {text: 'Panama'},
+            {text: 'Papua New Guinea'},
+            {text: 'Paraguay'},
+            {text: 'Peru'},
+            {text: 'Philippines'},
+            {text: 'Pitcairn'},
+            {text: 'Poland'},
+            {text: 'Portugal'},
+            {text: 'Puerto Rico'},
+            {text: 'Qatar'},
+            {text: 'Romania'},
+            {text: 'Russian Federation'},
+            {text: 'Rwanda'},
+            {text: 'Réunion'},
+            {text: 'Saint Barthélemy'},
+            {text: 'Saint Helena'},
+            {text: 'Saint Kitts and Nevis'},
+            {text: 'Saint Lucia'},
+            {text: 'Saint Vincent and the Grenadines'},
+            {text: 'Saint-Martin (France)'},
+            {text: 'Samoa'},
+            {text: 'San Marino'},
+            {text: 'Sao Tome and Principe'},
+            {text: 'Saudi Arabia'},
+            {text: 'Senegal'},
+            {text: 'Serbia'},
+            {text: 'Seychelles'},
+            {text: 'Sierra Leone'},
+            {text: 'Singapore'},
+            {text: 'Sint Maarten (Dutch part)'},
+            {text: 'Slovakia'},
+            {text: 'Slovenia'},
+            {text: 'Solomon Islands'},
+            {text: 'Somalia'},
+            {text: 'South Africa'},
+            {text: 'South Georgia and the South Sandwich Islands'},
+            {text: 'South Korea'},
+            {text: 'South Sudan'},
+            {text: 'Spain'},
+            {text: 'Sri Lanka'},
+            {text: 'St. Pierre and Miquelon'},
+            {text: 'Sudan'},
+            {text: 'Suriname'},
+            {text: 'Svalbard and Jan Mayen Islands'},
+            {text: 'Swaziland'},
+            {text: 'Sweden'},
+            {text: 'Switzerland'},
+            {text: 'Syria'},
+            {text: 'Taiwan'},
+            {text: 'Tajikistan'},
+            {text: 'Tanzania'},
+            {text: 'Thailand'},
+            {text: 'The Netherlands'},
+            {text: 'Timor-Leste'},
+            {text: 'Togo'},
+            {text: 'Tokelau'},
+            {text: 'Tonga'},
+            {text: 'Trinidad and Tobago'},
+            {text: 'Tunisia'},
+            {text: 'Turkey'},
+            {text: 'Turkmenistan'},
+            {text: 'Turks and Caicos Islands'},
+            {text: 'Tuvalu'},
+            {text: 'Uganda'},
+            {text: 'Ukraine'},
+            {text: 'United Arab Emirates'},
+            {text: 'United Kingdom'},
+            {text: 'United States'},
+            {text: 'United States Minor Outlying Islands'},
+            {text: 'Uruguay'},
+            {text: 'Uzbekistan'},
+            {text: 'Vanuatu'},
+            {text: 'Vatican'},
+            {text: 'Venezuela'},
+            {text: 'Vietnam'},
+            {text: 'Virgin Islands (British)'},
+            {text: 'Virgin Islands (U.S.)'},
+            {text: 'Wallis and Futuna Islands'},
+            {text: 'Western Sahara'},
+            {text: 'Yemen'},
+            {text: 'Zambia'},
+            {text: 'Zimbabwe'},
+        ],
+        tokens: [11, 55, 211],
+        tokensSelected: [],
+    }
+
+    addTokenByEntityIndex = (index) => {
+        this.setState({tokens: this.state.tokens.concat(index)});
+    }
+
+    removeTokensByEntityIndexes = (indexes) => {
+        this.setState({
+            tokens: without(this.state.tokens, ...indexes),
+            tokensSelected: without(this.state.tokensSelected, ...indexes),
+        });
+    }
+
+    handleSelectionByEntityIndexes = (indexes) => {
+        this.setState({tokensSelected: indexes});
+    }
+
+    render() {
+        return (
+            <div>
+                <p>Enter a country you'd like to visit:</p>
+                <TokenizedInput
+                    algorithm={Typeahead.mode.FUZZY}
+                    entities={this.state.countries}
+                    handleAddToken={this.addTokenByEntityIndex}
+                    handleRemoveTokens={this.removeTokensByEntityIndexes}
+                    handleNewSelection={this.handleSelectionByEntityIndexes}
+                    hint={true}
+                    tokenCloseComponent={<span>ⓧ</span>}
+                    tokens={this.state.tokens}
+                    tokensSelected={this.state.tokensSelected} />
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/TokenizedInput#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/TokenizedInput#props).
 
 ### Required Props
 
@@ -46,150 +346,119 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`algorithm`__ ・ the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)
 
-<tr>
-<td>algorithm</td>
-<td><pre><code>Typeahead.mode.STARTS_WITH or
-Typeahead.mode.FUZZY or object</code></pre></td>
-<td><pre><code class="language-js">Typeahead.mode.FUZZY</code></pre></td>
-<td>the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `Typeahead.mode.STARTS_WITH or Typeahead.mode.FUZZY or object` | `Typeahead.mode.FUZZY`
 
-<tr>
-<td>clearOnSelection</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>if `true`, clears the input text when a (partial) match is selected</td>
-</tr>
+- __`clearOnSelection`__ ・ if `true`, clears the input text when a (partial) match is selected
 
-<tr>
-<td>entities</td>
-<td><pre><code>arrayOf(object)</code></pre></td>
-<td><pre><code class="language-js">[]</code></pre></td>
-<td>an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool` | `false`
 
-<tr>
-<td>handleAddToken</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>function handler that is called when an entity is selected by the user and a token should be created</td>
-</tr>
+- __`entities`__ ・ an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element
 
-<tr>
-<td>handleNewSelection</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `arrayOf(object)` | `[]`
 
-<tr>
-<td>handleRemoveTokens</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected</td>
-</tr>
+- __`handleAddToken`__ ・ function handler that is called when an entity is selected by the user and a token should be created
 
-<tr>
-<td>hidePlaceholderOnFocus</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>hint</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input</td>
-</tr>
+- __`handleNewSelection`__ ・ function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be
 
-<tr>
-<td>hintProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>inputProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{
+- __`handleRemoveTokens`__ ・ function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected
+
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`hidePlaceholderOnFocus`__ ・ triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
+
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
+
+- __`hint`__ ・ renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input
+
+  Expects | Default Value
+  -       | -
+  `bool` | `null`
+
+- __`hintProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`inputProps`__ ・ props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+
+  Expects | Default Value
+  -       | -
+  `object` | `{
     type: 'text',
-}</code></pre></td>
-<td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
-</tr>
+}`
 
-<tr>
-<td>matchWrapperProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element</td>
-</tr>
+- __`matchWrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element
 
-<tr>
-<td>offscreenClass</td>
-<td><pre><code>string</code></pre></td>
-<td><pre><code class="language-js">'b-offscreen'</code></pre></td>
-<td>the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 
-<tr>
-<td>onComplete</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete</td>
-</tr>
+- __`offscreenClass`__ ・ the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
 
-<tr>
-<td>onEntityHighlighted</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called with the index of the highlighted entity due to keyboard selection</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `string` | `'b-offscreen'`
 
-<tr>
-<td>onEntitySelected</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called with the index of the entity selected by the user</td>
-</tr>
+- __`onComplete`__ ・ called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
 
-<tr>
-<td>tokenCloseComponent</td>
-<td><pre><code>ReactElement</code></pre></td>
-<td><pre><code class="language-js"><div>X</div></code></pre></td>
-<td>the JSX used for the close button itself</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>tokenCloseVisible</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>determines if the `.b-tokenfield-token-close` element should be rendered for each token</td>
-</tr>
+- __`onEntityHighlighted`__ ・ called with the index of the highlighted entity due to keyboard selection
 
-<tr>
-<td>tokens</td>
-<td><pre><code>arrayOf(number)</code></pre></td>
-<td><pre><code class="language-js">[]</code></pre></td>
-<td>the indexes of entities that should be rendered as "tokens" in the component UI</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>tokensSelected</td>
-<td><pre><code>arrayOf(number)</code></pre></td>
-<td><pre><code class="language-js">[]</code></pre></td>
-<td>the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`</td>
-</tr>
+- __`onEntitySelected`__ ・ called with the index of the entity selected by the user
 
-</table>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
+- __`tokenCloseComponent`__ ・ the JSX used for the close button itself
+
+  Expects | Default Value
+  -       | -
+  `ReactElement` | `<div>X</div>`
+
+- __`tokenCloseVisible`__ ・ determines if the `.b-tokenfield-token-close` element should be rendered for each token
+
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
+
+- __`tokens`__ ・ the indexes of entities that should be rendered as "tokens" in the component UI
+
+  Expects | Default Value
+  -       | -
+  `arrayOf(number)` | `[]`
+
+- __`tokensSelected`__ ・ the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`
+
+  Expects | Default Value
+  -       | -
+  `arrayOf(number)` | `[]`
 

@@ -17,9 +17,60 @@ When using `Input` in your project, you may call the following methods on a rend
 - __setValue(string)__
   programmatically set the input value; useful for clearing out the input in "uncontrolled" mode -- note that digging into the internals and setting the `refs.field.value = ''` directly will not trigger events and messes up the internal state of the component
 
+### Example Usage
+```jsx
+import React from 'react';
+import Input from '../index';
+
+export default class InputDemo extends React.PureComponent {
+    state = {
+        input: '',
+    }
+
+    handleChange = (e) => this.setState({input: e.target.value})
+
+    render() {
+        return (
+            <div className='spread'>
+                <div>
+                    <h5><code>hidePlaceholderOnFocus=&#123;false&#125;</code></h5>
+                    <Input
+                        hidePlaceholderOnFocus={false}
+                        inputProps={{
+                            placeholder: 'Start typing and I disappear!',
+                        }} />
+                </div>
+
+                <div style={{marginLeft: '1em'}}>
+                    <h5><code>hidePlaceholderOnFocus=&#123;true&#125;</code></h5>
+                    <Input
+                        hidePlaceholderOnFocus={true}
+                        inputProps={{
+                            placeholder: 'Focus on me and I disappear!',
+                        }} />
+                </div>
+
+                <div style={{marginLeft: '1em'}}>
+                    <h5>"controlled" input</h5>
+                    <Input
+                        hidePlaceholderOnFocus={true}
+                        inputProps={{
+                            placeholder: 'Focus on me and I disappear!',
+                            onChange: this.handleChange,
+                            value: this.state.input,
+                        }} />
+                </div>
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Input#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Input#props).
 
 ### Required Props
 
@@ -28,30 +79,17 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`hidePlaceholderOnFocus`__ ・ triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
-<tr>
-<td>hidePlaceholderOnFocus</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
 
-<tr>
-<td>inputProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{
+- __`inputProps`__ ・ props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+
+  Expects | Default Value
+  -       | -
+  `object` | `{
     type: 'text',
-}</code></pre></td>
-<td>props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.</td>
-</tr>
-
-</table>
-
+}`
 
