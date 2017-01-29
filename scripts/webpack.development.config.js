@@ -23,6 +23,7 @@ devConf.plugins.push(
             githubSHA: git.long(),
             PRODUCTION: false,
         },
+        favicon: path.resolve(__dirname, '../docs/sparkles.png'),
         inject: 'body',
         minify: {
             collapseWhitespace: true,

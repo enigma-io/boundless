@@ -38,6 +38,7 @@ releaseConf.plugins.push(
             githubSHA: git.long(),
             PRODUCTION: true,
         },
+        favicon: path.resolve(__dirname, '../docs/sparkles.png'),
         filename: '404.html',
         inject: 'body',
         minify: {
