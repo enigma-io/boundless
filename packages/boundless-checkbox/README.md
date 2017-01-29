@@ -9,7 +9,7 @@ Checkbox is implemented as a "controlled input", meaning it is a direct represen
 inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller
 view must intercept and apply against the data provider.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import Checkbox from '../index';
@@ -106,4 +106,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `function` | `() => {}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-checkbox/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-checkbox/style"
+```
 

@@ -17,7 +17,7 @@ When using `Pagination` in your project, you may call the following methods on a
 - __`pageToIndex(index: number)`__
   renders the page that contains the ___zero___-indexed item
 
-### Example Usage
+## Example Usage
 ```jsx
 /* eslint no-console:0 */
 
@@ -228,4 +228,20 @@ export default class PaginationDemo extends React.PureComponent {
   Expects | Default Value
   -       | -
   `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-pagination/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-pagination/style"
+```
 

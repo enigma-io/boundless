@@ -7,7 +7,7 @@ __Hide content until it's needed, with configurable teasers.__
 
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import ProgressiveDisclosure from '../index';
@@ -85,4 +85,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-progressive-disclosure/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-progressive-disclosure/style"
+```
 

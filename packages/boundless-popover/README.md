@@ -29,7 +29,7 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 </Popover>
 ```
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 
@@ -328,4 +328,20 @@ export default class PopoverDemo extends React.PureComponent {
   Expects | Default Value
   -       | -
   `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-popover/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-popover/style"
+```
 

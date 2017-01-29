@@ -12,7 +12,7 @@ Specific areas (header, body, footer) are defined to provide easy conformance to
 [WAI-ARIA spec](http://www.w3.org * /TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby`
 and `aria-describedby` (screen reader  * accessibility). Their use is optional, but encouraged.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import {findDOMNode} from 'react-dom';
@@ -190,4 +190,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-dialog/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-dialog/style"
+```
 

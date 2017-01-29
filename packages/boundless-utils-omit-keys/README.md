@@ -15,3 +15,4 @@ const obj = {foo: 'bar', bar: 'baz'};
 omitKeys(obj, ['bar']); // returns `{foo: 'bar'}`
 ```
 
+

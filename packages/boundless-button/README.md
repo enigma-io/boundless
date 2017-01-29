@@ -27,7 +27,7 @@ Button has two modes of operation:
    </Button>
    ```
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import Button from '../index';
@@ -123,4 +123,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `bool` | `undefined`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-button/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-button/style"
+```
 

@@ -35,7 +35,7 @@ When using `TokenizedInput` in your project, you may call the following methods 
 - __`setValue(value: string)`__
   sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import TokenizedInput from '../index';
@@ -461,4 +461,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `arrayOf(number)` | `[]`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-tokenized-input/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-tokenized-input/style"
+```
 

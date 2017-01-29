@@ -8,7 +8,7 @@ __A controller view for managing the aggregate state of multiple, related checkb
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular
 configuration is built-in and is activated by passing the `selectAll` prop.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import CheckboxGroup from '../index';
@@ -175,4 +175,20 @@ export default class CheckboxGroupDemo extends React.PureComponent {
   Expects | Default Value
   -       | -
   `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-checkbox-group/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-checkbox-group/style"
+```
 

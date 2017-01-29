@@ -9,7 +9,7 @@ ArrowKeyNavigation is designed not to care about the component types it is wrapp
 
 The children, similarly, can be any type of component.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import ArrowKeyNavigation from '../index';
@@ -102,4 +102,5 @@ There are no required props.
   Expects | Default Value
   -       | -
   `ArrowKeyNavigation.mode.BOTH or ArrowKeyNavigation.mode.HORIZONTAL or ArrowKeyNavigation.mode.VERTICAL` | `ArrowKeyNavigation.mode.BOTH`
+
 

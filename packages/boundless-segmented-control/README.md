@@ -7,7 +7,7 @@ __A control containing multiple buttons, only one of which can be active at a ti
 
 SegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import SegmentedControl from '../index';
@@ -175,4 +175,20 @@ There are no required props.
   Expects | Default Value
   -       | -
   `custom` | `[]`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-segmented-control/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-segmented-control/style"
+```
 

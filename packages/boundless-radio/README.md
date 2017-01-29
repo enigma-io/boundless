@@ -7,7 +7,7 @@ __An accessible radio form control.__
 
 Radio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import Radio from '../index';
@@ -121,4 +121,20 @@ export default class RadioDemo extends React.PureComponent {
   Expects | Default Value
   -       | -
   `bool` | `false`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-radio/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-radio/style"
+```
 

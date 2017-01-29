@@ -17,7 +17,7 @@ When using `Input` in your project, you may call the following methods on a rend
 - __setValue(string)__
   programmatically set the input value; useful for clearing out the input in "uncontrolled" mode -- note that digging into the internals and setting the `refs.field.value = ''` directly will not trigger events and messes up the internal state of the component
 
-### Example Usage
+## Example Usage
 ```jsx
 import React from 'react';
 import Input from '../index';
@@ -92,4 +92,20 @@ There are no required props.
   `object` | `{
     type: 'text',
 }`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-input/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-input/style"
+```
 
