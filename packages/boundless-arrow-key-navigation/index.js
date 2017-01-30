@@ -5,7 +5,6 @@ import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
 
 /**
-# ArrowKeyNavigation
 __A higher-order component for arrow key navigation on a grouping of children.__
 
 ArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass

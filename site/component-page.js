@@ -14,6 +14,7 @@ export default class ComponentPage extends React.PureComponent {
         demo: PropTypes.any,
         docgenInfo: PropTypes.object,
         packageName: PropTypes.string,
+        prettyName: PropTypes.string,
     }
 
     renderSubPropTableRow = (props, name, depth) => (
@@ -234,7 +235,7 @@ export default class ComponentPage extends React.PureComponent {
         }
     }
 
-    render({docgenInfo} = this.props) {
+    render({docgenInfo, prettyName} = this.props) {
         const descriptionParts = docgenInfo.description.split(/(\n#{1,}?.*?\n)/);
 
         // assembles the props from composed components all the way down the chain
@@ -261,6 +262,8 @@ export default class ComponentPage extends React.PureComponent {
 
         return (
             <div>
+                <LinkedHeaderText component='h1'>{prettyName}</LinkedHeaderText>
+
                 <Markdown>{descriptionParts[0]}</Markdown>
                 {this.maybeRenderDemo()}
 

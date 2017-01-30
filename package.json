@@ -29,6 +29,7 @@
     "css-loader": "^0.26.1",
     "eslint": "^3.7.0",
     "eslint-plugin-react": "^6.3.0",
+    "extract-comments": "^0.10.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "git-rev-sync": "^1.8.0",
     "html-webpack-plugin": "^2.26.0",
@@ -44,6 +45,7 @@
     "react-dom": "^15.3.0",
     "react-router": "^2.0.0",
     "sinon": "^1.17.3",
+    "sitemap-webpack-plugin": "^0.3.0",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.2",
     "stylus-loader": "^2.4.0",
@@ -61,7 +63,6 @@
       "cobertura",
       "lcov"
     ],
-    "module": true,
     "testRegex": "\\.spec\\.js$",
     "transformIgnorePatterns": [
       "/node_modules/(?!boundless).*"

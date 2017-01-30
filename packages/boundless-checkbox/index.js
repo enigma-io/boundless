@@ -8,7 +8,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-# Checkbox
 __An accessible checkbox with indeterminate support.__
 
 Checkbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed

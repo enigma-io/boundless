@@ -11,7 +11,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-# TokenizedInput
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
 
 Basic usage of this component is identical to that of [Typeahead](https://github.com/enigma-io/boundless/master/packages/boundless-typeahead). Additional props are available to take advantage of the tokenization functionality.

@@ -8,7 +8,6 @@ import omit from 'boundless-utils-omit-keys';
 const isFunction = (x) => typeof x === 'function';
 
 /**
-# SegmentedControl
 __A control containing multiple buttons, only one of which can be active at a time.__
 
 SegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.

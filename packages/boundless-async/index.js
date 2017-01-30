@@ -5,7 +5,6 @@ import omit from 'boundless-utils-omit-keys';
 
 
 /**
- * # Async
  * __A higher-order component for rendering data that isn't ready yet.__
  *
  * There are plenty of situations where you need to fetch content to be displayed, but want
