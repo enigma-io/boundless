@@ -1,12 +1,29 @@
+const fs = require('fs');
 const path = require('path');
-const conf = require('./webpack.config.js');
 const _ = require('lodash');
 const webpack = require('webpack');
 const git = require('git-rev-sync');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLEntryPlugin = require('html-webpack-plugin');
+const SitemapPlugin = require('sitemap-webpack-plugin');
 
+const conf = require('./webpack.config.js');
 const releaseConf = _.cloneDeep(conf);
+
+_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+
+const base = __dirname + '/../packages/';
+const paths = fs.readdirSync(path.resolve(base)).filter((name) => {
+    return !require(path.resolve(base, name, 'package.json')).private;
+}).map((rawName) => {
+    if (rawName.indexOf('utils-') === -1) {
+        return `/${_.pascalCase(rawName.replace('boundless-', ''))}`;
+    }
+
+    return `/${_.camelCase(rawName.replace('boundless-utils-', ''))}`;
+});
+
+paths.push('/quickstart');
 
 releaseConf.devtool = 'none';
 
@@ -46,6 +63,11 @@ releaseConf.plugins.push(
         },
         template: path.resolve(__dirname, '../site/index.template.ejs'),
         title: 'Boundless',
+    }),
+
+    new SitemapPlugin('http://boundless.js.org', paths, {
+        lastMod: true,
+        skipGzip: true,
     }),
 
     new webpack.optimize.UglifyJsPlugin({

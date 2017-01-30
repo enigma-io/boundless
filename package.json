@@ -45,6 +45,7 @@
     "react-dom": "^15.3.0",
     "react-router": "^2.0.0",
     "sinon": "^1.17.3",
+    "sitemap-webpack-plugin": "^0.3.0",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.2",
     "stylus-loader": "^2.4.0",
