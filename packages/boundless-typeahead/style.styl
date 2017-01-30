@@ -1,19 +1,69 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-typeahead-wrapper {
-    font-size: fontSize-input;
+    background: Typeahead-backgroundColor;
+    border: 1px solid Typeahead-borderColor;
+    font-size: Input-fontSize;
     position: relative;
-}
+    
+    .b-input {
+        color: Typeahead-color;
+        
+        // only applying overrides on top of the existing Input styles
 
-.b-typeahead-hint + .b-input-wrapper .b-input-placeholder {
-    background: transparent;
+        & + .b-input-placeholder {
+            background: transparent;
+            border-color: transparent;
+            color: Typeahead-placeholder-color;
+        }
+
+        &[disabled] {
+            color: Typeahead-color-disabled;
+            opacity: Typeahead-opacity-disabled;
+            
+            & + .b-input-placeholder,
+            &:active + .b-input-placeholder,
+            &:focus + .b-input-placeholder,
+            &:hover + .b-input-placeholder {
+                background: transparent;
+                border-color: transparent;
+            }
+        }
+        
+        &:active {
+            color: Typeahead-color-active;
+            
+            & + .b-input-placeholder {
+                background: transparent;
+                border-color: transparent;
+            }
+        }
+        
+        &:focus {
+            color: Typeahead-color-focus;
+            
+            & + .b-input-placeholder {
+                background: transparent;
+                border-color: transparent;
+            }
+        }
+
+        &:hover {
+            color: Typeahead-color-hover;
+            
+            & + .b-input-placeholder {
+                background: transparent;
+                border-color: transparent;
+            }
+        }
+    }
 }
 
 .b-typeahead-match-wrapper {
-    background: background-Typeahead_match_wrapper;
+    background: Typeahead-matchWrapper-backgroundColor;
     border-bottom-left-radius: borderRadius;
     border-bottom-right-radius: borderRadius;
-    box-shadow: boxShadow-Typeahead_match_wrapper;
+    border: 1px solid Typeahead-matchWrapper-borderColor;
     margin-top: -1px;
     max-height: 300px;
     overflow: hidden;
@@ -25,41 +75,48 @@
     z-index: 99;
 }
 
+.b-typeahead-match-highlight {
+    background: Typeahead-mark-backgroundColor;
+    color: Typeahead-mark-color;
+}
+
 .b-typeahead-match {
-    color: color-Typeahead_match;
+    background: Typeahead-match-backgroundColor;
+    color: Typeahead-match-color;
     cursor: pointer;
     font-size: 13px;
     line-height: 1;
     padding: 0.25em 0.5em;
-}
+    
+    &:focus {
+        background: Typeahead-match-backgroundColor-focus;
+        color: Typeahead-match-color-focus;
 
-.b-typeahead-match:hover {
-    background: background-Typeahead_match-hover;
-    color: color-Typeahead_match-hover;
-
-    .b-typeahead-match-highlight {
-        background: background-Typeahead_match_highlight-hover;
-        color: color-Typeahead_match-hover-highlight;
+        .b-typeahead-match-highlight {
+            background: Typeahead-mark-backgroundColor-focus;
+            color: Typeahead-mark-color-focus;
+        }
     }
-}
 
-.b-typeahead-match-selected,
-.b-typeahead-match-selected:hover {
-    background: background-Typeahead_match-selected;
-    color: color-Typeahead_match-selected;
+    &:hover {
+        background: Typeahead-match-backgroundColor-hover;
+        color: Typeahead-match-color-hover;
 
-    .b-typeahead-match-highlight {
-        background: background-Typeahead_match_highlight-selected-hover;
-        color: color-Typeahead_match_highlight-selected-hover;
+        .b-typeahead-match-highlight {
+            background: Typeahead-mark-backgroundColor-hover;
+            color: Typeahead-mark-color-hover;
+        }
     }
-}
+    
+    &.b-typeahead-match-selected,
+    &.b-typeahead-match-selected:focus,
+    &.b-typeahead-match-selected:hover {
+        background: Typeahead-match-backgroundColor-active;
+        color: Typeahead-match-color-active;
 
-.b-typeahead-match-highlight {
-    background: background-Typeahead_match_highlight;
-    color: color-Typeahead_match-highlight;
-}
-
-.b-typeahead-match-selected .b-typeahead-match-highlight {
-    background: background-Typeahead_match_highlight-selected;
-    color: color-Typeahead_match_highlight-selected;
+        .b-typeahead-match-highlight {
+            background: Typeahead-mark-backgroundColor-active;
+            color: Typeahead-mark-color-active;
+        }
+    }
 }

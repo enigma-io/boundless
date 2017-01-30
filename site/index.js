@@ -6,7 +6,9 @@ import {browserHistory, Link, Redirect, Router, Route} from 'react-router';
 import _ from 'lodash';
 
 import * as Boundless from '../exports';
+import ComponentDemo from './component-demo';
 import ComponentPage from './component-page';
+import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
 
 import README from '../README.md';
@@ -125,6 +127,25 @@ class Container extends React.PureComponent {
         );
     }
 
+    renderMainContent(route) {
+        if (route.markdown) {
+            return (
+                <Markdown>
+                    {route.markdown}
+                </Markdown>
+            );
+        } else if (route.docgenInfo) {
+            return (
+                <ComponentPage
+                    demo={route.demo}
+                    docgenInfo={route.docgenInfo}
+                    packageName={route.name} />
+            );
+        } else if (route.component) {
+            return (<route.component />);
+        }
+    }
+
     render() {
         const route = _.last(this.props.routes);
 
@@ -135,13 +156,7 @@ class Container extends React.PureComponent {
                 <main ref={(node) => (this.main = node)}>
                     <article>
                         {this.maybeRenderGithubLinks(route)}
-                        {route.docgenInfo ? (
-                            <ComponentPage
-                                demo={route.demo}
-                                docgenInfo={route.docgenInfo}
-                                packageName={route.name}
-                                prettyName={route.path} />
-                        ) : <Markdown>{route.markdown}</Markdown>}
+                        {this.renderMainContent(route)}
                     </article>
                     <aside className='boundless-nav'>
                         <header>
@@ -150,6 +165,8 @@ class Container extends React.PureComponent {
                         </header>
                         <nav>
                             <Link activeClassName='active' to='/quickstart'>Get Started</Link>
+
+                            <Link activeClassName='active' to='/kitchensink'>Kitchen Sink</Link>
 
                             <h4>Components</h4>
                             <section>
@@ -192,16 +209,34 @@ class Container extends React.PureComponent {
     }
 }
 
+const KitchenSink = () => (
+    <div className='kitchensink'>
+        <LinkedHeaderText component='h1'>
+            Kitchen Sink
+        </LinkedHeaderText>
+
+        <p>The demos of every component are shown here for convenience.</p>
+
+        {components.filter((component) => !!component.demo).map((component) => (
+            <ComponentDemo
+                demo={component.demo}
+                name={component.name}
+                prettyName={component.path} />
+        ))}
+    </div>
+);
+
 render(
     <Router history={browserHistory}>
         <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
+            <Route path='kitchensink' component={KitchenSink} />
 
-            {components.map((definition) => (
+            {components.map((component) => (
                 <Route
-                    {...definition}
-                    key={definition.path}
-                    path={definition.path} />
+                    {...component}
+                    key={component.path}
+                    path={component.path} />
             ))}
 
             {utils.map((definition) => (

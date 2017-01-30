@@ -2,12 +2,11 @@ import React, {PropTypes} from 'react';
 import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
+import ComponentDemo from './component-demo';
 import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
-
-const getPackageIndexURI = (name) => `https://api.github.com/repos/enigma-io/boundless/contents/packages/${name}/demo/index.js`;
 
 export default class ComponentPage extends React.PureComponent {
     static propTypes = {
@@ -189,48 +188,12 @@ export default class ComponentPage extends React.PureComponent {
         );
     }
 
-    fetchDemo = () => {
-        return fetch(getPackageIndexURI(this.props.packageName)).then((response) => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-
-            return response.json();
-        });
-    }
-
-    // the implementation won't be fetchable until the repo is made public
     maybeRenderDemo() {
         if (this.props.demo) {
             return (
-                <div className='demo-section-wrapper'>
-                    <LinkedHeaderText component='h3'>
-                        Demo
-                    </LinkedHeaderText>
-
-                    <div className='demo-section-example'>
-                        <this.props.demo />
-                    </div>
-
-                    <Boundless.ProgressiveDisclosure
-                        className='demo-implementation-disclosure'
-                        teaser='Show Implementation'
-                        teaserExpanded='Hide Implementation'>
-                        {() => (
-                            <Boundless.Async
-                                data={this.fetchDemo()}
-                                contentRenderedFunc={() => window.Prism.highlightAll()}
-                                convertToJSXFunc={(json) => (
-                                    <pre className='demo-implementation'>
-                                        <code className='language-jsx'>
-                                            {atob(json.content)}
-                                        </code>
-                                    </pre>
-                                )}
-                                errorContent='There was a network failure retrieving the demo.' />
-                        )}
-                    </Boundless.ProgressiveDisclosure>
-                </div>
+                <ComponentDemo
+                    demo={this.props.demo}
+                    name={this.props.packageName} />
             );
         }
     }

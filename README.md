@@ -25,12 +25,17 @@ The Boundless website is based on this skin with branding colors, etc.
 
 Thanks to the modular nature of [Stylus](http://stylus-lang.com/), injecting your own customization to things like accent color(s) is extremely simple.
 
-In your own project's `.styl` file, define any variable overrides (see [style.styl](https://github.com/enigma-io/boundless/blob/master/style.styl) for what variables can be overridden), then import Boundless's master styl file:
+In your own project's `.styl` file, define any variable overrides (see [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl) for what variables can be overridden), then import Boundless's master styl file:
 
 ```stylus
+// first, pull in the variables
+@require "node_modules/boundless/variables";
+
+// do overrides as desired...
 color-accent = red;
 
-@import "node_modules/boundless/style";
+// then pull in the rest of the styles
+@require "node_modules/boundless/style";
 ```
 
 Next time your project's CSS is built, Boundless's CSS will automatically be compiled with the appropriate changes and included in your stylesheet.

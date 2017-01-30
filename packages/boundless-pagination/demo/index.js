@@ -43,10 +43,15 @@ export default class PaginationDemo extends React.PureComponent {
     render() {
         return (
             <Pagination
+                className='demo-pagination'
                 customControlContent='Your custom content'
                 getItem={this.handleItemRequest}
                 identifier={this.state.identifier}
                 itemToJSXConverterFunc={this.itemToJSX}
+                jumpToFirstControlContent='⇤'
+                previousPageControlContent='←'
+                nextPageControlContent='→'
+                jumpToLastControlContent='⇥'
                 numItemsPerPage={5}
                 showPaginationState={true}
                 totalItems={this.state.items.length} />
