@@ -63,7 +63,6 @@
       "cobertura",
       "lcov"
     ],
-    "module": true,
     "testRegex": "\\.spec\\.js$",
     "transformIgnorePatterns": [
       "/node_modules/(?!boundless).*"
