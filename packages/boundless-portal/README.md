@@ -7,9 +7,10 @@ __A higher-order component for the rendering of components outside the normal Re
 
 `Portal` is used in other components such as `Popover` to render content to places like the HTML `<body>` tag, avoiding style leakage and parent layout contexts. Only accepts a single top-level child; naked text, etc will be wrapped in a `<div>`.
 
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Portal#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Portal#props).
 
 ### Required Props
 
@@ -18,63 +19,50 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`children`__ ・ any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
+  
+  ✅ OK:
+  
+  ```jsx
+  <Portal>
+    foo
+  </Portal>
+  
+  <Portal>
+    <div>foo</div>
+  </Portal>
+  
+  <Portal>
+    <div>
+        <div>foo</div>
+        <div>bar</div>
+    </div>
+  </Portal>
+  ```
+  
+  ⛔️ Not OK:
+  
+  ```jsx
+  <Portal>
+    <div>foo</div>
+    <div>bar</div>
+  </Portal>
+  ```
 
-<tr>
-<td>children</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-✅ OK:
+- __`destination`__ ・ the location to append the generated portal and child elements
 
-```jsx
-<Portal>
-  foo
-</Portal>
+  Expects | Default Value
+  -       | -
+  `HTMLElement` | `document.body`
 
-<Portal>
-  <div>foo</div>
-</Portal>
+- __`portalId`__ ・ the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node
 
-<Portal>
-  <div>
-      <div>foo</div>
-      <div>bar</div>
-  </div>
-</Portal>
-```
-
-⛔️ Not OK:
-
-```jsx
-<Portal>
-  <div>foo</div>
-  <div>bar</div>
-</Portal>
-```</td>
-</tr>
-
-<tr>
-<td>destination</td>
-<td><pre><code>HTMLElement</code></pre></td>
-<td><pre><code class="language-js">document.body</code></pre></td>
-<td>the location to append the generated portal and child elements</td>
-</tr>
-
-<tr>
-<td>portalId</td>
-<td><pre><code>string</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node</td>
-</tr>
-
-</table>
+  Expects | Default Value
+  -       | -
+  `string` | `null`
 
 

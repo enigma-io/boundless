@@ -7,4 +7,5 @@ node_modules/
 # build things
 coverage/
 packages/*/build
+packages/*/variables.styl
 lerna-debug.log

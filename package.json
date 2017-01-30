@@ -81,6 +81,8 @@
     "prestart": "npm i && npm run bootstrap",
     "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.development.config.js --open --hot",
     "prerelease": "npm i && npm run bootstrap && rm -f docs/assets/*.js && rm -f docs/assets/*.css",
-    "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site"
+    "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site",
+    "prepublish": "lerna exec --ignore boundless-utils* -- ln -fs ../../variables.styl variables.styl",
+    "publish": "lerna publish --skip-git --repo-version $(node -e \"console.log(require('./package.json').version)\")"
   }
 }

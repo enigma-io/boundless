@@ -7,9 +7,29 @@ __Hide content until it's needed, with configurable teasers.__
 
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
 
+## Example Usage
+```jsx
+import React from 'react';
+import ProgressiveDisclosure from '../index';
+
+export default class ProgressiveDisclosureDemo extends React.PureComponent {
+    render() {
+        return (
+            <ProgressiveDisclosure
+                teaser='Click me to learn the truth...'
+                teaserExpanded='Click me to hide the truth once again...'>
+                And now, all is revealed.
+            </ProgressiveDisclosure>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/ProgressiveDisclosure#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/ProgressiveDisclosure#props).
 
 ### Required Props
 
@@ -18,70 +38,67 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`children`__ ・ if a function is passed, it will not be called until the disclosure content is due to be rendered
 
-<tr>
-<td>children</td>
-<td><pre><code>any</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>if a function is passed, it will not be called until the disclosure content is due to be rendered</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any` | `null`
 
-<tr>
-<td>component</td>
-<td><pre><code>string or function</code></pre></td>
-<td><pre><code class="language-js">'div'</code></pre></td>
-<td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-</tr>
+- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
 
-<tr>
-<td>expanded</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>allows the disclosure to be rendered expanded by default</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `string or function` | `'div'`
 
-<tr>
-<td>onExpand</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the content is shown; not called on initial render</td>
-</tr>
+- __`expanded`__ ・ allows the disclosure to be rendered expanded by default
 
-<tr>
-<td>onHide</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the content is hidden; not called on initial render</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool` | `false`
 
-<tr>
-<td>teaser</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>content to be shown next to the expansion toggle, e.g. "Advanced Options"</td>
-</tr>
+- __`onExpand`__ ・ called when the content is shown; not called on initial render
 
-<tr>
-<td>teaserExpanded</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>toggleProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node</td>
-</tr>
+- __`onHide`__ ・ called when the content is hidden; not called on initial render
 
-</table>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
+- __`teaser`__ ・ content to be shown next to the expansion toggle, e.g. "Advanced Options"
+
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+- __`teaserExpanded`__ ・ content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
+
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+- __`toggleProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-progressive-disclosure/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-progressive-disclosure/style"
+```
 

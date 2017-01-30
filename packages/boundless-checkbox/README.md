@@ -9,9 +9,62 @@ Checkbox is implemented as a "controlled input", meaning it is a direct represen
 inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller
 view must intercept and apply against the data provider.
 
+## Example Usage
+```jsx
+import React from 'react';
+import Checkbox from '../index';
+
+export default class CheckboxDemo extends React.PureComponent {
+    state = {
+        checkboxes: [{
+            checked: false,
+            indeterminate: false,
+            label: 'An unchecked checkbox',
+            name: 'box1',
+        }, {
+            checked: true,
+            indeterminate: false,
+            label: 'A checked checkbox',
+            name: 'box2',
+        }, {
+            checked: false,
+            indeterminate: true,
+            label: 'An indeterminate (mixed) checkbox',
+            name: 'box3',
+        }],
+    }
+
+    handleInteraction(name) {
+        // eslint-disable-next-line no-alert
+        alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
+    }
+
+    render() {
+        return (
+            <div className='spread'>
+                {this.state.checkboxes.map((definition) => {
+                    let boundFunc = this.handleInteraction.bind(this, definition.name);
+
+                    return (
+                        <Checkbox
+                            key={definition.name}
+                            inputProps={definition}
+                            label={definition.label}
+                            onChecked={boundFunc}
+                            onUnchecked={boundFunc} />
+                    );
+                })}
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Checkbox#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Checkbox#props).
 
 ### Required Props
 
@@ -20,53 +73,53 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
+  Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
 
-<tr>
-<td>inputProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{
+  Expects | Default Value
+  -       | -
+  `object` | `{
     checked: false,
     indeterminate: false,
-}</code></pre></td>
-<td>all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node</td>
-</tr>
+}`
 
-<tr>
-<td>label</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>any React-renderable content, most commonly a simple string</td>
-</tr>
+- __`label`__ ・ any React-renderable content, most commonly a simple string
 
-<tr>
-<td>labelProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>onChecked</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the element becomes checked; backing data must be updated to persist the state change</td>
-</tr>
+- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
 
-<tr>
-<td>onUnchecked</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>called when the element becomes unchecked; backing data must be updated to persist the state change</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
 
-</table>
+- __`onChecked`__ ・ called when the element becomes checked; backing data must be updated to persist the state change
 
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`onUnchecked`__ ・ called when the element becomes unchecked; backing data must be updated to persist the state change
+
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-checkbox/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-checkbox/style"
+```
 

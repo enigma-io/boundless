@@ -7,9 +7,38 @@ __Fit given text inside a parent container, obeying implict and explicit constra
 
 The most common use case for this class is fitting single-line text of unknown/variable length into a button or heading with finite boundaries.
 
+## Example Usage
+```jsx
+import React from 'react';
+import Button from '../../boundless-button/index';
+import FittedText from '../index';
+
+export default () => (
+    <div className='spread'>
+        <Button className='tall-button'>
+            <FittedText maxFontSize={24}>Welcome</FittedText>
+        </Button>
+        <Button className='tall-button'>
+            <FittedText maxFontSize={24}>Добро пожаловать</FittedText>
+        </Button>
+        <Button className='tall-button'>
+            <FittedText maxFontSize={24}>Benvenuto</FittedText>
+        </Button>
+        <Button className='tall-button'>
+            <FittedText maxFontSize={24}>환영합니다</FittedText>
+        </Button>
+        <Button className='tall-button'>
+            <FittedText maxFontSize={24}>സ്വാഗതം</FittedText>
+        </Button>
+    </div>
+);
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/FittedText#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/FittedText#props).
 
 ### Required Props
 
@@ -18,28 +47,31 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
 
-<tr>
-<td>component</td>
-<td><pre><code>string or function</code></pre></td>
-<td><pre><code class="language-js">'span'</code></pre></td>
-<td>any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `string or function` | `'span'`
 
-<tr>
-<td>maxFontSize</td>
-<td><pre><code>number</code></pre></td>
-<td><pre><code class="language-js">Number.MAX_VALUE</code></pre></td>
-<td>an upper bound (in pixels) for how large the text is allowed to grow</td>
-</tr>
+- __`maxFontSize`__ ・ an upper bound (in pixels) for how large the text is allowed to grow
 
-</table>
+  Expects | Default Value
+  -       | -
+  `number` | `Number.MAX_VALUE`
 
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-fitted-text/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-fitted-text/style"
+```
 

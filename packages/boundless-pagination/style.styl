@@ -1,67 +1,68 @@
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
+@require "node_modules/boundless-segmented-control/style";
 
 .b-pagination-control.b-segmented-control-option.b-button {
     background: Pagination-control-backgroundColor;
     border-color: Pagination-control-borderColor;
     color: Pagination-control-color;
-    
+
     &[disabled],
     &[disabled]:active,
     &[disabled]:focus,
     &[disabled]:hover {
         background: Pagination-control-backgroundColor-disabled;
         border-color: Pagination-control-borderColor-disabled;
-        color: Pagination-control-color-disabled;  
+        color: Pagination-control-color-disabled;
     }
 
     &:active {
         background: Pagination-selectedControl-backgroundColor;
         border-color: Pagination-selectedControl-borderColor;
-        color: Pagination-selectedControl-color;  
+        color: Pagination-selectedControl-color;
     }
 
     &:focus {
         background: Pagination-control-backgroundColor-focus;
         border-color: Pagination-control-borderColor-focus;
-        color: Pagination-control-color-focus;  
+        color: Pagination-control-color-focus;
     }
 
     &:hover {
         background: Pagination-control-backgroundColor-hover;
         border-color: Pagination-control-borderColor-hover;
-        color: Pagination-control-color-hover;  
+        color: Pagination-control-color-hover;
     }
-    
+
     &.b-segmented-control-option-selected {
         background: Pagination-selectedControl-backgroundColor;
         border-color: Pagination-selectedControl-borderColor;
         color: Pagination-selectedControl-color;
-        
+
         &[disabled],
         &[disabled]:active,
         &[disabled]:focus,
         &[disabled]:hover {
             background: Pagination-selectedControl-backgroundColor-disabled;
             border-color: Pagination-selectedControl-borderColor-disabled;
-            color: Pagination-selectedControl-color-disabled; 
+            color: Pagination-selectedControl-color-disabled;
         }
-        
+
         &:active {
             background: Pagination-selectedControl-backgroundColor;
             border-color: Pagination-selectedControl-borderColor;
-            color: Pagination-selectedControl-color;  
+            color: Pagination-selectedControl-color;
         }
 
         &:focus {
             background: Pagination-selectedControl-backgroundColor-focus;
             border-color: Pagination-selectedControl-borderColor-focus;
-            color: Pagination-selectedControl-color-focus;  
+            color: Pagination-selectedControl-color-focus;
         }
 
         &:hover {
             background: Pagination-selectedControl-backgroundColor-hover;
             border-color: Pagination-selectedControl-borderColor-hover;
-            color: Pagination-selectedControl-color-hover;  
+            color: Pagination-selectedControl-color-hover;
         }
     }
 }

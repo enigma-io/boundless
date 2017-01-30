@@ -10,9 +10,10 @@ to show some sort of loading graphic in the interim. This component helps to sim
 that pattern by handling common types of promises and providing a simple mechanism
 for materializing the resolved data into JSX.
 
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Async#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Async#props).
 
 ### Required Props
 
@@ -21,49 +22,49 @@ There are no required props.
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`contentRenderedFunc`__ ・ a callback for when real content has been rendered; either normal passed data or when a passed promise resolves
 
-<tr>
-<td>contentRenderedFunc</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>a callback for when real content has been rendered; either normal passed data or when a passed promise resolves</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
 
-<tr>
-<td>convertToJSXFunc</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">(x) => x</code></pre></td>
-<td>a function that takes the resolved payload of a promise provided by `props.data` and returns renderable JSX; defaults to trying to render the resolved value of the Promise</td>
-</tr>
+- __`convertToJSXFunc`__ ・ a function that takes the resolved payload of a promise provided by `props.data` and returns renderable JSX; defaults to trying to render the resolved value of the Promise
 
-<tr>
-<td>data</td>
-<td><pre><code>any</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>a promise, or some other piece of data to be run through `props.convertToJSXFunc`</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `function` | `(x) => x`
 
-<tr>
-<td>errorContent</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">'⚠️'</code></pre></td>
-<td>content to be shown if the promise is rejected</td>
-</tr>
+- __`data`__ ・ a promise, or some other piece of data to be run through `props.convertToJSXFunc`
 
-<tr>
-<td>loadingContent</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>content to be shown while the promise is in pending state</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any` | `null`
 
-</table>
+- __`errorContent`__ ・ content to be shown if the promise is rejected
 
+  Expects | Default Value
+  -       | -
+  `any renderable` | `'⚠️'`
+
+- __`loadingContent`__ ・ content to be shown while the promise is in pending state
+
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-async/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-async/style"
+```
 

@@ -29,216 +29,319 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 </Popover>
 ```
 
+## Example Usage
+```jsx
+import React from 'react';
+
+import ArrowKeyNavigation from '../../boundless-arrow-key-navigation/index';
+import Button from '../../boundless-button/index';
+import Popover from '../index';
+
+export default class PopoverDemo extends React.PureComponent {
+    state = {
+        words: [{
+            word: 'transcendental',
+            syllabicRepresentation: 'tran·scen·den·tal',
+            type: 'adjective',
+            primaryDefinition: '',
+            secondaryDefinitions: [
+                'of or relating to a spiritual or nonphysical realm',
+                '(of a number, e.g., e or π) real but not a root of an algebraic equation with rational roots',
+            ],
+        }, {
+            word: 'obstetrics',
+            syllabicRepresentation: 'ob·stet·rics',
+            type: 'noun',
+            preset: Popover.preset.N,
+            primaryDefinition: 'the branch of medicine and surgery concerned with childbirth and the care of women giving birth',
+            secondaryDefinitions: [],
+        }, {
+            word: 'olio',
+            syllabicRepresentation: 'o·li·o',
+            type: 'noun',
+            preset: Popover.preset.E,
+            primaryDefinition: [
+                <span key='1'>another term for </span>,
+                <a key='2' href='https://www.google.com/search?safe=active&espv=2&biw=1440&bih=74&q=define+olla+podrida&sa=X&ved=0CB8QgCswAGoVChMIlbiutZmDxwIVQx0-Ch1f-g9t'>olla podrida</a>,
+            ],
+            secondaryDefinitions: [
+                'a miscellaneous collection of things',
+                'a variety act or show',
+            ],
+        }, {
+            word: 'anastrophe',
+            syllabicRepresentation: 'a·nas·tro·phe',
+            type: 'noun',
+            preset: Popover.preset.W,
+            primaryDefinition: 'the inversion of the usual order of words or clauses',
+            secondaryDefinitions: [],
+        }, {
+            word: 'octothorp',
+            syllabicRepresentation: 'oc·to·thorp',
+            type: 'noun',
+            preset: Popover.preset.WNW,
+            primaryDefinition: 'another term for the pound sign (#)',
+            secondaryDefinitions: [],
+        }],
+    }
+
+    handleKeyDown(index, event) {
+        if (event.key === 'Enter') {
+            this[this.state['showPopover' + index] ? 'showPopover' : 'hidePopover'](index, event);
+        }
+    }
+
+    openPopover(index) {
+        this.setState({ ['showPopover' + index]: true });
+    }
+
+    closePopover(index) {
+        this.setState({ ['showPopover' + index]: false });
+    }
+
+    renderSecondaryDefinitions(definitions = []) {
+        return definitions.length ? (
+            <ArrowKeyNavigation component='ol'>
+                {definitions.map((definition, index) => <li key={index}>{definition}</li>)}
+            </ArrowKeyNavigation>
+        ) : null;
+    }
+
+    renderPrimaryDefinition(definition) {
+        return definition ? (<p>{definition}</p>) : null;
+    }
+
+    renderBody(definition) {
+        return (
+            <div>
+                <strong>{definition.syllabicRepresentation}</strong>
+                <br />
+                <em>{definition.type}</em>
+                {this.renderPrimaryDefinition(definition.primaryDefinition)}
+                {this.renderSecondaryDefinitions(definition.secondaryDefinitions)}
+            </div>
+        );
+    }
+
+    renderPopovers() {
+        return this.state.words.map((definition, index) => {
+            return this.state['showPopover' + index] ? (
+                <Popover
+                    key={definition.word}
+                    anchor={this.refs['word' + index]}
+                    caretAnchor={this.refs['word-caret-anchor' + index]}
+                    closeOnOutsideFocus={true}
+                    preset={definition.preset}
+                    onClose={() => this.closePopover(index)}
+                    wrapperProps={{className: 'demo-popover'}}>
+                    {this.renderBody(definition)}
+                </Popover>
+            ) : undefined;
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
+
+                <div className='spread'>
+                    {this.state.words.map((definition, index) => {
+                        return (
+                            <Button
+                                key={definition.word}
+                                ref={(i) => (this.refs[`word${index}`] = i)}
+                                className='show-help-popover'
+                                onPressed={() => this.openPopover(index)}
+                                pressed={this.state[`showPopover${index}`]}
+                                tabIndex='0'>
+                                {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
+                            </Button>
+                        );
+                    })}
+                </div>
+
+                {this.renderPopovers()}
+            </div>
+        );
+    }
+}
+
+```
+
+
 ## Props
 
-_Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Popover#props)._
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Popover#props).
 
 ### Required Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`anchor`__ ・ a DOM element or React reference (ref) to one for positioning purposes
 
-<tr>
-<td>anchor</td>
-<td><pre><code>HTMLElement or ReactElement</code></pre></td>
-<td><pre><code class="language-js">undefined</code></pre></td>
-<td>a DOM element or React reference (ref) to one for positioning purposes</td>
-</tr>
-
-</table>
+  Expects | Default Value
+  -       | -
+  `HTMLElement or ReactElement` | `undefined`
 
 
 ### Optional Props
 
-<table>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
+- __`after`__ ・ arbitrary content to be rendered after the dialog in the DOM
 
-<tr>
-<td>after</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>arbitrary content to be rendered after the dialog in the DOM</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>autoReposition</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport</td>
-</tr>
+- __`autoReposition`__ ・ if the given alignment settings would take the popover out of bounds, change the alignment as necessary to remain in the viewport
 
-<tr>
-<td>before</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>arbitrary content to be rendered before the dialog in the DOM</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
 
-<tr>
-<td>bodyProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node</td>
-</tr>
+- __`before`__ ・ arbitrary content to be rendered before the dialog in the DOM
 
-<tr>
-<td>captureFocus</td>
-<td><pre><code>bool</code></pre></td>
-<td><pre><code class="language-js">true</code></pre></td>
-<td>determines if focus is allowed to move away from the dialog</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>caretAnchor</td>
-<td><pre><code>HTMLElement or ReactElement</code></pre></td>
-<td><pre><code class="language-js">undefined</code></pre></td>
-<td>a DOM element or React reference (ref) to one for positioning purposes, the caret component will
-be automatically positioned to center on this provided anchor; by default it will center
-on `props.anchor`</td>
-</tr>
+- __`bodyProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
 
-<tr>
-<td>caretComponent</td>
-<td><pre><code>ReactElement</code></pre></td>
-<td><pre><code class="language-js"><svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`captureFocus`__ ・ determines if focus is allowed to move away from the dialog
+
+  Expects | Default Value
+  -       | -
+  `bool` | `true`
+
+- __`caretAnchor`__ ・ a DOM element or React reference (ref) to one for positioning purposes, the caret component will
+  be automatically positioned to center on this provided anchor; by default it will center
+  on `props.anchor`
+
+  Expects | Default Value
+  -       | -
+  `HTMLElement or ReactElement` | `undefined`
+
+- __`caretComponent`__ ・ the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover
+
+  Expects | Default Value
+  -       | -
+  `ReactElement` | `<svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
     <g>
         <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
     </g>
-</svg></code></pre></td>
-<td>the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover</td>
-</tr>
+</svg>`
 
-<tr>
-<td>children</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td></td>
-</tr>
+- __`children`__
 
-<tr>
-<td>closeOnEscKey</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-<tr>
-<td>closeOnInsideClick</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+- __`closeOnEscKey`__ ・ enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>closeOnOutsideClick</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>closeOnOutsideFocus</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
-value determines if the dialog will be closed</td>
-</tr>
+- __`closeOnInsideClick`__ ・ enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>closeOnOutsideScroll</td>
-<td><pre><code>bool or function</code></pre></td>
-<td><pre><code class="language-js">false</code></pre></td>
-<td>enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
-is provided, the return value determines if the dialog will be closed</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>footer</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons</td>
-</tr>
+- __`closeOnOutsideClick`__ ・ enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>footerProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>header</td>
-<td><pre><code>any renderable</code></pre></td>
-<td><pre><code class="language-js">null</code></pre></td>
-<td>text, ReactElements, etc. to represent the "title bar" area of the dialog</td>
-</tr>
+- __`closeOnOutsideFocus`__ ・ enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
+  value determines if the dialog will be closed
 
-<tr>
-<td>headerProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>onClose</td>
-<td><pre><code>function</code></pre></td>
-<td><pre><code class="language-js">() => {}</code></pre></td>
-<td>a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied</td>
-</tr>
+- __`closeOnOutsideScroll`__ ・ enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+  is provided, the return value determines if the dialog will be closed
 
-<tr>
-<td>portalProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td></td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `bool or function` | `false`
 
-<tr>
-<td>preset</td>
-<td><pre><code>Popover.preset.NNW or
-Popover.preset.N or
-Popover.preset.NNE or
-Popover.preset.ENE or
-Popover.preset.E or
-Popover.preset.ESE or
-Popover.preset.SSE or
-Popover.preset.S or
-Popover.preset.SSW or
-Popover.preset.WSW or
-Popover.preset.W or
-Popover.preset.WNW</code></pre></td>
-<td><pre><code class="language-js">Popover.preset.S</code></pre></td>
-<td>```jsx
-<Popover
-    anchor={document.querySelector('.some-anchor-element')}
-    preset={Popover.preset.NNE}>
-    My popover content!
-</Popover>
-```</td>
-</tr>
+- __`footer`__ ・ text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
 
-<tr>
-<td>wrapperProps</td>
-<td><pre><code>object</code></pre></td>
-<td><pre><code class="language-js">{}</code></pre></td>
-<td>any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node</td>
-</tr>
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
 
-</table>
+- __`footerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
 
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`header`__ ・ text, ReactElements, etc. to represent the "title bar" area of the dialog
+
+  Expects | Default Value
+  -       | -
+  `any renderable` | `null`
+
+- __`headerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+
+  Expects | Default Value
+  -       | -
+  `function` | `() => {}`
+
+- __`portalProps`__
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+- __`preset`__ ・ ```jsx
+  <Popover
+      anchor={document.querySelector('.some-anchor-element')}
+      preset={Popover.preset.NNE}>
+      My popover content!
+  </Popover>
+  ```
+
+  Expects | Default Value
+  -       | -
+  `Popover.preset.NNW or Popover.preset.N or Popover.preset.NNE or Popover.preset.ENE or Popover.preset.E or Popover.preset.ESE or Popover.preset.SSE or Popover.preset.S or Popover.preset.SSW or Popover.preset.WSW or Popover.preset.W or Popover.preset.WNW` | `Popover.preset.S`
+
+- __`wrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
+
+  Expects | Default Value
+  -       | -
+  `object` | `{}`
+
+
+## Reference Styles
+
+This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
+
+```stylus
+// Bring in Boundless's base Stylus variables
+@require "node_modules/boundless-popover/variables"
+
+// Redefine any variables as desired, e.g.
+color-accent = royalblue
+
+// Bring in the component styles; they will be autoconfigured based on the above
+@require "node_modules/boundless-popover/style"
+```
 
