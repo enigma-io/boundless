@@ -110,6 +110,7 @@ export default class CheckboxGroupDemo extends React.PureComponent {
                     onAllUnchecked={this.handleAllUnchecked}
                     onChildChecked={this.handleChildChecked}
                     onChildUnchecked={this.handleChildUnchecked} />
+                    <br />
                 {this.renderFeedback()}
             </div>
         );
