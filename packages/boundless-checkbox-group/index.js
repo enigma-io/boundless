@@ -8,7 +8,6 @@ import uuid from 'boundless-utils-uuid';
 const noop = () => {};
 
 /**
-# CheckboxGroup
 __A controller view for managing the aggregate state of multiple, related checkboxes.__
 
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular

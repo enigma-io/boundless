@@ -7,7 +7,6 @@ import uuid from 'boundless-utils-uuid';
 const isFunction = (x) => typeof x === 'function';
 
 /**
-# Radio
 __An accessible radio form control.__
 
 Radio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.

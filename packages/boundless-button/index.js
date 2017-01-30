@@ -7,7 +7,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-# Button
 __A control with "pressed" state support.__
 
 Button has two modes of operation:

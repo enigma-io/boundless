@@ -16,17 +16,33 @@ import './style.styl';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
-const req = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
-const reqKeys = req.keys();
+const demoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
+const demoReqKeys = demoReq.keys();
 
 const components = _.keys(Boundless).map((prettyName) => {
     const name = 'boundless-' + _.kebabCase(prettyName);
     const demoPath = `./packages/${name}/demo/index.js`;
 
     return {
-        demo: _.includes(reqKeys, demoPath) ? req(demoPath).default : null,
+        demo: _.includes(demoReqKeys, demoPath) ? demoReq(demoPath).default : null,
         docgenInfo: Boundless[prettyName].__docgenInfo,
         name: name,
+        path: prettyName,
+    };
+});
+
+const utilsReq = require.context('..', true, /(?!node_modules)packages\/boundless-utils-[^/]*?\/README\.md$/);
+const utilsReqKeys = utilsReq.keys();
+
+const utils = utilsReqKeys.map((path) => {
+    const name = path.match(/(boundless\-utils\-.*?)\//)[1];
+    const prettyName = _.camelCase(name.replace('boundless-utils-', ''));
+
+    return {
+        name,
+
+        // drop the comment added to the top by build-packages.js
+        markdown: utilsReq(path).split(/\n/).slice(3).join('\n'),
         path: prettyName,
     };
 });
@@ -123,7 +139,8 @@ class Container extends React.PureComponent {
                             <ComponentPage
                                 demo={route.demo}
                                 docgenInfo={route.docgenInfo}
-                                packageName={route.name} />
+                                packageName={route.name}
+                                prettyName={route.path} />
                         ) : <Markdown>{route.markdown}</Markdown>}
                     </article>
                     <aside className='boundless-nav'>
@@ -139,7 +156,18 @@ class Container extends React.PureComponent {
                                 {components.map((component) => (
                                     <Link
                                         activeClassName='active'
-                                        className=''
+                                        key={component.name}
+                                        to={component.path}>
+                                        {component.path}
+                                    </Link>
+                                ))}
+                            </section>
+
+                            <h4>Utils</h4>
+                            <section>
+                                {utils.map((component) => (
+                                    <Link
+                                        activeClassName='active'
                                         key={component.name}
                                         to={component.path}>
                                         {component.path}
@@ -170,6 +198,13 @@ render(
             <Route path='quickstart' markdown={GettingStarted} />
 
             {components.map((definition) => (
+                <Route
+                    {...definition}
+                    key={definition.path}
+                    path={definition.path} />
+            ))}
+
+            {utils.map((definition) => (
                 <Route
                     {...definition}
                     key={definition.path}

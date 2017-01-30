@@ -14,7 +14,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-# Pagination
 __View and navigate heterogenious content one page at a time.__
 
 Pagination is implemented as an encapsulated view system, accepting an array of items as input.

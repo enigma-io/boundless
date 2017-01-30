@@ -6,7 +6,6 @@ import omit from 'boundless-utils-omit-keys';
 const noop = () => {};
 
 /**
-# Image
 __An image block with placeholder support for loading and fallback scenarios.__
  */
 export default class Image extends React.PureComponent {

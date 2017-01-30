@@ -29,6 +29,7 @@
     "css-loader": "^0.26.1",
     "eslint": "^3.7.0",
     "eslint-plugin-react": "^6.3.0",
+    "extract-comments": "^0.10.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "git-rev-sync": "^1.8.0",
     "html-webpack-plugin": "^2.26.0",

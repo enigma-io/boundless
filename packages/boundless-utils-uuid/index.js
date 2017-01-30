@@ -1,11 +1,14 @@
 /**
- * Generates a unique ID. Adds a prefix so it is suitable for use as an HTML ID.
- * Based on {@link https://gist.github.com/jed/982883 this implementation}.
+ * Generates a unique ID, based on [this algorithm](https://gist.github.com/jed/982883). Adds a prefix (`b-`) so it is
+ * suitable for use as an HTML ID.
  *
- * @return {string} a unique identifier
+ * ## Example Usage
  *
- * @example
+ * ```js
+ * import uuid from 'boundless-utils-uuid';
+ *
  * uuid(); // b-1f2cd27f-0754-4344-9d20-436a201b2f80
+ * ```
  */
 export default function uuid() {
     /* eslint-disable */

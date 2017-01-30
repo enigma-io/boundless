@@ -52,7 +52,6 @@ function unregisterInstance(instance) {
 }
 
 /**
-# FittedText
 __Fit given text inside a parent container, obeying implict and explicit constraints.__
 
 The most common use case for this class is fitting single-line text of unknown/variable length into a button or heading with finite boundaries.
