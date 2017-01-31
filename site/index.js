@@ -139,7 +139,8 @@ class Container extends React.PureComponent {
                 <ComponentPage
                     demo={route.demo}
                     docgenInfo={route.docgenInfo}
-                    packageName={route.name} />
+                    packageName={route.name}
+                    prettyName={route.path} />
             );
         } else if (route.component) {
             return (<route.component />);
