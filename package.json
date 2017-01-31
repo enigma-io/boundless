@@ -8,6 +8,13 @@
     "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
   "license": "MIT",
+  "keywords": [
+    "react",
+    "component",
+    "library",
+    "toolkit",
+    "ui"
+  ],
   "main": "public/boundless.js",
   "dependencies": {
     "classnames": "^2.1.5"
