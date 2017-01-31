@@ -1,16 +1,17 @@
-// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
-
+@require "variables"
 @require "node_modules/boundless-input/style"
+
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-typeahead-wrapper {
     background: Typeahead-backgroundColor;
     border: 1px solid Typeahead-borderColor;
     font-size: Input-fontSize;
     position: relative;
-    
+
     .b-input {
         color: Typeahead-color;
-        
+
         // only applying overrides on top of the existing Input styles
 
         & + .b-input-placeholder {
@@ -22,7 +23,7 @@
         &[disabled] {
             color: Typeahead-color-disabled;
             opacity: Typeahead-opacity-disabled;
-            
+
             & + .b-input-placeholder,
             &:active + .b-input-placeholder,
             &:focus + .b-input-placeholder,
@@ -31,19 +32,19 @@
                 border-color: transparent;
             }
         }
-        
+
         &:active {
             color: Typeahead-color-active;
-            
+
             & + .b-input-placeholder {
                 background: transparent;
                 border-color: transparent;
             }
         }
-        
+
         &:focus {
             color: Typeahead-color-focus;
-            
+
             & + .b-input-placeholder {
                 background: transparent;
                 border-color: transparent;
@@ -52,7 +53,7 @@
 
         &:hover {
             color: Typeahead-color-hover;
-            
+
             & + .b-input-placeholder {
                 background: transparent;
                 border-color: transparent;
@@ -89,7 +90,7 @@
     font-size: 13px;
     line-height: 1;
     padding: 0.25em 0.5em;
-    
+
     &:focus {
         background: Typeahead-match-backgroundColor-focus;
         color: Typeahead-match-color-focus;
@@ -109,7 +110,7 @@
             color: Typeahead-mark-color-hover;
         }
     }
-    
+
     &.b-typeahead-match-selected,
     &.b-typeahead-match-selected:focus,
     &.b-typeahead-match-selected:hover {

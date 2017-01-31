@@ -1,3 +1,6 @@
+@require "variables"
+@require "node_modules/boundless-button/style"
+
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-progress-wrapper {
@@ -39,7 +42,7 @@
     bottom: 0;
     right: 0;
     animation: interdeterminate-progress-bar 2.5s ease-in-out alternate infinite;
-    
+
     ~ .b-progress-label {
         color: Progress-label-color-indeterminate;
     }

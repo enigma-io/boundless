@@ -1,6 +1,7 @@
-// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
-
+@require "variables"
 @require "node_modules/boundless-dialog/style";
+
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-modal-wrapper {
     display: flex;
@@ -14,13 +15,13 @@
     right: 0;
     bottom: 0;
     z-index: 999;
-    
+
     .b-dialog-wrapper {
         flex-shrink: 0;
         max-width: 80vw;
         position: relative;
     }
-    
+
     .b-dialog {
         background: Modal-backgroundColor;
         border: 1px solid Modal-borderColor;

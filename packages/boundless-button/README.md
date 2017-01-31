@@ -126,9 +126,7 @@ There are no required props.
 
 
 ## Reference Styles
-
-This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
-
+### Stylus
 ```stylus
 // Bring in Boundless's base Stylus variables
 @require "node_modules/boundless-button/variables"
@@ -139,4 +137,7 @@ color-accent = royalblue
 // Bring in the component styles; they will be autoconfigured based on the above
 @require "node_modules/boundless-button/style"
 ```
+
+### CSS
+If desired, a precompiled plain CSS stylesheet is available for customization at `/build/style.css`, based on Boundless's [default variables](https://github.com/enigma-io/boundless/blob/master/variables.styl).
 

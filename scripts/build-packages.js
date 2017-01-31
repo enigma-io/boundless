@@ -6,7 +6,9 @@ process.env.BABEL_ENV = 'development';
 
 const fs = require('fs');
 const path = require('path');
+const spawn = require('child_process').spawn;
 const mkdirp = require('mkdirp');
+const webpack = require('webpack');
 const chalk = require('chalk');
 const extractComments = require('extract-comments');
 const _ = require('lodash');
@@ -19,6 +21,7 @@ const packages = fs.readdirSync(path.resolve(base)).filter((name) => {
     return !require(path.resolve(base, name, 'package.json')).private;
 });
 
+const log = (msg) => console.log(chalk.bold.green(msg));
 const error = (err) => console.error(chalk.bold.red(err));
 
 const baseExternals = {
@@ -79,9 +82,7 @@ There are no optional props.
 <% } } %>
 <% if (hasStyles) { %>
 ## Reference Styles
-
-This component has reference styles (via Stylus) available. Add them with the following lines in your project's Stylus file:
-
+### Stylus
 \`\`\`stylus
 // Bring in Boundless's base Stylus variables
 @require "node_modules/<%= name %>/variables"
@@ -92,6 +93,9 @@ color-accent = royalblue
 // Bring in the component styles; they will be autoconfigured based on the above
 @require "node_modules/<%= name %>/style"
 \`\`\`
+
+### CSS
+If desired, a precompiled plain CSS stylesheet is available for customization at \`/build/style.css\`, based on Boundless's [default variables](https://github.com/enigma-io/boundless/blob/master/variables.styl).
 <% } %>
 `.trimLeft();
 
@@ -212,7 +216,10 @@ require('jsdom').env('', [
 
         mkdirp.sync(path.join(base, name, 'build'));
 
-        const webpack = require('webpack');
+        if (hasStyles) {
+            spawn('stylus', `-m ${stylePath} -o ${path.resolve(base, name, 'build', 'style.css')} --sourcemap-inline`.split(' '), {stdio: 'inherit'});
+        }
+
         const dependencies = Object.keys(require(jsonPath).dependencies || {});
         const externals = _.merge({}, baseExternals, dependencies.reduce((map, depName) => {
             return (map[depName] = {commonjs2: depName}), map;
@@ -246,7 +253,7 @@ require('jsdom').env('', [
                 return error(webpackErr);
             }
 
-            console.log(chalk.bold.green(`Built ${name}.`));
+            log(`Built ${name} JS.`);
         });
     });
 });
