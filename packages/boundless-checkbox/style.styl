@@ -1,3 +1,5 @@
+@require "variables"
+
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 get_checkbox_svg(color) {
@@ -40,40 +42,40 @@ get_indeterminate_background(bg, dash) {
     width: 16px;
 
     transition: all 200ms ease;
-    
+
     &[disabled] {
         background: Checkbox-backgroundColor-disabled;
         border-color: Checkbox-borderColor-disabled;
         cursor: not-allowed;
         opacity: Checkbox-opacity-disabled;
     }
-    
+
     &:focus {
         background: Checkbox-backgroundColor-focus;
         border-color: Checkbox-borderColor-focus;
     }
-    
+
     &:hover {
         background: Checkbox-backgroundColor-hover;
         border-color: Checkbox-borderColor-hover;
     }
-    
+
     &.b-checkbox-checked {
         background: get_checked_background(Checkbox-checked-backgroundColor, Checkbox-checked-color);
         border-color: Checkbox-checked-borderColor;
-        
+
         &[disabled] {
             background: get_checked_background(Checkbox-checked-backgroundColor-disabled, Checkbox-checked-color-disabled);
             border-color: Checkbox-checked-borderColor-disabled;
             cursor: not-allowed;
             opacity: Checkbox-opacity-disabled;
         }
-        
+
         &:focus {
             background: get_checked_background(Checkbox-checked-backgroundColor-focus, Checkbox-checked-color-focus);
             border-color: Checkbox-checked-borderColor-focus;
         }
-        
+
         &:hover {
             background: get_checked_background(Checkbox-checked-backgroundColor-hover, Checkbox-checked-color-hover);
             border-color: Checkbox-checked-borderColor-hover;
@@ -83,19 +85,19 @@ get_indeterminate_background(bg, dash) {
     &.b-checkbox-mixed {
         background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor, Checkbox-indeterminate-color);
         border-color: Checkbox-indeterminate-borderColor;
-        
+
         &[disabled] {
             background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-disabled, Checkbox-indeterminate-color-disabled);
             border-color: Checkbox-borderColor-disabled;
             cursor: not-allowed;
             opacity: Checkbox-opacity-disabled;
         }
-        
+
         &:focus {
             background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-focus, Checkbox-indeterminate-color-focus);
             border-color: Checkbox-borderColor-focus;
         }
-        
+
         &:hover {
             background: get_indeterminate_background(Checkbox-indeterminate-backgroundColor-hover, Checkbox-indeterminate-color-hover);
             border-color: Checkbox-borderColor-hover;

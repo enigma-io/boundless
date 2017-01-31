@@ -1,3 +1,5 @@
+@require "variables"
+
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 get_radio_bg_gradient(color) {
@@ -25,7 +27,7 @@ get_radio_bg_gradient(color) {
     width: 16px;
 
     transition: all 200ms ease;
-    
+
     &[disabled],
     &[disabled]:active,
     &[disabled]:focus,
@@ -50,7 +52,7 @@ get_radio_bg_gradient(color) {
         background: get_radio_bg_gradient(Radio-backgroundColor-hover);
         border-color: Radio-borderColor-hover;
     }
-    
+
     &.b-radio-selected,
     &.b-radio-selected:hover,
     &.b-radio-selected:focus,

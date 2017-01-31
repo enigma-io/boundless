@@ -1,6 +1,7 @@
-// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
-
+@require "variables"
 @require "node_modules/boundless-button/style"
+
+// Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
 .b-segmented-control {
     display: flex;
@@ -28,7 +29,7 @@
         border-top-left-radius: borderRadius;
         border-bottom-left-radius: borderRadius;
     }
-    
+
     &:last-of-type {
         border-top-right-radius: borderRadius;
         border-bottom-right-radius: borderRadius;
@@ -37,7 +38,7 @@
     &:not(:first-of-type) {
         margin-left: -1px;
     }
-    
+
     &[disabled],
     &[disabled]:active,
     &[disabled]:focus,
@@ -49,19 +50,19 @@
         color: SegmentedControl-color-disabled;
         opacity: SegmentedControl-opacity-disabled;
     }
-    
+
     &:focus {
         background: SegmentedControl-backgroundColor-focus;
         border-color: SegmentedControl-borderColor-focus;
         color: SegmentedControl-color-focus;
     }
-    
+
     &:hover {
         background: SegmentedControl-backgroundColor-hover;
         border-color: SegmentedControl-borderColor-hover;
         color: SegmentedControl-color-hover;
     }
-    
+
     &:active,
     &.b-segmented-control-option-selected,
     &.b-segmented-control-option-selected:focus,
@@ -70,7 +71,7 @@
         border-color: SegmentedControl-borderColor-active;
         color: SegmentedControl-color-active;
     }
-    
+
     &.b-segmented-control-option-selected {
         z-index: 1;
     }

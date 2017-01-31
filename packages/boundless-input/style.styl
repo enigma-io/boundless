@@ -1,3 +1,5 @@
+@require "variables"
+
 .b-input-wrapper {
     font-size: Input-fontSize;
     position: relative;
@@ -19,9 +21,9 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    
+
     transition: all 200ms ease;
-    
+
     // the placeholder sits after the primary input, so we'll apply styling to that instead
 
     & + .b-input-placeholder {
@@ -34,7 +36,7 @@
         color: Input-color-disabled;
         cursor: not-allowed;
         opacity: Input-opacity-disabled;
-        
+
         & + .b-input-placeholder,
         &:active + .b-input-placeholder,
         &:focus + .b-input-placeholder,
@@ -43,19 +45,19 @@
             border-color: Input-borderColor-disabled;
         }
     }
-    
+
     &:active {
         color: Input-color-active;
-        
+
         & + .b-input-placeholder {
             background: Input-backgroundColor-active;
             border-color: Input-borderColor-active;
         }
     }
-    
+
     &:focus {
         color: Input-color-focus;
-        
+
         & + .b-input-placeholder {
             background: Input-backgroundColor-focus;
             border-color: Input-borderColor-focus;
@@ -64,7 +66,7 @@
 
     &:hover {
         color: Input-color-hover;
-        
+
         & + .b-input-placeholder {
             background: Input-backgroundColor-hover;
             border-color: Input-borderColor-hover;
