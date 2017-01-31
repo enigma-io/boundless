@@ -56,7 +56,7 @@ releaseConf.plugins.push(
             PRODUCTION: true,
         },
         favicon: path.resolve(__dirname, '../docs/sparkles.png'),
-        filename: '404.html',
+        filename: 'index.html',
         inject: 'body',
         minify: {
             collapseWhitespace: true,
