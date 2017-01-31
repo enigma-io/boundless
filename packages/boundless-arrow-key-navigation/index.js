@@ -1,8 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, {Children, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
+
+const DATA_ATTRIBUTE_INDEX = 'data-focus-index';
+const DATA_ATTRIBUTE_SKIP = 'data-focus-skip';
 
 /**
 __A higher-order component for arrow key navigation on a grouping of children.__
@@ -28,7 +31,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
         ]),
 
         /**
-            Allows for a particular child to be initially reachable via tabbing
+            Allows for a particular child to be initially reachable via tabbing; only applied during first render
         */
         defaultActiveChildIndex: PropTypes.number,
 
@@ -71,9 +74,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
 
     componentWillReceiveProps(nextProps) {
         if (this.state.activeChildIndex !== 0) {
-            const numChildren =   nextProps.children
-                                ? React.Children.count(nextProps.children)
-                                : 0;
+            const numChildren = nextProps.children ? Children.count(nextProps.children) : 0;
 
             if (numChildren === 0) {
                 this.setState({activeChildIndex: 0});
@@ -84,13 +85,9 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     setFocus(index) {
-        const childNode = (
-            this.refs.wrapper instanceof HTMLElement
-          ? this.refs.wrapper
-          : findDOMNode(this.refs.wrapper)
-        ).children[index];
+        const childNode = this.$wrapper.children[index];
 
-        if (childNode && childNode.hasAttribute('data-skip')) {
+        if (childNode && childNode.hasAttribute(DATA_ATTRIBUTE_SKIP)) {
             this.moveFocus(
                 childNode.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
             );
@@ -100,10 +97,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     moveFocus(delta) {
-        const numChildren = this.props.children
-                            ? React.Children.count(this.props.children)
-                            : 0;
-
+        const numChildren = this.props.children ? Children.count(this.props.children) : 0;
         let nextIndex = this.state.activeChildIndex + delta;
 
         if (nextIndex >= numChildren) {
@@ -160,9 +154,9 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     handleFocus = (event) => {
-        if (event.target.hasAttribute('data-focus-index')) {
-            const index = parseInt(event.target.getAttribute('data-focus-index'), 10);
-            const child = React.Children.toArray(this.props.children)[index];
+        if (event.target.hasAttribute(DATA_ATTRIBUTE_INDEX)) {
+            const index = parseInt(event.target.getAttribute(DATA_ATTRIBUTE_INDEX), 10);
+            const child = Children.toArray(this.props.children)[index];
 
             this.setState({activeChildIndex: index});
 
@@ -172,25 +166,29 @@ export default class ArrowKeyNavigation extends React.PureComponent {
         }
     }
 
-    children() {
-        return React.Children.map(this.props.children, (child, index) => {
+    renderChildren() {
+        return Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {
-                'data-focus-index': index,
-                'data-skip': parseInt(child.props.tabIndex, 10) === -1 || undefined,
+                [DATA_ATTRIBUTE_INDEX]: index,
+                [DATA_ATTRIBUTE_SKIP]: parseInt(child.props.tabIndex, 10) === -1 || undefined,
                 key: child.key || index,
                 tabIndex: this.state.activeChildIndex === index ? 0 : -1,
             });
         });
     }
 
+    persistWrapperElementReference = (unknownType) => {
+        this.$wrapper = unknownType instanceof HTMLElement ? unknownType : findDOMNode(unknownType);
+    }
+
     render() {
         return (
             <this.props.component
                 {...omit(this.props, ArrowKeyNavigation.internalKeys)}
-                ref='wrapper'
+                ref={this.persistWrapperElementReference}
                 onFocus={this.handleFocus}
                 onKeyDown={this.handleKeyDown}>
-                {this.children()}
+                {this.renderChildren()}
             </this.props.component>
         );
     }

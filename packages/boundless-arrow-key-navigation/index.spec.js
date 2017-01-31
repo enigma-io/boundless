@@ -26,7 +26,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
 
     beforeEach(() => {
         element = render(base);
-        node = element.refs.wrapper;
+        node = ReactDOM.findDOMNode(element);
     });
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
@@ -78,7 +78,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
             </ArrowKeyNavigation>
         );
 
-        node = element.refs.wrapper;
+        node = ReactDOM.findDOMNode(element);
 
         expect(node.querySelector('[data-focus-index="1"][tabindex="0"]')).not.toBeNull();
     });
@@ -242,7 +242,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
                 </ArrowKeyNavigation>
             );
 
-            node = element.refs.wrapper;
+            node = ReactDOM.findDOMNode(element);
         });
 
         it('moves focus to the next child that does not have tabindex="-1"', () => {
@@ -270,7 +270,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
 
         beforeEach(() => {
             element = render(verticalBase);
-            node = element.refs.wrapper;
+            node = ReactDOM.findDOMNode(element);
         });
 
         it('should not move focus on ArrowLeft', () => {
@@ -298,7 +298,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
 
         beforeEach(() => {
             element = render(horizontalBase);
-            node = element.refs.wrapper;
+            node = ReactDOM.findDOMNode(element);
         });
 
         it('should not move focus on ArrowUp', () => {
@@ -326,7 +326,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
 
         beforeEach(() => {
             element = render(horizontalBase);
-            node = element.refs.wrapper;
+            node = ReactDOM.findDOMNode(element);
         });
 
         it('should move focus on ArrowUp', () => {

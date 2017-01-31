@@ -83,7 +83,7 @@ There are no required props.
   -       | -
   `string or function` | `'div'`
 
-- __`defaultActiveChildIndex`__ ・ allows for a particular child to be initially reachable via tabbing
+- __`defaultActiveChildIndex`__ ・ allows for a particular child to be initially reachable via tabbing; only applied during first render
 
   Expects | Default Value
   -       | -
