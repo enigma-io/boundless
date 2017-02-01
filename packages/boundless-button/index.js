@@ -3,9 +3,6 @@ import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
 
-const isFunction = (x) => typeof x === 'function';
-const noop = () => {};
-
 /**
 __A control with "pressed" state support.__
 
@@ -20,7 +17,7 @@ Button has two modes of operation:
 
 2. stateful (like a toggle, e.g. bold-mode in a rich text editor)
 
-   "stateful" mode is triggered by passing a boolean to `pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
+   "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
 
    ```jsx
    <Button
@@ -33,71 +30,64 @@ Button has two modes of operation:
  */
 export default class Button extends React.PureComponent {
     static propTypes = {
-        children: PropTypes.node,
-
         /**
-            Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
-        */
+         * Any valid HTML tag name or a ReactComponent, anything that can be passed as the
+         * first argument to `React.createElement`; note that this component sets the `role` and `aria-checked`
+         * attributes so non-`<button>` elements will still behave like a button for screen readers
+         */
         component: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]),
 
-        onClick: PropTypes.func,
-
         /**
-         * called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed
+         * use this callback instead of `onClick` (it's `onClick` + `onKeyDown:Enter`); fires for both button modes
          */
         onPressed: PropTypes.func,
 
         /**
-         * called when the element becomes "unpressed"; backing data must be updated to persist the state change
+         * called when the element becomes "unpressed"; only fires when the Button is in stateful mode
          */
         onUnpressed: PropTypes.func,
 
         /**
-         * enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
+         * passthrough to `aria-pressed`; using this prop turns on the `onUnpressed` callback when applicable
          */
         pressed: PropTypes.bool,
     }
 
     static defaultProps = {
-        children: null,
         component: 'button',
-        onClick: noop,
-        onPressed: noop,
-        onUnpressed: noop,
+        onClick: () => {},
+        onKeyDown: () => {},
+        onPressed: () => {},
+        onUnpressed: () => {},
         pressed: undefined,
     }
 
     static internalKeys = Object.keys(Button.defaultProps)
 
-    toggleState(event) {
+    fireStatefulCallback(event) {
         this.props[this.props.pressed ? 'onUnpressed' : 'onPressed'](event);
     }
 
     handleClick = (event) => {
         if (this.props.disabled) { return; }
 
-        this.toggleState(event);
-
-        if (isFunction(this.props.onClick)) {
-            this.props.onClick(event);
-        }
+        this.props.onClick(event);
+        this.fireStatefulCallback(event);
     }
 
     handleKeyDown = (event) => {
         if (this.props.disabled) { return; }
 
+        this.props.onKeyDown(event);
+
         switch (event.key) {
         case 'Enter':
         case 'Space':
             event.preventDefault();
-            this.toggleState(event);
-        }
-
-        if (isFunction(this.props.onKeyDown)) {
-            this.props.onKeyDown(event);
+            this.fireStatefulCallback(event);
         }
     }
 
@@ -105,12 +95,12 @@ export default class Button extends React.PureComponent {
         return (
             <this.props.component
                 {...omit(this.props, Button.internalKeys)}
-                ref='button'
                 className={cx('b-button', this.props.className, {
-                    'b-button-pressable': typeof this.props.pressed !== 'undefined',
+                    'b-button-pressable': this.props.pressed !== undefined,
                     'b-button-pressed': this.props.pressed,
                 })}
                 aria-pressed={this.props.pressed}
+                role='button'
                 onKeyDown={this.handleKeyDown}
                 onClick={this.handleClick}>
                 {this.props.children}

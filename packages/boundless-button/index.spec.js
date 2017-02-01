@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Simulate} from 'react-addons-test-utils';
 import sinon from 'sinon';
 
 import conformanceChecker from '../boundless-utils-conformance/index';
@@ -22,152 +23,161 @@ describe('Button component', () => {
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Button));
 
     it('renders b-button', () => {
-        const element = render(<Button />);
-        const node = element.refs.button;
-
-        expect(node.classList.contains('b-button')).toBe(true);
+        render(<Button />);
+        expect(document.querySelector('.b-button')).not.toBeNull();
     });
 
     it('renders b-button as custom element when provided `props.component`', () => {
-        const element = render(<Button component='div'/>);
-
-        expect(element._reactInternalInstance._renderedComponent._tag).toBe('div');
+        render(<Button className='foo' component='div' />);
+        expect(document.querySelector('div.foo')).not.toBeNull();
     });
 
     it('renders b-button-pressable when provided `props.pressed`', () => {
-        const element = render(<Button pressed={false} />);
-        const node = element.refs.button;
-
-        expect(node.classList.contains('b-button-pressable')).toBe(true);
+        render(<Button pressed={false} />);
+        expect(document.querySelector('.b-button-pressable')).not.toBeNull();
     });
 
     it('renders b-button-pressed when `props.pressed` is `true`', () => {
-        const element = render(<Button pressed={true} />);
-        const node = element.refs.button;
-
-        expect(node.classList.contains('b-button-pressed')).toBe(true);
+        render(<Button pressed={true} />);
+        expect(document.querySelector('.b-button-pressed')).not.toBeNull();
     });
 
     describe('`aria-pressed` HTML attribute', () => {
         it('is "true" if `props.pressed` is `true`', () => {
-            const element = render(<Button pressed={true} />);
-            const node = element.refs.button;
-
-            expect(node.getAttribute('aria-pressed')).toBe('true');
+            render(<Button pressed={true} />);
+            expect(document.querySelector('.b-button[aria-pressed=true]')).not.toBeNull();
         });
 
         it('is "false" if `props.pressed` is `false`', () => {
-            const element = render(<Button pressed={false} />);
-            const node = element.refs.button;
-
-            expect(node.getAttribute('aria-pressed')).toBe('false');
+            render(<Button pressed={false} />);
+            expect(document.querySelector('.b-button[aria-pressed=false]')).not.toBeNull();
         });
 
         it('is not be applied if `props.pressed` is not provided', () => {
-            const element = render(<Button />);
-            const node = element.refs.button;
-
-            expect(node.hasAttribute('aria-pressed')).toBe(false);
+            render(<Button />);
+            expect(document.querySelector('.b-button')).not.toBeNull();
+            expect(document.querySelector('.b-button[aria-pressed]')).toBeNull();
         });
     });
 
     describe('on click', () => {
         it('triggers `props.onClick` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onClick={stub} />);
 
-            element.handleClick(evt);
+            render(<Button onClick={stub} />);
+            Simulate.click(document.querySelector('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
+        });
+
+        it('passes the synthetic event along to props.onClick', () => {
+            const stub = sandbox.stub();
+
+            render(<Button onClick={stub} />);
+            Simulate.click(document.querySelector('.b-button'));
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch({type: 'click'}));
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={true} onUnpressed={stub} />);
 
-            element.handleClick(evt);
+            render(<Button pressed={true} onUnpressed={stub} />);
+            Simulate.click(document.querySelector('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={false} onPressed={stub} />);
 
-            element.handleClick(evt);
+            render(<Button pressed={false} onPressed={stub} />);
+            Simulate.click(document.querySelector('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} />);
 
-            element.handleClick(evt);
+            render(<Button onPressed={stub} />);
+            Simulate.click(document.querySelector('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('will not trigger `onPressed` if the button is disabled', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} disabled />);
 
-            element.handleClick(evt);
+            render(<Button onPressed={stub} disabled />);
+            Simulate.click(document.querySelector('.b-button'));
 
             expect(stub.called).toBe(false);
         });
     });
 
+    it('on non-handled keydown, it triggers `props.onKeyDown` if provided', () => {
+        const stub = sandbox.stub();
+
+        render(<Button onKeyDown={stub} />);
+        Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Escape'});
+
+        expect(stub.calledOnce).toBe(true);
+    });
+
     describe('on "Enter" key', () => {
         it('triggers `props.onKeyDown` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onKeyDown={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Enter'});
+            render(<Button onKeyDown={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
+        });
+
+        it('passes the synthetic event along to props.onKeyDown', () => {
+            const stub = sandbox.stub();
+
+            render(<Button onKeyDown={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch({type: 'keydown', key: 'Enter'})).toBe(true);
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={true} onUnpressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Enter'});
+            render(<Button pressed={true} onUnpressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={false} onPressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Enter'});
+            render(<Button pressed={false} onPressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Enter'});
+            render(<Button onPressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('will not trigger `onPressed` if the button is disabled', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} disabled />);
 
-            element.handleKeyDown({...evt, key: 'Enter'});
+            render(<Button onPressed={stub} disabled />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.called).toBe(false);
         });
@@ -176,61 +186,57 @@ describe('Button component', () => {
     describe('on "Space" key', () => {
         it('triggers `props.onKeyDown` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onKeyDown={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Space'});
+            render(<Button onKeyDown={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
+        });
+
+        it('passes the synthetic event along to props.onKeyDown', () => {
+            const stub = sandbox.stub();
+
+            render(<Button onKeyDown={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch({type: 'keydown', key: 'Space'})).toBe(true);
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={true} onUnpressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Space'});
+            render(<Button pressed={true} onUnpressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` if `props.pressed` is `false`', () => {
             const stub = sandbox.stub();
-            const element = render(<Button pressed={false} onPressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Space'});
+            render(<Button pressed={false} onPressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('triggers `onPressed` even if `props.pressed` is not provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} />);
 
-            element.handleKeyDown({...evt, key: 'Space'});
+            render(<Button onPressed={stub} />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch(evt)).toBe(true);
         });
 
         it('will not trigger `onPressed` if the button is disabled', () => {
             const stub = sandbox.stub();
-            const element = render(<Button onPressed={stub} disabled />);
 
-            element.handleKeyDown({...evt, key: 'Space'});
+            render(<Button onPressed={stub} disabled />);
+            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.called).toBe(false);
         });
-    });
-
-    it('on non-handled keydown, it triggers `props.onKeyDown` if provided', () => {
-        const stub = sandbox.stub();
-        const element = render(<Button onKeyDown={stub} />);
-
-        element.handleKeyDown({...evt, key: '*'});
-
-        expect(stub.calledOnce).toBe(true);
-        expect(stub.calledWithMatch(evt)).toBe(true);
     });
 });

@@ -16,7 +16,7 @@ Button has two modes of operation:
 
 2. stateful (like a toggle, e.g. bold-mode in a rich text editor)
 
-   "stateful" mode is triggered by passing a boolean to `pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
+   "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
 
    ```jsx
    <Button
@@ -88,37 +88,27 @@ There are no required props.
 
 ### Optional Props
 
-- __`children`__
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
-
-- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+- __`component`__ ・ any valid HTML tag name or a ReactComponent, anything that can be passed as the
+  first argument to `React.createElement`; note that this component sets the `role` and `aria-checked`
+  attributes so non-`<button>` elements will still behave like a button for screen readers
 
   Expects | Default Value
   -       | -
   `string or function` | `'button'`
 
-- __`onClick`__
+- __`onPressed`__ ・ use this callback instead of `onClick` (it's `onClick` + `onKeyDown:Enter`); fires for both button modes
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onPressed`__ ・ called when the element becomes "pressed" or triggered by the user (mouse or keyboard); backing data must be updated to persist the state change; this function will still be called if `props.pressed` is not passed
+- __`onUnpressed`__ ・ called when the element becomes "unpressed"; only fires when the Button is in stateful mode
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onUnpressed`__ ・ called when the element becomes "unpressed"; backing data must be updated to persist the state change
-
-  Expects | Default Value
-  -       | -
-  `function` | `() => {}`
-
-- __`pressed`__ ・ enables "pressed" support and adds the `aria-pressed` attribute to the `.b-button` node; essentially a "stateful" button (see the "unpressed/pressed" example demo above)
+- __`pressed`__ ・ passthrough to `aria-pressed`; using this prop turns on the `onUnpressed` callback when applicable
 
   Expects | Default Value
   -       | -
