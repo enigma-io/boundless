@@ -27,6 +27,18 @@ describe('Checkbox component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Checkbox, props));
 
+    it('allows the wrapper component to be overridden with an html tagname', () => {
+        render(<Checkbox {...props} component='section' />);
+        expect(document.querySelector('section.b-checkbox-wrapper')).not.toBeNull();
+    });
+
+    it('allows the wrapper component to be overridden with a custom component', () => {
+        const Foo = ({children, ...props}) => <section {...props}>{children}</section>;
+
+        render(<Checkbox {...props} component={Foo} />);
+        expect(document.querySelector('section.b-checkbox-wrapper')).not.toBeNull();
+    });
+
     it('defaults to being unchecked', () => {
         const element = render(<Checkbox {...props} />);
         const node = element.refs.input;

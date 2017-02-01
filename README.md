@@ -13,6 +13,16 @@ npm i boundless --save
 npm i boundless-button --save
 ```
 
+## Philosophy
+
+Boundless is a UI toolkit that was conceived to abstract away difficult interface patterns. It follows three main guidelines:
+
+1. Performance is mandatory, not a nice-to-have.
+2. Components should be as customizable as possible.
+3. Components should be as accessible as possible (falling back to WAI-ARIA attributes when necessary.)
+
+The general idea of this library is to provide ready-to-go solutions for things you really wouldn't want to build yourself, not because they're hard... but because they're hard to design _right_. We are always open to suggestions and strive to keep Boundless as concise and useful as possible.
+
 ## Reference styles
 
 A precompiled base "skin" is available to use as a base when customizing Boundless for your own project. Some of the components do rely on the reference layout in their styles to function properly. It is designed to be very unopinionated.
