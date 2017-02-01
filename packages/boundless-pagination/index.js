@@ -191,7 +191,7 @@ export default class Pagination extends React.PureComponent {
         hidePagerIfNotNeeded: false,
         identifier: uuid(),
         initialPage: 1,
-        itemLoadingContent: null,
+        itemLoadingContent: undefined,
         itemToJSXConverterFunc: identity,
         jumpToFirstControlContent: '« First',
         jumpToLastControlContent: 'Last »',
@@ -210,6 +210,8 @@ export default class Pagination extends React.PureComponent {
 
     static internalKeys = Object.keys(Pagination.defaultProps)
 
+    mounted = false
+
     state = {
         currentPage: this.props.initialPage,
         targetIndex: (this.props.initialPage - 1) * this.props.numItemsPerPage,
@@ -220,6 +222,9 @@ export default class Pagination extends React.PureComponent {
     totalPages = () => Math.ceil(this.props.totalItems / this.props.numItemsPerPage)
 
     firstVisibleItemIndex = () => (this.currentPage() - 1) * this.props.numItemsPerPage
+
+    componentDidMount()     { this.mounted = true; }
+    componentWillUnmount()  { this.mounted = false; }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.currentPage !== this.currentPage()) {
@@ -345,7 +350,7 @@ export default class Pagination extends React.PureComponent {
         const lastItemIndex = Math.min(this.props.totalItems, firstItemIndex + this.props.numItemsPerPage) - 1;
 
         for (let i = firstItemIndex; i <= lastItemIndex; i += 1) {
-            generatedItems.push({data: this.props.getItem(i)});
+            generatedItems.push(this.props.getItem(i));
         }
 
         return generatedItems;
@@ -377,6 +382,12 @@ export default class Pagination extends React.PureComponent {
         });
     }
 
+    handleItemPromiseFulfillment = (payload) => {
+        if (this.mounted) {
+            return this.props.itemToJSXConverterFunc(payload);
+        }
+    }
+
     renderItems() {
         const props = this.props.listWrapperProps;
         const indexOffset = this.props.numItemsPerPage * (this.currentPage() - 1);
@@ -395,10 +406,12 @@ export default class Pagination extends React.PureComponent {
                                 'b-pagination-item-even': index % 2 === 0,
                                 'b-pagination-item-odd': index % 2 !== 0,
                             })}
-                            convertToJSXFunc={this.props.itemToJSXConverterFunc}
-                            data={item.data}
                             data-pagination-index={indexOffset + index}
-                            loadingContent={this.props.itemLoadingContent} />
+                            pendingContent={this.props.itemLoadingContent}>
+                            {item instanceof Promise
+                             ? item.then(this.handleItemPromiseFulfillment, this.handleItemPromiseFulfillment)
+                             : this.props.itemToJSXConverterFunc(item)}
+                        </Async>
                     );
                 })}
             </ArrowKeyNavigation>

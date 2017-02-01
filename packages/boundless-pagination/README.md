@@ -144,7 +144,7 @@ export default class PaginationDemo extends React.PureComponent {
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `any renderable` | `undefined`
 
 - __`itemToJSXConverterFunc`__ ・ an optional function to specify how an item should be converted to JSX, if it is not already renderable by React
 
