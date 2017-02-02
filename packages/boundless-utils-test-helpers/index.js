@@ -44,7 +44,13 @@ export function conformanceChecker(render, Constructor, baseProps, key) {
     const ownProps = Object.keys(Constructor.propTypes || {});
     const defaults = Constructor.defaultProps || {};
 
-    ownProps.forEach((propName) => expect(propName in defaults).toBe(true));
+    ownProps.forEach((propName) => {
+        if (!(propName in defaults)) {
+            console.error(`${propName} is missing in ${Constructor.name}.defaultProps.`);
+        }
+
+        expect(propName in defaults).toBe(true);
+    });
 
     /* verify props.className */
     node = renderWithPropsAndGetNode({className: 'foo'});
