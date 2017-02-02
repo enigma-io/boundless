@@ -15,6 +15,10 @@ function rescale(instance) {
     const containerBox = window.getComputedStyle(node.parentNode);
     const fontSize = toI(window.getComputedStyle(node).fontSize);
 
+    if (instance.baseFontSize === null) {
+        instance.baseFontSize = fontSize;
+    }
+
     let containerHeight = toI(containerBox.height);
     let containerWidth = toI(containerBox.width);
 
@@ -27,8 +31,12 @@ function rescale(instance) {
     const optimizeForHeight = Math.floor((fontSize / node.offsetHeight) * containerHeight);
     const optimizeForWidth = Math.floor((fontSize / node.offsetWidth) * containerWidth);
 
-    // the || 1 is a fallback to prevent fontSize from being set to zero, which fubars things
-    node.style.fontSize = (Math.min(instance.props.maxFontSize, optimizeForHeight, optimizeForWidth) || 1) + 'px';
+    // if upscaling is allowed, that changes the math a bit
+    if (instance.props.upscale) {
+        node.style.fontSize = (Math.max(optimizeForHeight, optimizeForWidth) || 1) + 'px';
+    } else {
+        node.style.fontSize = (Math.min(instance.baseFontSize, optimizeForHeight, optimizeForWidth) || 1) + 'px';
+    }
 }
 
 function handleWindowResize() {
@@ -52,32 +60,33 @@ function unregisterInstance(instance) {
 }
 
 /**
-__Fit given text inside a parent container, obeying implict and explicit constraints.__
+__Fit single-line text inside a parent container, obeying implict constraints.__
 
-The most common use case for this class is fitting single-line text of unknown/variable length into a button or heading with finite boundaries.
+This component can be useful in situations where an internationalized string is being placed into the UI and it's unclear if all variations of it will fit without excessive amounts of edge-case CSS. Ultimately, it's good at making sure what you put in doesn't overflow.
  */
 export default class FittedText extends React.PureComponent {
     static propTypes = {
         /**
-         * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+         * any valid HTML tag name
          */
-        component: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.func,
-        ]),
+        component: PropTypes.string,
 
         /**
-         * an upper bound (in pixels) for how large the text is allowed to grow
+         * controls if FittedText will automatically scale up the content to fit the available space; normally the component
+         * only scales text down as needed to fit
          */
-        maxFontSize: PropTypes.number,
+        upscale: PropTypes.bool,
     }
 
     static defaultProps = {
         component: 'span',
-        maxFontSize: Number.MAX_VALUE,
+        upscale: false,
     }
 
     static internalKeys = Object.keys(FittedText.defaultProps)
+
+    // set during the first rescale() run
+    baseFontSize = null
 
     componentDidMount() {
         rescale(this);

@@ -63,7 +63,6 @@ export default class ComponentPage extends React.PureComponent {
             <td className='prop-name'>
                 <Boundless.FittedText
                     component='strong'
-                    maxFontSize={16}
                     name={`prop-${name}`}>
                     <code>{name}</code>
                 </Boundless.FittedText>
@@ -94,7 +93,6 @@ export default class ComponentPage extends React.PureComponent {
                 <td className='prop-name'>
                     <Boundless.FittedText
                         component='strong'
-                        maxFontSize={16}
                         name={`prop-${name}`}>
                         <code>{name}</code>
                     </Boundless.FittedText>
