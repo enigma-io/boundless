@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Progress from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 import sinon from 'sinon';
 

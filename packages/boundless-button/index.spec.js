@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 import sinon from 'sinon';
 
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 import Button from './index';
 
 describe('Button component', () => {
@@ -24,39 +24,39 @@ describe('Button component', () => {
 
     it('renders b-button', () => {
         render(<Button />);
-        expect(document.querySelector('.b-button')).not.toBeNull();
+        expect($('.b-button')).not.toBeNull();
     });
 
     it('renders b-button as custom element when provided `props.component`', () => {
         render(<Button className='foo' component='div' />);
-        expect(document.querySelector('div.foo')).not.toBeNull();
+        expect($('div.foo')).not.toBeNull();
     });
 
     it('renders b-button-pressable when provided `props.pressed`', () => {
         render(<Button pressed={false} />);
-        expect(document.querySelector('.b-button-pressable')).not.toBeNull();
+        expect($('.b-button-pressable')).not.toBeNull();
     });
 
     it('renders b-button-pressed when `props.pressed` is `true`', () => {
         render(<Button pressed={true} />);
-        expect(document.querySelector('.b-button-pressed')).not.toBeNull();
+        expect($('.b-button-pressed')).not.toBeNull();
     });
 
     describe('`aria-pressed` HTML attribute', () => {
         it('is "true" if `props.pressed` is `true`', () => {
             render(<Button pressed={true} />);
-            expect(document.querySelector('.b-button[aria-pressed=true]')).not.toBeNull();
+            expect($('.b-button[aria-pressed=true]')).not.toBeNull();
         });
 
         it('is "false" if `props.pressed` is `false`', () => {
             render(<Button pressed={false} />);
-            expect(document.querySelector('.b-button[aria-pressed=false]')).not.toBeNull();
+            expect($('.b-button[aria-pressed=false]')).not.toBeNull();
         });
 
         it('is not be applied if `props.pressed` is not provided', () => {
             render(<Button />);
-            expect(document.querySelector('.b-button')).not.toBeNull();
-            expect(document.querySelector('.b-button[aria-pressed]')).toBeNull();
+            expect($('.b-button')).not.toBeNull();
+            expect($('.b-button[aria-pressed]')).toBeNull();
         });
     });
 
@@ -65,7 +65,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onClick={stub} />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -74,7 +74,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onClick={stub} />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch({type: 'click'}));
@@ -84,7 +84,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={true} onUnpressed={stub} />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -93,7 +93,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={false} onPressed={stub} />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -102,7 +102,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -111,7 +111,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} disabled />);
-            Simulate.click(document.querySelector('.b-button'));
+            Simulate.click($('.b-button'));
 
             expect(stub.called).toBe(false);
         });
@@ -121,7 +121,7 @@ describe('Button component', () => {
         const stub = sandbox.stub();
 
         render(<Button onKeyDown={stub} />);
-        Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Escape'});
+        Simulate.keyDown($('.b-button'), {...evt, key: 'Escape'});
 
         expect(stub.calledOnce).toBe(true);
     });
@@ -131,7 +131,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -140,7 +140,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch({type: 'keydown', key: 'Enter'})).toBe(true);
@@ -150,7 +150,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={true} onUnpressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -159,7 +159,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={false} onPressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -168,7 +168,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -177,7 +177,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} disabled />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
 
             expect(stub.called).toBe(false);
         });
@@ -188,7 +188,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -197,7 +197,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch({type: 'keydown', key: 'Space'})).toBe(true);
@@ -207,7 +207,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={true} onUnpressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -216,7 +216,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={false} onPressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -225,7 +225,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -234,7 +234,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} disabled />);
-            Simulate.keyDown(document.querySelector('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
 
             expect(stub.called).toBe(false);
         });

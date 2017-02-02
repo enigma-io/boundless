@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {noop} from 'lodash';
 
 import Typeahead from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Typeahead component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

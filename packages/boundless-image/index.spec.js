@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Image from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Image component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

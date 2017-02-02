@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Radio from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Radio component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

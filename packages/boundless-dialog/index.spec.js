@@ -8,7 +8,7 @@ import {noop} from 'lodash';
 import Dialog from './index';
 import Button from '../boundless-button/index';
 import Popover from '../boundless-popover/index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Dialog component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

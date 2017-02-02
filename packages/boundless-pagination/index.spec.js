@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import {noop} from 'lodash';
 
 import Pagination from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 const dom = ReactDOM.findDOMNode;
 const sandbox = sinon.sandbox.create();

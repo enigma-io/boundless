@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {noop} from 'lodash';
 
 import ProgressiveDisclosure from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 import sinon from 'sinon';
 

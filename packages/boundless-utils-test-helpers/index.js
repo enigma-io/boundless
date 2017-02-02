@@ -22,7 +22,7 @@ import get from 'lodash.get';
  * @param {string}   [key] an instance key to check for compliance instead of the base element; this is
  *                                  used for React components that render to <body> or a node other than its logical parent
  */
-export default function verifyConformance(render, Constructor, baseProps, key) {
+export function conformanceChecker(render, Constructor, baseProps, key) {
     let node;
 
     const renderWithPropsAndGetNode = (props) => {
@@ -83,3 +83,6 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
         `${Constructor.name} does not support adding aria attributes via props`
     );
 }
+
+export const $ = (selector, context = document) => context.querySelector(selector);
+export const $$ = (selector, context = document) => context.querySelectorAll(selector);

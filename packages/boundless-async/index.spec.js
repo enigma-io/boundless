@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Async from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Async higher-order component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -21,7 +21,7 @@ describe('Async higher-order component', () => {
 
     it('accepts normal renderable content', () => {
         render(<Async><span className='bar'>foo</span></Async>);
-        expect(document.querySelector('.bar')).not.toBeNull();
+        expect($('.bar')).not.toBeNull();
     });
 
     describe('promise support', () => {
@@ -33,7 +33,7 @@ describe('Async higher-order component', () => {
             );
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
@@ -45,7 +45,7 @@ describe('Async higher-order component', () => {
             );
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
@@ -58,14 +58,14 @@ describe('Async higher-order component', () => {
                 </Async>
             );
 
-            expect(document.querySelector('.loading')).not.toBeNull();
-            expect(document.querySelector('.loading').textContent).toBe('⏲');
+            expect($('.loading')).not.toBeNull();
+            expect($('.loading').textContent).toBe('⏲');
 
             resolver(<span className='bar'>foo</span>);
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.loading')).toBeNull();
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.loading')).toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
@@ -80,8 +80,8 @@ describe('Async higher-order component', () => {
             resolver1(<span className='fizz'>buzz</span>);
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.bar')).not.toBeNull();
-                expect(document.querySelector('.fizz')).toBeNull();
+                expect($('.bar')).not.toBeNull();
+                expect($('.fizz')).toBeNull();
             });
         });
     });
@@ -92,7 +92,7 @@ describe('Async higher-order component', () => {
 
             render(<Async childrenDidRender={stub}><span className='bar'>foo</span></Async>);
             expect(stub.calledOnce).toBe(true);
-            expect(document.querySelector('.bar')).not.toBeNull();
+            expect($('.bar')).not.toBeNull();
         });
 
         it('is called when a passed child promise is fulfilled and then rendered', () => {
@@ -110,7 +110,7 @@ describe('Async higher-order component', () => {
 
             return Promise.resolve().then(() => {
                 expect(stub.calledOnce).toBe(true);
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
@@ -124,7 +124,7 @@ describe('Async higher-order component', () => {
             );
 
             expect(stub.calledOnce).toBe(true);
-            expect(document.querySelector('.bar')).not.toBeNull();
+            expect($('.bar')).not.toBeNull();
         });
 
         it('is called when a passed child function returns a promise and that promise is later fulfilled', () => {
@@ -142,7 +142,7 @@ describe('Async higher-order component', () => {
 
             return Promise.resolve().then(() => {
                 expect(stub.calledOnce).toBe(true);
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
     });

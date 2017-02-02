@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 
 import SegmentedControl from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 import sinon from 'sinon';
 

@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {noop} from 'lodash';
 
 import Input from './index';
-import checker from '../boundless-utils-conformance/index';
+import {conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Input component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -26,7 +26,7 @@ describe('Input component', () => {
     });
 
     it('conforms to the Boundless prop interface standards', () => {
-        checker(render, Input, props);
+        conformanceChecker(render, Input, props);
     });
 
     describe('accepts', () => {
