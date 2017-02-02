@@ -2,52 +2,39 @@ import React, {PropTypes} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
-
-const noop = () => {};
+import uuid from 'boundless-utils-uuid';
 
 /**
 __An image block with placeholder support for loading and fallback scenarios.__
  */
 export default class Image extends React.PureComponent {
     static status = {
-        LOADING: 'LOADING',
-        LOADED: 'LOADED',
-        ERROR: 'ERROR',
+        LOADING: uuid(),
+        LOADED: uuid(),
+        ERROR: uuid(),
     }
 
     static propTypes = {
         /**
-         * a written description of the image for search engines, hovertext and those using accessibility technologies; applied to the `.b-image` as the HTML attributes `alt` or `title`, depending on the type of rendered node
+         * a written description of the image for search engines, hovertext and those using accessibility technologies
          */
         alt: PropTypes.string,
 
         /**
-         * emits the image as a `<div>` with `background-image` css property set instead of `<img>`
+         * overrides the component HTML tag
          */
-        displayAsBackgroundImage: PropTypes.bool,
-
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image` node
-         */
-        imageProps: PropTypes.object,
+        component: PropTypes.string,
 
         /**
          * a valid path to the desired image
          */
         src: PropTypes.string.isRequired,
-
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-image-status` node
-         */
-        statusProps: PropTypes.object,
     }
 
     static defaultProps = {
-        alt: null,
-        displayAsBackgroundImage: false,
-        imageProps: {},
+        alt: '',
+        component: 'div',
         src: 'about:blank',
-        statusProps: {},
     }
 
     static internalKeys = Object.keys(Image.defaultProps)
@@ -63,17 +50,9 @@ export default class Image extends React.PureComponent {
         }
     }
 
-    componentDidMount() {
-        this.preload();
-    }
-
-    componentDidUpdate() {
-        this.preload();
-    }
-
-    componentWillUnmount() {
-        this.resetPreloader();
-    }
+    componentDidMount()     { this.preload(); }
+    componentDidUpdate()    { this.preload(); }
+    componentWillUnmount()  { this.resetPreloader(); }
 
     resetPreloader() {
         this.loader.onload = null;
@@ -92,55 +71,23 @@ export default class Image extends React.PureComponent {
         this.loader.src = this.props.src;
     }
 
-    renderImage() {
-        if (this.props.displayAsBackgroundImage) {
-            return (
-                <div
-                    {...this.props.imageProps}
-                    ref='image'
-                    className={cx('b-image', this.props.imageProps.className)}
-                    title={this.props.alt}
-                    style={{
-                        ...this.props.imageProps.style,
-                        backgroundImage: `url(${this.props.src})`,
-                    }} />
-            );
-        }
-
+    render() {
         return (
-            <img
-                {...this.props.imageProps}
-                ref='image'
-                className={cx('b-image', this.props.imageProps.className)}
-                src={this.props.src}
-                alt={this.props.alt}
-                onLoad={noop}
-                onError={noop} />
-        );
-    }
-
-    renderStatus() {
-        return (
-            <div {...this.props.statusProps}
-                 ref='status'
-                 className={cx('b-image-status', this.props.statusProps.className, {
+            <this.props.component
+                {...omit(this.props, Image.internalKeys)}
+                className={cx('b-image', this.props.className, {
                     'b-image-loading': this.state.status === Image.status.LOADING,
                     'b-image-loaded': this.state.status === Image.status.LOADED,
                     'b-image-error': this.state.status === Image.status.ERROR,
-                 })}
-                 role='presentation' />
-        );
-    }
-
-    render() {
-        return (
-            <div
-                {...omit(this.props, Image.internalKeys)}
-                ref='wrapper'
-                className={cx('b-image-wrapper', this.props.className)}>
-                {this.renderImage()}
-                {this.renderStatus()}
-            </div>
+                })}
+                title={this.props.alt}
+                role='img'
+                style={{
+                    ...this.props.style,
+                    backgroundImage: `url(${this.props.src})`,
+                }}>
+                &nbsp;
+            </this.props.component>
         );
     }
 }
