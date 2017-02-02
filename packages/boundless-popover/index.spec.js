@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Popover from './index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Popover component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -26,67 +26,67 @@ describe('Popover component', () => {
     describe('CSS hook(s)', () => {
         it('renders .b-popover', () => {
             render(<Popover {...baseProps} />);
-            expect(document.querySelector('.b-popover')).not.toBe(null);
+            expect($('.b-popover')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-x-start', () => {
             render(<Popover {...baseProps} preset={preset.W} />);
-            expect(document.querySelector('.b-popover-anchor-x-start')).not.toBe(null);
+            expect($('.b-popover-anchor-x-start')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-x-middle', () => {
             render(<Popover {...baseProps} preset={preset.N} />);
-            expect(document.querySelector('.b-popover-anchor-x-middle')).not.toBe(null);
+            expect($('.b-popover-anchor-x-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-x-end', () => {
             render(<Popover {...baseProps} preset={preset.E} />);
-            expect(document.querySelector('.b-popover-anchor-x-end')).not.toBe(null);
+            expect($('.b-popover-anchor-x-end')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-start', () => {
             render(<Popover {...baseProps} preset={preset.N} />);
-            expect(document.querySelector('.b-popover-anchor-y-start')).not.toBe(null);
+            expect($('.b-popover-anchor-y-start')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-middle', () => {
             render(<Popover {...baseProps} preset={preset.W} />);
-            expect(document.querySelector('.b-popover-anchor-y-middle')).not.toBe(null);
+            expect($('.b-popover-anchor-y-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-anchor-y-end', () => {
             render(<Popover {...baseProps} preset={preset.S} />);
-            expect(document.querySelector('.b-popover-anchor-y-end')).not.toBe(null);
+            expect($('.b-popover-anchor-y-end')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-start', () => {
             render(<Popover {...baseProps} preset={preset.E} />);
-            expect(document.querySelector('.b-popover-self-x-start')).not.toBe(null);
+            expect($('.b-popover-self-x-start')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-middle', () => {
             render(<Popover {...baseProps} preset={preset.N} />);
-            expect(document.querySelector('.b-popover-self-x-middle')).not.toBe(null);
+            expect($('.b-popover-self-x-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-self-x-end', () => {
             render(<Popover {...baseProps} preset={preset.W} />);
-            expect(document.querySelector('.b-popover-self-x-end')).not.toBe(null);
+            expect($('.b-popover-self-x-end')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-start', () => {
             render(<Popover {...baseProps} preset={preset.S} />);
-            expect(document.querySelector('.b-popover-self-y-start')).not.toBe(null);
+            expect($('.b-popover-self-y-start')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-middle', () => {
             render(<Popover {...baseProps} preset={preset.W} />);
-            expect(document.querySelector('.b-popover-self-y-middle')).not.toBe(null);
+            expect($('.b-popover-self-y-middle')).not.toBe(null);
         });
 
         it('renders .b-popover-self-y-end', () => {
             render(<Popover {...baseProps} preset={preset.N} />);
-            expect(document.querySelector('.b-popover-self-y-end')).not.toBe(null);
+            expect($('.b-popover-self-y-end')).not.toBe(null);
         });
     });
 
@@ -94,7 +94,7 @@ describe('Popover component', () => {
         it('configures the popover for the NNW preset', () => {
             render(<Popover {...baseProps} preset={preset.NNW} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
@@ -105,7 +105,7 @@ describe('Popover component', () => {
         it('configures the popover for the N preset', () => {
             render(<Popover {...baseProps} preset={preset.N} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-middle')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-middle')).toBeTruthy();
@@ -116,7 +116,7 @@ describe('Popover component', () => {
         it('configures the popover for the NNE preset', () => {
             render(<Popover {...baseProps} preset={preset.NNE} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
@@ -127,7 +127,7 @@ describe('Popover component', () => {
         it('configures the popover for the ENE preset', () => {
             render(<Popover {...baseProps} preset={preset.ENE} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
@@ -138,7 +138,7 @@ describe('Popover component', () => {
         it('configures the popover for the E preset', () => {
             render(<Popover {...baseProps} preset={preset.E} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
@@ -149,7 +149,7 @@ describe('Popover component', () => {
         it('configures the popover for the ESE preset', () => {
             render(<Popover {...baseProps} preset={preset.ESE} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
@@ -160,7 +160,7 @@ describe('Popover component', () => {
         it('configures the popover for the SSE preset', () => {
             render(<Popover {...baseProps} preset={preset.SSE} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-end')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
@@ -171,7 +171,7 @@ describe('Popover component', () => {
         it('configures the popover for the S preset', () => {
             render(<Popover {...baseProps} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-middle')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-middle')).toBeTruthy();
@@ -182,7 +182,7 @@ describe('Popover component', () => {
         it('configures the popover for the SSW preset', () => {
             render(<Popover {...baseProps} preset={preset.SSW} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-start')).toBeTruthy();
@@ -193,7 +193,7 @@ describe('Popover component', () => {
         it('configures the popover for the WSW preset', () => {
             render(<Popover {...baseProps} preset={preset.WSW} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
@@ -204,7 +204,7 @@ describe('Popover component', () => {
         it('configures the popover for the W preset', () => {
             render(<Popover {...baseProps} preset={preset.W} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
@@ -215,7 +215,7 @@ describe('Popover component', () => {
         it('configures the popover for the WNW preset', () => {
             render(<Popover {...baseProps} preset={preset.WNW} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             expect(popoverNode.classList.contains('b-popover-anchor-x-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-x-end')).toBeTruthy();
@@ -252,7 +252,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: 0, left: 0, right: 5, bottom: 5, height: 5, width: 5,
@@ -275,7 +275,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: window.innerHeight - 5, left: 0, right: 5, bottom: window.innerHeight, height: 5, width: 5,
@@ -298,7 +298,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: 300, left: 0, right: 5, bottom: 305, height: 5, width: 5,
@@ -323,7 +323,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: 768, left: 0, right: 5, bottom: 773, height: 5, width: 5,
@@ -346,7 +346,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: 0, left: -2, right: 3, bottom: 5, height: 5, width: 5,
@@ -369,7 +369,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: -2, left: 0, right: 5, bottom: 3, height: 5, width: 5,
@@ -392,7 +392,7 @@ describe('Popover component', () => {
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
-            const popoverNode = document.querySelector('.b-popover');
+            const popoverNode = $('.b-popover');
 
             sandbox.stub(anchor, 'getBoundingClientRect').returns({
                 top: 0, left: window.innerWidth - 4, right: window.innerWidth + 1, bottom: 5, height: 5, width: 5,
@@ -421,7 +421,7 @@ describe('Popover component', () => {
         });
 
         it('passes down nested children', () => {
-            expect(document.querySelector('.b-dialog').textContent).toContain('bar');
+            expect($('.b-dialog').textContent).toContain('bar');
         });
     });
 
@@ -438,9 +438,9 @@ describe('Popover component', () => {
         });
 
         it('passes down arbitrary props', () => {
-            expect(document.querySelector('[data-portal-id]').classList.contains('foo')).toBe(true);
-            expect(document.querySelector('#bar[data-portal-id]')).not.toBeNull();
-            expect(document.querySelector('[data-portal-id="baz"]')).not.toBeNull();
+            expect($('[data-portal-id]').classList.contains('foo')).toBe(true);
+            expect($('#bar[data-portal-id]')).not.toBeNull();
+            expect($('[data-portal-id="baz"]')).not.toBeNull();
         });
     });
 });
