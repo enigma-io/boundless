@@ -135,6 +135,12 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
 ### Optional Props
 
+- __`component`__ ・ override the wrapper HTML element if desired
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
 - __`onAllChecked`__ ・ called when all children become checked (not fired on first render), no return
 
   Expects | Default Value
@@ -163,13 +169,7 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
   Expects | Default Value
   -       | -
-  `bool` | `false`
-
-- __`selectAllPosition`__
-
-  Expects | Default Value
-  -       | -
-  `CheckboxGroup.selectAllPosition.BEFORE or CheckboxGroup.selectAllPosition.AFTER` | `CheckboxGroup.selectAllPosition.BEFORE`
+  `CheckboxGroup.selectAll.BEFORE or CheckboxGroup.selectAll.AFTER or CheckboxGroup.selectAll.NONE` | `CheckboxGroup.selectAll.BEFORE`
 
 - __`selectAllProps`__ ・ must conform to the [Checkbox prop spec](./Checkbox#props)
 

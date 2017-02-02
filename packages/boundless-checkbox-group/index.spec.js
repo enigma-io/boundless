@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import CheckboxGroup from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 import sinon from 'sinon';
 
@@ -48,150 +48,83 @@ describe('CheckboxGroup component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, CheckboxGroup));
 
-    it('accepts an array of properly structured items', () => {
-        const element = render(<CheckboxGroup items={items} />);
-        const node = element.refs.group;
+    it('accepts an alternate wrapper HTML element type', () => {
+        render(<CheckboxGroup component='section' items={items} />);
+        expect($('section.b-checkbox-group')).not.toBeNull();
+    });
 
-        expect(node).not.toBe(null);
+    it('accepts an array of properly structured items', () => {
+        render(<CheckboxGroup items={items} />);
+        expect($$('.b-checkbox-wrapper:not(.b-checkbox-group-all) .b-checkbox').length).toBe(items.length);
     });
 
     it('accepts arbitrary React-supported HTML attributes via prop.selectAllProps', () => {
-        const element = render(<CheckboxGroup selectAll={true} selectAllProps={{'data-id': 'foo'}} />);
-        const node = ReactDOM.findDOMNode(element.refs.select_all);
-
-        expect(node.getAttribute('data-id')).toBe('foo');
+        render(<CheckboxGroup selectAllProps={{'data-id': 'foo'}} />);
+        expect($('.b-checkbox-group-all[data-id="foo"]')).not.toBeNull();
     });
 
-    it('accepts additional classes as a string without replacing the core hook', () => {
-        const element = render(<CheckboxGroup className='foo bar' />);
-        const node = element.refs.group;
-
-        ['b-checkbox-group', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
-    });
-
-    it('renders .b-checkbox-group', () => {
-        const element = render(<CheckboxGroup items={items} />);
-        const node = element.refs.group;
-
-        expect(node.classList.contains('b-checkbox-group')).toBe(true);
-    });
-
-    it('renders .b-checkbox-group-selectall', () => {
-        const element = render(<CheckboxGroup items={items} selectAll={true} />);
-
-        expect(ReactDOM.findDOMNode(element.refs.select_all).classList.contains('b-checkbox-group-selectall')).toBe(true);
-    });
-
-    describe('select all', () => {
-        it('will not render if `selectAll` is falsy', () => {
-            const element = render(<CheckboxGroup items={items} />);
-
-            expect(element.refs.select_all).toBe(undefined);
+    describe('"select all" checkbox', () => {
+        it('will not render if `selectAll` is `CheckboxGroup.selectAll.NONE`', () => {
+            render(<CheckboxGroup items={items} selectAll={CheckboxGroup.selectAll.NONE} />);
+            expect($('.b-checkbox-group-all')).toBeNull();
         });
 
-        it('renders if `selectAll` is truthy', () => {
-            const element = render(<CheckboxGroup items={items} selectAll={true} />);
-            const node = ReactDOM.findDOMNode(element.refs.select_all);
-
-            expect(node).not.toBe(null);
+        it('renders as the first child if `selectAll` is `CheckboxGroup.selectAll.BEFORE`', () => {
+            render(<CheckboxGroup items={items} selectAll={CheckboxGroup.selectAll.BEFORE} />);
+            expect($('.b-checkbox-group > *:first-child')).toBe($('.b-checkbox-group-all'));
         });
 
-        it('renders in the first position by default', () => {
-            const element = render(<CheckboxGroup items={items} selectAll={true} />);
-            const node = ReactDOM.findDOMNode(element.refs.select_all);
-
-            expect(node.parentNode.children[0]).toBe(node);
-        });
-
-        it('renders in the last position if passed the appropriate `selectAllPosition`', () => {
-            const element = render(
-                <CheckboxGroup items={items}
-                                 selectAll={true}
-                                 selectAllPosition={CheckboxGroup.selectAllPosition.AFTER} />
-            );
-
-            const node = ReactDOM.findDOMNode(element.refs.select_all);
-
-            expect(node.parentNode.children[3]).toBe(node);
+        it('renders in the last position if `selectAll` is `CheckboxGroup.selectAll.AFTER`', () => {
+            render(<CheckboxGroup items={items} selectAll={CheckboxGroup.selectAll.AFTER} />);
+            expect($('.b-checkbox-group > *:last-child')).toBe($('.b-checkbox-group-all'));
         });
 
         it('accepts a name passed by `selectAllProps.className`', () => {
-            const element = render(<CheckboxGroup items={items} selectAll={true} selectAllProps={{className: 'foo'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.select_all);
-
-            expect(node.className).toContain('foo');
+            render(<CheckboxGroup items={items} selectAllProps={{className: 'foo'}} />);
+            expect($('.b-checkbox-group-all.foo')).not.toBeNull();
         });
 
         it('accepts a name passed by `selectAllProps.inputProps.name`', () => {
-            const element = render(
-                <CheckboxGroup
-                    items={items}
-                    selectAll={true}
-                    selectAllProps={{inputProps: {name: 'foo'}}} />
-            );
-
-            const node = ReactDOM.findDOMNode(element.refs.select_all.refs.input);
-
-            expect(node.getAttribute('name')).toBe('foo');
+            render(<CheckboxGroup items={items} selectAllProps={{inputProps: {name: 'foo'}}} />);
+            expect($('.b-checkbox-group-all .b-checkbox[name="foo"]')).not.toBeNull();
         });
 
         it('checks all children', () => {
             const stub = sandbox.stub();
-            const element = render(
-                <CheckboxGroup items={items}
-                                 selectAll={true}
-                                 onAllChecked={stub} />
-            );
 
-            element.refs.select_all.handleChange();
+            render(<CheckboxGroup items={items} onAllChecked={stub} />);
 
+            $('.b-checkbox-group-all .b-checkbox-unchecked').click();
             expect(stub.calledOnce).toBe(true);
         });
 
         it('unchecks all children', () => {
             const stub = sandbox.stub();
-            const element = render(
-                <CheckboxGroup items={checkedItems}
-                                 selectAll={true}
-                                 onAllUnchecked={stub} />
-            );
 
-            element.refs.select_all.handleChange();
+            render(<CheckboxGroup items={checkedItems} onAllUnchecked={stub} />);
 
+            $('.b-checkbox-group-all .b-checkbox-checked').click();
             expect(stub.calledOnce).toBe(true);
         });
 
         it('is indeterminate if children are in different checked states', () => {
-            const element = render(
-                <CheckboxGroup items={mixedItems}
-                                 selectAll={true} />
-            );
-
-            expect(element.refs.select_all.props.inputProps.indeterminate).toBe(true);
+            render(<CheckboxGroup items={mixedItems} />);
+            expect($('.b-checkbox-group-all .b-checkbox-mixed')).not.toBeNull();
         });
 
         it('makes all children checked if clicked in indeterminate state', () => {
             const stub = sandbox.stub();
-            const element = render(
-                <CheckboxGroup items={mixedItems}
-                                 selectAll={true}
-                                 onAllChecked={stub} />
-            );
 
-            element.refs.select_all.handleChange();
+            render(<CheckboxGroup items={mixedItems} onAllChecked={stub} />);
 
+            $('.b-checkbox-group-all .b-checkbox-mixed').click();
             expect(stub.calledOnce).toBe(true);
         });
 
         it('renders a custom label if given', () => {
-            const element = render(
-                <CheckboxGroup
-                    items={mixedItems}
-                    selectAll={true}
-                    selectAllProps={{label: 'foo'}} />
-            );
-
-            expect(element.refs.select_all.refs.label.textContent).toBe('foo');
+            render(<CheckboxGroup items={mixedItems} selectAllProps={{label: 'foo'}} />);
+            expect($('.b-checkbox-group-all .b-checkbox-label')).not.toBeNull();
+            expect($('.b-checkbox-group-all .b-checkbox-label').textContent).toBe('foo');
         });
     });
 });
