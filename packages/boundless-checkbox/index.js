@@ -17,6 +17,11 @@ view must intercept and apply against the data provider.
 export default class Checkbox extends React.PureComponent {
     static propTypes = {
         /**
+         * any valid HTML tag name
+         */
+        component: PropTypes.string,
+
+        /**
          * all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
          * Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
          */
@@ -75,6 +80,7 @@ export default class Checkbox extends React.PureComponent {
     }
 
     static defaultProps = {
+        component: 'div',
         inputProps: {
             checked: false,
             indeterminate: false,
@@ -163,13 +169,13 @@ export default class Checkbox extends React.PureComponent {
 
     render() {
         return (
-            <div
+            <this.props.component
                 {...omit(this.props, Checkbox.internalKeys)}
                 ref='wrapper'
                 className={cx('b-checkbox-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
-            </div>
+            </this.props.component>
         );
     }
 }
