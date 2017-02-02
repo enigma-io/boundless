@@ -4,30 +4,30 @@ import Radio from '../index';
 export default class RadioDemo extends React.PureComponent {
     state = {
         options: [{
+            labelContent: 'Business',
+            name: 'major',
             selected: false,
-            label: 'Business',
             value: 'bus',
-            name: 'major',
         }, {
+            labelContent: 'Engineering',
+            name: 'major',
             selected: true,
-            label: 'Engineering',
             value: 'eng',
-            name: 'major',
         }, {
+            labelContent: 'Physical Sciences',
+            name: 'major',
             selected: false,
-            label: 'Physical Sciences',
             value: 'phys-sci',
-            name: 'major',
         }, {
+            labelContent: 'Psychology',
+            name: 'major',
             selected: false,
-            label: 'Psychology',
             value: 'psy',
-            name: 'major',
         }, {
-            selected: false,
-            label: 'Law',
-            value: 'law',
+            labelContent: 'Law',
             name: 'major',
+            selected: false,
+            value: 'law',
         }],
     }
 
@@ -47,7 +47,7 @@ export default class RadioDemo extends React.PureComponent {
                         return (
                             <Radio {...definition}
                                      key={definition.value}
-                                     label={definition.label}
+                                     labelContent={definition.labelContent}
                                      onSelected={boundFunc} />
                         );
                     })}

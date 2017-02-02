@@ -15,30 +15,30 @@ import Radio from '../index';
 export default class RadioDemo extends React.PureComponent {
     state = {
         options: [{
+            labelContent: 'Business',
+            name: 'major',
             selected: false,
-            label: 'Business',
             value: 'bus',
-            name: 'major',
         }, {
+            labelContent: 'Engineering',
+            name: 'major',
             selected: true,
-            label: 'Engineering',
             value: 'eng',
-            name: 'major',
         }, {
+            labelContent: 'Physical Sciences',
+            name: 'major',
             selected: false,
-            label: 'Physical Sciences',
             value: 'phys-sci',
-            name: 'major',
         }, {
+            labelContent: 'Psychology',
+            name: 'major',
             selected: false,
-            label: 'Psychology',
             value: 'psy',
-            name: 'major',
         }, {
-            selected: false,
-            label: 'Law',
-            value: 'law',
+            labelContent: 'Law',
             name: 'major',
+            selected: false,
+            value: 'law',
         }],
     }
 
@@ -58,7 +58,7 @@ export default class RadioDemo extends React.PureComponent {
                         return (
                             <Radio {...definition}
                                      key={definition.value}
-                                     label={definition.label}
+                                     labelContent={definition.labelContent}
                                      onSelected={boundFunc} />
                         );
                     })}
@@ -92,19 +92,25 @@ export default class RadioDemo extends React.PureComponent {
 
 ### Optional Props
 
-- __`inputProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
+- __`component`__ ・ override the wrapper component HTML element tag if desired
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
+- __`inputProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`label`__ ・ any React-renderable content, most commonly a simple string
+- __`labelContent`__ ・ any React-renderable content
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `any renderable or arrayOf(any renderable)` | `null`
 
-- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
+- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
