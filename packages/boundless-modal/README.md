@@ -24,17 +24,14 @@ export default class ModalDemo extends React.PureComponent {
 
     renderModal() {
         if (this.state.showModal) {
-            const buttons = [
-                <Button key='y' onPressed={this.toggleModal}>Yes</Button>,
-                <Button key='n' className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</Button>,
-            ];
-
             return (
-                <Modal
-                    className='demo-modal'
-                    header='Account Deletion'
-                    footer={buttons}>
-                    Are you sure you want to remove your account permanently?
+                <Modal className='demo-modal'>
+                    <h3>Account Deletion</h3>
+
+                    <p>Are you sure you want to remove your account permanently?</p>
+
+                    <Button onPressed={this.toggleModal}>Yes</Button>
+                    <Button className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</Button>
                 </Modal>
             );
         }
@@ -78,23 +75,11 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`bodyProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
 - __`captureFocus`__ ・ determines if focus is allowed to move away from the dialog
 
   Expects | Default Value
   -       | -
   `bool` | `true`
-
-- __`children`__
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
 
 - __`closeOnEscKey`__ ・ enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
@@ -131,25 +116,31 @@ There are no required props.
   -       | -
   `bool or function` | `false`
 
-- __`footer`__ ・ text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+- __`component`__ ・ override the type of `.b-dialog-wrapper` HTML element
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `string` | `'div'`
 
-- __`footerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
-- __`header`__ ・ text, ReactElements, etc. to represent the "title bar" area of the dialog
+- __`dialogComponent`__ ・ override the type of `.b-dialog` HTML element
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `string` | `'div'`
 
-- __`headerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
+- __`dialogProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+  
+  #### Example
+  
+  ```jsx
+  <Dialog wrapperProps={{'data-id': 'foo'}}>
+      <h2>Warning!</h2>
+      <p>You're about to do something crazy! Are you sure?</p>
+      <footer>
+          <button>Heck yeah!</button>
+      </footer>
+  </Dialog>
+  ```
 
   Expects | Default Value
   -       | -
@@ -167,19 +158,13 @@ There are no required props.
   -       | -
   `object` | `{}`
 
-- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
 - __`portalProps`__ ・ any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
-- __`wrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
 
   Expects | Default Value
   -       | -

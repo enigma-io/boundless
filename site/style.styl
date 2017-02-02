@@ -47,6 +47,8 @@ Dialog-color = #111
 
 Input-borderColor = transparent
 
+Modal-boxShadowColor = transparent
+
 Pagination-control-backgroundColor = transparent
 Pagination-control-backgroundColor-disabled = transparent
 Pagination-control-backgroundColor-focus = transparent
@@ -68,6 +70,7 @@ Popover-backgroundColor = body-backgroundColor
 Popover-borderColor = #000
 Popover-color = body-color
 Popover-caret-backgroundColor = color-accent
+Popover-caret-borderColor = color-accent
 
 Radio-backgroundColor = transparent
 Radio-backgroundColor-active = color-accent
@@ -281,7 +284,7 @@ figure {
     margin: 0;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
     color: #FFF;
     margin: 1em 0 0.75rem;
 
@@ -297,7 +300,7 @@ h1, h2, h3 {
         opacity: 1;
     }
 
-    + h1, + h2, + h3 {
+    + h1, + h2, + h3, + h4 {
         margin-top: 0.5rem;
     }
 
@@ -336,6 +339,11 @@ h3 {
     font-weight: 400;
     margin: 3rem 0 1rem;
     text-transform: uppercase;
+}
+
+h4 {
+    font-size: 14px;
+    margin: 1rem 0;
 }
 
 a {
@@ -581,7 +589,6 @@ article {
 
         pre {
             background: none !important;
-            margin: 0;
 
             code {
                 background: none !important;

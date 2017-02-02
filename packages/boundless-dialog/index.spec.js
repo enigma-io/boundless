@@ -8,7 +8,7 @@ import {noop} from 'lodash';
 import Dialog from './index';
 import Button from '../boundless-button/index';
 import Popover from '../boundless-popover/index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
+import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Dialog component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -22,83 +22,52 @@ describe('Dialog component', () => {
         sandbox.reset();
     });
 
-    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Dialog, {}, '$dialog'));
+    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Dialog, {}));
 
     it('renders .b-dialog', () => {
         render(<Dialog />);
-        expect(document.querySelector('.b-dialog')).not.toBe(null);
+        expect($('.b-dialog')).not.toBe(null);
     });
 
-    it('renders .b-dialog-body', () => {
-        render(<Dialog />);
-        expect(document.querySelector('.b-dialog-body')).not.toBe(null);
+    it('accepts component customization', () => {
+        render(<Dialog component='figure' />);
+        expect($('figure.b-dialog-wrapper')).not.toBe(null);
     });
 
-    it('renders .b-dialog-footer', () => {
-        render(<Dialog footer='x' />);
-        expect(document.querySelector('.b-dialog-footer')).not.toBe(null);
+    it('accepts dialog component customization', () => {
+        render(<Dialog dialogComponent='article' />);
+        expect($('article.b-dialog')).not.toBe(null);
     });
 
-    it('renders .b-dialog-header', () => {
-        render(<Dialog header='x' />);
-        expect(document.querySelector('.b-dialog-header')).not.toBe(null);
-    });
-
-    it('accepts arbitrary React-supported HTML attributes via props.bodyProps', () => {
-        render(<Dialog bodyProps={{'data-id': 'foo'}} />);
-        expect(document.querySelector('.b-dialog-body').getAttribute('data-id')).toBe('foo');
-    });
-
-    it('accepts arbitrary React-supported HTML attributes via props.footerProps', () => {
-        render(<Dialog footer='x' footerProps={{'data-id': 'foo'}} />);
-        expect(document.querySelector('.b-dialog-footer').getAttribute('data-id')).toBe('foo');
-    });
-
-    it('accepts arbitrary React-supported HTML attributes via props.headerProps', () => {
-        render(<Dialog header='x' headerProps={{'data-id': 'foo'}} />);
-        expect(document.querySelector('.b-dialog-header').getAttribute('data-id')).toBe('foo');
-    });
-
-    it('accepts an additional class as a string without replacing the core hook', () => {
+    it('accepts an additional CSS class', () => {
         render(<Dialog className='foo' />);
-        expect(document.querySelector('.b-dialog').classList.contains('b-dialog')).toBe(true);
-        expect(document.querySelector('.b-dialog').classList.contains('foo')).toBe(true);
-    });
-
-    it('accepts renderable header content', () => {
-        render(<Dialog header='foo' />);
-        expect(document.querySelector('.b-dialog-header').textContent).toBe('foo');
-    });
-
-    it('accepts renderable footer content', () => {
-        render(<Dialog footer='foo' />);
-        expect(document.querySelector('.b-dialog-footer').textContent).toBe('foo');
+        expect($('.b-dialog-wrapper.foo')).not.toBe(null);
     });
 
     it('accepts renderable content as a nested child', () => {
         render(<Dialog>foo</Dialog>);
-        expect(document.querySelector('.b-dialog-body').textContent).toBe('foo');
+        expect($('.b-dialog').textContent).toBe('foo');
     });
 
     it('renders focus boundary nodes if props.captureFocus is true', () => {
         render(<Dialog captureFocus={true} />);
-        expect(document.querySelectorAll('.b-offscreen[tabindex="0"]').length).toBe(2);
+        expect($$('.b-offscreen[tabindex="0"]').length).toBe(2);
     });
 
     it('will not render focus boundary nodes if props.captureFocus is false', () => {
         render(<Dialog captureFocus={false} />);
-        expect(document.querySelectorAll('.b-offscreen[tabindex="0"]').length).toBe(0);
+        expect($$('.b-offscreen[tabindex="0"]').length).toBe(0);
     });
 
     describe('focus', () => {
         it('is applied to the dialog on render if props.captureFocus is true', () => {
             render(<Dialog captureFocus={true} />);
-            expect(document.activeElement).toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).toBe($('.b-dialog'));
         });
 
         it('is not applied to the dialog on render if props.captureFocus is false', () => {
             render(<Dialog captureFocus={false} />);
-            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).not.toBe($('.b-dialog'));
         });
 
         it('will not leave the dialog if props.captureFocus is true', () => {
@@ -110,7 +79,7 @@ describe('Dialog component', () => {
                 preventDefault: noop,
             });
 
-            expect(document.activeElement).toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).toBe($('.b-dialog'));
         });
     });
 
@@ -245,7 +214,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={true} onClose={stub} />);
 
-            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).not.toBe($('.b-dialog'));
 
             element.handleFocus({target: mountNode});
             sandbox.clock.tick(1);
@@ -256,7 +225,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={() => true} onClose={stub} />);
 
-            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).not.toBe($('.b-dialog'));
 
             element.handleFocus({target: mountNode});
             sandbox.clock.tick(1);
@@ -276,7 +245,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={false} onClose={stub} />);
 
-            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).not.toBe($('.b-dialog'));
 
             element.handleFocus({target: mountNode});
             sandbox.clock.tick(1);
@@ -287,7 +256,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={false} closeOnOutsideFocus={() => false} onClose={stub} />);
 
-            expect(document.activeElement).not.toBe(document.querySelector('.b-dialog'));
+            expect(document.activeElement).not.toBe($('.b-dialog'));
 
             element.handleFocus({target: mountNode});
             sandbox.clock.tick(1);
@@ -429,7 +398,7 @@ describe('Dialog component', () => {
             element.openOuterPopover();
             element.openInnerPopover();
 
-            document.querySelector('.bar').click();
+            $('.bar').click();
 
             expect(element.state.outerPopoverRendered).toBe(true);
             expect(element.state.innerPopoverRendered).toBe(true);

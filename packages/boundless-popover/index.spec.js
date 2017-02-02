@@ -21,7 +21,7 @@ describe('Popover component', () => {
         sinon.sandbox.restore();
     });
 
-    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Popover, baseProps, 'dialog.$dialog'));
+    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Popover, baseProps, 'dialog.$wrapper'));
 
     describe('CSS hook(s)', () => {
         it('renders .b-popover', () => {
@@ -414,41 +414,14 @@ describe('Popover component', () => {
     describe('passthrough to Dialog', () => {
         beforeEach(() => {
             render(
-                <Popover
-                    {...baseProps}
-                    autoReposition={false}
-                    header='foo'
-                    headerProps={{className: 'foo'}}
-                    bodyProps={{className: 'foo'}}
-                    footer='baz'
-                    footerProps={{className: 'foo'}}>
+                <Popover {...baseProps} autoReposition={false}>
                     bar
                 </Popover>
             );
         });
 
-        it('passes down props.header', () => {
-            expect(document.querySelector('.b-dialog-header').textContent).toContain('foo');
-        });
-
-        it('passes down props.headerProps', () => {
-            expect(document.querySelector('.b-dialog-header').classList.contains('foo')).toBe(true);
-        });
-
         it('passes down nested children', () => {
-            expect(document.querySelector('.b-dialog-body').textContent).toContain('bar');
-        });
-
-        it('passes down props.bodyProps', () => {
-            expect(document.querySelector('.b-dialog-body').classList.contains('foo')).toBe(true);
-        });
-
-        it('passes down props.footer', () => {
-            expect(document.querySelector('.b-dialog-footer').textContent).toContain('baz');
-        });
-
-        it('passes down props.footerProps', () => {
-            expect(document.querySelector('.b-dialog-footer').classList.contains('foo')).toBe(true);
+            expect(document.querySelector('.b-dialog').textContent).toContain('bar');
         });
     });
 

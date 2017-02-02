@@ -128,12 +128,12 @@ export default class PopoverDemo extends React.PureComponent {
             return this.state['showPopover' + index] ? (
                 <Popover
                     key={definition.word}
-                    anchor={this.refs['word' + index]}
-                    caretAnchor={this.refs['word-caret-anchor' + index]}
+                    anchor={this.refs[`$word${index}`]}
+                    caretAnchor={this.refs[`$word-caret-anchor${index}`]}
+                    className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
-                    onClose={() => this.closePopover(index)}
-                    wrapperProps={{className: 'demo-popover'}}>
+                    onClose={() => this.closePopover(index)}>
                     {this.renderBody(definition)}
                 </Popover>
             ) : undefined;
@@ -143,19 +143,22 @@ export default class PopoverDemo extends React.PureComponent {
     render() {
         return (
             <div>
-                <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
+                <p>
+                    Words of the day for {(new Date()).toLocaleDateString()}:<br />
+                    <sub>Note that the words with ⓘ symbols have their caret anchored to the symbol, rather than the center of the button.</sub>
+                </p>
 
                 <div className='spread'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <Button
                                 key={definition.word}
-                                ref={(i) => (this.refs[`word${index}`] = i)}
+                                ref={`$word${index}`}
                                 className='show-help-popover'
                                 onPressed={() => this.openPopover(index)}
                                 pressed={this.state[`showPopover${index}`]}
                                 tabIndex='0'>
-                                {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
+                                {definition.word} {index % 2 === 0 ? <span ref={`$word-caret-anchor${index}`}>ⓘ</span> : null}
                             </Button>
                         );
                     })}
@@ -180,7 +183,7 @@ export default class PopoverDemo extends React.PureComponent {
 
   Expects | Default Value
   -       | -
-  `HTMLElement or ReactElement` | `undefined`
+  `HTMLElement or object` | `undefined`
 
 
 ### Optional Props
@@ -203,12 +206,6 @@ export default class PopoverDemo extends React.PureComponent {
   -       | -
   `any renderable` | `null`
 
-- __`bodyProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
 - __`captureFocus`__ ・ determines if focus is allowed to move away from the dialog
 
   Expects | Default Value
@@ -221,7 +218,7 @@ export default class PopoverDemo extends React.PureComponent {
 
   Expects | Default Value
   -       | -
-  `HTMLElement or ReactElement` | `undefined`
+  `HTMLElement or object` | `undefined`
 
 - __`caretComponent`__ ・ the JSX that is rendered and used to point at the middle of the anchor element and indicate the context of the popover
 
@@ -233,12 +230,6 @@ export default class PopoverDemo extends React.PureComponent {
         <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
     </g>
 </svg>`
-
-- __`children`__
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
 
 - __`closeOnEscKey`__ ・ enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
@@ -275,31 +266,37 @@ export default class PopoverDemo extends React.PureComponent {
   -       | -
   `bool or function` | `false`
 
-- __`footer`__ ・ text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+- __`component`__ ・ override the type of `.b-dialog-wrapper` HTML element
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `string` | `'div'`
 
-- __`footerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
+- __`dialogComponent`__ ・ override the type of `.b-dialog` HTML element
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
+- __`dialogProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+  
+  #### Example
+  
+  ```jsx
+  <Dialog wrapperProps={{'data-id': 'foo'}}>
+      <h2>Warning!</h2>
+      <p>You're about to do something crazy! Are you sure?</p>
+      <footer>
+          <button>Heck yeah!</button>
+      </footer>
+  </Dialog>
+  ```
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`header`__ ・ text, ReactElements, etc. to represent the "title bar" area of the dialog
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
-
-- __`headerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
-- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
 
   Expects | Default Value
   -       | -
@@ -322,12 +319,6 @@ export default class PopoverDemo extends React.PureComponent {
   Expects | Default Value
   -       | -
   `Popover.preset.NNW or Popover.preset.N or Popover.preset.NNE or Popover.preset.ENE or Popover.preset.E or Popover.preset.ESE or Popover.preset.SSE or Popover.preset.S or Popover.preset.SSW or Popover.preset.WSW or Popover.preset.W or Popover.preset.WNW` | `Popover.preset.S`
-
-- __`wrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
 
 
 ## Reference Styles

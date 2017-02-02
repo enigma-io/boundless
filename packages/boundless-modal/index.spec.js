@@ -49,44 +49,9 @@ describe('Modal component', () => {
         expect(document.querySelector('.b-modal-mask').classList.contains('foo')).toBe(true);
     });
 
-    describe('passthrough to Dialog', () => {
-        beforeEach(() => {
-            render(
-                <Modal
-                    header='foo'
-                    headerProps={{className: 'foo'}}
-                    bodyProps={{className: 'foo'}}
-                    footer='baz'
-                    footerProps={{className: 'foo'}}>
-                    bar
-                </Modal>
-            );
-        });
-
-        it('passes down props.header', () => {
-            expect(document.querySelector('.b-dialog-header').textContent).toContain('foo');
-        });
-
-        it('passes down props.headerProps', () => {
-            expect(document.querySelector('.b-dialog-header').classList.contains('foo')).toBe(true);
-        });
-
-        it('passes down nested children', () => {
-            render(<Modal>foo</Modal>);
-            expect(document.querySelector('.b-dialog-body').textContent).toContain('foo');
-        });
-
-        it('passes down props.bodyProps', () => {
-            expect(document.querySelector('.b-dialog-body').classList.contains('foo')).toBe(true);
-        });
-
-        it('passes down props.footer', () => {
-            expect(document.querySelector('.b-dialog-footer').textContent).toContain('baz');
-        });
-
-        it('passes down props.footerProps', () => {
-            expect(document.querySelector('.b-dialog-footer').classList.contains('foo')).toBe(true);
-        });
+    it('passes down nested children to Dialog', () => {
+        render(<Modal>foo</Modal>);
+        expect(document.querySelector('.b-dialog').textContent).toContain('foo');
     });
 
     describe('passthrough to Portal', () => {

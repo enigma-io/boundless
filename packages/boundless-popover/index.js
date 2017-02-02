@@ -91,7 +91,9 @@ export default class Popover extends React.PureComponent {
          */
         anchor: PropTypes.oneOfType([
             PropTypes.instanceOf(HTMLElement),
-            PropTypes.element,
+            PropTypes.shape({
+                props: PropTypes.object,
+            }),
         ]).isRequired,
 
         /**
@@ -106,7 +108,9 @@ export default class Popover extends React.PureComponent {
          */
         caretAnchor: PropTypes.oneOfType([
             PropTypes.instanceOf(HTMLElement),
-            PropTypes.element,
+            PropTypes.shape({
+                props: PropTypes.object,
+            }),
         ]),
 
         /**
@@ -139,11 +143,6 @@ export default class Popover extends React.PureComponent {
             Popover.preset.W,
             Popover.preset.WNW,
         ]),
-
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-popover` node
-         */
-        wrapperProps: PropTypes.object,
     }
 
     static defaultProps = {
@@ -158,7 +157,6 @@ export default class Popover extends React.PureComponent {
         closeOnOutsideScroll: true,
         portalProps: {},
         preset: Popover.preset.S,
-        wrapperProps: {},
     }
 
     static internalKeys = without(Object.keys(Popover.defaultProps), Dialog.internalKeys)
@@ -439,10 +437,7 @@ export default class Popover extends React.PureComponent {
                             className: cx('b-popover-caret', props.caretComponent.props.className),
                         })
                     }
-                    wrapperProps={{
-                        ...props.wrapperProps,
-                        className: cx('b-popover', props.wrapperProps.className),
-                    }} />
+                    className={cx('b-popover', props.className)} />
             </Portal>
         );
     }

@@ -33,9 +33,7 @@ export function conformanceChecker(render, Constructor, baseProps, key) {
         );
 
         if (key) {
-            return   get(element, key) instanceof HTMLElement
-                   ? get(element, key)
-                   : findDOMNode(get(element, key));
+            return findDOMNode(get(element, key));
         }
 
         return findDOMNode(element);
