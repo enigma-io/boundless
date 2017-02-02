@@ -62,7 +62,7 @@ releaseConf.plugins.push(
             collapseWhitespace: true,
         },
         template: path.resolve(__dirname, '../site/index.template.ejs'),
-        title: 'Boundless',
+        title: 'boundless',
     }),
 
     new SitemapPlugin('http://boundless.js.org', paths, {

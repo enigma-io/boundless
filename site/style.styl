@@ -458,40 +458,22 @@ th, td {
     background-color: invert(color-accent);
 }
 
-@keyframes nudge {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(10px);
-    }
-}
-
 .splash {
     align-items: center;
-    background: linear-gradient(to top, #1A1A1A 0%, #000 100%);
-    color: #FFF;
+    background: linear-gradient(to top, lighten(#000, 10%) 0%, #000 100%);
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 400px;
+    height: 60vh;
     overflow: hidden; /* needed for starfield */
     padding: 0 10vw;
     position: relative;
 
-    .splash-indicator {
-        font-size: 3rem;
-        margin-top: 2rem;
-    }
-
-    .splash-nudge {
-        display: inline-block;
-        animation: 1s ease-in infinite alternate nudge;
-    }
-
     .splash-inner {
         margin: auto;
+        position: relative;
         text-align: center;
+        z-index: 1;
 
         h1 {
             font-size: 72px;

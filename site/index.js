@@ -118,10 +118,7 @@ class Container extends React.PureComponent {
 
                 <div className='splash-inner'>
                     <h1>boundless</h1>
-                    <p>Battle-tested, versatile React components with infinite composability.</p>
-                    <div className='splash-indicator'>
-                        <span className='splash-nudge' onClick={() => this.main.scrollIntoView({behavior: 'smooth'})}>👇</span>
-                    </div>
+                    <p>accessible, battle-tested, infinitely composable react components</p>
                 </div>
             </section>
         );

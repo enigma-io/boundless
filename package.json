@@ -1,6 +1,6 @@
 {
   "name": "boundless",
-  "description": "Intuitive, accessible solutions for common UI needs in React.",
+  "description": "accessible, battle-tested, infinitely composable react components",
   "version": "1.0.0-beta.6",
   "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
   "contributors": [
