@@ -2,11 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import sinon from 'sinon';
 
 import Progress from './index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
-
-import sinon from 'sinon';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Progress component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -21,143 +20,103 @@ describe('Progress component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Progress));
 
-    describe('accepts', () => {
-        it('an additional class as a string without replacing the core hook', () => {
-            const element = render(<Progress className='foo bar' />);
-            const node = element.refs.wrapper;
-
-            ['b-progress-wrapper', 'foo', 'bar'].forEach((cname) => expect(node.classList.contains(cname)).toBe(true));
-        });
-
-        it('a specific style property to tween', () => {
-            const element = render(<Progress progress='0%' tweenProperty='height' />);
-
-            expect(element.refs.progress.getAttribute('style')).toBe('height: 0%;');
-        });
-
-        it('arbitrary HTML attributes via props.progressProps', () => {
-            const element = render(<Progress progressProps={{'data-foo': 'bar'}} />);
-            const node = element.refs.progress;
-
-            expect(node.hasAttribute('data-foo')).toBe(true);
-            expect(node.getAttribute('data-foo')).toBe('bar');
-        });
-
-        it('an additional class via props.progressProps.className', () => {
-            const element = render(<Progress progressProps={{className: 'foo'}} />);
-            const node = element.refs.progress;
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
-
-        it('arbitrary HTML attributes via props.labelProps', () => {
-            const element = render(<Progress label='hi' labelProps={{'data-foo': 'bar'}} />);
-            const node = element.refs.label;
-
-            expect(node.hasAttribute('data-foo')).toBe(true);
-            expect(node.getAttribute('data-foo')).toBe('bar');
-        });
-
-        it('an additional class via props.labelProps.className', () => {
-            const element = render(<Progress label='hi' labelProps={{className: 'foo'}} />);
-            const node = element.refs.label;
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
-
-        it('arbitrary HTML attributes via props.cancelProps', () => {
-            const element = render(<Progress onCancel={sandbox.stub()} cancelProps={{'data-foo': 'bar'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.cancel);
-
-            expect(node.hasAttribute('data-foo')).toBe(true);
-            expect(node.getAttribute('data-foo')).toBe('bar');
-        });
-
-        it('an additional class via props.cancelProps.className', () => {
-            const element = render(<Progress onCancel={sandbox.stub()} cancelProps={{className: 'foo'}} />);
-            const node = ReactDOM.findDOMNode(element.refs.cancel);
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
+    it('renders .b-progress-wrapper', () => {
+        render(<Progress />);
+        expect($('.b-progress-wrapper')).not.toBeNull();
     });
 
-    describe('CSS hook', () => {
-        let element;
+    it('renders .b-progress', () => {
+        render(<Progress progress='5%' />);
+        expect($('.b-progress')).not.toBeNull();
+    });
 
-        beforeEach(() => {
-            element = render(<Progress label='foo' onCancel={() => {}} />);
-        });
+    it('renders .b-progress-indeterminate', () => {
+        render(<Progress onCancel={() => {}} />);
+        expect($('.b-progress-indeterminate')).not.toBeNull();
+    });
 
-        it('renders .b-progress-wrapper', () => {
-            expect(element.refs.wrapper.classList.contains('b-progress-wrapper')).toBe(true);
-        });
+    it('renders .b-progress-cancel', () => {
+        render(<Progress onCancel={() => {}} />);
+        expect($('.b-progress-cancel')).not.toBeNull();
+    });
 
-        it('renders .b-progress', () => {
-            expect(element.refs.progress.classList.contains('b-progress')).toBe(true);
-        });
+    it('accepts a specific style property to tween', () => {
+        render(<Progress progress='0%' tweenProperty='height' />);
+        expect($('.b-progress').getAttribute('style')).toBe('height: 0%;');
+    });
 
-        it('renders .b-progress-indeterminate', () => {
-            expect(element.refs.progress.classList.contains('b-progress-indeterminate')).toBe(true);
-        });
+    it('accepts arbitrary HTML attributes via props.progressProps', () => {
+        render(<Progress progressProps={{'data-foo': 'bar'}} />);
+        expect($('.b-progress[data-foo="bar"]')).not.toBeNull();
+    });
 
-        it('renders .b-progress-cancel', () => {
-            expect(ReactDOM.findDOMNode(element.refs.cancel).classList.contains('b-progress-cancel')).toBe(true);
-        });
+    it('accepts an additional class via props.progressProps.className', () => {
+        render(<Progress progressProps={{className: 'foo'}} />);
+        expect($('.b-progress.foo')).not.toBeNull();
+    });
 
-        it('renders .b-progress-label', () => {
-            expect(element.refs.label.classList.contains('b-progress-label')).toBe(true);
-        });
+    it('accepts arbitrary HTML attributes via props.cancelProps', () => {
+        render(<Progress onCancel={sandbox.stub()} cancelProps={{'data-foo': 'bar'}} />);
+        expect($('.b-progress-cancel[data-foo="bar"]')).not.toBeNull();
+    });
+
+    it('accepts an additional class via props.cancelProps.className', () => {
+        render(<Progress onCancel={sandbox.stub()} cancelProps={{className: 'foo'}} />);
+        expect($('.b-progress-cancel.foo')).not.toBeNull();
+    });
+
+    it('accepts a different wrapper component type', () => {
+        render(<Progress component='article' />);
+        expect($('article.b-progress-wrapper')).not.toBeNull();
+    });
+
+    it('accepts a different progress component type', () => {
+        render(<Progress progressComponent='article' />);
+        expect($('article.b-progress')).not.toBeNull();
+    });
+
+    it('accepts a different cancel component type', () => {
+        render(<Progress cancelComponent='i' onCancel={() => {}} />);
+        expect($('i.b-progress-cancel')).not.toBeNull();
     });
 
     describe('progress', () => {
         it('updates as the prop is changed', () => {
-            const element = render(<Progress progress='0%' />);
-            const node = element.refs.progress;
+            render(<Progress progress='0%' />);
+
+            const node = $('.b-progress');
 
             expect(node.getAttribute('style')).toBe('width: 0%;');
-
             render(<Progress progress='10%' />);
-
             expect(node.getAttribute('style')).toBe('width: 10%;');
         });
 
         it('does not show as indeterminate if `progress` is passed', () => {
-            const element = render(<Progress progress='0%' />);
-
-            expect(element.refs.progress.classList.contains('b-progress-indeterminate')).toBe(false);
+            render(<Progress progress='0%' />);
+            expect($('.b-progress.b-progress-indeterminate')).toBeNull();
         });
     });
 
     describe('cancel button', () => {
         it('renders if the handler is provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Progress onCancel={stub} />);
 
-            expect(element.refs.cancel).not.toBe(undefined);
+            render(<Progress onCancel={stub} />);
+            expect($('.b-progress-cancel')).not.toBeNull();
         });
 
         it('does not render if no handler is provided', () => {
-            const element = render(<Progress />);
-
-            expect(element.refs.cancel).toBe(undefined);
+            render(<Progress />);
+            expect($('.b-progress-cancel')).toBeNull();
         });
 
         it('calls the cancel handler on click', () => {
             const stub = sandbox.stub();
-            const element = render(<Progress onCancel={stub} />);
-            const node = ReactDOM.findDOMNode(element.refs.cancel);
 
-            node.click();
+            render(<Progress onCancel={stub} />);
 
+            $('.b-progress-cancel').click();
             expect(stub.calledOnce).toBe(true);
-        });
-    });
-
-    describe('progress label', () => {
-        it('renders if provided', () => {
-            const element = render(<Progress label='50%' />);
-
-            expect(element.refs.label).not.toBe(undefined);
         });
     });
 });
