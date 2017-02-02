@@ -79,6 +79,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`component`__ ・ overrides the HTML container tag
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
 - __`hidePlaceholderOnFocus`__ ・ triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
   Expects | Default Value

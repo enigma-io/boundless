@@ -397,6 +397,12 @@ There are no required props.
   -       | -
   `bool` | `false`
 
+- __`component`__ ・ overrides the HTML container tag
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
 - __`entities`__ ・ an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element
 
   Expects | Default Value
