@@ -19,8 +19,8 @@ const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
 
         <Boundless.ProgressiveDisclosure
             className='demo-implementation-disclosure'
-            teaser='Show Implementation'
-            teaserExpanded='Hide Implementation'>
+            toggleContent='Show Implementation'
+            toggleExpandedContent='Hide Implementation'>
             {() => (
                 <Boundless.Async childrenDidRender={() => window.Prism.highlightAll()}>
                     {fetch(getPackageIndexURI(name)).then(
