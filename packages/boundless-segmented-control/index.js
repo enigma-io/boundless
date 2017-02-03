@@ -114,18 +114,6 @@ export default class SegmentedControl extends React.PureComponent {
         }
     }
 
-    getNextOptionIndex(currentOptionIndex) {
-        let next = currentOptionIndex + 1;
-
-        return next < this.props.options.length ? next : 0;
-    }
-
-    getPreviousOptionIndex(currentOptionIndex) {
-        let previous = currentOptionIndex - 1;
-
-        return previous < 0 ? this.props.options.length - 1 : previous;
-    }
-
     handleOptionSelection = (event) => {
         const index = Array.prototype.indexOf.call(event.target.parentElement.children, event.target);
 

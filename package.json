@@ -65,6 +65,12 @@
   },
   "jest": {
     "cacheDirectory": "node_modules/.cache/jest-cli",
+    "coveragePathIgnorePatterns": [
+      "/build/",
+      "/docs/",
+      "/node_modules/",
+      "/packages/boundless-utils-test-helpers/"
+    ],
     "coverageReporters": [
       "text",
       "cobertura",

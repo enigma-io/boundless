@@ -356,6 +356,7 @@ describe('Pagination component', () => {
             element = render(
                 <Pagination
                     {...baseProps}
+                    customControlContent='foo'
                     numItemsPerPage={2}
                     initialPage={3} />
             );
@@ -441,6 +442,20 @@ describe('Pagination component', () => {
             it('displays that page', () => {
                 Simulate.click($('[data-page-control="4"]'));
                 expect(element.currentPage()).toEqual(4);
+            });
+        });
+
+        describe('misc controls', () => {
+            it('custom content does not trigger a page change if clicked', () => {
+                expect(element.currentPage()).toEqual(3);
+                Simulate.click($('.b-pagination-control-custom'));
+                expect(element.currentPage()).toEqual(3);
+            });
+
+            it('pagination state does not trigger a page change if clicked', () => {
+                expect(element.currentPage()).toEqual(3);
+                Simulate.click($('.b-pagination-control-state'));
+                expect(element.currentPage()).toEqual(3);
             });
         });
 
