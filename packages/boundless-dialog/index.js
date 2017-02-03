@@ -19,6 +19,11 @@ If you decide to provide a header inside your dialog, it's recommended to config
 export default class Dialog extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * arbitrary content to be rendered after the dialog in the DOM
          */
         after: PropTypes.node,
@@ -88,22 +93,12 @@ export default class Dialog extends React.PureComponent {
          */
         dialogComponent: PropTypes.string,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
-         *
-         * #### Example
-         *
-         * ```jsx
-         * <Dialog wrapperProps={{'data-id': 'foo'}}>
-         *     <h2>Warning!</h2>
-         *     <p>You're about to do something crazy! Are you sure?</p>
-         *     <footer>
-         *         <button>Heck yeah!</button>
-         *     </footer>
-         * </Dialog>
-         * ```
-         */
-        dialogProps: PropTypes.object,
+        dialogProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied

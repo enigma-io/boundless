@@ -134,6 +134,12 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ override the wrapper HTML element if desired
 
   Expects | Default Value

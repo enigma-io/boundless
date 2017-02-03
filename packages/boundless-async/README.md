@@ -68,6 +68,12 @@ for materializing the fulfilled payload into JSX.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`childrenDidRender`__ ・ a callback for when real content has been rendered; this will be called immediately if normal JSX is passed to Async, or, in the case of a promise, upon resolution or rejection
 
   Expects | Default Value

@@ -10,6 +10,11 @@ __An unopinionated progress implementation, allowing for a variety of shapes and
 export default class Progress extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * any valid HTML tag name
          */
         cancelComponent: PropTypes.oneOfType([
@@ -17,10 +22,12 @@ export default class Progress extends React.PureComponent {
             PropTypes.func,
         ]),
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
-         */
-        cancelProps: PropTypes.object,
+        cancelProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * any valid HTML tag name
@@ -45,10 +52,12 @@ export default class Progress extends React.PureComponent {
          */
         progressComponent: PropTypes.string,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
-         */
-        progressProps: PropTypes.object,
+        progressProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * the CSS property to tween (must accept percentages) - defaults to "width"

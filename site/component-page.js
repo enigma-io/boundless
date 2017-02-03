@@ -84,7 +84,7 @@ export default class ComponentPage extends React.PureComponent {
      * @return {jsx}
      */
     renderPropTableRows(allProps, name, depth = 0) {
-        if (!allProps[name].type) { return null; }
+        if (!allProps[name].type && !allProps[name].name) { return null; }
 
         const prop = _.get(allProps, name);
 
@@ -102,16 +102,18 @@ export default class ComponentPage extends React.PureComponent {
                     <h5>Expects</h5>
                     <pre>
                         <code>
-                            {formatPropType(prop.type)}
+                            {formatPropType(prop.type || prop)}
                         </code>
                     </pre>
 
-                    <h5>Default Value</h5>
-                    <pre>
-                        <code className='lang-js'>
-                            {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
-                        </code>
-                    </pre>
+                    {prop.defaultValue ? [
+                        <h5 key='val'>Default Value</h5>,
+                        <pre key='val-code'>
+                            <code className='lang-js'>
+                                {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
+                            </code>
+                        </pre>,
+                    ] : null}
                 </td>
 
                 <td className='prop-description'>
@@ -120,15 +122,24 @@ export default class ComponentPage extends React.PureComponent {
             </tr>
         )];
 
+        if (!prop.type) {
+            return rows;
+        }
+
         if (_.includes(['enum', 'union', 'instanceOf'], prop.type.name) || !prop.type.value) {
             return rows;
         }
 
         let target = prop.type;
 
-        if (target.name === 'shape' && target.computed && _.isString(target.value)) {
-            const [component] = target.value.split('.');
-            const resolvedProps = _.get(Boundless, `${component}.__docgenInfo.props`);
+        if (target.name === 'shape') {
+            let resolvedProps;
+
+            if (target.computed && _.isString(target.value)) {
+                resolvedProps = _.get(Boundless, `${target.value.split('.')[0]}.__docgenInfo.props`);
+            } else {
+                resolvedProps = target.value;
+            }
 
             return rows.concat(
                 _.map(resolvedProps, (x, subPropName) => {

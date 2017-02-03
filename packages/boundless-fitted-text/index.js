@@ -67,6 +67,11 @@ This component can be useful in situations where an internationalized string is 
 export default class FittedText extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * any valid HTML tag name
          */
         component: PropTypes.string,

@@ -63,6 +63,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`after`__ ・ arbitrary content to be rendered after the dialog in the DOM
 
   Expects | Default Value
@@ -128,31 +134,19 @@ There are no required props.
   -       | -
   `string` | `'div'`
 
-- __`dialogProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
-  
-  #### Example
-  
-  ```jsx
-  <Dialog wrapperProps={{'data-id': 'foo'}}>
-      <h2>Warning!</h2>
-      <p>You're about to do something crazy! Are you sure?</p>
-      <footer>
-          <button>Heck yeah!</button>
-      </footer>
-  </Dialog>
-  ```
+- __`dialogProps`__
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`maskProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element
+- __`maskProps`__
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`modalProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element
+- __`modalProps`__
 
   Expects | Default Value
   -       | -
@@ -164,7 +158,7 @@ There are no required props.
   -       | -
   `function` | `() => {}`
 
-- __`portalProps`__ ・ any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)
+- __`portalProps`__
 
   Expects | Default Value
   -       | -

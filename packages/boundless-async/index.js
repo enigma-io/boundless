@@ -16,6 +16,11 @@ const get = (base, path, fallback) => path.split('.').reduce((current, fragment)
 export default class Async extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * a promise, function that returns a promise, or other type of renderable content; if a function is passed, it will
          * be called with the current props
          *

@@ -45,7 +45,9 @@ export function conformanceChecker(render, Constructor, baseProps, key) {
     const defaults = Constructor.defaultProps || {};
 
     ownProps.forEach((propName) => {
-        if (!(propName in defaults)) {
+        if (propName === '*') {
+            return;
+        } else if (!(propName in defaults)) {
             console.error(`${propName} is missing in ${Constructor.name}.defaultProps.`);
         }
 

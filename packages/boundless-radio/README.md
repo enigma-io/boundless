@@ -92,13 +92,19 @@ export default class RadioDemo extends React.PureComponent {
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ override the wrapper component HTML element tag if desired
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`inputProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`inputProps`__
 
   Expects | Default Value
   -       | -
@@ -110,7 +116,7 @@ export default class RadioDemo extends React.PureComponent {
   -       | -
   `any renderable or arrayOf(any renderable)` | `null`
 
-- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`labelProps`__
 
   Expects | Default Value
   -       | -

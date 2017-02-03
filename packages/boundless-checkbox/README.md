@@ -70,14 +70,19 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-  Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
+- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
 
   Expects | Default Value
   -       | -
@@ -92,7 +97,7 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
+- __`labelProps`__
 
   Expects | Default Value
   -       | -

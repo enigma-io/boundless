@@ -47,6 +47,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ any valid HTML tag name
 
   Expects | Default Value

@@ -88,6 +88,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ any valid HTML tag name or a ReactComponent, anything that can be passed as the
   first argument to `React.createElement`; note that this component sets the `role` and `aria-checked`
   attributes so non-`<button>` elements will still behave like a button for screen readers

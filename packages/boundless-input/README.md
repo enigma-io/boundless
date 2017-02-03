@@ -79,6 +79,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ overrides the HTML container tag
 
   Expects | Default Value
@@ -91,7 +97,7 @@ There are no required props.
   -       | -
   `bool` | `true`
 
-- __`inputProps`__ ・ props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+- __`inputProps`__
 
   Expects | Default Value
   -       | -

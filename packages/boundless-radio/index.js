@@ -14,14 +14,21 @@ Radio is implemented as a "controlled input", meaning it is a direct representat
 export default class Radio extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * override the wrapper component HTML element tag if desired
          */
         component: PropTypes.string,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
-         */
-        inputProps: PropTypes.object,
+        inputProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * any React-renderable content
@@ -31,10 +38,12 @@ export default class Radio extends React.PureComponent {
             PropTypes.arrayOf(PropTypes.node),
         ]),
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
-         */
-        labelProps: PropTypes.object,
+        labelProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * passthrough to the HTML `name` attribute on the `.b-radio` node

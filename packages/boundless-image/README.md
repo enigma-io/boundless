@@ -88,6 +88,12 @@ export default class ImageDemo extends React.PureComponent {
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`alt`__ ・ a written description of the image for search engines, hovertext and those using accessibility technologies
 
   Expects | Default Value

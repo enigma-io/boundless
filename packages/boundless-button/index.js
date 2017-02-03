@@ -31,6 +31,11 @@ Button has two modes of operation:
 export default class Button extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * Any valid HTML tag name or a ReactComponent, anything that can be passed as the
          * first argument to `React.createElement`; note that this component sets the `role` and `aria-checked`
          * attributes so non-`<button>` elements will still behave like a button for screen readers

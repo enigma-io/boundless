@@ -13,22 +13,22 @@ Modal is an enhancement upon [Dialog](https://github.com/enigma-io/boundless/blo
  */
 export default class Modal extends React.PureComponent {
     static propTypes = {
-        /** Modal supports all [Dialog props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-dialog/README.md#props) */
         ...Dialog.propTypes,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal-mask` HTML element
-         */
-        maskProps: PropTypes.object,
+        maskProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-modal` HTML element
-         */
-        modalProps: PropTypes.object,
+        modalProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
-        /**
-         * any/all supported [Portal props](https://github.com/enigma-io/boundless/blob/master/packages/boundless-portal/README.md#props)
-         */
         portalProps: PropTypes.shape(Portal.propTypes),
     }
 

@@ -97,13 +97,19 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`cancelComponent`__ ・ any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string or function` | `'button'`
 
-- __`cancelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
+- __`cancelProps`__
 
   Expects | Default Value
   -       | -
@@ -133,7 +139,7 @@ There are no required props.
   -       | -
   `string` | `'div'`
 
-- __`progressProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
+- __`progressProps`__
 
   Expects | Default Value
   -       | -

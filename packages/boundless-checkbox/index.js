@@ -17,15 +17,24 @@ view must intercept and apply against the data provider.
 export default class Checkbox extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * any valid HTML tag name
          */
         component: PropTypes.string,
 
         /**
-         * all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-         * Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
+         * all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
          */
         inputProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+
             /**
              * determines if the checkbox is rendered as checked/unchecked, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
              */
@@ -63,10 +72,12 @@ export default class Checkbox extends React.PureComponent {
          */
         label: PropTypes.node,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
-         */
-        labelProps: PropTypes.object,
+        labelProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * called when the element becomes checked; backing data must be updated to persist the state change

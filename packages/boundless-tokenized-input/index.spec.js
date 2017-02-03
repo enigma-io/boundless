@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import {noop} from 'lodash';
 
 import TokenizedInput from './index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('TokenizedInput component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -50,138 +50,76 @@ describe('TokenizedInput component', () => {
     });
 
     it('accepts custom close token JSX', () => {
-        const element = render(
+        render(
             <TokenizedInput
                 entities={entities}
                 tokens={[0]}
                 tokenCloseComponent={<span>foo</span>} />
         );
 
-        const node = element.refs.wrapper;
-
-        expect(node.querySelector('.b-tokenfield-token-close').textContent).toBe('foo');
+        expect($('.b-tokenfield-token-close').textContent).toBe('foo');
     });
 
     it('renders .b-tokenfield-wrapper', () => {
-        const element = render(<TokenizedInput />);
-        const node = element.refs.wrapper;
-
-        expect(node.className).toContain('b-tokenfield-wrapper');
+        render(<TokenizedInput />);
+        expect($('.b-tokenfield-wrapper')).not.toBe(null);
     });
 
     it('renders .b-tokenfield', () => {
-        const element = render(<TokenizedInput />);
-        const node = element.refs.wrapper.querySelector('.b-tokenfield');
-
-        expect(node).not.toBe(null);
+        render(<TokenizedInput />);
+        expect($('.b-tokenfield')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-tokens', () => {
-        const element = render(<TokenizedInput />);
-        const node = element.refs.wrapper.querySelector('.b-tokenfield-tokens');
-
-        expect(node).not.toBe(null);
+        render(<TokenizedInput />);
+        expect($('.b-tokenfield-tokens')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-token', () => {
-        const element = render(
-            <TokenizedInput
-                entities={entities}
-                tokens={[0]} />
-        );
-
-        const node = element.refs.wrapper.querySelector('.b-tokenfield-token');
-
-        expect(node).not.toBe(null);
+        render(<TokenizedInput entities={entities} tokens={[0]} />);
+        expect($('.b-tokenfield-token')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-token-selected', () => {
-        const element = render(
-            <TokenizedInput
-                entities={entities}
-                tokens={[0]}
-                tokensSelected={[0]} />
-        );
-
-        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-selected');
-
-        expect(node).not.toBe(null);
+        render(<TokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} />);
+        expect($('.b-tokenfield-token-selected')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-token-close', () => {
-        const element = render(
-            <TokenizedInput
-                entities={entities}
-                tokens={[0]}
-                tokensSelected={[0]} />
-        );
-
-        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-close');
-
-        expect(node).not.toBe(null);
+        render(<TokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} />);
+        expect($('.b-tokenfield-token-close')).not.toBe(null);
     });
 
     it('does not render .b-tokenfield-token-close if `tokenCloseVisible` is `false`', () => {
-        const element = render(
-            <TokenizedInput
-                entities={entities}
-                tokenCloseVisible={false}
-                tokens={[0]}
-                tokensSelected={[0]} />
-        );
-
-        const node = element.refs.wrapper.querySelector('.b-tokenfield-token-close');
-
-        expect(node).toBe(null);
+        render(<TokenizedInput entities={entities} tokenCloseVisible={false} tokens={[0]} tokensSelected={[0]} />);
+        expect($('.b-tokenfield-token-close')).toBe(null);
     });
 
     describe('props.tokens', () => {
         it('renders to the UI as token children', () => {
-            const element = render(
-                <TokenizedInput
-                    entities={entities}
-                    tokens={[0, 1]} />
-            );
+            const element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
 
             expect(element.refs.token_0.textContent).toContain('apple');
             expect(element.refs.token_1.textContent).toContain('apricot');
         });
 
         it('clears the input when a new token is added', () => {
-            let element = render(
-                <TokenizedInput
-                    entities={entities}
-                    tokens={[0, 1]} />
-            );
+            let element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
 
             element.setValue('blue');
             expect(element.getValue()).toBe('blue');
 
-            element = render(
-                <TokenizedInput
-                    entities={entities}
-                    tokens={[0, 1, 2]} />
-            );
-
+            element = render(<TokenizedInput entities={entities} tokens={[0, 1, 2]} />);
             expect(element.getValue()).toBe('');
         });
 
         it('will not clear the input when a token is removed', () => {
-            let element = render(
-                <TokenizedInput
-                    entities={entities}
-                    tokens={[0, 1]} />
-            );
+            let element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
 
             element.setValue('blue');
             expect(element.getValue()).toBe('blue');
 
-            element = render(
-                <TokenizedInput
-                    entities={entities}
-                    tokens={[0]} />
-            );
-
+            element = render(<TokenizedInput entities={entities} tokens={[0]} />);
             expect(element.getValue()).toBe('blue');
         });
     });

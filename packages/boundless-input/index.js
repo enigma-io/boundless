@@ -24,6 +24,11 @@ When using `Input` in your project, you may call the following methods on a rend
 export default class Input extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * overrides the HTML container tag
          */
         component: PropTypes.string,
@@ -33,10 +38,12 @@ export default class Input extends React.PureComponent {
          */
         hidePlaceholderOnFocus: PropTypes.bool,
 
-        /**
-         * props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
-         */
         inputProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+
             defaultValue: PropTypes.string,
             onBlur: PropTypes.func,
             onFocus: PropTypes.func,

@@ -13,6 +13,11 @@ Mechanically, hidden disclosure content is not rendered to the DOM until it is n
  */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
         /** if a function is passed, it will not be called until the disclosure content is due to be rendered */
         children: PropTypes.oneOfType([
             PropTypes.node,
@@ -55,10 +60,12 @@ export default class ProgressiveDisclosure extends React.PureComponent {
          */
         toggleExpandedContent: PropTypes.node,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
-         */
-        toggleProps: PropTypes.object,
+        toggleProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
     }
 
     static defaultProps = {

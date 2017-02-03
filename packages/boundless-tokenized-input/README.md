@@ -346,6 +346,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`algorithm`__ ・ the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)
 
   Expects | Default Value
@@ -400,13 +406,13 @@ There are no required props.
   -       | -
   `bool` | `null`
 
-- __`hintProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-hint` HTML element
+- __`hintProps`__
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`inputProps`__ ・ props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
+- __`inputProps`__
 
   Expects | Default Value
   -       | -
@@ -414,7 +420,7 @@ There are no required props.
     type: 'text',
 }`
 
-- __`matchWrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-typeahead-match-wrapper` HTML element
+- __`matchWrapperProps`__
 
   Expects | Default Value
   -       | -

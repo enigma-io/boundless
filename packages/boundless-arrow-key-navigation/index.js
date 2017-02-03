@@ -23,6 +23,11 @@ export default class ArrowKeyNavigation extends React.PureComponent {
 
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
             Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
         */
         component: PropTypes.oneOfType([

@@ -16,6 +16,11 @@ export default class Image extends React.PureComponent {
 
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * a written description of the image for search engines, hovertext and those using accessibility technologies
          */
         alt: PropTypes.string,

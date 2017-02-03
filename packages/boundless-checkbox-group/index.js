@@ -22,6 +22,11 @@ export default class CheckboxGroup extends React.PureComponent {
 
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
          * override the wrapper HTML element if desired
          */
         component: PropTypes.string,
@@ -64,6 +69,11 @@ export default class CheckboxGroup extends React.PureComponent {
          * must conform to the [Checkbox prop spec](./Checkbox#props)
          */
         selectAllProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+
             /**
              * the text or renderable node to display next to the checkbox
              */

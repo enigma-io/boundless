@@ -76,7 +76,7 @@ There are no required props.
 
   Expects | Default Value
   -       | -
-  \`<%= typeParser(props[propName].type) %>\` | \`<%= props[propName].defaultValue.value %>\`
+  \`<%= typeParser(props[propName].type) %>\` | \`<%= _.get(props[propName], 'defaultValue.value', 'n/a') %>\`
 <% }) } else { %>
 There are no optional props.
 <% } } %>

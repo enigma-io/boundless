@@ -38,6 +38,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`children`__ ・ if a function is passed, it will not be called until the disclosure content is due to be rendered
 
   Expects | Default Value
@@ -86,7 +92,7 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`toggleProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
+- __`toggleProps`__
 
   Expects | Default Value
   -       | -
