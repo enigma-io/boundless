@@ -3,32 +3,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
+import sinon from 'sinon';
 
 import SegmentedControl from './index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
-
-import sinon from 'sinon';
+import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('SegmentedControl component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
-
-    const event = {preventDefault: () => {}};
     const sandbox = sinon.sandbox.create();
 
     const baseProps = {
         options: [{
-            selected: false,
-            value: 'foo-val',
-            content: 'foo',
+            className: 'foo',
+            children: 'foo',
         }, {
-            selected: true,
-            value: 'bar-val',
-            content: 'bar',
+            className: 'bar',
+            children: 'bar',
         }, {
-            selected: false,
-            value: 'baz-val',
-            content: 'baz',
+            className: 'baz',
+            children: 'baz',
         }],
     };
 
@@ -39,237 +33,161 @@ describe('SegmentedControl component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, SegmentedControl, baseProps));
 
-    describe('CSS hook', () => {
-        let element;
+    it('renders .b-segmented-control', () => {
+        render(<SegmentedControl {...baseProps} />);
+        expect($('.b-segmented-control')).not.toBeNull();
+    });
 
-        beforeEach(() => (element = render(<SegmentedControl {...baseProps} />)));
+    it('renders .b-segmented-control-option for each option', () => {
+        render(<SegmentedControl {...baseProps} />);
+        expect($$('.b-segmented-control-option').length).toBe(baseProps.options.length);
+    });
 
-        it('renders .b-segmented-control', () => {
-            expect(element.refs.wrapper.className).toContain('b-segmented-control');
+    it('renders .b-segmented-control-option-selected only for the active option', () => {
+        render(<SegmentedControl {...baseProps} />);
+        expect($$('.b-segmented-control-option-selected').length).toBe(1);
+    });
+
+    describe('onOptionSelected(option: object)', () => {
+        it('is called with the option when an option becomes selected', () => {
+            const stub = sandbox.stub();
+
+            render(<SegmentedControl {...baseProps} onOptionSelected={stub} />);
+            Simulate.click($('.b-segmented-control-option:nth-child(2)'));
+
+            expect(stub.calledOnce).toBe(true);
+            expect(stub.calledWithMatch({children: 'bar'})).toBe(true);
         });
 
-        it('renders .b-segmented-control-option for child node', () => {
-            expect(element.refs.option_$0.props.className).toContain('b-segmented-control-option');
-        });
+        it('is not called if the option is already selected', () => {
+            const stub = sandbox.stub();
 
-        it('renders .b-segmented-control-option-selected for child node when `props.selected` is `true`', () => {
-            expect(element.refs.option_$1.props.className).toContain('b-segmented-control-option');
-        });
+            render(<SegmentedControl {...baseProps} onOptionSelected={stub} />);
+            expect($('.b-segmented-control-option-selected.b-segmented-control-option:nth-child(1)')).not.toBeNull();
 
-        it('does not render .b-segmented-control-option-selected for child node when `props.selected` is falsy', () => {
-            expect(element.refs.option_$0.props.className).not.toContain('b-segmented-control-option-selected');
+            Simulate.click($('.b-segmented-control-option:nth-child(1)'));
+            expect(stub.called).toBe(false);
         });
     });
 
     describe('keyboard navigation', () => {
         it('selected option is tabIndex=0', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
-            const node = ReactDOM.findDOMNode(element.refs.option_$1);
-
-            expect(node.getAttribute('tabIndex')).toBe('0');
+            render(<SegmentedControl {...baseProps} />);
+            expect($$('.b-segmented-control-option-selected[tabIndex="0"]').length).toBe(1);
         });
 
         it('unselected option is tabIndex=-1', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
-            const node = ReactDOM.findDOMNode(element.refs.option_$0);
-
-            expect(node.getAttribute('tabIndex')).toBe('-1');
+            render(<SegmentedControl {...baseProps} />);
+            expect($$('.b-segmented-control-option[tabIndex="-1"]').length).toBe(baseProps.options.length - 1);
         });
 
         it('right arrow moves focus to the next child', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
+            render(<SegmentedControl {...baseProps} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs.option_$0));
+            const node = $('.b-segmented-control-option:nth-child(1)');
 
-            element.handleKeyDown({...event, key: 'ArrowRight'});
-            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs.option_$1));
+            Simulate.focus(node);
+            Simulate.keyDown(node, {key: 'ArrowRight'});
+
+            expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(2)'));
         });
 
         it('right arrow on last child sends focus to first child', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
+            render(<SegmentedControl {...baseProps} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs.option_$2));
+            const node = $('.b-segmented-control-option:nth-child(3)');
 
-            element.handleKeyDown({...event, key: 'ArrowRight'});
-            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs.option_$0));
+            Simulate.focus(node);
+            Simulate.keyDown(node, {key: 'ArrowRight'});
+
+            expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(1)'));
         });
 
         it('left arrow moves focus to the previous child', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
+            render(<SegmentedControl {...baseProps} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs.option_$1));
+            const node = $('.b-segmented-control-option:nth-child(2)');
 
-            element.handleKeyDown({...event, key: 'ArrowLeft'});
-            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs.option_$0));
+            Simulate.focus(node);
+            Simulate.keyDown(node, {key: 'ArrowLeft'});
+
+            expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(1)'));
         });
 
         it('left arrow on first child sends focus to last child', () => {
-            const element = render(<SegmentedControl {...baseProps} />);
+            render(<SegmentedControl {...baseProps} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs.option_$0));
+            const node = $('.b-segmented-control-option:nth-child(1)');
 
-            element.handleKeyDown({...event, key: 'ArrowLeft'});
-            expect(document.activeElement).toBe(ReactDOM.findDOMNode(element.refs.option_$2));
+            Simulate.focus(node);
+            Simulate.keyDown(node, {key: 'ArrowLeft'});
+
+            expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(3)'));
         });
 
         it('enter triggers `props.onOptionSelected`', () => {
             const stub = sandbox.stub();
-            const element = render(<SegmentedControl {...baseProps} onOptionSelected={stub} />);
 
-            Simulate.focus(ReactDOM.findDOMNode(element.refs.option_$0));
+            render(<SegmentedControl {...baseProps} onOptionSelected={stub} />);
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
 
-            element.handleKeyDown({...event, key: 'Enter'});
-            expect(stub.calledOnce).toBe(true);
-        });
-    });
+            const node = $('.b-segmented-control-option:nth-child(2)');
 
-    describe('onOptionSelected', () => {
-        it('is called on a `change` event when `props.selected` is falsy', () => {
-            const stub = sandbox.stub();
-            const element = render(<SegmentedControl {...baseProps} onOptionSelected={stub} />);
-            const node = ReactDOM.findDOMNode(element.refs.option_$0);
-
-            Simulate.click(node);
+            Simulate.focus(node);
+            Simulate.keyDown(node, {key: 'Enter'});
 
             expect(stub.calledOnce).toBe(true);
         });
     });
 
-    describe('currentValue', () => {
-        it('returns the value of the currently selected option', () => {
+    describe('getSelectedOption()', () => {
+        it('returns the currently selected option', () => {
             const element = render(<SegmentedControl {...baseProps} />);
 
-            expect(element.currentValue()).toBe('bar-val');
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
+            expect(element.getSelectedOption()).toBe(baseProps.options[0]);
         });
     });
 
-    describe('blur events', () => {
-        const modifiedBaseProps = {
-            options: [{
-                selected: true,
-                value: 'foo-val',
-                content: 'foo',
-            }, {
-                selected: false,
-                value: 'bar-val',
-                content: 'bar',
-            }],
-        };
+    describe('getSelectedOptionIndex()', () => {
+        it('returns the index of the currently selected option', () => {
+            const element = render(<SegmentedControl {...baseProps} />);
 
-        it('clears out the internal cache of the option in focus if the target is the focused option', () => {
-            const element = render(<SegmentedControl {...modifiedBaseProps} name='foo' />);
-
-            element.handleOptionFocus(modifiedBaseProps.options[1], event);
-            expect(element.state.indexOfOptionInFocus).toBe(1);
-
-            element.handleOptionBlur(modifiedBaseProps.options[1], event);
-            expect(element.state.indexOfOptionInFocus).toBe(null);
-        });
-
-        it('is proxied if `options[].onBlur` is passed', () => {
-            modifiedBaseProps.options[1].onBlur = sandbox.stub();
-
-            const element = render(
-                <SegmentedControl {...modifiedBaseProps} name='foo' />
-            );
-
-            element.handleOptionBlur(modifiedBaseProps.options[1], event);
-            expect(modifiedBaseProps.options[1].onBlur.calledOnce).toBe(true);
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
+            expect(element.getSelectedOptionIndex()).toBe(0);
         });
     });
 
-    describe('click events', () => {
-        const modifiedBaseProps = {
-            options: [{
-                selected: true,
-                value: 'foo-val',
-                content: 'foo',
-            }, {
-                selected: false,
-                value: 'bar-val',
-                content: 'bar',
-            }],
-        };
+    describe('selectOption(option: object)', () => {
+        it('programmatically selects a particular option', () => {
+            const element = render(<SegmentedControl {...baseProps} />);
 
-        it('is proxied if `options[].onClick` is passed', () => {
-            modifiedBaseProps.options[1].onClick = sandbox.stub();
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
 
-            const element = render(
-                <SegmentedControl {...modifiedBaseProps} name='foo' />
-            );
-
-            element.handleOptionClick(modifiedBaseProps.options[1], event);
-            expect(modifiedBaseProps.options[1].onClick.calledOnce).toBe(true);
+            element.selectOption(baseProps.options[1]);
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(2)'));
         });
     });
 
-    describe('focus events', () => {
-        const modifiedBaseProps = {
-            options: [{
-                selected: true,
-                value: 'foo-val',
-                content: 'foo',
-            }, {
-                selected: false,
-                value: 'bar-val',
-                content: 'bar',
-            }],
-        };
+    describe('selectOptionByKey(key: string, value: any)', () => {
+        it('programmatically selects a particular option by index', () => {
+            const element = render(<SegmentedControl {...baseProps} />);
 
-        it('sets the internal focused option cache', () => {
-            const element = render(<SegmentedControl {...modifiedBaseProps} name='foo' />);
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
 
-            expect(element.state.indexOfOptionInFocus).toBe(null);
-
-            element.handleOptionFocus(modifiedBaseProps.options[1], event);
-            expect(element.state.indexOfOptionInFocus).toBe(1);
-        });
-
-        it('is proxied if `options[].onFocus` is passed', () => {
-            modifiedBaseProps.options[1].onFocus = sandbox.stub();
-
-            const element = render(
-                <SegmentedControl {...modifiedBaseProps} name='foo' />
-            );
-
-            element.handleOptionFocus(modifiedBaseProps.options[1], event);
-            expect(modifiedBaseProps.options[1].onFocus.calledOnce).toBe(true);
+            element.selectOptionByKey('children', 'bar');
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(2)'));
         });
     });
 
-    describe('keydown events', () => {
-        it('is proxied if `props.onKeyDown` is passed', () => {
-            const stub = sandbox.stub();
-            const element = render(
-                <SegmentedControl {...baseProps} onKeyDown={stub} />
-            );
+    describe('selectOptionIndex(index: number)', () => {
+        it('programmatically selects a particular option by index', () => {
+            const element = render(<SegmentedControl {...baseProps} />);
 
-            element.handleKeyDown(event);
-            expect(stub.calledOnce).toBe(true);
-        });
-    });
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(1)'));
 
-    describe('prop validation', () => {
-        const validator = SegmentedControl.propTypes.options;
-
-        it('throws if less than two options are passed', () => {
-            expect(validator.bind(null, {options: []})).toThrow();
-        });
-
-        it('throws if no options have `selected: true`', () => {
-            expect(validator.bind(null, {options: [{}, {}]})).toThrow();
-        });
-
-        it('throws if an option doesn\'t have a `selected` property', () => {
-            expect(validator.bind(null, {options: [{selected: false}, {}]})).toThrow();
-        });
-
-        it('throws if an option is missing a `value` property', () => {
-            expect(validator.bind(null, {options: [{selected: false}, {selected: false}]})).toThrow();
-        });
-
-        it('throws if multiple options are selected', () => {
-            expect(validator.bind(null, {options: [{selected: true, value: 'x'}, {selected: true, value: 'y'}]})).toThrow();
+            element.selectOptionIndex(1);
+            expect($('.b-segmented-control-option-selected')).toBe($('.b-segmented-control-option:nth-child(2)'));
         });
     });
 });
