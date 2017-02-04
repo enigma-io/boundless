@@ -1,14 +1,14 @@
 export const errors = {
-    DISABLED: 'UIUtils/notify: web notifications are currently disabled by user settings.',
-    NOT_AVAILABLE: 'UIUtils/notify: web notifications are not supported on this platform.',
-    CONFIG_TYPE: 'UIUtils/notify: passed a non-object as configuration.',
-    CONFIG_MISSING: 'UIUtils/notify: no configuration was passed.',
-    BODY_TYPE: 'UIUtils/notify: `body` must be a string.',
-    BODY_MISSING: 'UIUtils/notify: `body` was omitted from the configuration object.',
-    HEADER_TYPE: 'UIUtils/notify: `header` must be a string.',
-    HEADER_MISSING: 'UIUtils/notify: `header` was omitted from the configuration object.',
-    ICON_TYPE: 'UIUtils/notify: `icon` must be a URL string.',
-    ONCLICK_TYPE: 'UIUtils/notify: `onClick` must be a function.',
+    DISABLED: 'webNotification: web notifications are currently disabled by user settings.',
+    NOT_AVAILABLE: 'webNotification: web notifications are not supported on this platform.',
+    CONFIG_TYPE: 'webNotification: passed a non-object as configuration.',
+    CONFIG_MISSING: 'webNotification: no configuration was passed.',
+    BODY_TYPE: 'webNotification: `body` must be a string.',
+    BODY_MISSING: 'webNotification: `body` was omitted from the configuration object.',
+    HEADER_TYPE: 'webNotification: `header` must be a string.',
+    HEADER_MISSING: 'webNotification: `header` was omitted from the configuration object.',
+    ICON_TYPE: 'webNotification: `icon` must be a URL string.',
+    ONCLICK_TYPE: 'webNotification: `onClick` must be a function.',
 };
 
 const isFunction = (x) => typeof x === 'function';
@@ -17,10 +17,6 @@ const isString = (x) => typeof x === 'string';
 const NotificationAPI = (function detectSupport() {
     if (window.Notification) {
         return window.Notification;
-    } else if (window.webkitNotifications) {
-        return window.webkitNotifications;
-    } else if (navigator.mozNotification) {
-        return navigator.mozNotification;
     }
 
     return false;
@@ -29,7 +25,7 @@ const NotificationAPI = (function detectSupport() {
 function requestPermission() {
     return new Promise((resolve, reject) => {
         NotificationAPI.requestPermission(function requestReceiver(status) {
-            if (status === 'granted' || status === 0) {
+            if (status === 'granted') {
                 resolve();
             }
 
@@ -55,18 +51,6 @@ function checkPermission() {
 
             requestPermission().then(resolve, reject);
 
-        } else if ('checkPermission' in NotificationAPI) {
-            switch (NotificationAPI.checkPermission()) {
-            case 0:
-                return resolve();
-
-            case 1:
-                requestPermission().then(resolve, reject);
-                break;
-
-            default:
-                return reject(errors.DISABLED);
-            }
         }
     });
 }
@@ -74,8 +58,8 @@ function checkPermission() {
 /**
  * __Trigger native toasts in supporting browsers.__
  *
- * > Support for web notifications is [available in all major browsers](http://caniuse.com/#feat=notifications),
- *   except IE 11 and lower (November 2016).
+ * > Support for web notifications is [available in all major desktop browsers](http://caniuse.com/#feat=notifications),
+ *   except IE (February 2017).
  *
  * This module is not a React component, but a utility. The "close" functionality of web notifications was removed in a platform
  * spec update, so it's no longer possible to have a true lifecycle.
@@ -100,8 +84,8 @@ function checkPermission() {
  * - __onClick__ `Function`
  *   (optional) add arbitrary functionality when the notification is clicked
  *
- * This will return a `Promise`. Resolution means the notification was created correctly (returns the `Notification`, and rejection will
- * return a relevant error description string.
+ * This will return a `Promise`. Resolution means the notification was created correctly (returns the `Notification`,
+ * and rejection will return a relevant error description string.
  */
 export default function webNotification(config) {
     return new Promise((resolve, reject) => {
