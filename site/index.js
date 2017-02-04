@@ -33,15 +33,21 @@ const components = _.keys(Boundless).map((prettyName) => {
     };
 });
 
-const utilsReq = require.context('..', true, /(?!node_modules)packages\/boundless-utils-[^/]*?\/README\.md$/);
+const utilsReq = require.context('..', true, /(?!node_modules)packages\/boundless\-utils\-[^/]*?\/README\.md$/);
 const utilsReqKeys = utilsReq.keys();
+
+const utilsDemoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-utils\-[^/]*?\/demo\/index\.js$/);
+const utilsDemoReqKeys = utilsDemoReq.keys();
 
 const utils = utilsReqKeys.map((path) => {
     const name = path.match(/(boundless\-utils\-.*?)\//)[1];
+    const demoPath = `./packages/${name}/demo/index.js`;
     const prettyName = _.camelCase(name.replace('boundless-utils-', ''));
 
     return {
         name,
+
+        demo: _.includes(utilsDemoReqKeys, demoPath) ? utilsDemoReq(demoPath).default : null,
 
         // drop the comment added to the top by build-packages.js
         markdown: utilsReq(path).split(/\n/).slice(3).join('\n'),
@@ -125,23 +131,39 @@ class Container extends React.PureComponent {
     }
 
     renderMainContent(route) {
+        const sections = [];
+
         if (route.markdown) {
-            return (
-                <Markdown>
-                    {route.markdown}
+            sections.push(
+                <Markdown key='md'>
+                    {route.demo ? route.markdown.split(/(\n#{1,}\sExample Usage.*?\n)/)[0] : route.markdown}
                 </Markdown>
             );
-        } else if (route.docgenInfo) {
-            return (
+        }
+
+        if (route.docgenInfo) {
+            sections.push(
                 <ComponentPage
+                    key='component'
                     demo={route.demo}
                     docgenInfo={route.docgenInfo}
                     packageName={route.name}
                     prettyName={route.path} />
             );
-        } else if (route.component) {
-            return (<route.component />);
+        } else if (route.demo) {
+            sections.push(
+                <ComponentDemo
+                    key='demo'
+                    demo={route.demo}
+                    name={route.name} />
+            );
         }
+
+        if (route.component) {
+            sections.push(<route.component key='custom' />);
+        }
+
+        return sections;
     }
 
     render() {
@@ -163,7 +185,6 @@ class Container extends React.PureComponent {
                         </header>
                         <nav>
                             <Link activeClassName='active' to='/quickstart'>Get Started</Link>
-
                             <Link activeClassName='active' to='/kitchensink'>Kitchen Sink</Link>
 
                             <h4>Components</h4>
@@ -217,6 +238,7 @@ const KitchenSink = () => (
 
         {components.filter((component) => !!component.demo).map((component) => (
             <ComponentDemo
+                key={component.name}
                 demo={component.demo}
                 name={component.name}
                 prettyName={component.path} />
