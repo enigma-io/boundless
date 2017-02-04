@@ -2,14 +2,12 @@ engines:
   eslint:
     enabled: true
     channel: "eslint-3"
-exclude_paths:
-  - "build/"
-  - "packages/*/build/"
-  - "docs/"
-  - "public/"
-  - "LICENSE"
-  - "**.md"
-  - "**.html"
-  - "**.json"
-  - "**.styl"
-  - "**.yml"
+    config:
+      config: ".eslintrc"
+ratings:
+  paths:
+    - "*.js"
+    - "scripts/*.js"
+    - "site/*.js"
+    - "packages/*/*.js"
+    - "packages/*/demo/*.js"
