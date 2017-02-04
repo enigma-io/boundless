@@ -6,8 +6,4 @@ engines:
       config: ".eslintrc"
 ratings:
   paths:
-    - "*.js"
-    - "scripts/*.js"
-    - "site/*.js"
-    - "packages/*/*.js"
-    - "packages/*/demo/*.js"
+    - "**.js"

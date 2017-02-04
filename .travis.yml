@@ -10,7 +10,7 @@ script:
 - npm run coverage -- --silent
 after_success:
 - npm i codeclimate-test-reporter
-- node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info
+- cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
 env:
   global:
     secure: R9PhjB2KuWA1soTs6L6eW+QqaqAdDaO/oJ+yYuS+DPqFEMBW34TY189c97qogja7gMrOZElW1Gd4JINDHGzwgazyfNGqp6rJIZtVHeawEEBuOxeRUx0V8lvuNiDBHlSNztUZms6cxxgTDXiigLtdFm++hf5la5QyzqOqQhpkCiAQnwFPBchp7/K7qVj/iGA9q68rco5DsR3Pdn4Yq/gYM7oLMU3xPOrR8U3wy6BX0wCFYVvMmEm6R5R+BcQ4fce9CKGy6KTnwWLoG31Iz7HJMAVYLAJCAS3TauUTPo1ZjO9FBLUfNzPKL5vDLBJ+DAeYO4tS7ILZbMLxTkK+tdZl776/tfrchGinjcdxZQxJFV7fGBbOCCSAdzCKtvjV1JQTTOa80+YTkVTsCzAdTtYlu5Ep7qErnpMFBoW9zXn65pRK7xzHEmkIM6n54E7nvLgT8+UasFeYIbR0mcMGgUWow6HJdGNlh49UcVCJX9IRAiDL+/vwKim0mZ8zzRUJWUn8Jotbgp7oyAacUgNcIR71rUBuicPAAJdlDfGtDICT4bjvLIRX8apLAGWMcYEECoUbsNIyvQ8tVSMnUV8/J/JCK+E87qYbsykpiNaRYWABe+c7WuAq38quUWfuQkpntANsNXZcCQorrLxtYeUAaz2S+7T07Mb5aAUV/c7myA95Cfc=
