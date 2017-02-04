@@ -1,6 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import get from 'lodash.get';
+import {get} from 'lodash';
 
 /**
  * A testing module to verify that arbitrary React-supported attributes are passed

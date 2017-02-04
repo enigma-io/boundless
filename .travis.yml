@@ -7,6 +7,7 @@ cache:
   - node_modules
 script:
 - npm run bootstrap
+- npm run build:js:packages
 - npm run coverage -- --silent
 after_success:
 - npm i codeclimate-test-reporter

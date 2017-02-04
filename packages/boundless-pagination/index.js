@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
-import isInteger from 'lodash.isinteger';
+import {isInteger} from 'lodash';
 
 import Async from 'boundless-async';
 import SegmentedControl from 'boundless-segmented-control';

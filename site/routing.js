@@ -2,17 +2,16 @@
 
 import React, {PropTypes} from 'react';
 import {browserHistory, Link, Redirect, Router, Route} from 'react-router';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
 import ComponentDemo from './component-demo';
 import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
+import pascalCase from './pascal-case';
 
 import README from '../README.md';
 import GettingStarted from '../GETTING_STARTED.md';
-
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 const demoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
 const demoReqKeys = demoReq.keys();
@@ -285,7 +284,7 @@ class ComponentPage extends React.PureComponent {
         while (stack.length) {
             if (stack[0].indexOf('boundless-') !== -1) {
                 const component = stack[0].match(/boundless-(\w+)/)[1];
-                const componentDocgen = Boundless[_.pascalCase(component)].__docgenInfo;
+                const componentDocgen = Boundless[pascalCase(component)].__docgenInfo;
 
                 coalesced.props = {
                     ...coalesced.props,

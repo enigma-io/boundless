@@ -18,6 +18,7 @@
             "comments": false,
             "compact": true,
             "plugins": [
+                "lodash",
                 "transform-class-properties",
                 "transform-inline-environment-variables"
             ],
@@ -32,6 +33,7 @@
             "compact": true,
             "comments": false,
             "plugins": [
+                "lodash",
                 "transform-class-properties",
                 "transform-react-remove-prop-types",
                 "transform-inline-environment-variables"
@@ -47,6 +49,7 @@
             "compact": true,
             "comments": false,
             "plugins": [
+                "lodash",
                 "react-docgen",
                 "transform-class-properties",
                 "transform-inline-environment-variables"
@@ -62,6 +65,7 @@
             "compact": true,
             "comments": false,
             "plugins": [
+                "lodash",
                 "react-docgen",
                 "transform-class-properties",
                 "transform-react-remove-prop-types",

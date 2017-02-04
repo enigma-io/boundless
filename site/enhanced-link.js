@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import * as _ from 'lodash';
 
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+import pascalCase from './pascal-case';
 
 /**
  * Attempts to resolve various forms of links to internal resources into appropriate
@@ -11,7 +10,7 @@ _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 const EnhancedLink = ({children, href, ...props}) => {
     if (href.indexOf('boundless-') !== -1) {
         const frags = href.split('/');
-        const component = _.pascalCase(frags[frags.length - 2].replace('boundless-', ''));
+        const component = pascalCase(frags[frags.length - 2].replace('boundless-', ''));
 
         return (
             <Link to={`/${component}`}>{children}</Link>
