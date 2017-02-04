@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Checkbox from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Checkbox component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -26,6 +26,11 @@ describe('Checkbox component', () => {
     });
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Checkbox, props));
+
+    it('allows the wrapper component to be overridden with an html tagname', () => {
+        render(<Checkbox {...props} component='section' />);
+        expect($('section.b-checkbox-wrapper')).not.toBeNull();
+    });
 
     it('defaults to being unchecked', () => {
         const element = render(<Checkbox {...props} />);

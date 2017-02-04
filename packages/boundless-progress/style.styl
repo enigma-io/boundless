@@ -12,21 +12,22 @@
     width: Progress-width;
 }
 
+.b-progress-wrapper[data-progress]::before {
+    color: Progress-label-color;
+    content: attr(data-progress);
+    line-height: Progress-height;
+    padding-left: 10px;
+    position: relative;
+    text-align: left;
+    z-index: 1;
+}
+
 .b-progress {
     background: Progress-backgroundColor;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
-}
-
-.b-progress-label {
-    color: Progress-label-color;
-    line-height: Progress-height;
-    padding-left: 10px;
-    position: relative;
-    text-align: left;
-    z-index: 1;
 }
 
 @keyframes interdeterminate-progress-bar {

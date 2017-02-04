@@ -103,9 +103,8 @@ export default class CheckboxGroupDemo extends React.PureComponent {
                 <CheckboxGroup
                     className='checkbox-group-demo'
                     items={this.state.items}
-                    selectAll={true}
+                    selectAll={CheckboxGroup.selectAll.AFTER}
                     selectAllProps={{label: 'All of the above'}}
-                    selectAllPosition={CheckboxGroup.selectAllPosition.AFTER}
                     onAllChecked={this.handleAllChecked}
                     onAllUnchecked={this.handleAllUnchecked}
                     onChildChecked={this.handleChildChecked}
@@ -135,6 +134,18 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
+- __`component`__ ・ override the wrapper HTML element if desired
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
 - __`onAllChecked`__ ・ called when all children become checked (not fired on first render), no return
 
   Expects | Default Value
@@ -163,13 +174,7 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
   Expects | Default Value
   -       | -
-  `bool` | `false`
-
-- __`selectAllPosition`__
-
-  Expects | Default Value
-  -       | -
-  `CheckboxGroup.selectAllPosition.BEFORE or CheckboxGroup.selectAllPosition.AFTER` | `CheckboxGroup.selectAllPosition.BEFORE`
+  `CheckboxGroup.selectAll.BEFORE or CheckboxGroup.selectAll.AFTER or CheckboxGroup.selectAll.NONE` | `CheckboxGroup.selectAll.BEFORE`
 
 - __`selectAllProps`__ ・ must conform to the [Checkbox prop spec](./Checkbox#props)
 

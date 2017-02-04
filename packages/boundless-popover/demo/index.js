@@ -95,12 +95,12 @@ export default class PopoverDemo extends React.PureComponent {
             return this.state['showPopover' + index] ? (
                 <Popover
                     key={definition.word}
-                    anchor={this.refs['word' + index]}
-                    caretAnchor={this.refs['word-caret-anchor' + index]}
+                    anchor={this.refs[`$word${index}`]}
+                    caretAnchor={this.refs[`$word-caret-anchor${index}`]}
+                    className='demo-popover'
                     closeOnOutsideFocus={true}
                     preset={definition.preset}
-                    onClose={() => this.closePopover(index)}
-                    wrapperProps={{className: 'demo-popover'}}>
+                    onClose={() => this.closePopover(index)}>
                     {this.renderBody(definition)}
                 </Popover>
             ) : undefined;
@@ -110,19 +110,22 @@ export default class PopoverDemo extends React.PureComponent {
     render() {
         return (
             <div>
-                <p>Words of the day for {(new Date()).toLocaleDateString()}</p>
+                <p>
+                    Words of the day for {(new Date()).toLocaleDateString()}:<br />
+                    <sub>Note that the words with ⓘ symbols have their caret anchored to the symbol, rather than the center of the button.</sub>
+                </p>
 
                 <div className='spread'>
                     {this.state.words.map((definition, index) => {
                         return (
                             <Button
                                 key={definition.word}
-                                ref={(i) => (this.refs[`word${index}`] = i)}
+                                ref={`$word${index}`}
                                 className='show-help-popover'
                                 onPressed={() => this.openPopover(index)}
                                 pressed={this.state[`showPopover${index}`]}
                                 tabIndex='0'>
-                                {definition.word} {index % 2 === 0 ? <span ref={'word-caret-anchor' + index}>ⓘ</span> : null}
+                                {definition.word} {index % 2 === 0 ? <span ref={`$word-caret-anchor${index}`}>ⓘ</span> : null}
                             </Button>
                         );
                     })}

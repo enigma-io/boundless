@@ -14,12 +14,23 @@ The most common use case for `CheckboxGroup` is a "select all" / children scenar
 configuration is built-in and is activated by passing the `selectAll` prop.
  */
 export default class CheckboxGroup extends React.PureComponent {
-    static selectAllPosition = {
+    static selectAll = {
         BEFORE: uuid(),
         AFTER: uuid(),
+        NONE: uuid(),
     }
 
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
+         * override the wrapper HTML element if desired
+         */
+        component: PropTypes.string,
+
         /**
          * the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)
          */
@@ -48,37 +59,43 @@ export default class CheckboxGroup extends React.PureComponent {
         /**
          * renders a master checkbox that can manipulate the values of all children simultaneously
          */
-        selectAll: PropTypes.bool,
+        selectAll: PropTypes.oneOf([
+            CheckboxGroup.selectAll.BEFORE,
+            CheckboxGroup.selectAll.AFTER,
+            CheckboxGroup.selectAll.NONE,
+        ]),
 
         /**
          * must conform to the [Checkbox prop spec](./Checkbox#props)
          */
         selectAllProps: PropTypes.shape({
             /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+
+            /**
              * the text or renderable node to display next to the checkbox
              */
             label: PropTypes.string,
             inputProps: PropTypes.object,
         }),
-
-        selectAllPosition: PropTypes.oneOf([
-            CheckboxGroup.selectAllPosition.BEFORE,
-            CheckboxGroup.selectAllPosition.AFTER,
-        ]),
     }
 
     static defaultProps = {
+        component: 'div',
         items: [],
         onAllChecked: noop,
         onAllUnchecked: noop,
         onChildChecked: noop,
         onChildUnchecked: noop,
-        selectAll: false,
+        selectAll: CheckboxGroup.selectAll.BEFORE,
         selectAllProps: {},
-        selectAllPosition: CheckboxGroup.selectAllPosition.BEFORE,
     }
 
     static internalKeys = Object.keys(CheckboxGroup.defaultProps)
+
+    selectAllUUID = uuid()
 
     allItemsChecked() {
         return this.props.items.every((item) => item.inputProps.checked === true);
@@ -88,30 +105,25 @@ export default class CheckboxGroup extends React.PureComponent {
         return this.props.items.some((item) => item.inputProps.checked === true);
     }
 
-    renderSelectAll() {
-        if (this.props.selectAll) {
-            const allChecked = this.allItemsChecked();
-            const {inputProps} = this.props.selectAllProps;
+    renderSelectAllCheckbox() {
+        const allChecked = this.allItemsChecked();
+        const {inputProps} = this.props.selectAllProps;
 
-            return (
-                <Checkbox
-                    {...this.props.selectAllProps}
-                    ref='select_all'
-                    key='cb_select_all'
-                    className={cx('b-checkbox-group-selectall', this.props.selectAllProps.className)}
-                    inputProps={{
-                        ...inputProps,
-                        checked: allChecked,
-                        indeterminate: !allChecked && this.anyItemsChecked(),
-                        name: inputProps && inputProps.name
-                              ? inputProps.name
-                              : 'cb_select_all',
-                    }}
-                    label={this.props.selectAllProps.label || 'Select All'}
-                    onChecked={this.props.onAllChecked}
-                    onUnchecked={this.props.onAllUnchecked} />
-            );
-        }
+        return (
+            <Checkbox
+                {...this.props.selectAllProps}
+                key={this.selectAllUUID}
+                className={cx('b-checkbox-group-all', this.props.selectAllProps.className)}
+                inputProps={{
+                    ...inputProps,
+                    checked: allChecked,
+                    indeterminate: !allChecked && this.anyItemsChecked(),
+                    name: inputProps && inputProps.name ? inputProps.name : null,
+                }}
+                label={this.props.selectAllProps.label || 'Select All'}
+                onChecked={this.props.onAllChecked}
+                onUnchecked={this.props.onAllUnchecked} />
+        );
     }
 
     renderCheckboxes() {
@@ -127,31 +139,28 @@ export default class CheckboxGroup extends React.PureComponent {
     }
 
     renderChildren() {
-        const toBeRendered = [this.renderCheckboxes()];
+        const children = [this.renderCheckboxes()];
 
-        if (this.props.selectAll && this.props.selectAllPosition) {
-            switch (this.props.selectAllPosition) {
-            case CheckboxGroup.selectAllPosition.BEFORE:
-                toBeRendered.unshift(this.renderSelectAll());
-                break;
+        switch (this.props.selectAll) {
+        case CheckboxGroup.selectAll.BEFORE:
+            children.unshift(this.renderSelectAllCheckbox());
+            break;
 
-            case CheckboxGroup.selectAllPosition.AFTER:
-                toBeRendered.push(this.renderSelectAll());
-                break;
-            }
+        case CheckboxGroup.selectAll.AFTER:
+            children.push(this.renderSelectAllCheckbox());
+            break;
         }
 
-        return toBeRendered;
+        return children;
     }
 
     render() {
         return (
-            <div
+            <this.props.component
                 {...omit(this.props, CheckboxGroup.internalKeys)}
-                ref='group'
                 className={cx('b-checkbox-group', this.props.className)}>
                 {this.renderChildren()}
-            </div>
+            </this.props.component>
         );
     }
 }

@@ -13,17 +13,14 @@ export default class ModalDemo extends React.PureComponent {
 
     renderModal() {
         if (this.state.showModal) {
-            const buttons = [
-                <Button key='y' onPressed={this.toggleModal}>Yes</Button>,
-                <Button key='n' className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</Button>,
-            ];
-
             return (
-                <Modal
-                    className='demo-modal'
-                    header='Account Deletion'
-                    footer={buttons}>
-                    Are you sure you want to remove your account permanently?
+                <Modal className='demo-modal'>
+                    <h3>Account Deletion</h3>
+
+                    <p>Are you sure you want to remove your account permanently?</p>
+
+                    <Button onPressed={this.toggleModal}>Yes</Button>
+                    <Button className='demo-modal-cancel-button' onPressed={this.toggleModal}>No</Button>
                 </Modal>
             );
         }

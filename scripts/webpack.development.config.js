@@ -29,7 +29,7 @@ devConf.plugins.push(
             collapseWhitespace: true,
         },
         template: path.resolve(__dirname, '../site/index.template.ejs'),
-        title: 'Boundless',
+        title: 'boundless',
     }),
 
     new webpack.DefinePlugin({

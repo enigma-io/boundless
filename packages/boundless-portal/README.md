@@ -19,6 +19,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`children`__ ・ any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
   
   ✅ OK:

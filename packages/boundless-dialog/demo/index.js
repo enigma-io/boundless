@@ -28,11 +28,9 @@ export default class DialogDemo extends React.PureComponent {
                     closeOnEscKey={true}
                     closeOnOutsideClick={true}
                     onClose={this.toggleDialog}
-                    wrapperProps={{
-                        style: {
-                            left: this.state.leftPosition,
-                            top: this.state.topPosition,
-                        },
+                    style={{
+                        left: this.state.leftPosition,
+                        top: this.state.topPosition,
                     }}>
                     <iframe
                         className='dialog-demo-video-frame'

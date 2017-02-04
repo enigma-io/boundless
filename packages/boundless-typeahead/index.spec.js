@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {noop} from 'lodash';
 
 import Typeahead from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Typeahead component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -124,7 +124,7 @@ describe('Typeahead component', () => {
                 inputProps={{defaultValue: 'ap'}} />
         );
 
-        expect(document.querySelectorAll('.b-typeahead-match').length).toEqual(2);
+        expect($$('.b-typeahead-match').length).toEqual(2);
 
         render(
             <Typeahead
@@ -133,7 +133,7 @@ describe('Typeahead component', () => {
                 inputProps={{defaultValue: 'ap'}} />
         );
 
-        expect(document.querySelectorAll('.b-typeahead-match').length).toEqual(1);
+        expect($$('.b-typeahead-match').length).toEqual(1);
     });
 
     describe('CSS hook', () => {
@@ -173,7 +173,7 @@ describe('Typeahead component', () => {
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            expect(document.querySelector('.b-typeahead-match')).not.toBe(null);
+            expect($('.b-typeahead-match')).not.toBe(null);
         });
 
         it('b-typeahead-match-selected is rendered', () => {
@@ -183,7 +183,7 @@ describe('Typeahead component', () => {
                     inputProps={{defaultValue: 'ap'}} />
             );
 
-            expect(document.querySelector('.b-typeahead-match-selected')).not.toBe(null);
+            expect($('.b-typeahead-match-selected')).not.toBe(null);
         });
 
         it('is added for the marked text inside each match', () => {
@@ -448,7 +448,7 @@ describe('Typeahead component', () => {
             expect(node.value).toBe('ap');
 
             // default selected should be 'apple'
-            document.querySelector('.b-typeahead-match-selected').click();
+            $('.b-typeahead-match-selected').click();
 
             expect(node.value).toBe('apple');
         });
@@ -458,16 +458,16 @@ describe('Typeahead component', () => {
 
             expect(node.value).toBe('ap');
 
-            expect(document.querySelector('.b-typeahead-match-wrapper')).not.toBeNull();
+            expect($('.b-typeahead-match-wrapper')).not.toBeNull();
 
             // default selected should be 'apple'
-            document.querySelector('.b-typeahead-match-selected').click();
+            $('.b-typeahead-match-selected').click();
 
-            expect(document.querySelector('.b-typeahead-match-wrapper')).toBeNull();
+            expect($('.b-typeahead-match-wrapper')).toBeNull();
         });
 
         it('contains a marked substring with the proper class', () => {
-            let node = document.querySelector('.b-typeahead-match');
+            let node = $('.b-typeahead-match');
 
             expect(node.textContent).toBe('apple');
             expect(node.querySelector('.b-typeahead-match-highlight').textContent).toBe('ap');
@@ -486,7 +486,7 @@ describe('Typeahead component', () => {
             expect(element.getValue()).toBe('ap');
 
             // default selected should be 'apple'
-            document.querySelector('.b-typeahead-match-selected').click();
+            $('.b-typeahead-match-selected').click();
 
             expect(element.getValue()).toBe('');
         });
@@ -588,7 +588,7 @@ describe('Typeahead component', () => {
                     }} />
             );
 
-            expect(document.querySelectorAll('.b-typeahead-match').length).toBe(3);
+            expect($$('.b-typeahead-match').length).toBe(3);
 
             render(
                 <Typeahead
@@ -599,7 +599,7 @@ describe('Typeahead component', () => {
                     }} />
             );
 
-            expect(document.querySelectorAll('.b-typeahead-match').length).toBe(1);
+            expect($$('.b-typeahead-match').length).toBe(1);
         });
     });
 

@@ -8,6 +8,48 @@ import Markdown from './markdown';
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
+function formatPropType(type) {
+    switch (type.name) {
+    case 'arrayOf':
+        if (type.value.name !== 'custom') {
+            return `${type.name}(${formatPropType(type.value)})`;
+        }
+
+        return 'array';
+
+    case 'element':
+        return 'ReactElement';
+
+    case 'enum':
+        if (type.computed === true) {
+            return _.keys(
+                _.get(Boundless, type.value, {})
+            ).map((key) => `${type.value}.${key}`).join(' or\n');
+        } else if (Array.isArray(type.value)) {
+            return _.map(type.value, 'value').join(' or\n');
+        }
+
+        return `oneOf(${type.value})`;
+
+    case 'func':
+        return 'function';
+
+    case 'instanceOf':
+       return type.value;
+
+    case 'node':
+        return 'any renderable';
+
+    case 'shape':
+        return 'object';
+
+    case 'union':
+        return type.value.map((v) => formatPropType(v)).join(' or ');
+    }
+
+    return type.name;
+}
+
 export default class ComponentPage extends React.PureComponent {
     static propTypes = {
         demo: PropTypes.any,
@@ -21,62 +63,19 @@ export default class ComponentPage extends React.PureComponent {
             <td className='prop-name'>
                 <Boundless.FittedText
                     component='strong'
-                    maxFontSize={16}
                     name={`prop-${name}`}>
                     <code>{name}</code>
                 </Boundless.FittedText>
             </td>
             <td className='prop-implementation'>
                 <h5>Expects</h5>
-                <pre><code>{this.formatPropType(props[name])}</code></pre>
+                <pre><code>{formatPropType(props[name])}</code></pre>
             </td>
             <td className='prop-description'>
                 <Markdown>{props[name].description}</Markdown>
             </td>
         </tr>
     )
-
-    formatPropType = (type) => {
-        switch (type.name) {
-        case 'arrayOf':
-            if (type.value.name !== 'custom') {
-                return `${type.name}(${this.formatPropType(type.value)})`;
-            }
-
-            return 'array';
-
-        case 'element':
-            return 'ReactElement';
-
-        case 'enum':
-            if (type.computed === true) {
-                return _.keys(
-                    _.get(Boundless, type.value, {})
-                ).map((key) => `${type.value}.${key}`).join(' or\n');
-            } else if (Array.isArray(type.value)) {
-                return _.map(type.value, 'value').join(' or\n');
-            }
-
-            return `oneOf(${type.value})`;
-
-        case 'func':
-            return 'function';
-
-        case 'instanceOf':
-           return type.value;
-
-        case 'node':
-            return 'any renderable';
-
-        case 'shape':
-            return 'object';
-
-        case 'union':
-            return type.value.map((v) => this.formatPropType(v)).join(' or ');
-        }
-
-        return type.name;
-    }
 
     /**
      * @param  {Object}         allProps
@@ -85,7 +84,7 @@ export default class ComponentPage extends React.PureComponent {
      * @return {jsx}
      */
     renderPropTableRows(allProps, name, depth = 0) {
-        if (!allProps[name].type) { return null; }
+        if (!allProps[name].type && !allProps[name].name) { return null; }
 
         const prop = _.get(allProps, name);
 
@@ -94,7 +93,6 @@ export default class ComponentPage extends React.PureComponent {
                 <td className='prop-name'>
                     <Boundless.FittedText
                         component='strong'
-                        maxFontSize={16}
                         name={`prop-${name}`}>
                         <code>{name}</code>
                     </Boundless.FittedText>
@@ -103,15 +101,19 @@ export default class ComponentPage extends React.PureComponent {
                 <td className='prop-implementation'>
                     <h5>Expects</h5>
                     <pre>
-                        <code>{this.formatPropType(prop.type)}</code>
-                    </pre>
-
-                    <h5>Default Value</h5>
-                    <pre>
-                        <code className='lang-js'>
-                            {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
+                        <code>
+                            {formatPropType(prop.type || prop)}
                         </code>
                     </pre>
+
+                    {prop.defaultValue ? [
+                        <h5 key='val'>Default Value</h5>,
+                        <pre key='val-code'>
+                            <code className='lang-js'>
+                                {prop.defaultValue.value === 'noop' ? '() => {}' : prop.defaultValue.value}
+                            </code>
+                        </pre>,
+                    ] : null}
                 </td>
 
                 <td className='prop-description'>
@@ -120,9 +122,24 @@ export default class ComponentPage extends React.PureComponent {
             </tr>
         )];
 
-        if (prop.type.name === 'shape' && prop.type.computed && typeof prop.type.value === 'string') {
-            const component = prop.type.value.split('.')[0];
-            const resolvedProps = _.get(Boundless, `${component}.__docgenInfo.props`);
+        if (!prop.type) {
+            return rows;
+        }
+
+        if (_.includes(['enum', 'union', 'instanceOf'], prop.type.name) || !prop.type.value) {
+            return rows;
+        }
+
+        let target = prop.type;
+
+        if (target.name === 'shape') {
+            let resolvedProps;
+
+            if (target.computed && _.isString(target.value)) {
+                resolvedProps = _.get(Boundless, `${target.value.split('.')[0]}.__docgenInfo.props`);
+            } else {
+                resolvedProps = target.value;
+            }
 
             return rows.concat(
                 _.map(resolvedProps, (x, subPropName) => {
@@ -131,17 +148,24 @@ export default class ComponentPage extends React.PureComponent {
             );
         }
 
-        if (!!prop.type.value
-            && (prop.type.value.value || prop.type.value.raw)
-            && prop.type.name !== 'enum'
-            && prop.type.name !== 'union'
-            && prop.type.name !== 'instanceOf') {
-            const subProps = prop.type.value.name === 'shape' ? prop.type.value.value : prop.type.value;
+        if (target.value.value || target.value.raw) {
+            let subProps = target.value.name === 'shape' && !target.value.computed
+                           ? target.value.value
+                           : target.value;
 
-            if (subProps.name && subProps.name === 'custom') {
-                const subPropsRaw = subProps.raw.split('.');
-                const component = subPropsRaw[0];
-                const subPropName = subPropsRaw[2];
+             if (subProps.name === 'shape') {
+                const [component] = subProps.value.split('.');
+
+                subProps = _.get(Boundless, `${component}.__docgenInfo.props`);
+
+                return rows.concat(
+                    _.map(
+                        subProps,
+                        (x, subPropName) => this.renderPropTableRows(subProps, subPropName, depth + 1)
+                    )
+                );
+            } else if (subProps.name === 'custom') {
+                const [component, , subPropName] = subProps.raw.split('.');
 
                 return rows.concat(
                     this.renderPropTableRows(
@@ -226,14 +250,11 @@ export default class ComponentPage extends React.PureComponent {
         return (
             <div>
                 <LinkedHeaderText component='h1'>{prettyName}</LinkedHeaderText>
-
                 <Markdown>{descriptionParts[0]}</Markdown>
                 {this.maybeRenderDemo()}
-
                 <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
 
                 <LinkedHeaderText component='h2'>Props</LinkedHeaderText>
-
                 <LinkedHeaderText component='h3'>Required Props</LinkedHeaderText>
                 {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
 

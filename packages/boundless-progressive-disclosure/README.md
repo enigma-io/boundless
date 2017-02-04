@@ -16,8 +16,8 @@ export default class ProgressiveDisclosureDemo extends React.PureComponent {
     render() {
         return (
             <ProgressiveDisclosure
-                teaser='Click me to learn the truth...'
-                teaserExpanded='Click me to hide the truth once again...'>
+                toggleContent='Click me to learn the truth...'
+                toggleExpandedContent='Click me to hide the truth once again...'>
                 And now, all is revealed.
             </ProgressiveDisclosure>
         );
@@ -38,19 +38,25 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`children`__ ・ if a function is passed, it will not be called until the disclosure content is due to be rendered
 
   Expects | Default Value
   -       | -
-  `any` | `null`
+  `any renderable or arrayOf(any renderable) or function` | `null`
 
-- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+- __`component`__ ・ any valid HTML tag name
 
   Expects | Default Value
   -       | -
-  `string or function` | `'div'`
+  `string` | `'div'`
 
-- __`expanded`__ ・ allows the disclosure to be rendered expanded by default
+- __`expanded`__ ・ controls the ProgressDisclosure "expanded" state declaratively
 
   Expects | Default Value
   -       | -
@@ -68,19 +74,25 @@ There are no required props.
   -       | -
   `function` | `() => {}`
 
-- __`teaser`__ ・ content to be shown next to the expansion toggle, e.g. "Advanced Options"
+- __`toggleComponent`__ ・ any valid HTML tag name
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
+- __`toggleContent`__ ・ content to be shown next to the expansion toggle when the disclosure is in "contracted" state, e.g. "Show Advanced Options"
 
   Expects | Default Value
   -       | -
   `any renderable` | `null`
 
-- __`teaserExpanded`__ ・ content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
+- __`toggleExpandedContent`__ ・ content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
 
   Expects | Default Value
   -       | -
   `any renderable` | `null`
 
-- __`toggleProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
+- __`toggleProps`__
 
   Expects | Default Value
   -       | -

@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import Portal from 'boundless-portal';
 import omit from 'boundless-utils-omit-keys';
-import uuid from 'boundless-utils-uuid';
 
 const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
@@ -15,12 +14,15 @@ __A non-blocking, focus-stealing container.__
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page)
 and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 
-Specific areas (header, body, footer) are defined to provide easy conformance to the
-[WAI-ARIA spec](http://www.w3.org * /TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby`
-and `aria-describedby` (screen reader  * accessibility). Their use is optional, but encouraged.
+If you decide to provide a header inside your dialog, it's recommended to configure the [`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-labelledby_attribute) attribute, which can be added to `props.dialogProps`.
  */
 export default class Dialog extends React.PureComponent {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
         /**
          * arbitrary content to be rendered after the dialog in the DOM
          */
@@ -32,16 +34,9 @@ export default class Dialog extends React.PureComponent {
         before: PropTypes.node,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
-         */
-        bodyProps: PropTypes.object,
-
-        /**
          * determines if focus is allowed to move away from the dialog
          */
         captureFocus: PropTypes.bool,
-
-        children: PropTypes.node,
 
         /**
          * enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
@@ -89,40 +84,31 @@ export default class Dialog extends React.PureComponent {
         ]),
 
         /**
-         * text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+         * override the type of `.b-dialog-wrapper` HTML element
          */
-        footer: PropTypes.node,
+        component: PropTypes.string,
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
+         * override the type of `.b-dialog` HTML element
          */
-        footerProps: PropTypes.object,
+        dialogComponent: PropTypes.string,
+
+        dialogProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
-         * text, ReactElements, etc. to represent the "title bar" area of the dialog
-         */
-        header: PropTypes.node,
-
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
-         */
-        headerProps: PropTypes.object,
-
-        /**
-         * a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+         * a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
          */
         onClose: PropTypes.func,
-
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
-         */
-        wrapperProps: PropTypes.object,
     }
 
     static defaultProps = {
         after: null,
         before: null,
-        bodyProps: {},
         captureFocus: true,
         children: null,
         closeOnEscKey: false,
@@ -130,22 +116,16 @@ export default class Dialog extends React.PureComponent {
         closeOnOutsideClick: false,
         closeOnOutsideFocus: false,
         closeOnOutsideScroll: false,
-        footer: null,
-        footerProps: {},
-        header: null,
-        headerProps: {},
+        component: 'div',
+        dialogComponent: 'div',
+        dialogProps: {},
         onClose: noop,
         onKeyDown: noop,
-        wrapperProps: {},
     }
 
     static internalKeys = Object.keys(Dialog.defaultProps)
 
     mounted = false
-
-    // fallbacks if one isn't passed
-    uuidHeader = uuid()
-    uuidBody = uuid()
 
     isPartOfDialog(node) {
         if (!node || node === window) { return false; }
@@ -233,42 +213,6 @@ export default class Dialog extends React.PureComponent {
         }
     }
 
-    renderBody() {
-        return (
-            <div
-                {...this.props.bodyProps}
-                id={this.props.bodyProps.id || this.uuidBody}
-                className={cx('b-dialog-body', this.props.bodyProps.className)}>
-                {this.props.children}
-            </div>
-        );
-    }
-
-    renderFooter() {
-        if (this.props.footer) {
-            return (
-                <footer
-                    {...this.props.footerProps}
-                    className={cx('b-dialog-footer', this.props.footerProps.className)}>
-                    {this.props.footer}
-                </footer>
-            );
-        }
-    }
-
-    renderHeader() {
-        if (this.props.header) {
-            return (
-                <header
-                    {...this.props.headerProps}
-                    id={this.props.headerProps.id || this.uuidHeader}
-                    className={cx('b-dialog-header', this.props.headerProps.className)}>
-                    {this.props.header}
-                </header>
-            );
-        }
-    }
-
     renderFocusBoundary() {
         if (this.props.captureFocus) {
             return (
@@ -279,34 +223,29 @@ export default class Dialog extends React.PureComponent {
 
     render() {
         return (
-            <div
-                {...this.props.wrapperProps}
+            <this.props.component
+                {...omit(this.props, Dialog.internalKeys)}
                 ref={(node) => (this.$wrapper = node)}
-                className={cx('b-dialog-wrapper', this.props.wrapperProps.className)}
-                tabIndex='0'>
+                className={cx('b-dialog-wrapper', this.props.className)}>
                 {this.renderFocusBoundary()}
 
                 {this.props.before}
 
-                <div
-                    {...omit(this.props, Dialog.internalKeys)}
+                <this.props.dialogComponent
+                    {...this.dialogProps}
                     ref={(node) => (this.$dialog = node)}
-                    className={cx('b-dialog', this.props.className)}
+                    className={cx('b-dialog', this.props.dialogProps.className)}
                     onClick={this.handleInsideClick}
                     onKeyDown={this.handleKeyDown}
                     role='dialog'
-                    aria-labelledby={this.uuidHeader}
-                    aria-describedby={this.uuidBody}
                     tabIndex='0'>
-                    {this.renderHeader()}
-                    {this.renderBody()}
-                    {this.renderFooter()}
-                </div>
+                    {this.props.children}
+                </this.props.dialogComponent>
 
                 {this.props.after}
 
                 {this.renderFocusBoundary()}
-            </div>
+            </this.props.component>
         );
     }
 }

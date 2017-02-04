@@ -5,19 +5,19 @@ import FittedText from '../index';
 export default () => (
     <div className='spread'>
         <Button className='tall-button'>
-            <FittedText maxFontSize={24}>Welcome</FittedText>
+            <FittedText>Welcome</FittedText>
         </Button>
         <Button className='tall-button'>
-            <FittedText maxFontSize={24}>Добро пожаловать</FittedText>
+            <FittedText>Добро пожаловать</FittedText>
         </Button>
         <Button className='tall-button'>
-            <FittedText maxFontSize={24}>Benvenuto</FittedText>
+            <FittedText>Benvenuto</FittedText>
         </Button>
         <Button className='tall-button'>
-            <FittedText maxFontSize={24}>환영합니다</FittedText>
+            <FittedText>환영합니다</FittedText>
         </Button>
         <Button className='tall-button'>
-            <FittedText maxFontSize={24}>സ്വാഗതം</FittedText>
+            <FittedText>സ്വാഗതം</FittedText>
         </Button>
     </div>
 );

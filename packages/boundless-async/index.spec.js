@@ -2,11 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {identity} from 'lodash';
 import sinon from 'sinon';
 
 import Async from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Async higher-order component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -21,96 +20,129 @@ describe('Async higher-order component', () => {
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Async));
 
     it('accepts normal renderable content', () => {
-        render(<Async data={<span className='bar'>foo</span>} />);
-        expect(document.querySelector('.bar')).not.toBeNull();
-    });
-
-    it('calls contentRenderedFunc() upon successful rendering of passed data', () => {
-        const stub = sandbox.stub();
-
-        render(<Async contentRenderedFunc={stub} data={<span className='bar'>foo</span>} />);
-        expect(stub.calledOnce).toBe(true);
-        expect(document.querySelector('.bar')).not.toBeNull();
+        render(<Async><span className='bar'>foo</span></Async>);
+        expect($('.bar')).not.toBeNull();
     });
 
     describe('promise support', () => {
-        it('accepts a promise as props.data', () => {
-            const promise = Promise.resolve(<span className='bar'>foo</span>);
-
-            render(<Async data={promise} />);
+        it('renders the promise\'s payload on resolution', () => {
+            render(
+                <Async>
+                    {Promise.resolve(<span className='bar'>foo</span>)}
+                </Async>
+            );
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
-        it('displays loading content while the promise is pending', () => {
-            render(<Async data={new Promise(() => {})} loadingContent='⏲' />);
+        it('renders the promise\'s payload on rejection', () => {
+            render(
+                <Async>
+                    {Promise.reject(<span className='bar'>foo</span>)}
+                </Async>
+            );
 
             return Promise.resolve().then(() => {
-                expect(document.querySelector('.b-async-loading')).not.toBeNull();
-                expect(document.querySelector('.b-async-loading').textContent).toBe('⏲');
+                expect($('.bar')).not.toBeNull();
             });
         });
 
-        it('displays error content if the promise rejects', () => {
-            let rejector;
-            const promise = new Promise((_, reject) => (rejector = reject));
+        it('renders pending content if provided until the child promise has been fulfilled', () => {
+            let resolver;
 
-            render(<Async data={promise} errorContent='😞' />);
-            rejector();
+            render(
+                <Async pendingContent={<i className='loading'>⏲</i>}>
+                    {new Promise((resolve) => (resolver = resolve))}
+                </Async>
+            );
 
-            return Promise.resolve().then(() => {
-                expect(document.querySelector('.b-async-error')).not.toBeNull();
-                expect(document.querySelector('.b-async-error').textContent).toBe('😞');
-            });
-        });
+            expect($('.loading')).not.toBeNull();
+            expect($('.loading').textContent).toBe('⏲');
 
-        it('calls convertToJSXFunc when the promise resolves', () => {
-            const promise = Promise.resolve({children: 'foo', className: 'bar'});
-            const converter = sandbox.spy((data) => <span {...data} />);
-
-            render(<Async convertToJSXFunc={converter} data={promise} />);
+            resolver(<span className='bar'>foo</span>);
 
             return Promise.resolve().then(() => {
-                expect(converter.calledOnce).toBe(true);
-                expect(document.querySelector('.bar')).not.toBeNull();
+                expect($('.loading')).toBeNull();
+                expect($('.bar')).not.toBeNull();
             });
         });
 
         it('ignores the original promise if the component is rendered with a new one', () => {
             let resolver1;
             let resolver2;
-            const promise1 = new Promise((resolve) => (resolver1 = resolve));
-            const promise2 = new Promise((resolve) => (resolver2 = resolve));
-            const converter = sandbox.spy(identity);
 
-            render(<Async data={promise1} convertToJSXFunc={converter} />);
-            render(<Async data={promise2} convertToJSXFunc={converter} />);
+            render(<Async>{new Promise((resolve) => (resolver1 = resolve))}</Async>);
+            render(<Async>{new Promise((resolve) => (resolver2 = resolve))}</Async>);
 
             resolver2(<span className='bar'>foo</span>);
             resolver1(<span className='fizz'>buzz</span>);
 
             return Promise.resolve().then(() => {
-                expect(converter.calledOnce).toBe(true);
-                expect(document.querySelector('.bar')).not.toBeNull();
-                expect(document.querySelector('.fizz')).toBeNull();
+                expect($('.bar')).not.toBeNull();
+                expect($('.fizz')).toBeNull();
             });
         });
+    });
 
-        it('calls contentRenderedFunc() once the promise has resolved', () => {
-            let resolver1;
-            const promise1 = new Promise((resolve) => (resolver1 = resolve));
+    describe('props.childrenDidRender function', () => {
+        it('is called when the passed child content is rendered', () => {
             const stub = sandbox.stub();
 
-            render(<Async contentRenderedFunc={stub} data={promise1} convertToJSXFunc={identity} />);
-            expect(stub.notCalled).toBe(true);
+            render(<Async childrenDidRender={stub}><span className='bar'>foo</span></Async>);
+            expect(stub.calledOnce).toBe(true);
+            expect($('.bar')).not.toBeNull();
+        });
 
-            resolver1(<span className='fizz'>buzz</span>);
+        it('is called when a passed child promise is fulfilled and then rendered', () => {
+            const stub = sandbox.stub();
+            let resolver;
+
+            render(
+                <Async childrenDidRender={stub}>
+                    {new Promise((resolve) => (resolver = resolve))}
+                </Async>
+            );
+
+            expect(stub.called).toBe(false);
+            resolver(<span className='bar'>foo</span>);
 
             return Promise.resolve().then(() => {
                 expect(stub.calledOnce).toBe(true);
-                expect(document.querySelector('.fizz')).not.toBeNull();
+                expect($('.bar')).not.toBeNull();
+            });
+        });
+
+        it('is called when a passed child function returns JSX, which is rendered immediately', () => {
+            const stub = sandbox.stub();
+
+            render(
+                <Async childrenDidRender={stub}>
+                    {() => <span className='bar'>foo</span>}
+                </Async>
+            );
+
+            expect(stub.calledOnce).toBe(true);
+            expect($('.bar')).not.toBeNull();
+        });
+
+        it('is called when a passed child function returns a promise and that promise is later fulfilled', () => {
+            const stub = sandbox.stub();
+            let resolver;
+
+            render(
+                <Async childrenDidRender={stub}>
+                    {() => new Promise((resolve) => (resolver = resolve))}
+                </Async>
+            );
+
+            expect(stub.called).toBe(false);
+            resolver(<span className='bar'>foo</span>);
+
+            return Promise.resolve().then(() => {
+                expect(stub.calledOnce).toBe(true);
+                expect($('.bar')).not.toBeNull();
             });
         });
     });

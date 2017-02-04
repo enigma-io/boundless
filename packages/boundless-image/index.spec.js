@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Image from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('Image component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -16,111 +16,19 @@ describe('Image component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Image, baseProps));
 
-    describe('accepts', () => {
-        it('arbitrary React-supported HTML attributes via props.imageProps', () => {
-            const element = render(<Image {...baseProps} imageProps={{'data-id': 'xr1'}} />);
-            const node = element.refs.image;
-
-            expect(node.getAttribute('data-id')).toBe('xr1');
-        });
-
-        it('classes via props.imageProps.className', () => {
-            const element = render(
-                <Image {...baseProps}
-                         imageProps={{
-                            className: 'foo',
-                         }} />
-            );
-
-            expect(element.refs.image.classList.contains('foo')).toBe(true);
-        });
-
-        it('classes via props.imageProps.className when props.displayAsBackgroundImage is true', () => {
-            const element = render(
-                <Image {...baseProps}
-                         displayAsBackgroundImage={true}
-                         imageProps={{
-                            className: 'foo',
-                         }} />
-            );
-
-            expect(element.refs.image.classList.contains('foo')).toBe(true);
-        });
-
-        it('inline styles via props.imageProps.style when props.displayAsBackgroundImage is true', () => {
-            const element = render(
-                <Image {...baseProps}
-                         displayAsBackgroundImage={true}
-                         imageProps={{
-                            style: {
-                                textDecoration: 'underline',
-                            },
-                         }} />
-            );
-
-            expect(element.refs.image.style.textDecoration).toBe('underline');
-        });
-
-        it('arbitrary React-supported HTML attributes via props.statusProps', () => {
-            const element = render(<Image {...baseProps} statusProps={{'data-id': 'xr1'}} />);
-
-            expect(element.refs.status.getAttribute('data-id')).toBe('xr1');
-        });
-
-        it('classes via props.statusProps.className', () => {
-            const element = render(
-                <Image {...baseProps}
-                         statusProps={{
-                            className: 'foo',
-                         }} />
-            );
-
-            expect(element.refs.status.classList.contains('foo')).toBe(true);
-        });
-
-        it('an additional class as a string without replacing the core hook', () => {
-            const element = render(<Image {...baseProps} className='hero-image' />);
-
-            ['b-image-wrapper', 'hero-image'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
-        });
+    it('accepts component customization', () => {
+        render(<Image {...baseProps} component='figure' />);
+        expect($('figure.b-image')).not.toBeNull();
     });
 
-    describe('CSS hook', () => {
-        it('renders .b-image-wrapper', () => {
-            const element = render(<Image {...baseProps} />);
-
-            expect(element.refs.wrapper.classList.contains('b-image-wrapper')).toBe(true);
-        });
-
-        it('renders .b-image', () => {
-            const element = render(<Image {...baseProps} />);
-
-            expect(element.refs.image.classList.contains('b-image')).toBe(true);
-        });
-
-        it('renders .b-image-status', () => {
-            const element = render(<Image {...baseProps} />);
-
-            expect(element.refs.status.classList.contains('b-image-status')).toBe(true);
-        });
+    it('renders a single space as its child (needed for Safari)', () => {
+        render(<Image {...baseProps} alt='foo' />);
+        expect($('.b-image').textContent).toBe('\u00A0');
     });
 
-    describe('description', () => {
-        it('renders the HTML `alt` attribute if `props.displayAsBackgroundImage` is falsy', () => {
-            const element = render(<Image {...baseProps} alt='foo' />);
-            const node = element.refs.image;
-
-            expect(node.getAttribute('alt')).toBe('foo');
-            expect(node.hasAttribute('title')).toBe(false);
-        });
-
-        it('renders the HTML `title` attribute if `props.displayAsBackgroundImage` is `true`', () => {
-            const element = render(<Image {...baseProps} alt='foo' displayAsBackgroundImage={true} />);
-            const node = element.refs.image;
-
-            expect(node.getAttribute('title')).toBe('foo');
-            expect(node.hasAttribute('alt')).toBe(false);
-        });
+    it('renders the HTML `title` attribute', () => {
+        render(<Image {...baseProps} alt='foo' />);
+        expect($('.b-image[title="foo"]')).not.toBeNull();
     });
 
     describe('on props.src change (receiving a new image URL)', () => {
@@ -146,21 +54,21 @@ describe('Image component', () => {
 
         it('returns the correct class hook for error', (done) => {
             element.setState({ status: Image.status.ERROR }, () => {
-                expect(element.refs.status.classList.contains('b-image-error')).toBe(true);
+                expect($('.b-image.b-image-error')).not.toBeNull();
                 done();
             });
         });
 
         it('returns the correct class hook for loading', (done) => {
             element.setState({ status: Image.status.LOADING }, () => {
-                expect(element.refs.status.classList.contains('b-image-loading')).toBe(true);
+                expect($('.b-image.b-image-loading')).not.toBeNull();
                 done();
             });
         });
 
         it('returns the correct class hook for loaded', (done) => {
             element.setState({ status: Image.status.LOADED }, () => {
-                expect(element.refs.status.classList.contains('b-image-loaded')).toBe(true);
+                expect($('.b-image.b-image-loaded')).not.toBeNull();
                 done();
             });
         });

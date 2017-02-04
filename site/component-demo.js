@@ -7,16 +7,6 @@ function getPackageIndexURI(name) {
     return `https://api.github.com/repos/enigma-io/boundless/contents/packages/${name}/demo/index.js`;
 }
 
-function fetchDemo(packageName) {
-    return fetch(getPackageIndexURI(packageName)).then((response) => {
-        if (!response.ok) {
-            throw Error(response.statusText);
-        }
-
-        return response.json();
-    });
-}
-
 const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
     <div className='demo-section-wrapper'>
         <LinkedHeaderText component='h3'>
@@ -29,20 +19,27 @@ const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
 
         <Boundless.ProgressiveDisclosure
             className='demo-implementation-disclosure'
-            teaser='Show Implementation'
-            teaserExpanded='Hide Implementation'>
+            toggleContent='Show Implementation'
+            toggleExpandedContent='Hide Implementation'>
             {() => (
-                <Boundless.Async
-                    data={fetchDemo(name)}
-                    contentRenderedFunc={() => window.Prism.highlightAll()}
-                    convertToJSXFunc={(json) => (
-                        <pre className='demo-implementation'>
-                            <code className='language-jsx'>
-                                {atob(json.content)}
-                            </code>
-                        </pre>
-                    )}
-                    errorContent='There was a network failure retrieving the demo source.' />
+                <Boundless.Async childrenDidRender={() => window.Prism.highlightAll()}>
+                    {fetch(getPackageIndexURI(name)).then(
+                        (response) => response.ok ? response.json() : response.statusText,
+                        (error) => error.message,
+                    ).then((payload) => {
+                        if (typeof payload === 'string') {
+                            return <p>There was a network failure retrieving the demo source ({payload}).</p>;
+                        }
+
+                        return (
+                            <pre className='demo-implementation'>
+                                <code className='language-jsx'>
+                                    {atob(payload.content)}
+                                </code>
+                            </pre>
+                        );
+                    })}
+                </Boundless.Async>
             )}
         </Boundless.ProgressiveDisclosure>
     </div>
@@ -51,7 +48,7 @@ const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
 ComponentDemo.propTypes = {
     demo: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    prettyName: PropTypes.string.isRequired,
+    prettyName: PropTypes.string,
 };
 
 export default ComponentDemo;

@@ -51,7 +51,6 @@ export default class ProgressDemo extends React.PureComponent {
                     <Progress
                         ref='bar'
                         aria-label={`${this.state.barProgress}% complete`}
-                        label={`${this.state.barProgress}%`}
                         progress={`${this.state.barProgress}%`} />
                     <Button
                         onPressed={this.resetProgress.bind(this, 'bar')}
@@ -65,7 +64,6 @@ export default class ProgressDemo extends React.PureComponent {
                         ref='meter'
                         id='progress-meter'
                         aria-label={`${this.state.meterProgress}% complete`}
-                        label={`${this.state.meterProgress}%`}
                         progress={`${this.state.meterProgress}%`}
                         tweenProperty='height' />
                     <Button
@@ -99,29 +97,29 @@ There are no required props.
 
 ### Optional Props
 
-- __`cancelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-cancel` node
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
+- __`cancelComponent`__ ・ any valid HTML tag name
+
+  Expects | Default Value
+  -       | -
+  `string or function` | `'button'`
+
+- __`cancelProps`__
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+- __`component`__ ・ any valid HTML tag name
 
   Expects | Default Value
   -       | -
-  `string or function` | `'div'`
-
-- __`label`__ ・ the value to show as a label of the progress, e.g. "50%"
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
-
-- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress-label` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
+  `string` | `'div'`
 
 - __`onCancel`__ ・ if supplied, adds a cancel element and calls this function when that element is clicked
 
@@ -135,7 +133,13 @@ There are no required props.
   -       | -
   `string or number` | `undefined`
 
-- __`progressProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-progress` node
+- __`progressComponent`__ ・ any valid HTML tag name
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
+- __`progressProps`__
 
   Expects | Default Value
   -       | -

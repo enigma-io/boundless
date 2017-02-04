@@ -21,24 +21,21 @@ export default class CheckboxDemo extends React.PureComponent {
         }],
     }
 
-    handleInteraction(name) {
+    handleInteraction(event) {
         // eslint-disable-next-line no-alert
-        alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
+        alert(`${event.target.name} ${event.target.checked ? 'checked' : 'unchecked'}!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 
     render() {
         return (
             <div className='spread'>
                 {this.state.checkboxes.map((definition) => {
-                    let boundFunc = this.handleInteraction.bind(this, definition.name);
-
                     return (
                         <Checkbox
                             key={definition.name}
                             inputProps={definition}
                             label={definition.label}
-                            onChecked={boundFunc}
-                            onUnchecked={boundFunc} />
+                            onChange={this.handleInteraction} />
                     );
                 })}
             </div>

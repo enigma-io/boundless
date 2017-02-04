@@ -8,7 +8,6 @@ import omit from 'boundless-utils-omit-keys';
 const first = (array) => array[0];
 const last = (array) => array[array.length - 1];
 const isFunction = (x) => typeof x === 'function';
-const noop = () => {};
 
 /**
 __Distill rich entity data matched via typeahead input into simple visual abstractions.__
@@ -45,7 +44,6 @@ When using `TokenizedInput` in your project, you may call the following methods 
  */
 export default class TokenizedInput extends React.PureComponent {
     static propTypes = {
-        /** TokenizedInput accepts all [`Typeahead`](/Typeahead#props) and [`Input`](/Input#props) props */
         ...Typeahead.propTypes,
 
         /**
@@ -86,9 +84,9 @@ export default class TokenizedInput extends React.PureComponent {
 
     static defaultProps = {
         ...Typeahead.defaultProps,
-        handleAddToken: noop,
-        handleRemoveTokens: noop,
-        handleNewSelection: noop,
+        handleAddToken: () => {},
+        handleRemoveTokens: () => {},
+        handleNewSelection: () => {},
         tokenCloseComponent: (<div>X</div>),
         tokenCloseVisible: true,
         tokens: [],
@@ -156,8 +154,7 @@ export default class TokenizedInput extends React.PureComponent {
         const selected = this.props.tokensSelected;
         const indexes = this.props.tokens;
 
-        if (   selected.length === 1
-            && first(selected) === first(indexes)) {
+        if (selected.length === 1 && first(selected) === first(indexes)) {
             return; // already at leftmost bound
         }
 

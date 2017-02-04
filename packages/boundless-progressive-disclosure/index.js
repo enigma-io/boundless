@@ -13,19 +13,25 @@ Mechanically, hidden disclosure content is not rendered to the DOM until it is n
  */
 export default class ProgressiveDisclosure extends React.PureComponent {
     static propTypes = {
-        /** if a function is passed, it will not be called until the disclosure content is due to be rendered */
-        children: PropTypes.any,
-
         /**
-         * any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
          */
-        component: PropTypes.oneOfType([
-            PropTypes.string,
+        '*': PropTypes.any,
+
+        /** if a function is passed, it will not be called until the disclosure content is due to be rendered */
+        children: PropTypes.oneOfType([
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.node),
             PropTypes.func,
         ]),
 
         /**
-         * allows the disclosure to be rendered expanded by default
+         * any valid HTML tag name
+         */
+        component: PropTypes.string,
+
+        /**
+         * controls the ProgressDisclosure "expanded" state declaratively
          */
         expanded: PropTypes.bool,
 
@@ -40,19 +46,26 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         onHide: PropTypes.func,
 
         /**
-         * content to be shown next to the expansion toggle, e.g. "Advanced Options"
+         * any valid HTML tag name
          */
-        teaser: PropTypes.node,
+        toggleComponent: PropTypes.string,
+
+        /**
+         * content to be shown next to the expansion toggle when the disclosure is in "contracted" state, e.g. "Show Advanced Options"
+         */
+        toggleContent: PropTypes.node,
 
         /**
          * content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
          */
-        teaserExpanded: PropTypes.node,
+        toggleExpandedContent: PropTypes.node,
 
-        /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-disclosure-toggle` node
-         */
-        toggleProps: PropTypes.object,
+        toggleProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
     }
 
     static defaultProps = {
@@ -61,8 +74,9 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         expanded: false,
         onExpand: noop,
         onHide: noop,
-        teaser: null,
-        teaserExpanded: null,
+        toggleComponent: 'div',
+        toggleContent: null,
+        toggleExpandedContent: null,
         toggleProps: {},
     }
 
@@ -72,18 +86,16 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         expanded: this.props.expanded,
     }
 
+    fireStatefulCallback = () => this.props[this.state.expanded ? 'onExpand' : 'onHide']()
+
     componentWillReceiveProps(newProps) {
         if (newProps.expanded !== this.props.expanded) {
-            this.setState({expanded: newProps.expanded}, this.dispatchCallback);
+            this.setState({expanded: newProps.expanded}, this.fireStatefulCallback);
         }
     }
 
-    dispatchCallback = () => {
-        this.props[this.state.expanded ? 'onExpand' : 'onHide']();
-    }
-
     handleClick = (event) => {
-        this.setState({expanded: !this.state.expanded}, this.dispatchCallback);
+        this.setState({expanded: !this.state.expanded}, this.fireStatefulCallback);
 
         /* istanbul ignore else */
         if (isFunction(this.props.toggleProps.onClick)) {
@@ -92,10 +104,9 @@ export default class ProgressiveDisclosure extends React.PureComponent {
     }
 
     handleKeyDown = (event) => {
-        switch (event.key) {
-        case 'Enter':
+        if (event.key === 'Enter') {
             event.preventDefault();
-            this.setState({expanded: !this.state.expanded}, this.dispatchCallback);
+            this.setState({expanded: !this.state.expanded}, this.fireStatefulCallback);
         }
 
         /* istanbul ignore else */
@@ -107,8 +118,7 @@ export default class ProgressiveDisclosure extends React.PureComponent {
     renderContent() {
         if (this.state.expanded) {
             return (
-                <div ref='content'
-                     className='b-disclosure-content'>
+                <div className='b-disclosure-content'>
                     {isFunction(this.props.children) ? this.props.children() : this.props.children}
                 </div>
             );
@@ -119,20 +129,18 @@ export default class ProgressiveDisclosure extends React.PureComponent {
         return (
             <this.props.component
                 {...omit(this.props, ProgressiveDisclosure.internalKeys)}
-                ref='wrapper'
                 className={cx('b-disclosure', this.props.className, {
                    'b-disclosure-expanded': this.state.expanded,
                 })}>
 
-                <div
+                <this.props.toggleComponent
                     {...this.props.toggleProps}
-                    ref='toggle'
                     className={cx('b-disclosure-toggle', this.props.toggleProps.className)}
                     onClick={this.handleClick}
                     onKeyDown={this.handleKeyDown}
                     tabIndex='0'>
-                    {this.state.expanded ? this.props.teaserExpanded || this.props.teaser : this.props.teaser}
-                </div>
+                    {this.state.expanded ? this.props.toggleExpandedContent || this.props.toggleContent : this.props.toggleContent}
+                </this.props.toggleComponent>
 
                 {this.renderContent()}
             </this.props.component>

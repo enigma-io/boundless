@@ -42,7 +42,6 @@ export default class ProgressDemo extends React.PureComponent {
                     <Progress
                         ref='bar'
                         aria-label={`${this.state.barProgress}% complete`}
-                        label={`${this.state.barProgress}%`}
                         progress={`${this.state.barProgress}%`} />
                     <Button
                         onPressed={this.resetProgress.bind(this, 'bar')}
@@ -56,7 +55,6 @@ export default class ProgressDemo extends React.PureComponent {
                         ref='meter'
                         id='progress-meter'
                         aria-label={`${this.state.meterProgress}% complete`}
-                        label={`${this.state.meterProgress}%`}
                         progress={`${this.state.meterProgress}%`}
                         tweenProperty='height' />
                     <Button

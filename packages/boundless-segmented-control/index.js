@@ -1,198 +1,177 @@
 import React, {PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
+import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
 import Button from 'boundless-button';
 import omit from 'boundless-utils-omit-keys';
 
-const isFunction = (x) => typeof x === 'function';
+function findIndex(arr, test) {
+    let found;
+
+    for (let i = 0, len = arr.length; i < len; i += 1) {
+        if (test(arr[i])) {
+            found = i;
+            break;
+        }
+    }
+
+    return found;
+}
 
 /**
 __A control containing multiple buttons, only one of which can be active at a time.__
 
-SegmentedControl is implemented as a "controlled component", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onOptionSelected` that a controller view must intercept and apply against the data provider.
+SegmentedControl has many potential uses, the most common being:
+
+1. The controls for a tabbed view
+2. A mode switch
+
+Essentially, it behaves like a radio group without actually using input controls. Only one option can be selected at a time.
+
+### Component Instance Methods
+
+- `getSelectedOption()` retrieves the option that is selected
+- `getSelectedOptionIndex()` retrieves the index of the option that is selected
+- `selectOption(option)` allows for programmatic switching of the active SegmentedControl option
+- `selectOptionByKey(key, value)` allows for programmatic switching of the active SegmentedControl option using a unique key
+- `selectOptionIndex(index)` allows for programmatic switching of the active SegmentedControl option by index
  */
 export default class SegmentedControl extends React.PureComponent {
     static propTypes = {
         /**
-         * called when a child element becomes selected; backing data must be updated to persist the state change
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
+         * sets the initial selected option on first mount
+         */
+        defaultOptionSelectedIndex: PropTypes.number,
+
+        /**
+         * called when a child element becomes selected with the option and option index
          */
         onOptionSelected: PropTypes.func,
 
         /**
-         * the backing data for the segments of the rendered control
-
-         * > __Validation Criteria:__
-         * >
-         * > 1. There must be at least two `options` (a segmented control with one button is not allowed)
-         * > 1. There must only be one `option` whose `selected` attribute is `true` (multiple selections are not allowed)
-         * > 1. Each `value` attribute must be unique across the set of `options`
-
-         * - __options[].selected__ `Boolean`
-         * - __options[].value__ `String`
-         * - __options[].content__ `*`
-           * the content to go inside the button
+         * provide a customized component type if desired, either a HTML element name or ReactComponent
          */
-        options: function validateOptions(props) {
-            if (props.options.length < 2) {
-                throw new Error('Must provide at least two options.');
-            }
+        optionComponent: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+        ]),
 
-            const missingSelected = props.options.some((option) => {
-                if (!('selected' in option)) {
-                    return true;
-                }
-            });
-
-            if (missingSelected) {
-                throw new Error('Must provide a `selected` prop for each option.');
-            }
-
-            let seenSelected = false;
-            const multipleSelected = props.options.some((option) => {
-                if (option.selected) {
-                    if (seenSelected) {
-                        return true;
-                    }
-
-                    seenSelected = true;
-                }
-            });
-
-            if (multipleSelected) {
-                throw new Error('Encountered multiple options with `selected: true`. There can be only one.');
-            }
-
-            if (props.options.some((option) => typeof option.value === 'undefined')) {
-                throw new Error('Must provide a `value` prop for each option.');
-            }
-        },
+        /**
+         * prop objects to be applied against the SegmentedControl buttons, accepts any valid React props
+         *
+         * #### Example
+         *
+         * ```jsx
+         * options={[{
+         *     children: 'Foo',
+         *     className: 'foo',
+         * }, {
+         *     children: <span>Bar</span>,
+         *     'data-id': 'bar',
+         * }]}
+         * ```
+         */
+        options: PropTypes.arrayOf(
+            PropTypes.shape({
+                /**
+                 * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+                 */
+                '*': PropTypes.any,
+                children: PropTypes.node,
+            })
+        ).isRequired,
     }
 
     static defaultProps = {
+        defaultOptionSelectedIndex: 0,
         onOptionSelected: () => {},
+        optionComponent: 'button',
         options: [],
     }
 
     static internalKeys = Object.keys(SegmentedControl.defaultProps)
-    static internalChildKeys = [
-        'content',
-        'value',
-        'selected',
-    ]
 
     state = {
-        indexOfOptionInFocus: null,
+        selectedIndex: null,
     }
 
-    currentValue() {
-        let value;
-
-        this.props.options.some((option) => {
-            if (option.selected) {
-                value = option.value;
-
-                return true;
-            }
-        });
-
-        return value;
+    inferSelectedOptionIndex(props = this.props, state = this.state) {
+        return findIndex(props.options, (option) => option.pressed) || state.selectedIndex;
     }
 
-    setFocus(index) {
-        findDOMNode(this.refs['option_$' + index]).focus();
+    componentWillMount() {
+        this.setState({selectedIndex: this.inferSelectedOptionIndex() || this.props.defaultOptionSelectedIndex});
     }
 
-    getNextOptionIndex(currentOptionIndex) {
-        let next = currentOptionIndex + 1;
-
-        return next < this.props.options.length ? next : 0;
-    }
-
-    getPreviousOptionIndex(currentOptionIndex) {
-        let previous = currentOptionIndex - 1;
-
-        return previous < 0 ? this.props.options.length - 1 : previous;
-    }
-
-    handleOptionBlur(option, event) {
-        if (this.state.indexOfOptionInFocus === this.props.options.indexOf(option)) {
-            this.setState({indexOfOptionInFocus: null});
-        }
-
-        if (isFunction(option.onBlur)) {
-            option.onBlur(event);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.options !== this.props.options) {
+            this.setState({selectedIndex: this.inferSelectedOptionIndex(nextProps)});
         }
     }
 
-    handleOptionClick(option, event) {
-        this.props.onOptionSelected(option.value);
+    handleOptionSelection = (event) => {
+        const index = Array.prototype.indexOf.call(event.target.parentElement.children, event.target);
 
-        if (isFunction(option.onClick)) {
-            option.onClick(event);
+        if (this.state.selectedIndex !== index) {
+            this.setState({selectedIndex: index}, () => {
+                this.props.onOptionSelected(this.props.options[this.state.selectedIndex], this.state.selectedIndex);
+            });
         }
     }
 
-    handleOptionFocus(option, event) {
-        this.setState({indexOfOptionInFocus: this.props.options.indexOf(option)});
+    /**
+     * @public
+     */
+    getSelectedOption = () => this.props.options[this.state.selectedIndex]
 
-        if (isFunction(option.onFocus)) {
-            option.onFocus(event);
-        }
-    }
+    /**
+     * @public
+     */
+    getSelectedOptionIndex = () => this.state.selectedIndex
 
-    handleKeyDown = (event) => {
-        const key = event.key;
-        const activeItemIndex = this.state.indexOfOptionInFocus;
+    /**
+     * @public
+     */
+    selectOption = (option) => this.setState({selectedIndex: this.props.options.indexOf(option)})
 
-        if (key === 'ArrowLeft') {
-            this.setFocus(this.getPreviousOptionIndex(activeItemIndex));
-            event.preventDefault();
-        } else if (key === 'ArrowRight') {
-            this.setFocus(this.getNextOptionIndex(activeItemIndex));
-            event.preventDefault();
-        } else if (key === 'Enter') {
-            this.handleOptionClick(this.props.options[activeItemIndex]);
-            event.preventDefault();
-        }
+    /**
+     * @public
+     */
+    selectOptionByKey = (k, v) => this.setState({selectedIndex: findIndex(this.props.options, (option) => option[k] === v)})
 
-        if (isFunction(this.props.onKeyDown)) {
-            this.props.onKeyDown(event);
-        }
-    }
-
-    renderOptions() {
-        return this.props.options.map((definition, index) => {
-            return (
-                <Button
-                    {...omit(definition, SegmentedControl.internalChildKeys)}
-                    role='radio'
-                    aria-checked={String(definition.selected)}
-                    ref={'option_$' + index}
-                    key={definition.value}
-                    className={cx('b-segmented-control-option', definition.className, {
-                        'b-segmented-control-option-selected': definition.selected,
-                    })}
-                    tabIndex={definition.selected ? '0' : '-1'}
-                    onBlur={this.handleOptionBlur.bind(this, definition)}
-                    onPressed={this.handleOptionClick.bind(this, definition)}
-                    onFocus={this.handleOptionFocus.bind(this, definition)}>
-                    {definition.content}
-                </Button>
-            );
-        });
-    }
+    /**
+     * @public
+     */
+    selectOptionIndex = (index) => this.setState({selectedIndex: index})
 
     render() {
         return (
-            <div
+            <ArrowKeyNavigation
                 {...omit(this.props, SegmentedControl.internalKeys)}
-                ref='wrapper'
                 role='radiogroup'
                 className={cx('b-segmented-control', this.props.className)}
-                onKeyDown={this.handleKeyDown}>
-                {this.renderOptions()}
-            </div>
+                mode={ArrowKeyNavigation.mode.HORIZONTAL}>
+                {this.props.options.map((props, index) => (
+                    <Button
+                        {...props}
+                        key={props.key || index}
+                        aria-checked={index === this.state.selectedIndex}
+                        component={props.component || this.props.optionComponent}
+                        className={cx('b-segmented-control-option', props.className, {
+                            'b-segmented-control-option-selected': index === this.state.selectedIndex,
+                        })}
+                        onPressed={this.handleOptionSelection}
+                        pressed={index === this.state.selectedIndex}
+                        role='radio'>
+                        {props.children}
+                    </Button>
+                ))}
+            </ArrowKeyNavigation>
         );
     }
 }

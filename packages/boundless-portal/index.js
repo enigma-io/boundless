@@ -11,6 +11,11 @@ __A higher-order component for the rendering of components outside the normal Re
  */
 export default class Portal extends React.Component {
     static propTypes = {
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
         // single child only - arrays not allowed
 
         /**

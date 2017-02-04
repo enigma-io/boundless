@@ -1,5 +1,5 @@
 {
-  "name": "boundless-utils-conformance",
+  "name": "boundless-utils-test-helpers",
   "private": true,
   "version": "1.0.0",
   "description": "Used in testing boundless components for prop passing, etc.",

@@ -24,14 +24,26 @@ When using `Input` in your project, you may call the following methods on a rend
 export default class Input extends React.PureComponent {
     static propTypes = {
         /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
+
+        /**
+         * overrides the HTML container tag
+         */
+        component: PropTypes.string,
+
+        /**
          * triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
          */
         hidePlaceholderOnFocus: PropTypes.bool,
 
-        /**
-         * props to be passed through to the input node, `.b-textual-input`; this includes the standard set of React input props like `defaultValue`, `value`, `name`, `placeholder`, `autoFocus`, etc.
-         */
         inputProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+
             defaultValue: PropTypes.string,
             onBlur: PropTypes.func,
             onFocus: PropTypes.func,
@@ -43,6 +55,7 @@ export default class Input extends React.PureComponent {
     }
 
     static defaultProps = {
+        component: 'div',
         hidePlaceholderOnFocus: true,
         inputProps: {
             type: 'text',
@@ -118,35 +131,32 @@ export default class Input extends React.PureComponent {
 
     getPlaceholderText() {
         const isNonEmpty = this.state.input !== '';
-        const shouldShowPlaceholder =   this.props.hidePlaceholderOnFocus === true
-                                        ? this.state.isFocused === false && isNonEmpty === false
-                                        : isNonEmpty === false;
+        const shouldShowPlaceholder = this.props.hidePlaceholderOnFocus === true
+                                      ? this.state.isFocused === false && isNonEmpty === false
+                                      : isNonEmpty === false;
 
         return shouldShowPlaceholder ? this.props.inputProps.placeholder : '';
     }
 
     render() {
-        const {props} = this;
-
         return (
-            <div
-                {...omit(props, Input.internalKeys)}
-                ref='wrapper'
-                className={cx('b-input-wrapper', props.className)}
+            <this.props.component
+                {...omit(this.props, Input.internalKeys)}
+                className={cx('b-input-wrapper', this.props.className)}
                 title={this.getPlaceholderText()}>
                 <input
-                    {...props.inputProps}
+                    {...this.props.inputProps}
                     ref='field'
-                    className={cx('b-input', props.inputProps.className)}
+                    className={cx('b-input', this.props.inputProps.className)}
                     placeholder={null}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}
                     onChange={this.handleChange} />
 
-                <div ref='placeholder' className='b-input-placeholder b-input'>
+                <div className='b-input-placeholder b-input'>
                     {this.getPlaceholderText()}
                 </div>
-            </div>
+            </this.props.component>
         );
     }
 }

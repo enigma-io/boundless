@@ -3,11 +3,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {noop} from 'lodash';
+import sinon from 'sinon';
 
 import ProgressiveDisclosure from './index';
-import conformanceChecker from '../boundless-utils-conformance/index';
-
-import sinon from 'sinon';
+import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
 
 describe('ProgressiveDisclosure component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -23,123 +22,105 @@ describe('ProgressiveDisclosure component', () => {
 
     it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, ProgressiveDisclosure));
 
-    describe('accepts', () => {
-        it('a teaser string', () => {
-            const element = render(<ProgressiveDisclosure teaser='foo' />);
-
-            expect(element.refs.toggle.textContent).toBe('foo');
-        });
-
-        it('a teaser element', () => {
-            const element = render(<ProgressiveDisclosure teaser={<p>foo</p>} />);
-
-            expect(element.refs.toggle.textContent).toBe('foo');
-        });
-
-        it('string content', () => {
-            const element = render(<ProgressiveDisclosure expanded={true}>foo</ProgressiveDisclosure>);
-
-            expect(element.refs.content.textContent).toBe('foo');
-        });
-
-        it('element content', () => {
-            const element = render(<ProgressiveDisclosure expanded={true}><p>foo</p></ProgressiveDisclosure>);
-
-            expect(element.refs.content.textContent).toBe('foo');
-        });
-
-        it('arbitrary HTML attributes via props.toggleProps', () => {
-            const element = render(<ProgressiveDisclosure toggleProps={{'data-foo': 'bar'}} />);
-            const node = element.refs.toggle;
-
-            expect(node.getAttribute('data-foo')).toBe('bar');
-        });
-
-        it('additional classes via props.toggleProps.className', () => {
-            const element = render(<ProgressiveDisclosure toggleProps={{className: 'foo'}} />);
-            const node = element.refs.toggle;
-
-            expect(node.classList.contains('foo')).toBe(true);
-        });
+    it('renders .b-disclosure', () => {
+        render(<ProgressiveDisclosure />);
+        expect($('.b-disclosure')).not.toBeNull();
     });
 
-    describe('CSS hook', () => {
-        it('renders .b-disclosure', () => {
-            const element = render(<ProgressiveDisclosure />);
-            const node = element.refs.wrapper;
-
-            expect(node.classList.contains('b-disclosure')).toBe(true);
-        });
-
-        it('renders .b-disclosure-expanded when `props.expanded` is `true`', () => {
-            const element = render(<ProgressiveDisclosure expanded={true} />);
-            const node = element.refs.wrapper;
-
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
-        });
-
-        it('does not render .b-disclosure-expanded when `props.expanded` is falsy', () => {
-            const element = render(<ProgressiveDisclosure />);
-            const node = element.refs.wrapper;
-
-            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
-        });
+    it('renders .b-disclosure-expanded when `props.expanded` is `true`', () => {
+        render(<ProgressiveDisclosure expanded={true} />);
+        expect($('.b-disclosure-expanded')).not.toBeNull();
     });
 
-    describe('teaser', () => {
-        it('renders the content in props.teaser while unexpanded', () => {
-            const element = render(<ProgressiveDisclosure teaser='foo' />);
+    it('does not render .b-disclosure-expanded when `props.expanded` is falsy', () => {
+        render(<ProgressiveDisclosure />);
+        expect($('.b-disclosure-expanded')).toBeNull();
+    });
 
-            expect(element.refs.toggle.textContent).toBe('foo');
+    it('accepts a teaser string', () => {
+        render(<ProgressiveDisclosure toggleContent='foo' />);
+        expect($('.b-disclosure-toggle').textContent).toBe('foo');
+    });
+
+    it('accepts a teaser element', () => {
+        render(<ProgressiveDisclosure toggleContent={<p>foo</p>} />);
+        expect($('.b-disclosure-toggle').textContent).toBe('foo');
+    });
+
+    it('accepts string content', () => {
+        render(<ProgressiveDisclosure expanded={true}>foo</ProgressiveDisclosure>);
+        expect($('.b-disclosure-content').textContent).toBe('foo');
+    });
+
+    it('accepts element content', () => {
+        render(<ProgressiveDisclosure expanded={true}><p>foo</p></ProgressiveDisclosure>);
+        expect($('.b-disclosure-content').textContent).toBe('foo');
+    });
+
+    it('accepts arbitrary HTML attributes via props.toggleProps', () => {
+        render(<ProgressiveDisclosure toggleProps={{'data-foo': 'bar'}} />);
+        expect($('.b-disclosure-toggle[data-foo="bar"]')).not.toBeNull();
+    });
+
+    it('accepts additional classes via props.toggleProps.className', () => {
+        render(<ProgressiveDisclosure toggleProps={{className: 'foo'}} />);
+        expect($('.b-disclosure-toggle.foo')).not.toBeNull();
+    });
+
+    describe('toggle', () => {
+        it('accepts a customized component type', () => {
+            render(<ProgressiveDisclosure toggleComponent='article' toggleContent='foo' />);
+            expect($('article.b-disclosure-toggle')).not.toBeNull();
+        });
+
+        it('renders the content in props.toggleContent while unexpanded', () => {
+            render(<ProgressiveDisclosure toggleContent='foo' />);
+            expect($('.b-disclosure-toggle').textContent).toBe('foo');
         });
 
         it('accepts JSX', () => {
-            const element = render(<ProgressiveDisclosure teaser={<p>foo</p>} teaserExpanded={<p>bar</p>} />);
-            const node = element.refs.wrapper;
+            const element = render(<ProgressiveDisclosure toggleContent={<p>foo</p>} toggleExpandedContent={<p>bar</p>} />);
 
-            expect(element.refs.toggle.textContent).toBe('foo');
+            expect($('.b-disclosure-toggle').textContent).toBe('foo');
 
             element.handleClick();
 
-            expect(element.refs.toggle.textContent).toBe('bar');
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            expect($('.b-disclosure-toggle').textContent).toBe('bar');
+            expect($('.b-disclosure-expanded')).not.toBeNull();
         });
 
-        it('renders the content in props.teaserExpanded while expanded', () => {
-            const element = render(<ProgressiveDisclosure teaser='foo' teaserExpanded='bar' />);
-            const node = element.refs.wrapper;
+        it('renders the content in props.toggleContentExpanded while expanded', () => {
+            const element = render(<ProgressiveDisclosure toggleContent='foo' toggleExpandedContent='bar' />);
 
-            expect(element.refs.toggle.textContent).toBe('foo');
+            expect($('.b-disclosure-toggle').textContent).toBe('foo');
 
             element.handleClick();
 
-            expect(element.refs.toggle.textContent).toBe('bar');
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            expect($('.b-disclosure-toggle').textContent).toBe('bar');
+            expect($('.b-disclosure-expanded')).not.toBeNull();
         });
 
-        it('renders the content in props.teaser while expanded if props.teaserExpanded is not provided', () => {
-            const element = render(<ProgressiveDisclosure teaser='foo' />);
-            const node = element.refs.wrapper;
+        it('renders the content in props.toggleContent while expanded if props.toggleContentExpanded is not provided', () => {
+            const element = render(<ProgressiveDisclosure toggleContent='foo' />);
 
-            expect(element.refs.toggle.textContent).toBe('foo');
+            expect($('.b-disclosure-toggle').textContent).toBe('foo');
 
             element.handleClick();
 
-            expect(element.refs.toggle.textContent).toBe('foo');
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            expect($('.b-disclosure-toggle').textContent).toBe('foo');
+            expect($('.b-disclosure-expanded')).not.toBeNull();
         });
     });
 
     describe('click on the toggle', () => {
         it('shows and hides the content', () => {
             const element = render(<ProgressiveDisclosure />);
-            const node = element.refs.wrapper;
 
             element.handleClick();
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            expect($('.b-disclosure-expanded')).not.toBeNull();
 
             element.handleClick();
-            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
+            expect($('.b-disclosure-expanded')).toBeNull();
         });
 
         it('proxies the event to `props.toggleProps.onClick` if provided', () => {
@@ -156,13 +137,12 @@ describe('ProgressiveDisclosure component', () => {
     describe('enter key on the toggle', () => {
         it('shows and hides the content', () => {
             const element = render(<ProgressiveDisclosure />);
-            const node = element.refs.wrapper;
 
             element.handleKeyDown({key: 'Enter', preventDefault: noop});
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            expect($('.b-disclosure-expanded')).not.toBeNull();
 
             element.handleKeyDown({key: 'Enter', preventDefault: noop});
-            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
+            expect($('.b-disclosure-expanded')).toBeNull();
         });
 
         it('proxies the event to `props.toggleProps.onKeyDown` if provided', () => {
@@ -178,13 +158,11 @@ describe('ProgressiveDisclosure component', () => {
 
     describe('rerendering with a changed `props.expanded`', () => {
         it('shows and hides the content', () => {
-            let element = render(<ProgressiveDisclosure />);
-            const node = element.refs.wrapper;
+            render(<ProgressiveDisclosure />);
+            expect($('.b-disclosure-expanded')).toBeNull();
 
-            expect(node.classList.contains('b-disclosure-expanded') === false).toBe(true);
-
-            element = render(<ProgressiveDisclosure expanded />);
-            expect(node.classList.contains('b-disclosure-expanded')).toBe(true);
+            render(<ProgressiveDisclosure expanded />);
+            expect($('.b-disclosure-expanded')).not.toBeNull();
         });
 
         it('calls `props.onExpand` if `props.expanded` is now true', () => {

@@ -34,24 +34,21 @@ export default class CheckboxDemo extends React.PureComponent {
         }],
     }
 
-    handleInteraction(name) {
+    handleInteraction(event) {
         // eslint-disable-next-line no-alert
-        alert(`${name} checked!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
+        alert(`${event.target.name} ${event.target.checked ? 'checked' : 'unchecked'}!\n\nThe input will now revert to its previous state because this demo does not persist model changes.`);
     }
 
     render() {
         return (
             <div className='spread'>
                 {this.state.checkboxes.map((definition) => {
-                    let boundFunc = this.handleInteraction.bind(this, definition.name);
-
                     return (
                         <Checkbox
                             key={definition.name}
                             inputProps={definition}
                             label={definition.label}
-                            onChecked={boundFunc}
-                            onUnchecked={boundFunc} />
+                            onChange={this.handleInteraction} />
                     );
                 })}
             </div>
@@ -73,8 +70,19 @@ There are no required props.
 
 ### Optional Props
 
-- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below.
-  Also supports any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox` node
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
+- __`component`__ ・ any valid HTML tag name
+
+  Expects | Default Value
+  -       | -
+  `string` | `'div'`
+
+- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
 
   Expects | Default Value
   -       | -
@@ -89,7 +97,7 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`labelProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-checkbox-label` node
+- __`labelProps`__
 
   Expects | Default Value
   -       | -

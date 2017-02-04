@@ -22,7 +22,7 @@ import get from 'lodash.get';
  * @param {string}   [key] an instance key to check for compliance instead of the base element; this is
  *                                  used for React components that render to <body> or a node other than its logical parent
  */
-export default function verifyConformance(render, Constructor, baseProps, key) {
+export function conformanceChecker(render, Constructor, baseProps, key) {
     let node;
 
     const renderWithPropsAndGetNode = (props) => {
@@ -33,9 +33,7 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
         );
 
         if (key) {
-            return   get(element, key) instanceof HTMLElement
-                   ? get(element, key)
-                   : findDOMNode(get(element, key));
+            return findDOMNode(get(element, key));
         }
 
         return findDOMNode(element);
@@ -46,7 +44,15 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
     const ownProps = Object.keys(Constructor.propTypes || {});
     const defaults = Constructor.defaultProps || {};
 
-    ownProps.forEach((propName) => expect(propName in defaults).toBe(true));
+    ownProps.forEach((propName) => {
+        if (propName === '*') {
+            return;
+        } else if (!(propName in defaults)) {
+            console.error(`${propName} is missing in ${Constructor.name}.defaultProps.`);
+        }
+
+        expect(propName in defaults).toBe(true);
+    });
 
     /* verify props.className */
     node = renderWithPropsAndGetNode({className: 'foo'});
@@ -83,3 +89,6 @@ export default function verifyConformance(render, Constructor, baseProps, key) {
         `${Constructor.name} does not support adding aria attributes via props`
     );
 }
+
+export const $ = (selector, context = document) => context.querySelector(selector);
+export const $$ = (selector, context = document) => context.querySelectorAll(selector);

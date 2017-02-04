@@ -8,9 +8,7 @@ __A non-blocking, focus-stealing container.__
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page)
 and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 
-Specific areas (header, body, footer) are defined to provide easy conformance to the
-[WAI-ARIA spec](http://www.w3.org * /TR/wai-aria/states_and_properties#aria-labelledby) for `aria-labelledby`
-and `aria-describedby` (screen reader  * accessibility). Their use is optional, but encouraged.
+If you decide to provide a header inside your dialog, it's recommended to configure the [`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-labelledby_attribute) attribute, which can be added to `props.dialogProps`.
 
 ## Example Usage
 ```jsx
@@ -44,11 +42,9 @@ export default class DialogDemo extends React.PureComponent {
                     closeOnEscKey={true}
                     closeOnOutsideClick={true}
                     onClose={this.toggleDialog}
-                    wrapperProps={{
-                        style: {
-                            left: this.state.leftPosition,
-                            top: this.state.topPosition,
-                        },
+                    style={{
+                        left: this.state.leftPosition,
+                        top: this.state.topPosition,
                     }}>
                     <iframe
                         className='dialog-demo-video-frame'
@@ -90,6 +86,12 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`after`__ ・ arbitrary content to be rendered after the dialog in the DOM
 
   Expects | Default Value
@@ -102,23 +104,11 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`bodyProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-body` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
 - __`captureFocus`__ ・ determines if focus is allowed to move away from the dialog
 
   Expects | Default Value
   -       | -
   `bool` | `true`
-
-- __`children`__
-
-  Expects | Default Value
-  -       | -
-  `any renderable` | `null`
 
 - __`closeOnEscKey`__ ・ enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
@@ -155,41 +145,29 @@ There are no required props.
   -       | -
   `bool or function` | `false`
 
-- __`footer`__ ・ text, ReactElements, etc. comprising the "footer" area of the dialog, e.g. confirm/cancel buttons
+- __`component`__ ・ override the type of `.b-dialog-wrapper` HTML element
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `string` | `'div'`
 
-- __`footerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-footer` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
-
-- __`header`__ ・ text, ReactElements, etc. to represent the "title bar" area of the dialog
+- __`dialogComponent`__ ・ override the type of `.b-dialog` HTML element
 
   Expects | Default Value
   -       | -
-  `any renderable` | `null`
+  `string` | `'div'`
 
-- __`headerProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-header` node
+- __`dialogProps`__
 
   Expects | Default Value
   -       | -
   `object` | `{}`
 
-- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the `closeOn` props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
+- __`onClose`__ ・ a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
-
-- __`wrapperProps`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-dialog-wrapper` node
-
-  Expects | Default Value
-  -       | -
-  `object` | `{}`
 
 
 ## Reference Styles

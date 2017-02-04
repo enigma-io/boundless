@@ -5,15 +5,32 @@ linkedin.com/in/saranshsinha
 */
 
 random(min, max)
-  return math(0, 'random') * max + min
+    return math(0, 'random') * max + min
+
+random-stellar-color()
+    $number = random(0, 100)
+
+    if $number >= 0 and $number <= 50
+        return rgba(#FFF, random(0.8, 1))
+    else if $number >= 51 and $number <= 65
+        return rgba(lighten(red, 90%), 0.5)
+    else if $number >= 66 and $number <= 80
+        return rgba(lighten(blue, 90%), 0.5)
+    else if $number >= 81 and $number <= 95
+        return rgba(lighten(gold, 90%) 0.5)
+    else
+        return rgba(lighten(brown, 90%), 0.5)
+
 
 multiple-box-shadow($n)
-    $value = '%svw %svh #FFF' % (random(0, 100) random(0, 100))
+    $color = random-stellar-color()
+    $value = '%svw %svh %s' % (random(0, 100) random(0, 100) $color)
 
     for $i in (2..$n)
-      $value = '%s, %svw %svh #FFF' % ($value random(0, 100) random(0, 100))
+        $color = random-stellar-color()
+        $value = '%s, %svw %svh %s' % ($value random(0, 100) random(0, 100) $color)
 
-    unquote($value)
+    return unquote($value)
 
 @keyframes parallax {
     from {

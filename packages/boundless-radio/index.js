@@ -14,19 +14,36 @@ Radio is implemented as a "controlled input", meaning it is a direct representat
 export default class Radio extends React.PureComponent {
     static propTypes = {
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio` node
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
          */
-        inputProps: PropTypes.object,
+        '*': PropTypes.any,
 
         /**
-         * any React-renderable content, most commonly a simple string
+         * override the wrapper component HTML element tag if desired
          */
-        label: PropTypes.node,
+        component: PropTypes.string,
+
+        inputProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes); applied to the `.b-radio-label` node
+         * any React-renderable content
          */
-        labelProps: PropTypes.object,
+        labelContent: PropTypes.oneOfType([
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.node),
+        ]),
+
+        labelProps: PropTypes.shape({
+            /**
+             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             */
+            '*': PropTypes.any,
+        }),
 
         /**
          * passthrough to the HTML `name` attribute on the `.b-radio` node
@@ -50,8 +67,9 @@ export default class Radio extends React.PureComponent {
     }
 
     static defaultProps = {
+        component: 'div',
         inputProps: {},
-        label: null,
+        labelContent: null,
         labelProps: {},
         name: '',
         onSelected: () => {},
@@ -78,7 +96,6 @@ export default class Radio extends React.PureComponent {
         return (
             <input
                 {...this.props.inputProps}
-                ref='input'
                 type='radio'
                 id={this.props.id || this.props.inputProps.id || this.uuid}
                 className={cx('b-radio', this.props.inputProps.className, {
@@ -93,14 +110,13 @@ export default class Radio extends React.PureComponent {
     }
 
     renderLabel() {
-        if (this.props.label) {
+        if (this.props.labelContent) {
             return (
                 <label
                     {...this.props.labelProps}
-                    ref='label'
                     className={cx('b-radio-label', this.props.labelProps.className)}
                     htmlFor={this.props.id || this.props.inputProps.id || this.uuid}>
-                    {this.props.label}
+                    {this.props.labelContent}
                 </label>
             );
         }
@@ -108,13 +124,12 @@ export default class Radio extends React.PureComponent {
 
     render() {
         return (
-            <div
+            <this.props.component
                 {...omit(this.props, Radio.internalKeys)}
-                ref='wrapper'
                 className={cx('b-radio-wrapper', this.props.className)}>
                 {this.renderInput()}
                 {this.renderLabel()}
-            </div>
+            </this.props.component>
         );
     }
 }

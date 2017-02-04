@@ -2,24 +2,16 @@
 
 // Skin-specific styles go here. Demo-specific styles go in demo/style.styl.
 
-.b-image-wrapper {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-}
-
-.b-image,
-.b-image-loading,
-.b-image-error {
-    width: 100%;
-}
-
 .b-image {
     background: Image-backgroundColor;
     background-size: cover;
     background-position: center;
-    border: 1px solid;
-    borderColor: Image-borderColor;
+    border: 0;
+    display: inline-block;
+    line-height: 0;
+    position: relative;
+    height: auto;
+    width: 100%;
 }
 
 .b-image::after,
@@ -31,16 +23,17 @@
     width: 100%;
 }
 
-.b-image-loading,
-.b-image-error {
+.b-image-loading::before,
+.b-image-error::before {
     position: absolute;
     top: 0;
+    bottom: 0;
     left: 0;
+    right: 0;
 }
 
 .b-image-loading {
     background: Image-backgroundColor-loading;
-    borderColor: Image-borderColor-loading;
 
     // TODO: replace with CSS shape animation
     &::before {
@@ -51,7 +44,6 @@
 
 .b-image-error {
     background: Image-backgroundColor-error;
-    borderColor: Image-borderColor-error;
 
     // TODO: replace with CSS shape
     &::before {

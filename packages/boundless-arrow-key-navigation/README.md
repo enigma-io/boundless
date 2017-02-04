@@ -77,13 +77,19 @@ There are no required props.
 
 ### Optional Props
 
+- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+
+  Expects | Default Value
+  -       | -
+  `any` | `n/a`
+
 - __`component`__ ・ any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
 
   Expects | Default Value
   -       | -
   `string or function` | `'div'`
 
-- __`defaultActiveChildIndex`__ ・ allows for a particular child to be initially reachable via tabbing
+- __`defaultActiveChildIndex`__ ・ allows for a particular child to be initially reachable via tabbing; only applied during first render
 
   Expects | Default Value
   -       | -

@@ -3,99 +3,149 @@ import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
 
+const get = (base, path, fallback) => path.split('.').reduce((current, fragment) => current[fragment] || fallback, base);
+
 /**
  * __A higher-order component for rendering data that isn't ready yet.__
  *
  * There are plenty of situations where you need to fetch content to be displayed, but want
  * to show some sort of loading graphic in the interim. This component helps to simplify
  * that pattern by handling common types of promises and providing a simple mechanism
- * for materializing the resolved data into JSX.
+ * for materializing the fulfilled payload into JSX.
  */
 export default class Async extends React.PureComponent {
     static propTypes = {
-        /** a callback for when real content has been rendered; either normal passed data or when a passed promise resolves */
-        contentRenderedFunc: PropTypes.func,
+        /**
+         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         */
+        '*': PropTypes.any,
 
-        /** a function that takes the resolved payload of a promise provided by `props.data` and returns renderable JSX; defaults to trying to render the resolved value of the Promise */
-        convertToJSXFunc: PropTypes.func,
+        /**
+         * a promise, function that returns a promise, or other type of renderable content; if a function is passed, it will
+         * be called with the current props
+         *
+         * Promise example:
+         *
+         * ```jsx
+         * const listDataPromise = fetch('/some/list/data/endpoint').then(
+         *     (response) => response.ok ? response.json() : 'Failed to receive list data',
+         *     (error) => error.message,
+         * ).then((payload) => {
+         *     if (typeof payload === 'string') {
+         *         return (<div className='error'>{payload}</div>);
+         *     }
+         *
+         *     return (
+         *         <ul>
+         *             {payload.map((item) => (<li key={item.id}>{item.content}</li>))}
+         *         </ul>
+         *     );
+         * });
+         *
+         * <Async>{listDataPromise}</Async>
+         *
+         * Function example:
+         *
+         * ```jsx
+         * const fetchListData = (props) => fetch(props['data-endpoint']).then(
+         *     (response) => response.ok ? response.json() : 'Failed to receive list data',
+         *     (error) => error.message,
+         * ).then((payload) => {
+         *     if (typeof payload === 'string') {
+         *         return (<div className='error'>{payload}</div>);
+         *     }
+         *
+         *     return (
+         *         <ul>
+         *             {payload.map((item) => (<li key={item.id}>{item.content}</li>))}
+         *         </ul>
+         *     );
+         * });
+         *
+         * <Async data-endpoint='/some/list/data/endpoint'>{fetchListData}</Async>
+         * ```
+         */
+        children: PropTypes.oneOfType([
+            PropTypes.func,
+            PropTypes.node,
+            PropTypes.instanceOf(Promise),
+        ]).isRequired,
 
-        /** a promise, or some other piece of data to be run through `props.convertToJSXFunc` */
-        data: PropTypes.any,
+        /** a callback for when real content has been rendered; this will be called immediately if normal JSX is passed to Async, or, in the case of a promise, upon resolution or rejection */
+        childrenDidRender: PropTypes.func,
 
-        /** content to be shown if the promise is rejected */
-        errorContent: PropTypes.node,
-
-        /** content to be shown while the promise is in pending state */
-        loadingContent: PropTypes.node,
+        /** content to be shown while the promise is in "pending" state (like a loading graphic, perhaps) */
+        pendingContent: PropTypes.node,
     }
 
     static defaultProps = {
-        contentRenderedFunc: () => {},
-        convertToJSXFunc: (x) => x,
-        data: null,
-        errorContent: '⚠️',
-        loadingContent: null,
+        children: <div />,
+        childrenDidRender: () => {},
+        pendingContent: <div />,
     }
 
     static internalKeys = Object.keys(Async.defaultProps)
 
     mounted = false
+    promise = null
     state = {}
 
-    convertDataToJSXOrWait(props = this.props) {
-        const {data} = props;
+    handlePromiseFulfillment(context, payload) {
+        if (!this.mounted) { return; }
 
-        if (data instanceof Promise) {
-            this.setState({component: null});
+        // only set the component if the promise that is fulfilled matches
+        // the one we're tracking in state, otherwise ignore it and retain the previous data
+        this.setState(function renderPayloadIfPromiseMatches(state) {
+            if (this.promise === context) {
+                this.promise = null;
 
-            return data.then((payload) => {
-                if (this.mounted) {
-                    // only replace if we're looking at the same promise, otherwise do nothing
-                    this.setState((state, currentProps) => ({
-                        component: currentProps.data === data
-                                   ? currentProps.convertToJSXFunc(payload)
-                                   : state.component,
-                    }));
-                }
-            }, () => this.setState({component: false}));
-        }
+                return {component: payload};
+            }
 
-        this.setState({component: props.convertToJSXFunc(data)});
+            return state;
+        }, this.fireRenderCallback);
     }
 
-    fireCallbackIfDataRendered() {
+    handleChildren(children) {
+        let content = children;
+
+        if (React.isValidElement(content)) {
+            return this.setState({component: content}, this.fireRenderCallback);
+        } else if (typeof content === 'function') {
+            return this.handleChildren(content(this.props));
+        }
+
+        const boundHandler = this.handlePromiseFulfillment.bind(this, content);
+
+        // this is kept outside state so it can be set immediately if the props change
+        this.promise = content;
+
+        this.setState({component: null}, () => content.then(boundHandler, boundHandler));
+    }
+
+    fireRenderCallback() {
         if (this.state.component) {
-            this.props.contentRenderedFunc();
+            this.props.childrenDidRender();
         }
     }
 
-    componentWillMount()                 { this.convertDataToJSXOrWait(); }
-    componentDidMount()                  { this.mounted = true; this.fireCallbackIfDataRendered(); }
-    componentDidUpdate()                 { this.fireCallbackIfDataRendered(); }
-    componentWillReceiveProps(nextProps) { this.convertDataToJSXOrWait(nextProps); }
+    componentWillMount()                 { this.handleChildren(this.props.children); }
+    componentDidMount()                  { this.mounted = true; }
+    componentWillReceiveProps(nextProps) { this.handleChildren(nextProps.children); }
     componentWillUnmount()               { this.mounted = false; }
 
-    getClasses(extraClasses) {
-        return cx('b-async', this.props.className, extraClasses, {
-            'b-async-error': this.state.component === false,
-            'b-async-loading': this.state.component === null,
-        });
-    }
-
     render() {
-        if (this.state.component === null || this.state.component === false) {
-            return (
-                <div {...omit(this.props, Async.internalKeys)} className={this.getClasses()}>
-                    {this.state.component === null
-                     ? this.props.loadingContent
-                     : this.props.errorContent}
-                </div>
-            );
-        }
+        const {props, state} = this;
 
-        return React.cloneElement(this.state.component, {
-            ...omit(this.props, Async.internalKeys),
-            className: this.getClasses(this.state.component.props && this.state.component.props.className),
+        return React.cloneElement(state.component || props.pendingContent, {
+            ...omit(props, Async.internalKeys),
+            className: cx(
+                'b-async',
+                props.className,
+                state.component === null && get(props, 'pendingContent.props.className'),
+                state.component && get(state, 'component.props.className', ''),
+                {'b-async-pending': state.component === null}
+            ),
         });
     }
 }

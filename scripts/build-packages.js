@@ -76,7 +76,7 @@ There are no required props.
 
   Expects | Default Value
   -       | -
-  \`<%= typeParser(props[propName].type) %>\` | \`<%= props[propName].defaultValue.value %>\`
+  \`<%= typeParser(props[propName].type) %>\` | \`<%= _.get(props[propName], 'defaultValue.value', 'n/a') %>\`
 <% }) } else { %>
 There are no optional props.
 <% } } %>
@@ -97,7 +97,7 @@ color-accent = royalblue
 ### CSS
 If desired, a precompiled plain CSS stylesheet is available for customization at \`/build/style.css\`, based on Boundless's [default variables](https://github.com/enigma-io/boundless/blob/master/variables.styl).
 <% } %>
-`.trimLeft();
+`.trim() + '\n';
 
 const componentReadmeGenerator = _.template(componentReadmeTemplate);
 
@@ -253,7 +253,7 @@ require('jsdom').env('', [
                 return error(webpackErr);
             }
 
-            log(`Built ${name} JS.`);
+            log(`Built ${name} js.`);
         });
     });
 });
