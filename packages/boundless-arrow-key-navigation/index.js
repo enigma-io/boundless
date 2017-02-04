@@ -69,23 +69,38 @@ export default class ArrowKeyNavigation extends React.PureComponent {
 
     state = {
         activeChildIndex: this.props.defaultActiveChildIndex,
+        children: [],
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.activeChildIndex !== prevState.activeChildIndex) {
-            this.setFocus(this.state.activeChildIndex);
-        }
+    getFilteredChildren(props = this.props) {
+        return Children.toArray(props.children).filter(Boolean);
     }
 
-    componentWillReceiveProps(nextProps) {
+    setActiveChildIndex() {
         if (this.state.activeChildIndex !== 0) {
-            const numChildren = nextProps.children ? Children.count(nextProps.children) : 0;
+            const numChildren = Children.count(this.state.children);
 
             if (numChildren === 0) {
                 this.setState({activeChildIndex: 0});
             } else if (this.state.activeChildIndex >= numChildren) {
                 this.setState({activeChildIndex: numChildren - 1});
             }
+        }
+    }
+
+    componentWillMount() { this.setState({children: this.getFilteredChildren()}); }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.children !== this.props.children) {
+            return this.setState({children: this.getFilteredChildren(nextProps)}, this.setActiveChildIndex);
+        }
+
+        this.setActiveChildIndex();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.activeChildIndex !== prevState.activeChildIndex) {
+            this.setFocus(this.state.activeChildIndex);
         }
     }
 
@@ -102,7 +117,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     moveFocus(delta) {
-        const numChildren = this.props.children ? Children.count(this.props.children) : 0;
+        const numChildren = this.state.children ? Children.count(this.state.children) : 0;
         let nextIndex = this.state.activeChildIndex + delta;
 
         if (nextIndex >= numChildren) {
@@ -161,7 +176,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     handleFocus = (event) => {
         if (event.target.hasAttribute(DATA_ATTRIBUTE_INDEX)) {
             const index = parseInt(event.target.getAttribute(DATA_ATTRIBUTE_INDEX), 10);
-            const child = Children.toArray(this.props.children)[index];
+            const child = Children.toArray(this.state.children)[index];
 
             this.setState({activeChildIndex: index});
 
@@ -172,7 +187,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
     }
 
     renderChildren() {
-        return Children.map(this.props.children, (child, index) => {
+        return Children.map(this.state.children, (child, index) => {
             return React.cloneElement(child, {
                 [DATA_ATTRIBUTE_INDEX]: index,
                 [DATA_ATTRIBUTE_SKIP]: parseInt(child.props.tabIndex, 10) === -1 || undefined,

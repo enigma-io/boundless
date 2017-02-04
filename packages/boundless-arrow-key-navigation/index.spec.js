@@ -83,6 +83,22 @@ describe('ArrowKeyNavigation higher-order component', () => {
         expect(node.querySelector('[data-focus-index="1"][tabindex="0"]')).not.toBeNull();
     });
 
+    it('ignores invalid children', () => {
+        ReactDOM.unmountComponentAtNode(mountNode);
+        element = render(
+            <ArrowKeyNavigation>
+                <li>apple</li>
+                {null}
+            </ArrowKeyNavigation>
+        );
+
+        node = ReactDOM.findDOMNode(element);
+        node.children[0].focus();
+
+        Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+        expect(document.activeElement).toBe(node.children[0]);
+    });
+
     describe('setFocus(index)', () => {
         it('does nothing if given an invalid index', () => {
             expect(document.activeElement).toBe(document.body);
