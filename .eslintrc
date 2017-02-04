@@ -124,7 +124,7 @@
         "react/no-did-update-set-state": 2,
         "react/no-multi-comp": 0,
         "react/no-unknown-property": 2,
-        "react/prop-types": 1,
+        "react/prop-types": 0,
         "react/self-closing-comp": 2,
         "semi": [2, "always"],
         "semi-spacing": [2, {"before": false, "after": true}],
