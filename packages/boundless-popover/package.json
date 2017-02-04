@@ -1,6 +1,6 @@
 {
   "name": "boundless-popover",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "A non-blocking container positioned to a specific anchor element.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-dialog": "^1.0.0-beta.6",
-    "boundless-portal": "^1.0.0-beta.6",
-    "boundless-utils-omit-keys": "^1.0.0-beta.6",
-    "boundless-utils-transform-property": "^1.0.0-beta.6",
+    "boundless-dialog": "^1.0.0-beta.7",
+    "boundless-portal": "^1.0.0-beta.7",
+    "boundless-utils-omit-keys": "^1.0.0-beta.7",
+    "boundless-utils-transform-property": "^1.0.0-beta.7",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

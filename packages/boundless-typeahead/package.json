@@ -1,6 +1,6 @@
 {
   "name": "boundless-typeahead",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Intelligently recommend entities via customizable, fuzzy recognition.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/enigma-io/boundless#readme",
   "dependencies": {
-    "boundless-input": "^1.0.0-beta.6",
-    "boundless-utils-object-intersection": "^1.0.0-beta.6",
-    "boundless-utils-omit-keys": "^1.0.0-beta.6",
-    "boundless-utils-uuid": "^1.0.0-beta.5",
+    "boundless-input": "^1.0.0-beta.7",
+    "boundless-utils-object-intersection": "^1.0.0-beta.7",
+    "boundless-utils-omit-keys": "^1.0.0-beta.7",
+    "boundless-utils-uuid": "^1.0.0-beta.7",
     "classnames": "^2.1.5",
     "escape-string-regexp": "^1.0.3"
   },
