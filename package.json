@@ -96,6 +96,6 @@
     "prerelease": "npm i && npm run bootstrap && rm -f docs/assets/*.js && rm -f docs/assets/*.css",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site",
     "prepublish": "lerna exec --ignore boundless-utils* -- ln -fs ../../variables.styl variables.styl",
-    "publish": "lerna publish --skip-git --repo-version $(node -e \"console.log(require('./package.json').version)\")"
+    "postpublish": "lerna publish --skip-git --repo-version $(node -e \"console.log(require('./package.json').version)\")"
   }
 }

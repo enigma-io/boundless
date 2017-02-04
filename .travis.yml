@@ -11,6 +11,5 @@ cache:
 script:
   - "npm i"
   - "npm run bootstrap"
-  - "npm run lint"
   - "npm run coverage -- --silent"
   - "node_modules/.bin/codecov"
