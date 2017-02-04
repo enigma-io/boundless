@@ -38,9 +38,6 @@ releaseConf.output.filename = 'assets/[name].[chunkhash].js';
 releaseConf.plugins.push(
     new webpack.DefinePlugin({
         'module.hot': false,
-        'process.env': {
-            'NODE_ENV': JSON.stringify('production'),
-        },
     }),
 
     new webpack.optimize.CommonsChunkPlugin({

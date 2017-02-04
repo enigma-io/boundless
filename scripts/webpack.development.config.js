@@ -32,12 +32,6 @@ devConf.plugins.push(
         title: 'boundless',
     }),
 
-    new webpack.DefinePlugin({
-        'process.env': {
-            'NODE_ENV': JSON.stringify('development'),
-        },
-    }),
-
     new webpack.NamedModulesPlugin()
 );
 
