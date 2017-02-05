@@ -39,6 +39,11 @@ const releaseConf = _.cloneDeep(conf);
 
 releaseConf.devtool = 'none';
 
+releaseConf.externals = {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+};
+
 releaseConf.module.rules.push({
     test: /boundless\.styl$/,
     use: boundlessExtractor.extract(loaderPattern),

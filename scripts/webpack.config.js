@@ -18,10 +18,6 @@ module.exports = {
             use: 'raw-loader',
         }],
     },
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-    },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
