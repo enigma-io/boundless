@@ -12,7 +12,7 @@ export default class InputDemo extends React.PureComponent {
         return (
             <div className='spread'>
                 <div>
-                    <h5><code>hidePlaceholderOnFocus=&#123;false&#125;</code></h5>
+                    <h5>hidePlaceholderOnFocus="false"</h5>
                     <Input
                         hidePlaceholderOnFocus={false}
                         inputProps={{
@@ -21,7 +21,7 @@ export default class InputDemo extends React.PureComponent {
                 </div>
 
                 <div style={{marginLeft: '1em'}}>
-                    <h5><code>hidePlaceholderOnFocus=&#123;true&#125;</code></h5>
+                    <h5>hidePlaceholderOnFocus="true"</h5>
                     <Input
                         hidePlaceholderOnFocus={true}
                         inputProps={{

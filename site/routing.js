@@ -445,8 +445,10 @@ class Container extends React.PureComponent {
                             </a>
                         </header>
                         <nav>
-                            <Link activeClassName='active' to='/quickstart'>Get Started</Link>
-                            <Link activeClassName='active' to='/kitchensink'>Kitchen Sink</Link>
+                            <section>
+                                <Link activeClassName='active' to='/quickstart'>Get Started</Link>
+                                <Link activeClassName='active' to='/kitchensink'>Kitchen Sink</Link>
+                            </section>
 
                             <h4>Components</h4>
                             <section>
@@ -460,7 +462,7 @@ class Container extends React.PureComponent {
                                 ))}
                             </section>
 
-                            <h4>Utils</h4>
+                            <h4>Utilities</h4>
                             <section>
                                 {utilities.map((component) => (
                                     <Link

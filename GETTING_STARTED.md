@@ -53,7 +53,7 @@ Here's an example of using the Boundless "Button" component. First, import [Butt
 import {Button} from 'boundless';
 ```
 
-Based on the [Button props](/Button#props), we know we can give it children of our choice and hook into the "pressed" event by supplied an `onPressed` callback. Here's a minimal functional example:
+Based on the [Button props](/Button#props), we know we can give it children of our choice and hook into the "pressed" event by supplying an `onPressed` callback. Here's a minimal functional example:
 
 ```jsx
 import React from 'react';

@@ -112,7 +112,7 @@ main {
         a {
             color: inherit;
             display: block;
-            margin: 6px 0;
+            margin: 0 0 6px;
             padding-left: 10px;
             text-decoration: none;
 
@@ -409,6 +409,10 @@ th, td {
     }
 }
 
+.splash + main aside .brand {
+    display: none;
+}
+
 .demo-section-wrapper {
     background: #3f454e;
     border-top: 3px solid color-accent;
@@ -674,6 +678,10 @@ article {
     }
 
     nav {
+        h4 {
+            padding-top: 6px;
+        }
+
         section {
             column-count: 3;
         }
