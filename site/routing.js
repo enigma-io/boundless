@@ -354,7 +354,8 @@ class Container extends React.PureComponent {
                     key='source'
                     className='demo-component-link'
                     href={`${repositoryURL}/blob/master/packages/${route.path}/index.js`}
-                    target='_blank'>
+                    target='_blank'
+                    rel='noopener'>
                     Component Source
                 </a>
             ), (
@@ -362,7 +363,8 @@ class Container extends React.PureComponent {
                     key='demo-source'
                     className='demo-implementation-link'
                     href={`${repositoryURL}/blob/master/packages/${route.path}/demo/index.js`}
-                    target='_blank'>
+                    target='_blank'
+                    rel='noopener'>
                     Demo Source
                 </a>
             )];
@@ -433,7 +435,14 @@ class Container extends React.PureComponent {
                     <aside className='boundless-nav'>
                         <header>
                             <Link className='brand' to='/'>boundless</Link>
-                            <a className='release-link' href={`${repositoryURL}/releases`} title='View all Boundless releases' target='_blank'>v{VERSION}</a>
+                            <a
+                                className='release-link'
+                                href={`${repositoryURL}/releases`}
+                                title='View all Boundless releases'
+                                target='_blank'
+                                rel='noopener'>
+                                v{VERSION}
+                            </a>
                         </header>
                         <nav>
                             <Link activeClassName='active' to='/quickstart'>Get Started</Link>
@@ -473,7 +482,13 @@ class Container extends React.PureComponent {
                         <strong>boundless</strong>&nbsp;is developed in partnership with&nbsp;<a href='http://enigma.io'>enigma</a>
                     </div>
 
-                    <a className='b-button' href='http://enigma.io/careers/' target='_blank'>See job openings</a>
+                    <a
+                        className='b-button'
+                        href='http://enigma.io/careers/'
+                        target='_blank'
+                        rel='noopener'>
+                        See job openings
+                    </a>
                 </footer>
             </div>
         );
