@@ -13,6 +13,8 @@ npm i boundless --save
 npm i boundless-button --save
 ```
 
+Boundless currently supports IE10+ (needs a [Promise polyfill](https://cdnjs.com/libraries/es6-promise)) and all other modern browsers.
+
 ## Philosophy
 
 Boundless is a UI toolkit that was conceived to abstract away difficult interface patterns. It follows three main guidelines:
