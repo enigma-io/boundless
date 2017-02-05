@@ -4,18 +4,22 @@ const _ = require('lodash');
 const webpack = require('webpack');
 const git = require('git-rev-sync');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HTMLEntryPlugin = require('html-webpack-plugin');
+const HTMLPlugin = require('html-webpack-plugin');
+const HTMLInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin');
-
-const conf = require('./webpack.config.js');
-const releaseConf = _.cloneDeep(conf);
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 const base = __dirname + '/../packages/';
-const paths = fs.readdirSync(path.resolve(base)).filter((name) => {
+
+// TODO: figure out a way to automate this somehow; might not be possible
+// since most of the routes are generated dynamically
+
+const packageNames = fs.readdirSync(path.resolve(base)).filter((name) => {
     return !require(path.resolve(base, name, 'package.json')).private;
-}).map((rawName) => {
+});
+
+const sitePaths = packageNames.map((rawName) => {
     if (rawName.indexOf('utils-') === -1) {
         return `/${_.pascalCase(rawName.replace('boundless-', ''))}`;
     }
@@ -23,17 +27,30 @@ const paths = fs.readdirSync(path.resolve(base)).filter((name) => {
     return `/${_.camelCase(rawName.replace('boundless-utils-', ''))}`;
 });
 
-paths.push('/quickstart');
+sitePaths.push('/quickstart', '/kitchensink');
+
+const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.css');
+const starsExtractor = new ExtractTextPlugin('assets/stars.css');
+const styleExtractor = new ExtractTextPlugin('assets/style.css');
+const loaderPattern = 'css-loader?url=false!stylus-loader?compress';
+
+const conf = require('./webpack.config.js');
+const releaseConf = _.cloneDeep(conf);
 
 releaseConf.devtool = 'none';
 
-releaseConf.module.rules[2] = _.assign({}, releaseConf.module.rules[2], {
-    loader: ExtractTextPlugin.extract({
-        loader: 'css-loader?url=false!stylus-loader?compress',
-    }),
+releaseConf.module.rules.push({
+    test: /boundless\.styl$/,
+    use: boundlessExtractor.extract(loaderPattern),
+}, {
+    test: /stars\.styl$/,
+    use: starsExtractor.extract(loaderPattern),
+}, {
+    test: /style\.styl$/,
+    use: styleExtractor.extract(loaderPattern),
 });
 
-releaseConf.output.filename = 'assets/[name].[chunkhash].js';
+releaseConf.output.filename = 'assets/[name].js';
 
 releaseConf.plugins.push(
     new webpack.DefinePlugin({
@@ -44,9 +61,11 @@ releaseConf.plugins.push(
         name: 'manifest',
     }),
 
-    new ExtractTextPlugin('assets/[name].[contenthash].css'),
+    boundlessExtractor,
+    starsExtractor,
+    styleExtractor,
 
-    new HTMLEntryPlugin({
+    new HTMLPlugin({
         cache: true,
         customization: {
             githubSHA: git.long(),
@@ -54,7 +73,9 @@ releaseConf.plugins.push(
         },
         favicon: path.resolve(__dirname, '../docs/sparkles.png'),
         filename: 'index.html',
+        hash: true,
         inject: 'body',
+        inlineSource: 'style\.css',
         minify: {
             collapseWhitespace: true,
         },
@@ -62,7 +83,9 @@ releaseConf.plugins.push(
         title: 'boundless',
     }),
 
-    new SitemapPlugin('http://boundless.js.org', paths, {
+    new HTMLInlineSourcePlugin(),
+
+    new SitemapPlugin('http://boundless.js.org', sitePaths, {
         lastMod: true,
         skipGzip: true,
     }),

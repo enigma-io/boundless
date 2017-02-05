@@ -3,7 +3,7 @@ const conf = require('./webpack.config.js');
 const _ = require('lodash');
 const webpack = require('webpack');
 const git = require('git-rev-sync');
-const HTMLEntryPlugin = require('html-webpack-plugin');
+const HTMLPlugin = require('html-webpack-plugin');
 
 const devConf = _.cloneDeep(conf);
 
@@ -16,8 +16,13 @@ devConf.devServer = {
 
 devConf.devtool = 'inline-source-map';
 
+devConf.module.rules.push({
+    test: /\.styl$/,
+    loader: 'style-loader!css-loader?url=false!stylus-loader?sourceMap',
+});
+
 devConf.plugins.push(
-    new HTMLEntryPlugin({
+    new HTMLPlugin({
         cache: true,
         customization: {
             githubSHA: git.long(),

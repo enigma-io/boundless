@@ -12,13 +12,10 @@ module.exports = {
     module: {
         rules: [{
             test: /\.jsx?$/,
-            loader: 'babel-loader',
+            use: 'babel-loader',
         }, {
             test: /\.md$/,
-            loader: 'raw-loader',
-        }, {
-            test: /\.styl$/,
-            loader: 'style-loader!css-loader?url=false!stylus-loader?sourceMap',
+            use: 'raw-loader',
         }],
     },
     externals: {

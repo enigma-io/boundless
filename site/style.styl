@@ -1,129 +1,42 @@
-body-backgroundColor = #272b33
-color-accent = #3d8feb
-body-color = #c5cfdb
-color-neutral-dark = #979fa8
+// site-specific styles (not package-related ones)
 
-Button-backgroundColor = #535a66
-Button-backgroundColor-active = #282d33
-Button-backgroundColor-disabled = #282d33
-Button-backgroundColor-focus = #666d7a
-Button-backgroundColor-hover = #666d7a
-Button-borderColor = transparent
-Button-borderColor-active = transparent
-Button-borderColor-disabled = transparent
-Button-borderColor-focus = transparent
-Button-borderColor-hover = transparent
-Button-color = #FFF
-Button-color-active = #FFF
-Button-color-disabled = #FFF
-Button-color-focus = #FFF
-Button-color-hover = #FFF
-
-Checkbox-backgroundColor = #FFF
-Checkbox-backgroundColor-focus = darken(color-accent, 20%)
-Checkbox-backgroundColor-hover = darken(color-accent, 20%)
-Checkbox-borderColor = #000
-Checkbox-borderColor-focus = #000
-Checkbox-borderColor-hover = #000
-Checkbox-checked-backgroundColor = color-accent
-Checkbox-checked-backgroundColor-focus = darken(color-accent, 20%)
-Checkbox-checked-backgroundColor-hover = darken(color-accent, 20%)
-Checkbox-checked-borderColor = Checkbox-borderColor
-Checkbox-checked-borderColor-focus = Checkbox-borderColor
-Checkbox-checked-borderColor-hover = Checkbox-borderColor
-Checkbox-checked-color = #000
-Checkbox-indeterminate-backgroundColor = color-accent
-Checkbox-indeterminate-backgroundColor-focus = darken(color-accent, 20%)
-Checkbox-indeterminate-backgroundColor-hover = darken(color-accent, 20%)
-Checkbox-indeterminate-borderColor = Checkbox-borderColor
-Checkbox-indeterminate-borderColor-focus = Checkbox-borderColor
-Checkbox-indeterminate-borderColor-hover = Checkbox-borderColor
-Checkbox-indeterminate-color = #000
-
-Dialog-backgroundColor = #FFF
-Dialog-borderColor = transparent
-Dialog-boxShadowColor = transparent
-Dialog-color = #111
-
-Input-borderColor = transparent
-
-Modal-boxShadowColor = transparent
-
-Pagination-control-backgroundColor = transparent
-Pagination-control-backgroundColor-disabled = transparent
-Pagination-control-backgroundColor-focus = transparent
-Pagination-control-backgroundColor-hover = transparent
-Pagination-control-color = color-neutral-dark
-Pagination-control-color-disabled = Pagination-control-color
-Pagination-control-color-focus = mix(color-neutral-dark, #FFF)
-Pagination-control-color-hover = mix(color-neutral-dark, #FFF)
-Pagination-selectedControl-backgroundColor = transparent
-Pagination-selectedControl-backgroundColor-disabled = transparent
-Pagination-selectedControl-backgroundColor-focus = transparent
-Pagination-selectedControl-backgroundColor-hover = transparent
-Pagination-selectedControl-color = #FFF
-Pagination-selectedControl-color-disabled = #FFF
-Pagination-selectedControl-color-focus = #FFF
-Pagination-selectedControl-color-hover = #FFF
-
-Popover-backgroundColor = body-backgroundColor
-Popover-borderColor = #000
-Popover-color = body-color
-Popover-caret-backgroundColor = color-accent
-Popover-caret-borderColor = color-accent
-
-Radio-backgroundColor = transparent
-Radio-backgroundColor-active = color-accent
-Radio-backgroundColor-focus = transparent
-Radio-backgroundColor-hover = transparent
-Radio-borderColor = body-color
-Radio-borderColor-active = Radio-backgroundColor-active
-Radio-borderColor-focus = #FFF
-Radio-borderColor-hover = #FFF
-
-TokenizedInput-token-borderColor = lighten(body-backgroundColor, 20%)
-
-Typeahead-matchWrapper-borderColor = #000
-
-@require "../style"
-@require "../packages/*/demo/style"
-@require "stars"
-@require "syntax_highlighter"
+@require "variables"
+@require "code"
 
 @font-face {
     font-family: 'Lab Grotesque';
     font-weight: 700;
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Bold.woff2) format('woff2');
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Bold.woff) format('woff');
+    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Bold.woff2) format('woff2'),
+         url(/assets/fonts/lab-grotesque/LabGrotesque-Bold.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Lab Grotesque';
     font-weight: 500;
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Medium.woff2) format('woff2');
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Medium.woff) format('woff');
+    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Medium.woff2) format('woff2'),
+         url(/assets/fonts/lab-grotesque/LabGrotesque-Medium.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Lab Grotesque';
     font-weight: 400;
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Regular.woff2) format('woff2');
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Regular.woff) format('woff');
+    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Regular.woff2) format('woff2'),
+         url(/assets/fonts/lab-grotesque/LabGrotesque-Regular.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Lab Grotesque';
     font-style: italic;
     font-weight: 400;
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Italic.woff2) format('woff2');
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Italic.woff) format('woff');
+    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Italic.woff2) format('woff2'),
+         url(/assets/fonts/lab-grotesque/LabGrotesque-Italic.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Lab Grotesque';
     font-weight: 300;
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Light.woff2) format('woff2');
-    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Light.woff) format('woff');
+    src: url(/assets/fonts/lab-grotesque/LabGrotesque-Light.woff2) format('woff2'),
+         url(/assets/fonts/lab-grotesque/LabGrotesque-Light.woff) format('woff');
 }
 
 *,

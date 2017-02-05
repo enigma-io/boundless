@@ -513,9 +513,40 @@ const KitchenSink = () => (
     </div>
 );
 
+const setTabTitle = (routing) => {
+    const currentRoute = _.last(routing.routes);
+    let title;
+
+    switch (currentRoute.path) {
+    case '/':
+        title = 'boundless';
+        break;
+
+    case 'quickstart':
+        title = 'boundless / Get Started';
+        break;
+
+    case 'kitchensink':
+        title = 'boundless / Kitchen Sink';
+        break;
+
+    default:
+        title = `boundless / ${currentRoute.path}`;
+    }
+
+    document.title = title;
+};
+
+const updateTabTitle = (x, routing) => setTabTitle(routing);
+
 export default (
     <Router history={browserHistory}>
-        <Route path='/' component={Container} markdown={README.replace(/^#\s+.*?\n/, '')}>
+        <Route
+            path='/'
+            component={Container}
+            onEnter={setTabTitle}
+            onChange={updateTabTitle}
+            markdown={README.replace(/^#\s+.*?\n/, '')}>
             <Route path='quickstart' markdown={GettingStarted} />
             <Route path='kitchensink' component={KitchenSink} />
 
