@@ -24,7 +24,7 @@ const EnhancedLink = ({children, href, ...props}) => {
     }
 
     return (
-        <a {...props} href={href} target='_blank'>{children}</a>
+        <a {...props} href={href} target='_blank' rel='noopener'>{children}</a>
     );
 };
 
