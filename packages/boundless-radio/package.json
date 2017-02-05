@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "https://github.com/enigma-io/boundless#readme",
+  "homepage": "http://boundless.js.org/Radio",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.0-beta.7",
     "boundless-utils-uuid": "^1.0.0-beta.7",

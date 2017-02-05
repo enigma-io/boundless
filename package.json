@@ -15,6 +15,10 @@
     "toolkit",
     "ui"
   ],
+  "homepage": "http://boundless.js.org",
+  "bugs": {
+    "url": "https://github.com/enigma-io/boundless/issues"
+  },
   "main": "public/boundless.js",
   "devDependencies": {
     "autoprefixer-stylus": "^0.13.0",
