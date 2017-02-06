@@ -7,6 +7,12 @@ function getPackageIndexURI(name) {
     return `https://api.github.com/repos/enigma-io/boundless/contents/packages/${name}/demo/index.js`;
 }
 
+function b64DecodeUnicode(str) {
+    return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
 const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
     <div className='demo-section-wrapper'>
         <LinkedHeaderText component='h3'>
@@ -34,7 +40,7 @@ const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
                         return (
                             <pre className='demo-implementation'>
                                 <code className='language-jsx'>
-                                    {atob(payload.content)}
+                                    {b64DecodeUnicode(payload.content)}
                                 </code>
                             </pre>
                         );
