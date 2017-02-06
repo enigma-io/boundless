@@ -13,11 +13,7 @@ script:
   - node_modules/.bin/codecov
 after_success:
   - if [ $TRAVIS_BRANCH = 'master' ]; then
-      eval "$(ssh-agent -s)";
-      chmod 600 .travis/deploy_key.pem;
-      ssh-add .travis/deploy_key.pem;
-      git clone git@github.com:enigma-io/boundless.git boundless;
-      cd boundless;
+      git checkout master;
       npm run release;
       git config user.email "travis@travis-ci.com";
       git config user.name "Travis";
