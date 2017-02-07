@@ -37,6 +37,7 @@ for materializing the fulfilled payload into JSX.
           </ul>
       );
   });
+  ```
   
   <Async>{listDataPromise}</Async>
   
