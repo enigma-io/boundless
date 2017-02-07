@@ -353,7 +353,7 @@ class Container extends React.PureComponent {
                 <a
                     key='source'
                     className='demo-component-link'
-                    href={`${repositoryURL}/blob/master/packages/${route.path}/index.js`}
+                    href={`${repositoryURL}/blob/master/packages/${route.name}/index.js`}
                     target='_blank'
                     rel='noopener'>
                     Component Source
@@ -362,7 +362,7 @@ class Container extends React.PureComponent {
                 <a
                     key='demo-source'
                     className='demo-implementation-link'
-                    href={`${repositoryURL}/blob/master/packages/${route.path}/demo/index.js`}
+                    href={`${repositoryURL}/blob/master/packages/${route.name}/demo/index.js`}
                     target='_blank'
                     rel='noopener'>
                     Demo Source
