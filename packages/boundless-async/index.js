@@ -41,6 +41,7 @@ export default class Async extends React.PureComponent {
          *         </ul>
          *     );
          * });
+         * ```
          *
          * <Async>{listDataPromise}</Async>
          *
