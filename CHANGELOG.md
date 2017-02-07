@@ -1,5 +1,27 @@
 # Changelog
 
+### 1.0.1 (2017-02-06)
+
+1.0.0 was pushed and immmediately replaced due to a publishing issue.
+
+d2437cb Fix source badges
+f35753c Simplify the Travis push mechanism
+9cca85e Have Travis commit built files back to the repo
+3042d26 Fix UTF8 decode for demo content
+a145bea Add website and bug link to package.jsons [skip ci]
+c34f864 Adjust the syntax highlighting style, reduce demo filesize
+10f44df Fix some mobile site styles
+6e241ec Only use external React in the site during production mode
+613e891 Use minified React & React DOM on the site
+d8eae3c Adjust how the site is created
+d9b92b0 Few more external links that need rel='noopener'
+48f7f33 Add note on browser compatibility
+18f390a Add meta description, fix a few lighthouse-identified issues
+7d31ba5 Fix coverage generation on CI
+4517340 Adjust how the test reporter is called
+690b163 [bugfix] ArrowKeyNavigation ignore invalid children
+c503614 Ignore propType warnings
+
 ### 1.0.0-beta.7 (2017-02-03)
 
 7be9e24 Fix site

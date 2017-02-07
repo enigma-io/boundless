@@ -1,6 +1,6 @@
 {
   "name": "boundless-button",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.1",
   "description": "A control with \"pressed\" state support.",
   "main": "build/index.js",
   "module": "index.js",
@@ -27,7 +27,7 @@
   "homepage": "http://boundless.js.org/Button",
   "dependencies": {
     "classnames": "^2.1.5",
-    "boundless-utils-omit-keys": "^1.0.0-beta.7"
+    "boundless-utils-omit-keys": "^1.0.1"
   },
   "peerDependencies": {
     "react": ">= 15.3",
