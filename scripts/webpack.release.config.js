@@ -29,9 +29,9 @@ const sitePaths = packageNames.map((rawName) => {
 
 sitePaths.push('/quickstart', '/kitchensink');
 
-const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.css');
-const starsExtractor = new ExtractTextPlugin('assets/stars.css');
-const styleExtractor = new ExtractTextPlugin('assets/style.css');
+const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.[contenthash].css');
+const starsExtractor = new ExtractTextPlugin('assets/stars.[contenthash].css');
+const styleExtractor = new ExtractTextPlugin('assets/style.[contenthash].css');
 const loaderPattern = 'css-loader?url=false!stylus-loader?compress';
 
 const conf = require('./webpack.config.js');
@@ -55,7 +55,7 @@ releaseConf.module.rules.push({
     use: styleExtractor.extract(loaderPattern),
 });
 
-releaseConf.output.filename = 'assets/[name].js';
+releaseConf.output.filename = 'assets/[name].[chunkhash].js';
 
 releaseConf.plugins.push(
     new webpack.DefinePlugin({
@@ -78,9 +78,8 @@ releaseConf.plugins.push(
         },
         favicon: path.resolve(__dirname, '../docs/sparkles.png'),
         filename: 'index.html',
-        hash: true,
         inject: 'body',
-        inlineSource: 'style\.css',
+        inlineSource: 'style\.*?\.css',
         minify: {
             collapseWhitespace: true,
         },
