@@ -15,7 +15,7 @@ module.exports = {
             use: 'babel-loader',
         }, {
             test: /\.md$/,
-            use: 'raw-loader',
+            use: path.resolve(__dirname, './md-strip-top-loader.js'),
         }],
     },
     plugins: [

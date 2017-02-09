@@ -10,8 +10,11 @@ import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
 import pascalCase from './pascal-case';
 
-import README from '../README.md';
+import repositoryREADME from '../README.md';
 import GettingStarted from '../GETTING_STARTED.md';
+
+// remove everything up to the first H2
+const README = repositoryREADME.replace(/(\n?.*){3}/, '');
 
 const demoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
 const demoReqKeys = demoReq.keys();
@@ -548,7 +551,7 @@ export default (
             component={Container}
             onEnter={setTabTitle}
             onChange={updateTabTitle}
-            markdown={README.replace(/^#\s+.*?\n/, '')}>
+            markdown={README}>
             <Route path='quickstart' markdown={GettingStarted} />
             <Route path='kitchensink' component={KitchenSink} />
 
