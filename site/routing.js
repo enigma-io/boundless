@@ -13,9 +13,6 @@ import pascalCase from './pascal-case';
 import repositoryREADME from '../README.md';
 import GettingStarted from '../GETTING_STARTED.md';
 
-// remove everything up to the first H2
-const README = repositoryREADME.replace(/(\n?.*){3}/, '');
-
 const demoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
 const demoReqKeys = demoReq.keys();
 
@@ -544,14 +541,14 @@ const setTabTitle = (routing) => {
 
 const updateTabTitle = (x, routing) => setTabTitle(routing);
 
-export default (
+export default () => (
     <Router history={browserHistory}>
         <Route
             path='/'
             component={Container}
             onEnter={setTabTitle}
             onChange={updateTabTitle}
-            markdown={README}>
+            markdown={repositoryREADME}>
             <Route path='quickstart' markdown={GettingStarted} />
             <Route path='kitchensink' component={KitchenSink} />
 

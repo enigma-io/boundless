@@ -1,6 +1,7 @@
 module.exports = (content) => {
     if (typeof content !== 'string') { return content; }
 
+    // eslint-disable-next-line no-unused-expressions
     this.cacheable && this.cacheable();
 
     let editedContent = content;
