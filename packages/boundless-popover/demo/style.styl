@@ -4,7 +4,7 @@
     .b-dialog {
         outline: 0;
     }
-    
+
     .b-dialog-body {
         padding: 0;
     }
@@ -27,5 +27,11 @@
     // right of the anchor
     &.b-popover-anchor-x-end.b-popover-self-x-start .b-dialog {
         border-left: 3px solid color-accent;
+    }
+}
+
+@media (max-width: 600px) {
+    .demo-popover {
+        max-width: 75vw;
     }
 }

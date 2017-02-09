@@ -91,7 +91,7 @@
     "lint": "eslint --quiet .",
     "test": "jest",
     "coverage": "jest --coverage",
-    "prestart": "npm i && npm run bootstrap",
+    "prestart": "npm run bootstrap",
     "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.development.config.js --open --hot",
     "prerelease": "npm run bootstrap",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site",
