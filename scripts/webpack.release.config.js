@@ -21,13 +21,13 @@ const packageNames = fs.readdirSync(path.resolve(base)).filter((name) => {
 
 const sitePaths = packageNames.map((rawName) => {
     if (rawName.indexOf('utils-') === -1) {
-        return `/${_.pascalCase(rawName.replace('boundless-', ''))}`;
+        return `/#/${_.pascalCase(rawName.replace('boundless-', ''))}`;
     }
 
-    return `/${_.camelCase(rawName.replace('boundless-utils-', ''))}`;
+    return `/#/${_.camelCase(rawName.replace('boundless-utils-', ''))}`;
 });
 
-sitePaths.push('/quickstart', '/kitchensink');
+sitePaths.push('/#/quickstart', '/#/kitchensink');
 
 const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.[contenthash].css');
 const starsExtractor = new ExtractTextPlugin('assets/stars.[contenthash].css');

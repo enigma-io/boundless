@@ -89,7 +89,7 @@ export default class Typeahead extends React.PureComponent {
     }
 
     static propTypes = {
-        /** Typeahead accepts all supported [Input props](/Input#props) */
+        /** Typeahead accepts all supported [Input props](https://github.com/enigma-io/boundless/tree/master/packages/boundless-input) */
         ...Input.propTypes,
 
         /**

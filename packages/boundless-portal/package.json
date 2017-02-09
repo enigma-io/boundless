@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Portal",
+  "homepage": "http://boundless.js.org/#/Portal",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.1",
     "boundless-utils-uuid": "^1.0.1"

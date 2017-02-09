@@ -410,8 +410,14 @@ th, td {
 }
 
 .splash + main {
-    h2:first-child {
-        margin-top: 0;
+    article {
+        h1 {
+            display: none;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
     }
 
     aside .brand {

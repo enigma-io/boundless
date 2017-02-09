@@ -32,7 +32,7 @@ export default class CheckboxGroup extends React.PureComponent {
         component: PropTypes.string,
 
         /**
-         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)
+         * the data wished to be rendered, each item must conform to the [Checkbox prop spec](https://github.com/enigma-io/boundless/blob/master/packages/boundless-checkbox)
          */
         items: PropTypes.arrayOf(Checkbox.propTypes.inputProps).isRequired,
 
@@ -66,7 +66,7 @@ export default class CheckboxGroup extends React.PureComponent {
         ]),
 
         /**
-         * must conform to the [Checkbox prop spec](./Checkbox#props)
+         * must conform to the [Checkbox prop spec](./Checkbox)
          */
         selectAllProps: PropTypes.shape({
             /**

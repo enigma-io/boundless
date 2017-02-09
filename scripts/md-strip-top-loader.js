@@ -7,7 +7,7 @@ module.exports = (content) => {
     let editedContent = content;
 
     // remove H1s
-    editedContent = editedContent.replace(/^#\s.*?\n$/gm, '');
+    editedContent = editedContent.replace(/^#\s.*?\n?$/gm, '');
 
     // remove badges
     editedContent = editedContent.replace(/\[\!\[.*?\].*?\]\(.*?\)\s?/g, '');

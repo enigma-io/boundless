@@ -121,11 +121,11 @@ export default class CheckboxGroupDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/CheckboxGroup#props).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/CheckboxGroup).
 
 ### Required Props
 
-- __`items`__ ・ the data wished to be rendered, each item must conform to the [Checkbox prop spec](./Checkbox#props)
+- __`items`__ ・ the data wished to be rendered, each item must conform to the [Checkbox prop spec](https://github.com/enigma-io/boundless/blob/master/packages/boundless-checkbox)
 
   Expects | Default Value
   -       | -
@@ -176,7 +176,7 @@ export default class CheckboxGroupDemo extends React.PureComponent {
   -       | -
   `CheckboxGroup.selectAll.BEFORE or CheckboxGroup.selectAll.AFTER or CheckboxGroup.selectAll.NONE` | `CheckboxGroup.selectAll.BEFORE`
 
-- __`selectAllProps`__ ・ must conform to the [Checkbox prop spec](./Checkbox#props)
+- __`selectAllProps`__ ・ must conform to the [Checkbox prop spec](./Checkbox)
 
   Expects | Default Value
   -       | -

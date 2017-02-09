@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/CheckboxGroup",
+  "homepage": "http://boundless.js.org/#/CheckboxGroup",
   "dependencies": {
     "boundless-checkbox": "^1.0.1",
     "boundless-utils-omit-keys": "^1.0.1",

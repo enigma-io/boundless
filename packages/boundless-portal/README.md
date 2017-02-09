@@ -10,7 +10,7 @@ __A higher-order component for the rendering of components outside the normal Re
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Portal#props).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Portal).
 
 ### Required Props
 

@@ -86,7 +86,7 @@ export default class SegmentedControlDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/SegmentedControl#props).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/SegmentedControl).
 
 ### Required Props
 

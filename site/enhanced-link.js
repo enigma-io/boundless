@@ -8,12 +8,13 @@ import pascalCase from './pascal-case';
  * react-router <Link /> tags.
  */
 const EnhancedLink = ({children, href, ...props}) => {
-    if (href.indexOf('boundless-') !== -1) {
+    if (href.indexOf('packages/boundless-') !== -1) {
         const frags = href.split('/');
-        const component = pascalCase(frags[frags.length - 2].replace('boundless-', ''));
+        const component = frags[frags.length - 1].replace('boundless-', '');
+        const [path, hash] = component.split('#');
 
         return (
-            <Link to={`/${component}`}>{children}</Link>
+            <Link to={{pathname: pascalCase(path), hash: hash ? `#${hash}` : null}}>{children}</Link>
         );
     } else if (href.indexOf('http') === -1) {
         const [path, hash] = href.split('#');

@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 
 import * as Boundless from '../exports';
-import LinkedHeaderText from './linked-header-text';
 
 function getPackageIndexURI(name) {
     return `https://api.github.com/repos/enigma-io/boundless/contents/packages/${name}/demo/index.js`;
@@ -15,9 +14,9 @@ function b64DecodeUnicode(str) {
 
 const ComponentDemo = ({demo, name, prettyName = 'Demo'}) => (
     <div className='demo-section-wrapper'>
-        <LinkedHeaderText component='h3'>
+        <h3>
             {prettyName}
-        </LinkedHeaderText>
+        </h3>
 
         <div className='demo-section-example'>
             {React.createElement(demo)}

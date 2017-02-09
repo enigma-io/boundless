@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Input",
+  "homepage": "http://boundless.js.org/#/Input",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.1",
     "classnames": "^2.1.5"

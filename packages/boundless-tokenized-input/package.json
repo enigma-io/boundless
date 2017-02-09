@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/TokenizedInput",
+  "homepage": "http://boundless.js.org/#/TokenizedInput",
   "dependencies": {
     "boundless-typeahead": "^1.0.1",
     "boundless-utils-object-intersection": "^1.0.1",

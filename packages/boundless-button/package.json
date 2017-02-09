@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Button",
+  "homepage": "http://boundless.js.org/#/Button",
   "dependencies": {
     "classnames": "^2.1.5",
     "boundless-utils-omit-keys": "^1.0.1"

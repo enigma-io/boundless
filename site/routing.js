@@ -1,12 +1,12 @@
 /* global VERSION */
 
 import React, {PropTypes} from 'react';
-import {browserHistory, Link, Redirect, Router, Route} from 'react-router';
+import {useRouterHistory, Link, Redirect, Router, Route} from 'react-router';
+import {createHashHistory} from 'history';
 import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
 import ComponentDemo from './component-demo';
-import LinkedHeaderText from './linked-header-text';
 import Markdown from './markdown';
 import pascalCase from './pascal-case';
 
@@ -301,16 +301,15 @@ class ComponentPage extends React.PureComponent {
 
         return (
             <div>
-                <LinkedHeaderText component='h1'>{prettyName}</LinkedHeaderText>
                 <Markdown>{descriptionParts[0]}</Markdown>
                 {this.maybeRenderDemo()}
                 <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
 
-                <LinkedHeaderText component='h2'>Props</LinkedHeaderText>
-                <LinkedHeaderText component='h3'>Required Props</LinkedHeaderText>
+                <h2>Props</h2>
+                <h3>Required Props</h3>
                 {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
 
-                <LinkedHeaderText component='h3'>Optional Props</LinkedHeaderText>
+                <h3>Optional Props</h3>
                 {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
             </div>
         );
@@ -335,8 +334,10 @@ class Container extends React.PureComponent {
 
     autoscroll(switchedPage) {
         window.setTimeout(() => {
-            if (window.location.hash.length > 1) {
-                const node = document.getElementById(window.location.hash.slice(1));
+            const hashIndex = window.location.href.lastIndexOf('#');
+
+            if (hashIndex !== -1) {
+                const node = document.getElementById(window.location.href.slice(hashIndex + 1));
 
                 if (node) {
                     node.scrollIntoView();
@@ -348,27 +349,35 @@ class Container extends React.PureComponent {
     }
 
     maybeRenderGithubLinks(route) {
-        if (route.demo) {
-            return [(
+        const links = [];
+
+        if (route.type === 'component' || route.type === 'utility') {
+            links.push(
                 <a
                     key='source'
                     className='demo-component-link'
                     href={`${repositoryURL}/blob/master/packages/${route.name}/index.js`}
                     target='_blank'
                     rel='noopener'>
-                    Component Source
+                    View Source
                 </a>
-            ), (
+            );
+        }
+
+        if (route.demo) {
+            links.push(
                 <a
                     key='demo-source'
                     className='demo-implementation-link'
                     href={`${repositoryURL}/blob/master/packages/${route.name}/demo/index.js`}
                     target='_blank'
                     rel='noopener'>
-                    Demo Source
+                    View Demo Source
                 </a>
-            )];
+            );
         }
+
+        return links;
     }
 
     renderSplash() {
@@ -386,6 +395,14 @@ class Container extends React.PureComponent {
 
     renderMainContent(route) {
         const sections = [];
+
+        if (route.title) {
+            sections.push(
+                <h1 key='title'>
+                    {route.title}
+                </h1>
+            );
+        }
 
         if (route.markdown) {
             sections.push(
@@ -464,12 +481,12 @@ class Container extends React.PureComponent {
 
                             <h4>Utilities</h4>
                             <section>
-                                {utilities.map((component) => (
+                                {utilities.map((utility) => (
                                     <Link
                                         activeClassName='active'
-                                        key={component.name}
-                                        to={component.path}>
-                                        {component.path}
+                                        key={utility.name}
+                                        to={utility.path}>
+                                        {utility.path}
                                     </Link>
                                 ))}
                             </section>
@@ -499,10 +516,6 @@ class Container extends React.PureComponent {
 
 const KitchenSink = () => (
     <div className='kitchensink'>
-        <LinkedHeaderText component='h1'>
-            Kitchen Sink
-        </LinkedHeaderText>
-
         <p>The demos of every component are shown here for convenience.</p>
 
         {components.filter((component) => !!component.demo).map((component) => (
@@ -515,55 +528,42 @@ const KitchenSink = () => (
     </div>
 );
 
-const setTabTitle = (routing) => {
-    const currentRoute = _.last(routing.routes);
-    let title;
-
-    switch (currentRoute.path) {
-    case '/':
-        title = 'boundless';
-        break;
-
-    case 'quickstart':
-        title = 'boundless / Get Started';
-        break;
-
-    case 'kitchensink':
-        title = 'boundless / Kitchen Sink';
-        break;
-
-    default:
-        title = `boundless / ${currentRoute.path}`;
-    }
-
-    document.title = title;
-};
-
+const setTabTitle = (routing) => (document.title = `boundless / ${_.last(routing.routes).title}`);
 const updateTabTitle = (x, routing) => setTabTitle(routing);
 
+const history = useRouterHistory(createHashHistory)({
+    basename: '/',
+    queryKey: false,
+});
+
 export default () => (
-    <Router history={browserHistory}>
+    <Router history={history}>
         <Route
             path='/'
             component={Container}
             onEnter={setTabTitle}
             onChange={updateTabTitle}
-            markdown={repositoryREADME}>
-            <Route path='quickstart' markdown={GettingStarted} />
-            <Route path='kitchensink' component={KitchenSink} />
+            markdown={repositoryREADME}
+            title='Introduction'>
+            <Route path='quickstart' markdown={GettingStarted} title='Getting Started' />
+            <Route path='kitchensink' component={KitchenSink} title='Kitchen Sink'  />
 
             {components.map((component) => (
                 <Route
                     {...component}
                     key={component.path}
-                    path={component.path} />
+                    path={component.path}
+                    title={component.path}
+                    type='component' />
             ))}
 
-            {utilities.map((definition) => (
+            {utilities.map((utility) => (
                 <Route
-                    {...definition}
-                    key={definition.path}
-                    path={definition.path} />
+                    {...utility}
+                    key={utility.path}
+                    path={utility.path}
+                    title={utility.path}
+                    type='utility' />
             ))}
 
             <Redirect from='*' to='/' />
