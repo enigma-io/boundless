@@ -1,6 +1,6 @@
 {
   "name": "boundless-utils-web-notification",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Trigger native toasts in supporting browsers.",
   "repository": {
     "type": "git",

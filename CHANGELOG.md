@@ -1,5 +1,24 @@
 # Changelog
 
+### 1.0.2 (2017-02-09)
+
+No outward facing code changes, mostly administrative stuff related to the website and needing to update the package.json "website" entries to match.
+
+3c77733 Switch site to hash-based routing
+0769b8b Encode hash directly into the generated filenames
+89d27d7 Rebuild site
+eceaadd Temporarily downgrade react-router to 2.x
+83a6338 Add missing devDep
+25c0d90 Fix hotloading & upgrade react-router
+af92b22 Don't show the badges on the site homepage
+9bb021e Remove a redirect chain on the Travis CI badge
+0fb6c03 remove unnecessary defer tag on the GA script
+6bc2f1c Use the prod version of polyfill.io
+0faed04 Fix a Safari styling issue with the Popover demo
+c10e92d Add GA script
+19d941f Fix code block on the Async page
+8408cdc Close code block in boundless-async README
+
 ### 1.0.1 (2017-02-06)
 
 1.0.0 was pushed and immmediately replaced due to a publishing issue.

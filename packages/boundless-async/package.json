@@ -1,6 +1,6 @@
 {
   "name": "boundless-async",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A higher-order component for rendering data that isn't ready yet.",
   "author": "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com) (http://yaycmyk.com)",
   "main": "build/index.js",
@@ -21,7 +21,7 @@
   },
   "homepage": "http://boundless.js.org/#/Async",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.1",
+    "boundless-utils-omit-keys": "^1.0.2",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

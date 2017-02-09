@@ -1,6 +1,6 @@
 {
   "name": "boundless-image",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An image block with placeholder support for loading and fallback scenarios.",
   "main": "build/index.js",
   "module": "index.js",
@@ -24,8 +24,8 @@
   },
   "homepage": "http://boundless.js.org/#/Image",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.1",
-    "boundless-utils-uuid": "^1.0.1",
+    "boundless-utils-omit-keys": "^1.0.2",
+    "boundless-utils-uuid": "^1.0.2",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {
