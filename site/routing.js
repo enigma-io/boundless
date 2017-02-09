@@ -274,7 +274,7 @@ class ComponentPage extends React.PureComponent {
         }
     }
 
-    render({docgenInfo, prettyName} = this.props) {
+    render({docgenInfo} = this.props) {
         const descriptionParts = docgenInfo.description.split(/(\n#{1,}?.*?\n)/);
 
         // assembles the props from composed components all the way down the chain
