@@ -70,7 +70,7 @@
   "jest": {
     "cacheDirectory": "node_modules/.cache/jest-cli",
     "coveragePathIgnorePatterns": [
-      "/node_modules/",
+      "/build/",
       "/packages/boundless-utils-test-helpers/"
     ],
     "coverageReporters": [
