@@ -258,8 +258,8 @@ describe('Popover component', () => {
                 top: 0, left: 0, right: 5, bottom: 5, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -281,8 +281,8 @@ describe('Popover component', () => {
                 top: window.innerHeight - 5, left: 0, right: 5, bottom: window.innerHeight, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -304,10 +304,9 @@ describe('Popover component', () => {
                 top: 300, left: 0, right: 5, bottom: 305, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 1;
-
-            // 300 - 500 is neg and 300 + 500 > 768, so that should force the popover to the E or ENE cardinal
-            popoverNode.clientHeight = 500;
+            // 300 - 500 is neg and 300 + 500 > 768, so that should force the
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 1});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 500});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -329,8 +328,8 @@ describe('Popover component', () => {
                 top: 768, left: 0, right: 5, bottom: 773, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.W} />);
 
@@ -352,8 +351,8 @@ describe('Popover component', () => {
                 top: 0, left: -2, right: 3, bottom: 5, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.SSW} />);
 
@@ -375,8 +374,8 @@ describe('Popover component', () => {
                 top: -2, left: 0, right: 5, bottom: 3, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
 
@@ -398,8 +397,8 @@ describe('Popover component', () => {
                 top: 0, left: window.innerWidth - 4, right: window.innerWidth + 1, bottom: 5, height: 5, width: 5,
             });
 
-            popoverNode.clientWidth = 50;
-            popoverNode.clientHeight = 50;
+            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
+            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
 
