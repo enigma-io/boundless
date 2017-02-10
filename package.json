@@ -29,7 +29,7 @@
     "babel-plugin-react-docgen": "^1.4.1",
     "babel-plugin-transform-class-properties": "^6.6.0",
     "babel-plugin-transform-inline-environment-variables": "^6.8.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
+    "babel-plugin-transform-react-remove-prop-types": "^0.3.2",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
@@ -54,7 +54,7 @@
     "react-docgen": "^2.13.0",
     "react-dom": "^15.3.0",
     "react-hot-loader": "^3.0.0-beta.6",
-    "react-router": "^2.8.1",
+    "react-router": "^3.0.2",
     "sinon": "^1.17.3",
     "sitemap-webpack-plugin": "^0.3.0",
     "style-loader": "^0.13.1",
@@ -97,7 +97,7 @@
     "start": "BABEL_ENV=site-development webpack-dev-server --config scripts/webpack.development.config.js --open --hot",
     "prerelease": "npm run bootstrap",
     "release": "npm run build:css && npm run build:css:release && npm run build:js:master && npm run build:js:packages && npm run site",
-    "prepublish": "lerna exec --ignore boundless-utils* -- ln -fs ../../variables.styl variables.styl && npm run release",
+    "prepublishOnly": "lerna exec --ignore boundless-utils* -- ln -fs ../../variables.styl variables.styl && npm run release",
     "postpublish": "lerna publish --skip-git --repo-version $(node -e \"console.log(require('./package.json').version)\")"
   }
 }
