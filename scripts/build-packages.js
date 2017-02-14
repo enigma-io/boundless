@@ -225,7 +225,17 @@ require('jsdom').env('', [
             coalesced.props = null;
         }
 
-        const demoContent = fs.existsSync(demoPath) && fs.readFileSync(demoPath, 'utf8');
+        let demoContent = fs.existsSync(demoPath) && fs.readFileSync(demoPath, 'utf8');
+
+        if (demoContent) {
+            // simulate actually importing the modules from NPM
+            demoContent = demoContent.replace(/from '(?:\.\.\/){1,}(.*?)'/g, (x, match) => {
+                return `from '${match === 'index' ? name : match.replace('/index', '')}'`;
+            });
+
+            demoContent = demoContent.trim();
+        }
+
         const hasStyles = fs.existsSync(stylePath);
 
         fs.writeFileSync(readmePath, componentReadmeGenerator(
