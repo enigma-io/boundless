@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const webpack = require('webpack');
@@ -6,28 +5,8 @@ const git = require('git-rev-sync');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const HTMLInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const SitemapPlugin = require('sitemap-webpack-plugin');
 
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
-
-const base = __dirname + '/../packages/';
-
-// TODO: figure out a way to automate this somehow; might not be possible
-// since most of the routes are generated dynamically
-
-const packageNames = fs.readdirSync(path.resolve(base)).filter((name) => {
-    return !require(path.resolve(base, name, 'package.json')).private;
-});
-
-const sitePaths = packageNames.map((rawName) => {
-    if (rawName.indexOf('utils-') === -1) {
-        return `/#/${_.pascalCase(rawName.replace('boundless-', ''))}`;
-    }
-
-    return `/#/${_.camelCase(rawName.replace('boundless-utils-', ''))}`;
-});
-
-sitePaths.push('/#/quickstart', '/#/kitchensink');
 
 const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.[contenthash].css');
 const starsExtractor = new ExtractTextPlugin('assets/stars.[contenthash].css');
@@ -88,11 +67,6 @@ releaseConf.plugins.push(
     }),
 
     new HTMLInlineSourcePlugin(),
-
-    new SitemapPlugin('http://boundless.js.org', sitePaths, {
-        lastMod: true,
-        skipGzip: true,
-    }),
 
     new webpack.optimize.UglifyJsPlugin({
         comments: false,
