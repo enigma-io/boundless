@@ -4,10 +4,13 @@ language: node_js
 node_js: '7'
 cache:
   directories:
-    - node_modules
+  - node_modules
 script:
-  - npm run lint
-  - npm run bootstrap
-  - npm run build:js:packages
-  - npm run coverage -- --silent
-  - node_modules/.bin/codecov
+- npm run lint
+- npm run bootstrap
+- npm run build:js:packages
+- npm run coverage -- --silent
+- node_modules/.bin/codecov
+env:
+  global:
+    secure: SBZljM0uFpHnutSYAjBqQcom/1x3dzzl84bR8vwJbdADhzbkt6KS9w+bDzT7OMl/ZERG7MzQCdiGAJi2iJfhRp9qS4NXsVdjMmrIe20UR8Pt6MO5OZgVqkA0dRPhuFcDftVvws+VBxweGZQDB0mA/Q6kwZXypDfaDRN0AEWJC+yf+N/9kPZ+oK9vxcjFS6F0RIo3bukZ14ZW3Hv4k4pDocuuKktjXpQ1o4skya6i/Tdku55iRSUluWFDPZto5FkpJItX+dJsP7OjbRjF8dDLOnd0526S7z3MCALRkU9m907K2g96KSNuH8UwEOsOxeMujcyHgmJxcEeFfN51570CM/lp0tzISdNTUctzlPb25UVxHTJpemf82EY9mcz8yVl+F9xHQhr0mv7WAr1OdlDaLh2CNeAoEd/1BF+I2M6hOY0RRMuyYWD0bonx1XsHJ0LoLBIve5AnAIG6G6bGKsavLJ7z2zQNeyUhP86CCmwW3QRulx75jy4FTI1NFD6GuATa9HS0Ip5SNXHVqRFr461ga5ruyBxWpDrwZTBSukOCJxgYveGxU6oZSrxsGNEvodjEgF8Wb9GkdA5l8QhFiS7r+JjozcF4uYjF/QXg9+pBw6F8Bm7MJtIKh/TFgS/8hD9F9wKYGxEjToaqy2egyniEgFt6edfpkjbm4wKKu1cLs/w=
