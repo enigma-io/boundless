@@ -17,7 +17,7 @@ after_success:
       npm run release;
       git config user.email "travis@travis-ci.com";
       git config user.name "Travis";
-      git add .;
+      git add -A;
       git commit -m "Push assets built by job $TRAVIS_BUILD_NUMBER [skip ci]";
       git push git@github.com:enigma-io/boundless.git HEAD:master;
     fi
