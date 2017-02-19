@@ -8,7 +8,6 @@ import {AppContainer} from 'react-hot-loader';
 import Site from './routing';
 
 import './style.styl';
-import './boundless.styl';
 
 const render = (Component) => r(
     <AppContainer>

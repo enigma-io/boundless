@@ -493,6 +493,10 @@ const KitchenSink = () => (
 const handleRouting = (routing) => {
     document.title = `boundless / ${_.last(routing.routes).title}`;
 
+    if (routing.location.pathname !== '/' && routing.location.pathname !== '/quickstart') {
+        import('./boundless.styl');
+    }
+
     if (window.ga) {
         window.ga('send', 'pageview', routing.location.pathname);
     }
@@ -509,6 +513,9 @@ export default () => (
             onEnter={handleRouting}
             onChange={handleRoutingChange}
             title='Welcome!'>
+
+            {/* If adding a non-package page, make sure it's also added to scripts/build-indexes.js */}
+
             <Route path='quickstart' markdown={GettingStarted} title='Getting Started' />
             <Route path='kitchensink' component={KitchenSink} title='Kitchen Sink'  />
 
