@@ -45,7 +45,7 @@
     "html-webpack-inline-source-plugin": "0.0.6",
     "html-webpack-plugin": "^2.26.0",
     "jest-cli": "^18.0.0",
-    "lerna": "2.0.0-beta.32",
+    "lerna": "2.0.0-beta.37",
     "markdown-to-jsx": "^4.0.0",
     "mkdirp": "^0.5.1",
     "raw-loader": "^0.5.1",
