@@ -133,6 +133,8 @@ CheckboxGroup can also just be directly used from the main [Boundless library](h
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { CheckboxGroup } from 'boundless';
 ```

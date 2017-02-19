@@ -5,7 +5,7 @@ if (module.hot) {
 import React from 'react';
 import {render as r} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import Site from './routing';
+import Site from './site';
 
 import './style.styl';
 
@@ -18,5 +18,5 @@ const render = (Component) => r(
 render(Site);
 
 if (module.hot) {
-    module.hot.accept('./routing', () => render(Site));
+    module.hot.accept('./site', () => render(Site));
 }

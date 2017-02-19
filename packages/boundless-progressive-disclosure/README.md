@@ -41,6 +41,8 @@ ProgressiveDisclosure can also just be directly used from the main [Boundless li
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { ProgressiveDisclosure } from 'boundless';
 ```

@@ -64,6 +64,8 @@ import <%= prettyName %> from '<%= name %>';
 npm i boundless --save
 \`\`\`
 
+the ES6 \`import\` statement then becomes like:
+
 \`\`\`js
 import { <%= prettyName %> } from 'boundless';
 \`\`\`

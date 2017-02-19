@@ -97,6 +97,8 @@ Pagination can also just be directly used from the main [Boundless library](http
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { Pagination } from 'boundless';
 ```

@@ -80,6 +80,8 @@ ArrowKeyNavigation can also just be directly used from the main [Boundless libra
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { ArrowKeyNavigation } from 'boundless';
 ```

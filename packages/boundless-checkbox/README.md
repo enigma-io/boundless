@@ -73,6 +73,8 @@ Checkbox can also just be directly used from the main [Boundless library](https:
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { Checkbox } from 'boundless';
 ```

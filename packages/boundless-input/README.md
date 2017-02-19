@@ -82,6 +82,8 @@ Input can also just be directly used from the main [Boundless library](https://w
 npm i boundless --save
 ```
 
+the ES6 `import` statement then becomes like:
+
 ```js
 import { Input } from 'boundless';
 ```
