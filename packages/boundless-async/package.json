@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/#/Async",
+  "homepage": "http://boundless.js.org/Async",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.2",
     "classnames": "^2.1.5"

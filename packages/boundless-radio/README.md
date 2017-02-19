@@ -95,7 +95,7 @@ export default class RadioDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Radio).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Radio).
 
 ### Required Props
 

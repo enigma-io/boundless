@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/#/Pagination",
+  "homepage": "http://boundless.js.org/Pagination",
   "dependencies": {
     "boundless-arrow-key-navigation": "^1.0.2",
     "boundless-async": "^1.0.2",

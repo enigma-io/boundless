@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/#/SegmentedControl",
+  "homepage": "http://boundless.js.org/SegmentedControl",
   "dependencies": {
     "boundless-arrow-key-navigation": "^1.0.2",
     "boundless-button": "^1.0.2",

@@ -36,7 +36,7 @@ import { Async } from 'boundless';
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Async).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Async).
 
 ### Required Props
 

@@ -83,7 +83,7 @@ export default class CheckboxDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Checkbox).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Checkbox).
 
 ### Required Props
 

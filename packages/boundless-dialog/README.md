@@ -99,7 +99,7 @@ export default class DialogDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Dialog).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Dialog).
 
 ### Required Props
 

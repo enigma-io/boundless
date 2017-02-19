@@ -92,7 +92,7 @@ export default class InputDemo extends React.PureComponent {
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/#/Input).
+> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Input).
 
 ### Required Props
 
