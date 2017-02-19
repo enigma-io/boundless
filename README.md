@@ -62,4 +62,4 @@ npm i
 npm start # runs the development server so you can make changes live ✨
 ```
 
-<sub>[MIT License](https://github.com/enigma-io/boundless/blob/master/LICENSE)</sub>
+[MIT License](https://github.com/enigma-io/boundless/blob/master/LICENSE)

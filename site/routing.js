@@ -1,8 +1,7 @@
 /* global VERSION */
 
 import React, {PropTypes} from 'react';
-import {useRouterHistory, Link, Redirect, Router, Route} from 'react-router';
-import {createHashHistory} from 'history';
+import {Link, Redirect, Router, Route, browserHistory} from 'react-router';
 import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
@@ -386,8 +385,8 @@ class Container extends React.PureComponent {
                 {starfield}
 
                 <div className='splash-inner'>
-                    <h1>boundless</h1>
-                    <p>accessible, battle-tested, infinitely composable react components</p>
+                    <h1>boundless<sup>v{VERSION}</sup></h1>
+                    <p>Accessible, battle-tested, infinitely composable React components.</p>
                 </div>
             </section>
         );
@@ -451,20 +450,23 @@ class Container extends React.PureComponent {
                     </article>
                     <aside className='boundless-nav'>
                         <header>
-                            <Link className='brand' to='/'>boundless</Link>
-                            <a
-                                className='release-link'
-                                href={`${repositoryURL}/releases`}
-                                title='View all Boundless releases'
-                                target='_blank'
-                                rel='noopener'>
-                                v{VERSION}
-                            </a>
+                            <Link className='brand' to='/'>boundless<sup>v{VERSION}</sup></Link>
                         </header>
                         <nav>
                             <section>
-                                <Link activeClassName='active' to='/quickstart'>Get Started</Link>
+                                <Link activeClassName='active' to='/quickstart'>Getting Started</Link>
                                 <Link activeClassName='active' to='/kitchensink'>Kitchen Sink</Link>
+                                <a
+                                    href={repositoryURL}
+                                    rel='noopener'
+                                    target='_blank'>Github</a>
+                                <a
+                                    href={`${repositoryURL}/releases`}
+                                    title='View all Boundless releases'
+                                    target='_blank'
+                                    rel='noopener'>
+                                    Releases
+                                </a>
                             </section>
 
                             <h4>Components</h4>
@@ -493,22 +495,6 @@ class Container extends React.PureComponent {
                         </nav>
                     </aside>
                 </main>
-
-                <footer className='boundless-footer'>
-                    {starfield}
-
-                    <div>
-                        <strong>boundless</strong>&nbsp;is developed in partnership with&nbsp;<a href='http://enigma.io'>enigma</a>
-                    </div>
-
-                    <a
-                        className='b-button'
-                        href='http://enigma.io/careers/'
-                        target='_blank'
-                        rel='noopener'>
-                        See job openings
-                    </a>
-                </footer>
             </div>
         );
     }
@@ -528,21 +514,11 @@ const KitchenSink = () => (
     </div>
 );
 
-const setTabTitle = (routing) => (document.title = `boundless / ${_.last(routing.routes).title}`);
-const updateTabTitle = (x, routing) => setTabTitle(routing);
-
-const history = useRouterHistory(createHashHistory)({
-    basename: '/',
-    queryKey: false,
-});
-
 export default () => (
-    <Router history={history}>
+    <Router history={browserHistory}>
         <Route
             path='/'
             component={Container}
-            onEnter={setTabTitle}
-            onChange={updateTabTitle}
             markdown={repositoryREADME}
             title='Introduction'>
             <Route path='quickstart' markdown={GettingStarted} title='Getting Started' />

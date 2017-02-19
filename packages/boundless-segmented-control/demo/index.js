@@ -14,7 +14,7 @@ export default class SegmentedControlDemo extends React.PureComponent {
                 {alt: 'Andromeda (M31)', src: 'https://c1.staticflickr.com/7/6215/6242076308_d01dccd1b4_b.jpg'},
                 {alt: 'Milky Way Galactic Core', src: 'https://c2.staticflickr.com/6/5236/5896162967_a656cf460a_b.jpg'},
                 {alt: 'M77', src: 'http://farm9.static.flickr.com/8668/15864469305_b3db67dd1d_m.jpg'},
-                {alt: 'Whirlpool (M51)', src: 'http://36.media.tumblr.com/687f0a2cd276b3d0013aa36aa2908845/tumblr_mmhvnnIx4L1qgvl7lo1_500.jpg'},
+                {alt: 'Whirlpool (M51)', src: 'https://apod.nasa.gov/apod/image/0602/m51center_hst.jpg'},
             ],
         }, {
             key: 'nebulae',

@@ -34,7 +34,7 @@ export default class ImageDemo extends React.PureComponent {
                     <Image
                         ref='delayed'
                         src={`http://deelay.me/5000/http://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-15/11244434_646274218842534_532892887_n.jpg?${this.state.delayed}`}
-                        alt='A beachscape.' />
+                        alt='An aerial shot of a snow-covered forest.' />
                     <Button onPressed={this.remountImage.bind(this, 'delayed')}
                               style={{marginTop: '1rem'}}>
                         Remount Image

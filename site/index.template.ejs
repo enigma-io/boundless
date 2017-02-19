@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Boundless is a toolkit of React components and helper utilities focused on accessibility, performance, and composition." />
+        <meta name="description" content="<%= htmlWebpackPlugin.options.customization.description %>" />
         <meta name="theme-color" content="#272b33" />
         <title><%= htmlWebpackPlugin.options.title %></title>
     </head>
@@ -11,9 +11,9 @@
         <div id="root"></div>
 
         <% if (htmlWebpackPlugin.options.customization.PRODUCTION) { %>
+        <script>!function(e,t,a,n,c,s,o){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,s=t.createElement(a),o=t.getElementsByTagName(a)[0],s.async=1,s.src=n,o.parentNode.insertBefore(s,o)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-91553282-1","auto"),ga("send","pageview");</script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
-        <script>!function(e,t,a,n,c,s,o){e.GoogleAnalyticsObject=c,e[c]=e[c]||function(){(e[c].q=e[c].q||[]).push(arguments)},e[c].l=1*new Date,s=t.createElement(a),o=t.getElementsByTagName(a)[0],s.async=1,s.src=n,o.parentNode.insertBefore(s,o)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-91553282-1","auto"),ga("send","pageview");</script>
         <% } %>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
