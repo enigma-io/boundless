@@ -10,7 +10,9 @@ const devConf = _.cloneDeep(conf);
 devConf.devServer = {
     compress: true,
     contentBase: path.resolve(__dirname, '../docs'),
-    historyApiFallback: true,
+    historyApiFallback: {
+        rewrites: [{ from: /^\/.*?$/, to: '/index.html' }],
+    },
     host: '0.0.0.0',
 };
 

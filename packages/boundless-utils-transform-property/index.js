@@ -1,13 +1,5 @@
 /**
  * Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.
- *
- * ## Example Usage
- *
- * ```js
- * import transformProperty from 'boundless-utils-transform-property';
- *
- * document.querySelector('.foo').style[transformProperty] = 'translateY(0)';
- * ```
  */
 export default (function detectTransformProperty() {
     const props = [

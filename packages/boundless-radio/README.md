@@ -13,24 +13,9 @@ Radio is implemented as a "controlled input", meaning it is a direct representat
 npm i boundless-radio --save
 ```
 
-```js
-import Radio from 'boundless-radio';
-```
+Then use it like:
 
 
-Radio can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Radio } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Radio from 'boundless-radio';
@@ -91,6 +76,19 @@ export default class RadioDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Radio can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Radio } from 'boundless';
+```
+
 
 
 ## Props

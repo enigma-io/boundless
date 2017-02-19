@@ -35,24 +35,9 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 npm i boundless-popover --save
 ```
 
-```js
-import Popover from 'boundless-popover';
-```
+Then use it like:
 
 
-Popover can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Popover } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 
@@ -193,6 +178,19 @@ export default class PopoverDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Popover can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Popover } from 'boundless';
+```
+
 
 
 ## Props

@@ -13,24 +13,9 @@ This component can be useful in situations where an internationalized string is 
 npm i boundless-fitted-text --save
 ```
 
-```js
-import FittedText from 'boundless-fitted-text';
-```
+Then use it like:
 
 
-FittedText can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { FittedText } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Button from 'boundless-button';
@@ -56,6 +41,19 @@ export default () => (
     </div>
 );
 ```
+
+
+
+FittedText can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { FittedText } from 'boundless';
+```
+
 
 
 ## Props

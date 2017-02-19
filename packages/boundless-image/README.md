@@ -11,24 +11,9 @@ __An image block with placeholder support for loading and fallback scenarios.__
 npm i boundless-image --save
 ```
 
-```js
-import Image from 'boundless-image';
-```
+Then use it like:
 
 
-Image can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Image } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Button from 'boundless-button';
@@ -90,6 +75,19 @@ export default class ImageDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Image can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Image } from 'boundless';
+```
+
 
 
 ## Props

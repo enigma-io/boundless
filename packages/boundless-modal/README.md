@@ -13,24 +13,9 @@ Modal is an enhancement upon [Dialog](https://github.com/enigma-io/boundless/blo
 npm i boundless-modal --save
 ```
 
-```js
-import Modal from 'boundless-modal';
-```
+Then use it like:
 
 
-Modal can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Modal } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Button from 'boundless-button';
@@ -72,6 +57,19 @@ export default class ModalDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Modal can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Modal } from 'boundless';
+```
+
 
 
 ## Props

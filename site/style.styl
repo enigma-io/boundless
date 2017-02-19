@@ -71,6 +71,12 @@ main {
     h1 {
         margin-top: 0;
     }
+
+    :first-child {
+        h2:first-child {
+            margin-top: 0;
+        }
+    }
 }
 
 .boundless-nav {
@@ -334,52 +340,6 @@ sup {
 
 ::selection {
     background-color: rgba(color-accent, 0.25);
-}
-
-.splash {
-    align-items: center;
-    background: linear-gradient(to top, lighten(#000, 10%) 0%, #000 100%);
-    display: flex;
-    flex-direction: column;
-    height: 450px;
-    overflow: hidden; /* needed for starfield */
-    padding: 0 10vw;
-    position: relative;
-
-    .splash-inner {
-        margin: auto;
-        position: relative;
-        text-align: center;
-        z-index: 1;
-
-        h1 {
-            font-size: 72px;
-            font-weight: 700;
-            margin-top: 0;
-        }
-
-        p {
-            font-size: 24px;
-            font-weight: 300;
-            margin-bottom: 3rem;
-        }
-    }
-}
-
-.splash + main {
-    article {
-        h1 {
-            display: none;
-        }
-
-        h2:first-of-type {
-            margin-top: 0;
-        }
-    }
-
-    aside .brand {
-        display: none;
-    }
 }
 
 .demo-section-wrapper {
@@ -674,17 +634,6 @@ article {
 }
 
 @media all and (max-width: 600px) {
-    .splash .splash-inner {
-        h1 {
-            font-size: 15vw;
-        }
-
-        sup {
-           display: block;
-           margin: 0;
-        }
-    }
-
     nav {
         section {
             column-count: 2;

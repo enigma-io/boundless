@@ -16,9 +16,13 @@ for materializing the fulfilled payload into JSX.
 npm i boundless-async --save
 ```
 
+Then use it like:
+
+
 ```js
 import Async from 'boundless-async';
 ```
+
 
 
 Async can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
@@ -30,7 +34,6 @@ npm i boundless --save
 ```js
 import { Async } from 'boundless';
 ```
-
 
 
 

@@ -9,7 +9,6 @@ const HTMLPlugin = require('html-webpack-plugin');
 _.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
 
 const boundlessExtractor = new ExtractTextPlugin('assets/boundless-custom.[contenthash].css');
-const starsExtractor = new ExtractTextPlugin('assets/stars.[contenthash].css');
 const styleExtractor = new ExtractTextPlugin('assets/style.[contenthash].css');
 const loaderPattern = 'css-loader?url=false!stylus-loader?compress';
 
@@ -29,7 +28,7 @@ const htmlConf = {
         collapseWhitespace: true,
     },
     template: path.join(base, 'site/index.template.ejs'),
-    title: 'boundless / Introduction',
+    title: 'boundless / Welcome!',
 };
 
 const conf = require('./webpack.config.js');
@@ -45,9 +44,6 @@ releaseConf.externals = {
 releaseConf.module.rules.push({
     test: /boundless\.styl$/,
     use: boundlessExtractor.extract(loaderPattern),
-}, {
-    test: /stars\.styl$/,
-    use: starsExtractor.extract(loaderPattern),
 }, {
     test: /style\.styl$/,
     use: styleExtractor.extract(loaderPattern),
@@ -70,7 +66,6 @@ releaseConf.plugins.push(
     }),
 
     boundlessExtractor,
-    starsExtractor,
     styleExtractor,
 
     new HTMLPlugin(htmlConf)

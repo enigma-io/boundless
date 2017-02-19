@@ -11,12 +11,6 @@ __Trigger native toasts in supporting browsers.__
 This module is not a React component, but a utility. The "close" functionality of web notifications was removed in a platform
 spec update, so it's no longer possible to have a true lifecycle.
 
-```js
-import webNotification from 'boundless-utils-web-notification';
-
-webNotification({body: 'Some text to be displayed...'});
-```
-
 The utility works by providing an object with the following properties:
 
 - __body__ `String`
@@ -40,14 +34,9 @@ and rejection will return a relevant error description string.
 npm i boundless-utils-web-notification --save
 ```
 
-```js
-import webNotification from 'boundless-utils-web-notification';
-```
+Then use it like:
 
 
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import notify from 'boundless-utils-web-notification';
@@ -84,6 +73,9 @@ export default class NotifyDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
 
 
 

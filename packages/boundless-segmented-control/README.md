@@ -26,24 +26,9 @@ Essentially, it behaves like a radio group without actually using input controls
 npm i boundless-segmented-control --save
 ```
 
-```js
-import SegmentedControl from 'boundless-segmented-control';
-```
+Then use it like:
 
 
-SegmentedControl can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { SegmentedControl } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import {capitalize, map} from 'lodash';
@@ -104,6 +89,19 @@ export default class SegmentedControlDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+SegmentedControl can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { SegmentedControl } from 'boundless';
+```
+
 
 
 ## Props

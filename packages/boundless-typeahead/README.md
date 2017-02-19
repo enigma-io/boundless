@@ -79,24 +79,9 @@ When using `Typeahead` in your project, you may call the following methods on a 
 npm i boundless-typeahead --save
 ```
 
-```js
-import Typeahead from 'boundless-typeahead';
-```
+Then use it like:
 
 
-Typeahead can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Typeahead } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Typeahead from 'boundless-typeahead';
@@ -146,6 +131,19 @@ export default class TypeaheadDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Typeahead can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Typeahead } from 'boundless';
+```
+
 
 
 ## Props

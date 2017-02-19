@@ -13,9 +13,13 @@ __A higher-order component for the rendering of components outside the normal Re
 npm i boundless-portal --save
 ```
 
+Then use it like:
+
+
 ```js
 import Portal from 'boundless-portal';
 ```
+
 
 
 Portal can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
@@ -27,7 +31,6 @@ npm i boundless --save
 ```js
 import { Portal } from 'boundless';
 ```
-
 
 
 

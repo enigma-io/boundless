@@ -14,24 +14,9 @@ configuration is built-in and is activated by passing the `selectAll` prop.
 npm i boundless-checkbox-group --save
 ```
 
-```js
-import CheckboxGroup from 'boundless-checkbox-group';
-```
+Then use it like:
 
 
-CheckboxGroup can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { CheckboxGroup } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import CheckboxGroup from 'boundless-checkbox-group';
@@ -139,6 +124,19 @@ export default class CheckboxGroupDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+CheckboxGroup can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { CheckboxGroup } from 'boundless';
+```
+
 
 
 ## Props

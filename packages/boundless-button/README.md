@@ -33,24 +33,9 @@ Button has two modes of operation:
 npm i boundless-button --save
 ```
 
-```js
-import Button from 'boundless-button';
-```
+Then use it like:
 
 
-Button can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Button } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Button from 'boundless-button';
@@ -97,6 +82,19 @@ export default class ButtonDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Button can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Button } from 'boundless';
+```
+
 
 
 ## Props

@@ -64,12 +64,6 @@ function checkPermission() {
  * This module is not a React component, but a utility. The "close" functionality of web notifications was removed in a platform
  * spec update, so it's no longer possible to have a true lifecycle.
  *
- * ```js
- * import webNotification from 'boundless-utils-web-notification';
- *
- * webNotification({body: 'Some text to be displayed...'});
- * ```
- *
  * The utility works by providing an object with the following properties:
  *
  * - __body__ `String`

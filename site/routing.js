@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
 import ComponentDemo from './component-demo';
+import LinkedHeader from './linked-header-text';
 import Markdown from './markdown';
 import pascalCase from './pascal-case';
 
@@ -48,14 +49,6 @@ const utilities = utilsReqKeys.map((path) => {
         path: prettyName,
     };
 });
-
-const starfield = (
-    <div className='starfield'>
-        <div className='starfield-seed-1' />
-        <div className='starfield-seed-2' />
-        <div className='starfield-seed-3' />
-    </div>
-);
 
 const repositoryURL = 'https://github.com/enigma-io/boundless';
 
@@ -304,11 +297,11 @@ class ComponentPage extends React.PureComponent {
                 {this.maybeRenderDemo()}
                 <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
 
-                <h2>Props</h2>
-                <h3>Required Props</h3>
+                <LinkedHeader component='h2'>Props</LinkedHeader>
+                <LinkedHeader component='h3'>Required Props</LinkedHeader>
                 {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
 
-                <h3>Optional Props</h3>
+                <LinkedHeader component='h3'>Optional Props</LinkedHeader>
                 {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
             </div>
         );
@@ -333,10 +326,8 @@ class Container extends React.PureComponent {
 
     autoscroll(switchedPage) {
         window.setTimeout(() => {
-            const hashIndex = window.location.href.lastIndexOf('#');
-
-            if (hashIndex !== -1) {
-                const node = document.getElementById(window.location.href.slice(hashIndex + 1));
+            if (window.location.hash.length > 1) {
+                const node = document.getElementById(window.location.hash.slice(1));
 
                 if (node) {
                     node.scrollIntoView();
@@ -377,19 +368,6 @@ class Container extends React.PureComponent {
         }
 
         return links;
-    }
-
-    renderSplash() {
-        return (
-            <section className='splash'>
-                {starfield}
-
-                <div className='splash-inner'>
-                    <h1>boundless<sup>v{VERSION}</sup></h1>
-                    <p>Accessible, battle-tested, infinitely composable React components.</p>
-                </div>
-            </section>
-        );
     }
 
     renderMainContent(route) {
@@ -441,8 +419,6 @@ class Container extends React.PureComponent {
 
         return (
             <div>
-                {route.path === '/' ? this.renderSplash() : null}
-
                 <main ref={(node) => (this.main = node)}>
                     <article>
                         {this.maybeRenderGithubLinks(route)}
@@ -514,13 +490,25 @@ const KitchenSink = () => (
     </div>
 );
 
+const handleRouting = (routing) => {
+    document.title = `boundless / ${_.last(routing.routes).title}`;
+
+    if (window.ga) {
+        window.ga('send', 'pageview', routing.location.pathname);
+    }
+};
+
+const handleRoutingChange = (x, routing) => handleRouting(routing);
+
 export default () => (
     <Router history={browserHistory}>
         <Route
             path='/'
             component={Container}
             markdown={repositoryREADME}
-            title='Introduction'>
+            onEnter={handleRouting}
+            onChange={handleRoutingChange}
+            title='Welcome!'>
             <Route path='quickstart' markdown={GettingStarted} title='Getting Started' />
             <Route path='kitchensink' component={KitchenSink} title='Kitchen Sink'  />
 

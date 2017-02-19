@@ -13,24 +13,9 @@ Mechanically, hidden disclosure content is not rendered to the DOM until it is n
 npm i boundless-progressive-disclosure --save
 ```
 
-```js
-import ProgressiveDisclosure from 'boundless-progressive-disclosure';
-```
+Then use it like:
 
 
-ProgressiveDisclosure can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { ProgressiveDisclosure } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import ProgressiveDisclosure from 'boundless-progressive-disclosure';
@@ -47,6 +32,19 @@ export default class ProgressiveDisclosureDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+ProgressiveDisclosure can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { ProgressiveDisclosure } from 'boundless';
+```
+
 
 
 ## Props

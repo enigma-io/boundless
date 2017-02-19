@@ -41,24 +41,9 @@ When using `TokenizedInput` in your project, you may call the following methods 
 npm i boundless-tokenized-input --save
 ```
 
-```js
-import TokenizedInput from 'boundless-tokenized-input';
-```
+Then use it like:
 
 
-TokenizedInput can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { TokenizedInput } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import TokenizedInput from 'boundless-tokenized-input';
@@ -108,6 +93,19 @@ export default class TokenizedInputDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+TokenizedInput can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { TokenizedInput } from 'boundless';
+```
+
 
 
 ## Props

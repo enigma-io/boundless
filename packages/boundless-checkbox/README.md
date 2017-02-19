@@ -15,24 +15,9 @@ view must intercept and apply against the data provider.
 npm i boundless-checkbox --save
 ```
 
-```js
-import Checkbox from 'boundless-checkbox';
-```
+Then use it like:
 
 
-Checkbox can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Checkbox } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Checkbox from 'boundless-checkbox';
@@ -79,6 +64,19 @@ export default class CheckboxDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Checkbox can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Checkbox } from 'boundless';
+```
+
 
 
 ## Props

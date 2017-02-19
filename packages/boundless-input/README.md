@@ -23,24 +23,9 @@ When using `Input` in your project, you may call the following methods on a rend
 npm i boundless-input --save
 ```
 
-```js
-import Input from 'boundless-input';
-```
+Then use it like:
 
 
-Input can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Input } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Input from 'boundless-input';
@@ -88,6 +73,19 @@ export default class InputDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Input can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Input } from 'boundless';
+```
+
 
 
 ## Props

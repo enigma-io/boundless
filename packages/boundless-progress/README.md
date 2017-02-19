@@ -11,24 +11,9 @@ __An unopinionated progress implementation, allowing for a variety of shapes and
 npm i boundless-progress --save
 ```
 
-```js
-import Progress from 'boundless-progress';
-```
+Then use it like:
 
 
-Progress can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Progress } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import Button from 'boundless-button';
@@ -106,6 +91,19 @@ export default class ProgressDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Progress can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Progress } from 'boundless';
+```
+
 
 
 ## Props

@@ -16,24 +16,9 @@ If you decide to provide a header inside your dialog, it's recommended to config
 npm i boundless-dialog --save
 ```
 
-```js
-import Dialog from 'boundless-dialog';
-```
+Then use it like:
 
 
-Dialog can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Dialog } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import {findDOMNode} from 'react-dom';
@@ -95,6 +80,19 @@ export default class DialogDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Dialog can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Dialog } from 'boundless';
+```
+
 
 
 ## Props

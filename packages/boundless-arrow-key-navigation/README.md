@@ -15,24 +15,9 @@ The children, similarly, can be any type of component.
 npm i boundless-arrow-key-navigation --save
 ```
 
-```js
-import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
-```
+Then use it like:
 
 
-ArrowKeyNavigation can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { ArrowKeyNavigation } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 import React from 'react';
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
@@ -86,6 +71,19 @@ export default class ArrowKeyNavigationDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+ArrowKeyNavigation can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { ArrowKeyNavigation } from 'boundless';
+```
+
 
 
 ## Props

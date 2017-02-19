@@ -23,24 +23,9 @@ to get the instance.
 npm i boundless-pagination --save
 ```
 
-```js
-import Pagination from 'boundless-pagination';
-```
+Then use it like:
 
 
-Pagination can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
-
-```bash
-npm i boundless --save
-```
-
-```js
-import { Pagination } from 'boundless';
-```
-
-
-
-## Example Usage
 ```jsx
 /* eslint no-console:0 */
 
@@ -103,6 +88,19 @@ export default class PaginationDemo extends React.PureComponent {
     }
 }
 ```
+
+
+
+Pagination can also just be directly used from the main [Boundless library](https://www.npmjs.com/package/boundless). This is recommended when you're getting started to avoid maintaining the package versions of several components:
+
+```bash
+npm i boundless --save
+```
+
+```js
+import { Pagination } from 'boundless';
+```
+
 
 
 ## Props
