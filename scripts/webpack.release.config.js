@@ -21,7 +21,10 @@ releaseConf.externals = {
 
 releaseConf.module.rules.push({
     test: /\.styl$/,
-    use: ExtractTextPlugin.extract('css-loader?url=false!stylus-loader?compress'),
+    use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader?url=false!stylus-loader?compress',
+    }),
 });
 
 releaseConf.output.filename = 'assets/[name].[chunkhash].js';
