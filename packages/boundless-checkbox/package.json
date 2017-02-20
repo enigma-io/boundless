@@ -1,6 +1,6 @@
 {
   "name": "boundless-checkbox",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An accessible checkbox with indeterminate support.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,8 +25,8 @@
   "homepage": "http://boundless.js.org/Checkbox",
   "dependencies": {
     "classnames": "^2.1.5",
-    "boundless-utils-omit-keys": "^1.0.2",
-    "boundless-utils-uuid": "^1.0.2"
+    "boundless-utils-omit-keys": "^1.0.3",
+    "boundless-utils-uuid": "^1.0.3"
   },
   "peerDependencies": {
     "react": ">= 15.3",

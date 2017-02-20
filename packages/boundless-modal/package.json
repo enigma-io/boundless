@@ -1,6 +1,6 @@
 {
   "name": "boundless-modal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A blocking, focus-stealing container.",
   "main": "build/index.js",
   "module": "index.js",
@@ -24,10 +24,10 @@
   },
   "homepage": "http://boundless.js.org/Modal",
   "dependencies": {
-    "boundless-dialog": "^1.0.2",
-    "boundless-portal": "^1.0.2",
-    "boundless-utils-object-intersection": "^1.0.2",
-    "boundless-utils-omit-keys": "^1.0.2",
+    "boundless-dialog": "^1.0.3",
+    "boundless-portal": "^1.0.3",
+    "boundless-utils-object-intersection": "^1.0.3",
+    "boundless-utils-omit-keys": "^1.0.3",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

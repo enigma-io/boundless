@@ -1,6 +1,6 @@
 {
   "name": "boundless-fitted-text",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fit given text inside a parent container, obeying implict and explicit constraints.",
   "main": "build/index.js",
   "module": "index.js",
@@ -27,7 +27,7 @@
   },
   "homepage": "http://boundless.js.org/FittedText",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.2",
+    "boundless-utils-omit-keys": "^1.0.3",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

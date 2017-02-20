@@ -1,6 +1,6 @@
 {
   "name": "boundless-utils-object-intersection",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Returns an intersection of the first argument against the second argument's keys.",
   "main": "build/index.js",
   "module": "index.js",
