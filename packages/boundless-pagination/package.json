@@ -1,7 +1,7 @@
 {
   "name": "boundless-pagination",
   "version": "1.0.3",
-  "description": "View and navigate heterogenious content one page at a time.",
+  "description": "View and navigate heterogeneous content one page at a time.",
   "main": "build/index.js",
   "module": "index.js",
   "repository": {
