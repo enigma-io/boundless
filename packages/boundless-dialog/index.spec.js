@@ -49,6 +49,16 @@ describe('Dialog component', () => {
         expect($('.b-dialog').textContent).toBe('foo');
     });
 
+    it('uses the "alertdialog" aria role if props.captureFocus is true', () => {
+        render(<Dialog captureFocus={true} />);
+        expect($('.b-dialog[role="alertdialog"]')).not.toBeNull();
+    });
+
+    it('uses the "dialog" aria role if props.captureFocus is false', () => {
+        render(<Dialog captureFocus={false} />);
+        expect($('.b-dialog[role="dialog"]')).not.toBeNull();
+    });
+
     it('renders focus boundary nodes if props.captureFocus is true', () => {
         render(<Dialog captureFocus={true} />);
         expect($$('.b-offscreen[tabindex="0"]').length).toBe(2);
