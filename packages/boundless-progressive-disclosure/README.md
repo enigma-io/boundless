@@ -60,55 +60,55 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`children`__ ・ if a function is passed, it will not be called until the disclosure content is due to be rendered
+- __`children`__ &middot; if a function is passed, it will not be called until the disclosure content is due to be rendered
 
   Expects | Default Value
   -       | -
   `any renderable or arrayOf(any renderable) or function` | `null`
 
-- __`component`__ ・ any valid HTML tag name
+- __`component`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`expanded`__ ・ controls the ProgressDisclosure "expanded" state declaratively
+- __`expanded`__ &middot; controls the ProgressDisclosure "expanded" state declaratively
 
   Expects | Default Value
   -       | -
   `bool` | `false`
 
-- __`onExpand`__ ・ called when the content is shown; not called on initial render
+- __`onExpand`__ &middot; called when the content is shown; not called on initial render
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onHide`__ ・ called when the content is hidden; not called on initial render
+- __`onHide`__ &middot; called when the content is hidden; not called on initial render
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`toggleComponent`__ ・ any valid HTML tag name
+- __`toggleComponent`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`toggleContent`__ ・ content to be shown next to the expansion toggle when the disclosure is in "contracted" state, e.g. "Show Advanced Options"
+- __`toggleContent`__ &middot; content to be shown next to the expansion toggle when the disclosure is in "contracted" state, e.g. "Show Advanced Options"
 
   Expects | Default Value
   -       | -
   `any renderable` | `null`
 
-- __`toggleExpandedContent`__ ・ content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
+- __`toggleExpandedContent`__ &middot; content to be shown next to the expansion toggle when the disclosure is in "expanded" state, e.g. "Hide Advanced Options"
 
   Expects | Default Value
   -       | -

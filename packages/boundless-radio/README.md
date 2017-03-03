@@ -99,13 +99,13 @@ import { Radio } from 'boundless';
 
 ### Required Props
 
-- __`name`__ ・ passthrough to the HTML `name` attribute on the `.b-radio` node
+- __`name`__ &middot; passthrough to the HTML `name` attribute on the `.b-radio` node
 
   Expects | Default Value
   -       | -
   `string` | `''`
 
-- __`value`__ ・ passthrough to the HTML `value` attribute on the `.b-radio` node
+- __`value`__ &middot; passthrough to the HTML `value` attribute on the `.b-radio` node
 
   Expects | Default Value
   -       | -
@@ -114,13 +114,13 @@ import { Radio } from 'boundless';
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`component`__ ・ override the wrapper component HTML element tag if desired
+- __`component`__ &middot; override the wrapper component HTML element tag if desired
 
   Expects | Default Value
   -       | -
@@ -132,7 +132,7 @@ import { Radio } from 'boundless';
   -       | -
   `object` | `{}`
 
-- __`labelContent`__ ・ any React-renderable content
+- __`labelContent`__ &middot; any React-renderable content
 
   Expects | Default Value
   -       | -
@@ -144,13 +144,13 @@ import { Radio } from 'boundless';
   -       | -
   `object` | `{}`
 
-- __`onSelected`__ ・ called when the element becomes selected; backing data must be updated to persist the state change
+- __`onSelected`__ &middot; called when the element becomes selected; backing data must be updated to persist the state change
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`selected`__ ・ determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
+- __`selected`__ &middot; determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
   Expects | Default Value
   -       | -

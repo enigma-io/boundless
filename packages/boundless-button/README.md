@@ -110,13 +110,13 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`component`__ ・ any valid HTML tag name or a ReactComponent, anything that can be passed as the
+- __`component`__ &middot; any valid HTML tag name or a ReactComponent, anything that can be passed as the
   first argument to `React.createElement`; note that this component sets the `role` and `aria-checked`
   attributes so non-`<button>` elements will still behave like a button for screen readers
 
@@ -124,19 +124,19 @@ There are no required props.
   -       | -
   `string or function` | `'button'`
 
-- __`onPressed`__ ・ use this callback instead of `onClick` (it's `onClick` + `onKeyDown:Enter`); fires for both button modes
+- __`onPressed`__ &middot; use this callback instead of `onClick` (it's `onClick` + `onKeyDown:Enter`); fires for both button modes
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onUnpressed`__ ・ called when the element becomes "unpressed"; only fires when the Button is in stateful mode
+- __`onUnpressed`__ &middot; called when the element becomes "unpressed"; only fires when the Button is in stateful mode
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`pressed`__ ・ passthrough to `aria-pressed`; using this prop turns on the `onUnpressed` callback when applicable
+- __`pressed`__ &middot; passthrough to `aria-pressed`; using this prop turns on the `onUnpressed` callback when applicable
 
   Expects | Default Value
   -       | -

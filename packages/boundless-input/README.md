@@ -101,19 +101,19 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`component`__ ・ overrides the HTML container tag
+- __`component`__ &middot; overrides the HTML container tag
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`hidePlaceholderOnFocus`__ ・ triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
+- __`hidePlaceholderOnFocus`__ &middot; triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
   Expects | Default Value
   -       | -

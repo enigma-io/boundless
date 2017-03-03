@@ -112,7 +112,7 @@ import { SegmentedControl } from 'boundless';
 
 ### Required Props
 
-- __`options`__ ・ prop objects to be applied against the SegmentedControl buttons, accepts any valid React props
+- __`options`__ &middot; prop objects to be applied against the SegmentedControl buttons, accepts any valid React props
   
   #### Example
   
@@ -133,25 +133,25 @@ import { SegmentedControl } from 'boundless';
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`defaultOptionSelectedIndex`__ ・ sets the initial selected option on first mount
+- __`defaultOptionSelectedIndex`__ &middot; sets the initial selected option on first mount
 
   Expects | Default Value
   -       | -
   `number` | `0`
 
-- __`onOptionSelected`__ ・ called when a child element becomes selected with the option and option index
+- __`onOptionSelected`__ &middot; called when a child element becomes selected with the option and option index
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`optionComponent`__ ・ provide a customized component type if desired, either a HTML element name or ReactComponent
+- __`optionComponent`__ &middot; provide a customized component type if desired, either a HTML element name or ReactComponent
 
   Expects | Default Value
   -       | -
