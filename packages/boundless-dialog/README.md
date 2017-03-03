@@ -60,6 +60,7 @@ export default class DialogDemo extends React.PureComponent {
                         height='315'
                         src='https://www.youtube.com/embed/HEheh1BH34Q?autoplay=1&showinfo=0&autohide=1'
                         frameBorder='0'
+                        title='A youtube video showcasing the relative size of celestial objects.'
                         allowFullScreen />
                     <Button
                         className='dialog-demo-close-button'
