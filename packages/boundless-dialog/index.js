@@ -75,7 +75,7 @@ export default class Dialog extends React.PureComponent {
         ]),
 
         /**
-         * enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+         * enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a function
          * is provided, the return value determines if the dialog will be closed
          */
         closeOnOutsideScroll: PropTypes.oneOfType([

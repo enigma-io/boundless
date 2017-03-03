@@ -121,6 +121,7 @@ export default class Popover extends React.PureComponent {
         portalProps: PropTypes.shape(Portal.PropTypes),
 
         /**
+         * Example:
          * ```jsx
          * <Popover
          *     anchor={document.querySelector('.some-anchor-element')}
