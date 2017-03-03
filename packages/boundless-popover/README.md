@@ -287,7 +287,7 @@ import { Popover } from 'boundless';
   -       | -
   `bool or function` | `false`
 
-- __`closeOnOutsideScroll`__ &middot; enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a functio
+- __`closeOnOutsideScroll`__ &middot; enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a function
   is provided, the return value determines if the dialog will be closed
 
   Expects | Default Value
@@ -324,7 +324,8 @@ import { Popover } from 'boundless';
   -       | -
   `object` | `{}`
 
-- __`preset`__ &middot; ```jsx
+- __`preset`__ &middot; example:
+  ```jsx
   <Popover
       anchor={document.querySelector('.some-anchor-element')}
       preset={Popover.preset.NNE}>
