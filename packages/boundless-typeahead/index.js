@@ -558,7 +558,8 @@ export default class Typeahead extends React.PureComponent {
                 ref='aria'
                 id={this.state.id}
                 className={this.props.offscreenClass}
-                aria-live='polite'>
+                aria-live='polite'
+                role='status'>
                 {this.getSelectedEntityText()}
             </div>
         );
@@ -600,11 +601,15 @@ export default class Typeahead extends React.PureComponent {
                 <div
                     {...props}
                     ref='matches'
-                    className={cx('b-typeahead-match-wrapper', props.className)}>
+                    className={cx('b-typeahead-match-wrapper', props.className)}
+                    role='listbox'>
                     {this.state.entityMatchIndexes.map((index) => {
                         const entity = this.props.entities[index];
                         const {className, text, ...rest} = entity;
 
+                        // handling the focus and click states elsewhere, so the a11y errors
+                        // are not relevant in this case
+                        /* eslint-disable */
                         return (
                             <div
                                 {...rest}
@@ -613,10 +618,12 @@ export default class Typeahead extends React.PureComponent {
                                     'b-typeahead-match-selected': this.state.selectedEntityIndex === index,
                                 })}
                                 key={text}
-                                onClick={this.handleMatchClick.bind(this, index)}>
+                                onClick={this.handleMatchClick.bind(this, index)}
+                                role='option'>
                                 {this.markMatchSubstring(this.state.input, entity)}
                             </div>
                         );
+                        /* eslint-enable */
                     })}
                 </div>
             );

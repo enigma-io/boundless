@@ -281,7 +281,7 @@ export default class TokenizedInput extends React.PureComponent {
 
     renderTokens() {
         return (
-            <div className='b-tokenfield-tokens'>
+            <div className='b-tokenfield-tokens' role='listbox'>
                 {this.props.tokens.map((index) => {
                     return (
                         <div
@@ -292,6 +292,7 @@ export default class TokenizedInput extends React.PureComponent {
                             })}
                             onClick={this.selectToken.bind(this, index)}
                             onKeyDown={this.handleTokenKeyDown.bind(this, index)}
+                            role='option'
                             tabIndex='0'>
                             {this.props.entities[index].text}
                             {this.renderTokenClose(index)}

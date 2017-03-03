@@ -237,7 +237,7 @@ export default class Dialog extends React.PureComponent {
                     className={cx('b-dialog', this.props.dialogProps.className)}
                     onClick={this.handleInsideClick}
                     onKeyDown={this.handleKeyDown}
-                    role='dialog'
+                    role={this.props.captureFocus ? 'alertdialog' : 'dialog'}
                     tabIndex='0'>
                     {this.props.children}
                 </this.props.dialogComponent>
