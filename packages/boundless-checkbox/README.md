@@ -92,19 +92,19 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`component`__ ・ any valid HTML tag name
+- __`component`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`inputProps`__ ・ all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
+- __`inputProps`__ &middot; all input-specific props like `value`, `name`, etc should be passed here -- common ones are listed below
 
   Expects | Default Value
   -       | -
@@ -113,7 +113,7 @@ There are no required props.
     indeterminate: false,
 }`
 
-- __`label`__ ・ any React-renderable content, most commonly a simple string
+- __`label`__ &middot; any React-renderable content, most commonly a simple string
 
   Expects | Default Value
   -       | -
@@ -125,13 +125,13 @@ There are no required props.
   -       | -
   `object` | `{}`
 
-- __`onChecked`__ ・ called when the element becomes checked; backing data must be updated to persist the state change
+- __`onChecked`__ &middot; called when the element becomes checked; backing data must be updated to persist the state change
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onUnchecked`__ ・ called when the element becomes unchecked; backing data must be updated to persist the state change
+- __`onUnchecked`__ &middot; called when the element becomes unchecked; backing data must be updated to persist the state change
 
   Expects | Default Value
   -       | -

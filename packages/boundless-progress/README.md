@@ -119,13 +119,13 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`cancelComponent`__ ・ any valid HTML tag name
+- __`cancelComponent`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
@@ -137,25 +137,25 @@ There are no required props.
   -       | -
   `object` | `{}`
 
-- __`component`__ ・ any valid HTML tag name
+- __`component`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`onCancel`__ ・ if supplied, adds a cancel element and calls this function when that element is clicked
+- __`onCancel`__ &middot; if supplied, adds a cancel element and calls this function when that element is clicked
 
   Expects | Default Value
   -       | -
   `function` | `null`
 
-- __`progress`__ ・ the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
+- __`progress`__ &middot; the integer (and unit, if applicable) of the current progress state, e.g. 0.01 (opacity)
 
   Expects | Default Value
   -       | -
   `string or number` | `undefined`
 
-- __`progressComponent`__ ・ any valid HTML tag name
+- __`progressComponent`__ &middot; any valid HTML tag name
 
   Expects | Default Value
   -       | -
@@ -167,7 +167,7 @@ There are no required props.
   -       | -
   `object` | `{}`
 
-- __`tweenProperty`__ ・ the CSS property to tween (must accept percentages) - defaults to "width"
+- __`tweenProperty`__ &middot; the CSS property to tween (must accept percentages) - defaults to "width"
 
   Expects | Default Value
   -       | -

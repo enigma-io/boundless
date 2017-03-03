@@ -98,7 +98,7 @@ import { Image } from 'boundless';
 
 ### Required Props
 
-- __`src`__ ・ a valid path to the desired image
+- __`src`__ &middot; a valid path to the desired image
 
   Expects | Default Value
   -       | -
@@ -107,19 +107,19 @@ import { Image } from 'boundless';
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`alt`__ ・ a written description of the image for search engines, hovertext and those using accessibility technologies
+- __`alt`__ &middot; a written description of the image for search engines, hovertext and those using accessibility technologies
 
   Expects | Default Value
   -       | -
   `string` | `''`
 
-- __`component`__ ・ overrides the component HTML tag
+- __`component`__ &middot; overrides the component HTML tag
 
   Expects | Default Value
   -       | -

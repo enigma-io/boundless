@@ -111,21 +111,21 @@ import { Pagination } from 'boundless';
 
 ### Required Props
 
-- __`getItem`__ ・ called with a desired item index when that item comes into view;
+- __`getItem`__ &middot; called with a desired item index when that item comes into view;
   accepts a `Promise` if you need to fetch the row asynchronously
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`identifier`__ ・ a unique name for the data source being consumed; pass a
+- __`identifier`__ &middot; a unique name for the data source being consumed; pass a
   different name to cause the view to fully reset and pull fresh data
 
   Expects | Default Value
   -       | -
   `string` | `uuid()`
 
-- __`totalItems`__ ・ the total number of items to be displayed in the view
+- __`totalItems`__ &middot; the total number of items to be displayed in the view
 
   Expects | Default Value
   -       | -
@@ -134,19 +134,19 @@ import { Pagination } from 'boundless';
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`after`__ ・ arbitrary content to be rendered after the items in the DOM
+- __`after`__ &middot; arbitrary content to be rendered after the items in the DOM
 
   Expects | Default Value
   -       | -
   `any renderable` | `null`
 
-- __`before`__ ・ arbitrary content to be rendered before the items in the DOM
+- __`before`__ &middot; arbitrary content to be rendered before the items in the DOM
 
   Expects | Default Value
   -       | -
@@ -158,13 +158,13 @@ import { Pagination } from 'boundless';
   -       | -
   `object` | `{}`
 
-- __`customControlContent`__ ・ allows for arbitrary content to be rendered into the control area
+- __`customControlContent`__ &middot; allows for arbitrary content to be rendered into the control area
 
   Expects | Default Value
   -       | -
   `any renderable` | `null`
 
-- __`hidePagerIfNotNeeded`__ ・ does not render the paging controls if the number of items supplied
+- __`hidePagerIfNotNeeded`__ &middot; does not render the paging controls if the number of items supplied
   to the view is less-than-or-equal-to the number of items to show
   per page via `props.numItemsPerPage`
 
@@ -172,7 +172,7 @@ import { Pagination } from 'boundless';
   -       | -
   `bool` | `false`
 
-- __`initialPage`__ ・ the (__one-indexed__) number of the page that should be initially
+- __`initialPage`__ &middot; the (__one-indexed__) number of the page that should be initially
   displayed; must be a positive integer less than or equal to
   the total number of pages
 
@@ -180,14 +180,14 @@ import { Pagination } from 'boundless';
   -       | -
   `custom` | `1`
 
-- __`itemLoadingContent`__ ・ allows for arbitrary content to be rendered into pagination items
+- __`itemLoadingContent`__ &middot; allows for arbitrary content to be rendered into pagination items
   as they're loading if the backing data is a `Promise`
 
   Expects | Default Value
   -       | -
   `any renderable` | `undefined`
 
-- __`itemToJSXConverter`__ ・ an function to specify how an item should be converted
+- __`itemToJSXConverter`__ &middot; an function to specify how an item should be converted
   to JSX, if it is not already renderable by React
   
   ```jsx
@@ -212,76 +212,76 @@ import { Pagination } from 'boundless';
   -       | -
   `object` | `{}`
 
-- __`jumpToFirstPageControlContent`__ ・ content to be displayed inside of the "First page" control button
+- __`jumpToFirstPageControlContent`__ &middot; content to be displayed inside of the "First page" control button
 
   Expects | Default Value
   -       | -
   `any renderable` | `'⇤'`
 
-- __`jumpToLastPageControlContent`__ ・ content to be displayed inside of the "Last page" control button
+- __`jumpToLastPageControlContent`__ &middot; content to be displayed inside of the "Last page" control button
 
   Expects | Default Value
   -       | -
   `any renderable` | `'⇥'`
 
-- __`jumpToNextPageControlContent`__ ・ content to be displayed inside of the "Next page" control button
+- __`jumpToNextPageControlContent`__ &middot; content to be displayed inside of the "Next page" control button
 
   Expects | Default Value
   -       | -
   `any renderable` | `'→'`
 
-- __`jumpToPreviousPageControlContent`__ ・ content to be displayed inside of the "Previous page" control button
+- __`jumpToPreviousPageControlContent`__ &middot; content to be displayed inside of the "Previous page" control button
 
   Expects | Default Value
   -       | -
   `any renderable` | `'←'`
 
-- __`numItemsPerPage`__ ・ the maximum number of items to be displayed on each page; must be
+- __`numItemsPerPage`__ &middot; the maximum number of items to be displayed on each page; must be
   greater than zero
 
   Expects | Default Value
   -       | -
   `custom` | `10`
 
-- __`numPageToggles`__ ・ the maximum number of pages to be displayed in the control bar at
+- __`numPageToggles`__ &middot; the maximum number of pages to be displayed in the control bar at
   one time
 
   Expects | Default Value
   -       | -
   `number` | `5`
 
-- __`position`__ ・ determines whether the pagination controls are displayed above,
+- __`position`__ &middot; determines whether the pagination controls are displayed above,
   below, or both above and below the content
 
   Expects | Default Value
   -       | -
   `Pagination.position.ABOVE or Pagination.position.BELOW or Pagination.position.BOTH` | `Pagination.position.ABOVE`
 
-- __`showJumpToFirstPageControl`__ ・ whether the "first page" control button should be displayed
+- __`showJumpToFirstPageControl`__ &middot; whether the "first page" control button should be displayed
 
   Expects | Default Value
   -       | -
   `bool` | `true`
 
-- __`showJumpToLastPageControl`__ ・ whether the "last page" control button should be displayed
+- __`showJumpToLastPageControl`__ &middot; whether the "last page" control button should be displayed
 
   Expects | Default Value
   -       | -
   `bool` | `true`
 
-- __`showJumpToNextPageControl`__ ・ whether the "next page" control button should be displayed
+- __`showJumpToNextPageControl`__ &middot; whether the "next page" control button should be displayed
 
   Expects | Default Value
   -       | -
   `bool` | `true`
 
-- __`showJumpToPreviousPageControl`__ ・ whether the "previous page" control button should be displayed
+- __`showJumpToPreviousPageControl`__ &middot; whether the "previous page" control button should be displayed
 
   Expects | Default Value
   -       | -
   `bool` | `true`
 
-- __`showPaginationState`__ ・ renders an element called `.b-pagination-control-state` that
+- __`showPaginationState`__ &middot; renders an element called `.b-pagination-control-state` that
   contains the current state of the pagination like "1 of 10";
   alternatively, this prop also accepts a function that it will
   call with the currentPage and totalPages for you to format:

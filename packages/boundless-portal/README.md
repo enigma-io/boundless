@@ -47,13 +47,13 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`children`__ ・ any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
+- __`children`__ &middot; any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
   
   ✅ OK:
   
@@ -87,13 +87,13 @@ There are no required props.
   -       | -
   `any renderable` | `null`
 
-- __`destination`__ ・ the location to append the generated portal and child elements
+- __`destination`__ &middot; the location to append the generated portal and child elements
 
   Expects | Default Value
   -       | -
   `HTMLElement` | `document.body`
 
-- __`portalId`__ ・ the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node
+- __`portalId`__ &middot; the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node
 
   Expects | Default Value
   -       | -

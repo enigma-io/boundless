@@ -147,7 +147,7 @@ import { CheckboxGroup } from 'boundless';
 
 ### Required Props
 
-- __`items`__ ・ the data wished to be rendered, each item must conform to the [Checkbox prop spec](https://github.com/enigma-io/boundless/blob/master/packages/boundless-checkbox)
+- __`items`__ &middot; the data wished to be rendered, each item must conform to the [Checkbox prop spec](https://github.com/enigma-io/boundless/blob/master/packages/boundless-checkbox)
 
   Expects | Default Value
   -       | -
@@ -156,49 +156,49 @@ import { CheckboxGroup } from 'boundless';
 
 ### Optional Props
 
-- __`*`__ ・ any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -
   `any` | `n/a`
 
-- __`component`__ ・ override the wrapper HTML element if desired
+- __`component`__ &middot; override the wrapper HTML element if desired
 
   Expects | Default Value
   -       | -
   `string` | `'div'`
 
-- __`onAllChecked`__ ・ called when all children become checked (not fired on first render), no return
+- __`onAllChecked`__ &middot; called when all children become checked (not fired on first render), no return
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onAllUnchecked`__ ・ called when all children become unchecked (not fired on first render), no return
+- __`onAllUnchecked`__ &middot; called when all children become unchecked (not fired on first render), no return
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onChildChecked`__ ・ called when a specific child has become checked, returns the child definition
+- __`onChildChecked`__ &middot; called when a specific child has become checked, returns the child definition
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`onChildUnchecked`__ ・ called when a specific child has become checked, returns the child definition
+- __`onChildUnchecked`__ &middot; called when a specific child has become checked, returns the child definition
 
   Expects | Default Value
   -       | -
   `function` | `() => {}`
 
-- __`selectAll`__ ・ renders a master checkbox that can manipulate the values of all children simultaneously
+- __`selectAll`__ &middot; renders a master checkbox that can manipulate the values of all children simultaneously
 
   Expects | Default Value
   -       | -
   `CheckboxGroup.selectAll.BEFORE or CheckboxGroup.selectAll.AFTER or CheckboxGroup.selectAll.NONE` | `CheckboxGroup.selectAll.BEFORE`
 
-- __`selectAllProps`__ ・ must conform to the [Checkbox prop spec](./Checkbox)
+- __`selectAllProps`__ &middot; must conform to the [Checkbox prop spec](./Checkbox)
 
   Expects | Default Value
   -       | -

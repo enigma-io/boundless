@@ -83,7 +83,7 @@ import { <%= prettyName %> } from 'boundless';
     if (_.size(requiredProps)) {
         const requiredPropsSortedKeys = _.sortBy(_.keys(requiredProps), [_.identity]);
         _.each(requiredPropsSortedKeys, function(propName) { %>
-- __\`<%= propName %>\`__<% if (props[propName].description) { %> ・ <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
+- __\`<%= propName %>\`__<% if (props[propName].description) { %> &middot; <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
 
   Expects | Default Value
   -       | -
@@ -99,7 +99,7 @@ There are no required props.
     if (_.size(optionalProps)) {
         const optionalPropsSortedKeys = _.sortBy(_.keys(optionalProps), [_.identity]);
         _.each(optionalPropsSortedKeys, function(propName) { %>
-- __\`<%= propName %>\`__<% if (props[propName].description) { %> ・ <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
+- __\`<%= propName %>\`__<% if (props[propName].description) { %> &middot; <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
 
   Expects | Default Value
   -       | -
