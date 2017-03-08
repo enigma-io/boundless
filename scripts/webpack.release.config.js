@@ -3,6 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const git = require('git-rev-sync');
 const HTMLInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -62,7 +63,9 @@ releaseConf.plugins.push(
         template: path.join(base, 'site/index.template.ejs'),
         title: 'boundless / Welcome!',
     }),
-    new HTMLInlineSourcePlugin()
+    new HTMLInlineSourcePlugin(),
+
+    new OfflinePlugin()
 );
 
 module.exports = releaseConf;
