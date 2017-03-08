@@ -5,9 +5,12 @@ if (module.hot) {
 import React from 'react';
 import {render as r} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import Site from './site';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
+import Site from './site';
 import './style.styl';
+
+OfflinePluginRuntime.install();
 
 const render = (Component) => r(
     <AppContainer>
