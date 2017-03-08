@@ -65,7 +65,11 @@ releaseConf.plugins.push(
     }),
     new HTMLInlineSourcePlugin(),
 
-    new OfflinePlugin()
+    new OfflinePlugin({
+        ServiceWorker: {
+            events: true,
+        },
+    })
 );
 
 module.exports = releaseConf;
