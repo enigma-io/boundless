@@ -1,6 +1,5 @@
 /**
- * Generates a unique ID, based on [this algorithm](https://gist.github.com/jed/982883). Adds a prefix (`b-`) so it is
- * suitable for use as an HTML ID.
+ * Based on [this algorithm](https://gist.github.com/jed/982883).
  */
 export default function uuid() {
     /* eslint-disable */

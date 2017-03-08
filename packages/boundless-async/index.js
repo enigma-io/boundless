@@ -6,8 +6,6 @@ import omit from 'boundless-utils-omit-keys';
 const get = (base, path, fallback) => path.split('.').reduce((current, fragment) => current[fragment] || fallback, base);
 
 /**
- * __A higher-order component for rendering data that isn't ready yet.__
- *
  * There are plenty of situations where you need to fetch content to be displayed, but want
  * to show some sort of loading graphic in the interim. This component helps to simplify
  * that pattern by handling common types of promises and providing a simple mechanism

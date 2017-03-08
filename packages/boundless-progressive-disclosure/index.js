@@ -7,8 +7,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-__Hide content until it's needed, with configurable teasers.__
-
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
  */
 export default class ProgressiveDisclosure extends React.PureComponent {

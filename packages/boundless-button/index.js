@@ -4,8 +4,6 @@ import cx from 'classnames';
 import omit from 'boundless-utils-omit-keys';
 
 /**
-__A control with "pressed" state support.__
-
 Button has two modes of operation:
 
 1. stateless (like a normal `<button>`)

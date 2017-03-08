@@ -12,8 +12,6 @@ const isString = (x) => typeof x === 'string';
 const noop = () => {};
 
 /**
-__Intelligently recommend entities via customizable, fuzzy recognition.__
-
 Typeahead is an enhancement upon [Input](https://github.com/enigma-io/boundless/tree/master/packages/boundless-input) which provides two built-in matching algorithms ("fuzzy" \[default\] and "starts-with") and supports the use of custom matching and marking functions.
 
 In the examples below, imagine the `<>` in the "marks" section is a wrapping `<mark>` element:

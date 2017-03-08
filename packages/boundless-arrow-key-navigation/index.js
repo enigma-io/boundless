@@ -8,8 +8,6 @@ const DATA_ATTRIBUTE_INDEX = 'data-focus-index';
 const DATA_ATTRIBUTE_SKIP = 'data-focus-skip';
 
 /**
-__A higher-order component for arrow key navigation on a grouping of children.__
-
 ArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass whatever HTML tag you like into `props.component` or even a React component you've made elsewhere. Additional props passed to `<ArrowKeyNavigation ...>` will be forwarded on to the component or HTML tag name you've supplied.
 
 The children, similarly, can be any type of component.

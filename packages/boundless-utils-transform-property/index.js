@@ -1,6 +1,3 @@
-/**
- * Returns the appropriate vendor-prefixed property for use in programmatic transform style manipulation.
- */
 export default (function detectTransformProperty() {
     const props = [
         'transform',
@@ -8,7 +5,7 @@ export default (function detectTransformProperty() {
         'MozTransform',
         'OTransform',
         'msTransform',
-        'webkit-transform', // used in JSDOM
+        'webkit-transform',
     ];
 
     for (let i = 0, len = props.length; i < len; i++) {

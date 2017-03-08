@@ -60,8 +60,6 @@ function unregisterInstance(instance) {
 }
 
 /**
-__Fit single-line text inside a parent container, obeying implict constraints.__
-
 This component can be useful in situations where an internationalized string is being placed into the UI and it's unclear if all variations of it will fit without excessive amounts of edge-case CSS. Ultimately, it's good at making sure what you put in doesn't overflow.
  */
 export default class FittedText extends React.PureComponent {

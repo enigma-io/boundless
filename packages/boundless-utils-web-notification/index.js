@@ -56,8 +56,6 @@ function checkPermission() {
 }
 
 /**
- * __Trigger native toasts in supporting browsers.__
- *
  * > Support for web notifications is [available in all major desktop browsers](http://caniuse.com/#feat=notifications),
  *   except IE (February 2017).
  *

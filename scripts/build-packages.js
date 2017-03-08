@@ -225,7 +225,12 @@ require('jsdom').env('', [
         } else {
             const extracted = extractComments(fs.readFileSync(entryPath, 'utf8'))[0];
 
-            coalesced.description = (extracted && extracted.value ? extracted.value : require(jsonPath).description).trim();
+            coalesced.description = require(jsonPath).description.trim();
+
+            if (extracted && extracted.value) {
+                coalesced.description += `\n${extracted.value}`;
+            }
+
             coalesced.prettyName = _.camelCase(name.replace('boundless-utils-', ''));
             coalesced.props = null;
         }
