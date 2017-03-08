@@ -53,8 +53,6 @@ const combinations = [
 ];
 
 /**
-__A non-blocking container positioned to a specific anchor element.__
-
 A popover is a type of [Dialog](https://github.com/enigma-io/boundless/tree/master/packages/boundless-dialog) that is meant to provide additional context to content (an "anchor") currently on-screen. Typically, a popover is spawned by interacting with the content it enriches and is dismissed by clicking or shifting focus to an alternate location.
 
 Alignment options for the popover are designed to mirror compass directions:

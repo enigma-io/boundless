@@ -19,8 +19,6 @@ function findIndex(arr, test) {
 }
 
 /**
-__A control containing multiple buttons, only one of which can be active at a time.__
-
 SegmentedControl has many potential uses, the most common being:
 
 1. The controls for a tabbed view

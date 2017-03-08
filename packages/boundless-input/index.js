@@ -6,8 +6,6 @@ import omit from 'boundless-utils-omit-keys';
 const isFunction = (x) => typeof x === 'function';
 
 /**
-__An input control with placeholder emulation for non-supporting platforms.__
-
 Input abstracts away the cross-platform differences of placeholder styling and behaviors, for example: Internet Explorer dismisses native placeholders on input focus and other platforms do not. This component ensures that text input controls will feel and behave similarly on more devices.
 
 ## Component Instance Methods

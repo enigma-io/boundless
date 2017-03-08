@@ -9,8 +9,6 @@ const noop = () => {};
 const toArray = Array.prototype.slice;
 
 /**
-__A non-blocking, focus-stealing container.__
-
 A dialog differs from a modal in that it does not come with a masking layer (to obscure the rest of the page)
 and the user can choose to shift focus away from the dialog contents via mouse click or a keyboard shortcut.
 

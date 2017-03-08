@@ -4,9 +4,6 @@ import cx from 'classnames';
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
 
-/**
-__An image block with placeholder support for loading and fallback scenarios.__
- */
 export default class Image extends React.PureComponent {
     static status = {
         LOADING: uuid(),

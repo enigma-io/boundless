@@ -8,8 +8,6 @@ const isFunction = (x) => typeof x === 'function';
 const noop = () => {};
 
 /**
-__An accessible checkbox with indeterminate support.__
-
 Checkbox is implemented as a "controlled input", meaning it is a direct representation of the model data passed
 inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller
 view must intercept and apply against the data provider.

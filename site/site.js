@@ -1,52 +1,44 @@
 /* global VERSION */
 
 import React, {PropTypes} from 'react';
-import {Link, Redirect, Router, Route, browserHistory} from 'react-router';
+import {IndexRoute, Link, Redirect, Router, Route, browserHistory} from 'react-router';
 import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
-import ComponentDemo from './component-demo';
+import Demo from './demo';
 import LinkedHeader from './linked-header-text';
 import Markdown from './markdown';
 import pascalCase from './pascal-case';
 
-import repositoryREADME from '../README.md';
-import GettingStarted from '../GETTING_STARTED.md';
+const TYPE = {
+    COMPONENT: 1,
+    UTILITY: 2,
+};
 
-const demoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-(?!utils)[^/]*?\/demo\/index\.js$/);
-const demoReqKeys = demoReq.keys();
+const json = require.context('..', true, /(?!node_modules)packages\/boundless-[^/]*?\/package\.json$/);
+const jsonPaths = json.keys();
 
-const components = _.keys(Boundless).map((prettyName) => {
-    const name = 'boundless-' + _.kebabCase(prettyName);
-    const demoPath = `./packages/${name}/demo/index.js`;
+const components = jsonPaths.filter((path) => path.indexOf('utils') === -1 && !json(path).private).map((path) => {
+    const name = path.match(/(boundless\-.*?)\//)[1];
+    const prettyName = pascalCase(name.replace('boundless-', ''));
 
     return {
-        demo: _.includes(demoReqKeys, demoPath) ? demoReq(demoPath).default : null,
-        docgenInfo: Boundless[prettyName].__docgenInfo,
-        name: name,
+        json: json(path),
+        name,
         path: prettyName,
+        type: TYPE.COMPONENT,
     };
 });
 
-const utilsReq = require.context('..', true, /(?!node_modules)packages\/boundless\-utils\-[^/]*?\/README\.md$/);
-const utilsReqKeys = utilsReq.keys();
-
-const utilsDemoReq = require.context('..', true, /(?!node_modules)packages\/boundless\-utils\-[^/]*?\/demo\/index\.js$/);
-const utilsDemoReqKeys = utilsDemoReq.keys();
-
-const utilities = utilsReqKeys.map((path) => {
-    const name = path.match(/(boundless\-utils\-.*?)\//)[1];
-    const demoPath = `./packages/${name}/demo/index.js`;
+const utilities = jsonPaths.filter((path) => path.indexOf('utils') !== -1 && !json(path).private).map((path) => {
+    const name = path.match(/(boundless\-.*?)\//)[1];
     const prettyName = _.camelCase(name.replace('boundless-utils-', ''));
 
     return {
+        json: json(path),
         name,
-
-        demo: _.includes(utilsDemoReqKeys, demoPath) ? utilsDemoReq(demoPath).default : null,
-
-        // drop the comment added to the top by build-packages.js
-        markdown: utilsReq(path).split(/\n/).slice(3).join('\n'),
         path: prettyName,
+        type: TYPE.UTILITY,
     };
 });
 
@@ -96,7 +88,6 @@ const formatPropType = (type) => {
 
 class ComponentPage extends React.PureComponent {
     static propTypes = {
-        demo: PropTypes.any,
         docgenInfo: PropTypes.object,
         packageName: PropTypes.string,
         prettyName: PropTypes.string,
@@ -256,16 +247,6 @@ class ComponentPage extends React.PureComponent {
         );
     }
 
-    maybeRenderDemo() {
-        if (this.props.demo) {
-            return (
-                <ComponentDemo
-                    demo={this.props.demo}
-                    name={this.props.packageName} />
-            );
-        }
-    }
-
     render({docgenInfo} = this.props) {
         const descriptionParts = docgenInfo.description.split(/(\n#{1,}?.*?\n)/);
 
@@ -273,37 +254,69 @@ class ComponentPage extends React.PureComponent {
         const coalesced = {...docgenInfo};
         const stack = docgenInfo.composes || [];
 
-        while (stack.length) {
-            if (stack[0].indexOf('boundless-') !== -1) {
-                const component = stack[0].match(/boundless-(\w+)/)[1];
-                const componentDocgen = Boundless[pascalCase(component)].__docgenInfo;
-
-                coalesced.props = {
-                    ...coalesced.props,
-                    ...componentDocgen.props,
-                };
-
-                if (componentDocgen.composes) {
-                    stack.push.apply(stack, componentDocgen.composes);
-                }
-            }
-
-            stack.shift();
-        }
-
         return (
-            <div>
-                <Markdown>{descriptionParts[0]}</Markdown>
-                {this.maybeRenderDemo()}
-                <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
+            <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
+                {new Promise(async (resolve) => {
+                    while (stack.length) {
+                        try {
+                            const component = await import(`../packages/${stack[0]}/index.js`);
+                            const componentDocgen = component.default.__docgenInfo;
 
-                <LinkedHeader component='h2'>Props</LinkedHeader>
-                <LinkedHeader component='h3'>Required Props</LinkedHeader>
-                {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
+                            coalesced.props = {
+                                ...coalesced.props,
+                                ...componentDocgen.props,
+                            };
 
-                <LinkedHeader component='h3'>Optional Props</LinkedHeader>
-                {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
-            </div>
+                            if (componentDocgen.composes) {
+                                stack.push.apply(stack, componentDocgen.composes);
+                            }
+                        } catch (err) { console.error(err); }
+
+                        stack.shift();
+                    }
+
+                    resolve();
+                }).then(() => (
+                    <div>
+                        <Markdown>{descriptionParts[0]}</Markdown>
+
+                        <LinkedHeader component='h2'>Installation</LinkedHeader>
+
+                        <pre>
+                            <code className='language-bash'>
+                               {`npm i --save ${this.props.packageName}`}
+                            </code>
+                        </pre>
+
+                        <p>{this.props.prettyName} can also just be directly used from the main Boundless library. This is recommended when you're getting started to avoid maintaining the package versions of several components:</p>
+
+                        <pre>
+                            <code className='language-bash'>
+                                npm i boundless --save
+                            </code>
+                        </pre>
+
+                        <p>the ES6 `import` statement then becomes like:</p>
+
+                        <pre>
+                            <code className='language-bash'>
+                                {`import { ${this.props.prettyName} } from 'boundless';`}
+                            </code>
+                        </pre>
+
+                        <Demo name={this.props.packageName} />
+
+                        <Markdown>{descriptionParts.slice(1).join('')}</Markdown>
+
+                        <LinkedHeader component='h2'>Props</LinkedHeader>
+                        <LinkedHeader component='h3'>Required Props</LinkedHeader>
+                        {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
+
+                        <LinkedHeader component='h3'>Optional Props</LinkedHeader>
+                        {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
+                    </div>
+                ))}
+            </Boundless.Async>
         );
     }
 }
@@ -341,7 +354,7 @@ class Container extends React.PureComponent {
     maybeRenderGithubLinks(route) {
         const links = [];
 
-        if (route.type === 'component' || route.type === 'utility') {
+        if (route.type) {
             links.push(
                 <a
                     key='source'
@@ -350,19 +363,6 @@ class Container extends React.PureComponent {
                     target='_blank'
                     rel='noopener'>
                     View Source
-                </a>
-            );
-        }
-
-        if (route.demo) {
-            links.push(
-                <a
-                    key='demo-source'
-                    className='demo-implementation-link'
-                    href={`${repositoryURL}/blob/master/packages/${route.name}/demo/index.js`}
-                    target='_blank'
-                    rel='noopener'>
-                    View Demo Source
                 </a>
             );
         }
@@ -381,34 +381,47 @@ class Container extends React.PureComponent {
             );
         }
 
-        if (route.markdown) {
+        if (route.json) {
             sections.push(
-                <Markdown key='md'>
-                    {route.demo ? route.markdown.split(/(\n#{1,}\sExample Usage.*?\n)/)[0] : route.markdown}
-                </Markdown>
+                <p key='description'>
+                    <strong>
+                        {route.json.description}
+                    </strong>
+                </p>
             );
         }
 
-        if (route.docgenInfo) {
+        if (route.type === TYPE.COMPONENT) {
             sections.push(
-                <ComponentPage
-                    key='component'
-                    demo={route.demo}
-                    docgenInfo={route.docgenInfo}
-                    packageName={route.name}
-                    prettyName={route.path} />
+                <Boundless.Async key='component-page' childrenDidRender={window.Prism.highlightAll}>
+                    {import(`../packages/${route.name}/index.js`).then(
+                        (module) => (
+                            <ComponentPage
+                                key='component'
+                                docgenInfo={module.default.__docgenInfo}
+                                packageName={route.name}
+                                prettyName={route.path} />
+                        )
+                    )}
+                </Boundless.Async>
             );
-        } else if (route.demo) {
+        } else if (route.type === TYPE.UTILITY) {
+            const fragment = _.kebabCase(route.path);
+
             sections.push(
-                <ComponentDemo
-                    key='demo'
-                    demo={route.demo}
-                    name={route.name} />
+                (<Demo key='utility-demo' name={route.name} />),
+
+                (<Boundless.Async key='utility-page' childrenDidRender={window.Prism.highlightAll}>
+                    {import(`../packages/boundless-utils-${fragment}/README.md`).then(
+                        // remove the HTML comment and description line
+                        (md) => <Markdown>{md.split(/\n/).slice(5).join('\n')}</Markdown>, null
+                    )}
+                </Boundless.Async>)
             );
         }
 
-        if (route.component && route.path !== '/') {
-            sections.push(<route.component key='custom' />);
+        if (route.component) {
+            sections.push(<route.component key='custom-page' />);
         }
 
         return sections;
@@ -476,16 +489,34 @@ class Container extends React.PureComponent {
     }
 }
 
-const KitchenSink = () => (
-    <div className='kitchensink'>
-        <p>The demos of every component are shown here for convenience.</p>
+const HomePage = () => (
+    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
+        {import('../README.md').then((md) => <Markdown>{md}</Markdown>)}
+    </Boundless.Async>
+);
 
-        {components.filter((component) => !!component.demo).map((component) => (
-            <ComponentDemo
+const GettingStartedPage = () => (
+    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
+        {import('../GETTING_STARTED.md').then((md) => <Markdown>{md}</Markdown>)}
+    </Boundless.Async>
+);
+
+const KitchenSinkPage = () => (
+    <div className='kitchensink'>
+        <p>The demos of every package are shown here for convenience.</p>
+
+        {components.map((component) => (
+            <Demo
                 key={component.name}
-                demo={component.demo}
                 name={component.name}
                 prettyName={component.path} />
+        ))}
+
+        {utilities.map((utility) => (
+            <Demo
+                key={utility.name}
+                name={utility.name}
+                prettyName={utility.path} />
         ))}
     </div>
 );
@@ -509,23 +540,21 @@ export default () => (
         <Route
             path='/'
             component={Container}
-            markdown={repositoryREADME}
             onEnter={handleRouting}
-            onChange={handleRoutingChange}
-            title='Welcome!'>
+            onChange={handleRoutingChange}>
+            <IndexRoute component={HomePage} title='Welcome!' />
 
             {/* If adding a non-package page, make sure it's also added to scripts/build-indexes.js */}
 
-            <Route path='quickstart' markdown={GettingStarted} title='Getting Started' />
-            <Route path='kitchensink' component={KitchenSink} title='Kitchen Sink'  />
+            <Route path='quickstart' component={GettingStartedPage} title='Getting Started' />
+            <Route path='kitchensink' component={KitchenSinkPage} title='Kitchen Sink'  />
 
             {components.map((component) => (
                 <Route
                     {...component}
                     key={component.path}
                     path={component.path}
-                    title={component.path}
-                    type='component' />
+                    title={component.path} />
             ))}
 
             {utilities.map((utility) => (
@@ -533,8 +562,7 @@ export default () => (
                     {...utility}
                     key={utility.path}
                     path={utility.path}
-                    title={utility.path}
-                    type='utility' />
+                    title={utility.path} />
             ))}
 
             <Redirect from='*' to='/' />
