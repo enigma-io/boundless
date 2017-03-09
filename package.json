@@ -89,7 +89,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postinstall": "$(node -e \"process.chdir(process.cwd())\") && npm run bootstrap",
+    "postinstall": "npm run bootstrap",
     "presite": "find docs/* -type d -maxdepth 0 -not -path '*assets' | xargs rm -rf && rm -f docs/index.html && rm -f docs/sitemap.xml && rm -f docs/assets/*.js && rm -f docs/assets/*.css",
     "site": "BABEL_ENV=site-production NODE_ENV=production webpack --config scripts/webpack.release.config.js",
     "postsite": "node scripts/build-indexes.js",

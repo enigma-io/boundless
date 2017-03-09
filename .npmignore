@@ -9,4 +9,3 @@
 .travis.yml
 CNAME
 codecov.yml
-lerna.json
