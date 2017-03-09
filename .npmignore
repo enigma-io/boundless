@@ -1,11 +1,8 @@
-**/demo
 **/scripts
 **/site
 **/docs
-**/*.spec.js
 
 .babelrc
 .eslint*
 .travis.yml
-CNAME
 codecov.yml
