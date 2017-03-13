@@ -41,7 +41,7 @@
     "classnames": "^2.1.5",
     "codecov": "^1.0.1",
     "css-loader": "^0.26.1",
-    "eslint": "^3.7.0",
+    "eslint": "^3.17.1",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.3.0",
     "extract-comments": "^0.10.1",

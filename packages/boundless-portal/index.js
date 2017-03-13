@@ -1,5 +1,5 @@
 import {createElement, isValidElement, Component, PropTypes} from 'react';
-import {unmountComponentAtNode, unstable_renderSubtreeIntoContainer} from 'react-dom';
+import {unmountComponentAtNode, unstable_renderSubtreeIntoContainer as renderSubtree} from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
@@ -91,7 +91,7 @@ export default class Portal extends Component {
         // update the portal ID link if needed
         this.$portal.id = this.props.portalId || this.id;
 
-        unstable_renderSubtreeIntoContainer(this, child, this.$portal);
+        renderSubtree(this, child, this.$portal);
         this.$passenger = this.$portal.children[0];
     }
 

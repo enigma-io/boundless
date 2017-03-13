@@ -1,6 +1,6 @@
 /* global VERSION */
 
-import {cloneElement, createElement, isValidElement, Children, PropTypes, PureComponent} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import {IndexRoute, Link, Redirect, Router, Route, browserHistory} from 'react-router';
 import * as _ from 'lodash';
 

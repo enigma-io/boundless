@@ -247,7 +247,7 @@ require('jsdom').env('', [
 
         if (demoContent) {
             // simulate actually importing the modules from NPM
-            demoContent = demoContent.replace(/from '(?:\.\.?\/){1,}(.*?)'/g, (_, match) => {
+            demoContent = demoContent.replace(/from '(?:\.\.?\/){1,}(.*?)'/g, (x, match) => {
                 return `from '${match === '' || match === 'index' ? name : match.replace('/index', '')}'`;
             });
 
