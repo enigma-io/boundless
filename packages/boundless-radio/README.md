@@ -102,13 +102,13 @@ import { Radio } from 'boundless';
 - __`name`__ &middot; passthrough to the HTML `name` attribute on the `.b-radio` node
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `''`
 
 - __`value`__ &middot; passthrough to the HTML `value` attribute on the `.b-radio` node
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `''`
 
 
@@ -117,43 +117,43 @@ import { Radio } from 'boundless';
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`component`__ &middot; override the wrapper component HTML element tag if desired
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 - __`inputProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`labelContent`__ &middot; any React-renderable content
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any renderable or arrayOf(any renderable)` | `null`
 
 - __`labelProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`onSelected`__ &middot; called when the element becomes selected; backing data must be updated to persist the state change
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`selected`__ &middot; determines the activation state of the radio control, see React ["controlled inputs"](https://facebook.github.io/react/docs/forms.html#controlled-components))
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `false`
 
 

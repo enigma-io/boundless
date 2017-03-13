@@ -88,7 +88,7 @@ import { <%= prettyName %> } from 'boundless';
 - __\`<%= propName %>\`__<% if (props[propName].description) { %> &middot; <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   \`<%= typeParser(props[propName].type) %>\` | \`<%= props[propName].defaultValue.value %>\`
 <% }) } else { %>
 There are no required props.
@@ -104,7 +104,7 @@ There are no required props.
 - __\`<%= propName %>\`__<% if (props[propName].description) { %> &middot; <%= _.lowerFirst(props[propName].description.replace(/\\n/g, '\\n  ')) %><% } %>
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   \`<%= typeParser(props[propName].type) %>\` | \`<%= _.get(props[propName], 'defaultValue.value', 'n/a') %>\`
 <% }) } else { %>
 There are no optional props.

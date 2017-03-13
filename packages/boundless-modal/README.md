@@ -88,102 +88,102 @@ There are no required props.
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`after`__ &middot; arbitrary content to be rendered after the dialog in the DOM
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any renderable` | `null`
 
 - __`before`__ &middot; arbitrary content to be rendered before the dialog in the DOM
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any renderable` | `null`
 
 - __`captureFocus`__ &middot; determines if focus is allowed to move away from the dialog
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `true`
 
 - __`closeOnEscKey`__ &middot; enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool or function` | `false`
 
 - __`closeOnInsideClick`__ &middot; enable detection of clicks inside the dialog area to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool or function` | `false`
 
 - __`closeOnOutsideClick`__ &middot; enable detection of clicks outside the dialog area to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool or function` | `false`
 
 - __`closeOnOutsideFocus`__ &middot; enable detection of focus outside the dialog area to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool or function` | `false`
 
 - __`closeOnOutsideScroll`__ &middot; enable detection of scroll and mousewheel events outside the dialog area to trigger `props.onClose`; if a function
   is provided, the return value determines if the dialog will be closed
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool or function` | `false`
 
 - __`component`__ &middot; override the type of `.b-dialog-wrapper` HTML element
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 - __`dialogComponent`__ &middot; override the type of `.b-dialog` HTML element
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 - __`dialogProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`maskProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`modalProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`onClose`__ &middot; a custom event handler that is called to indicate that the dialog should be unrendered by its parent; the event occurs if one or more of the "closeOn" props (`closeOnEscKey`, `closeOnOutsideClick`, etc.) are passed as `true` and the dismissal criteria are satisfied
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`portalProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 

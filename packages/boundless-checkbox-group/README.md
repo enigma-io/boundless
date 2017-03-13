@@ -150,7 +150,7 @@ import { CheckboxGroup } from 'boundless';
 - __`items`__ &middot; the data wished to be rendered, each item must conform to the [Checkbox prop spec](https://github.com/enigma-io/boundless/blob/master/packages/boundless-checkbox)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `array` | `[]`
 
 
@@ -159,49 +159,49 @@ import { CheckboxGroup } from 'boundless';
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`component`__ &middot; override the wrapper HTML element if desired
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 - __`onAllChecked`__ &middot; called when all children become checked (not fired on first render), no return
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onAllUnchecked`__ &middot; called when all children become unchecked (not fired on first render), no return
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onChildChecked`__ &middot; called when a specific child has become checked, returns the child definition
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onChildUnchecked`__ &middot; called when a specific child has become checked, returns the child definition
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`selectAll`__ &middot; renders a master checkbox that can manipulate the values of all children simultaneously
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `CheckboxGroup.selectAll.BEFORE or CheckboxGroup.selectAll.AFTER or CheckboxGroup.selectAll.NONE` | `CheckboxGroup.selectAll.BEFORE`
 
 - __`selectAllProps`__ &middot; must conform to the [Checkbox prop spec](./Checkbox)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 

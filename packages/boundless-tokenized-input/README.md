@@ -131,78 +131,78 @@ There are no required props.
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`algorithm`__ &middot; the mechanism used to identify and mark matching substrings; a custom set can be provided as an object
   (see the properties below)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `Typeahead.mode.STARTS_WITH or Typeahead.mode.FUZZY or object` | `Typeahead.mode.FUZZY`
 
 - __`clearOnSelection`__ &middot; if `true`, clears the input text when a (partial) match is selected
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `false`
 
 - __`component`__ &middot; overrides the HTML container tag
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 - __`entities`__ &middot; an array of objects that user input is filtered against; at a minimum, each object must have a `text`
   property and any other supplied property is passed through to the resulting DOM element
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `arrayOf(object)` | `[]`
 
 - __`handleAddToken`__ &middot; function handler that is called when an entity is selected by the user and a token should be created
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`handleNewSelection`__ &middot; function handler that is called when one or more tokens are selected by the user via click or keyboard
   actions; called with what the new selection should be
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`handleRemoveTokens`__ &middot; function handler that is called when one or more tokens are removed by the user via clicking the "close"
   button or pressing the `Backspace` key while tokens are selected
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`hidePlaceholderOnFocus`__ &middot; triggers the placeholder to disappear when the input field is focused, reappears when the user has tabbed away or focus is moved
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `true`
 
 - __`hint`__ &middot; renders a disabled textfield with the full text of the currently selected input hint; will remain blank
   if the matched substring is not at the beginning of the user input
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `null`
 
 - __`hintProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`inputProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{
     type: 'text',
 }`
@@ -210,7 +210,7 @@ There are no required props.
 - __`matchWrapperProps`__
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `object` | `{}`
 
 - __`offscreenClass`__ &middot; the "offscreen" class used by your application; specifically to retain [ARIA navigability]
@@ -218,50 +218,50 @@ There are no required props.
   element from consideration
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'b-offscreen'`
 
 - __`onComplete`__ &middot; called when the user presses `Enter` with no autosuggest hint available, indicating that input is complete
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onEntityHighlighted`__ &middot; called with the index of the highlighted entity due to keyboard selection
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onEntitySelected`__ &middot; called with the index of the entity selected by the user
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`tokenCloseComponent`__ &middot; the JSX used for the close button itself
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `ReactElement` | `<div>X</div>`
 
 - __`tokenCloseVisible`__ &middot; determines if the `.b-tokenfield-token-close` element should be rendered for each token
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `true`
 
 - __`tokens`__ &middot; the indexes of entities that should be rendered as "tokens" in the component UI
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `arrayOf(number)` | `[]`
 
 - __`tokensSelected`__ &middot; the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to
   trigger `handleRemoveTokens`
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `arrayOf(number)` | `[]`
 
 

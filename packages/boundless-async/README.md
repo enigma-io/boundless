@@ -89,7 +89,7 @@ import { Async } from 'boundless';
   ```
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function or any renderable or Promise` | `<div />`
 
 
@@ -98,19 +98,19 @@ import { Async } from 'boundless';
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`childrenDidRender`__ &middot; a callback for when real content has been rendered; this will be called immediately if normal JSX is passed to Async, or, in the case of a promise, upon resolution or rejection
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`pendingContent`__ &middot; content to be shown while the promise is in "pending" state (like a loading graphic, perhaps)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any renderable` | `<div />`
 
 

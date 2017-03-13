@@ -103,7 +103,7 @@ import { Image } from 'boundless';
 - __`src`__ &middot; a valid path to the desired image
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'about:blank'`
 
 
@@ -112,19 +112,19 @@ import { Image } from 'boundless';
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`alt`__ &middot; a written description of the image for search engines, hovertext and those using accessibility technologies
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `''`
 
 - __`component`__ &middot; overrides the component HTML tag
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'div'`
 
 

@@ -116,7 +116,7 @@ There are no required props.
   (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`component`__ &middot; any valid HTML tag name or a ReactComponent, anything that can be passed as the
@@ -124,25 +124,25 @@ There are no required props.
   attributes so non-`<button>` elements will still behave like a button for screen readers
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string or function` | `'button'`
 
 - __`onPressed`__ &middot; use this callback instead of `onClick` (it's `onClick` + `onKeyDown:Enter`); fires for both button modes
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`onUnpressed`__ &middot; called when the element becomes "unpressed"; only fires when the Button is in stateful mode
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `function` | `() => {}`
 
 - __`pressed`__ &middot; passthrough to `aria-pressed`; using this prop turns on the `onUnpressed` callback when applicable
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `undefined`
 
 

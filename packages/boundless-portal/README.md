@@ -48,7 +48,7 @@ There are no required props.
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`children`__ &middot; any normal React child, but must be singular; multiple sibling children must have a common wrapper, such as a "layout" `<div>`
@@ -82,19 +82,19 @@ There are no required props.
   ```
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any renderable` | `null`
 
 - __`destination`__ &middot; the location to append the generated portal and child elements
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `HTMLElement` | `document.body`
 
 - __`portalId`__ &middot; the ID used to link the portal origin to the destination; added to generated `<div>` appended to the destination HTML node
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `null`
 
 

@@ -105,20 +105,20 @@ There are no required props.
   (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`component`__ &middot; any valid HTML tag name or a React component factory, anything that can be passed as the first argument to
   `React.createElement`
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string or function` | `'div'`
 
 - __`defaultActiveChildIndex`__ &middot; allows for a particular child to be initially reachable via tabbing; only applied during first render
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `number` | `0`
 
 - __`mode`__ &middot; controls which arrow key events are captured to move active focus within the list:
@@ -132,7 +132,7 @@ There are no required props.
   _Note: focus loops when arrowing past one of the boundaries; tabbing moves the user away from the list._
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `ArrowKeyNavigation.mode.BOTH or ArrowKeyNavigation.mode.HORIZONTAL or ArrowKeyNavigation.mode.VERTICAL` | `ArrowKeyNavigation.mode.BOTH`
 
 

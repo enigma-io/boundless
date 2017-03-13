@@ -72,20 +72,20 @@ There are no required props.
 - __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `any` | `n/a`
 
 - __`component`__ &middot; any valid HTML tag name
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `string` | `'span'`
 
 - __`upscale`__ &middot; controls if FittedText will automatically scale up the content to fit the available space; normally the component
   only scales text down as needed to fit
 
   Expects | Default Value
-  -       | -
+  ---     | ---
   `bool` | `false`
 
 
