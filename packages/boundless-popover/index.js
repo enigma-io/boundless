@@ -100,6 +100,11 @@ export default class Popover extends React.PureComponent {
         autoReposition: PropTypes.bool,
 
         /**
+         *  if popover element should match the anchor
+         */
+        matchAnchorWidth: PropTypes.bool,
+
+        /**
          * a DOM element or React reference (ref) to one for positioning purposes, the caret component will
          * be automatically positioned to center on this provided anchor; by default it will center
          * on `props.anchor`
@@ -148,6 +153,7 @@ export default class Popover extends React.PureComponent {
         ...Dialog.defaultProps,
         anchor: undefined,
         autoReposition: true,
+        matchAnchorWidth: false,
         captureFocus: false,
         caretAnchor: undefined,
         caretComponent: DEFAULT_CARET_COMPONENT,
@@ -373,18 +379,15 @@ export default class Popover extends React.PureComponent {
     }
 
     align = () => {
-        const anchor = this.props.anchor instanceof HTMLElement
-                       ? this.props.anchor
-                       : findDOMNode(this.props.anchor);
+        const anchor = findDOMNode(this.props.anchor);
 
-        // eslint-disable-next-line no-nested-ternary
         const caretAnchor = this.props.caretAnchor
-                            ? this.props.caretAnchor instanceof HTMLElement
-                              ? this.props.caretAnchor
-                              : findDOMNode(this.props.caretAnchor)
+                            ? findDOMNode(this.props.caretAnchor)
                             : anchor;
 
         this.cacheViewportCartography(anchor, caretAnchor);
+
+        if (this.props.matchAnchorWidth) { this.matchAnchorWidth(); }
 
         const preset = this.getValidAlignmentPreset();
         const frag = Popover.getAlignmentClassFragment;
@@ -409,6 +412,11 @@ export default class Popover extends React.PureComponent {
         // with the visual center of the anchor
         this.$caret.style[longitudinal ? 'left' : 'top'] = Math.round(this.getNextCaretXPosition(preset)) + 'px';
         this.$caret.style[longitudinal ? 'top' : 'left'] = '0px';
+    }
+
+    matchAnchorWidth = () => {
+      const dialog = this.dialog.$dialog;
+      dialog.style.width = `${this.anchorRect.width}px`;
     }
 
     componentDidMount() {
