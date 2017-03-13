@@ -1,10 +1,10 @@
-import React from 'react';
 import {capitalize, map} from 'lodash';
+import {createElement, PureComponent} from 'react';
 
-import SegmentedControl from '../index';
+import SegmentedControl from '../';
 import Image from '../../boundless-image/index';
 
-export default class SegmentedControlDemo extends React.PureComponent {
+export default class SegmentedControlDemo extends PureComponent {
     state = {
         selectedGroupIndex: 0,
         groups: [{

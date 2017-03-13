@@ -1,8 +1,8 @@
-import React from 'react';
-import CheckboxGroup from '../index';
+import {createElement, PureComponent} from 'react';
+import CheckboxGroup from '../';
 import {filter, map, merge, some} from 'lodash';
 
-export default class CheckboxGroupDemo extends React.PureComponent {
+export default class CheckboxGroupDemo extends PureComponent {
     state = {
         items: [{
             inputProps: {

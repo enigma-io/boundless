@@ -15,6 +15,8 @@ Then use it like:
 
 
 ```jsx
+/** @jsx createElement */
+
 import intersect from 'boundless-utils-object-intersection';
 
 const obj1 = {foo: 'bar', bar: 'baz', baz: 'fizz'};

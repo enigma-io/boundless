@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -19,7 +19,7 @@ When using `Input` in your project, you may call the following methods on a rend
   programmatically set the input value; useful for clearing out the input in "uncontrolled" mode -- note that digging into the internals and setting the `refs.field.value = ''` directly will not trigger events and messes up the internal state of the component
 
  */
-export default class Input extends React.PureComponent {
+export default class Input extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

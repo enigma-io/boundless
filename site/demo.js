@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes} from 'react';
 
 import Async from '../packages/boundless-async/index.js';
 import ProgressiveDisclosure from '../packages/boundless-progressive-disclosure/index.js';
@@ -11,6 +11,20 @@ function b64DecodeUnicode(str) {
     return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
+}
+
+function fixupDemoCode(snippet, moduleName) {
+    let amendedSnippet = snippet;
+
+    // add in the jsx pragma, since most users probably won't have that enabled in their Babel setup
+    amendedSnippet = '/** @jsx createElement */\n\n' + amendedSnippet;
+
+    // replace all relative links with what things would look like in real-world usage
+    amendedSnippet = amendedSnippet.replace(/from '(?:\.\.?\/){1,}(.*?)'/g, (_, match) => {
+        return `from '${match === '' || match === 'index' ? moduleName : match.replace('/index', '')}'`;
+    });
+
+    return amendedSnippet.trim();
 }
 
 const ComponentDemo = ({name, prettyName = 'Demo'}) => (
@@ -43,7 +57,7 @@ const ComponentDemo = ({name, prettyName = 'Demo'}) => (
                                     return (
                                         <pre className='demo-implementation'>
                                             <code className='language-jsx'>
-                                                {b64DecodeUnicode(payload.content)}
+                                                {fixupDemoCode(b64DecodeUnicode(payload.content), name)}
                                             </code>
                                         </pre>
                                     );

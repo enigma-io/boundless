@@ -16,11 +16,13 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import CheckboxGroup from 'boundless-checkbox-group';
 import {filter, map, merge, some} from 'lodash';
 
-export default class CheckboxGroupDemo extends React.PureComponent {
+export default class CheckboxGroupDemo extends PureComponent {
     state = {
         items: [{
             inputProps: {

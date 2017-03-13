@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {cloneElement, createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import Typeahead from 'boundless-typeahead';
@@ -10,37 +10,44 @@ const last = (array) => array[array.length - 1];
 const isFunction = (x) => typeof x === 'function';
 
 /**
-Basic usage of this component is identical to that of [Typeahead](https://github.com/enigma-io/boundless/master/packages/boundless-typeahead). Additional props are available to take advantage of the tokenization functionality.
-
-## Component Instance Methods
-
-When using `TokenizedInput` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
-
-- __`add(index: number)`__
-  programmatically creates a token for `props.entities[index]`; `props.handleAddToken` will be called as a hint to persist the change in your controller view or other application state
-
-- __`focus()`__
-  focuses the browser oon the underlying textual input for immediate text entry
-
-- __`getInputNode()`__
-  returns the raw underlying textual input DOM node
-
-- __`getSelectedEntityText()`__
-  returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
-
-- __`getValue()`__
-  retrieves the current value of the underlying textual input
-
-- __`remove(index: number)`__
-  programmatically removes the token for `props.entities[index]`; `props.handleRemoveTokens` will be called as a hint to persist the change in your controller view or other application state
-
-- __`select()`__
-  programmatically creates a full selection on the underlying textual input such that a press of the Backspace key would fully clear the input
-
-- __`setValue(value: string)`__
-  sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
+* Basic usage of this component is identical to that of [Typeahead]
+* (https://github.com/enigma-io/boundless/master/packages/* boundless-typeahead). Additional props are available to take
+* advantage of the tokenization functionality.
+*
+* ## Component Instance Methods
+*
+* When using `TokenizedInput` in your project, you may call the following methods on a rendered instance of the
+* component. Use [`refs`](* https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
+*
+* - __`add(index: number)`__
+*   programmatically creates a token for `props.entities[index]`; `props.handleAddToken` will be called as a hint to
+*   persist the change in * your controller view or other application state
+*
+* - __`focus()`__
+*   focuses the browser oon the underlying textual input for immediate text entry
+*
+* - __`getInputNode()`__
+*   returns the raw underlying textual input DOM node
+*
+* - __`getSelectedEntityText()`__
+*   returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
+*
+* - __`getValue()`__
+*   retrieves the current value of the underlying textual input
+*
+* - __`remove(index: number)`__
+*   programmatically removes the token for `props.entities[index]`; `props.handleRemoveTokens` will be called as a hint
+*   to persist the * change in your controller view or other application state
+*
+* - __`select()`__
+*   programmatically creates a full selection on the underlying textual input such that a press of the Backspace key
+*   would fully clear the * input
+*
+* - __`setValue(value: string)`__
+*   sets the underlying textual input to the specified text and updates internal state; do not use this method when
+*   using `Typeahead` as a "controlled input"
  */
-export default class TokenizedInput extends React.PureComponent {
+export default class TokenizedInput extends PureComponent {
     static propTypes = {
         ...Typeahead.propTypes,
 
@@ -50,12 +57,14 @@ export default class TokenizedInput extends React.PureComponent {
         handleAddToken: PropTypes.func,
 
         /**
-         * function handler that is called when one or more tokens are removed by the user via clicking the "close" button or pressing the `Backspace` key while tokens are selected
+         * function handler that is called when one or more tokens are removed by the user via clicking the "close"
+         * button or pressing the `Backspace` key while tokens are selected
          */
         handleRemoveTokens: PropTypes.func,
 
         /**
-         * function handler that is called when one or more tokens are selected by the user via click or keyboard actions; called with what the new selection should be
+         * function handler that is called when one or more tokens are selected by the user via click or keyboard
+         * actions; called with what the new selection should be
          */
         handleNewSelection: PropTypes.func,
 
@@ -75,7 +84,8 @@ export default class TokenizedInput extends React.PureComponent {
         tokens: PropTypes.arrayOf(PropTypes.number),
 
         /**
-         * the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to trigger `handleRemoveTokens`
+         * the indexes of tokenized entities that are part of an active selection; the user can press `Backspace` to
+         * trigger `handleRemoveTokens`
          */
         tokensSelected: PropTypes.arrayOf(PropTypes.number),
     }
@@ -109,8 +119,8 @@ export default class TokenizedInput extends React.PureComponent {
 
         if (   previousSelectedIndexes !== currentSelectedIndexes
             && currentSelectedIndexes.length !== 0) {
-            if (   currentSelectedIndexes.length === 1
-                       || currentSelectedIndexes[0] !== previousSelectedIndexes[0] /* multi selection, leftward */) {
+            if (currentSelectedIndexes.length === 1
+                || currentSelectedIndexes[0] !== previousSelectedIndexes[0] /* multi selection, leftward */) {
                 return this.refs[`token_${currentSelectedIndexes[0]}`].focus();
             } else if (last(currentSelectedIndexes) !== last(previousSelectedIndexes) /* multi selection, rightward */) {
                 return this.refs[`token_${last(currentSelectedIndexes)}`].focus();
@@ -254,7 +264,7 @@ export default class TokenizedInput extends React.PureComponent {
 
     renderTokenClose(index) {
         if (this.props.tokenCloseVisible) {
-            return React.cloneElement(this.props.tokenCloseComponent, {
+            return cloneElement(this.props.tokenCloseComponent, {
                 className: cx('b-tokenfield-token-close', this.props.tokenCloseComponent.props.className),
                 onClick: this.handleTokenCloseClick.bind(this, index),
             });

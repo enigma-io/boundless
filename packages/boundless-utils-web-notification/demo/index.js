@@ -1,8 +1,8 @@
-import React from 'react';
-import notify from '../index';
+import {createElement, PureComponent} from 'react';
+import notify from '../';
 import Button from '../../boundless-button/index';
 
-export default class NotifyDemo extends React.PureComponent {
+export default class NotifyDemo extends PureComponent {
     state = {
         n: 0,
     }

@@ -1,9 +1,9 @@
-import React from 'react';
-import Button from '../../boundless-button/index';
-import Progress from '../index';
 import {each} from 'lodash';
+import {createElement, PureComponent} from 'react';
+import Button from '../../boundless-button/index';
+import Progress from '../';
 
-export default class ProgressDemo extends React.PureComponent {
+export default class ProgressDemo extends PureComponent {
     state = {
         barProgress: 0,
         meterProgress: 0,

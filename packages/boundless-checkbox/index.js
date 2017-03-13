@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -12,7 +12,7 @@ Checkbox is implemented as a "controlled input", meaning it is a direct represen
 inside. User interaction will bubble changes in the form of `onChecked` and `onUnchecked` that a controller
 view must intercept and apply against the data provider.
  */
-export default class Checkbox extends React.PureComponent {
+export default class Checkbox extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

@@ -15,6 +15,8 @@ Then use it like:
 
 
 ```jsx
+/** @jsx createElement */
+
 import omitKeys from 'boundless-utils-omit-keys';
 
 omitKeys({foo: 'bar', bar: 'baz'}, ['bar']); // returns `{foo: 'bar'}`

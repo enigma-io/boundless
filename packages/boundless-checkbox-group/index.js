@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import Checkbox from 'boundless-checkbox';
@@ -11,7 +11,7 @@ const noop = () => {};
 The most common use case for `CheckboxGroup` is a "select all" / children scenario. This particular
 configuration is built-in and is activated by passing the `selectAll` prop.
  */
-export default class CheckboxGroup extends React.PureComponent {
+export default class CheckboxGroup extends PureComponent {
     static selectAll = {
         BEFORE: uuid(),
         AFTER: uuid(),

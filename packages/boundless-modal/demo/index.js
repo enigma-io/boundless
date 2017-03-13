@@ -1,8 +1,8 @@
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 import Button from '../../boundless-button/index';
-import Modal from '../index';
+import Modal from '../';
 
-export default class ModalDemo extends React.PureComponent {
+export default class ModalDemo extends PureComponent {
     state = {
         showModal: false,
     }

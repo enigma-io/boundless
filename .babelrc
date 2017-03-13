@@ -5,7 +5,8 @@
             "comments": false,
             "plugins": [
                 "transform-class-properties",
-                "transform-inline-environment-variables"
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
             ],
             "presets": [
                 "es2015",
@@ -20,7 +21,8 @@
             "plugins": [
                 "lodash",
                 "transform-class-properties",
-                "transform-inline-environment-variables"
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
             ],
             "presets": [
                 ["es2015", {"modules": false}],
@@ -36,7 +38,8 @@
                 "lodash",
                 "transform-class-properties",
                 "transform-react-remove-prop-types",
-                "transform-inline-environment-variables"
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
             ],
             "presets": [
                 ["es2015", {"modules": false}],
@@ -52,7 +55,8 @@
                 "lodash",
                 "react-docgen",
                 "transform-class-properties",
-                "transform-inline-environment-variables"
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
             ],
             "presets": [
                 ["es2015", {"modules": false}],
@@ -73,7 +77,8 @@
                         "node_modules/react-router"
                     ]
                 }],
-                "transform-inline-environment-variables"
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
             ],
             "presets": [
                 ["es2015", {"modules": false}],

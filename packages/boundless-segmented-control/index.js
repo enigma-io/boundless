@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
@@ -34,7 +34,7 @@ Essentially, it behaves like a radio group without actually using input controls
 - `selectOptionByKey(key, value)` allows for programmatic switching of the active SegmentedControl option using a unique key
 - `selectOptionIndex(index)` allows for programmatic switching of the active SegmentedControl option by index
  */
-export default class SegmentedControl extends React.PureComponent {
+export default class SegmentedControl extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

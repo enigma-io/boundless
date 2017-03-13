@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
+import {createElement, isValidElement, Component, PropTypes} from 'react';
+import {unmountComponentAtNode, unstable_renderSubtreeIntoContainer as renderSubtree} from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
@@ -7,7 +7,7 @@ import uuid from 'boundless-utils-uuid';
 /**
 `Portal` is used in other components such as `Popover` to render content to places like the HTML `<body>` tag, avoiding style leakage and parent layout contexts. Only accepts a single top-level child; naked text, etc will be wrapped in a `<div>`.
  */
-export default class Portal extends React.Component {
+export default class Portal extends Component {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
@@ -47,7 +47,7 @@ export default class Portal extends React.Component {
          * </Portal>
          * ```
          */
-        children: React.PropTypes.node,
+        children: PropTypes.node,
 
         /**
          * the location to append the generated portal and child elements
@@ -86,19 +86,19 @@ export default class Portal extends React.Component {
     }
 
     renderPortalledContent() {
-        const child = React.isValidElement(this.props.children) ? this.props.children : (<div>{this.props.children}</div>);
+        const child = isValidElement(this.props.children) ? this.props.children : (<div>{this.props.children}</div>);
 
         // update the portal ID link if needed
         this.$portal.id = this.props.portalId || this.id;
 
-        ReactDOM.unstable_renderSubtreeIntoContainer(this, child, this.$portal);
+        renderSubtree(this, child, this.$portal);
         this.$passenger = this.$portal.children[0];
     }
 
     componentDidUpdate() { this.renderPortalledContent(); }
 
     componentWillUnmount() {
-        ReactDOM.unmountComponentAtNode(this.$portal);
+        unmountComponentAtNode(this.$portal);
         this.props.destination.removeChild(this.$portal);
     }
 

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -9,7 +9,7 @@ const isFunction = (x) => typeof x === 'function';
 /**
 Radio is implemented as a "controlled input", meaning it is a direct representation of the model data passed inside. User interaction will bubble changes in the form of `onSelected` that a controller view must intercept and apply against the data provider.
  */
-export default class Radio extends React.PureComponent {
+export default class Radio extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

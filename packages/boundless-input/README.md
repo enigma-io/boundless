@@ -25,10 +25,12 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Input from 'boundless-input';
 
-export default class InputDemo extends React.PureComponent {
+export default class InputDemo extends PureComponent {
     state = {
         input: '',
     }

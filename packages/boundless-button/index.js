@@ -1,35 +1,38 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
 
 /**
-Button has two modes of operation:
-
-1. stateless (like a normal `<button>`)
-   ```jsx
-   <Button onPressed={doSomething}>foo</Button>
-   ```
-
-   > Note that instead of `onClick`, Button uses `onPressed`. This is because the component also listens for keyboard <kbd>Enter</kbd> events, so `onClick` only tells half the story. You can still bind to that particular React event though if there's a need to tell the difference between clicks and Enter presses.
-
-2. stateful (like a toggle, e.g. bold-mode in a rich text editor)
-
-   "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
-
-   ```jsx
-   <Button
-       pressed={true}
-       onPressed={doSomething}
-       onUnpressed={doSomethingElse}>
-       foo
-   </Button>
-   ```
+ * Button has two modes of operation:
+ *
+ * 1. stateless (like a normal `<button>`)
+ *    ```jsx
+ *    <Button onPressed={doSomething}>foo</Button>
+ *    ```
+ *
+ *    > Note that instead of `onClick`, Button uses `onPressed`. This is because the component also listens for keyboard
+ *    <kbd>Enter</kbd> events, so `onClick` only tells half the story. You can still bind to that particular React event
+ *    though if there's a need to tell the difference between clicks and Enter presses.
+ *
+ * 2. stateful (like a toggle, e.g. bold-mode in a rich text editor)
+ *    "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a
+ *    controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
+ *
+ *    ```jsx
+ *    <Button
+ *        pressed={true}
+ *        onPressed={doSomething}
+ *        onUnpressed={doSomethingElse}>
+ *        foo
+ *    </Button>
+ *    ```
  */
-export default class Button extends React.PureComponent {
+export default class Button extends PureComponent {
     static propTypes = {
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         * any [React-supported attribute]
+         * (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
          */
         '*': PropTypes.any,
 

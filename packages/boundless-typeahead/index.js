@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
@@ -12,86 +12,96 @@ const isString = (x) => typeof x === 'string';
 const noop = () => {};
 
 /**
-Typeahead is an enhancement upon [Input](https://github.com/enigma-io/boundless/tree/master/packages/boundless-input) which provides two built-in matching algorithms ("fuzzy" \[default\] and "starts-with") and supports the use of custom matching and marking functions.
-
-In the examples below, imagine the `<>` in the "marks" section is a wrapping `<mark>` element:
-
-1. __"Starts-with" matching & marking__
-   ```jsx
-   <Typeahead
-       algorithm={Typeahead.mode.STARTS_WITH}
-       entities={[
-           {text: 'apple'},
-           {text: 'apricot'},
-           {text: 'grape'},
-       ]}
-       inputProps={{value: 'a'}} />
-   ```
-
-   + matches: `"apple", "apricot"`
-   + marks: `"<a>pple", "<a>pricot"`
-
-1. __"Fuzzy" matching & marking__
-   ```jsx
-   <Typeahead
-       algorithm={Typeahead.mode.FUZZY}
-       entities={[
-           {text: 'apple'},
-           {text: 'apricot'},
-           {text: 'grape'},
-       ]}
-       inputProps={{value: 'a'}} />
-   ```
-
-   + matches: `"apple", "apricot", "grape"`
-   + marks: `"<a>pple", "<a>pricot", "gr<a>pe"`
-
-1. __Custom matching & marking__
-
-    Optionally, you can provide your own combination of matching and marking functions. For example, loosening the matching to include unicode variants of characters could be useful, e.g. ç &rarr; c
-
-    ```jsx
-    <Typeahead
-        algorithm={{
-            matcher: yourMatchFunc,
-            marker: yourMarkFunc,
-        }} />
-    ```
-
-## Component Instance Methods
-
-When using `Typeahead` in your project, you may call the following methods on a rendered instance of the component. Use [`refs`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
-
-- __`focus()`__
-  focuses the browser oon the underlying textual input for immediate text entry
-
-- __`getInputNode()`__
-  returns the raw underlying textual input DOM node
-
-- __`getSelectedEntityText()`__
-  returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
-
-- __`getValue()`__
-  retrieves the current value of the underlying textual input
-
-- __`select()`__
-  programmatically creates a full selection on the underlying textual input such that a press of the Backspace key would fully clear the input
-
-- __`setValue(value: string)`__
-  sets the underlying textual input to the specified text and updates internal state; do not use this method when using `Typeahead` as a "controlled input"
+* Typeahead is an enhancement upon [Input](https://github.com/enigma-io/boundless/tree/master/packages/boundless-input)
+* which provides two * built-in matching algorithms ("fuzzy" \[default\] and "starts-with") and supports the use of
+* custom matching and marking functions.
+*
+* In the examples below, imagine the `<>` in the "marks" section is a wrapping `<mark>` element:
+*
+* 1. __"Starts-with" matching & marking__
+*    ```jsx
+*    <Typeahead
+*        algorithm={Typeahead.mode.STARTS_WITH}
+*        entities={[
+*            {text: 'apple'},
+*            {text: 'apricot'},
+*            {text: 'grape'},
+*        ]}
+*        inputProps={{value: 'a'}} />
+*    ```
+*
+*    + matches: `"apple", "apricot"`
+*    + marks: `"<a>pple", "<a>pricot"`
+*
+* 1. __"Fuzzy" matching & marking__
+*    ```jsx
+*    <Typeahead
+*        algorithm={Typeahead.mode.FUZZY}
+*        entities={[
+*            {text: 'apple'},
+*            {text: 'apricot'},
+*            {text: 'grape'},
+*        ]}
+*        inputProps={{value: 'a'}} />
+*    ```
+*
+*    + matches: `"apple", "apricot", "grape"`
+*    + marks: `"<a>pple", "<a>pricot", "gr<a>pe"`
+*
+* 1. __Custom matching & marking__
+*
+*     Optionally, you can provide your own combination of matching and marking functions. For example, loosening the
+*     matching to include * unicode variants of characters could be useful, e.g. ç &rarr; c
+*
+*     ```jsx
+*     <Typeahead
+*         algorithm={{
+*             matcher: yourMatchFunc,
+*             marker: yourMarkFunc,
+*         }} />
+*     ```
+*
+* ## Component Instance Methods
+*
+* When using `Typeahead` in your project, you may call the following methods on a rendered instance of the component.
+* Use [`refs`](https://* facebook.github.io/react/docs/refs-and-the-dom.html) to get the instance.
+*
+* - __`focus()`__
+*   focuses the browser oon the underlying textual input for immediate text entry
+*
+* - __`getInputNode()`__
+*   returns the raw underlying textual input DOM node
+*
+* - __`getSelectedEntityText()`__
+*   returns the `text` property of the currently highlighted entity (from `props.entities`), or returns an empty string
+*
+* - __`getValue()`__
+*   retrieves the current value of the underlying textual input
+*
+* - __`select()`__
+*   programmatically creates a full selection on the underlying textual input such that a press of the Backspace key
+*   would fully clear the * input
+*
+* - __`setValue(value: string)`__
+*   sets the underlying textual input to the specified text and updates internal state; do not use this method when
+*   using `Typeahead` as a * "controlled input"
  */
-export default class Typeahead extends React.PureComponent {
+export default class Typeahead extends PureComponent {
     static mode = {
         'STARTS_WITH': uuid(),
         'FUZZY': uuid(),
     }
 
     static propTypes = {
-        /** Typeahead accepts all supported [Input props](https://github.com/enigma-io/boundless/tree/master/packages/boundless-input) */
+        /**
+         * Typeahead accepts all supported [Input props]
+         * (https://github.com/enigma-io/boundless/tree/master/packages/boundless-input)
+         */
         ...Input.propTypes,
 
         /**
-            the mechanism used to identify and mark matching substrings; a custom set can be provided as an object (see the properties below)
+         * the mechanism used to identify and mark matching substrings; a custom set can be provided as an object
+         * (see the properties below)
          */
         algorithm: PropTypes.oneOfType([
             PropTypes.oneOf([
@@ -100,24 +110,25 @@ export default class Typeahead extends React.PureComponent {
             ]),
             PropTypes.shape({
                 /**
-                    the return value of the function format will be what shows up in the typeahead dropdown list (JSX arrays are accepted, the component will provide the wrapper)
-
-                    an example marking function:
-
-                    ```js
-                    startsWithMarkingFunc(inputText, entity) {
-                        const entityContent = entity.text;
-                        const seekValue = input.toLowerCase();
-                        const indexStart = entityContent.toLowerCase().indexOf(seekValue);
-                        const indexEnd = indexStart + seekValue.length;
-
-                        return [
-                            <span key='before'>{entityContent.slice(0, indexStart)}</span>,
-                            <mark key='mark'>{entityContent.slice(indexStart, indexEnd)}</mark>,
-                            <span key='after'>{entityContent.slice(indexEnd)}</span>,
-                        ];
-                    }
-                    ```
+                 * the return value of the function format will be what shows up in the typeahead dropdown list
+                 * (JSX arrays are accepted, the component will provide the wrapper)
+                 *
+                 * an example marking function:
+                 *
+                 * ```js
+                 * startsWithMarkingFunc(inputText, entity) {
+                 *     const entityContent = entity.text;
+                 *     const seekValue = input.toLowerCase();
+                 *     const indexStart = entityContent.toLowerCase().indexOf(seekValue);
+                 *     const indexEnd = indexStart + seekValue.length;
+                 *
+                 *     return [
+                 *         <span key='before'>{entityContent.slice(0, indexStart)}</span>,
+                 *         <mark key='mark'>{entityContent.slice(indexStart, indexEnd)}</mark>,
+                 *         <span key='after'>{entityContent.slice(indexEnd)}</span>,
+                 *     ];
+                 * }
+                 * ```
                  */
                 marker: PropTypes.oneOfType([
                     PropTypes.func,
@@ -128,23 +139,24 @@ export default class Typeahead extends React.PureComponent {
                 ]),
 
                 /**
-                    the return value of the function format determines which entities will be passed to the marking function
-
-                    an example matching function:
-
-                    ```js
-                    startsWithMatchingFunc(inputText, entities) {
-                        const seekValue = userText.toLowerCase();
-
-                        return entities.reduce(function seekMatch(results, entity, index) {
-                            if (entity.text.toLowerCase().indexOf(seekValue) === 0) {
-                                results.push(index);
-                            }
-
-                            return results;
-                        }, []);
-                    }
-                    ```
+                 * the return value of the function format determines which entities will be passed to the marking
+                 * function
+                 *
+                 * an example matching function:
+                 *
+                 * ```js
+                 * startsWithMatchingFunc(inputText, entities) {
+                 *     const seekValue = userText.toLowerCase();
+                 *
+                 *     return entities.reduce(function seekMatch(results, entity, index) {
+                 *         if (entity.text.toLowerCase().indexOf(seekValue) === 0) {
+                 *             results.push(index);
+                 *         }
+                 *
+                 *         return results;
+                 *     }, []);
+                 * }
+                 * ```
                  */
                 matcher: PropTypes.oneOfType([
                     PropTypes.func,
@@ -162,7 +174,8 @@ export default class Typeahead extends React.PureComponent {
         clearOnSelection: PropTypes.bool,
 
         /**
-         * an array of objects that user input is filtered against; at a minimum, each object must have a `text` property and any other supplied property is passed through to the resulting DOM element
+         * an array of objects that user input is filtered against; at a minimum, each object must have a `text`
+         * property and any other supplied property is passed through to the resulting DOM element
          */
         entities: PropTypes.arrayOf(
             PropTypes.shape({
@@ -174,26 +187,31 @@ export default class Typeahead extends React.PureComponent {
         ),
 
         /**
-         * renders a disabled textfield with the full text of the currently selected input hint; will remain blank if the matched substring is not at the beginning of the user input
+         * renders a disabled textfield with the full text of the currently selected input hint; will remain blank
+         * if the matched substring is not at the beginning of the user input
          */
         hint: PropTypes.bool,
 
         hintProps: PropTypes.shape({
             /**
-             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             * any [React-supported attribute]
+             * (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
              */
             '*': PropTypes.any,
         }),
 
         matchWrapperProps: PropTypes.shape({
             /**
-             * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+             * any [React-supported attribute]
+             * (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
              */
             '*': PropTypes.any,
         }),
 
         /**
-         * the "offscreen" class used by your application; specifically to retain [ARIA navigability](http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the element from consideration
+         * the "offscreen" class used by your application; specifically to retain [ARIA navigability]
+         * (http://snook.ca/archives/html_and_css/hiding-content-for-accessibility) as `display: none` excludes the
+         * element from consideration
          */
         offscreenClass: PropTypes.string,
 

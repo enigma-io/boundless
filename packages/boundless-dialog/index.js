@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import Portal from 'boundless-portal';
@@ -14,7 +14,7 @@ and the user can choose to shift focus away from the dialog contents via mouse c
 
 If you decide to provide a header inside your dialog, it's recommended to configure the [`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-labelledby_attribute) attribute, which can be added to `props.dialogProps`.
  */
-export default class Dialog extends React.PureComponent {
+export default class Dialog extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

@@ -17,10 +17,12 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Checkbox from 'boundless-checkbox';
 
-export default class CheckboxDemo extends React.PureComponent {
+export default class CheckboxDemo extends PureComponent {
     state = {
         checkboxes: [{
             checked: false,

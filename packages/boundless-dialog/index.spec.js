@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import {noop} from 'lodash';
@@ -343,7 +343,7 @@ describe('Dialog component', () => {
     });
 
     describe('nested portal components', () => {
-        class NestedPortalDemo extends React.PureComponent {
+        class NestedPortalDemo extends PureComponent {
             state = {
                 outerPopoverRendered: false,
                 innerPopoverRendered: false,

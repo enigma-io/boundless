@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import Button from 'boundless-button';
 import omit from 'boundless-utils-omit-keys';
 
-export default class Progress extends React.PureComponent {
+export default class Progress extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

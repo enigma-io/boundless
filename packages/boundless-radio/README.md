@@ -15,10 +15,12 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Radio from 'boundless-radio';
 
-export default class RadioDemo extends React.PureComponent {
+export default class RadioDemo extends PureComponent {
     state = {
         options: [{
             labelContent: 'Business',

@@ -1,7 +1,7 @@
-import React from 'react';
-import ProgressiveDisclosure from '../index';
+import {createElement, PureComponent} from 'react';
+import ProgressiveDisclosure from '../';
 
-export default class ProgressiveDisclosureDemo extends React.PureComponent {
+export default class ProgressiveDisclosureDemo extends PureComponent {
     render() {
         return (
             <ProgressiveDisclosure

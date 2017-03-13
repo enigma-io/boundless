@@ -1,4 +1,4 @@
-import React from 'react';
+import {createElement} from 'react';
 import {findDOMNode} from 'react-dom';
 import {get} from 'lodash';
 

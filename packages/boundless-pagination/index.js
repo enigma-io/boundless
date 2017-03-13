@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {isInteger} from 'lodash';
@@ -26,7 +26,7 @@ const noop = () => {};
  *
  * - __`jumpToIndex(index: number)`__ renders the page that contains the ___zero___-indexed item
  */
-export default class Pagination extends React.PureComponent {
+export default class Pagination extends PureComponent {
     static control = {
         CUSTOM: uuid(),
         FIRST: uuid(),

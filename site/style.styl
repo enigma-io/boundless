@@ -72,12 +72,6 @@ main {
     h1 {
         margin-top: 0;
     }
-
-    :first-child {
-        h2:first-child {
-            margin-top: 0;
-        }
-    }
 }
 
 .boundless-nav {
@@ -122,7 +116,6 @@ main {
     .brand {
         color: #f5f5f5;
         display: block;
-        line-height: @height;
         font-size: 26px;
         font-weight: bold;
         margin-bottom: 1rem;
@@ -131,6 +124,10 @@ main {
 
         &:hover {
             color: #FFF;
+        }
+
+        sub {
+            vertical-align: baseline;
         }
     }
 
@@ -334,9 +331,8 @@ th, td {
 
 sub,
 sup {
-    font-size: 0.4em;
+    font-size: 0.65em;
     font-weight: 400;
-    margin-left: 0.5em;
 }
 
 ::selection {

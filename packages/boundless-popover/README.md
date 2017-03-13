@@ -37,13 +37,15 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
 import Button from 'boundless-button';
 import Popover from 'boundless-popover';
 
-export default class PopoverDemo extends React.PureComponent {
+export default class PopoverDemo extends PureComponent {
     state = {
         words: [{
             word: 'transcendental',

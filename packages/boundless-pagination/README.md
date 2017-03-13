@@ -25,12 +25,14 @@ Then use it like:
 
 
 ```jsx
+/** @jsx createElement */
+
 /* eslint no-console:0 */
 
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 import Pagination from 'boundless-pagination';
 
-export default class PaginationDemo extends React.PureComponent {
+export default class PaginationDemo extends PureComponent {
     state = {
         items: require('./fixture.json'),
         identifier: 'rolodex1000',
