@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -9,7 +9,7 @@ const noop = () => {};
 /**
 Mechanically, hidden disclosure content is not rendered to the DOM until it is needed.
  */
-export default class ProgressiveDisclosure extends React.PureComponent {
+export default class ProgressiveDisclosure extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import Dialog from 'boundless-dialog';
@@ -9,7 +9,7 @@ import omit from 'boundless-utils-omit-keys';
 /**
 Modal is an enhancement upon [Dialog](https://github.com/enigma-io/boundless/blob/master/packages/boundless-dialog). Typically, a masking layer is provided to obscure the rest of the page in some fashion, while also blocking outside click and keystroke access until the modal is dismissed.
  */
-export default class Modal extends React.PureComponent {
+export default class Modal extends PureComponent {
     static propTypes = {
         ...Dialog.propTypes,
 

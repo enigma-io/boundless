@@ -1,7 +1,7 @@
-import React from 'react';
-import Input from '../index';
+import {createElement, PureComponent} from 'react';
+import Input from '../';
 
-export default class InputDemo extends React.PureComponent {
+export default class InputDemo extends PureComponent {
     state = {
         input: '',
     }

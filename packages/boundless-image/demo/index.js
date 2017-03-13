@@ -1,8 +1,8 @@
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 import Button from '../../boundless-button/index';
-import Image from '../index';
+import Image from '../';
 
-export default class ImageDemo extends React.PureComponent {
+export default class ImageDemo extends PureComponent {
     state = {
         normal: Date.now(),
         delayed: Date.now(),

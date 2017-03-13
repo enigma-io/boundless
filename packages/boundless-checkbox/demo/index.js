@@ -1,7 +1,7 @@
-import React from 'react';
-import Checkbox from '../index';
+import {createElement, PureComponent} from 'react';
+import Checkbox from '../';
 
-export default class CheckboxDemo extends React.PureComponent {
+export default class CheckboxDemo extends PureComponent {
     state = {
         checkboxes: [{
             checked: false,

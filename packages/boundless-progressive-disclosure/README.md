@@ -15,10 +15,12 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import ProgressiveDisclosure from 'boundless-progressive-disclosure';
 
-export default class ProgressiveDisclosureDemo extends React.PureComponent {
+export default class ProgressiveDisclosureDemo extends PureComponent {
     render() {
         return (
             <ProgressiveDisclosure

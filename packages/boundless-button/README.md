@@ -10,11 +10,13 @@ Button has two modes of operation:
    <Button onPressed={doSomething}>foo</Button>
    ```
 
-   > Note that instead of `onClick`, Button uses `onPressed`. This is because the component also listens for keyboard <kbd>Enter</kbd> events, so `onClick` only tells half the story. You can still bind to that particular React event though if there's a need to tell the difference between clicks and Enter presses.
+   > Note that instead of `onClick`, Button uses `onPressed`. This is because the component also listens for keyboard
+   <kbd>Enter</kbd> events, so `onClick` only tells half the story. You can still bind to that particular React event
+   though if there's a need to tell the difference between clicks and Enter presses.
 
 2. stateful (like a toggle, e.g. bold-mode in a rich text editor)
-
-   "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
+   "stateful" mode is triggered by passing a boolean to `props.pressed`. This enables the button to act like a
+   controlled component. The `onUnpressed` event callback will also now be fired when appropriate.
 
    ```jsx
    <Button
@@ -35,10 +37,12 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Button from 'boundless-button';
 
-export default class ButtonDemo extends React.PureComponent {
+export default class ButtonDemo extends PureComponent {
     state = {
         pressed: false,
     }
@@ -108,7 +112,8 @@ There are no required props.
 
 ### Optional Props
 
-- __`*`__ &middot; any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+- __`*`__ &middot; any [React-supported attribute]
+  (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
 
   Expects | Default Value
   -       | -

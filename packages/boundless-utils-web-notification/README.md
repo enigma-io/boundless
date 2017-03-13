@@ -38,11 +38,13 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import notify from 'boundless-utils-web-notification';
 import Button from 'boundless-button';
 
-export default class NotifyDemo extends React.PureComponent {
+export default class NotifyDemo extends PureComponent {
     state = {
         n: 0,
     }

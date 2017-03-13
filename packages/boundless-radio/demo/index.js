@@ -1,7 +1,7 @@
-import React from 'react';
-import Radio from '../index';
+import {createElement, PureComponent} from 'react';
+import Radio from '../';
 
-export default class RadioDemo extends React.PureComponent {
+export default class RadioDemo extends PureComponent {
     state = {
         options: [{
             labelContent: 'Business',

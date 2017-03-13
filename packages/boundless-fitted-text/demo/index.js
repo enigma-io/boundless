@@ -1,6 +1,6 @@
-import React from 'react';
+import {createElement} from 'react';
 import Button from '../../boundless-button/index';
-import FittedText from '../index';
+import FittedText from '../';
 
 export default () => (
     <div className='spread'>

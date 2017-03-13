@@ -49,6 +49,8 @@ Then use it like:
 
 <% if (demoContent) { %>
 \`\`\`jsx
+/** @jsx createElement */
+
 <%= demoContent %>
 \`\`\`
 <% } else { %>
@@ -245,8 +247,8 @@ require('jsdom').env('', [
 
         if (demoContent) {
             // simulate actually importing the modules from NPM
-            demoContent = demoContent.replace(/from '(?:\.\.?\/){1,}(.*?)'/g, (x, match) => {
-                return `from '${match === 'index' ? name : match.replace('/index', '')}'`;
+            demoContent = demoContent.replace(/from '(?:\.\.?\/){1,}(.*?)'/g, (_, match) => {
+                return `from '${match === '' || match === 'index' ? name : match.replace('/index', '')}'`;
             });
 
             demoContent = demoContent.trim();

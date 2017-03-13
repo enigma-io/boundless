@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {cloneElement, createElement, PropTypes, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
@@ -77,7 +77,7 @@ The arrows indicate which way the popover will extend, e.g. → means the popove
 </Popover>
 ```
  */
-export default class Popover extends React.PureComponent {
+export default class Popover extends PureComponent {
     // eslint-disable-next-line no-sequences
     static preset = combinations.reduce((map, def) => ((map[def.name] = def), map), {})
 
@@ -431,7 +431,7 @@ export default class Popover extends React.PureComponent {
                     {...omit(props, Popover.internalKeys)}
                     ref={(instance) => (this.dialog = instance)}
                     before={
-                        React.cloneElement(props.caretComponent, {
+                        cloneElement(props.caretComponent, {
                             ref: (node) => (this.$caret = node),
                             className: cx('b-popover-caret', props.caretComponent.props.className),
                         })

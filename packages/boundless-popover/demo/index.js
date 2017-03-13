@@ -1,10 +1,10 @@
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 
 import ArrowKeyNavigation from '../../boundless-arrow-key-navigation/index';
 import Button from '../../boundless-button/index';
-import Popover from '../index';
+import Popover from '../';
 
-export default class PopoverDemo extends React.PureComponent {
+export default class PopoverDemo extends PureComponent {
     state = {
         words: [{
             word: 'transcendental',

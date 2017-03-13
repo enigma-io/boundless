@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import pascalCase from './pascal-case';

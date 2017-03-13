@@ -2,7 +2,7 @@ if (module.hot) {
     require('react-hot-loader/patch');
 }
 
-import React from 'react';
+import {createElement} from 'react';
 import {render as r} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';

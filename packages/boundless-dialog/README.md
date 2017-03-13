@@ -18,12 +18,14 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import Button from 'boundless-button';
 import Dialog from 'boundless-dialog';
 
-export default class DialogDemo extends React.PureComponent {
+export default class DialogDemo extends PureComponent {
     state = {
         showDialog: false,
     }

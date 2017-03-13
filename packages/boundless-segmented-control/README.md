@@ -28,13 +28,15 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
 import {capitalize, map} from 'lodash';
+import {createElement, PureComponent} from 'react';
 
 import SegmentedControl from 'boundless-segmented-control';
 import Image from 'boundless-image';
 
-export default class SegmentedControlDemo extends React.PureComponent {
+export default class SegmentedControlDemo extends PureComponent {
     state = {
         selectedGroupIndex: 0,
         groups: [{

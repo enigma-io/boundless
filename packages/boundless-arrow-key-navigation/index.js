@@ -1,4 +1,4 @@
-import React, {Children, PropTypes} from 'react';
+import {cloneElement, createElement, Children, PropTypes, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
@@ -8,11 +8,13 @@ const DATA_ATTRIBUTE_INDEX = 'data-focus-index';
 const DATA_ATTRIBUTE_SKIP = 'data-focus-skip';
 
 /**
-ArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass whatever HTML tag you like into `props.component` or even a React component you've made elsewhere. Additional props passed to `<ArrowKeyNavigation ...>` will be forwarded on to the component or HTML tag name you've supplied.
-
-The children, similarly, can be any type of component.
+ * ArrowKeyNavigation is designed not to care about the component types it is wrapping. Due to this, you can pass
+ * whatever HTML tag you  like into `props.component` or even a React component you've made elsewhere. Additional props
+ * passed to `<ArrowKeyNavigation ...>` will  be forwarded on to the component or HTML tag name you've supplied.
+ *
+ * The children, similarly, can be any type of component.
  */
-export default class ArrowKeyNavigation extends React.PureComponent {
+export default class ArrowKeyNavigation extends PureComponent {
     static mode = {
         HORIZONTAL: uuid(),
         VERTICAL: uuid(),
@@ -21,21 +23,23 @@ export default class ArrowKeyNavigation extends React.PureComponent {
 
     static propTypes = {
         /**
-         * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
+         * any [React-supported attribute]
+         * (https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
          */
         '*': PropTypes.any,
 
         /**
-            Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to `React.createElement`
-        */
+         * Any valid HTML tag name or a React component factory, anything that can be passed as the first argument to
+         * `React.createElement`
+         */
         component: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]),
 
         /**
-            Allows for a particular child to be initially reachable via tabbing; only applied during first render
-        */
+         * Allows for a particular child to be initially reachable via tabbing; only applied during first render
+         */
         defaultActiveChildIndex: PropTypes.number,
 
         /**
@@ -48,7 +52,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
          * `ArrowKeyNavigation.mode.VERTICAL`   | ⬆️ ⬇️
          *
          * _Note: focus loops when arrowing past one of the boundaries; tabbing moves the user away from the list._
-        */
+         */
         mode: PropTypes.oneOf([
             ArrowKeyNavigation.mode.BOTH,
             ArrowKeyNavigation.mode.HORIZONTAL,
@@ -186,7 +190,7 @@ export default class ArrowKeyNavigation extends React.PureComponent {
 
     renderChildren() {
         return Children.map(this.state.children, (child, index) => {
-            return React.cloneElement(child, {
+            return cloneElement(child, {
                 [DATA_ATTRIBUTE_INDEX]: index,
                 [DATA_ATTRIBUTE_SKIP]: parseInt(child.props.tabIndex, 10) === -1 || undefined,
                 key: child.key || index,

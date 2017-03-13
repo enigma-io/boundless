@@ -15,11 +15,13 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Button from 'boundless-button';
 import Modal from 'boundless-modal';
 
-export default class ModalDemo extends React.PureComponent {
+export default class ModalDemo extends PureComponent {
     state = {
         showModal: false,
     }

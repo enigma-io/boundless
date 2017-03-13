@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import React from 'react';
+import {createElement} from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 

@@ -15,11 +15,13 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {createElement, PureComponent} from 'react';
 import Button from 'boundless-button';
 import Image from 'boundless-image';
 
-export default class ImageDemo extends React.PureComponent {
+export default class ImageDemo extends PureComponent {
     state = {
         normal: Date.now(),
         delayed: Date.now(),

@@ -1,6 +1,6 @@
 /* global VERSION */
 
-import React, {PropTypes} from 'react';
+import {cloneElement, createElement, isValidElement, Children, PropTypes, PureComponent} from 'react';
 import {IndexRoute, Link, Redirect, Router, Route, browserHistory} from 'react-router';
 import * as _ from 'lodash';
 
@@ -10,41 +10,7 @@ import LinkedHeader from './linked-header-text';
 import Markdown from './markdown';
 import pascalCase from './pascal-case';
 
-const TYPE = {
-    COMPONENT: 1,
-    UTILITY: 2,
-};
-
-const json = require.context('..', true, /(?!node_modules)packages\/boundless-[^/]*?\/package\.json$/);
-const jsonPaths = json.keys();
-
-const components = jsonPaths.filter((path) => path.indexOf('utils') === -1 && !json(path).private).map((path) => {
-    const name = path.match(/(boundless\-.*?)\//)[1];
-    const prettyName = pascalCase(name.replace('boundless-', ''));
-
-    return {
-        json: json(path),
-        name,
-        path: prettyName,
-        type: TYPE.COMPONENT,
-    };
-});
-
-const utilities = jsonPaths.filter((path) => path.indexOf('utils') !== -1 && !json(path).private).map((path) => {
-    const name = path.match(/(boundless\-.*?)\//)[1];
-    const prettyName = _.camelCase(name.replace('boundless-utils-', ''));
-
-    return {
-        json: json(path),
-        name,
-        path: prettyName,
-        type: TYPE.UTILITY,
-    };
-});
-
-const repositoryURL = 'https://github.com/enigma-io/boundless';
-
-const formatPropType = (type) => {
+function formatPropType(type) {
     switch (type.name) {
     case 'arrayOf':
         if (type.value.name !== 'custom') {
@@ -84,9 +50,43 @@ const formatPropType = (type) => {
     }
 
     return type.name;
+}
+
+const TYPE = {
+    COMPONENT: 1,
+    UTILITY: 2,
 };
 
-class ComponentPage extends React.PureComponent {
+const json = require.context('..', true, /(?!node_modules)packages\/boundless-[^/]*?\/package\.json$/);
+const jsonPaths = json.keys();
+
+const components = jsonPaths.filter((path) => path.indexOf('utils') === -1 && !json(path).private).map((path) => {
+    const name = path.match(/(boundless\-.*?)\//)[1];
+    const prettyName = pascalCase(name.replace('boundless-', ''));
+
+    return {
+        json: json(path),
+        name,
+        path: prettyName,
+        type: TYPE.COMPONENT,
+    };
+});
+
+const utilities = jsonPaths.filter((path) => path.indexOf('utils') !== -1 && !json(path).private).map((path) => {
+    const name = path.match(/(boundless\-.*?)\//)[1];
+    const prettyName = _.camelCase(name.replace('boundless-utils-', ''));
+
+    return {
+        json: json(path),
+        name,
+        path: prettyName,
+        type: TYPE.UTILITY,
+    };
+});
+
+const repositoryURL = 'https://github.com/enigma-io/boundless';
+
+class ComponentPage extends PureComponent {
     static propTypes = {
         docgenInfo: PropTypes.object,
         packageName: PropTypes.string,
@@ -296,7 +296,7 @@ class ComponentPage extends React.PureComponent {
                             </code>
                         </pre>
 
-                        <p>the ES6 `import` statement then becomes like:</p>
+                        <p>the ES6 <code>import</code> statement then becomes like:</p>
 
                         <pre>
                             <code className='language-bash'>
@@ -321,7 +321,39 @@ class ComponentPage extends React.PureComponent {
     }
 }
 
-class Container extends React.PureComponent {
+const HomePage = () => (
+    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
+        {import('../README.md').then((md) => <Markdown>{md}</Markdown>)}
+    </Boundless.Async>
+);
+
+const GettingStartedPage = () => (
+    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
+        {import('../GETTING_STARTED.md').then((md) => <Markdown>{md}</Markdown>)}
+    </Boundless.Async>
+);
+
+const KitchenSinkPage = () => (
+    <div className='kitchensink'>
+        <p>The demos of every package are shown here for convenience.</p>
+
+        {components.map((component) => (
+            <Demo
+                key={component.name}
+                name={component.name}
+                prettyName={component.path} />
+        ))}
+
+        {utilities.map((utility) => (
+            <Demo
+                key={utility.name}
+                name={utility.name}
+                prettyName={utility.path} />
+        ))}
+    </div>
+);
+
+class Container extends PureComponent {
     static propTypes = {
         children: PropTypes.any,
         routes: PropTypes.array,
@@ -439,7 +471,7 @@ class Container extends React.PureComponent {
                     </article>
                     <aside className='boundless-nav'>
                         <header>
-                            <Link className='brand' to='/'>boundless<sup>v{VERSION}</sup></Link>
+                            <Link className='brand' to='/'>boundless <sub>v{VERSION}</sub></Link>
                         </header>
                         <nav>
                             <section>
@@ -488,38 +520,6 @@ class Container extends React.PureComponent {
         );
     }
 }
-
-const HomePage = () => (
-    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
-        {import('../README.md').then((md) => <Markdown>{md}</Markdown>)}
-    </Boundless.Async>
-);
-
-const GettingStartedPage = () => (
-    <Boundless.Async childrenDidRender={window.Prism.highlightAll}>
-        {import('../GETTING_STARTED.md').then((md) => <Markdown>{md}</Markdown>)}
-    </Boundless.Async>
-);
-
-const KitchenSinkPage = () => (
-    <div className='kitchensink'>
-        <p>The demos of every package are shown here for convenience.</p>
-
-        {components.map((component) => (
-            <Demo
-                key={component.name}
-                name={component.name}
-                prettyName={component.path} />
-        ))}
-
-        {utilities.map((utility) => (
-            <Demo
-                key={utility.name}
-                name={utility.name}
-                prettyName={utility.path} />
-        ))}
-    </div>
-);
 
 const handleRouting = (routing) => {
     document.title = `boundless / ${_.last(routing.routes).title}`;

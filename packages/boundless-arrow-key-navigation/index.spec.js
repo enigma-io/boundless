@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions:0 */
 
-import React from 'react';
+import {createElement, Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 import {noop} from 'lodash';
@@ -115,7 +115,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
         });
 
         it('works if the wrapper is a composite', () => {
-            class ExampleComponent extends React.Component {
+            class ExampleComponent extends Component {
                 render() {
                     return <div>{this.props.children}</div>;
                 }

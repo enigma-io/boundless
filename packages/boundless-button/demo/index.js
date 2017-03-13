@@ -1,7 +1,7 @@
-import React from 'react';
-import Button from '../index';
+import {createElement, PureComponent} from 'react';
+import Button from '../';
 
-export default class ButtonDemo extends React.PureComponent {
+export default class ButtonDemo extends PureComponent {
     state = {
         pressed: false,
     }

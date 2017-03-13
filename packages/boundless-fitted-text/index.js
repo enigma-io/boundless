@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 
@@ -62,7 +62,7 @@ function unregisterInstance(instance) {
 /**
 This component can be useful in situations where an internationalized string is being placed into the UI and it's unclear if all variations of it will fit without excessive amounts of edge-case CSS. Ultimately, it's good at making sure what you put in doesn't overflow.
  */
-export default class FittedText extends React.PureComponent {
+export default class FittedText extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)

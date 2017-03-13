@@ -1,9 +1,9 @@
-import React from 'react';
+import {createElement, PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import Button from '../../boundless-button/index';
-import Dialog from '../index';
+import Dialog from '../';
 
-export default class DialogDemo extends React.PureComponent {
+export default class DialogDemo extends PureComponent {
     state = {
         showDialog: false,
     }

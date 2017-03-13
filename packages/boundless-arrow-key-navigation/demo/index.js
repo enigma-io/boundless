@@ -1,7 +1,7 @@
-import React from 'react';
-import ArrowKeyNavigation from '../index';
+import {createElement, PureComponent} from 'react';
+import ArrowKeyNavigation from '../';
 
-export default class ArrowKeyNavigationDemo extends React.PureComponent {
+export default class ArrowKeyNavigationDemo extends PureComponent {
     state = {
         items: ['lorem', 'ipsum', 'dolor'],
     }

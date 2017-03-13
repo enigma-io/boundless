@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import {cloneElement, createElement, isValidElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -11,7 +11,7 @@ const get = (base, path, fallback) => path.split('.').reduce((current, fragment)
  * that pattern by handling common types of promises and providing a simple mechanism
  * for materializing the fulfilled payload into JSX.
  */
-export default class Async extends React.PureComponent {
+export default class Async extends PureComponent {
     static propTypes = {
         /**
          * any [React-supported attribute](https://facebook.github.io/react/docs/tags-and-attributes.html#html-attributes)
@@ -108,7 +108,7 @@ export default class Async extends React.PureComponent {
     handleChildren(children) {
         let content = children;
 
-        if (React.isValidElement(content)) {
+        if (isValidElement(content)) {
             return this.setState({component: content}, this.fireRenderCallback);
         } else if (typeof content === 'function') {
             return this.handleChildren(content(this.props));
@@ -136,7 +136,7 @@ export default class Async extends React.PureComponent {
     render() {
         const {props, state} = this;
 
-        return React.cloneElement(state.component || props.pendingContent, {
+        return cloneElement(state.component || props.pendingContent, {
             ...omit(props, Async.internalKeys),
             className: cx(
                 'b-async',

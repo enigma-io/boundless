@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react';
+import {createElement, PropTypes, PureComponent} from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
 
-export default class Image extends React.PureComponent {
+export default class Image extends PureComponent {
     static status = {
         LOADING: uuid(),
         LOADED: uuid(),

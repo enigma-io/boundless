@@ -15,12 +15,14 @@ Then use it like:
 
 
 ```jsx
-import React from 'react';
+/** @jsx createElement */
+
+import {each} from 'lodash';
+import {createElement, PureComponent} from 'react';
 import Button from 'boundless-button';
 import Progress from 'boundless-progress';
-import {each} from 'lodash';
 
-export default class ProgressDemo extends React.PureComponent {
+export default class ProgressDemo extends PureComponent {
     state = {
         barProgress: 0,
         meterProgress: 0,
