@@ -48,6 +48,23 @@
             ]
         },
 
+        "flat-production": {
+            "compact": true,
+            "comments": false,
+            "plugins": [
+                "lodash",
+                "transform-class-properties",
+                "transform-react-remove-prop-types",
+                "transform-inline-environment-variables",
+                ["transform-react-jsx", {"pragma": "createElement"}]
+            ],
+            "presets": [
+                ["es2015", {"modules": false, "noInterop": true}],
+                "react",
+                "stage-2"
+            ]
+        },
+
         "site-development": {
             "compact": true,
             "comments": false,
