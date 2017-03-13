@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Modal",
+  "homepage": "https://boundless.js.org/Modal",
   "dependencies": {
     "boundless-dialog": "^1.0.3",
     "boundless-portal": "^1.0.3",

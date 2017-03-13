@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Popover",
+  "homepage": "https://boundless.js.org/Popover",
   "dependencies": {
     "boundless-dialog": "^1.0.3",
     "boundless-portal": "^1.0.3",

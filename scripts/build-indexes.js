@@ -68,7 +68,7 @@ fs.writeFileSync(path.resolve(__dirname, '..', 'docs', 'sitemap.xml'), `
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${emittedDirectories.map((dir) => `
 <url>
-    <loc>http://boundless.js.org/${dir}</loc>
+    <loc>https://boundless.js.org/${dir}</loc>
     <lastmod>${todayISODateString}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>

@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/ProgressiveDisclosure",
+  "homepage": "https://boundless.js.org/ProgressiveDisclosure",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.3",
     "classnames": "^2.1.5"

@@ -74,7 +74,7 @@ import { <%= prettyName %> } from 'boundless';
 <% if (props) { %>
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/<%= prettyName %>).
+> Note: only top-level props are in the README, for the full list check out the [website](https://boundless.js.org/<%= prettyName %>).
 
 ### Required Props
 <%

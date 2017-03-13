@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Typeahead",
+  "homepage": "https://boundless.js.org/Typeahead",
   "dependencies": {
     "boundless-input": "^1.0.3",
     "boundless-utils-object-intersection": "^1.0.3",

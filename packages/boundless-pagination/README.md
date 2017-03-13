@@ -105,7 +105,7 @@ import { Pagination } from 'boundless';
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Pagination).
+> Note: only top-level props are in the README, for the full list check out the [website](https://boundless.js.org/Pagination).
 
 ### Required Props
 

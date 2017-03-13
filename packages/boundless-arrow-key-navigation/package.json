@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/ArrowKeyNavigation",
+  "homepage": "https://boundless.js.org/ArrowKeyNavigation",
   "dependencies": {
     "boundless-utils-omit-keys": "^1.0.3",
     "boundless-utils-uuid": "^1.0.3"

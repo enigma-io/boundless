@@ -93,7 +93,7 @@ import { Radio } from 'boundless';
 
 ## Props
 
-> Note: only top-level props are in the README, for the full list check out the [website](http://boundless.js.org/Radio).
+> Note: only top-level props are in the README, for the full list check out the [website](https://boundless.js.org/Radio).
 
 ### Required Props
 

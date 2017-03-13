@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/enigma-io/boundless/issues"
   },
-  "homepage": "http://boundless.js.org/Progress",
+  "homepage": "https://boundless.js.org/Progress",
   "dependencies": {
     "boundless-button": "^1.0.3",
     "boundless-utils-omit-keys": "^1.0.3",
