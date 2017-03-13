@@ -72,7 +72,7 @@ new Promise((resolve) => {
         resolve();
     });
 }).then(() => {
-    process.env.BABEL_ENV = 'production';
+    process.env.BABEL_ENV = 'flat-production';
 
     // minified production build
     webpack(_.merge({}, config, {
