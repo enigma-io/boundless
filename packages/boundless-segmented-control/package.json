@@ -1,6 +1,6 @@
 {
   "name": "boundless-segmented-control",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A control containing multiple buttons, only one of which can be active at a time.",
   "main": "build/index.js",
   "module": "index.js",
@@ -16,7 +16,7 @@
     "boundless"
   ],
   "contributors": [
-    "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
+    "Evan Scott <probablyup@gmail.com> (http://yaycmyk.com)",
     "Abe Rubenstein <abe.rubenstein@enigma.io>",
     "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
@@ -26,9 +26,9 @@
   },
   "homepage": "https://boundless.js.org/SegmentedControl",
   "dependencies": {
-    "boundless-arrow-key-navigation": "^1.0.3",
-    "boundless-button": "^1.0.3",
-    "boundless-utils-omit-keys": "^1.0.3",
+    "boundless-arrow-key-navigation": "^1.0.4",
+    "boundless-button": "^1.0.4",
+    "boundless-utils-omit-keys": "^1.0.4",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

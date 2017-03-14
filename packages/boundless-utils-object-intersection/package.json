@@ -1,6 +1,6 @@
 {
   "name": "boundless-utils-object-intersection",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Returns an intersection of the first argument against the second argument's keys.",
   "main": "build/index.js",
   "module": "index.js",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/enigma-io/boundless.git"
   },
   "contributors": [
-    "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)"
+    "Evan Scott <probablyup@gmail.com> (http://yaycmyk.com)"
   ],
   "license": "MIT",
   "bugs": {

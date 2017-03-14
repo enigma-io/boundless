@@ -1,6 +1,6 @@
 {
   "name": "boundless-fitted-text",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Fit given text inside a parent container, obeying implict and explicit constraints.",
   "main": "build/index.js",
   "module": "index.js",
@@ -17,7 +17,7 @@
     "boundless"
   ],
   "contributors": [
-    "Evan Scott <glitterbyte@gmail.com> (http://yaycmyk.com)",
+    "Evan Scott <probablyup@gmail.com> (http://yaycmyk.com)",
     "Abe Rubenstein <abe.rubenstein@enigma.io>",
     "Jenn Creighton <jenn.creighton@enigma.io>"
   ],
@@ -27,7 +27,7 @@
   },
   "homepage": "https://boundless.js.org/FittedText",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.3",
+    "boundless-utils-omit-keys": "^1.0.4",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {
