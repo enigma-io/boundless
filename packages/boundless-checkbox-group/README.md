@@ -208,10 +208,7 @@ import { CheckboxGroup } from 'boundless';
 ## Reference Styles
 ### Stylus
 ```stylus
-// Bring in Boundless's base Stylus variables
-@require "node_modules/boundless-checkbox-group/variables"
-
-// Redefine any variables as desired, e.g.
+// Redefine any variables as desired (you can see what's available in [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl)), e.g.
 color-accent = royalblue
 
 // Bring in the component styles; they will be autoconfigured based on the above

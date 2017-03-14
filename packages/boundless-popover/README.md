@@ -252,12 +252,7 @@ import { Popover } from 'boundless';
 
   Expects | Default Value
   ---     | ---
-  `ReactElement` | `<svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'>
-    <g>
-        <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' />
-        <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' />
-    </g>
-</svg>`
+  `ReactElement` | `<svg viewBox='0 0 14 9.5' xmlns='http://www.w3.org/2000/svg'> <g> <polygon className='b-popover-caret-border' fill='#000' points='7 0 14 10 0 10' /> <polygon className='b-popover-caret-fill' fill='#FFF' points='6.98230444 1.75 12.75 10 1.25 10' /> </g></svg>`
 
 - __`closeOnEscKey`__ &middot; enable detection of "Escape" keypresses to trigger `props.onClose`; if a function is provided, the return
   value determines if the dialog will be closed
@@ -341,10 +336,7 @@ import { Popover } from 'boundless';
 ## Reference Styles
 ### Stylus
 ```stylus
-// Bring in Boundless's base Stylus variables
-@require "node_modules/boundless-popover/variables"
-
-// Redefine any variables as desired, e.g.
+// Redefine any variables as desired (you can see what's available in [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl)), e.g.
 color-accent = royalblue
 
 // Bring in the component styles; they will be autoconfigured based on the above

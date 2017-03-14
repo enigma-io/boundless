@@ -39,11 +39,11 @@ export default class Async extends PureComponent {
          *         </ul>
          *     );
          * });
-         * ```
          *
          * <Async>{listDataPromise}</Async>
+         * ```
          *
-         * Function example:
+         * Function example, reading in `[data-endpoint]` as the `window.fetch()` target:
          *
          * ```jsx
          * const fetchListData = (props) => fetch(props['data-endpoint']).then(

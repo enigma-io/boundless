@@ -63,11 +63,11 @@ import { Async } from 'boundless';
           </ul>
       );
   });
-  ```
   
   <Async>{listDataPromise}</Async>
+  ```
   
-  Function example:
+  Function example, reading in `[data-endpoint]` as the `window.fetch()` target:
   
   ```jsx
   const fetchListData = (props) => fetch(props['data-endpoint']).then(
@@ -117,10 +117,7 @@ import { Async } from 'boundless';
 ## Reference Styles
 ### Stylus
 ```stylus
-// Bring in Boundless's base Stylus variables
-@require "node_modules/boundless-async/variables"
-
-// Redefine any variables as desired, e.g.
+// Redefine any variables as desired (you can see what's available in [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl)), e.g.
 color-accent = royalblue
 
 // Bring in the component styles; they will be autoconfigured based on the above

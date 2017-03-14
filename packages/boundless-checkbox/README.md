@@ -108,10 +108,7 @@ There are no required props.
 
   Expects | Default Value
   ---     | ---
-  `object` | `{
-    checked: false,
-    indeterminate: false,
-}`
+  `object` | `{ checked: false, indeterminate: false }`
 
 - __`label`__ &middot; any React-renderable content, most commonly a simple string
 
@@ -141,10 +138,7 @@ There are no required props.
 ## Reference Styles
 ### Stylus
 ```stylus
-// Bring in Boundless's base Stylus variables
-@require "node_modules/boundless-checkbox/variables"
-
-// Redefine any variables as desired, e.g.
+// Redefine any variables as desired (you can see what's available in [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl)), e.g.
 color-accent = royalblue
 
 // Bring in the component styles; they will be autoconfigured based on the above

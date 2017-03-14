@@ -105,7 +105,7 @@ There are no required props.
 
   Expects | Default Value
   ---     | ---
-  \`<%= typeParser(props[propName].type) %>\` | \`<%= _.get(props[propName], 'defaultValue.value', 'n/a') %>\`
+  \`<%= typeParser(props[propName].type) %>\` | \`<%= _.get(props[propName], 'defaultValue.value', 'n/a').replace(/\\n/g, '').replace(/(\\n|\\s{2,})/g, ' ').replace(/,\}/g, ' }') %>\`
 <% }) } else { %>
 There are no optional props.
 <% } } %>
@@ -113,10 +113,7 @@ There are no optional props.
 ## Reference Styles
 ### Stylus
 \`\`\`stylus
-// Bring in Boundless's base Stylus variables
-@require "node_modules/<%= name %>/variables"
-
-// Redefine any variables as desired, e.g.
+// Redefine any variables as desired (you can see what's available in [variables.styl](https://github.com/enigma-io/boundless/blob/master/variables.styl)), e.g.
 color-accent = royalblue
 
 // Bring in the component styles; they will be autoconfigured based on the above
