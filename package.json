@@ -1,7 +1,7 @@
 {
   "name": "boundless",
   "description": "Accessible, battle-tested, infinitely composable React components.",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "author": "Evan Scott <probablyup@gmail.com> (https://yaycmyk.com)",
   "contributors": [
     "Abe Rubenstein <abe.rubenstein@enigma.io>",

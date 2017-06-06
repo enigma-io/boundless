@@ -1,6 +1,6 @@
 {
   "name": "boundless-checkbox-group",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A controller view for managing the aggregate state of multiple, related checkboxes.",
   "main": "build/index.js",
   "module": "index.js",
@@ -27,9 +27,9 @@
   },
   "homepage": "https://boundless.js.org/CheckboxGroup",
   "dependencies": {
-    "boundless-checkbox": "^1.0.4",
-    "boundless-utils-omit-keys": "^1.0.4",
-    "boundless-utils-uuid": "^1.0.4",
+    "boundless-checkbox": "^1.1.0",
+    "boundless-utils-omit-keys": "^1.1.0",
+    "boundless-utils-uuid": "^1.1.0",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

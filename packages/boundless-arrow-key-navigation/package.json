@@ -1,6 +1,6 @@
 {
   "name": "boundless-arrow-key-navigation",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A higher-order component for arrow key navigation on a grouping of children.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,8 +25,8 @@
   },
   "homepage": "https://boundless.js.org/ArrowKeyNavigation",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.4",
-    "boundless-utils-uuid": "^1.0.4"
+    "boundless-utils-omit-keys": "^1.1.0",
+    "boundless-utils-uuid": "^1.1.0"
   },
   "peerDependencies": {
     "react": ">= 15.3",

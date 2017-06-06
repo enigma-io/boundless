@@ -1,6 +1,6 @@
 {
   "name": "boundless-pagination",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "View and navigate heterogeneous content one page at a time.",
   "main": "build/index.js",
   "module": "index.js",
@@ -24,11 +24,11 @@
   },
   "homepage": "https://boundless.js.org/Pagination",
   "dependencies": {
-    "boundless-arrow-key-navigation": "^1.0.4",
-    "boundless-async": "^1.0.4",
-    "boundless-segmented-control": "^1.0.4",
-    "boundless-utils-omit-keys": "^1.0.4",
-    "boundless-utils-uuid": "^1.0.4",
+    "boundless-arrow-key-navigation": "^1.1.0",
+    "boundless-async": "^1.1.0",
+    "boundless-segmented-control": "^1.1.0",
+    "boundless-utils-omit-keys": "^1.1.0",
+    "boundless-utils-uuid": "^1.1.0",
     "classnames": "^2.1.5",
     "lodash": "^4.6.1"
   },

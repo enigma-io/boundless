@@ -1,6 +1,6 @@
 {
   "name": "boundless-popover",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A non-blocking container positioned to a specific anchor element.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,10 +25,10 @@
   },
   "homepage": "https://boundless.js.org/Popover",
   "dependencies": {
-    "boundless-dialog": "^1.0.4",
-    "boundless-portal": "^1.0.4",
-    "boundless-utils-omit-keys": "^1.0.4",
-    "boundless-utils-transform-property": "^1.0.4",
+    "boundless-dialog": "^1.1.0",
+    "boundless-portal": "^1.1.0",
+    "boundless-utils-omit-keys": "^1.1.0",
+    "boundless-utils-transform-property": "^1.1.0",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {

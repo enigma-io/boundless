@@ -1,6 +1,6 @@
 {
   "name": "boundless-radio",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "An accessible radio form control.",
   "main": "build/index.js",
   "module": "index.js",
@@ -25,8 +25,8 @@
   },
   "homepage": "https://boundless.js.org/Radio",
   "dependencies": {
-    "boundless-utils-omit-keys": "^1.0.4",
-    "boundless-utils-uuid": "^1.0.4",
+    "boundless-utils-omit-keys": "^1.1.0",
+    "boundless-utils-uuid": "^1.1.0",
     "classnames": "^2.1.5"
   },
   "peerDependencies": {
