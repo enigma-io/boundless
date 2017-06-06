@@ -1,11 +1,11 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Progress from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Progress component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -46,22 +46,22 @@ describe('Progress component', () => {
     });
 
     it('accepts arbitrary HTML attributes via props.progressProps', () => {
-        render(<Progress progressProps={{'data-foo': 'bar'}} />);
+        render(<Progress progressProps={{ 'data-foo': 'bar' }} />);
         expect($('.b-progress[data-foo="bar"]')).not.toBeNull();
     });
 
     it('accepts an additional class via props.progressProps.className', () => {
-        render(<Progress progressProps={{className: 'foo'}} />);
+        render(<Progress progressProps={{ className: 'foo' }} />);
         expect($('.b-progress.foo')).not.toBeNull();
     });
 
     it('accepts arbitrary HTML attributes via props.cancelProps', () => {
-        render(<Progress onCancel={sandbox.stub()} cancelProps={{'data-foo': 'bar'}} />);
+        render(<Progress onCancel={sandbox.stub()} cancelProps={{ 'data-foo': 'bar' }} />);
         expect($('.b-progress-cancel[data-foo="bar"]')).not.toBeNull();
     });
 
     it('accepts an additional class via props.cancelProps.className', () => {
-        render(<Progress onCancel={sandbox.stub()} cancelProps={{className: 'foo'}} />);
+        render(<Progress onCancel={sandbox.stub()} cancelProps={{ className: 'foo' }} />);
         expect($('.b-progress-cancel.foo')).not.toBeNull();
     });
 

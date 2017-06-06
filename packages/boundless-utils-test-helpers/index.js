@@ -1,6 +1,6 @@
-import {createElement} from 'react';
-import {findDOMNode} from 'react-dom';
-import {get} from 'lodash';
+import { createElement } from 'react';
+import { findDOMNode } from 'react-dom';
+import { get } from 'lodash';
 
 /**
  * A testing module to verify that arbitrary React-supported attributes are passed
@@ -55,35 +55,35 @@ export function conformanceChecker(render, Constructor, baseProps, key) {
     });
 
     /* verify props.className */
-    node = renderWithPropsAndGetNode({className: 'foo'});
+    node = renderWithPropsAndGetNode({ className: 'foo' });
 
     expect(node.classList.contains('foo')).toBe(true,
         `${Constructor.name} does not support adding of classes via props.className`
     );
 
     /* verify props.id */
-    node = renderWithPropsAndGetNode({id: 'foo'});
+    node = renderWithPropsAndGetNode({ id: 'foo' });
 
     expect(node.id === 'foo').toBe(true,
         `${Constructor.name} does not support adding of an HTML id via props.id`
     );
 
     /* verify props.style */
-    node = renderWithPropsAndGetNode({style: {color: 'red'}});
+    node = renderWithPropsAndGetNode({ style: { color: 'red' } });
 
     expect(node.style.color === 'red').toBe(true,
         `${Constructor.name} does not support adding inline styles via props.style`
     );
 
     /* verify props['data-foo'] */
-    node = renderWithPropsAndGetNode({'data-foo': 'bar'});
+    node = renderWithPropsAndGetNode({ 'data-foo': 'bar' });
 
     expect(node.getAttribute('data-foo') === 'bar').toBe(true,
         `${Constructor.name} does not support adding data attributes via props`
     );
 
     /* verify props['aria-label'] */
-    node = renderWithPropsAndGetNode({'aria-label': 'foo'});
+    node = renderWithPropsAndGetNode({ 'aria-label': 'foo' });
 
     expect(node.getAttribute('aria-label') === 'foo').toBe(true,
         `${Constructor.name} does not support adding aria attributes via props`

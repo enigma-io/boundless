@@ -1,17 +1,17 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import {noop} from 'lodash';
+import { noop } from 'lodash';
 import sinon from 'sinon';
 
 import ProgressiveDisclosure from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('ProgressiveDisclosure component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
-    const event = {preventDefault: noop};
+    const event = { preventDefault: noop };
 
     const sandbox = sinon.sandbox.create();
 
@@ -58,12 +58,12 @@ describe('ProgressiveDisclosure component', () => {
     });
 
     it('accepts arbitrary HTML attributes via props.toggleProps', () => {
-        render(<ProgressiveDisclosure toggleProps={{'data-foo': 'bar'}} />);
+        render(<ProgressiveDisclosure toggleProps={{ 'data-foo': 'bar' }} />);
         expect($('.b-disclosure-toggle[data-foo="bar"]')).not.toBeNull();
     });
 
     it('accepts additional classes via props.toggleProps.className', () => {
-        render(<ProgressiveDisclosure toggleProps={{className: 'foo'}} />);
+        render(<ProgressiveDisclosure toggleProps={{ className: 'foo' }} />);
         expect($('.b-disclosure-toggle.foo')).not.toBeNull();
     });
 
@@ -125,7 +125,7 @@ describe('ProgressiveDisclosure component', () => {
 
         it('proxies the event to `props.toggleProps.onClick` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<ProgressiveDisclosure toggleProps={{onClick: stub}} />);
+            const element = render(<ProgressiveDisclosure toggleProps={{ onClick: stub }} />);
 
             element.handleClick(event);
 
@@ -138,16 +138,16 @@ describe('ProgressiveDisclosure component', () => {
         it('shows and hides the content', () => {
             const element = render(<ProgressiveDisclosure />);
 
-            element.handleKeyDown({key: 'Enter', preventDefault: noop});
+            element.handleKeyDown({ key: 'Enter', preventDefault: noop });
             expect($('.b-disclosure-expanded')).not.toBeNull();
 
-            element.handleKeyDown({key: 'Enter', preventDefault: noop});
+            element.handleKeyDown({ key: 'Enter', preventDefault: noop });
             expect($('.b-disclosure-expanded')).toBeNull();
         });
 
         it('proxies the event to `props.toggleProps.onKeyDown` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<ProgressiveDisclosure toggleProps={{onKeyDown: stub}} />);
+            const element = render(<ProgressiveDisclosure toggleProps={{ onKeyDown: stub }} />);
 
             element.handleKeyDown(event);
 

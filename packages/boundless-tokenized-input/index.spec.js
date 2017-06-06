@@ -1,13 +1,13 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import {noop} from 'lodash';
+import { noop } from 'lodash';
 
 import TokenizedInput from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('TokenizedInput component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -26,14 +26,14 @@ describe('TokenizedInput component', () => {
     });
 
     it('accepts arbitrary HTML attributes via props.inputProps', () => {
-        const element = render(<TokenizedInput inputProps={{'data-id': 'foo'}} />);
+        const element = render(<TokenizedInput inputProps={{ 'data-id': 'foo' }} />);
         const node = element.refs.typeahead.getInputNode();
 
         expect(node.getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts additional classes via props.inputProps.className', () => {
-        const element = render(<TokenizedInput inputProps={{className: 'foo'}} />);
+        const element = render(<TokenizedInput inputProps={{ className: 'foo' }} />);
         const node = element.refs.typeahead.getInputNode();
 
         expect(node.classList.contains('foo')).toBe(true);
@@ -43,7 +43,7 @@ describe('TokenizedInput component', () => {
         const element = render(<TokenizedInput className='foo' />);
         const node = element.refs.wrapper;
 
-        ['b-tokenfield-wrapper', 'foo'].forEach((name) => {
+        [ 'b-tokenfield-wrapper', 'foo' ].forEach((name) => {
             expect(node.classList.contains(name)).toBe(true);
 
         });
@@ -53,7 +53,7 @@ describe('TokenizedInput component', () => {
         render(
             <TokenizedInput
                 entities={entities}
-                tokens={[0]}
+                tokens={[ 0 ]}
                 tokenCloseComponent={<span>foo</span>} />
         );
 
@@ -76,50 +76,50 @@ describe('TokenizedInput component', () => {
     });
 
     it('renders .b-tokenfield-token', () => {
-        render(<TokenizedInput entities={entities} tokens={[0]} />);
+        render(<TokenizedInput entities={entities} tokens={[ 0 ]} />);
         expect($('.b-tokenfield-token')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-token-selected', () => {
-        render(<TokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} />);
+        render(<TokenizedInput entities={entities} tokens={[ 0 ]} tokensSelected={[ 0 ]} />);
         expect($('.b-tokenfield-token-selected')).not.toBe(null);
     });
 
     it('renders .b-tokenfield-token-close', () => {
-        render(<TokenizedInput entities={entities} tokens={[0]} tokensSelected={[0]} />);
+        render(<TokenizedInput entities={entities} tokens={[ 0 ]} tokensSelected={[ 0 ]} />);
         expect($('.b-tokenfield-token-close')).not.toBe(null);
     });
 
     it('does not render .b-tokenfield-token-close if `tokenCloseVisible` is `false`', () => {
-        render(<TokenizedInput entities={entities} tokenCloseVisible={false} tokens={[0]} tokensSelected={[0]} />);
+        render(<TokenizedInput entities={entities} tokenCloseVisible={false} tokens={[ 0 ]} tokensSelected={[ 0 ]} />);
         expect($('.b-tokenfield-token-close')).toBe(null);
     });
 
     describe('props.tokens', () => {
         it('renders to the UI as token children', () => {
-            const element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
+            const element = render(<TokenizedInput entities={entities} tokens={[ 0, 1 ]} />);
 
             expect(element.refs.token_0.textContent).toContain('apple');
             expect(element.refs.token_1.textContent).toContain('apricot');
         });
 
         it('clears the input when a new token is added', () => {
-            let element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
+            let element = render(<TokenizedInput entities={entities} tokens={[ 0, 1 ]} />);
 
             element.setValue('blue');
             expect(element.getValue()).toBe('blue');
 
-            element = render(<TokenizedInput entities={entities} tokens={[0, 1, 2]} />);
+            element = render(<TokenizedInput entities={entities} tokens={[ 0, 1, 2 ]} />);
             expect(element.getValue()).toBe('');
         });
 
         it('will not clear the input when a token is removed', () => {
-            let element = render(<TokenizedInput entities={entities} tokens={[0, 1]} />);
+            let element = render(<TokenizedInput entities={entities} tokens={[ 0, 1 ]} />);
 
             element.setValue('blue');
             expect(element.getValue()).toBe('blue');
 
-            element = render(<TokenizedInput entities={entities} tokens={[0]} />);
+            element = render(<TokenizedInput entities={entities} tokens={[ 0 ]} />);
             expect(element.getValue()).toBe('blue');
         });
     });
@@ -131,14 +131,14 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleAddToken={stub}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             const typeahead = element.refs.typeahead;
 
             typeahead.handleKeyDown({
                 key: 'Enter',
-                nativeEvent: {preventDefault: noop},
+                nativeEvent: { preventDefault: noop },
                 target: typeahead.getInputNode(),
             });
 
@@ -154,14 +154,14 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleRemoveTokens={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
-            element.handleKeyDown({which: 8, preventDefault: noop});
+            element.handleKeyDown({ which: 8, preventDefault: noop });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([1])).toBe(true);
+            expect(stub.calledWithMatch([ 1 ])).toBe(true);
         });
 
         it('occurs when pressing the Backspace key on a focused token', () => {
@@ -170,13 +170,13 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleRemoveTokens={stub}
-                    tokens={[0, 1]} />
+                    tokens={[ 0, 1 ]} />
             );
 
-            element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
+            element.handleTokenKeyDown(0, { which: 8, preventDefault: noop });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0])).toBe(true);
+            expect(stub.calledWithMatch([ 0 ])).toBe(true);
         });
 
         it('occurs when clicking a token\'s "close" handle', () => {
@@ -185,14 +185,14 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleRemoveTokens={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
-            element.handleTokenCloseClick(1, {stopPropagation: noop});
+            element.handleTokenCloseClick(1, { stopPropagation: noop });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([1])).toBe(true);
+            expect(stub.calledWithMatch([ 1 ])).toBe(true);
         });
     });
 
@@ -207,7 +207,7 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]} />
+                    tokens={[ 0, 1 ]} />
             );
 
             typeahead = element.refs.typeahead;
@@ -215,24 +215,24 @@ describe('TokenizedInput component', () => {
 
         it('occurs when pressing the left arrow key at the start of the input field', () => {
             typeahead.focus();
-            element.handleKeyDown({which: 37});
+            element.handleKeyDown({ which: 37 });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([1])).toBe(true);
+            expect(stub.calledWithMatch([ 1 ])).toBe(true);
         });
 
         it('occurs if pressing `Enter` on a focused token', () => {
-            element.handleTokenKeyDown(0, {which: 13, preventDefault: noop});
+            element.handleTokenKeyDown(0, { which: 13, preventDefault: noop });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0])).toBe(true);
+            expect(stub.calledWithMatch([ 0 ])).toBe(true);
         });
 
         it('occurs if pressing `Space` on a focused token', () => {
-            element.handleTokenKeyDown(0, {which: 32, preventDefault: noop});
+            element.handleTokenKeyDown(0, { which: 32, preventDefault: noop });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0])).toBe(true);
+            expect(stub.calledWithMatch([ 0 ])).toBe(true);
         });
 
         it('will not change if pressing the left arrow key with the only token already selected', () => {
@@ -240,11 +240,11 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
-            element.handleKeyDown({which: 37});
+            element.handleKeyDown({ which: 37 });
 
             expect(stub.called).toBe(false);
         });
@@ -254,12 +254,12 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
             element.refs.wrapper.querySelector('.b-tokenfield-token').focus();
-            element.handleKeyDown({which: 39});
+            element.handleKeyDown({ which: 39 });
 
             expect(stub.called).toBe(true);
             expect(stub.calledWithMatch([])).toBe(true);
@@ -271,29 +271,29 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
             element.refs.wrapper.querySelector('.b-tokenfield-token').focus();
-            element.handleKeyDown({which: 39});
+            element.handleKeyDown({ which: 39 });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([1])).toBe(true);
+            expect(stub.calledWithMatch([ 1 ])).toBe(true);
         });
 
         it('focuses the token as well', () => {
             element = render(
                 <TokenizedInput
                     entities={entities}
-                    tokens={[0, 1]}
+                    tokens={[ 0, 1 ]}
                     tokensSelected={[]} />
             );
 
             const modifySelection = (indexes) => {
                 element = render(
                     <TokenizedInput entities={entities}
-                                      tokens={[0, 1]}
+                                      tokens={[ 0, 1 ]}
                                       tokensSelected={indexes} />
                 );
             };
@@ -301,7 +301,7 @@ describe('TokenizedInput component', () => {
             element.focus();
             expect(document.activeElement).toBe(element.getInputNode());
 
-            modifySelection([1]);
+            modifySelection([ 1 ]);
             expect(document.activeElement).toBe(element.refs.token_1);
         });
 
@@ -309,15 +309,15 @@ describe('TokenizedInput component', () => {
             element = render(
                 <TokenizedInput
                     entities={entities}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             const modifySelection = (indexes) => {
                 element = render(
                     <TokenizedInput
                         entities={entities}
-                        tokens={[0, 1]}
+                        tokens={[ 0, 1 ]}
                         tokensSelected={indexes} />
                 );
             };
@@ -335,7 +335,7 @@ describe('TokenizedInput component', () => {
                     <TokenizedInput
                         entities={entities}
                         handleNewSelection={modifySelection}
-                        tokens={[0, 1]}
+                        tokens={[ 0, 1 ]}
                         tokensSelected={indexes} />
                 );
             };
@@ -344,12 +344,12 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={modifySelection}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             element.refs.token_1.focus();
-            element.handleKeyDown({which: 37, shiftKey: true});
+            element.handleKeyDown({ which: 37, shiftKey: true });
 
             expect(document.activeElement).toBe(element.refs.token_0);
         });
@@ -360,7 +360,7 @@ describe('TokenizedInput component', () => {
                     <TokenizedInput
                         entities={entities}
                         handleNewSelection={modifySelection}
-                        tokens={[0, 1]}
+                        tokens={[ 0, 1 ]}
                         tokensSelected={indexes} />
                 );
             };
@@ -369,12 +369,12 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={modifySelection}
-                    tokens={[0, 1]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
             element.refs.token_0.focus();
-            element.handleKeyDown({which: 39, shiftKey: true});
+            element.handleKeyDown({ which: 39, shiftKey: true });
 
             expect(document.activeElement).toBe(element.refs.token_1);
         });
@@ -387,8 +387,8 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             element.focus();
@@ -398,7 +398,7 @@ describe('TokenizedInput component', () => {
             });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0, 1])).toBe(true);
+            expect(stub.calledWithMatch([ 0, 1 ])).toBe(true);
         });
 
         it('occurs when pressing the shift and right arrow keys', () => {
@@ -407,8 +407,8 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
             element.focus();
@@ -418,7 +418,7 @@ describe('TokenizedInput component', () => {
             });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0, 1])).toBe(true);
+            expect(stub.calledWithMatch([ 0, 1 ])).toBe(true);
         });
 
         it('occurs when pressing the cmd + a keys', () => {
@@ -427,8 +427,8 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[0]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 0 ]} />
             );
 
             element.focus();
@@ -439,7 +439,7 @@ describe('TokenizedInput component', () => {
             });
 
             expect(stub.called).toBe(true);
-            expect(stub.calledWithMatch([0, 1])).toBe(true);
+            expect(stub.calledWithMatch([ 0, 1 ])).toBe(true);
         });
     });
 
@@ -450,8 +450,8 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             Simulate.click(element.getInputNode());
@@ -464,9 +464,9 @@ describe('TokenizedInput component', () => {
             const element = render(
                 <TokenizedInput
                     entities={entities}
-                    inputProps={{onClick: stub}}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    inputProps={{ onClick: stub }}
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             Simulate.click(element.getInputNode());
@@ -481,8 +481,8 @@ describe('TokenizedInput component', () => {
                 <TokenizedInput
                     entities={entities}
                     handleNewSelection={stub}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             Simulate.focus(element.getInputNode());
@@ -495,9 +495,9 @@ describe('TokenizedInput component', () => {
             const element = render(
                 <TokenizedInput
                     entities={entities}
-                    inputProps={{onFocus: stub}}
-                    tokens={[0, 1]}
-                    tokensSelected={[1]} />
+                    inputProps={{ onFocus: stub }}
+                    tokens={[ 0, 1 ]}
+                    tokensSelected={[ 1 ]} />
             );
 
             Simulate.focus(element.getInputNode());
@@ -508,13 +508,13 @@ describe('TokenizedInput component', () => {
             const element = render(
                 <TokenizedInput
                     entities={entities}
-                    tokens={[0, 1]} />
+                    tokens={[ 0, 1 ]} />
             );
 
             element.refs.token_0.focus();
             expect(document.activeElement).toBe(element.refs.token_0);
 
-            element.handleTokenKeyDown(0, {which: 8, preventDefault: noop});
+            element.handleTokenKeyDown(0, { which: 8, preventDefault: noop });
             expect(document.activeElement).toBe(element.getInputNode());
         });
 
@@ -525,7 +525,7 @@ describe('TokenizedInput component', () => {
             const element = render(
                 <TokenizedInput
                     entities={entities}
-                    tokens={[0, 1]} />
+                    tokens={[ 0, 1 ]} />
             );
 
             element.refs.token_0.focus();
@@ -549,7 +549,7 @@ describe('TokenizedInput component', () => {
                     onKeyDown={stub} />
             );
 
-            element.handleKeyDown({which: 13});
+            element.handleKeyDown({ which: 13 });
             expect(stub.called).toBe(true);
         });
     });
@@ -576,7 +576,7 @@ describe('TokenizedInput component', () => {
                     <TokenizedInput
                         entities={entities}
                         handleAddToken={stub}
-                        tokens={[0]} />
+                        tokens={[ 0 ]} />
                 );
 
                 element.add(0);
@@ -611,7 +611,7 @@ describe('TokenizedInput component', () => {
                 const element = render(
                     <TokenizedInput
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getValue()).toBe('ap');
@@ -623,7 +623,7 @@ describe('TokenizedInput component', () => {
                 const element = render(
                     <TokenizedInput
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getSelectedEntityText()).toBe('apple');
@@ -649,7 +649,7 @@ describe('TokenizedInput component', () => {
                     <TokenizedInput
                         entities={entities}
                         handleRemoveTokens={stub}
-                        tokens={[0]} />
+                        tokens={[ 0 ]} />
                 );
             });
 
@@ -657,7 +657,7 @@ describe('TokenizedInput component', () => {
                 element.remove(0);
 
                 expect(stub.called).toBe(true);
-                expect(stub.calledWithMatch([0])).toBe(true);
+                expect(stub.calledWithMatch([ 0 ])).toBe(true);
             });
 
             it('will not call handleRemoveTokens() with invalid indexes', () => {
@@ -669,7 +669,7 @@ describe('TokenizedInput component', () => {
 
         describe('select()', () => {
             it('creates a full selection of the input text', () => {
-                const element = render(<TokenizedInput inputProps={{defaultValue: 'ap'}} />);
+                const element = render(<TokenizedInput inputProps={{ defaultValue: 'ap' }} />);
                 const node = element.getInputNode();
 
                 expect(node.selectionStart).toBe(0);
@@ -686,7 +686,7 @@ describe('TokenizedInput component', () => {
                 const element = render(
                     <TokenizedInput
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getValue()).toBe('ap');

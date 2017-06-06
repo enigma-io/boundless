@@ -1,5 +1,6 @@
-import {cloneElement, createElement, Children, PropTypes, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
+import { cloneElement, createElement, Children, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
@@ -83,18 +84,18 @@ export default class ArrowKeyNavigation extends PureComponent {
             const numChildren = Children.count(this.state.children);
 
             if (numChildren === 0) {
-                this.setState({activeChildIndex: 0});
+                this.setState({ activeChildIndex: 0 });
             } else if (this.state.activeChildIndex >= numChildren) {
-                this.setState({activeChildIndex: numChildren - 1});
+                this.setState({ activeChildIndex: numChildren - 1 });
             }
         }
     }
 
-    componentWillMount() { this.setState({children: this.getFilteredChildren()}); }
+    componentWillMount() { this.setState({ children: this.getFilteredChildren() }); }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.children !== this.props.children) {
-            return this.setState({children: this.getFilteredChildren(nextProps)}, this.setActiveChildIndex);
+            return this.setState({ children: this.getFilteredChildren(nextProps) }, this.setActiveChildIndex);
         }
 
         this.setActiveChildIndex();
@@ -128,7 +129,7 @@ export default class ArrowKeyNavigation extends PureComponent {
             nextIndex = numChildren - 1; // reverse loop
         }
 
-        this.setState({activeChildIndex: nextIndex});
+        this.setState({ activeChildIndex: nextIndex });
     }
 
     handleKeyDown = (event) => {
@@ -180,7 +181,7 @@ export default class ArrowKeyNavigation extends PureComponent {
             const index = parseInt(event.target.getAttribute(DATA_ATTRIBUTE_INDEX), 10);
             const child = Children.toArray(this.state.children)[index];
 
-            this.setState({activeChildIndex: index});
+            this.setState({ activeChildIndex: index });
 
             if (child.props.onFocus) {
                 child.props.onFocus(event);

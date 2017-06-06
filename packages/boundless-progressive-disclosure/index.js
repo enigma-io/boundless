@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -88,12 +89,12 @@ export default class ProgressiveDisclosure extends PureComponent {
 
     componentWillReceiveProps(newProps) {
         if (newProps.expanded !== this.props.expanded) {
-            this.setState({expanded: newProps.expanded}, this.fireStatefulCallback);
+            this.setState({ expanded: newProps.expanded }, this.fireStatefulCallback);
         }
     }
 
     handleClick = (event) => {
-        this.setState({expanded: !this.state.expanded}, this.fireStatefulCallback);
+        this.setState({ expanded: !this.state.expanded }, this.fireStatefulCallback);
 
         /* istanbul ignore else */
         if (isFunction(this.props.toggleProps.onClick)) {
@@ -104,7 +105,7 @@ export default class ProgressiveDisclosure extends PureComponent {
     handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            this.setState({expanded: !this.state.expanded}, this.fireStatefulCallback);
+            this.setState({ expanded: !this.state.expanded }, this.fireStatefulCallback);
         }
 
         /* istanbul ignore else */

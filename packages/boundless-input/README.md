@@ -27,7 +27,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Input from 'boundless-input';
 
 export default class InputDemo extends PureComponent {
@@ -35,7 +35,7 @@ export default class InputDemo extends PureComponent {
         input: '',
     }
 
-    handleChange = (e) => this.setState({input: e.target.value})
+    handleChange = (e) => this.setState({ input: e.target.value })
 
     render() {
         return (
@@ -49,7 +49,7 @@ export default class InputDemo extends PureComponent {
                         }} />
                 </div>
 
-                <div style={{marginLeft: '1em'}}>
+                <div style={{ marginLeft: '1em' }}>
                     <h5>hidePlaceholderOnFocus="true"</h5>
                     <Input
                         hidePlaceholderOnFocus={true}
@@ -58,7 +58,7 @@ export default class InputDemo extends PureComponent {
                         }} />
                 </div>
 
-                <div style={{marginLeft: '1em'}}>
+                <div style={{ marginLeft: '1em' }}>
                     <h5>"controlled" input</h5>
                     <Input
                         hidePlaceholderOnFocus={true}

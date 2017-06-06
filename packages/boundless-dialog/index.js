@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import Portal from 'boundless-portal';
@@ -128,7 +129,7 @@ export default class Dialog extends PureComponent {
     isPartOfDialog(node) {
         if (!node || node === window) { return false; }
 
-        const roots = [this.$wrapper].concat(
+        const roots = [ this.$wrapper ].concat(
             toArray.call(
                 this.$wrapper.querySelectorAll(`[${Portal.PORTAL_DATA_ATTRIBUTE}]`)
             ).map((dom) => document.getElementById(dom.getAttribute(Portal.PORTAL_DATA_ATTRIBUTE)))

@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import Button from 'boundless-button';

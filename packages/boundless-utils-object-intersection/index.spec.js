@@ -12,7 +12,7 @@ describe('object intersection utility', () => {
             prop2: 'fizz',
         };
 
-        expect(intersect(obj1, obj2)).toEqual({prop2: 'bar'});
+        expect(intersect(obj1, obj2)).toEqual({ prop2: 'bar' });
     });
 
     it('returns a blank object if there are no intersecting properties', () => {

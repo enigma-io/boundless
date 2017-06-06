@@ -17,7 +17,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import Button from 'boundless-button';
 import FittedText from 'boundless-fitted-text';
 

@@ -1,11 +1,11 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Async from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Async higher-order component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));

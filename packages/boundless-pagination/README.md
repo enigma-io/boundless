@@ -29,7 +29,7 @@ Then use it like:
 
 /* eslint no-console:0 */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Pagination from 'boundless-pagination';
 
 export default class PaginationDemo extends PureComponent {

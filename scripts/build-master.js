@@ -28,10 +28,10 @@ const config = {
         },
     },
     module: {
-        rules: [{
+        rules: [ {
             test: /\.jsx?$/,
             loader: 'babel-loader',
-        }],
+        } ],
     },
     resolve: {
         alias: {

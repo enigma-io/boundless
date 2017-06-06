@@ -13,7 +13,7 @@ const chalk = require('chalk');
 const extractComments = require('extract-comments');
 const _ = require('lodash');
 
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
 
 const base = __dirname + '/../packages/';
 
@@ -25,9 +25,9 @@ const log = (msg) => console.log(chalk.bold.green(msg));
 const error = (err) => console.error(chalk.bold.red(err));
 
 const baseExternals = {
-    'classnames': {commonjs2: 'classnames'},
-    'react': {commonjs2: 'react'},
-    'react-dom': {commonjs2: 'react-dom'},
+    'classnames': { commonjs2: 'classnames' },
+    'react': { commonjs2: 'react' },
+    'react-dom': { commonjs2: 'react-dom' },
 };
 
 const docgen = require('react-docgen');
@@ -271,7 +271,7 @@ require('jsdom').env('', [
         if (hasStyles) {
             stylus(fs.readFileSync(stylePath, 'utf8'))
                 .set('filename', stylePath)
-                .set('sourcemap', {inline: true})
+                .set('sourcemap', { inline: true })
                 .render((err, css) => {
                     if (err) {
                         return error(`ERROR CSS - ${name} CSS. ${err}`);
@@ -284,7 +284,7 @@ require('jsdom').env('', [
 
         const dependencies = Object.keys(require(jsonPath).dependencies || {});
         const externals = _.merge({}, baseExternals, dependencies.reduce((map, depName) => {
-            return (map[depName] = {commonjs2: depName}), map;
+            return (map[depName] = { commonjs2: depName }), map;
         }, {}));
 
         webpack({
@@ -292,10 +292,10 @@ require('jsdom').env('', [
             devtool: 'inline-source-map',
             externals: externals,
             module: {
-                rules: [{
+                rules: [ {
                     test: /\.jsx?$/,
                     loader: 'babel-loader',
-                }],
+                } ],
             },
             output: {
                 filename: 'index.js',

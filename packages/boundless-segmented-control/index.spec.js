@@ -1,12 +1,12 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import SegmentedControl from './index';
-import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, $$, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('SegmentedControl component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -14,7 +14,7 @@ describe('SegmentedControl component', () => {
     const sandbox = sinon.sandbox.create();
 
     const baseProps = {
-        options: [{
+        options: [ {
             className: 'foo',
             children: 'foo',
         }, {
@@ -23,7 +23,7 @@ describe('SegmentedControl component', () => {
         }, {
             className: 'baz',
             children: 'baz',
-        }],
+        } ],
     };
 
     afterEach(() => {
@@ -56,7 +56,7 @@ describe('SegmentedControl component', () => {
             Simulate.click($('.b-segmented-control-option:nth-child(2)'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch({children: 'bar'})).toBe(true);
+            expect(stub.calledWithMatch({ children: 'bar' })).toBe(true);
         });
 
         it('is not called if the option is already selected', () => {
@@ -87,7 +87,7 @@ describe('SegmentedControl component', () => {
             const node = $('.b-segmented-control-option:nth-child(1)');
 
             Simulate.focus(node);
-            Simulate.keyDown(node, {key: 'ArrowRight'});
+            Simulate.keyDown(node, { key: 'ArrowRight' });
 
             expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(2)'));
         });
@@ -98,7 +98,7 @@ describe('SegmentedControl component', () => {
             const node = $('.b-segmented-control-option:nth-child(3)');
 
             Simulate.focus(node);
-            Simulate.keyDown(node, {key: 'ArrowRight'});
+            Simulate.keyDown(node, { key: 'ArrowRight' });
 
             expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(1)'));
         });
@@ -109,7 +109,7 @@ describe('SegmentedControl component', () => {
             const node = $('.b-segmented-control-option:nth-child(2)');
 
             Simulate.focus(node);
-            Simulate.keyDown(node, {key: 'ArrowLeft'});
+            Simulate.keyDown(node, { key: 'ArrowLeft' });
 
             expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(1)'));
         });
@@ -120,7 +120,7 @@ describe('SegmentedControl component', () => {
             const node = $('.b-segmented-control-option:nth-child(1)');
 
             Simulate.focus(node);
-            Simulate.keyDown(node, {key: 'ArrowLeft'});
+            Simulate.keyDown(node, { key: 'ArrowLeft' });
 
             expect(document.activeElement).toBe($('.b-segmented-control-option:nth-child(3)'));
         });
@@ -134,7 +134,7 @@ describe('SegmentedControl component', () => {
             const node = $('.b-segmented-control-option:nth-child(2)');
 
             Simulate.focus(node);
-            Simulate.keyDown(node, {key: 'Enter'});
+            Simulate.keyDown(node, { key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
         });

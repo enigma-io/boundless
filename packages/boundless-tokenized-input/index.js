@@ -1,4 +1,5 @@
-import {cloneElement, createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { cloneElement, createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import Typeahead from 'boundless-typeahead';
@@ -143,7 +144,7 @@ export default class TokenizedInput extends PureComponent {
     }
 
     remove(index) {
-        const indexes = (Array.isArray(index) ? index : [index]).filter((idx) => {
+        const indexes = (Array.isArray(index) ? index : [ index ]).filter((idx) => {
             return this.props.tokens.indexOf(idx) !== -1;
         });
 
@@ -151,7 +152,7 @@ export default class TokenizedInput extends PureComponent {
     }
 
     selectToken(index) {
-        this.props.handleNewSelection([index]);
+        this.props.handleNewSelection([ index ]);
     }
 
     selectTokens(indexes) {
@@ -171,7 +172,7 @@ export default class TokenizedInput extends PureComponent {
         } else { // add the next leftmost to a reconstructed "selected" array
             const previousToken = indexes[indexes.indexOf(first(selected)) - 1];
 
-            this.selectTokens(append ? [previousToken].concat(selected) : [previousToken]);
+            this.selectTokens(append ? [ previousToken ].concat(selected) : [ previousToken ]);
         }
     }
 
@@ -189,7 +190,7 @@ export default class TokenizedInput extends PureComponent {
         } else {
             const nextToken = indexes[indexes.indexOf(last(selected)) + 1];
 
-            this.selectTokens(append ? selected.concat(nextToken) : [nextToken]);
+            this.selectTokens(append ? selected.concat(nextToken) : [ nextToken ]);
         }
     }
 

@@ -21,12 +21,12 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
 
 export default class ArrowKeyNavigationDemo extends PureComponent {
     state = {
-        items: ['lorem', 'ipsum', 'dolor'],
+        items: [ 'lorem', 'ipsum', 'dolor' ],
     }
 
     render() {

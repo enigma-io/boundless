@@ -1,4 +1,4 @@
-import {createElement} from 'react';
+import { createElement } from 'react';
 import Button from '../../boundless-button/index';
 import FittedText from '../';
 

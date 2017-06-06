@@ -3,14 +3,14 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
 
 const descriptionSuffix = 'a toolkit of React components and helper utilities focused on accessibility, performance, and composition';
 
 const base = path.resolve(__dirname, '..');
 const baseREADME = fs.readFileSync(path.resolve(base, 'docs', 'index.html'), 'utf8');
 
-const emittedDirectories = [''];
+const emittedDirectories = [ '' ];
 
 function emitIndexFile(destinationDir, title, description) {
     const destinationIndexPath = path.join(destinationDir, 'index.html');

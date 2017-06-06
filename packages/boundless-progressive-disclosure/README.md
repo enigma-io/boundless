@@ -17,7 +17,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import ProgressiveDisclosure from 'boundless-progressive-disclosure';
 
 export default class ProgressiveDisclosureDemo extends PureComponent {

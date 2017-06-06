@@ -1,5 +1,6 @@
-import {createElement, isValidElement, Component, PropTypes} from 'react';
-import {unmountComponentAtNode, unstable_renderSubtreeIntoContainer as renderSubtree} from 'react-dom';
+import PropTypes from 'prop-types';
+import { createElement, isValidElement, Component } from 'react';
+import { unmountComponentAtNode, unstable_renderSubtreeIntoContainer as renderSubtree } from 'react-dom';
 
 import omit from 'boundless-utils-omit-keys';
 import uuid from 'boundless-utils-uuid';
@@ -106,7 +107,7 @@ export default class Portal extends Component {
         return (
             <span
                 {...omit(this.props, Portal.internalKeys)}
-                {...{[Portal.PORTAL_DATA_ATTRIBUTE]: this.props.portalId || this.id}} />
+                {...{ [Portal.PORTAL_DATA_ATTRIBUTE]: this.props.portalId || this.id }} />
         );
     }
 }

@@ -1,8 +1,8 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 import Modal from './index';
 
@@ -30,22 +30,22 @@ describe('Modal component', () => {
     });
 
     it('accepts arbitrary HTML attributes via props.modalProps', () => {
-        render(<Modal modalProps={{'data-id': 'foo'}} />);
+        render(<Modal modalProps={{ 'data-id': 'foo' }} />);
         expect($('.b-modal').getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts extra classes via props.modalProps.className', () => {
-        render(<Modal modalProps={{className: 'foo'}} />);
+        render(<Modal modalProps={{ className: 'foo' }} />);
         expect($('.b-modal').classList.contains('foo')).toBe(true);
     });
 
     it('accepts arbitrary HTML attributes via props.maskProps', () => {
-        render(<Modal maskProps={{'data-id': 'foo'}} />);
+        render(<Modal maskProps={{ 'data-id': 'foo' }} />);
         expect($('.b-modal-mask').getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts extra classes via props.maskProps.className', () => {
-        render(<Modal maskProps={{className: 'foo'}} />);
+        render(<Modal maskProps={{ className: 'foo' }} />);
         expect($('.b-modal-mask').classList.contains('foo')).toBe(true);
     });
 
@@ -57,7 +57,7 @@ describe('Modal component', () => {
     describe('passthrough to Portal', () => {
         beforeEach(() => {
             render(
-                <Modal portalProps={{className: 'foo', id: 'bar', portalId: 'baz'}}>
+                <Modal portalProps={{ className: 'foo', id: 'bar', portalId: 'baz' }}>
                     bar
                 </Modal>
             );

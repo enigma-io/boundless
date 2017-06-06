@@ -1,5 +1,6 @@
-import {cloneElement, createElement, PropTypes, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
+import { cloneElement, createElement, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import cx from 'classnames';
 
 import Dialog from 'boundless-dialog';
@@ -38,18 +39,18 @@ const MIDDLE = 1;
 const END = 2;
 
 const combinations = [
-    {name: 'NNW',   ax: START,     ay: START,      dx: START,   dy: END},
-    {name: 'N',     ax: MIDDLE,    ay: START,      dx: MIDDLE,  dy: END},
-    {name: 'NNE',   ax: END,       ay: START,      dx: END,     dy: END},
-    {name: 'ENE',   ax: END,       ay: START,      dx: START,   dy: START},
-    {name: 'E',     ax: END,       ay: MIDDLE,     dx: START,   dy: MIDDLE},
-    {name: 'ESE',   ax: END,       ay: END,        dx: START,   dy: END},
-    {name: 'SSE',   ax: END,       ay: END,        dx: END,     dy: START},
-    {name: 'S',     ax: MIDDLE,    ay: END,        dx: MIDDLE,  dy: START},
-    {name: 'SSW',   ax: START,     ay: END,        dx: START,   dy: START},
-    {name: 'WSW',   ax: START,     ay: END,        dx: END,     dy: END},
-    {name: 'W',     ax: START,     ay: MIDDLE,     dx: END,     dy: MIDDLE},
-    {name: 'WNW',   ax: START,     ay: START,      dx: END,     dy: START},
+    { name: 'NNW',   ax: START,     ay: START,      dx: START,   dy: END },
+    { name: 'N',     ax: MIDDLE,    ay: START,      dx: MIDDLE,  dy: END },
+    { name: 'NNE',   ax: END,       ay: START,      dx: END,     dy: END },
+    { name: 'ENE',   ax: END,       ay: START,      dx: START,   dy: START },
+    { name: 'E',     ax: END,       ay: MIDDLE,     dx: START,   dy: MIDDLE },
+    { name: 'ESE',   ax: END,       ay: END,        dx: START,   dy: END },
+    { name: 'SSE',   ax: END,       ay: END,        dx: END,     dy: START },
+    { name: 'S',     ax: MIDDLE,    ay: END,        dx: MIDDLE,  dy: START },
+    { name: 'SSW',   ax: START,     ay: END,        dx: START,   dy: START },
+    { name: 'WSW',   ax: START,     ay: END,        dx: END,     dy: END },
+    { name: 'W',     ax: START,     ay: MIDDLE,     dx: END,     dy: MIDDLE },
+    { name: 'WNW',   ax: START,     ay: START,      dx: END,     dy: START },
 ];
 
 /**
@@ -186,7 +187,7 @@ export default class Popover extends PureComponent {
         this.bodyTop = bodyRect.top * -1;
     }
 
-    getNextCaretXPosition({name, ax, dx, ay, dy}, caret = this.$caret) {
+    getNextCaretXPosition({ name, ax, dx, ay, dy }, caret = this.$caret) {
         let nextX = 0;
 
         if (name[0] === 'N' || name[0] === 'S') {
@@ -214,7 +215,7 @@ export default class Popover extends PureComponent {
         return nextX;
     }
 
-    getNextDialogXPosition({ax, dx}, dialog = this.dialog.$wrapper) {
+    getNextDialogXPosition({ ax, dx }, dialog = this.dialog.$wrapper) {
         let nextX = this.anchorRect.left + this.bodyLeft;
 
         switch (ax) {
@@ -240,7 +241,7 @@ export default class Popover extends PureComponent {
         return nextX;
     }
 
-    getNextDialogYPosition({ay, dy}, dialog = this.dialog.$wrapper) {
+    getNextDialogYPosition({ ay, dy }, dialog = this.dialog.$wrapper) {
         let nextY = this.anchorRect.top + this.bodyTop;
 
         switch (ay) {
@@ -279,7 +280,7 @@ export default class Popover extends PureComponent {
      *
      * @return {Boolean}
      */
-    isPositionValid({name, ax, ay, dx, dy}, pHeight, pWidth) {
+    isPositionValid({ name, ax, ay, dx, dy }, pHeight, pWidth) {
         const cardinal = name[0];
 
         if (cardinal === 'N' || cardinal === 'S') {
@@ -291,19 +292,16 @@ export default class Popover extends PureComponent {
 
             if (ax === START) {
                 return !(
-                       (this.anchorRect.left + pWidth > window.innerWidth)      /* would occlude right */
-                    || (this.anchorRect.left < 0)                               /* anchor is partially offscreen to the left */
+                       (this.anchorRect.left + pWidth > window.innerWidth      /* would occlude right */ || this.anchorRect.left < 0)                               /* anchor is partially offscreen to the left */
                 );
             } else if (ax === MIDDLE) {
                 return !(
-                       (this.anchorRect.left - pWidth / 2 < 0)                  /* would occlude left */
-                    || (this.anchorRect.left + pWidth / 2 > window.innerWidth)  /* would occlude right */
+                       (this.anchorRect.left - pWidth / 2 < 0                  /* would occlude left */ || this.anchorRect.left + pWidth / 2 > window.innerWidth)  /* would occlude right */
                 );
             }
 
             return !(
-                   (this.anchorRect.left - pWidth < 0)                  /* would occlude left */
-                || (this.anchorRect.right > window.innerWidth)          /* anchor is partially offscreen to the right */
+                   (this.anchorRect.left - pWidth < 0                  /* would occlude left */ || this.anchorRect.right > window.innerWidth)          /* anchor is partially offscreen to the right */
             );
 
         } else if (cardinal === 'W' || cardinal === 'E') {
@@ -315,19 +313,16 @@ export default class Popover extends PureComponent {
 
             if (ay === START) {
                 return !(
-                       (this.anchorRect.top + pHeight > window.innerHeight)    /* would occlude below */
-                    || (this.anchorRect.top < 0)                               /* anchor is partially offscreen above */
+                       (this.anchorRect.top + pHeight > window.innerHeight    /* would occlude below */ || this.anchorRect.top < 0)                               /* anchor is partially offscreen above */
                 );
             } else if (ay === MIDDLE) {
                 return !(
-                       (this.anchorRect.top + this.anchorRect.height / 2 - pHeight / 2 < 0)                     /* would occlude above */
-                    || (this.anchorRect.top + this.anchorRect.height / 2 + pHeight / 2 > window.innerHeight)    /* would occlude below */
+                       (this.anchorRect.top + this.anchorRect.height / 2 - pHeight / 2 < 0                     /* would occlude above */ || this.anchorRect.top + this.anchorRect.height / 2 + pHeight / 2 > window.innerHeight)    /* would occlude below */
                 );
             }
 
             return !(
-                   (this.anchorRect.top - pHeight < 0)              /* would occlude above */
-                || (this.anchorRect.bottom > window.innerHeight)    /* anchor is partially offscreen below */
+                   (this.anchorRect.top - pHeight < 0              /* would occlude above */ || this.anchorRect.bottom > window.innerHeight)    /* anchor is partially offscreen below */
             );
         }
 
@@ -354,7 +349,7 @@ export default class Popover extends PureComponent {
         // otherwise... we try to find the best possible fallback option
 
         // optimize for the requested preset hemisphere
-        const bestCombos = validCombos.filter(({name}) => name[0] === this.props.preset.name[0]);
+        const bestCombos = validCombos.filter(({ name }) => name[0] === this.props.preset.name[0]);
 
         if (bestCombos.length) {
             return bestCombos[0];
@@ -362,7 +357,7 @@ export default class Popover extends PureComponent {
 
         // then the opposite (e.g. the element is too low in the viewport so flip up instead of down)
         const oppositeCardinal = getOppositeCardinal(this.props.preset.name);
-        const okayCombos = validCombos.filter(({name}) => name[0] === oppositeCardinal);
+        const okayCombos = validCombos.filter(({ name }) => name[0] === oppositeCardinal);
 
         if (okayCombos.length) {
             return okayCombos[0];
@@ -423,7 +418,7 @@ export default class Popover extends PureComponent {
     componentWillUnmount() { window.removeEventListener('resize', this.align, true); }
 
     render() {
-        const {props} = this;
+        const { props } = this;
 
         return (
             <Portal {...props.portalProps}>

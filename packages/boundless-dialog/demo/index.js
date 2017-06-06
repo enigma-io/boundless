@@ -1,5 +1,5 @@
-import {createElement, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import { createElement, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import Button from '../../boundless-button/index';
 import Dialog from '../';
 
@@ -18,7 +18,7 @@ export default class DialogDemo extends PureComponent {
     }
 
     toggleDialog = () => {
-        this.setState({showDialog: !this.state.showDialog});
+        this.setState({ showDialog: !this.state.showDialog });
     }
 
     renderDialog() {

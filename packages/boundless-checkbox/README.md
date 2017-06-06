@@ -19,12 +19,12 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Checkbox from 'boundless-checkbox';
 
 export default class CheckboxDemo extends PureComponent {
     state = {
-        checkboxes: [{
+        checkboxes: [ {
             checked: false,
             indeterminate: false,
             label: 'An unchecked checkbox',
@@ -39,7 +39,7 @@ export default class CheckboxDemo extends PureComponent {
             indeterminate: true,
             label: 'An indeterminate (mixed) checkbox',
             name: 'box3',
-        }],
+        } ],
     }
 
     handleInteraction(event) {

@@ -1,19 +1,19 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement, Component} from 'react';
+import { createElement, Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
-import {noop} from 'lodash';
+import { Simulate } from 'react-dom/test-utils';
+import { noop } from 'lodash';
 import sinon from 'sinon';
 
 import ArrowKeyNavigation from './index';
-import {conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('ArrowKeyNavigation higher-order component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const event = {preventDefault: noop};
+    const event = { preventDefault: noop };
     const base = (
         <ArrowKeyNavigation>
             <li>apple</li>
@@ -61,7 +61,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
     it('applies focus to the new active index when `state.activeChildIndex` changes', () => {
         expect(document.activeElement).toBe(document.body);
 
-        element.setState({activeChildIndex: 1});
+        element.setState({ activeChildIndex: 1 });
         expect(document.activeElement.textContent).toBe('orange');
     });
 
@@ -95,7 +95,7 @@ describe('ArrowKeyNavigation higher-order component', () => {
         node = ReactDOM.findDOMNode(element);
         node.children[0].focus();
 
-        Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+        Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
         expect(document.activeElement).toBe(node.children[0]);
     });
 
@@ -170,14 +170,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('moves focus to the previous child', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowLeft' });
             expect(document.activeElement).toBe(node.children[0]);
         });
 
         it('moves focus to the end if on the first child (reverse loop)', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowLeft' });
             expect(document.activeElement).toBe(node.children[1]);
         });
     });
@@ -186,14 +186,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('moves focus to the previous child', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowUp' });
             expect(document.activeElement).toBe(node.children[0]);
         });
 
         it('loops back to the last item if on the first item', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowUp' });
             expect(document.activeElement).toBe(node.children[1]);
         });
     });
@@ -202,14 +202,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('moves focus to the next child', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowRight' });
             expect(document.activeElement).toBe(node.children[1]);
         });
 
         it('moves focus to the beginning if on the last child (loop)', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowRight' });
             expect(document.activeElement).toBe(node.children[0]);
         });
     });
@@ -218,14 +218,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('moves focus to the next child', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
             expect(document.activeElement).toBe(node.children[1]);
         });
 
         it('loops back to the first item if on the last item', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
             expect(document.activeElement).toBe(node.children[0]);
         });
     });
@@ -241,10 +241,10 @@ describe('ArrowKeyNavigation higher-order component', () => {
                 </ArrowKeyNavigation>
             );
 
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch({key: 'ArrowDown'})).toBe(true);
+            expect(stub.calledWithMatch({ key: 'ArrowDown' })).toBe(true);
         });
     });
 
@@ -264,14 +264,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('moves focus to the next child that does not have tabindex="-1"', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowRight' });
             expect(document.activeElement).toBe(node.children[2]);
         });
 
         it('moves focus to the previous child that does not have tabindex="-1"', () => {
             Simulate.focus(node.children[2]);
 
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowLeft' });
             expect(document.activeElement).toBe(node.children[0]);
         });
     });
@@ -292,14 +292,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('should not move focus on ArrowLeft', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowLeft' });
             expect(document.activeElement === node.children[1]).toBe(true);
         });
 
         it('should not move focus on ArrowRight', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowRight' });
             expect(document.activeElement === node.children[0]).toBe(true);
         });
     });
@@ -320,14 +320,14 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('should not move focus on ArrowUp', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowUp' });
             expect(document.activeElement === node.children[1]).toBe(true);
         });
 
         it('should not move focus on ArrowDown', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
             expect(document.activeElement === node.children[0]).toBe(true);
         });
     });
@@ -348,28 +348,28 @@ describe('ArrowKeyNavigation higher-order component', () => {
         it('should move focus on ArrowUp', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowUp'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowUp' });
             expect(document.activeElement === node.children[0]).toBe(true);
         });
 
         it('should move focus on ArrowLeft', () => {
             node.children[1].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowLeft'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowLeft' });
             expect(document.activeElement === node.children[0]).toBe(true);
         });
 
         it('should move focus on ArrowDown', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowDown'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowDown' });
             expect(document.activeElement === node.children[1]).toBe(true);
         });
 
         it('should move focus on ArrowRight', () => {
             node.children[0].focus();
 
-            Simulate.keyDown(node, {...event, key: 'ArrowRight'});
+            Simulate.keyDown(node, { ...event, key: 'ArrowRight' });
             expect(document.activeElement === node.children[1]).toBe(true);
         });
     });

@@ -1,15 +1,15 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import FittedText from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('fitted text component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
-    const props = {children: 'foo'};
+    const props = { children: 'foo' };
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 

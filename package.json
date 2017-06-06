@@ -53,9 +53,9 @@
     "markdown-to-jsx": "^4.0.0",
     "mkdirp": "^0.5.1",
     "offline-plugin": "^4.6.1",
+    "prop-types": "^15.5.10",
     "raw-loader": "^0.5.1",
     "react": "^15.3.0",
-    "react-addons-test-utils": "^15.3.0",
     "react-docgen": "^2.13.0",
     "react-dom": "^15.3.0",
     "react-hot-loader": "^3.0.0-beta.6",
@@ -69,6 +69,7 @@
     "webpack-dev-server": "^2.2.0"
   },
   "peerDependencies": {
+    "prop-types": ">= 15.3",
     "react": ">= 15.3",
     "react-dom": ">= 15.3"
   },

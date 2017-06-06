@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import Checkbox from 'boundless-checkbox';
@@ -105,7 +106,7 @@ export default class CheckboxGroup extends PureComponent {
 
     renderSelectAllCheckbox() {
         const allChecked = this.allItemsChecked();
-        const {inputProps} = this.props.selectAllProps;
+        const { inputProps } = this.props.selectAllProps;
 
         return (
             <Checkbox
@@ -137,7 +138,7 @@ export default class CheckboxGroup extends PureComponent {
     }
 
     renderChildren() {
-        const children = [this.renderCheckboxes()];
+        const children = [ this.renderCheckboxes() ];
 
         switch (this.props.selectAll) {
         case CheckboxGroup.selectAll.BEFORE:

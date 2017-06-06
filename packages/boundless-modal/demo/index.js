@@ -1,4 +1,4 @@
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Button from '../../boundless-button/index';
 import Modal from '../';
 
@@ -8,7 +8,7 @@ export default class ModalDemo extends PureComponent {
     }
 
     toggleModal = () => {
-        this.setState({showModal: !this.state.showModal});
+        this.setState({ showModal: !this.state.showModal });
     }
 
     renderModal() {

@@ -39,7 +39,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Button from 'boundless-button';
 
 export default class ButtonDemo extends PureComponent {
@@ -53,11 +53,11 @@ export default class ButtonDemo extends PureComponent {
     }
 
     handlePressed = () => {
-        this.setState({pressed: true});
+        this.setState({ pressed: true });
     }
 
     handleUnpressed = () => {
-        this.setState({pressed: false});
+        this.setState({ pressed: false });
     }
 
     render() {

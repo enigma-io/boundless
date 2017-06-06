@@ -1,10 +1,10 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import CheckboxGroup from './index';
-import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, $$, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 import sinon from 'sinon';
 
@@ -13,7 +13,7 @@ describe('CheckboxGroup component', () => {
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
     const sandbox = sinon.sandbox.create();
-    const items = [{
+    const items = [ {
         inputProps: {
             name: 'gender-male',
             checked: false,
@@ -31,14 +31,14 @@ describe('CheckboxGroup component', () => {
             checked: false,
         },
         label: 'Other',
-    }];
+    } ];
 
     const checkedItems = items.map((item) => {
-        return {...item, inputProps: {...item.inputProps, checked: true}};
+        return { ...item, inputProps: { ...item.inputProps, checked: true } };
     });
 
     const mixedItems = items.map((item, index) => {
-        return {...item, inputProps: {...item.inputProps, checked: !!(index % 2)}};
+        return { ...item, inputProps: { ...item.inputProps, checked: !!(index % 2) } };
     });
 
     afterEach(() => {
@@ -59,7 +59,7 @@ describe('CheckboxGroup component', () => {
     });
 
     it('accepts arbitrary React-supported HTML attributes via prop.selectAllProps', () => {
-        render(<CheckboxGroup selectAllProps={{'data-id': 'foo'}} />);
+        render(<CheckboxGroup selectAllProps={{ 'data-id': 'foo' }} />);
         expect($('.b-checkbox-group-all[data-id="foo"]')).not.toBeNull();
     });
 
@@ -80,12 +80,12 @@ describe('CheckboxGroup component', () => {
         });
 
         it('accepts a name passed by `selectAllProps.className`', () => {
-            render(<CheckboxGroup items={items} selectAllProps={{className: 'foo'}} />);
+            render(<CheckboxGroup items={items} selectAllProps={{ className: 'foo' }} />);
             expect($('.b-checkbox-group-all.foo')).not.toBeNull();
         });
 
         it('accepts a name passed by `selectAllProps.inputProps.name`', () => {
-            render(<CheckboxGroup items={items} selectAllProps={{inputProps: {name: 'foo'}}} />);
+            render(<CheckboxGroup items={items} selectAllProps={{ inputProps: { name: 'foo' } }} />);
             expect($('.b-checkbox-group-all .b-checkbox[name="foo"]')).not.toBeNull();
         });
 
@@ -122,7 +122,7 @@ describe('CheckboxGroup component', () => {
         });
 
         it('renders a custom label if given', () => {
-            render(<CheckboxGroup items={mixedItems} selectAllProps={{label: 'foo'}} />);
+            render(<CheckboxGroup items={mixedItems} selectAllProps={{ label: 'foo' }} />);
             expect($('.b-checkbox-group-all .b-checkbox-label')).not.toBeNull();
             expect($('.b-checkbox-group-all .b-checkbox-label').textContent).toBe('foo');
         });

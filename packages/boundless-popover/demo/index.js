@@ -1,4 +1,4 @@
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 
 import ArrowKeyNavigation from '../../boundless-arrow-key-navigation/index';
 import Button from '../../boundless-button/index';
@@ -6,7 +6,7 @@ import Popover from '../';
 
 export default class PopoverDemo extends PureComponent {
     state = {
-        words: [{
+        words: [ {
             word: 'transcendental',
             syllabicRepresentation: 'tran·scen·den·tal',
             type: 'adjective',
@@ -49,7 +49,7 @@ export default class PopoverDemo extends PureComponent {
             preset: Popover.preset.WNW,
             primaryDefinition: 'another term for the pound sign (#)',
             secondaryDefinitions: [],
-        }],
+        } ],
     }
 
     handleKeyDown(index, event) {

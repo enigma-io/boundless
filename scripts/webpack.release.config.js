@@ -7,7 +7,7 @@ const OfflinePlugin = require('offline-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
 
 const base = path.resolve(__dirname, '..');
 const conf = require('./webpack.config.js');

@@ -1,9 +1,9 @@
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Checkbox from '../';
 
 export default class CheckboxDemo extends PureComponent {
     state = {
-        checkboxes: [{
+        checkboxes: [ {
             checked: false,
             indeterminate: false,
             label: 'An unchecked checkbox',
@@ -18,7 +18,7 @@ export default class CheckboxDemo extends PureComponent {
             indeterminate: true,
             label: 'An indeterminate (mixed) checkbox',
             name: 'box3',
-        }],
+        } ],
     }
 
     handleInteraction(event) {

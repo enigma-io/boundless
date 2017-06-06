@@ -1,11 +1,11 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Checkbox from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Checkbox component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -41,14 +41,14 @@ describe('Checkbox component', () => {
     });
 
     it('accepts arbitrary React-supported HTML attributes via the `inputProps` prop', () => {
-        const element = render(<Checkbox {...props} inputProps={{...props.inputProps, 'data-id': 'foo'}} />);
+        const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, 'data-id': 'foo' }} />);
         const node = element.refs.input;
 
         expect(node.getAttribute('data-id')).toBe('foo');
     });
 
     it('accepts arbitrary React-supported HTML attributes via the `labelProps` prop', () => {
-        const element = render(<Checkbox {...props} labelProps={{'data-id': 'foo'}} label='foo' />);
+        const element = render(<Checkbox {...props} labelProps={{ 'data-id': 'foo' }} label='foo' />);
         const node = element.refs.label;
 
         expect(node.getAttribute('data-id')).toBe('foo');
@@ -85,7 +85,7 @@ describe('Checkbox component', () => {
     });
 
     it('renders .b-checkbox-checked when the checkbox value is truthy', () => {
-        const element = render(<Checkbox {...props} inputProps={{...props.inputProps, checked: true}} />);
+        const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, checked: true }} />);
 
         expect(element.refs.input.classList.contains('b-checkbox-checked')).toBe(true);
     });
@@ -97,7 +97,7 @@ describe('Checkbox component', () => {
     });
 
     it('renders .b-checkbox-mixed when the checkbox is indeterminate', () => {
-        const element = render(<Checkbox {...props} inputProps={{...props.inputProps, checked: true, indeterminate: true}} />);
+        const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, checked: true, indeterminate: true }} />);
 
         expect(element.refs.input.classList.contains('b-checkbox-mixed')).toBe(true);
     });
@@ -121,7 +121,7 @@ describe('Checkbox component', () => {
 
         it('triggers onUnchecked when the checkbox value becomes falsy', () => {
             const stub = sandbox.stub();
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, checked: true}} onUnchecked={stub} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, checked: true }} onUnchecked={stub} />);
 
             element.handleChange();
 
@@ -142,14 +142,14 @@ describe('Checkbox component', () => {
         it('does nothing if the input is disabled', () => {
             const stub = sandbox.stub();
 
-            render(<Checkbox {...props} inputProps={{...props.inputProps, disabled: true}} onClick={stub} />);
+            render(<Checkbox {...props} inputProps={{ ...props.inputProps, disabled: true }} onClick={stub} />);
             expect(stub.called).toBe(false);
         });
     });
 
     describe('indeterminate state', () => {
         it('is programmatically set on the underlying input', () => {
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, indeterminate: true}} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, indeterminate: true }} />);
 
             expect(element.refs.input.indeterminate).toBe(true);
         });
@@ -157,10 +157,10 @@ describe('Checkbox component', () => {
         it('is kept in sync when the prop changes', () => {
             let element;
 
-            element = render(<Checkbox {...props} inputProps={{...props.inputProps, indeterminate: false}} />);
+            element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, indeterminate: false }} />);
             expect(element.refs.input.indeterminate).toBeFalsy();
 
-            element = render(<Checkbox {...props} inputProps={{...props.inputProps, indeterminate: true}} />);
+            element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, indeterminate: true }} />);
             expect(element.refs.input.indeterminate).toBeTruthy();
         });
     });
@@ -168,25 +168,25 @@ describe('Checkbox component', () => {
     describe('proxied events', () => {
         it('forwards input change events if `props.inputProps.onChange` is provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, onChange: stub}} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, onChange: stub }} />);
 
-            element.handleChange({checked: true});
+            element.handleChange({ checked: true });
 
             expect(stub.calledOnce).toBe(true);
         });
 
         it('does not forward input change events if the input is disabled', () => {
             const stub = sandbox.stub();
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, onChange: stub, disabled: true}} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, onChange: stub, disabled: true }} />);
 
-            element.handleChange({checked: true});
+            element.handleChange({ checked: true });
 
             expect(stub.called).toBe(false);
         });
 
         it('forwards input click events if `props.inputProps.onClick` is provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, onClick: stub}} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, onClick: stub }} />);
 
             element.handleClick({});
 
@@ -195,7 +195,7 @@ describe('Checkbox component', () => {
 
         it('does not forward input click events if the input is disabled', () => {
             const stub = sandbox.stub();
-            const element = render(<Checkbox {...props} inputProps={{...props.inputProps, onClick: stub, disabled: true}} />);
+            const element = render(<Checkbox {...props} inputProps={{ ...props.inputProps, onClick: stub, disabled: true }} />);
 
             element.handleClick({});
 

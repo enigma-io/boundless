@@ -19,7 +19,7 @@ Then use it like:
 
 import omitKeys from 'boundless-utils-omit-keys';
 
-omitKeys({foo: 'bar', bar: 'baz'}, ['bar']); // returns `{foo: 'bar'}`
+omitKeys({ foo: 'bar', bar: 'baz' }, [ 'bar' ]); // returns `{foo: 'bar'}`
 ```
 
 

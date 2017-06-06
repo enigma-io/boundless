@@ -1,7 +1,8 @@
-import {createElement, PropTypes, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import cx from 'classnames';
-import {isInteger} from 'lodash';
+import { isInteger } from 'lodash';
 
 import Async from 'boundless-async';
 import SegmentedControl from 'boundless-segmented-control';
@@ -494,7 +495,7 @@ export default class Pagination extends PureComponent {
     }
 
     renderView() {
-        const {position} = this.props;
+        const { position } = this.props;
         const p = Pagination.position;
 
         return (

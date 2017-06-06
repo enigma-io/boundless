@@ -17,8 +17,8 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {each} from 'lodash';
-import {createElement, PureComponent} from 'react';
+import { each } from 'lodash';
+import { createElement, PureComponent } from 'react';
 import Button from 'boundless-button';
 import Progress from 'boundless-progress';
 
@@ -64,7 +64,7 @@ export default class ProgressDemo extends PureComponent {
                         progress={`${this.state.barProgress}%`} />
                     <Button
                         onPressed={this.resetProgress.bind(this, 'bar')}
-                        style={{marginTop: '1rem'}}>
+                        style={{ marginTop: '1rem' }}>
                         Reset
                     </Button>
                 </figure>
@@ -78,7 +78,7 @@ export default class ProgressDemo extends PureComponent {
                         tweenProperty='height' />
                     <Button
                         onPressed={this.resetProgress.bind(this, 'meter')}
-                        style={{marginTop: '1rem'}}>
+                        style={{ marginTop: '1rem' }}>
                         Reset
                     </Button>
                 </figure>

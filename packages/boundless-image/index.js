@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -48,7 +49,7 @@ export default class Image extends PureComponent {
     componentWillReceiveProps(nextProps) {
         if (nextProps.src !== this.props.src) {
             this.resetPreloader();
-            this.setState({status: Image.status.LOADING});
+            this.setState({ status: Image.status.LOADING });
         }
     }
 
@@ -67,8 +68,8 @@ export default class Image extends PureComponent {
 
         this.loader = document.createElement('img');
 
-        this.loader.onload = () => this.setState({status: Image.status.LOADED});
-        this.loader.onerror = () => this.setState({status: Image.status.ERROR});
+        this.loader.onload = () => this.setState({ status: Image.status.LOADED });
+        this.loader.onerror = () => this.setState({ status: Image.status.ERROR });
 
         this.loader.src = this.props.src;
     }

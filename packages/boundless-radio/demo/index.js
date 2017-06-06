@@ -1,9 +1,9 @@
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Radio from '../';
 
 export default class RadioDemo extends PureComponent {
     state = {
-        options: [{
+        options: [ {
             labelContent: 'Business',
             name: 'major',
             selected: false,
@@ -28,7 +28,7 @@ export default class RadioDemo extends PureComponent {
             name: 'major',
             selected: false,
             value: 'law',
-        }],
+        } ],
     }
 
     handleInteraction(code) {

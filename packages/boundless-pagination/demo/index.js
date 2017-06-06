@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Pagination from '../';
 
 export default class PaginationDemo extends PureComponent {

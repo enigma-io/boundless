@@ -1,20 +1,20 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
-import {noop} from 'lodash';
+import { noop } from 'lodash';
 
 import Dialog from './index';
 import Button from '../boundless-button/index';
 import Popover from '../boundless-popover/index';
-import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, $$, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Dialog component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const sandbox = sinon.sandbox.create({useFakeTimers: true});
+    const sandbox = sinon.sandbox.create({ useFakeTimers: true });
 
     beforeEach(() => sandbox.useFakeTimers());
     afterEach(() => {
@@ -110,7 +110,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnEscKey={true} onClose={stub} />);
 
-            element.handleKeyDown({key: 'Escape'});
+            element.handleKeyDown({ key: 'Escape' });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -119,7 +119,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnEscKey={() => true} onClose={stub} />);
 
-            element.handleKeyDown({key: 'Escape'});
+            element.handleKeyDown({ key: 'Escape' });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -128,7 +128,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnEscKey={false} onClose={stub} />);
 
-            element.handleKeyDown({key: 'Escape'});
+            element.handleKeyDown({ key: 'Escape' });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -137,7 +137,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnEscKey={() => false} onClose={stub} />);
 
-            element.handleKeyDown({key: 'Escape'});
+            element.handleKeyDown({ key: 'Escape' });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -148,7 +148,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnInsideClick={true} onClose={stub} />);
 
-            element.handleInsideClick({target: mountNode});
+            element.handleInsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -157,7 +157,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnInsideClick={() => true} onClose={stub} />);
 
-            element.handleInsideClick({target: mountNode});
+            element.handleInsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -166,7 +166,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnInsideClick={false} onClose={stub} />);
 
-            element.handleInsideClick({target: mountNode});
+            element.handleInsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -175,7 +175,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnInsideClick={() => false} onClose={stub} />);
 
-            element.handleInsideClick({target: mountNode});
+            element.handleInsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -186,7 +186,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideClick={true} onClose={stub} />);
 
-            element.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -195,7 +195,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideClick={() => true} onClose={stub} />);
 
-            element.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -204,7 +204,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideClick={false} onClose={stub} />);
 
-            element.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -213,7 +213,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideClick={() => false} onClose={stub} />);
 
-            element.handleOutsideClick({target: mountNode});
+            element.handleOutsideClick({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -226,7 +226,7 @@ describe('Dialog component', () => {
 
             expect(document.activeElement).not.toBe($('.b-dialog'));
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -237,7 +237,7 @@ describe('Dialog component', () => {
 
             expect(document.activeElement).not.toBe($('.b-dialog'));
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -246,7 +246,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog captureFocus={true} closeOnOutsideFocus={true} onClose={stub} />);
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -257,7 +257,7 @@ describe('Dialog component', () => {
 
             expect(document.activeElement).not.toBe($('.b-dialog'));
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -268,7 +268,7 @@ describe('Dialog component', () => {
 
             expect(document.activeElement).not.toBe($('.b-dialog'));
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -277,7 +277,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideFocus={false} onClose={stub} />);
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -286,7 +286,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideFocus={() => false} onClose={stub} />);
 
-            element.handleFocus({target: mountNode});
+            element.handleFocus({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -297,7 +297,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideScroll={true} onClose={stub} />);
 
-            element.handleOutsideScrollWheel({target: mountNode});
+            element.handleOutsideScrollWheel({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -306,7 +306,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideScroll={() => true} onClose={stub} />);
 
-            element.handleOutsideScrollWheel({target: mountNode});
+            element.handleOutsideScrollWheel({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.calledOnce).toBe(true);
         });
@@ -315,7 +315,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideScroll={false} onClose={stub} />);
 
-            element.handleOutsideScrollWheel({target: mountNode});
+            element.handleOutsideScrollWheel({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -324,7 +324,7 @@ describe('Dialog component', () => {
             const stub = sandbox.stub();
             const element = render(<Dialog closeOnOutsideScroll={() => false} onClose={stub} />);
 
-            element.handleOutsideScrollWheel({target: mountNode});
+            element.handleOutsideScrollWheel({ target: mountNode });
             sandbox.clock.tick(1);
             expect(stub.notCalled).toBe(true);
         });
@@ -349,11 +349,11 @@ describe('Dialog component', () => {
                 innerPopoverRendered: false,
             }
 
-            openInnerPopover = () => this.setState({innerPopoverRendered: true})
-            closeInnerPopover = () => this.setState({innerPopoverRendered: false})
+            openInnerPopover = () => this.setState({ innerPopoverRendered: true })
+            closeInnerPopover = () => this.setState({ innerPopoverRendered: false })
 
-            openOuterPopover = () => this.setState({outerPopoverRendered: true})
-            closeOuterPopover = () => this.setState({outerPopoverRendered: false})
+            openOuterPopover = () => this.setState({ outerPopoverRendered: true })
+            closeOuterPopover = () => this.setState({ outerPopoverRendered: false })
 
             maybeRenderInnerPopover() {
                 return this.state.innerPopoverRendered ? (

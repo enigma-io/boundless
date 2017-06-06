@@ -11,7 +11,7 @@ devConf.devServer = {
     compress: true,
     contentBase: path.resolve(__dirname, '../docs'),
     historyApiFallback: {
-        rewrites: [{ from: /^\/.*?$/, to: '/index.html' }],
+        rewrites: [ { from: /^\/.*?$/, to: '/index.html' } ],
     },
     host: '0.0.0.0',
 };

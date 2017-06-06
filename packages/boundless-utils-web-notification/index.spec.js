@@ -59,28 +59,28 @@ describe('web notification utility', () => {
             });
 
             it('rejects for a missing config.body', (done) => {
-                notifier({header: ''}).catch((error) => {
+                notifier({ header: '' }).catch((error) => {
                     expect(error).toBe(errors.BODY_MISSING);
                     done();
                 });
             });
 
             it('rejects for a malformed config.body', (done) => {
-                notifier({header: '', body: 1}).catch((error) => {
+                notifier({ header: '', body: 1 }).catch((error) => {
                     expect(error).toBe(errors.BODY_TYPE);
                     done();
                 });
             });
 
             it('rejects for a missing config.header', (done) => {
-                notifier({body: ''}).catch((error) => {
+                notifier({ body: '' }).catch((error) => {
                     expect(error).toBe(errors.HEADER_MISSING);
                     done();
                 });
             });
 
             it('rejects for a malformed config.header', (done) => {
-                notifier({header: 1, body: ''}).catch((error) => {
+                notifier({ header: 1, body: '' }).catch((error) => {
                     expect(error).toBe(errors.HEADER_TYPE);
                     done();
                 });
@@ -91,7 +91,7 @@ describe('web notification utility', () => {
             });
 
             it('rejects for a malformed config.icon', (done) => {
-                notifier({header: '', body: '', icon: 1}).catch((error) => {
+                notifier({ header: '', body: '', icon: 1 }).catch((error) => {
                     expect(error).toBe(errors.ICON_TYPE);
                     done();
                 });
@@ -102,7 +102,7 @@ describe('web notification utility', () => {
             });
 
             it('rejects for a malformed config.onClick', (done) => {
-                notifier({header: '', body: '', onClick: 1}).catch((error) => {
+                notifier({ header: '', body: '', onClick: 1 }).catch((error) => {
                     expect(error).toBe(errors.ONCLICK_TYPE);
                     done();
                 });

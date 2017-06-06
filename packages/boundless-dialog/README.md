@@ -20,8 +20,8 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import { createElement, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import Button from 'boundless-button';
 import Dialog from 'boundless-dialog';
 
@@ -40,7 +40,7 @@ export default class DialogDemo extends PureComponent {
     }
 
     toggleDialog = () => {
-        this.setState({showDialog: !this.state.showDialog});
+        this.setState({ showDialog: !this.state.showDialog });
     }
 
     renderDialog() {

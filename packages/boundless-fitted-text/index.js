@@ -1,5 +1,6 @@
-import {createElement, PropTypes, PureComponent} from 'react';
-import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';

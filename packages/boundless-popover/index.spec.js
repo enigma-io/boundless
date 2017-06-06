@@ -1,11 +1,11 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Popover from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Popover component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -13,7 +13,7 @@ describe('Popover component', () => {
     const sandbox = sinon.sandbox.create();
 
     const body = mountNode;
-    const baseProps = {anchor: body, autoReposition: false};
+    const baseProps = { anchor: body, autoReposition: false };
     const preset = Popover.preset;
 
     afterEach(() => {
@@ -248,7 +248,7 @@ describe('Popover component', () => {
         });
 
         it('selects a different option from the same cardinal if one is valid', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -258,8 +258,8 @@ describe('Popover component', () => {
                 top: 0, left: 0, right: 5, bottom: 5, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -271,7 +271,7 @@ describe('Popover component', () => {
         });
 
         it('selects a different option from the opposite cardinal if one is valid', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -281,8 +281,8 @@ describe('Popover component', () => {
                 top: window.innerHeight - 5, left: 0, right: 5, bottom: window.innerHeight, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -294,7 +294,7 @@ describe('Popover component', () => {
         });
 
         it('selects any valid fallback if the same or opposite cardinals will not be valid', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -305,8 +305,8 @@ describe('Popover component', () => {
             });
 
             // 300 - 500 is neg and 300 + 500 > 768, so that should force the
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 1});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 500});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 1 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 500 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.S} />);
 
@@ -318,7 +318,7 @@ describe('Popover component', () => {
         });
 
         it('takes into account if the anchor is bottom-occluded', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -328,8 +328,8 @@ describe('Popover component', () => {
                 top: 768, left: 0, right: 5, bottom: 773, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.W} />);
 
@@ -341,7 +341,7 @@ describe('Popover component', () => {
         });
 
         it('takes into account if the anchor is left-occluded', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -351,8 +351,8 @@ describe('Popover component', () => {
                 top: 0, left: -2, right: 3, bottom: 5, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.SSW} />);
 
@@ -364,7 +364,7 @@ describe('Popover component', () => {
         });
 
         it('takes into account if the anchor is top-occluded', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -374,8 +374,8 @@ describe('Popover component', () => {
                 top: -2, left: 0, right: 5, bottom: 3, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
 
@@ -387,7 +387,7 @@ describe('Popover component', () => {
         });
 
         it('takes into account if the anchor is right-occluded', () => {
-            sandbox.stub(document.body, 'getBoundingClientRect').returns({top: 0, left: 0});
+            sandbox.stub(document.body, 'getBoundingClientRect').returns({ top: 0, left: 0 });
 
             render(<Popover {...baseProps} anchor={anchor} preset={preset.S} />);
 
@@ -397,8 +397,8 @@ describe('Popover component', () => {
                 top: 0, left: window.innerWidth - 4, right: window.innerWidth + 1, bottom: 5, height: 5, width: 5,
             });
 
-            Object.defineProperty(popoverNode, 'clientWidth', {value: 50});
-            Object.defineProperty(popoverNode, 'clientHeight', {value: 50});
+            Object.defineProperty(popoverNode, 'clientWidth', { value: 50 });
+            Object.defineProperty(popoverNode, 'clientHeight', { value: 50 });
 
             render(<Popover {...baseProps} anchor={anchor} autoReposition={true} preset={preset.E} />);
 
@@ -430,7 +430,7 @@ describe('Popover component', () => {
                 <Popover
                     {...baseProps}
                     autoReposition={false}
-                    portalProps={{className: 'foo', id: 'bar', portalId: 'baz'}}>
+                    portalProps={{ className: 'foo', id: 'bar', portalId: 'baz' }}>
                     bar
                 </Popover>
             );

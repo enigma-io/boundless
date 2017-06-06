@@ -1,4 +1,5 @@
-import {cloneElement, createElement, isValidElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { cloneElement, createElement, isValidElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -98,7 +99,7 @@ export default class Async extends PureComponent {
             if (this.promise === context) {
                 this.promise = null;
 
-                return {component: payload};
+                return { component: payload };
             }
 
             return state;
@@ -109,7 +110,7 @@ export default class Async extends PureComponent {
         let content = children;
 
         if (isValidElement(content)) {
-            return this.setState({component: content}, this.fireRenderCallback);
+            return this.setState({ component: content }, this.fireRenderCallback);
         } else if (typeof content === 'function') {
             return this.handleChildren(content(this.props));
         }
@@ -119,7 +120,7 @@ export default class Async extends PureComponent {
         // this is kept outside state so it can be set immediately if the props change
         this.promise = content;
 
-        this.setState({component: null}, () => content.then(boundHandler, boundHandler));
+        this.setState({ component: null }, () => content.then(boundHandler, boundHandler));
     }
 
     fireRenderCallback() {
@@ -134,7 +135,7 @@ export default class Async extends PureComponent {
     componentWillUnmount()               { this.mounted = false; }
 
     render() {
-        const {props, state} = this;
+        const { props, state } = this;
 
         return cloneElement(state.component || props.pendingContent, {
             ...omit(props, Async.internalKeys),
@@ -143,7 +144,7 @@ export default class Async extends PureComponent {
                 props.className,
                 state.component === null && get(props, 'pendingContent.props.className'),
                 state.component && get(state, 'component.props.className', ''),
-                {'b-async-pending': state.component === null}
+                { 'b-async-pending': state.component === null }
             ),
         });
     }

@@ -1,10 +1,10 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import Portal from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Portal component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -30,7 +30,7 @@ describe('Portal component', () => {
         });
     });
 
-    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Portal, {children: 'foo'}));
+    it('conforms to the Boundless prop interface standards', () => conformanceChecker(render, Portal, { children: 'foo' }));
 
     it('accepts an arbitrary portal ID', () => {
         render(<Portal portalId='foo'>foo</Portal>);

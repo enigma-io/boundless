@@ -1,4 +1,5 @@
-import {createElement, PropTypes} from 'react';
+import PropTypes from 'prop-types';
+import { createElement } from 'react';
 
 import Async from '../packages/boundless-async/index.js';
 import ProgressiveDisclosure from '../packages/boundless-progressive-disclosure/index.js';
@@ -27,7 +28,7 @@ function fixupDemoCode(snippet, moduleName) {
     return amendedSnippet.trim();
 }
 
-const ComponentDemo = ({name, prettyName = 'Demo'}) => (
+const ComponentDemo = ({ name, prettyName = 'Demo' }) => (
     <Async>
         {import(`../packages/${name}/demo/index.js`).then(
             (module) => (

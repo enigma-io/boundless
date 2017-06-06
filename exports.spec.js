@@ -2,7 +2,7 @@ import * as Boundless from './exports.js';
 import * as _ from 'lodash';
 import fs from 'fs';
 
-_.mixin({'pascalCase': _.flow(_.camelCase, _.upperFirst)});
+_.mixin({ 'pascalCase': _.flow(_.camelCase, _.upperFirst) });
 
 describe('exports', () => {
     it('does not have any undefined keys (if failed, the require is probably wrong)', () => {

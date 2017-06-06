@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import omit from 'boundless-utils-omit-keys';
@@ -82,7 +83,7 @@ export default class Input extends PureComponent {
         }
     }
 
-    setInputValue = (value = '') => this.setState({input: value})
+    setInputValue = (value = '') => this.setState({ input: value })
 
     getValue = () => this.refs.field.value
 
@@ -92,13 +93,13 @@ export default class Input extends PureComponent {
 
         if (this.state.isControlled === true) {
             // simulate input change event flow
-            this.refs.field.dispatchEvent(new Event('input', {bubbles: true}));
-            this.refs.field.dispatchEvent(new Event('change', {bubbles: true}));
+            this.refs.field.dispatchEvent(new Event('input', { bubbles: true }));
+            this.refs.field.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
 
     handleBlur = (event) => {
-        this.setState({isFocused: false});
+        this.setState({ isFocused: false });
 
         if (isFunction(this.props.inputProps.onBlur) === true) {
             this.props.inputProps.onBlur(event);
@@ -106,7 +107,7 @@ export default class Input extends PureComponent {
     }
 
     handleFocus = (event) => {
-        this.setState({isFocused: true});
+        this.setState({ isFocused: true });
 
         if (isFunction(this.props.inputProps.onFocus) === true) {
             this.props.inputProps.onFocus(event);

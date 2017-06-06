@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import Dialog from 'boundless-dialog';
@@ -41,7 +42,7 @@ export default class Modal extends PureComponent {
     static internalKeys = Object.keys(Modal.defaultProps)
 
     render() {
-        const {props} = this;
+        const { props } = this;
 
         return (
             <Portal {...props.portalProps}>

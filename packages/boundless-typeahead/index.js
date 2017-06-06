@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 import escaper from 'escape-string-regexp';
 
@@ -259,7 +260,7 @@ export default class Typeahead extends PureComponent {
 
     mounted = false
 
-    updateInputState = (value = '') => this.setState({input: value})
+    updateInputState = (value = '') => this.setState({ input: value })
 
     componentWillMount() {
         if (this.props.inputProps.value || this.props.inputProps.defaultValue) {
@@ -308,7 +309,7 @@ export default class Typeahead extends PureComponent {
     }
 
     handleMatchClick(index) {
-        this.setState({selectedEntityIndex: index}, this.setValueWithSelectedEntity);
+        this.setState({ selectedEntityIndex: index }, this.setValueWithSelectedEntity);
     }
 
     selectMatch(delta) {
@@ -337,7 +338,7 @@ export default class Typeahead extends PureComponent {
                 matchesNode.scrollTop = matchNodeYStart;
             }
 
-            this.setState({selectedEntityIndex: matchIndex});
+            this.setState({ selectedEntityIndex: matchIndex });
         }
     }
 
@@ -621,7 +622,7 @@ export default class Typeahead extends PureComponent {
                     role='listbox'>
                     {this.state.entityMatchIndexes.map((index) => {
                         const entity = this.props.entities[index];
-                        const {className, text, ...rest} = entity;
+                        const { className, text, ...rest } = entity;
 
                         // handling the focus and click states elsewhere, so the a11y errors
                         // are not relevant in this case
@@ -647,7 +648,7 @@ export default class Typeahead extends PureComponent {
     }
 
     render() {
-        const {props, state} = this;
+        const { props, state } = this;
 
         return (
             <div

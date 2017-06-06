@@ -39,7 +39,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
 import Button from 'boundless-button';
@@ -47,7 +47,7 @@ import Popover from 'boundless-popover';
 
 export default class PopoverDemo extends PureComponent {
     state = {
-        words: [{
+        words: [ {
             word: 'transcendental',
             syllabicRepresentation: 'tran·scen·den·tal',
             type: 'adjective',
@@ -90,7 +90,7 @@ export default class PopoverDemo extends PureComponent {
             preset: Popover.preset.WNW,
             primaryDefinition: 'another term for the pound sign (#)',
             secondaryDefinitions: [],
-        }],
+        } ],
     }
 
     handleKeyDown(index, event) {

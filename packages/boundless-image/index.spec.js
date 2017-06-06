@@ -1,16 +1,16 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import Image from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Image component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const baseProps = {src: 'http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9'};
+    const baseProps = { src: 'http://2.gravatar.com/avatar/2cba2365771c1af7aa4f6648e40457b9' };
 
     afterEach(() => ReactDOM.unmountComponentAtNode(mountNode));
 

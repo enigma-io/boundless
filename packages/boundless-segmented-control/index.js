@@ -1,4 +1,5 @@
-import {createElement, PropTypes, PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
 import cx from 'classnames';
 
 import ArrowKeyNavigation from 'boundless-arrow-key-navigation';
@@ -103,12 +104,12 @@ export default class SegmentedControl extends PureComponent {
     }
 
     componentWillMount() {
-        this.setState({selectedIndex: this.inferSelectedOptionIndex() || this.props.defaultOptionSelectedIndex});
+        this.setState({ selectedIndex: this.inferSelectedOptionIndex() || this.props.defaultOptionSelectedIndex });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.options !== this.props.options) {
-            this.setState({selectedIndex: this.inferSelectedOptionIndex(nextProps)});
+            this.setState({ selectedIndex: this.inferSelectedOptionIndex(nextProps) });
         }
     }
 
@@ -116,7 +117,7 @@ export default class SegmentedControl extends PureComponent {
         const index = Array.prototype.indexOf.call(event.target.parentElement.children, event.target);
 
         if (this.state.selectedIndex !== index) {
-            this.setState({selectedIndex: index}, () => {
+            this.setState({ selectedIndex: index }, () => {
                 this.props.onOptionSelected(this.props.options[this.state.selectedIndex], this.state.selectedIndex);
             });
         }
@@ -135,17 +136,17 @@ export default class SegmentedControl extends PureComponent {
     /**
      * @public
      */
-    selectOption = (option) => this.setState({selectedIndex: this.props.options.indexOf(option)})
+    selectOption = (option) => this.setState({ selectedIndex: this.props.options.indexOf(option) })
 
     /**
      * @public
      */
-    selectOptionByKey = (k, v) => this.setState({selectedIndex: findIndex(this.props.options, (option) => option[k] === v)})
+    selectOptionByKey = (k, v) => this.setState({ selectedIndex: findIndex(this.props.options, (option) => option[k] === v) })
 
     /**
      * @public
      */
-    selectOptionIndex = (index) => this.setState({selectedIndex: index})
+    selectOptionIndex = (index) => this.setState({ selectedIndex: index })
 
     render() {
         return (

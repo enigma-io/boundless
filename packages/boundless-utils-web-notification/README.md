@@ -40,7 +40,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import notify from 'boundless-utils-web-notification';
 import Button from 'boundless-button';
 
@@ -52,7 +52,7 @@ export default class NotifyDemo extends PureComponent {
     spawnNotification = () => {
         notify(this.template(this.state.n + 1)).catch((error) => console.warn(error));
 
-        this.setState({n: this.state.n + 1});
+        this.setState({ n: this.state.n + 1 });
     }
 
     template(index) {

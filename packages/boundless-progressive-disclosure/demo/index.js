@@ -1,4 +1,4 @@
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import ProgressiveDisclosure from '../';
 
 export default class ProgressiveDisclosureDemo extends PureComponent {

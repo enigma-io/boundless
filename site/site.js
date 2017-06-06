@@ -1,7 +1,7 @@
 /* global VERSION */
-
-import {createElement, PropTypes, PureComponent} from 'react';
-import {IndexRoute, Link, Redirect, Router, Route, browserHistory} from 'react-router';
+import PropTypes from 'prop-types';
+import { createElement, PureComponent } from 'react';
+import { IndexRoute, Link, Redirect, Router, Route, browserHistory } from 'react-router';
 import * as _ from 'lodash';
 
 import * as Boundless from '../exports';
@@ -123,7 +123,7 @@ class ComponentPage extends PureComponent {
 
         const prop = _.get(allProps, name);
 
-        const rows = [(
+        const rows = [ (
             <tr key={name} className={`prop-row prop-depth-${depth}`}>
                 <td className='prop-name'>
                     <Boundless.FittedText
@@ -155,13 +155,13 @@ class ComponentPage extends PureComponent {
                     <Markdown>{prop.description}</Markdown>
                 </td>
             </tr>
-        )];
+        ) ];
 
         if (!prop.type) {
             return rows;
         }
 
-        if (_.includes(['enum', 'union', 'instanceOf'], prop.type.name) || !prop.type.value) {
+        if (_.includes([ 'enum', 'union', 'instanceOf' ], prop.type.name) || !prop.type.value) {
             return rows;
         }
 
@@ -189,7 +189,7 @@ class ComponentPage extends PureComponent {
                            : target.value;
 
              if (subProps.name === 'shape') {
-                const [component] = subProps.value.split('.');
+                const [ component ] = subProps.value.split('.');
 
                 subProps = _.get(Boundless, `${component}.__docgenInfo.props`);
 
@@ -200,7 +200,7 @@ class ComponentPage extends PureComponent {
                     )
                 );
             } else if (subProps.name === 'custom') {
-                const [component, , subPropName] = subProps.raw.split('.');
+                const [ component, , subPropName ] = subProps.raw.split('.');
 
                 return rows.concat(
                     this.renderPropTableRows(
@@ -239,7 +239,7 @@ class ComponentPage extends PureComponent {
                     </tr>
                 </thead>
                 <tbody>
-                    {_.map(_.sortBy(_.keys(props), [_.identity]), (propName) => this.renderPropTableRows(
+                    {_.map(_.sortBy(_.keys(props), [ _.identity ]), (propName) => this.renderPropTableRows(
                         props, propName
                     ))}
                 </tbody>
@@ -247,11 +247,11 @@ class ComponentPage extends PureComponent {
         );
     }
 
-    render({docgenInfo} = this.props) {
+    render({ docgenInfo } = this.props) {
         const descriptionParts = docgenInfo.description.split(/(\n#{1,}?.*?\n)/);
 
         // assembles the props from composed components all the way down the chain
-        const coalesced = {...docgenInfo};
+        const coalesced = { ...docgenInfo };
         const stack = docgenInfo.composes || [];
 
         return (
@@ -310,10 +310,10 @@ class ComponentPage extends PureComponent {
 
                         <LinkedHeader component='h2'>Props</LinkedHeader>
                         <LinkedHeader component='h3'>Required Props</LinkedHeader>
-                        {this.renderPropTable(_.pickBy(coalesced.props, {required: true}), true)}
+                        {this.renderPropTable(_.pickBy(coalesced.props, { required: true }), true)}
 
                         <LinkedHeader component='h3'>Optional Props</LinkedHeader>
-                        {this.renderPropTable(_.pickBy(coalesced.props, {required: false}), false)}
+                        {this.renderPropTable(_.pickBy(coalesced.props, { required: false }), false)}
                     </div>
                 ))}
             </Boundless.Async>

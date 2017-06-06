@@ -1,12 +1,12 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
-import {noop} from 'lodash';
+import { noop } from 'lodash';
 
 import Typeahead from './index';
-import {$, $$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, $$, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Typeahead component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
@@ -29,7 +29,7 @@ describe('Typeahead component', () => {
     it('accepts an additional class as a string without replacing the core hook', () => {
         const element = render(<Typeahead className='foo bar' />);
 
-        ['b-typeahead-wrapper', 'foo', 'bar'].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
+        [ 'b-typeahead-wrapper', 'foo', 'bar' ].forEach((cname) => expect(element.refs.wrapper.classList.contains(cname)).toBe(true));
     });
 
     it('accepts a custom offscreen class for the ARIA notification element', () => {
@@ -41,13 +41,13 @@ describe('Typeahead component', () => {
     it('accepts a custom entity matching algorithm', () => {
         sandbox.stub(console, 'warn');
 
-        const stub = sandbox.stub().returns([0]);
+        const stub = sandbox.stub().returns([ 0 ]);
 
         render(
             <Typeahead
-                algorithm={{matcher: stub}}
+                algorithm={{ matcher: stub }}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect(stub.calledOnce).toBe(true);
@@ -56,13 +56,13 @@ describe('Typeahead component', () => {
     it('emits a warning if a custom matcher is given without specifying a marker', () => {
         sandbox.stub(console, 'warn');
 
-        const stub = sandbox.stub().returns([0]);
+        const stub = sandbox.stub().returns([ 0 ]);
 
         render(
             <Typeahead
-                algorithm={{matcher: stub}}
+                algorithm={{ matcher: stub }}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect(console.warn.calledWithMatch('props.algorithm.marker')).toBe(true);
@@ -75,9 +75,9 @@ describe('Typeahead component', () => {
 
         render(
             <Typeahead
-                algorithm={{marker: stub}}
+                algorithm={{ marker: stub }}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect(stub.calledThrice).toBe(true);
@@ -90,16 +90,16 @@ describe('Typeahead component', () => {
 
         render(
             <Typeahead
-                algorithm={{marker: stub}}
+                algorithm={{ marker: stub }}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect(console.warn.calledWithMatch('props.algorithm.matcher')).toBe(true);
     });
 
     it('accepts a custom matching and marking algorithm', () => {
-        const matchStub = sandbox.stub().returns([0, 1]);
+        const matchStub = sandbox.stub().returns([ 0, 1 ]);
         const markStub = sandbox.stub().returns([]);
 
         render(
@@ -109,7 +109,7 @@ describe('Typeahead component', () => {
                     marker: markStub,
                 }}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect(matchStub.calledOnce).toBe(true);
@@ -121,7 +121,7 @@ describe('Typeahead component', () => {
             <Typeahead
                 algorithm={Typeahead.mode.STARTS_WITH}
                 entities={entities}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect($$('.b-typeahead-match').length).toEqual(2);
@@ -130,7 +130,7 @@ describe('Typeahead component', () => {
             <Typeahead
                 algorithm={Typeahead.mode.STARTS_WITH}
                 entities={entities.slice(0, 1)}
-                inputProps={{defaultValue: 'ap'}} />
+                inputProps={{ defaultValue: 'ap' }} />
         );
 
         expect($$('.b-typeahead-match').length).toEqual(1);
@@ -160,7 +160,7 @@ describe('Typeahead component', () => {
             const element = render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect(element.refs.matches.classList.contains('b-typeahead-match-wrapper')).toBe(true);
@@ -170,7 +170,7 @@ describe('Typeahead component', () => {
             render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect($('.b-typeahead-match')).not.toBe(null);
@@ -180,7 +180,7 @@ describe('Typeahead component', () => {
             render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect($('.b-typeahead-match-selected')).not.toBe(null);
@@ -190,7 +190,7 @@ describe('Typeahead component', () => {
             const element = render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             const node = element.refs.matches;
@@ -212,7 +212,7 @@ describe('Typeahead component', () => {
                 <Typeahead
                     entities={entities}
                     hint={true}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect(element.refs.hint.textContent).toBe('apple');
@@ -224,7 +224,7 @@ describe('Typeahead component', () => {
                 <Typeahead
                     entities={entities}
                     hint={true}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             const inputNode = element.getInputNode();
@@ -244,7 +244,7 @@ describe('Typeahead component', () => {
 
         it('clears if the matched substring is not at the beginning of the user input', () => {
             // emulating a weighted fuzzy search that assigns "grape" higher value
-            const stub = sandbox.stub().returns([2]);
+            const stub = sandbox.stub().returns([ 2 ]);
             const stub2 = sandbox.stub().returns([]);
 
             const element = render(
@@ -255,7 +255,7 @@ describe('Typeahead component', () => {
                     }}
                     entities={entities}
                     hint={true}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect(element.refs.hint.textContent).toBe('');
@@ -273,18 +273,18 @@ describe('Typeahead component', () => {
                         algorithm={Typeahead.mode.STARTS_WITH}
                         entities={entities}
                         hint={true}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
             });
 
             it('selects the next entity match', () => {
-                element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'ArrowDown', nativeEvent: { preventDefault: noop } });
                 expect(element.refs.hint.textContent).toBe('apricot');
             });
 
             it('loops back to the first match if at the end', () => {
-                element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
-                element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'ArrowDown', nativeEvent: { preventDefault: noop } });
+                element.handleKeyDown({ key: 'ArrowDown', nativeEvent: { preventDefault: noop } });
                 expect(element.refs.hint.textContent).toBe('apple');
             });
         });
@@ -298,18 +298,18 @@ describe('Typeahead component', () => {
                         algorithm={Typeahead.mode.STARTS_WITH}
                         entities={entities}
                         hint={true}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
             });
 
             it('selects the previous entity match', () => {
-                element.handleKeyDown({key: 'ArrowDown', nativeEvent: {preventDefault: noop}});
-                element.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'ArrowDown', nativeEvent: { preventDefault: noop } });
+                element.handleKeyDown({ key: 'ArrowUp', nativeEvent: { preventDefault: noop } });
                 expect(element.refs.hint.textContent).toBe('apple');
             });
 
             it('reverse loops to the last match if at the beginning', () => {
-                element.handleKeyDown({key: 'ArrowUp', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'ArrowUp', nativeEvent: { preventDefault: noop } });
                 expect(element.refs.hint.textContent).toBe('apricot');
             });
         });
@@ -321,7 +321,7 @@ describe('Typeahead component', () => {
                 element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
             });
 
@@ -331,7 +331,7 @@ describe('Typeahead component', () => {
                 node.setSelectionRange(node.value.length, node.value.length);
                 element.handleKeyDown({
                     key: 'ArrowRight',
-                    nativeEvent: {preventDefault: noop},
+                    nativeEvent: { preventDefault: noop },
                     stopPropagation: noop,
                     target: node,
                 });
@@ -345,7 +345,7 @@ describe('Typeahead component', () => {
                 node.setSelectionRange(0, 0); // reset to beginning
                 element.handleKeyDown({
                     key: 'ArrowRight',
-                    nativeEvent: {preventDefault: noop},
+                    nativeEvent: { preventDefault: noop },
                     stopPropagation: noop,
                     target: node,
                 });
@@ -361,7 +361,7 @@ describe('Typeahead component', () => {
                 element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
             });
 
@@ -369,7 +369,7 @@ describe('Typeahead component', () => {
                 const node = element.getInputNode();
 
                 node.setSelectionRange(node.value.length, node.value.length);
-                element.handleKeyDown({key: 'Tab', target: node, nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'Tab', target: node, nativeEvent: { preventDefault: noop } });
 
                 expect(node.value).toBe('apple');
             });
@@ -378,7 +378,7 @@ describe('Typeahead component', () => {
                 const node = element.getInputNode();
 
                 node.setSelectionRange(0, 0); // reset to beginning
-                element.handleKeyDown({key: 'Tab', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'Tab', nativeEvent: { preventDefault: noop } });
 
                 expect(node.value).toBe('ap');
             });
@@ -389,13 +389,13 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 element.handleKeyDown({
                     key: 'Enter',
                     target: element.getInputNode(),
-                    nativeEvent: {preventDefault: noop},
+                    nativeEvent: { preventDefault: noop },
                 });
 
                 expect(element.getValue()).toBe('apple');
@@ -406,10 +406,10 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         onComplete={stub}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
-                element.handleKeyDown({key: 'Enter', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'Enter', nativeEvent: { preventDefault: noop } });
 
                 expect(stub.calledOnce).toBe(true);
                 expect(stub.calledWith('ap')).toBe(true);
@@ -420,10 +420,10 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         onComplete={stub}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
-                element.handleKeyDown({key: 'Enter', nativeEvent: {preventDefault: noop}});
+                element.handleKeyDown({ key: 'Enter', nativeEvent: { preventDefault: noop } });
 
                 expect(stub.calledOnce).toBe(true);
                 expect(stub.calledWith('ap', sinon.match.object)).toBe(true);
@@ -438,7 +438,7 @@ describe('Typeahead component', () => {
             element = render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
         });
 
@@ -480,7 +480,7 @@ describe('Typeahead component', () => {
                 <Typeahead
                     clearOnSelection={true}
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect(element.getValue()).toBe('ap');
@@ -498,7 +498,7 @@ describe('Typeahead component', () => {
                 <Typeahead
                     algorithm={Typeahead.mode.FUZZY}
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}} />
+                    inputProps={{ defaultValue: 'ap' }} />
             );
 
             expect(element.state.entityMatchIndexes.length).toBe(entities.length);
@@ -508,8 +508,8 @@ describe('Typeahead component', () => {
             const element = render(
                 <Typeahead
                     algorithm={Typeahead.mode.FUZZY}
-                    entities={[{text: 'grappa'}]}
-                    inputProps={{defaultValue: 'a'}} />
+                    entities={[ { text: 'grappa' } ]}
+                    inputProps={{ defaultValue: 'a' }} />
             );
 
             expect(element.refs.match_$0.textContent).toBe('grappa');
@@ -523,7 +523,7 @@ describe('Typeahead component', () => {
             const element = render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}}
+                    inputProps={{ defaultValue: 'ap' }}
                     onEntityHighlighted={stub} />
             );
 
@@ -531,7 +531,7 @@ describe('Typeahead component', () => {
 
             element.handleKeyDown({
                 key: 'ArrowDown',
-                nativeEvent: {preventDefault: noop},
+                nativeEvent: { preventDefault: noop },
             });
 
             expect(stub.calledTwice).toBe(true);
@@ -544,13 +544,13 @@ describe('Typeahead component', () => {
             const element = render(
                 <Typeahead
                     entities={entities}
-                    inputProps={{defaultValue: 'ap'}}
+                    inputProps={{ defaultValue: 'ap' }}
                     onEntitySelected={stub} />
             );
 
             element.handleKeyDown({
                 key: 'Enter',
-                nativeEvent: {preventDefault: noop},
+                nativeEvent: { preventDefault: noop },
                 target: element.getInputNode(),
             });
 
@@ -562,19 +562,19 @@ describe('Typeahead component', () => {
         it('correctly sets the value of the input from `props.inputProps.value`', () => {
             let element;
 
-            element = render(<Typeahead inputProps={{value: 'ap', onChange: noop}} />);
+            element = render(<Typeahead inputProps={{ value: 'ap', onChange: noop }} />);
             expect(element.getInputNode().value).toBe('ap');
 
-            element = render(<Typeahead inputProps={{value: 'foo', onChange: noop}} />);
+            element = render(<Typeahead inputProps={{ value: 'foo', onChange: noop }} />);
             expect(element.getInputNode().value).toBe('foo');
         });
 
         it('does not cause a setState for bubbling change events', () => {
-            const element = render(<Typeahead inputProps={{value: 'ap', onChange: noop}} />);
+            const element = render(<Typeahead inputProps={{ value: 'ap', onChange: noop }} />);
 
             sandbox.stub(element, 'setState');
 
-            element.handleChange({target: {value: 'foo'}});
+            element.handleChange({ target: { value: 'foo' } });
             expect(element.setState.called).toBe(false);
         });
 
@@ -616,7 +616,7 @@ describe('Typeahead component', () => {
         it('passes down props.inputProps', () => {
             const element = render(
                 <Typeahead
-                    inputProps={{placeholder: 'foo'}} />
+                    inputProps={{ placeholder: 'foo' }} />
             );
 
             expect(element.refs.input.props.inputProps.placeholder).toBe('foo');
@@ -650,7 +650,7 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getValue()).toBe('ap');
@@ -662,7 +662,7 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getSelectedEntityText()).toBe('apple');
@@ -680,7 +680,7 @@ describe('Typeahead component', () => {
 
         describe('select()', () => {
             it('creates a full selection of the input text', () => {
-                const element = render(<Typeahead inputProps={{defaultValue: 'ap'}} />);
+                const element = render(<Typeahead inputProps={{ defaultValue: 'ap' }} />);
                 const node = element.getInputNode();
 
                 expect(node.selectionStart).toBe(0);
@@ -697,7 +697,7 @@ describe('Typeahead component', () => {
                 const element = render(
                     <Typeahead
                         entities={entities}
-                        inputProps={{defaultValue: 'ap'}} />
+                        inputProps={{ defaultValue: 'ap' }} />
                 );
 
                 expect(element.getValue()).toBe('ap');

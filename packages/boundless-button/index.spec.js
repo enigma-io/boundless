@@ -1,18 +1,18 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 import Button from './index';
 
 describe('Button component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const evt = {preventDefault: () => {}};
+    const evt = { preventDefault: () => {} };
     const sandbox = sinon.sandbox.create();
 
     afterEach(() => {
@@ -77,7 +77,7 @@ describe('Button component', () => {
             Simulate.click($('.b-button'));
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch({type: 'click'}));
+            expect(stub.calledWithMatch({ type: 'click' }));
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
@@ -121,7 +121,7 @@ describe('Button component', () => {
         const stub = sandbox.stub();
 
         render(<Button onKeyDown={stub} />);
-        Simulate.keyDown($('.b-button'), {...evt, key: 'Escape'});
+        Simulate.keyDown($('.b-button'), { ...evt, key: 'Escape' });
 
         expect(stub.calledOnce).toBe(true);
     });
@@ -131,7 +131,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -140,17 +140,17 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch({type: 'keydown', key: 'Enter'})).toBe(true);
+            expect(stub.calledWithMatch({ type: 'keydown', key: 'Enter' })).toBe(true);
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={true} onUnpressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -159,7 +159,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={false} onPressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -168,7 +168,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -177,7 +177,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} disabled />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Enter'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Enter' });
 
             expect(stub.called).toBe(false);
         });
@@ -188,7 +188,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -197,17 +197,17 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onKeyDown={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.calledOnce).toBe(true);
-            expect(stub.calledWithMatch({type: 'keydown', key: 'Space'})).toBe(true);
+            expect(stub.calledWithMatch({ type: 'keydown', key: 'Space' })).toBe(true);
         });
 
         it('triggers `onUnpressed` if `props.pressed` is `true`', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={true} onUnpressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -216,7 +216,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button pressed={false} onPressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -225,7 +225,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.calledOnce).toBe(true);
         });
@@ -234,7 +234,7 @@ describe('Button component', () => {
             const stub = sandbox.stub();
 
             render(<Button onPressed={stub} disabled />);
-            Simulate.keyDown($('.b-button'), {...evt, key: 'Space'});
+            Simulate.keyDown($('.b-button'), { ...evt, key: 'Space' });
 
             expect(stub.called).toBe(false);
         });

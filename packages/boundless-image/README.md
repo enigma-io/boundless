@@ -17,7 +17,7 @@ Then use it like:
 ```jsx
 /** @jsx createElement */
 
-import {createElement, PureComponent} from 'react';
+import { createElement, PureComponent } from 'react';
 import Button from 'boundless-button';
 import Image from 'boundless-image';
 
@@ -29,7 +29,7 @@ export default class ImageDemo extends PureComponent {
     }
 
     remountImage(refName) {
-        this.setState({[refName]: Date.now()});
+        this.setState({ [refName]: Date.now() });
     }
 
     render() {
@@ -43,7 +43,7 @@ export default class ImageDemo extends PureComponent {
                         alt='A snowy drive.' />
                     <Button
                         onPressed={this.remountImage.bind(this, 'normal')}
-                        style={{marginTop: '1rem'}}>
+                        style={{ marginTop: '1rem' }}>
                         Remount Image
                     </Button>
                 </figure>
@@ -55,7 +55,7 @@ export default class ImageDemo extends PureComponent {
                         src={`http://deelay.me/5000/http://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-15/11244434_646274218842534_532892887_n.jpg?${this.state.delayed}`}
                         alt='An aerial shot of a snow-covered forest.' />
                     <Button onPressed={this.remountImage.bind(this, 'delayed')}
-                              style={{marginTop: '1rem'}}>
+                              style={{ marginTop: '1rem' }}>
                         Remount Image
                     </Button>
                 </figure>
@@ -68,7 +68,7 @@ export default class ImageDemo extends PureComponent {
                         alt='A dead image.' />
                     <Button
                         onPressed={this.remountImage.bind(this, 'error')}
-                        style={{marginTop: '1rem'}}>
+                        style={{ marginTop: '1rem' }}>
                         Remount Image
                     </Button>
                 </figure>

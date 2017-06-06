@@ -1,18 +1,18 @@
 /* eslint no-unused-expressions:0 */
 
-import {createElement} from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 
 import Radio from './index';
-import {$, conformanceChecker} from '../boundless-utils-test-helpers/index';
+import { $, conformanceChecker } from '../boundless-utils-test-helpers/index';
 
 describe('Radio component', () => {
     const mountNode = document.body.appendChild(document.createElement('div'));
     const render = (vdom) => ReactDOM.render(vdom, mountNode);
 
-    const baseProps = {name: 'foo', value: 'bar'};
-    const event = {preventDefault: () => {}};
+    const baseProps = { name: 'foo', value: 'bar' };
+    const event = { preventDefault: () => {} };
 
     const sandbox = sinon.sandbox.create();
 
@@ -54,22 +54,22 @@ describe('Radio component', () => {
     });
 
     it('accepts arbitrary HTML attributes via props.inputProps', () => {
-        render(<Radio {...baseProps} inputProps={{'data-id': 'foo'}} />);
+        render(<Radio {...baseProps} inputProps={{ 'data-id': 'foo' }} />);
         expect($('.b-radio[data-id="foo"]')).not.toBeNull();
     });
 
     it('accepts additional classes via props.inputProps.className', () => {
-        render(<Radio {...baseProps} inputProps={{className: 'foo'}} />);
+        render(<Radio {...baseProps} inputProps={{ className: 'foo' }} />);
         expect($('.b-radio.foo')).not.toBeNull();
     });
 
     it('accepts arbitrary HTML attributes via props.labelProps', () => {
-        render(<Radio {...baseProps} labelContent='foo' labelProps={{'data-id': 'foo'}} />);
+        render(<Radio {...baseProps} labelContent='foo' labelProps={{ 'data-id': 'foo' }} />);
         expect($('.b-radio-label[data-id="foo"]')).not.toBeNull();
     });
 
     it('accepts additional classes via props.labelProps.className', () => {
-        render(<Radio {...baseProps} labelContent='foo' labelProps={{className: 'foo'}} />);
+        render(<Radio {...baseProps} labelContent='foo' labelProps={{ className: 'foo' }} />);
         expect($('.b-radio-label.foo')).not.toBeNull();
     });
 
@@ -82,7 +82,7 @@ describe('Radio component', () => {
         render(<Radio {...baseProps} labelContent={<p>foo</p>} />);
         expect($('.b-radio-label').textContent).toBe('foo');
 
-        render(<Radio {...baseProps} labelContent={[<p key='1'>foo</p>, <time key='2'>bar</time>]} />);
+        render(<Radio {...baseProps} labelContent={[ <p key='1'>foo</p>, <time key='2'>bar</time> ]} />);
         expect($('.b-radio-label').textContent).toBe('foobar');
     });
 
@@ -91,7 +91,7 @@ describe('Radio component', () => {
             const stub = sandbox.stub();
             const element = render(<Radio {...baseProps} onSelected={stub} />);
 
-            element.handleChange({...event, target: {checked: true, value: 'x'}});
+            element.handleChange({ ...event, target: { checked: true, value: 'x' } });
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch('x')).toBe(true);
@@ -99,9 +99,9 @@ describe('Radio component', () => {
 
         it('proxies to `props.inputProps.onChange` if provided', () => {
             const stub = sandbox.stub();
-            const element = render(<Radio {...baseProps} inputProps={{onChange: stub}} />);
+            const element = render(<Radio {...baseProps} inputProps={{ onChange: stub }} />);
 
-            element.handleChange({...event, target: $('.b-radio')});
+            element.handleChange({ ...event, target: $('.b-radio') });
 
             expect(stub.calledOnce).toBe(true);
             expect(stub.calledWithMatch(event)).toBe(true);

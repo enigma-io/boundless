@@ -1,10 +1,11 @@
-import {createElement, PropTypes} from 'react';
-import {kebabCase} from 'lodash';
+import PropTypes from 'prop-types';
+import { createElement } from 'react';
+import { kebabCase } from 'lodash';
 
-const LinkedHeaderText = ({component = 'h1', children, ...props}) => {
+const LinkedHeaderText = ({ component = 'h1', children, ...props }) => {
     const normalizedId = kebabCase(children);
 
-    return createElement(component, {...props, id: normalizedId}, [
+    return createElement(component, { ...props, id: normalizedId }, [
         children,
         (<a key='link' href={`#${normalizedId}`}>#</a>),
     ]);
