@@ -408,6 +408,16 @@ describe('Popover component', () => {
             expect(popoverNode.classList.contains('b-popover-anchor-y-start')).toBeTruthy();
             expect(popoverNode.classList.contains('b-popover-self-y-start')).toBeTruthy();
         });
+
+        it('updates the width of the Dialog if matchAnchorWidth is true', () => {
+          sandbox.stub(anchor, 'getBoundingClientRect').returns({
+              width: 50,
+          });
+
+          render(<Popover {...baseProps} anchor={anchor} matchAnchorWidth />);
+
+          expect($('.b-dialog').style.width).toBe('50px');
+        });
     });
 
     describe('passthrough to Dialog', () => {
